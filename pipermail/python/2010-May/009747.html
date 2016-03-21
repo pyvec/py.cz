@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009747.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:36 GMT -->
+<HEAD>
+   <TITLE> [python] Restricted Python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Restricted%20Python&In-Reply-To=%3C4BE170EF.2050306%40atlas.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-May/009745.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-May/009749.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Restricted Python</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Restricted%20Python&In-Reply-To=%3C4BE170EF.2050306%40atlas.sk%3E"
+       TITLE="[python] Restricted Python">devel na atlas.sk
+       </A><BR>
+    <I>Středa Květen  5 15:21:51 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009745.html">[python] Restricted Python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009749.html">[python] Restricted Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9747">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9747">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9747">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9747">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pozor! RestrictedPython umoznuje iba plne kontrolovat, ku ktorym 
+objektom ma vykonavany kod pristup a ku ktorym nie. Okrem toho, ze je  s 
+nim vykonanie pomalsie, neumozni osetrit situacie, ktore som nacrtol v 
+mojom druhom maily. Ak by ten druhy mail neprisiel, tak su to napr. tieto:
+
+rekurzia
+ &gt;&gt;&gt; superNebezpecnyKod='(lambda x=(lambda y: y(y)): x(x))()'
+nekonecny cyklus:
+ &gt;&gt;&gt; superNebezpecnyKod='(lambda x=[1]: [x.append(1) for i in x])()'
+zrut pamate a cpu:
+ &gt;&gt;&gt; superNebezpecnyKod='2**10000000000000000'
+
+a kopec inych.
+
+okrem toho, len poopravenie: RestrictedPython kod nekompiluje, iba 
+patchuje existujuci bytekod. Kompilaciu zdrojaku nechava na Python.
+
+Jan Janech
+
+On 05/05/10 15:02, Jakub Zíka wrote:
+&gt;<i> V Pythonu dříve existoval modul rexec a Bastion, které měly zajistit,
+</I>&gt;<i> aby bylo možné bezpečně spouštět nedůvěryhodný kód. S uvedením novější
+</I>&gt;<i> verze Pythonu (mám pocit, že 2.3) se ale našly nějaké bezpečnostní
+</I>&gt;<i> díry a tyto moduly byly defaultně zakázány. Teď jsem ale narazil na
+</I>&gt;<i> modul ResctrictedPython
+</I>&gt;<i> (<A HREF="http://pypi.python.org/pypi/RestrictedPython">http://pypi.python.org/pypi/RestrictedPython</A>), který se tváří jako že
+</I>&gt;<i> žádné bezpečnostní díry nemá. Nejdůležitější vlastností je to, že si
+</I>&gt;<i> poskytnutý kód sám zkompiluje a například nedovolí jakékoliv používání
+</I>&gt;<i> objektů, jejichž název začíná podtržítkem. Jaký je váš názor? Máte
+</I>&gt;<i> nějaké zkušenosti? Na netu jsem nikde nenašel žádnou studii, jestli to
+</I>&gt;<i> funguje nebo ne.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+-- 
+
+____________________________
+Ing. Jan Janech
+Katedra softverovych technologii
+Fakulta riadenia a informatiky
+Zilinska Univerzita
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009745.html">[python] Restricted Python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009749.html">[python] Restricted Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9747">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9747">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9747">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9747">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009747.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:36 GMT -->
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005075.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+<HEAD>
+   <TITLE> [python] class a subclass
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=484922437.20061111122831%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005074.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005076.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] class a subclass</H1>
+    <B>Robert Cernansky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=484922437.20061111122831%40atlas.cz"
+       TITLE="[python] class a subclass">hslists na zoznam.sk
+       </A><BR>
+    <I>Sobota Listopad 11 13:01:35 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005074.html">[python] class a subclass
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005076.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5075">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5075">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5075">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5075">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Sat, 11 Nov 2006 12:28:31 +0100 mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt; wrote:
+
+&gt;<i> RC&gt; Toto treba zohladnit aj v tej template. Cize nesmu sa mixovat
+</I>&gt;<i> RC&gt; vseobecne veci s konkretnymi SQL do jednej metody. Ked si teda
+</I>&gt;<i> RC&gt; povieme, ze table je template nesmieme urobit taku vec, ze create()
+</I>&gt;<i> RC&gt; bude v template pracovat s fields a tbl a odvodena bude pracovat
+</I>&gt;<i> RC&gt; s sqlText.
+</I>&gt;<i> 
+</I>&gt;<i> Ano tohle se mi zda byt spravna teorie dle OOP a presne pochopeni
+</I>&gt;<i> meho problemu, jenze ta rodicovska class table je uz sama o sobe
+</I>&gt;<i> funkcni a puvodne byla vyvinuta jako posledni potomek a ne
+</I>&gt;<i> template. Tj staci ji predat v metode create(table,seznamFields)
+</I>&gt;<i> a ona uz pracuje v pameti sama. Pridava zaznamy, meni je,
+</I>&gt;<i> odstranuje, umi undo, vraci jednotlive pole, edituje po presunu na
+</I>&gt;<i> jiny zaznam, posila udalosi BeforeUpdate, AfterUpdate, Current a atd
+</I>&gt;<i> atd.
+</I>
+table ako posledny potomok sa mi zda nespravny navrh. Najjvysie ma byt
+daco vseobecne a postupne ako dedis implementujes viac low-level
+operacie. Ak su udalosti BeforeUpdate,... vseobecneho charakteru, tak
+ich samozrejme implementuj do template. Cize ta funkcnost tam
+bude. Ale vzdy budes pouzivat instanciu uz konkretnej odvodenej
+triedy. Cize sqlInst.BeforeUpdate(), nie
+tableInst.BeforeUpdate(). Nikdy nie je treba pracovat priamo z table,
+vsetko sa zdedi, prekryju sa len metody na operacie s konkretnym
+engine (sql, subor).
+
+&gt;<i> Takze bych ji rad zachoval i takto, pro pripad, ze jindy budu chtit
+</I>&gt;<i> pracovat pouze v pameti a navic nemusim opisovat vetsi casti kodu v
+</I>&gt;<i> pripadnych potomcich (treba v pripade, ze misto SQL pouziju ukladani
+</I>&gt;<i> do souboru).
+</I>
+Ak chces pracovat priamo s pamatou, tak vytvor dalsiu odvodenu classu
+mem(table) a prekry prislusne metody sqlCreate a sqlRefresh. Podobne
+vytvor classu pre subor. Nebudes opisovat nic zbytocne lebo prepisujes
+_len_ to, co je rozdielne pre konkretny engine.
+
+Samozrejme chcelo by to lepsi nazov na tie metody, napr. engineCreate,
+engineRefresh.
+
+&gt;<i> Pak se ale porad potvrzuje, ze kdybych ji navrhl, tak ze vsechny
+</I>&gt;<i> verejne metody budu volat class.method(self,param), udrzim si
+</I>&gt;<i> i lehce funkcnost pro pripadneho potomka. Tim udrzim izolacni odstup
+</I>&gt;<i> rodice od potomka ve zpetnem smeru. Rodic pak nikdy nepouzije metodu
+</I>&gt;<i> potomka a to se mi zda spravne, jedine v pripade, ze metoda v rodici
+</I>&gt;<i> je template je nutne ji volat self.method(). Zda se to byt spravny
+</I>&gt;<i> zaver ?
+</I>
+Celkom nerozumiem ale v kazdom pripade rodic musi pouzit metodu
+potomka, ked chce robit operacie nad konkretnym engine. Podobne ako je
+to v metode table.create  - 'tbl, fields = self.sqlCreate(sqlText)'.
+
+Robo
+
+
+-- 
+Robert Cernansky
+E-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">hslists na zoznam.sk</A>
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">HS na jabber.sk</A>
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005074.html">[python] class a subclass
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005076.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5075">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5075">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5075">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5075">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005075.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+</html>

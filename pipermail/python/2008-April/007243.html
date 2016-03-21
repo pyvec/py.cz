@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007243.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+<HEAD>
+   <TITLE> [python] HTTP Autorizace + metoda post
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20HTTP%20Autorizace%20%2B%20metoda%20post&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007244.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007245.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] HTTP Autorizace + metoda post</H1>
+    <B>Calis.martin na seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20HTTP%20Autorizace%20%2B%20metoda%20post&In-Reply-To="
+       TITLE="[python] HTTP Autorizace + metoda post">Calis.martin na seznam.cz
+       </A><BR>
+    <I>Středa Duben 16 21:12:53 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007244.html">[python] WxPython :: Problém s vláknem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007245.html">[python] HTTP Autorizace + metoda post
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7243">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7243">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7243">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7243">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den, nedávno jsem psal o svém problému ohldedně autorizace... 
+Stále jsem na věc nepřišel. Napadlo mně udělat tohle:
+
+&quot;import urllib2,urllib
+
+adresa = &quot;<A HREF="http://www.cheatfella.com/authentifikace.php"">http://www.cheatfella.com/authentifikace.php&quot;</A>
+parametry = {
+    &quot;print &quot; : &quot;Hello world&quot;}
+
+params = urllib.urlencode(parametry)  # Prekoduje parametry do tvaru vhodneho pro odeslani
+req = urllib2.Request(adresa, params) # Vytvori request, coz je smichanina adresy a parametru, pripadne i hlavicek
+
+#~ spojeni = urllib2.urlopen(req)       # Otevre
+#~ spojeni.read()  
+#~ spojeni.close()        
+
+
+
+
+# Create an OpenerDirector with support for Basic HTTP Authentication...
+auth_handler = urllib2.HTTPBasicAuthHandler()
+auth_handler.add_password(realm='PDQ Application',
+                          uri=req,
+                          user='user',
+                          passwd='password')
+opener = urllib2.build_opener(auth_handler)
+# ...and install it globally so it can be used with urlopen.
+urllib2.install_opener(opener)
+urllib2.urlopen(req)&quot;
+
+což nefunguje a vypíše nasledující hlášku: &quot;
+Traceback (most recent call last):
+  File &quot;I:\Programy v Pythonu\MOJE\Ukoly\pripojeni.py&quot;, line 22, in &lt;module&gt;
+    passwd='password')
+  File &quot;C:\Python25\lib\urllib2.py&quot;, line 706, in add_password
+    [self.reduce_uri(u, default_port) for u in uri])
+TypeError: iteration over non-sequence&quot;
+
+
+Nevíte kde je chyba? 
+
+-----------------------------
+Moto: Teorie je, když všechno víme, ale nic nefunguje. Praxe je, když všechno funguje, ale nikdo neví proč. My jsme spojili teorii s praxí - nic nefunguje a nikdo neví proč. 
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007244.html">[python] WxPython :: Problém s vláknem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007245.html">[python] HTTP Autorizace + metoda post
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7243">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7243">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7243">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7243">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007243.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+</html>

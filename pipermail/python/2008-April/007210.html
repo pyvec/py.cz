@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007210.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:26 GMT -->
+<HEAD>
+   <TITLE> [python] Funkce getattr, eval, vhodnost jejich použití
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FFunkce_getattr%3D2C_eval%3D2C_vhodnost_jejich%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_pou%3DBEit%3DED%3F%3D&In-Reply-To=d2219e620804041432h645c1fefyb8e1bcbd53dc27ed%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007209.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007211.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Funkce getattr, eval, vhodnost jejich použití</H1>
+    <B>Jan Jakubuv</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FFunkce_getattr%3D2C_eval%3D2C_vhodnost_jejich%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_pou%3DBEit%3DED%3F%3D&In-Reply-To=d2219e620804041432h645c1fefyb8e1bcbd53dc27ed%40mail.gmail.com"
+       TITLE="[python] Funkce getattr, eval, vhodnost jejich použití">jakubuv na gmail.com
+       </A><BR>
+    <I>Pondělí Duben  7 11:28:32 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007209.html">[python] Funkce getattr, eval, vhodnost jejich použití
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007211.html">[python] Problem s unicode.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7210">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7210">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7210">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7210">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+ve strucnosti, jeden z problemu s eval je v bezpecnosti. pokud
+uzivatel (= potencionalni utocnik) nalezne zpusob jak zmenit hodnotu
+promenne 'choice', davate mu tim do ruky moznost spustit libovolny
+kod. to muze byt velky problem u webovych aplikaci a u programu
+bezicich s pravy jineho uzivatele. dalsi problem je zrejme v
+efektivite.
+
+honza.
+
+2008/4/4 Martin Stiborský &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">martin.stiborsky na gmail.com</A>&gt;:
+&gt;<i> Dobrý večer.
+</I>&gt;<i>  Ve svém programu jsem potřeboval volat jednu z několika tříd, kterou,
+</I>&gt;<i>  to záviselo na volbě uživatele v GUI.
+</I>&gt;<i>  Chtěl bych poprosit o kritiku mého rešení.
+</I>&gt;<i>
+</I>&gt;<i>  Všechny třídy jsem měl po kupě v jednom adresáři, ten jsem si naimportoval.
+</I>&gt;<i>  Do proměnné se uloží název proměnné, podle volby z GUI.
+</I>&gt;<i>  Pomocí getattr se zavolá třída + metoda.
+</I>&gt;<i>
+</I>&gt;<i>  import balicek
+</I>&gt;<i>  choice = button.objectName()
+</I>&gt;<i>  foo = getattr(balicek , str(choice))
+</I>&gt;<i>  print foo().bar()
+</I>&gt;<i>
+</I>&gt;<i>  Vše funguje bez problémů. Ještě před tímto jsem to samé dal do kupy pomocí eval.
+</I>&gt;<i>
+</I>&gt;<i>  print eval(&quot;%s().foo()&quot; % choice)
+</I>&gt;<i>
+</I>&gt;<i>  V tomto případě jsem si v __init__.py v adresáři s třídami
+</I>&gt;<i>  naimportoval všechny třídy.
+</I>&gt;<i>
+</I>&gt;<i>  Jaké jsou nevýhody eval() ? Je to celé vůbec košér, prosím o Vaše názory.
+</I>&gt;<i>
+</I>&gt;<i>  Děkuji velice.
+</I>&gt;<i>  --
+</I>&gt;<i>  S pozdravem
+</I>&gt;<i>  Martin Stiborský
+</I>&gt;<i>
+</I>&gt;<i>  Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+</I>&gt;<i>  ICQ: 224-065-849
+</I>&gt;<i>  _______________________________________________
+</I>&gt;<i>  Python mailing list
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007209.html">[python] Funkce getattr, eval, vhodnost jejich použití
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007211.html">[python] Problem s unicode.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7210">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7210">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7210">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7210">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007210.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:26 GMT -->
+</html>

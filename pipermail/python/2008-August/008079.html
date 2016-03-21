@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008079.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:26 GMT -->
+<HEAD>
+   <TITLE> [python] Init script a xmlrpc
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Init%20script%20a%20xmlrpc&In-Reply-To=48981EA6.7090600%40lejmr.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008081.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008088.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Init script a xmlrpc</H1>
+    <B>Věroš Kaplan</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Init%20script%20a%20xmlrpc&In-Reply-To=48981EA6.7090600%40lejmr.com"
+       TITLE="[python] Init script a xmlrpc">veros.kaplan na koren.cz
+       </A><BR>
+    <I>Úterý Srpen  5 15:45:19 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008081.html">[python] Init script a xmlrpc
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008088.html">[python] Init script a xmlrpc
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8079">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8079">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8079">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8079">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mrknuli se, jaký je správný postup pro psaní démona na UNIXu.
+(třeba tohle se mi líbí <A HREF="http://www.enderunix.org/docs/eng/daemon.php">http://www.enderunix.org/docs/eng/daemon.php</A> )
+
+Co se pamatuju, tak stačilo fork()nout potomka a rodič mohl exit()nout.
+Potomek potom někam poznamenal svoje PID, aby bylo možné ho posláním
+signálu INTR zabít a nemuselo se složitě hledat jeho PID.
+Je vhodné ještě přesměrovat stdin, stdout a stderr na vhodné místo (do
+logu nebo /dev/null) aby výstup z potomka nizavl
+
+Initscript s parametrem &quot;start&quot; potom pouze zavolá vlastní skript (s
+parametrem &quot;teď se chovej jako démon&quot;) a ten už si vše zařídí ve své
+režii. Pokud dostane initskript parametr &quot;stop&quot;, zavolá Jejich skript
+s parametrem &quot;teď zkus najít PID svého bratra a zabij ho&quot; .
+
+--VK
+PS: Bez záruky, ale v dobré víře :-)
+
+2008/8/5 Miloš Kozák &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">milos.kozak na lejmr.com</A>&gt;:
+&gt;<i> Zdravím,
+</I>&gt;<i> mám napsaný takový základní jednoduchý xmlrpc server, který dělá vše co má.
+</I>&gt;<i> Chtěl bych však tento kód upravit tak, aby jej bylo možné spouštět, jako
+</I>&gt;<i> init script v linuxu, primárně mi jde o distribuci debian.
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008081.html">[python] Init script a xmlrpc
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008088.html">[python] Init script a xmlrpc
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8079">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8079">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8079">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8079">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008079.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:26 GMT -->
+</html>

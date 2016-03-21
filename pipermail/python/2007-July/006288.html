@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006288.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:42 GMT -->
+<HEAD>
+   <TITLE> [python] problém s modulem wave
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fprobl%3DE9m_s_modulem_wave%3F%3D&In-Reply-To=1184590701.516256.143540%40q75g2000hsh.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006275.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006276.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] problém s modulem wave</H1>
+    <B>jiri.zahradil na gmail.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fprobl%3DE9m_s_modulem_wave%3F%3D&In-Reply-To=1184590701.516256.143540%40q75g2000hsh.googlegroups.com"
+       TITLE="[python] problém s modulem wave">jiri.zahradil na gmail.com
+       </A><BR>
+    <I>Čtvrtek Červenec 19 11:48:21 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006275.html">[python] problém s modulem wave
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006276.html">[python] Zobrazeni FITS v Pythonu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6288">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6288">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6288">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6288">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Koukám, že nikdo na nic nepřišel, odpovím si tedy sám :-)
+Třeba se to někomu bude hodit:
+
+wave modul zapisuje délku dat v bajtech a sám si ji iniciativně
+zjišťuje pomocí
+len(data) a to i při zápisu setnframes (moc tomu nerozumím proč tam
+nezapíše číslo co mu předám). Nicménně pokud se předávají data jako
+&quot;unsigned char&quot; a nikoliv jako signed short jak to dělám já (vzorky
+jsou opravdu signed short) tak tam logicky zapíše správný počet
+frames. Tj.
+
+Je třeba ještě před wave.open přidat konverzi:
+
+  bytes = array.array(&quot;B&quot;)
+  bytes.fromstring(data.tostring())
+  data = bytes
+
+JZ
+
+On 16 Čec, 14:58, &quot;<A HREF="http://www.py.cz/mailman/listinfo/python">jiri.zahra... na gmail.com</A>&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jiri.zahra... na gmail.com</A>&gt;
+wrote:
+&gt;<i> Zdravím,
+</I>&gt;<i>
+</I>&gt;<i> mám problém s modulem wave. Mám PCM data v paměti a potřebuji je
+</I>&gt;<i> korektně uložit do .wav souboru. Vytvořil jsem si na to funkci pomocí
+</I>&gt;<i> modulu wave (je u Pythonu - 2.5, pod Windows). Bohužel, vytvořený
+</I>&gt;<i> soubor je zhruba správně velký, ovšem dat - PCM vzorků - je v něm jen
+</I>&gt;<i> půlka (= přehraje se jen půlka, zkoušel jsem různé programy). Pokud
+</I>&gt;<i> uložím jen PCM data pomocí open(&quot;soubor.pcm&quot;,&quot;wb&quot;).write(data) a pak
+</I>&gt;<i> data otevřu v editoru jako &quot;raw&quot; formát tak jsou tam všechna. Nevíte
+</I>&gt;<i> kde může být chyba?
+</I>&gt;<i>
+</I>&gt;<i> Funkce kterou používám:
+</I>&gt;<i>
+</I>&gt;<i> import wave
+</I>&gt;<i> def SavePCMasWAV(filename, data):
+</I>&gt;<i>   &quot;&quot;&quot;
+</I>&gt;<i>   Function that takes a filename and PCM data in mono, 16bit, 16000 Hz
+</I>&gt;<i> format
+</I>&gt;<i>   and saves them as standard .WAV file
+</I>&gt;<i>   &quot;&quot;&quot;
+</I>&gt;<i>
+</I>&gt;<i>   if type(data) is type(list()):
+</I>&gt;<i>     # need to transform &quot;list&quot; data to binary array format
+</I>&gt;<i>     a = array.array(&quot;h&quot;) # short type
+</I>&gt;<i>     a.extend(data)
+</I>&gt;<i>     data = a
+</I>&gt;<i>
+</I>&gt;<i>   w = wave.open(filename,&quot;wb&quot;)
+</I>&gt;<i>   w.setnchannels(1)
+</I>&gt;<i>   w.setsampwidth(2)
+</I>&gt;<i>   w.setframerate(16000)
+</I>&gt;<i>   w.setnframes(len(data))
+</I>&gt;<i>   w.writeframesraw(data)
+</I>&gt;<i>   w.close()
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006275.html">[python] problém s modulem wave
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006276.html">[python] Zobrazeni FITS v Pythonu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6288">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6288">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6288">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6288">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006288.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:42 GMT -->
+</html>

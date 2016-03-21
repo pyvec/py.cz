@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005450.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:02 GMT -->
+<HEAD>
+   <TITLE> [python] Lokalizace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Lokalizace&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005449.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005452.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Lokalizace</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Lokalizace&In-Reply-To="
+       TITLE="[python] Lokalizace">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Leden 31 08:54:30 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005449.html">[python] Lokalizace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005452.html">[python] Lokalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5450">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5450">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5450">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5450">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>MaReK Olšavský
+&gt;<i> nemate nejaky tip, jak lokalizovat programy 
+</I>&gt;<i> v Pythonu? [...]
+</I>
+Standardní dokumentace, Library Reference, 
+21. Internationalization.
+
+Mluví se tam o modulech gettext a locale.
+Zatím jsem to nepotřeboval a nevím, jak 
+jednoduše nebo komplikovaně se s tím dělá.
+Asi záleží na tom, jak rozsáhlá ta aplikace
+má být a jak moc čistě se to má řešit.
+
+Pokud jsem to pochopil dobře, tak gettext.gettext
+vezme jako klíč řetězec v default jazyce a hledá
+příslušný překlad ze svých vnitřních struktur.
+Jednodušší řešení by mohlo mohlo být založené
+na jazykově nezávislých identifikačních řetězcích
+jako klíčích:
+
+cs = { 'cancel': u'Přerušit',
+       'ok':     u'Budiž',
+       ...atd...
+     }
+
+en = { 'cancel': u'Cancel',
+       'ok':     u'OK',
+       ...etc...
+     } 
+
+de = {
+        ...německy neumím...
+     }
+
+Slovníky by se plnily nějakým vhodným způsobem,
+nebo by byly takto přímo definovány v příslušných
+modulech.
+
+# Přepnutí jazyka.
+lang = cs
+
+# Získání řetězce v jazyce.
+s = text(&quot;cancel&quot;)
+
+kde funce text() by mohla být definována třeba
+takto (jen pro představu, špinavě předpokládající
+globální lang a en pro jednoduchost):
+
+def text(k):
+    if k in lang:       # aktuální jazyk
+        return lang[k]
+    elif k in en:       # default jazyk
+        return en[k]
+    else
+        raise LangError(k)
+
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005449.html">[python] Lokalizace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005452.html">[python] Lokalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5450">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5450">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5450">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5450">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005450.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:02 GMT -->
+</html>

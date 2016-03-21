@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008001.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:36 GMT -->
+<HEAD>
+   <TITLE> [python] XML-RPC
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML-RPC&In-Reply-To=3d26fb440807170220t49dab7bdt690fade2d6f4db3f%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/007993.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/007979.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] XML-RPC</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML-RPC&In-Reply-To=3d26fb440807170220t49dab7bdt690fade2d6f4db3f%40mail.gmail.com"
+       TITLE="[python] XML-RPC">rk na dat.cz
+       </A><BR>
+    <I>Pátek Červenec 18 17:46:36 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007993.html">[python] XML-RPC
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007979.html">[python] [pygtk] odchyceni kliku na bunku v treeview
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8001">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8001">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8001">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8001">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Thu, Jul 17, 2008 at 11:20:07AM +0200, Petr Dlabal wrote:
+
+&gt;<i> Moje zkusenosti jsou jen o malo vetsi nez nula, ale podle me xmlrpclib
+</I>&gt;<i> neumi serializovat new-style class, tzn. class Foo(object):pass nelze.
+</I>
+On sice umi serializovat old-style tridu, ale na druhe strane z toho
+uz nevyleze instance puvodni tridy, ale obycejny dict.
+
+    &gt;&gt;&gt; import xmlrpclib
+    &gt;&gt;&gt; class X: pass
+    ...
+    &gt;&gt;&gt; x = X()
+    &gt;&gt;&gt; x.a = 42
+    &gt;&gt;&gt; xmlrpclib.loads(xmlrpclib.dumps((x,)))
+    (({'a': 42},), None)
+
+Protoze XMLRPC by melo fungovat mezi implementacemi v ruznych jazycich,
+je mnozina podporovanych datovych typu a kontejneru hodne omezena.
+
+&gt;<i> Pokusne jsem to resil (a snad by to melo jit) ze jsem tu slozitou
+</I>&gt;<i> classu pred vyslanim xml-rpc serverem (tzn. pred serializaci)
+</I>&gt;<i> zapikloval a pak zas v klientovi rozpikloval...
+</I>&gt;<i> stara class Foo:pass by mela jit serializovat snad i celkem slozita
+</I>
+To by mohlo fungovat, pokud vam do toho nepoleze nikdo cizi. Prijmat
+zapiklena data od neduveryhodneho zdroje se z bezpecnostnich duvodu
+nedoporucuje. A moc pekne ta dvojnasobna serializace take nevypada :-)
+Pokud ten objekt neni moc slozity, stacilo by mozna jednoduse poslat
+pres RPC jeho __dict__ a na druhe strane instanci zrekonstruovat.
+
+    # server
+    &gt;&gt;&gt; rpcdata = xmlrpclib.dumps((x.__dict__,)))
+
+    # klient
+    &gt;&gt;&gt; ((state,),_) = xmlrpclib.loads(rpcdata)
+    &gt;&gt;&gt; state
+    {'a': 42}
+    &gt;&gt;&gt; y = X()
+    &gt;&gt;&gt; y.__dict__.update(state)
+
+Radek Kaňovský, Dat, s.r.o.
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007993.html">[python] XML-RPC
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007979.html">[python] [pygtk] odchyceni kliku na bunku v treeview
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8001">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8001">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8001">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8001">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008001.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:36 GMT -->
+</html>

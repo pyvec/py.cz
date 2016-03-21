@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000380.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] vytvoření serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=43.420-9210-1505580007-1155580294%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000378.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000382.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] vytvoření serveru</H1>
+    <B>slacker</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=43.420-9210-1505580007-1155580294%40seznam.cz"
+       TITLE="[Tutor PyCZ] vytvoření serveru">slacker na inmail.cz
+       </A><BR>
+    <I>Středa Srpen 16 00:09:18 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000378.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000382.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#380">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#380">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#380">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#380">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+  tady je něco jako koncept klient-server aplikace, která používá TCP
+  (omlouvám se za délku, ale myslím že mít funkční příklad je lepší
+   než nějaké útržky kódu):
+
+=== server.py ===
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import socket
+import thread
+import time
+import message
+
+LOCALHOST=''
+DEFAULT_PORT=43210
+
+def clientHandler(dataSocket):
+     try:
+         while 1:
+             data = message.receiveMessage(dataSocket)
+             print '\n\nmessage:', data
+             rdata = ''.join(list(reversed(data)))
+             time.sleep(2) # pretend we're doing something here...
+             print 'sending:', rdata
+             sent = message.sendMessage(dataSocket, rdata)
+             print 'sent:', sent
+     except:
+         pass
+
+
+def startServer(port):
+     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+     serverSocket.bind((LOCALHOST, port))
+     serverSocket.listen(1)
+
+     while 1:
+         clientSocket, clientAddress = serverSocket.accept()
+         print &quot;Accepted connection&quot;
+         thread.start_new_thread(clientHandler, (clientSocket,))
+
+
+if __name__ == &quot;__main__&quot;:
+     startServer(DEFAULT_PORT)
+
+
+=== client.py ===
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import socket
+import thread
+import time
+import message
+
+outMsg=&quot;hello!&quot;
+DEFAULT_PORT=43210
+DEFAULT_HOST=''
+
+def client(dataSocket):
+     while 1:
+         message.sendMessage(dataSocket, outMsg)
+         print &quot;\n\nsent:&quot;, outMsg
+         inMsg = message.receiveMessage(dataSocket)
+         print &quot;received:&quot;, inMsg
+
+def mainLoop(hostName, port):
+     dataSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+     try:
+         print 'connecting...'
+         dataSocket.connect((hostName, port))
+         print 'starting thread...'
+         thread.start_new_thread(client, (dataSocket,))
+     except:
+         print 'connection failed'
+     while 1:
+         print 'something in the main loop...'
+         time.sleep(3) # do something
+
+
+if __name__ == '__main__':
+     import sys
+     try:
+        outMsg = sys.argv[1]
+     except:
+         pass
+     mainLoop(DEFAULT_HOST, DEFAULT_PORT)
+
+=== message.py ===
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+def receiveMessage(dataSocket):
+     size = int(dataSocket.recv(4))
+     return dataSocket.recv(size)
+
+
+def sendMessage(dataSocket, message):
+     size = len(message)
+     if size &gt; 9999:
+         size = 9999
+     dataSocket.send(str(size).rjust(4))
+     return dataSocket.send(message[:size])
+=================
+
+
+  Upozorňuju, že je to opravdu jenom koncept &quot;jak na to&quot; a sepsal
+  jsem to celkem narychlo.
+
+  Jenom pro úplnost - další možností, tentokráte bez threadů, je použití
+  select(iwtd, owtd, ewtd[, timeout]) z modulu select. O tom ale snad
+  někdy příště.
+
+  Snad to někomu pomůže.
+
+  slacker
+
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000378.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000382.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#380">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#380">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#380">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#380">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000380.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

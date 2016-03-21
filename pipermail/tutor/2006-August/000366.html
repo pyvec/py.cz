@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000366.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] vytvoření serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=44E0DD55.8070609%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000365.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000367.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] vytvoření serveru</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=44E0DD55.8070609%40centrum.cz"
+       TITLE="[Tutor PyCZ] vytvoření serveru">Jakohv na seznam.cz
+       </A><BR>
+    <I>Pondělí Srpen 14 22:32:34 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000365.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000367.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#366">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#366">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#366">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#366">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mě ted funguje i víc klientu na jednom serveru, musel jsem upravit kod serveru:
+# -*- coding: cp1250 -*-
+import socket
+import sys
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host =  ''
+port = 3501
+s.bind((host, port))
+s.listen(1)
+while 1:
+    conn, addr = s.accept()
+    data = conn.recv(100000)
+    print data
+    conn.send(data)
+    conn.close()
+s.close()
+
+ale to druhe fakt nevim:((
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Petr M. &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">messy na centrum.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [Tutor PyCZ] vytvoření serveru
+</I>&gt;<i> Datum: 14.8.2006 22:30:26
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Jakub Vojáček wrote:
+</I>&gt;<i> &gt; 1) proč nemůžu pustit více klientů najednou? když to pustím, tak mi to vrátí
+</I>&gt;<i> chybu connection refused
+</I>&gt;<i> 
+</I>&gt;<i> Ahoj,
+</I>&gt;<i> mě to funguje (připojení více klientů najednou). Ale ten program se
+</I>&gt;<i> stejně chová divně - všimni si, že nemůže najednou obsloužit více než
+</I>&gt;<i> jednoho klienta, ten další musí počkat, než ten před ním pošle data a
+</I>&gt;<i> zase je přijme.
+</I>&gt;<i> 
+</I>&gt;<i> Víc ti bohužel neporadím, protože tak daleko už moje znalosti nesahají
+</I>&gt;<i> :( Tipoval bych jen, že na tvém systému je možná potřeba, aby server
+</I>&gt;<i> čekal na spojení ve funkci accept.
+</I>&gt;<i> 
+</I>&gt;<i> PS. běží mi to v Pythonu 2.3.5 na Linuxu.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Petr Messner
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+Blujacker
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000365.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000367.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#366">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#366">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#366">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#366">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000366.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

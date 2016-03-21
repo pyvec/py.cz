@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002061.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:13 GMT -->
+<HEAD>
+   <TITLE> [python] multithreading &amp; mutable sequence types
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20multithreading%20%26%20mutable%20sequence%20types&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-October/002062.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-October/002063.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multithreading &amp; mutable sequence types</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20multithreading%20%26%20mutable%20sequence%20types&In-Reply-To="
+       TITLE="[python] multithreading &amp; mutable sequence types">azurit na pobox.sk
+       </A><BR>
+    <I>Pondělí Říjen 25 12:48:37 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002062.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002063.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2061">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2061">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2061">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2061">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> DobrA'&quot; den,
+</I>
+ahoj :)
+nabuduce pls bez diakritiky, dost zle sa to lusti.
+
+&gt;<i> 
+</I>&gt;<i> s Pythonem teprve zaA:*AnAAm a tak jeLAtA:* nejsem pL*AliLz zbA:*hlA'&quot; v hledAAnA 
+</I>&gt;<i> odpovA:*dA na otAAzky... snaLzil jsem se... :-)
+</I> 
+&gt;<i> Jsou operace s pythonovskA'&quot;m seznamem thread-safe?
+</I>
+nje su
+
+&gt;<i> 
+</I>&gt;<i> PotL*ebuji udA:*lat nA:*co takovASho:
+</I>&gt;<i> 
+</I>&gt;<i> class KnightWhoSayNi(threading.Thread):
+</I>&gt;<i>    def __init__(self):
+</I>&gt;<i>      ...
+</I>&gt;<i>      self.semafor = threading.Semaphore(0)
+</I>&gt;<i>      self.queue = []
+</I>&gt;<i> 
+</I>&gt;<i>    def queueSayNi(self, target):
+</I>&gt;<i>      self.queue.append(target)
+</I>&gt;<i>      self.semafor.release()
+</I>&gt;<i> 
+</I>&gt;<i>    def run(self):
+</I>&gt;<i>      while True:
+</I>&gt;<i>         self.semafor.acquire()
+</I>&gt;<i>         target = self.queue.pop(0)
+</I>&gt;<i> 
+</I>&gt;<i>         sayNiToTarget(target)
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> queueSayNi se bude volat z jinA'&quot;ch threadLZ. MLZj dotaz pochopitelnA:* znA: 
+</I>&gt;<i> Je bezpeA:*nAS to udA:*lat takto a nebo je nutnAS operace s queue uzavL*At mezi 
+</I>&gt;<i> lock.acquire a lock.release? (pL*ApadnA:*, nejde to vLAe udA:*lat nA:*jak AsplnA:* 
+</I>&gt;<i> jinak a lASpe? :-)
+</I>
+nje som sice expert na thready a ani nevjem naco presne sluzi semafor (z dokumentacie sa mi zdalo ze je to nato aby sa dal obmedzit pocet procesov, ktore mozu naraz k njecomu pristupovat, ak som to pochopil zle tak ma prosim njekto opravte :) )
+ja osobne som semafori este nepouzil :) pouzivam Lock() a RLock() ale myslim ze ked pouzijes Semaphore(0) tak to je vlastne to iste cize ked chces aby tam pristupoval naraz len jeden proces bolo by asi lepsje pouzit tje zamky. este by bolo celkom vhodne dat volanje funkcie sayNiToTarget() do try: except: aby sa ti nestalo ze to tam vyhodi nejaku chybu a zamok/semafor ti ostane uzavrety. njeco taketo:
+
+try:
+ sayNiToTarget(target)
+except:
+ self.semafor.release()
+
+
+&gt;<i> 
+</I>&gt;<i> DAky za jakoukoliv odpovA:*A:*.
+</I>&gt;<i> 
+</I>&gt;<i> Marek Schmidt
+</I>&gt;<i> 
+</I>
+azurIt
+____________________________________
+<A HREF="http://www.logofun.pobox.sk/">http://www.logofun.pobox.sk</A> - urobte radost svojmu telefonu
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002062.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002063.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2061">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2061">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2061">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2061">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002061.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:13 GMT -->
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001725.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:32 GMT -->
+<HEAD>
+   <TITLE> [python] (no subject)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%28no%20subject%29&In-Reply-To=2101.195.113.80.117.1084207638.squirrel%40osiris.avu.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-May/001724.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-May/001726.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] (no subject)</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%28no%20subject%29&In-Reply-To=2101.195.113.80.117.1084207638.squirrel%40osiris.avu.cz"
+       TITLE="[python] (no subject)">rk na dat.cz
+       </A><BR>
+    <I>Pondělí Květen 10 19:33:10 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001724.html">[python] (no subject)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001726.html">[python] (no subject):socket&gt;blender&gt;delphi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1725">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1725">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1725">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1725">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, May 10, 2004 at 06:47:18PM +0200, <A HREF="http://www.py.cz/mailman/listinfo/python">mucska na avu.cz</A> wrote:
+
+&gt;<i> ahoj
+</I>&gt;<i>
+</I>&gt;<i> mam problem s pripojenim prez socket mezi aplikaci pouzivajici
+</I>&gt;<i> python(client_Blender) a druhou aplikaci napsanou v delphi(server).
+</I>&gt;<i> bud mi aplikace pouzivajici python(blender) vypise &quot;address already
+</I>&gt;<i> in use&quot; nebo se vubec nespoji :( zrovna tak aplikace v delphi mi
+</I>&gt;<i> vypise ze je port pouzivanej, nebo vubec nic. Na kauzalitu vypisu sem
+</I>&gt;<i> neprisel, proste nekdy napise, nekdy ne.
+</I>
+Pokud je to na nejakem UNIXu/Linuxu a pokud to havaruje na serverovem
+socketu, ktery dela bind, tak by mozna pomohlo tohle:
+
+    sck = socket.socket(....) # vas socket
+    sck.setsockopt(
+        socket.SOL_SOCKET, socket.SO_REUSEADDR,
+        sck.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR) | 1
+    )
+
+Pokud program havaruje a socket neni korektne uzavren (nebo je to spatne
+naprogramovano :-), tak zustane socket po havarii (ukonceni programu)
+urcitou dobu blokovany, coz se projevuje prave hlaskou &quot;address already
+in use&quot; pri opetovnem pokusu o vytvoreni serveroveho socketu. Socket v
+tomto stavu je videt ve vypisu netstatu (myslim ve stavu TIME_WAIT).
+
+Zdravi
+
+Radek Kaňovský
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001724.html">[python] (no subject)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001726.html">[python] (no subject):socket&gt;blender&gt;delphi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1725">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1725">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1725">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1725">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001725.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:32 GMT -->
+</html>

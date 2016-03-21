@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011150.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:58 GMT -->
+<HEAD>
+   <TITLE> [python] tkinter a win32ui
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20tkinter%20a%20win32ui&In-Reply-To=%3CCAO8PW4zVH%2BibvxddvsK-hujw8LGTqRR2aQKnHtDRCYzs9yTqxw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-October/011149.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-October/011151.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] tkinter a win32ui</H1>
+    <B>Dan Pressl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20tkinter%20a%20win32ui&In-Reply-To=%3CCAO8PW4zVH%2BibvxddvsK-hujw8LGTqRR2aQKnHtDRCYzs9yTqxw%40mail.gmail.com%3E"
+       TITLE="[python] tkinter a win32ui">nu.frix na gmail.com
+       </A><BR>
+    <I>Středa Říjen 16 11:57:56 CEST 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011149.html">[python] tkinter a win32ui
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011151.html">[python] začiatočník programuje alebo čo som zostrojil a nefunguje to
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11150">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11150">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11150">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11150">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ohledne informace by mohl pomoci tento odkaz:
+
+<A HREF="http://sourceforge.net/p/pywin32/bugs/609/">http://sourceforge.net/p/pywin32/bugs/609/</A>
+
+V podstate se v nem clovek dozvi, ze to je bug. Konkretne je to popsano v
+tomto prispevku:
+
+<A HREF="http://sourceforge.net/p/pywin32/bugs/609/#73e1">http://sourceforge.net/p/pywin32/bugs/609/#73e1</A>
+
+kde se pise:
+
+I reproduced the behavior on my system and the error occurs due to the
+windows hooking mechanism in win32ui. On shutdown a message should be
+processed an and since the windows hook in win32ui is still active it is
+called. Inside the hook function the GIL should be acquired which waits
+forever since Python was already shut down. See WinDbg log
+0027fb7c 750a149d 000000c8 00000000 00000000
+ntdll!NtWaitForSingleObject+0x15
+...
+0027fc54 1e108002 00000000 00000000 00000000 python27!PyThreadState_New+0xc
+0027fc64 1e2d128d 0027fd0c 0027fd0c 00000000 python27!PyGILState_Ensure+0x22
+0027fce8 75586a58 00040000 00000000 0027fd0c
+win32ui!Python_check_message+0x3d
+0027fd1c 75526e44 00976550 00000000 00000002 USER32!fnHkINLPCWPSTRUCTA+0x66
+0027fd58 7710010a 0027fd70 00000000 0027fdcc USER32!__fnDWORD+0x2b
+0027fd6c 00976550 00000000 00000002 00000000
+ntdll!KiUserCallbackDispatcher+0x2e
+0027fddc 75155a20 3d24bba6 00496590 00000002 0x976550
+0027fe0c 77129ab1 0027dc34 7efde000 7efdd000 MSCTF!CicFlsCallback+0x98
+0027fe28 7713d608 00496580 77413563 771f20c0 ntdll!RtlProcessFlsData+0x57
+0027fec0 7713d554 02063b88 02063b84 00000001 ntdll!LdrShutdownProcess+0xbd
+
+The changed behavior was introduced in Rev 3266. If checking the window
+before acquiring the Python lock the deadlock does not occur anymore. I
+attached a diff which fixes this problem.
+
+
+2013/10/16 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mol-python na seznam.cz</A>&gt;
+
+&gt;<i> Dobrý den.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Zajímavé, že třeba v 3.3 (32b) to funguje zatímco v 2.7 (64b) ne.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Zdraví,
+</I>&gt;<i>
+</I>&gt;<i> Michal
+</I>&gt;<i>
+</I>&gt;<i> ---------- Původní zpráva ----------
+</I>&gt;<i> Od: mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt;
+</I>&gt;<i> Datum: 16. 10. 2013
+</I>&gt;<i> Předmět: [python] tkinter a win32ui
+</I>&gt;<i>
+</I>&gt;<i> Zdravim všechny,
+</I>&gt;<i>
+</I>&gt;<i> Přišel jsem na zajímavej problém.
+</I>&gt;<i> Pokud se naimportuje Tk a win32ui, proces nikdy neskončí.
+</I>&gt;<i>
+</I>&gt;<i> Tady je ukázka:
+</I>&gt;<i>
+</I>&gt;<i> from Tkinter import Tk
+</I>&gt;<i>
+</I>&gt;<i> import win32ui
+</I>&gt;<i>
+</I>&gt;<i> root = Tk()
+</I>&gt;<i> root.title('Test')
+</I>&gt;<i> root.mainloop()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Mirek N.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+^nu.friX
+aka Dan Pressl
+Reality is useless &amp; F4Q DMNC!!!
+Every syntax creates code. And code is poetry.
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20131016/f7c6813c/attachment.html">http://www.py.cz/pipermail/python/attachments/20131016/f7c6813c/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011149.html">[python] tkinter a win32ui
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011151.html">[python] začiatočník programuje alebo čo som zostrojil a nefunguje to
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11150">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11150">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11150">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11150">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011150.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:58 GMT -->
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003444.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:29 GMT -->
+<HEAD>
+   <TITLE> [python] Diskuse: &quot;Strucny seznam&quot;
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Diskuse%3A%20%22Strucny%20seznam%22&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC03D4D8%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003439.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003445.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Diskuse: &quot;Strucny seznam&quot;</H1>
+    <B>Jan Svec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Diskuse%3A%20%22Strucny%20seznam%22&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC03D4D8%40skil01.skil.mistni"
+       TITLE="[python] Diskuse: &quot;Strucny seznam&quot;">honza na py.cz
+       </A><BR>
+    <I>Pátek Říjen  7 09:23:54 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003439.html">[python] Diskuse: &quot;Strucny seznam&quot;
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003445.html">[python] Diskuse: &quot;Strucny seznam&quot;
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3444">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3444">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3444">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3444">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+je pekne, ze nam tady vyrostla pekna diskuze s peknym
+vysledkem. Vsem diky za navrhy a myslim si, ze mame
+viteze. Proto zahodme vsechny &quot;strucnosti&quot; a &quot;sikovnosti&quot;
+a pouzivejme GENERATOR SEZNAMU.
+
+Honza
+
+Quoting Petr Prikryl &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">PrikrylP na skil.cz</A>&gt;:
+
+&gt;<i> Super!
+</I>&gt;<i>
+</I>&gt;<i>    Generátor seznamu
+</I>&gt;<i>
+</I>&gt;<i> Nemám sice dobré znalosti z funkcionálních jazyků
+</I>&gt;<i> a přístup, který je použit v Pythonu, nepovažuji
+</I>&gt;<i> za výlučně funkcionální, nicméně jsem měl na mysli
+</I>&gt;<i> naprosto stejný překlad. Moje zdůvodnění vychází
+</I>&gt;<i> přímo z vlastností Pythonu (generátory) a z obecného
+</I>&gt;<i> principu v programovacích jazycích (konstruktor):
+</I>&gt;<i>
+</I>&gt;<i> 1. Syntaktický zápis (případně prázdné)
+</I>&gt;<i>   posloupnosti v hranatých závorkách je speciální
+</I>&gt;<i>   formou konstruktoru seznamu. Vzniká nový objekt
+</I>&gt;<i>   typu seznam a má určenou počáteční hodnotu.
+</I>&gt;<i>   (Zatím bez souvislosti s list comprehension,
+</I>&gt;<i>   podobně, jako se například apostrofům v Pascalu
+</I>&gt;<i>   říká konstruktor řetězce.)
+</I>&gt;<i>
+</I>&gt;<i>   lst1 = []
+</I>&gt;<i>   lst2 = [ 1, 2, 3 ]
+</I>&gt;<i>
+</I>&gt;<i> 2. Vnitřek u list comprehension je čistokrevný
+</I>&gt;<i>   &quot;generator expression&quot; (viz 5.2.5 Generator
+</I>&gt;<i>   expressions), což je jen jiný zápis obecného
+</I>&gt;<i>   generátoru. Výsledkem je objekt generátoru.
+</I>&gt;<i>   Odkaz na něj má vlastnosti iterátoru (podporuje
+</I>&gt;<i>   metodu next()).
+</I>&gt;<i>
+</I>&gt;<i> 3. Dohromady je to konstruktor seznamu krmený
+</I>&gt;<i>   generátorem položek, tedy &quot;generátor seznamu&quot;.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Ilustrační příklady
+</I>&gt;<i> ===================
+</I>&gt;<i>
+</I>&gt;<i> Nejdříve výsledek list comprehension:
+</I>&gt;<i>
+</I>&gt;<i>  &gt;&gt;&gt; lst = [ x for x in xrange(10) ]
+</I>&gt;<i>  &gt;&gt;&gt; lst
+</I>&gt;<i>  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</I>&gt;<i>
+</I>&gt;<i> Vnitřní &quot;generator expression&quot; použitý jako obecný
+</I>&gt;<i> generátor:
+</I>&gt;<i>
+</I>&gt;<i>  &gt;&gt;&gt; g = (x for x in xrange(10))
+</I>&gt;<i>  &gt;&gt;&gt; g
+</I>&gt;<i>  &lt;generator object at 0x00928080&gt;
+</I>&gt;<i>  &gt;&gt;&gt; for i in g:
+</I>&gt;<i>  ...     print i
+</I>&gt;<i>  ...
+</I>&gt;<i>  0
+</I>&gt;<i>  1
+</I>&gt;<i>  2
+</I>&gt;<i>  3
+</I>&gt;<i>  4
+</I>&gt;<i>  5
+</I>&gt;<i>  6
+</I>&gt;<i>  7
+</I>&gt;<i>  8
+</I>&gt;<i>  9
+</I>&gt;<i>  &gt;&gt;&gt; g.next()
+</I>&gt;<i>  Traceback (most recent call last):
+</I>&gt;<i>    File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+</I>&gt;<i>  StopIteration
+</I>&gt;<i>
+</I>&gt;<i> Konstrukci seznamu můžeme provést pomocí právě
+</I>&gt;<i> takového generátoru:
+</I>&gt;<i>
+</I>&gt;<i>  &gt;&gt;&gt; g = (x for x in xrange(10))
+</I>&gt;<i>  &gt;&gt;&gt; lst = list(g)
+</I>&gt;<i>  &gt;&gt;&gt; lst
+</I>&gt;<i>  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</I>&gt;<i>
+</I>&gt;<i> Když to zapíšeme bez pomocné refrence g,
+</I>&gt;<i> dostaneme:
+</I>&gt;<i>
+</I>&gt;<i>  &gt;&gt;&gt; lst = list((x for x in xrange(10)))
+</I>&gt;<i>  &gt;&gt;&gt; lst
+</I>&gt;<i>  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</I>&gt;<i>
+</I>&gt;<i> Když 'list((' nahradíme '[' a '))' nahradíme ']',
+</I>&gt;<i> dostaneme přesně &quot;list comprehension&quot;. Jde
+</I>&gt;<i> pravděpodobně jen o syntakticky jinou formu zápisu
+</I>&gt;<i> téhož.
+</I>&gt;<i>
+</I>&gt;<i> pepr
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+
+-- 
+S pozdravem
+Jan Svec
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza na py.cz</A>&gt;
+<A HREF="http://py.cz/">http://py.cz</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003439.html">[python] Diskuse: &quot;Strucny seznam&quot;
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003445.html">[python] Diskuse: &quot;Strucny seznam&quot;
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3444">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3444">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3444">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3444">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003444.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:29 GMT -->
+</html>

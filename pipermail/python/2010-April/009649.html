@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009649.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:43 GMT -->
+<HEAD>
+   <TITLE> [python] Záměna funkce v instanci objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Z%E1m%ECna%20funkce%20v%20instanci%20objektu&In-Reply-To=%3C4BCD5459.8080404%40atlas.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009648.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009650.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Záměna funkce v instanci objektu</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Z%E1m%ECna%20funkce%20v%20instanci%20objektu&In-Reply-To=%3C4BCD5459.8080404%40atlas.sk%3E"
+       TITLE="[python] Záměna funkce v instanci objektu">devel na atlas.sk
+       </A><BR>
+    <I>Úterý Duben 20 09:14:33 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009648.html">[python] Záměna funkce v instanci objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009650.html">[python] Záměna funkce v instanci objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9649">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9649">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9649">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9649">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Popripade, ak to treba spravit dynamicky, tak
+
+a=tridaA()
+....
+
+a.__class__ = tridaA2
+
+
+ak tridaA2 pre nieco neexistuje, da sa spravit:
+
+# c je funkcia, ktora sa ma pouzit ako metoda a.b
+a.__class__ = type('tridaA', (tridaA, ), {'b': c})
+
+
+v tom pripade ale musi byt tridaA definovana ako new-style class, teda 
+musi dedit po object.
+
+Jan Janech
+
+azurIt wrote:
+&gt;<i> V pripade, ze ta nova funkcia bude vzdy rovnaka, tak sa toto riesi proste dedenim:
+</I>&gt;<i> 
+</I>&gt;<i> class tridaA:
+</I>&gt;<i>   def b(self, x):
+</I>&gt;<i>     self.x = x
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> class tridaA2(tridaA):
+</I>&gt;<i>   def b(self, x):
+</I>&gt;<i>     self.x = x + 1
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> a=tridaA2()
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;&gt;<i> -----Pôvodná správa-----
+</I>&gt;&gt;<i> Od: 302302 [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">302302 na centrum.cz</A>]
+</I>&gt;&gt;<i> Komu: python &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;<i> Predmet: [python] Záměna funkce v instanci objektu
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Mám nadefinovanou třídu
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class tridaA():
+</I>&gt;&gt;<i> def b(self,x):
+</I>&gt;&gt;<i> self.x=x
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> vytvořím její instanci
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> a=tridaA()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> místo metody b, ale chci, aby se vždy v tomto objektu zavolala funkce c, která je nadefinována někde mimo:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def c(self, x):
+</I>&gt;&gt;<i> self.x = x+1
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Pokud to ale pouze přiřadím a zavolám
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> a.b=c
+</I>&gt;&gt;<i> a.b(1)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> tak se do parametru self automaticky nepřiřazuje daný objekt a.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jak můžu zaměnit funkce ve vytvořené instanci objektu, aby se to chovalo jako běžná metoda?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Czenek
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+
+-- 
+
+____________________________
+Ing. Jan Janech
+Katedra softverovych technologii
+Fakulta riadenia a informatiky
+Zilinska Univerzita
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009648.html">[python] Záměna funkce v instanci objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009650.html">[python] Záměna funkce v instanci objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9649">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9649">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9649">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9649">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009649.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:43 GMT -->
+</html>

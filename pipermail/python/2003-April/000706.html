@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-April/000706.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+<HEAD>
+   <TITLE> [python] Metody korenoveho objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Metody%20korenoveho%20objektu&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-April/000718.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-April/000707.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Metody korenoveho objektu</H1>
+    <B>SKOKAN Radek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Metody%20korenoveho%20objektu&In-Reply-To="
+       TITLE="[python] Metody korenoveho objektu">rskokan na csob.cz
+       </A><BR>
+    <I>Úterý Duben  1 15:35:18 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000718.html">[python] Re: Metody korenoveho objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000707.html">[python] Metody korenoveho objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-April/date.html#706">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/thread.html#706">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/subject.html#706">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/author.html#706">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jde tedy o to, ze kazda trida ma seznam vsech svych instanci a jednotlive
+tridy pak nabizi jakesi &quot;metametody&quot;, ktere umoznuji volat metody prave
+svych instanci? Chapu to spravne? Aha, nechapu. Ted koukam na dva posledni
+pripady a neni mi to jasne.
+
+Radek
+
+&gt;<i> -----Original Message-----
+</I>&gt;<i> From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>]
+</I>&gt;<i> Sent: Tuesday, April 01, 2003 3:16 PM
+</I>&gt;<i> To: Konference uživatelů Pythonu a spol.
+</I>&gt;<i> Subject: Re: [python] Metody korenoveho objektu
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Dne út 1. dubna 2003 15:08 SKOKAN Radek napsal(a):
+</I>&gt;<i> &gt; &gt; Ah, ja myslel samotnou tridu object, otce vsech objektu.
+</I>&gt;<i> &gt; &gt; Potreboval bych si
+</I>&gt;<i> &gt; &gt; kvuli implemntaci Higher order messages dodat metodu do 
+</I>&gt;<i> vsech objektu
+</I>&gt;<i> &gt; &gt; 	o.n.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Co je zac to HOM? Asi v <A HREF="http://www.py.cz/mailman/listinfo/python">os na pandora</A> se o tom kdysi mluvilo, 
+</I>&gt;<i> ale ja jsem to
+</I>&gt;<i> &gt; nestihal cist...
+</I>&gt;<i> &gt;
+</I>&gt;<i> 
+</I>&gt;<i> High order messages, Zpravy (terminologii pythonu asi metody) 
+</I>&gt;<i> vyssich radu. 
+</I>&gt;<i> Umozni to psat takove veci jako:
+</I>&gt;<i> 
+</I>&gt;<i> kontejnerWoken.each().close()
+</I>&gt;<i> (zavola vsechny metodu close u kazdeho okna)
+</I>&gt;<i> 
+</I>&gt;<i> kontejnerWoken.collect().maMinimalizacniTlacitko()
+</I>&gt;<i> (udela seznam oken, ktere maji minimalisacni tlacitko)
+</I>&gt;<i> 
+</I>&gt;<i> wokno.afterDelay(6000).close()
+</I>&gt;<i> (za minutu zavre okno)
+</I>&gt;<i> 
+</I>&gt;<i> serwer.repeatWithDelay(6000).ping()
+</I>&gt;<i> (kazdou minutu pingne server)
+</I>&gt;<i> 
+</I>&gt;<i> For je v tom, ze tyto metody by mely vytvaret moznost, jak 
+</I>&gt;<i> pracovat se vsemi 
+</I>&gt;<i> objekty, protoze by to mel byt obecny mechanismus. Nechce se 
+</I>&gt;<i> mi delat si 
+</I>&gt;<i> vlastniho spolecneho predka, protoze ten neobsahne vsechny 
+</I>&gt;<i> objekty v systemu.
+</I>&gt;<i> -- 
+</I>&gt;<i> S pozdravem
+</I>&gt;<i> 	Ondra Nekola
+</I>&gt;<i> 	<A HREF="http://www.py.cz/mailman/listinfo/python">ondra na matfyz.cz</A>
+</I>&gt;<i> 	<A HREF="http://ondra.matfyz.cz/">http://ondra.matfyz.cz</A>
+</I>&gt;<i> 	ICQ# 160692888
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000718.html">[python] Re: Metody korenoveho objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000707.html">[python] Metody korenoveho objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-April/date.html#706">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/thread.html#706">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/subject.html#706">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/author.html#706">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-April/000706.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+</html>

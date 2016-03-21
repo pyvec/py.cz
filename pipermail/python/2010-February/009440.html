@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009440.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:06 GMT -->
+<HEAD>
+   <TITLE> [python] Konzolová aplikácia na webe
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FKonzolov%3DC3%3DA1_aplik%3DC3%3DA1cia_na_webe%3F%3D&In-Reply-To=%3C90b2a54ab45cbf612c1dadf0af21b3b1%40host.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-February/009422.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-February/009423.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Konzolová aplikácia na webe</H1>
+    <B>matesfila</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FKonzolov%3DC3%3DA1_aplik%3DC3%3DA1cia_na_webe%3F%3D&In-Reply-To=%3C90b2a54ab45cbf612c1dadf0af21b3b1%40host.sk%3E"
+       TITLE="[python] Konzolová aplikácia na webe">matesfila na host.sk
+       </A><BR>
+    <I>Úterý Únor 23 00:16:04 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009422.html">[python] Konzolová aplikácia na webe
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009423.html">[python] Konzolová aplikácia na webe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9440">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9440">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9440">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9440">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ďakujem za typ - zdá sa, že ten ajaxterm, resp. príbuzné aplikácie, ku
+ktorým sa dá cez ajaxterm doklikať, bolo presne to, čo som hľadal. Akurát
+nevýhodou je, že to pravdepodobne nepodporuje diakritiku, čo je pre mňa tým
+pádom nepoužiteľné. Takže nakoniec som si to urobil s využitím djanga sám a
+docela to funguje.
+
+Podarilo sa mi dosiahnuť taký stav, kedy jedna a tá istá verzia
+konzolového programu sa dá spustiť jednak zo štandardného príkazového
+riadku, a jednak funguje aj cez web, na ktorom sa požiadavka na vstup od
+používateľa realizuje cez štandardný html vstupný prvok &quot;edit&quot;.
+Problémom tu však bolo, ako dosiahnuť, aby sa program bežiaci na serveri
+pri požiadavke na vstup &quot;pauzol&quot; a počkal, kým používateľ (klient) cez web
+zadá nejaký vstup a odošle ho serveru. Na štandardnej konzole je toto
+&quot;pauznutie&quot; realizované štandardne funkciou input().
+
+Vyriešil som to cez yield, ale toto riešenie sa mi celkom nepáči. Ideálne
+by bolo, keby sa dala napísať taká funkcia input(), ktorá by počkala, kým
+nebude splnená nejaká podmienka P, a potom by automaticky pokračovala
+ďalej.
+
+A v tomto by som potreboval poradiť!
+
+Na jednoduchom príklade by sa problém dal znázorniť asi takto:
+
+def otazka():
+    print('Ako sa volas? ')
+    meno = input()
+    print('Tvoje meno je: ' + meno)
+
+Na štandardnej konzole to funguje pekne, ale na webe musí metóda input
+čakať na vstup od klienta. Teda na webe musi input() počkať na splnenie
+nejakej podmienky P. Tou podmienkou môže byť napríklad to, či už vstup bol
+zadaný, alebo ešte nie.
+
+Netuším, ako by sa takáto input funkcia dala napísať. Ako som už povedal,
+podarilo sa mi to nasimulovať cez coroutines, teda cez yield. Vyzerá to asi
+tak, že namiesto volania input() volám yield na pravej strane výrazu.
+Funguje to rovnako cez web aj štandardnú konzolu, ale nezdá sa mi to zrovna
+elegantné. Ideálne by bolo, keby stačilo napísať &quot;input()&quot; a to by si už
+automaticky počkalo na požadovaný vstup.
+
+Jediné čo ma napadlo je, že by sa to asi nejako dalo urobiť cez thready...
+
+Budem vďačný za každé nakopnutie...
+
+Matúš
+
+
+On Thu, 18 Feb 2010 14:11:39 +0100, Vladimir Macek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">macek na sandbox.cz</A>&gt;
+wrote:
+&gt;<i> On 18.2.2010 14:07, matesfila wrote:
+</I>&gt;&gt;<i> dajme tomu, že mám klasickú konzolovú aplikáciu napísanu v Pythone,
+</I>&gt;&gt;<i> ktorá používa iba základné typy príkazov pre konzolu: print a input.
+</I>&gt;&gt;<i> Chcel by som ale túto aplikáciu sprístupniť cez web, teda aby
+</I>&gt;&gt;<i> fungovala na nejakej html stránke. Hlavnou motiváciou je, aby
+</I>&gt;&gt;<i> aplikácia bola použiteľná odkiaľkoľvek.
+</I>&gt;<i> 
+</I>&gt;<i> Na serveru pouzivam ajaxterm na https jako berlicku, kdyz nektery z
+</I>&gt;<i> uzivatelu nema SSH. Je v Pythonu a urcite ho ohnete pro sve potreby.
+</I>&gt;<i> Byva v distribucich.
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009422.html">[python] Konzolová aplikácia na webe
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009423.html">[python] Konzolová aplikácia na webe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9440">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9440">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9440">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9440">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009440.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:06 GMT -->
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008214.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:20 GMT -->
+<HEAD>
+   <TITLE> [python] zapis na zacatek souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20zapis%20na%20zacatek%20souboru&In-Reply-To=%3COF3A2C4B37.BACA8D85-ONC12574C0.0046C858-C12574C0.00473604%40pss.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-September/008212.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-September/008221.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zapis na zacatek souboru</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20zapis%20na%20zacatek%20souboru&In-Reply-To=%3COF3A2C4B37.BACA8D85-ONC12574C0.0046C858-C12574C0.00473604%40pss.sk%3E"
+       TITLE="[python] zapis na zacatek souboru">RMiklos na pss.sk
+       </A><BR>
+    <I>Středa Září 10 14:57:46 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008212.html">[python] zapis na zacatek souboru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008221.html">[python] zapis na zacatek souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8214">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8214">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8214">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8214">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Uvazujme takyto subor:
+--- pokus.txt ---
+prvy riadok
+druhy riadok
+treti riadok
+-----------------
+
+Riadky subor nacitas do zoznamu, doplnis na zaciatok zoznamu riadok a 
+potom do suboru zapises nove riad´ky, takto:
+
+-----------
+f=open(&quot;pokus.txt&quot;,&quot;rw&quot;)
+# Nacitat riadky do listu
+lines=f.readlines()
+print lines
+f.close()
+
+# vlozit na zaciatok
+lines =[&quot;Nieco na zaciatok\n&quot;]+lines
+print lines
+
+# zapis do suboru
+f=open(&quot;pokus.txt&quot;,&quot;w&quot;)
+f.writelines(lines)
+f.close()
+------
+
+
+Vysledok je
+--- pokus.txt ---
+Nieco na zaciatok
+prvy riadok
+druhy riadok
+treti riadok
+-----------------
+
+
+
+
+
+
+
+
+[python] zapis na zacatek souboru
+
+Petr Zlamal 
+to:
+Konference PyCZ
+10.09.2008 14:12
+
+
+Sent by:
+<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+Please respond to Konference PyCZ
+
+
+
+
+
+
+Pratele,
+Potreboval bych zapsat retezec na zacatek jiz existujiciho souboru. 
+Zkousel jsem neco jako:
+
+ &gt;&gt;&gt; f=open(&quot;file.txt&quot;,&quot;a&quot;)
+ &gt;&gt;&gt; f.write(&quot;slovo&quot;)
+ &gt;&gt;&gt; f.close()
+ &gt;&gt;&gt; f=open(&quot;file.txt&quot;,&quot;a&quot;)
+ &gt;&gt;&gt; f.tell()
+5L
+ &gt;&gt;&gt; f.seek(0)
+ &gt;&gt;&gt; f.tell()
+0L
+ &gt;&gt;&gt; f.write(&quot;slovo2&quot;)
+ &gt;&gt;&gt; f.close()
+
+Ale furt pripisuje na konec, ikdyz dle me by nemel. Tak jsem to vyresil 
+cyklem, ktery vytvori novy soubor, ulozi retezec na zacatek a pote 
+prekopiruje obsah puvodniho souboru. Zda se mi to jako neefektivni 
+reseni, zna a poradi nekdo neco  elegatnejsiho?
+Vepro
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20080910/c6f299bd/attachment.html">http://www.py.cz/pipermail/python/attachments/20080910/c6f299bd/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008212.html">[python] zapis na zacatek souboru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008221.html">[python] zapis na zacatek souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8214">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8214">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8214">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8214">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008214.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:20 GMT -->
+</html>

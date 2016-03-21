@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008053.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:41 GMT -->
+<HEAD>
+   <TITLE> [python] Distutils a bdist_deb
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Distutils%20a%20bdist_deb&In-Reply-To=63b313040807310513j539764fax64e4f2277e9792a5%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/008048.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/008054.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Distutils a bdist_deb</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Distutils%20a%20bdist_deb&In-Reply-To=63b313040807310513j539764fax64e4f2277e9792a5%40mail.gmail.com"
+       TITLE="[python] Distutils a bdist_deb">slush na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Červenec 31 14:46:56 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008048.html">[python] Distutils a bdist_deb
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008054.html">[python] Distutils a bdist_deb
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8053">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8053">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8053">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8053">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tohle je slozite... Samozrejme to udelat JDE, ale clovek se dostane prilis
+nizko. Proc by mel distributor aplikace delat takove obskurnosti pro RPM,
+DEB, EXE apod?
+
+Vytvaret DEB nejak distutils umi sam od sebe, jen se ptame na to, jak :-).
+
+Marek
+
+
+2008/7/31 rajcze &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rajcze na gmail.com</A>&gt;
+
+&gt;<i> Mno, pokud ti to vytvori .tar.gz balik, ktery staci rozbalit do / a
+</I>&gt;<i> &quot;it just works&quot; :) tak by nemusel byt problem z toho ten .deb balicek
+</I>&gt;<i> vytvorit docela jednoduse. Staci pridat  Myslim ze skriptik, ktery to
+</I>&gt;<i> udela, spichnu za chvilicku. Stejne jde jen o vytvoreni &quot;control&quot;
+</I>&gt;<i> souboru - tj vyplneni neceho takoveho
+</I>&gt;<i>
+</I>&gt;<i> Package: $JMENO
+</I>&gt;<i> Version: $VERZE
+</I>&gt;<i> Maintainer: $MAINTAINER
+</I>&gt;<i> Architecture: all
+</I>&gt;<i> Depends: python
+</I>&gt;<i> Description: $SHORT_DESC
+</I>&gt;<i>
+</I>&gt;<i> a &quot;zapakovani&quot; pomoci ar-u.
+</I>&gt;<i>
+</I>&gt;<i> Verim tomu, ze vetsinu veci stejne pises do nejakeho toho konfiguraku
+</I>&gt;<i> pro distutils, takze by to snad i melo jit vytahnout z nej.
+</I>&gt;<i>
+</I>&gt;<i> J.
+</I>&gt;<i>
+</I>&gt;<i> 2008/7/31 Lumír Jasiok &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lumir.jasiok na vsb.cz</A>&gt;:
+</I>&gt;<i> &gt; rajcze wrote:
+</I>&gt;<i> &gt;&gt; No, ja zase neznam distutils :)
+</I>&gt;<i> &gt;&gt; Co presne teda distutils vygeneruji, kdyz ne deb balik?
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; J.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt; Ten serial na abclinuxu samozrejme znam, ale presne jak psal Marek, jde
+</I>&gt;<i> &gt; mi o to, aby se proces zautomatizoval a abych nemusel krome setup.py
+</I>&gt;<i> &gt; jeste vytvaret Makefile a debianizovat rucne.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Distutils slouzi k usnadneni vytvareni a distribuci zdrojovych a
+</I>&gt;<i> &gt; binarnich souboru s vasim kodem (typicky vami vytvorene balicky,
+</I>&gt;<i> &gt; rozsirujici moduly apod.). Nemusite tedy pouzivate auto-tools. Pri
+</I>&gt;<i> &gt; instalaci ze zdrojovych souboru se to typicky projevi tim, ze
+</I>&gt;<i> &gt; nepouzivate &quot;magickou&quot; trojkombinaci configure;make; make install, ale
+</I>&gt;<i> &gt; proste &quot;python setup.py install&quot;. Vytvareni balicky je pomoci distutils
+</I>&gt;<i> &gt; extremne jednoduche a muzete pomoci nej snadno vytvorit napriklad
+</I>&gt;<i> &gt; zdrojovy tar.gz balik, rpm balik, Windows self-extract balik, a dokonce
+</I>&gt;<i> &gt; existuje i Nullsoft NSIS plugin, takze muzete vytvaret i Windows
+</I>&gt;<i> &gt; instalacky. Jen pro distutils neni plugin pro vytvareni deb baliku.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Lumir
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt;  Lumír Jasiok
+</I>&gt;<i> &gt;  VSB-TU Ostrava - Computer centre
+</I>&gt;<i> &gt;  Tel: +420 59 732 3189
+</I>&gt;<i> &gt;  E-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">lumir.jasiok na vsb.cz</A>
+</I>&gt;<i> &gt;  <A HREF="http://www.vsb.cz/">http://www.vsb.cz</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Rules of Optimization:
+</I>&gt;<i> Rule 1: Don't do it.
+</I>&gt;<i> Rule 2 (for experts only): Don't do it yet.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080731/bb880e2a/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080731/bb880e2a/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008048.html">[python] Distutils a bdist_deb
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008054.html">[python] Distutils a bdist_deb
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8053">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8053">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8053">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8053">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008053.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:41 GMT -->
+</html>

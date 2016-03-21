@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-July/000908.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:33 GMT -->
+<HEAD>
+   <TITLE> [python] zope - mime - ms excel
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zope%20-%20mime%20-%20ms%20excel&In-Reply-To=1058268341.6850.4.camel%40kobolt.suse.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-July/000907.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-July/000909.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zope - mime - ms excel</H1>
+    <B>Petr Vaněk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zope%20-%20mime%20-%20ms%20excel&In-Reply-To=1058268341.6850.4.camel%40kobolt.suse.cz"
+       TITLE="[python] zope - mime - ms excel">petr.vanek na ika.cz
+       </A><BR>
+    <I>Úterý Červenec 15 14:45:10 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-July/000907.html">[python] zope - mime - ms excel
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-July/000909.html">[python] zope - mime - ms excel
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-July/date.html#908">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/thread.html#908">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/subject.html#908">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/author.html#908">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>stale kvoka. muj python:
+import string
+
+#container.REQUEST.RESPONSE.setHeader('Content-type', 'text/x-cvs')
+#container.REQUEST.RESPONSE.setHeader('Content-type', 
+'application/vnd.ms-excel')
+container.REQUEST.RESPONSE.setHeader('Content-type', 
+'text/semicolon-seperated-values')
+container.REQUEST.RESPONSE.setHeader('Expires',  'Mon, 26 Jul 1997 05:00:00 
+GMT') # Date in the past
+container.REQUEST.RESPONSE.setHeader('Cache-Control', 'no-store, no-cache, 
+must-revalidate') # HTTP/1.1
+container.REQUEST.RESPONSE.setHeader('Cache-Control', 'post-check=0, 
+pre-check=0')
+container.REQUEST.RESPONSE.setHeader('Pragma', 'no-cache') # HTTP/1.0 
+print &quot;user id;Real name;Assignment;Odevzdano;Hodnoceni&quot;
+for i in context.DBQ_assignment_predmet(assignment=formdictionary[&quot;predmet&quot;]):
+   rname = str(i[&quot;realname&quot;])
+   rname = string.replace(rname, &quot;  &quot;, &quot; &quot;)
+   rname = string.rstrip(rname)
+   print 
+str(i[&quot;user_id&quot;])+';'+rname+';'+str(i[&quot;predmet&quot;])+';'+str(i[&quot;odevzdano1&quot;])+';'+str(i[&quot;hodnoceni1&quot;])
+
+return printed
+
+
+divne je, ze stahovany soubor nezobrazi zadny mime typ
+-- 
+Petr Vanek --------------
+petr.vanek [at] ika [dot] cz
+www.yarpen.cz ----------------
+Kuolema Kaikille (Paitsi Meille)
+
+Today is good day to end it all
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-July/000907.html">[python] zope - mime - ms excel
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-July/000909.html">[python] zope - mime - ms excel
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-July/date.html#908">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/thread.html#908">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/subject.html#908">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/author.html#908">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-July/000908.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:33 GMT -->
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009992.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:22 GMT -->
+<HEAD>
+   <TITLE> [python] Stopky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Stopky&In-Reply-To=%3C201010221653.49446.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-October/009991.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-October/009994.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Stopky</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Stopky&In-Reply-To=%3C201010221653.49446.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] Stopky">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Pátek Říjen 22 16:53:49 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009991.html">[python] Stopky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009994.html">[python] Stopky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9992">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9992">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9992">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9992">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Predpokladam ze tvuj problem neni ten cyklus, ale jak to udelat aby cekani na 
+vstup neblokovalo donekonecna.
+Zpusobu je vic, co me tak z hlavy napada jako relativne nejjednodussi je 
+nechat si za pet minut dorucit signal z casovace, viz modul signal.
+Python instaluje implicitni handler ktery vystreli vyjimku KeyboardInterrupt, 
+takze na ukonceni programu nepotrebujes vlastne nic nez zavolat 
+signal.setitimer() a pak si tu vyjimku odchytit. Behem prace casovac vypnes 
+nastavenim na 0. Nebere to v uvahu zastaveni pomoci ^S ale to te predpokladam 
+netrapi.
+Pokud (az :-) budes chtit neco slozitejsiho, budes potrebovat si prepnout 
+stdin do neblokujiciho modu (O_ASYNC) pomoci modulu fcntl. Pak si budes ale 
+muset sam resit blokovani (neblokujici nekonecna smycka neni dobry napad) a 
+obecne to neni trivialni zalezitost.
+Hotove neblokujici cteni je nekde v modulu curses. Nevim jestli jde nejak 
+rozumne pouzit bez zbytku curses (initscr() prakticky obrati terminal naruby 
+coz nemam rad), ale jestli chces hybat kurzorem, barvicky apod. tak je curses 
+asi nejlepsi zpusob.
+Jestli jsi na wydlich tak jsou urcite i jine zpusoby (conio?) ale to tom nic 
+nevim.
+
+remixus79 (Friday 22 October 2010 13:37:06):
+&gt;<i> Zdravím,
+</I>&gt;<i> 
+</I>&gt;<i> potreboval by som poradiť. Mám program v ktorom je nekonečný cyklus.
+</I>&gt;<i> Tento cyklus stale caka na vstup od uzivatela. Potreboval by som to
+</I>&gt;<i> spraviť tak že by stále čakal na ten vstup ale zároveň by aj
+</I>&gt;<i> kontroloval čas a ak by užívateľ nič nezadal po 5minútach by sa
+</I>&gt;<i> vypol.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Ďakujem za každú radu.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009991.html">[python] Stopky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009994.html">[python] Stopky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9992">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9992">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9992">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9992">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009992.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:22 GMT -->
+</html>

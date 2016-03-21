@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011698.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:10 GMT -->
+<HEAD>
+   <TITLE> [python] UHF RFID čtečka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVUhGIFJGSUQgxI10ZcSNa2E%3D%3F%3D&In-Reply-To=%3C55584857.2020806%40symboliq.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-May/011697.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-May/011699.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] UHF RFID čtečka</H1>
+    <B>Dex</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVUhGIFJGSUQgxI10ZcSNa2E%3D%3F%3D&In-Reply-To=%3C55584857.2020806%40symboliq.net%3E"
+       TITLE="[python] UHF RFID čtečka">dex na symboliq.net
+       </A><BR>
+    <I>Neděle Květen 17 09:50:47 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011697.html">[python] UHF RFID čtečka
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011699.html">[python] UHF RFID čtečka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11698">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11698">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11698">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11698">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Je k té čtečce nějaký bližší popis?
+
+Obvod CP2102 je převodník USB &lt;-&gt; COM (podobně jako PL2303 nebo FTDI). 
+Nejsem expert na RFID čtečky, ale ty dvě co jsem viděl po přiložení 
+karty odeslaly sadu bajtů odpovídající ID karty. Stačilo je mít správně 
+nainstalované a používat vhodnou rychlost.
+
+Dex
+
+
+On 17.5.2015 9:28, &quot;Ing. Vladislav Ludík&quot; wrote:
+&gt;<i> Původně tam byl COM4, ale serial, nebo i hyperterminal se tvářili jako 
+</I>&gt;<i> otevřené, ale čtečka nereagovala.
+</I>&gt;<i> Po přeinstalaci ovladačů COM port zmizel.
+</I>&gt;<i> Tak nevím jak to má být, protože v dokumentaci je nějaké:
+</I>&gt;<i> Dynamic library file name*&#65306; RfidApiLib.dll*
+</I>&gt;<i> a v příkazech například v popisu**aplikace:*
+</I>&gt;<i>
+</I>&gt;<i> *
+</I>&gt;<i>
+</I>&gt;<i> If(OpenCommPort(&#8220;COM1&#8221;,9600) == 0)
+</I>&gt;<i>
+</I>&gt;<i> MessageBox(&quot;success&quot;);
+</I>&gt;<i>
+</I>&gt;<i> Else
+</I>&gt;<i>
+</I>&gt;<i> MessageBox(&quot;failed&quot;);
+</I>&gt;<i>
+</I>&gt;<i> Ale nyní port nemám !
+</I>&gt;<i> Přiznám se, že zatím nevím co dál.
+</I>&gt;<i>
+</I>&gt;<i> Dne 17.5.2015 v 9:11 Dex napsal(a):
+</I>&gt;&gt;<i> Zdravím,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> nechci Vás svést na špatnou cestu, ale netváří se ta čtečka jako COM 
+</I>&gt;&gt;<i> port? Poznámka o CP2102 by o tom svědčila. Pak bych ovšem doporučil 
+</I>&gt;&gt;<i> pyserial místo pyusb ;-)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jen nápad...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dex
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> On 17.5.2015 8:30, &quot;Ing. Vladislav Ludík&quot; wrote:
+</I>&gt;&gt;&gt;<i> libusb0 jsem jsem měl nahrané, ale asi špatné verze.
+</I>&gt;&gt;&gt;<i> Teď jsem našel správnou verzi, libusb0 se nahrálo korektně.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Čtečka pak zmizela ve správci zařízení z Portů (byl tam nějaký COM)
+</I>&gt;&gt;&gt;<i> a objevil se samostatný symbol pro usb jako libusb-32 devices s 
+</I>&gt;&gt;&gt;<i> podsložkou
+</I>&gt;&gt;&gt;<i> CP2102 USB to UART Bridge Controller
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Když nyní dám usb.core.show_devices()
+</I>&gt;&gt;&gt;<i> vrátí mi:
+</I>&gt;&gt;&gt;<i> DEVICE ID 10c4:ea60 on Bus 000 Address 001, Specified at interface
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Takže idVendor=0x10C48 měl být 0x10C4
+</I>&gt;&gt;&gt;<i> Po opravě se vše rozjelo. Zdá se, že jsem na dobré cestě.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Děkuji za pomoc.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Vláďa
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Dne 17.5.2015 v 2:43 Petr Messner napsal(a):
+</I>&gt;&gt;&gt;&gt;<i> Njn, když chceš hackovat, tak na to musíš mít křídla :)
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Z chyby 'generator' object has no attribute 'set_configuration' je 
+</I>&gt;&gt;&gt;&gt;<i> zřejmé, že to usb.core.find vrací iterátor. No a proč to vrací 
+</I>&gt;&gt;&gt;&gt;<i> iterátor? Protože deklarace té funkce 
+</I>&gt;&gt;&gt;&gt;<i> &lt;<A HREF="https://github.com/walac/pyusb/blob/a83f17e568bf893bed53fa984f00c1e168348cb9/usb/core.py#L1127">https://github.com/walac/pyusb/blob/a83f17e568bf893bed53fa984f00c1e168348cb9/usb/core.py#L1127</A>&gt; 
+</I>&gt;&gt;&gt;&gt;<i> je
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> deffind(find_all=False, backend=None, custom_match=None, **args):
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> a když to voláš bez keyword argumentů, tak se jako find_all nastaví 
+</I>&gt;&gt;&gt;&gt;<i> to 0x10C48, což se interpretuje podobně jako find_all=True.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Takže o krok zpět k ValueError: No backend available.  Podívej se 
+</I>&gt;&gt;&gt;&gt;<i> do zdrojáku, co to dělá. Prochází to moduly 
+</I>&gt;&gt;&gt;&gt;<i> usb.backend.libusb1, usb.backend.libusb0 a usb.backend.openusb a 
+</I>&gt;&gt;&gt;&gt;<i> volá to jejich funkci get_backend(), která se snaží danou DLL (nebo 
+</I>&gt;&gt;&gt;&gt;<i> .so) knihovnu načíst (protože usb.backend.* jsou jen ctypes 
+</I>&gt;&gt;&gt;&gt;<i> wrappery &quot;céčkových&quot; knihoven). Takže problém je v tom, že žádnou z 
+</I>&gt;&gt;&gt;&gt;<i> těch knihoven buď nemáš k dispozici, nebo ji pyusb nemůže najít.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> PM
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Dne 16. května 2015 16:28 &quot;Ing. Vladislav Ludík&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A> 
+</I>&gt;&gt;&gt;&gt;<i> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;&gt; napsal(a):
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     Ještě chyby:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     dev = usb.core.find(idVendor=0x10C48, idProduct=0xEA60)
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     hlásí chybu:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     dev = usb.core.find(idVendor=0x10C48, idProduct=0xEA60)
+</I>&gt;&gt;&gt;&gt;<i>       File &quot;build\bdist.win32\egg\usb\core.py&quot;, line 1199, in find
+</I>&gt;&gt;&gt;&gt;<i>         raise ValueError('No backend available')
+</I>&gt;&gt;&gt;&gt;<i>     ValueError: No backend available
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     Když jsem změnil řádek na:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     dev = usb.core.find(0x10C48, 0xEA60)
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     program projde dále, ale hlásí chybu:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     dev.set_configuration()
+</I>&gt;&gt;&gt;&gt;<i>     AttributeError: 'generator' object has no attribute
+</I>&gt;&gt;&gt;&gt;<i>     'set_configuration'
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     Co s tím dále, nevím.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     Díky Vláďa
+</I>&gt;&gt;&gt;&gt;<i>     _______________________________________________
+</I>&gt;&gt;&gt;&gt;<i>     Python mailing list
+</I>&gt;&gt;&gt;&gt;<i>     <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;&gt;&gt;<i>     <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>     Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Visit:<A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Visit:<A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Visit:<A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150517/b6d70a4b/attachment.html">http://www.py.cz/pipermail/python/attachments/20150517/b6d70a4b/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011697.html">[python] UHF RFID čtečka
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011699.html">[python] UHF RFID čtečka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11698">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11698">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11698">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11698">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011698.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:10 GMT -->
+</html>

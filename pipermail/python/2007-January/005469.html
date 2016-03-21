@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005469.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:01 GMT -->
+<HEAD>
+   <TITLE> [python] Presmerovanie stdout do okna v Tkinteri
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Presmerovanie%20stdout%20do%20okna%20v%20Tkinteri&In-Reply-To=45C0B6FC.5060901%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005468.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005470.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Presmerovanie stdout do okna v Tkinteri</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Presmerovanie%20stdout%20do%20okna%20v%20Tkinteri&In-Reply-To=45C0B6FC.5060901%40post.cz"
+       TITLE="[python] Presmerovanie stdout do okna v Tkinteri">Jakohv na seznam.cz
+       </A><BR>
+    <I>Středa Leden 31 16:45:06 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005468.html">[python] Presmerovanie stdout do okna v Tkinteri
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005470.html">[python] Presmerovanie stdout do okna v Tkinteri
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5469">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5469">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5469">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5469">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i> Jakub Vojáček napsal:
+</I>&gt;<i> &gt; A jak bys to předělal aby to to zobrazovalo i chyby?  Přesměrovat print se mi
+</I>&gt;<i> podařilo, ale chyb ne:(
+</I>&gt;<i> &gt; například eval(&quot;error&quot;)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> já věděl, že se ti to bude líbit ;-)
+</I>&gt;<i> 
+</I>&gt;<i> sys.stderr = text_window
+</I>&gt;<i> print tojealechyba
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> geon
+</I>&gt;<i> Pavel Kosina
+</I>
+Líbí;-)
+
+ale narazil jsem na další problém. Když bych trochu upravil kod:
+# -*- coding: cp1250 -*-
+from Tkinter import *
+from ScrolledText import ScrolledText
+import sys
+import traceback
+
+class py_message_box:
+    def __init__(self, parent):
+
+        self.frame = Frame(parent)
+        self.frame.pack()
+        self.text = ScrolledText(self.frame, 
+background='black',foreground='green', font=(&quot;Courier&quot;, 9))
+        self.text.pack()
+   
+        self.mybutton = Button(self.frame, text=&quot;Quit&quot;, 
+command=self.mybuttonClick)
+        self.mybutton.pack(fill=BOTH) #roztažení
+    
+    def mybuttonClick(self):
+        self.frame.destroy()   # mě nikdy quit() nefungovalo...
+
+    def write(self, s):
+        self.text.insert(END, s)
+        self.text.see(END)  # aby bylo poslední vždy vidět
+
+root=Tk()
+text_window = py_message_box(root)
+sys.stdout = text_window
+sys.stderr = text_window
+r=&quot;&quot;&quot;\
+from Tkinter import*
+Button(text=&quot;ok&quot;).pack()
+mainloop()&quot;&quot;&quot;
+soubor=file('a.txt','w')
+soubor.write(r)
+soubor.close()
+try:
+    execfile('a.txt')
+except:   
+    traceback.print_exc()
+root.mainloop()
+
+a když to spustím tak to vykreslí to tlačítko do toho okna místo aby to otevřelo vlastní:( asi bych si musel vytvořit thread, nebo jak??
+
+
+Blujacker
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005468.html">[python] Presmerovanie stdout do okna v Tkinteri
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005470.html">[python] Presmerovanie stdout do okna v Tkinteri
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5469">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5469">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5469">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5469">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005469.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:01 GMT -->
+</html>

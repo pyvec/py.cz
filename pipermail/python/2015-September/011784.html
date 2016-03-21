@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011784.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:02 GMT -->
+<HEAD>
+   <TITLE> [python] Roboti, REST, Flask?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Roboti%2C%20REST%2C%20Flask%3F&In-Reply-To=%3CCADoCwr2%2BDvi%2Bjy0YfTD9H-ZTK0tqUJ1P-UeP%2BKbV0k2SQQ7_rw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-September/011783.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-September/011785.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Roboti, REST, Flask?</H1>
+    <B>Honza Král</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Roboti%2C%20REST%2C%20Flask%3F&In-Reply-To=%3CCADoCwr2%2BDvi%2Bjy0YfTD9H-ZTK0tqUJ1P-UeP%2BKbV0k2SQQ7_rw%40mail.gmail.com%3E"
+       TITLE="[python] Roboti, REST, Flask?">honza.kral na gmail.com
+       </A><BR>
+    <I>Úterý Září 29 18:31:38 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011783.html">[python] Roboti, REST, Flask?
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011785.html">[python] Roboti, REST, Flask?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11784">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11784">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11784">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11784">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2015-09-29 16:28 GMT+02:00 Pavel Schön &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">pavel na schon.cz</A>&gt;:
+&gt;<i> Moje knihovna nikdy nebyla nasazena v produkci, je to ciste experimentalni zalezitost, hricka pro studijni ucely. Autor puvodniho dotazu hleda neco pro studijni a vyukove ucely, pokud se nepletu.
+</I>
+Obzvlast pro vyukove ucely je skutecne vhodne vybrat dobra reseni, v
+tomto pripade tedy neco ze std knihovny nebo neco co funguje a plni
+sliby
+
+Nejhorsi co se muze stat je, ze se nekdo nauci spatne postupy a
+principy, proto je vzdy dulezite, obcas i za cenu komplexity (django
+vs flask) nebo extra zavislosti (gunicorn nebo twisted na normalni
+server vs custom tcp socket), zvolit reseni ktere podporuje dobre
+navyky. V tomhle pripade je dobry navyk i nevynalezat kolo.
+
+&gt;<i> Server si v zadnem pripade nepamatuje stav zamku pri restartu, klientska cast neresi vypadky spojeni, neimplementuje reconnect apod. Pokud nastane chyba v TCP, na strane klienta se vyhodi vyjimka socket.error a je jen na nem, jak se zachova.
+</I>&gt;<i>
+</I>&gt;<i> Knihovna take neresi deadlock, ale to ani normalni threading neresi deadlocky. Jejich predchazeni je uz mimo ramec teto diskuze.
+</I>&gt;<i>
+</I>&gt;<i> BTW, nad jednoduchym lockem lze stavet vyssi primitiva, semafory apod.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Dne úterý 29. září 2015 15:51:15 UTC+2 Petr Messner napsal(a):
+</I>&gt;&gt;<i> Zajímavý kus kódu. Co se stane, když se server restartuje, zůstane stav zámků zachován? Co se stane, když klient požádá o acquire a musí čekat, protože zámek má již někdo jiný, ale zrovna v tu chvíli vypadne síť, spojení se ukončí a recv() vrátí prázdný řetězec?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Když už řešit zamykání takhle síťově, tak aspoň pořádně :) Viz např. Redis (<A HREF="http://antirez.com/news/77">http://antirez.com/news/77</A>) Apache Zookeeper, Apache Helix...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Bohužel, distribuované algoritmy nejsou tak jednoduché, že by do &quot;normálního&quot; algoritmu stačilo přidat sokety.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> PM
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dne 29. září 2015 15:30 Pavel Schön &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">pa... na schon.cz</A>&gt; napsal(a):
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> dovolim si navrhnout pure python reseni na strane serveru zalozene na threadingu a lockach. Kdysi jsem napsal jednoduchy lock manager. Viz:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://code.activestate.com/recipes/578194-distributed-lock-manager-for-python/">http://code.activestate.com/recipes/578194-distributed-lock-manager-for-python/</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ve zkratce:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> - na serveru bezi TCP daemon (./dlm.py), ktery obsluhuje klienty.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> - na klienty umistis tentyz soubor dlm.py, ktery si klientska aplikace importne a vola podle potreby.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Aplikace potom funguje velmi podobne, jako bys programoval s mutexy.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">pyt... na py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011783.html">[python] Roboti, REST, Flask?
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011785.html">[python] Roboti, REST, Flask?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11784">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11784">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11784">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11784">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011784.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:02 GMT -->
+</html>

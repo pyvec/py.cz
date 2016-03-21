@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005670.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:19 GMT -->
+<HEAD>
+   <TITLE> [python] Vlastní vlákno pro dlouhý výpočet - Tkinter
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FVlastn%3DED_vl%3DE1kno_pro_dlouh%3DFD_v%3DFDpo%3DE8%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fet_-_Tkinter%3F%3D&In-Reply-To=000801c75c43%24dda327d0%246e7ba8c0%40python00sz8iw8">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005654.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005651.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vlastní vlákno pro dlouhý výpočet - Tkinter</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FVlastn%3DED_vl%3DE1kno_pro_dlouh%3DFD_v%3DFDpo%3DE8%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fet_-_Tkinter%3F%3D&In-Reply-To=000801c75c43%24dda327d0%246e7ba8c0%40python00sz8iw8"
+       TITLE="[python] Vlastní vlákno pro dlouhý výpočet - Tkinter">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Březen  6 08:39:28 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005654.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005651.html">[python] podivný webbrowser
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5670">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5670">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5670">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5670">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>V Tkinteri by to bolo s pouzitim vlakien takto:
+----------------------------------------------------------------------------------
+# -*- coding: cp1250 -*-
+from Tkinter import *
+import thread 
+
+# globals
+root = Tk()
+computation = False
+thread_flag = True
+
+def compute():
+  global computation
+  j=0
+  while computation:
+    j += 1
+    print &quot;%5d. step of computation&quot; % j
+
+def run():
+  global computation,thread_flag
+  computation=True
+  #print &quot;computation = %s&quot; % computation
+  #print &quot;thread_flag = %s&quot; % thread_flag
+  if thread_flag:
+    thread.start_new_thread(compute, ()) 
+    thread_flag = False
+ 
+def stop():
+  global computation,thread_flag
+  #print &quot;computation = %s&quot; % computation
+  #print &quot;thread_flag = %s&quot; % thread_flag
+  if computation:
+    computation = False
+    thread_flag = True
+    #print &quot;Stop!&quot;
+
+'''main section'''
+# create a toolbar
+toolbar = Frame(root)
+b = Button(toolbar, text=&quot;run&quot;, width=6, command=run)
+b.pack(side=LEFT, padx=2, pady=2)
+b = Button(toolbar, text=&quot;stop&quot;, width=6, command=stop)
+b.pack(side=LEFT, padx=2, pady=2)
+toolbar.pack(side=TOP, fill=X)
+# mainloop
+mainloop()
+----------------------------------------------------------------------------------
+
+alebo lepsie bez pouzitia glob premennych
+----------------------------------------------------------------------------------
+# -*- coding: cp1250 -*-
+from Tkinter import *
+import thread 
+
+class MyApp:
+
+  def __init__(self):
+    self.root = Tk() 
+    self.computation = False
+    self.thread_flag = True
+
+  def compute(self):
+    j=0
+    while self.computation:
+      j += 1
+      print &quot;%5d. step of computation&quot; % j
+
+  def run(self):
+    self.computation=True
+    #print &quot;computation = %s&quot; % computation
+    #print &quot;thread_flag = %s&quot; % thread_flag
+    if self.thread_flag:
+      thread.start_new_thread(self.compute, ()) 
+      self.thread_flag = False
+ 
+  def stop(self):
+    #print &quot;computation = %s&quot; % computation
+    #print &quot;thread_flag = %s&quot; % thread_flag
+    if self.computation:
+      self.computation = False
+      self.thread_flag = True
+      #print &quot;Stop!&quot;
+
+  def main(self):
+    '''main function'''
+    # create a toolbar
+    toolbar = Frame(self.root)
+    b = Button(toolbar, text=&quot;run&quot;, width=6, command=self.run)
+    b.pack(side=LEFT, padx=2, pady=2)
+    b = Button(toolbar, text=&quot;stop&quot;, width=6, command=self.stop)
+    b.pack(side=LEFT, padx=2, pady=2)
+    toolbar.pack(side=TOP, fill=X)
+    # mainloop
+    self.root.mainloop()
+
+if __name__ == &quot;__main__&quot;:
+  # Run program
+  myapp = MyApp() 
+  myapp.main()
+----------------------------------------------------------------------------------
+ 
+
+
+
+
+&quot;Jakub Vojacek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+01.03.2007 21:54
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+&quot;Konference PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+[python] Vlastní vlákno pro dlouhý výpočet.
+
+
+
+
+
+
+Ahoj
+ 
+
+CHtěl radu ohledně vláken. Dělám na programu, kde chci dát uživateli 
+možnost přeuršit výpočet, protože občas by to trvá fakt dlouho. Ale jak to 
+naprogramovat. Hledal jsem inspiraci v 
+<A HREF="http://wiki.wxpython.org/index.cgi/LongRunningTasks">http://wiki.wxpython.org/index.cgi/LongRunningTasks</A> ale nepomohlo to. 
+Potřeboval bych aby to vlákno přijalo funkci, kterou musí počítat a když 
+by se to dopočítalo tak aby vrátila data
+Vlastně by to fungovalo tímto způsobem:
+ 
+vysledek=Vlakno(moje_funkce_s_parametry)
+if vysledek != None:#uživatel přeušil výpočet
+    zpracuj_vysledek()
+ 
+
+Děkuji za všechny nápady
+ 
+Blujacker_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005654.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005651.html">[python] podivný webbrowser
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5670">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5670">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5670">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5670">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005670.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:19 GMT -->
+</html>

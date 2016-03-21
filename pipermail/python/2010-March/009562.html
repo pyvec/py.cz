@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009562.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:53 GMT -->
+<HEAD>
+   <TITLE> [python] nevznik objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nevznik%20objektu&In-Reply-To=%3Cebb896851003250058r697a51bcp4936dc0eb2cc7d56%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009538.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009537.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] nevznik objektu</H1>
+    <B>Michal Vyskocil</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nevznik%20objektu&In-Reply-To=%3Cebb896851003250058r697a51bcp4936dc0eb2cc7d56%40mail.gmail.com%3E"
+       TITLE="[python] nevznik objektu">michal.vyskocil na gmail.com
+       </A><BR>
+    <I>Čtvrtek Březen 25 08:58:30 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009538.html">[python] nevznik objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009537.html">[python] nevznik objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9562">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9562">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9562">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9562">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>18.3.10, David Rohleder &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>&gt;:
+&gt;<i> Petr Messner píše v Čt 18. 03. 2010 v 17:48 +0100:
+</I>&gt;<i>
+</I>&gt;<i> &gt; Ahoj
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; Že by konstruktor udělal něco tak, aby žádný objekt nevznikl, nejde
+</I>&gt;<i>  &gt; (to není bug). Možností je několik:
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;  - vyhazovat výjimku (jak již bylo zmíněno)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> musím přiznat, že řešení pomocí výjimek mně přijde jako s kanonem na
+</I>&gt;<i>  vrabce, ikdyž to má svoji logiku. Pokud vnímám výjimku jako nějakou
+</I>&gt;<i>  zásadně chybovou situaci, tak to do této věci nesedí, protože s chybným
+</I>&gt;<i>  vstupem se má počítat a kód by ho měl ošetřovat.
+</I>&gt;<i>
+</I>&gt;<i>  Možná jsem prostě jenom příliš staromódní, začínal jsem programovat v
+</I>&gt;<i>  jazycích, kde výjimky nebyly a python je jazyk, kde se výjimky dají
+</I>&gt;<i>  používat téměř jako lék na cokoliv.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  &gt;  - nevolat konstruktor (tedy nevytvářet objekt), ale volat funkci,
+</I>&gt;<i>  &gt; která sama vytvoří objekt, nebo vrátí None - podle mě nejlepší řešení
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> To zní zajímavě, ale moc mně to nezapadá do takového toho &quot;objektového&quot;
+</I>&gt;<i>  pohledu na svět. Nutno přiznat, že je to asi celkem jedno, z venku
+</I>&gt;<i>  modulu to vypadá stejně jako přímo ten konstruktor objektu.
+</I>
+No tak to nemusí být funkce, ale metoda třídy
+
+class IP(object):
+    ...
+    @classmethod
+    def parse(cls, ip):
+        ...
+        if chyba: return None
+
+objekt = IP.parse(&quot;123.456.789.0&quot;)
+
+Je to sice trošku Javovský přístup, ale aspoň to nezačíná na class IPFactory :-)
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  &gt;  - vytvořit objekt, který při porovnání s False vrátí True (lze
+</I>&gt;<i>  &gt; implementovat přetížením/vytvořením metody __nonzero__)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Tak o __nonzero__ jsem nevěděl. zajímavé.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; BTW. počítáš i s IPv6, že jo? :)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Ne :-) není správně podporován na druhé straně.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  D.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; Petr Messner
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; 2010/3/18 David Rohleder &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>&gt;:
+</I>&gt;<i>  &gt; &gt; Ahoj,
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; je možné, aby nevznikl objekt, který zrovna vytvářím? Příklad - mám
+</I>&gt;<i>  &gt; &gt; třídu typu IP adresa, v konstruktoru předávám řetězec IPadresy. Chtěl
+</I>&gt;<i>  &gt; &gt; bych, aby v případě, že IP adresa není validní, objekt vůbec nevznikl.
+</I>&gt;<i>  &gt; &gt; Tj. aby konstruktor vrátil None:
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt;&gt;&gt;&gt; ipaddr = IP(&quot;192.1023.neco.1&quot;)
+</I>&gt;<i>  &gt; &gt;&gt;&gt;&gt; ipaddr
+</I>&gt;<i>  &gt; &gt; None
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; chtěl jsem pak třeba udělat:
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; if not ipaddr:
+</I>&gt;<i>  &gt; &gt;        print &quot;zadavas blby vstup&quot;
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; chtěl jsem to vyřešit asi takto:
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; class IP(object):
+</I>&gt;<i>  &gt; &gt;        def __init__(self, IPadresa):
+</I>&gt;<i>  &gt; &gt;                .....
+</I>&gt;<i>  &gt; &gt;                if chyba: return None
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; Jenomže konstruktor vrací vždycky None, tj. touto cestou to nejde.
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; Zatím jediné, co mne napadlo, je vyřešit to pomocí výjimky, tj.např
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; try:
+</I>&gt;<i>  &gt; &gt;        ipaddr = IP(&quot;192.168.34536.45&quot;)
+</I>&gt;<i>  &gt; &gt; except ValueError:
+</I>&gt;<i>  &gt; &gt;        ipaddr = None
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; Ale myslím, že kdyby objekt vůbec nevznikl, tak by to bylo lepší. Jde
+</I>&gt;<i>  &gt; &gt; to, nebo to nejde?
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; D.
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; --
+</I>&gt;<i>  &gt; &gt; David Rohleder &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>&gt;
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; &gt; _______________________________________________
+</I>&gt;<i>  &gt; &gt; Python mailing list
+</I>&gt;<i>  &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>  &gt; &gt;
+</I>&gt;<i>  &gt; _______________________________________________
+</I>&gt;<i>  &gt; Python mailing list
+</I>&gt;<i>  &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>  _______________________________________________
+</I>&gt;<i>  Python mailing list
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+-- 
+best regards
+     Michal Vyskocil
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009538.html">[python] nevznik objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009537.html">[python] nevznik objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9562">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9562">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9562">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9562">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009562.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:53 GMT -->
+</html>

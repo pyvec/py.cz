@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002063.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:13 GMT -->
+<HEAD>
+   <TITLE> [python] multithreading &amp; mutable sequence types
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20multithreading%20%26%20mutable%20sequence%20types&In-Reply-To=mailman.12.1098701338.32358.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-October/002061.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-October/002065.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multithreading &amp; mutable sequence types</H1>
+    <B>Marek Schmidt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20multithreading%20%26%20mutable%20sequence%20types&In-Reply-To=mailman.12.1098701338.32358.python%40py.cz"
+       TITLE="[python] multithreading &amp; mutable sequence types">xschmi01 na stud.fit.vutbr.cz
+       </A><BR>
+    <I>Pondělí Říjen 25 14:06:27 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002061.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002065.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2063">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2063">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2063">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2063">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;&gt;<i>
+</I>&gt;&gt;<i>class KnightWhoSayNi(threading.Thread):
+</I>&gt;&gt;<i>   def __init__(self):
+</I>&gt;&gt;<i>     ...
+</I>&gt;&gt;<i>     self.semafor = threading.Semaphore(0)
+</I>&gt;&gt;<i>     self.queue = []
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   def queueSayNi(self, target):
+</I>&gt;&gt;<i>     self.queue.append(target)
+</I>&gt;&gt;<i>     self.semafor.release()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   def run(self):
+</I>&gt;&gt;<i>     while True:
+</I>&gt;&gt;<i>        self.semafor.acquire()
+</I>&gt;&gt;<i>        target = self.queue.pop(0)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        sayNiToTarget(target)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> 
+</I>&gt;<i> nje som sice expert na thready a ani nevjem naco presne sluzi semafor (z dokumentacie sa mi zdalo ze je to nato aby sa dal obmedzit pocet procesov, ktore mozu naraz k njecomu pristupovat, ak som to pochopil zle tak ma prosim njekto opravte :) )
+</I>&gt;<i> ja osobne som semafori este nepouzil :) pouzivam Lock() a RLock() ale myslim ze ked pouzijes Semaphore(0) tak to je vlastne to iste cize ked chces aby tam pristupoval naraz len jeden proces bolo by asi lepsje pouzit tje zamky.
+</I>
+
+
+Ne tak docela. Je to problem typu Producent - Konzument. Potrebuji, 
+abych mohl do fronty pridat libovolny pocet pozadavku, aniz by se 
+zpracovali a nezavisle na tom bude spusten thread, ktery pak bude tyto 
+pozadavky jeden po druhem zpracovavat...
+
+napr:
+
+knight = KnightWhoSayNi()
+
+knight.queueSayNi(target=&quot;King Arthur&quot;)
+knight.queueSayNi(target=&quot;Sir Lancelot&quot;)
+knight.queueSayNi(target=&quot;Sir Robin&quot;)
+
+knight.start()
+
+...
+
+Proto potrebuji pouziv semafor.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002061.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002065.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2063">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2063">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2063">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2063">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002063.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:13 GMT -->
+</html>

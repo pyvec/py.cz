@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011786.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:04 GMT -->
+<HEAD>
+   <TITLE> [python] Roboti, REST, Flask?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Roboti%2C%20REST%2C%20Flask%3F&In-Reply-To=%3CCAMmgUkOpDJtJ1SeyhZ9c38mtQ3sD9R9GiLYqOwCX1HAo3YsC6A%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-September/011774.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-September/011750.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Roboti, REST, Flask?</H1>
+    <B>Jan Bednařík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Roboti%2C%20REST%2C%20Flask%3F&In-Reply-To=%3CCAMmgUkOpDJtJ1SeyhZ9c38mtQ3sD9R9GiLYqOwCX1HAo3YsC6A%40mail.gmail.com%3E"
+       TITLE="[python] Roboti, REST, Flask?">jan.bednarik na gmail.com
+       </A><BR>
+    <I>Úterý Září 29 21:38:44 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011774.html">[python] Roboti, REST, Flask?
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011750.html">[python] looking for someone who can spend between 4-40 hours helping us to finish a two small Python/Django/ PostgreSQL apps
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11786">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11786">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11786">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11786">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2015-09-11 10:29 GMT+02:00 Marek Nožka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">marek na tlapicka.net</A>&gt;:
+
+&gt;<i> Ahoj
+</I>&gt;<i>
+</I>&gt;<i> Potřeboval bych malou radu. Učím programování(Python) na SŠ. Takže jsem
+</I>&gt;<i> vymyslel(okoukal), že si budeme hrát na Roboty. Bude to tahová hra.
+</I>&gt;<i> Jednotliví roboti(studenti) se připojí k serveru a budou mezi sebou
+</I>&gt;<i> soutěžit
+</I>&gt;<i> o nejlepší algoritmus, který projde bludištěm podle zadaných pravidel.
+</I>&gt;<i>
+</I>&gt;<i> Na serverovou část jsem chtěl použít Flask a vytvořit jednoduché REST API.
+</I>&gt;<i> Řeším ale jak mám obsloužit více klientů tak, aby na sebe navzájem počkali.
+</I>&gt;<i> Každý klient by měl říct, kam táhne. Ale odpověď můžu poslat až potom, co
+</I>&gt;<i> všichni pošlou požadavek. Napadli mě dvě řešení.
+</I>&gt;<i>
+</I>&gt;<i> 1) Klient pošle požadavek a čeká na odpověď. Stream odpovědi se ale zastaví
+</I>&gt;<i>    a čeká se až se ozvou další klienti. Tohle nevím jak bych ve Flasku
+</I>&gt;<i>    udělal -- pokud to tedy vůbec jde. Pokoušel jsem se to vygooglit ale na
+</I>&gt;<i>    nic kloudného jsem nepřišel.
+</I>&gt;<i>
+</I>
+
+Ahoj. Tohle se ti ve Flasku, Djangu, aj. synchronních frameworcích bude
+dělat špatně. Použiješ-li asynchronní aiohttp, můžeš efektivně obsluhovat
+všechny requesty z Robotů &quot;paralalně&quot; (můžou paralelně čekat s odpovědí).
+Složitost implementace s aiohttp je zhruba stejná jako ve Flasku.
+
+<A HREF="http://aiohttp.readthedocs.org/en/stable/">http://aiohttp.readthedocs.org/en/stable/</A>
+
+
+
+Nicméně na tento problém se REST, respektive HTTP, zrovna moc nehodí (leda
+ty websockety). Vhodnější by bylo použít Pub/Sub. Měly by stačit dva topicy
+(channely), něco jako:
+
+1. Round
+ - hra na něj dělá publish povelu, že je možné táhnout další kolo
+ - všichni roboti sem dělají subscribe a reagují na povel
+
+2. Move
+ - hra se sem dělá subscribe a reaguje na tahy robotů
+ - roboti sem dělají publish tahů
+
+Pro jednoduchost rozchození můžeš použít jako Pub/Sub broker třeba Redis.
+Má dobrou knihovnu jak pro asynchronní Pyhon aioredis, stejně tak pro
+klasický synchronní přístup redis-py.
+
+<A HREF="https://github.com/aio-libs/aioredis">https://github.com/aio-libs/aioredis</A>
+<A HREF="https://github.com/andymccurdy/redis-py">https://github.com/andymccurdy/redis-py</A>
+
+Honza
+
+
+
+2) Klient pošle požadavek a za nějakou chvilku se zeptá jestli má
+&gt;<i>    server už odpověď. To je zase více složitosti na straně klienta.
+</I>&gt;<i>
+</I>&gt;<i> Protože jsem nic podobného zatím nikdy nedělal, budu vděčný za každou
+</I>&gt;<i> připomínku, poznámku nebo radu. Co za knihovnu/framework byste mi
+</I>&gt;<i> doporučovali.
+</I>&gt;<i>
+</I>&gt;<i> Dííííky
+</I>&gt;<i>            Marek
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i>  @ @ @     Marek Nožka
+</I>&gt;<i>  '****.@
+</I>&gt;<i>  :*****`@   email: marek &lt;@t&gt; tlapicka &lt;d.t&gt; net
+</I>&gt;<i>  `*****'   jabber: tlapicka &lt;@t&gt; mitranet &lt;d.t&gt; cz
+</I>&gt;<i>   :****:      web: <A HREF="http://tlapicka.net/">http://tlapicka.net/</A>
+</I>&gt;<i>   `****'
+</I>&gt;<i>   `****'   Powered by Debian GNU/Linux
+</I>&gt;<i>   `.**'
+</I>&gt;<i>     ¨¨
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150929/f07cdc4b/attachment.html">http://www.py.cz/pipermail/python/attachments/20150929/f07cdc4b/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011774.html">[python] Roboti, REST, Flask?
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011750.html">[python] looking for someone who can spend between 4-40 hours helping us to finish a two small Python/Django/ PostgreSQL apps
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11786">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11786">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11786">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11786">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011786.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:04 GMT -->
+</html>

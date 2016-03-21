@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004040.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:51 GMT -->
+<HEAD>
+   <TITLE> [python] Unicode řetězce
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Unicode%20%3D%3FUTF-8%3FB%3FxZlldMSbemNl%3F%3D&In-Reply-To=mailman.23.1139237899.7059.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-February/004046.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-February/004041.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Unicode řetězce</H1>
+    <B>Radek Kubicek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Unicode%20%3D%3FUTF-8%3FB%3FxZlldMSbemNl%3F%3D&In-Reply-To=mailman.23.1139237899.7059.python%40py.cz"
+       TITLE="[python] Unicode řetězce">xkubic23 na stud.fit.vutbr.cz
+       </A><BR>
+    <I>Pondělí Únor  6 17:26:53 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004046.html">[python] Unicode řetězce
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004041.html">[python] Unicode řetězce
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4040">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4040">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4040">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4040">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> urcite by priste bylo vhodne napsat i tu vyjimku, ta je totiz skoro to
+</I>&gt;<i> nejpodstatnejsi :-)
+</I>
+No to ja vim, jenze je pokazde jina :-( Ta, ktera se vyskytne pri
+presmerovani vystupu do souboru je takova:
+
+Traceback (most recent call last):
+  File &quot;test.py&quot;, line 15, in ?
+    courses.add_course('P&#9532;&#214;', 'p&#9532;&#214;&#9500;&#351;rodopis')
+  File &quot;c:\_zdrojaky\scholar\src\common\courses.py&quot;, line 115, in add_course
+    _L.info_message(&quot;Course %s [%s] already exists - can't be added.&quot; %
+(code, n
+ame))
+  File &quot;c:\_zdrojaky\scholar\src\common\logs.py&quot;, line 18, in info_message
+    print &quot;&lt;info&gt;&quot;, msg.decode('utf-8')
+UnicodeEncodeError: 'ascii' codec can't encode character u'\u0159' in
+position 8
+:<i> ordinal not in range(128)
+</I>
+Na vlozeni stringu do aplikace pouzivam funkci decode_string(), ktera je
+takova (ta cast s encode by snad sla i vypustit):
+
+def decode_string(string):
+    &quot;&quot;&quot;Decode string to UTF-8 coding.&quot;&quot;&quot;
+    encs = ('utf-8', sys.getfilesystemencoding(), 'iso-8859-15')
+    for enc in encs:
+        try:
+            string = str(string).decode(enc)
+        except UnicodeError:
+            continue
+        break
+    if not isinstance(string, str):
+        string = string.encode('utf-8')
+    return string
+
+Ne vypis potom retezec.decode('utf-8'). Pisu to pod windows, ale musi to
+jit pouzivat hlavne pod Linuxem.
+
+&gt;<i> Predpokladejme, ze je zrejme asi neco jako UnicodeDecodeError 'ascii'
+</I>&gt;<i> codec can't decode byte... atd. V takovem pripade budes muset nejprve
+</I>&gt;<i> odhadnout vychozi kodovani toho 'nejakeho retezce', ktery chces prevest.
+</I>&gt;<i> Prislusny algoritmus na to je ve wiki.
+</I>
+Kterou wiki mate na mysli?
+
+Asi takhle... ta aplikace by mela byt prevazne graficka (ve wxPythonu),
+takze budu potrebovat hlavne dobre pracovat s Unicode ve wx. Ale take
+asi bude potreba, aby aplikace vypisovala informace na konzoli, takze
+musim byt schopny nejen prevadet retezce pomoci print, ale tez i
+predavat je do ovladacich prvku a tak. Jak resite unicode v programech
+vy ostatni? Cim jednodussi reseni, tim lepe :-)
+
+&gt;<i> Jinak nedoporucuji promenne nazyvat stejnymi nazvy jako vestavene funkce:
+</I>&gt;&gt;&gt;&gt;<i> str
+</I>&gt;<i> &lt;type 'str'&gt;
+</I>
+No jasne, to bylo jen na ukazku :-)
+
+Pekny den,
+
+RK
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004046.html">[python] Unicode řetězce
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004041.html">[python] Unicode řetězce
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4040">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4040">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4040">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4040">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004040.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:51 GMT -->
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-July/010721.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:28 GMT -->
+<HEAD>
+   <TITLE> [python] Oddělovač tisíců ve Windows a Python 3
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FOdd%3DEClova%3DE8_tis%3DEDc%3DF9_ve_Windows_a_Pyt%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fhon_3%3F%3D&In-Reply-To=%3C4FF08699.7010407%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-July/010722.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Oddělovač tisíců ve Windows a Python 3</H1>
+    <B>Michal Molhanec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FOdd%3DEClova%3DE8_tis%3DEDc%3DF9_ve_Windows_a_Pyt%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fhon_3%3F%3D&In-Reply-To=%3C4FF08699.7010407%40seznam.cz%3E"
+       TITLE="[python] Oddělovač tisíců ve Windows a Python 3">mol-python na seznam.cz
+       </A><BR>
+    <I>Neděle Červenec  1 19:19:21 CEST 2012</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-July/010722.html">[python] zitra nejen django sprint na venkove
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-July/date.html#10721">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-July/thread.html#10721">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-July/subject.html#10721">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-July/author.html#10721">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+onehdy jsem si hrál s typem formátu :n v Pythonu 3:
+
+import sys
+if 1:
+   import locale
+   locale.setlocale(locale.LC_ALL,'czech')
+x=123456
+s='{:n}'.format(x)
+if sys.version_info[0] &gt;= 3:
+   f=open('formatn.txt','wt', encoding='utf-16')
+   print(ascii(s))
+else:
+   f=open('formatn.txt','wt')
+   print(repr(s))
+f.write(s)
+f.close()
+
+Zatímco v Pythonu 2.7 to vrací A0, tj. nedělitelnou mezeru, což je v pořádku, v Pythonu 3.2 se z toho nějak stane FFA0, což mi přijde jako blbost. Tak teď nevím, jestli jsem natvrdlej já, nebo Python.
+
+Pak mě zaujalo, že
+s=u'{:n}'.format(x)
+v Pythonu 2.7 selže, což mi přijde jako poněkud absurdní.
+
+-- 
+Zdraví,
+Michal Molhanec
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-July/010722.html">[python] zitra nejen django sprint na venkove
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-July/date.html#10721">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-July/thread.html#10721">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-July/subject.html#10721">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-July/author.html#10721">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-July/010721.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:28 GMT -->
+</html>

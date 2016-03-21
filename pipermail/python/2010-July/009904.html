@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009904.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+<HEAD>
+   <TITLE> [python] multiprocess manager
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20manager&In-Reply-To=%3C4C51BE27.5040305%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009903.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009896.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multiprocess manager</H1>
+    <B>Tomas Pelka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20manager&In-Reply-To=%3C4C51BE27.5040305%40gmail.com%3E"
+       TITLE="[python] multiprocess manager">tompelka na gmail.com
+       </A><BR>
+    <I>Čtvrtek Červenec 29 19:45:11 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009903.html">[python] multiprocess manager
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009896.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9904">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9904">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9904">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9904">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+On 07/26/2010 09:52 PM, Tomas Pelka wrote:
+&gt;<i> Zdravim vsechny,
+</I>&gt;<i>
+</I>&gt;<i> mam potize s exportovanim objektu pres manager z modulu multiprocess, 
+</I>&gt;<i> priklad:
+</I>&gt;<i>
+</I>&gt;<i> Worker.py:
+</I>&gt;<i> ###################################
+</I>&gt;<i> from multiprocessing import Process
+</I>&gt;<i> from multiprocessing.managers import BaseManager
+</I>&gt;<i> import pcapy
+</I>&gt;<i> from impacket.ImpactDecoder import EthDecoder
+</I>&gt;<i>
+</I>&gt;<i> __all__ = ['Worker']
+</I>&gt;<i>
+</I>&gt;<i> class Worker(Process):
+</I>&gt;<i>         '''
+</I>&gt;<i>         Class for sniffing packets, runnig as root
+</I>&gt;<i>         '''
+</I>&gt;<i>
+</I>&gt;<i>         public = ['go', 'terminate']
+</I>&gt;<i>
+</I>&gt;<i>         def __init__(self):
+</I>&gt;<i>                 super(Worker, self).__init__()
+</I>&gt;<i>                 self.iface = ''
+</I>&gt;<i>                 self.expr = ''
+</I>&gt;<i>                 self.pcap = ''
+</I>&gt;<i>                 # define packet decoder
+</I>&gt;<i>                 self.decoder = EthDecoder()
+</I>&gt;<i>                 # key for queue daemon, remotely on localhost:5000
+</I>&gt;<i>                 self._keyQ = '10b222970537b97919db36ec757370d2'
+</I>&gt;<i>                 class QueueManager(BaseManager): pass
+</I>&gt;<i>                 QueueManager.register('get_dataQueue')
+</I>&gt;<i>                 self._m = QueueManager(address=('127.0.0.1', 5000), 
+</I>&gt;<i> authkey=self._keyQ)
+</I>&gt;<i>                 self._m.connect()
+</I>&gt;<i>                 self.dataQueue = self._m.get_dataQueue()
+</I>&gt;<i>         def go(self, iface, expr):
+</I>&gt;<i>                 '''
+</I>&gt;<i>                 start sniffer
+</I>&gt;<i>                 '''
+</I>&gt;<i>                 print &quot;Starting sniffer&quot;
+</I>&gt;<i>                 self.iface = iface
+</I>&gt;<i>                 self.expr = expr
+</I>&gt;<i>                 super(Worker, self).start()
+</I>&gt;<i>         def terminate(self):
+</I>&gt;<i>                 '''
+</I>&gt;<i>                 terminate sniffer
+</I>&gt;<i>                 '''
+</I>&gt;<i>                 super(Worker, self).terminate()
+</I>&gt;<i>         def run(self):
+</I>&gt;<i>                 print &quot;sniffing ...&quot;
+</I>&gt;<i>                 print self.iface
+</I>&gt;<i>                 print self.expr
+</I>&gt;<i>                 self.pcap = pcapy.open_live(self.iface, 1500, 1, 0)
+</I>&gt;<i>                 self.pcap.setfilter(self.expr)
+</I>&gt;<i>                 self.pcap.loop(0, self.__packetHandler)
+</I>&gt;<i>                 print &quot;... done&quot;
+</I>&gt;<i>         def __packetHandler(self, hdr, data):
+</I>&gt;<i>                 '''
+</I>&gt;<i>                 handles packets and put them in to the queue
+</I>&gt;<i>                 '''
+</I>&gt;<i>                 print &quot;Handling packets&quot;
+</I>&gt;<i>                 #print data
+</I>&gt;<i>                 print &quot;Queue size: %i&quot; % self.dataQueue.qsize()
+</I>&gt;<i>                 print self.decoder.decode(data)
+</I>&gt;<i>                 self.dataQueue.put(data)
+</I>&gt;<i>
+</I>&gt;<i> Export objektu (Worker):
+</I>&gt;<i> ###################################
+</I>&gt;<i> from Worker import Worker
+</I>&gt;<i>
+</I>&gt;<i> class SniffManager(BaseManager): pass
+</I>&gt;<i> SniffManager.register('Worker', callable=Worker)
+</I>&gt;<i> Sm = SniffManager(address=('127.0.0.1', 5001), 
+</I>&gt;<i> authkey='f1f16683f3e0208131b46d37a79c8921')
+</I>&gt;<i> Ss = Sm.get_server()
+</I>&gt;<i> Ss.serve_forever()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Volani metod objektu, vzdalene:
+</I>&gt;<i> ###################################
+</I>&gt;<i> # get remote object
+</I>&gt;<i> class WorkerManager(BaseManager): pass
+</I>&gt;<i> WorkerManager.register('Worker')
+</I>&gt;<i> w = WorkerManager(address=('127.0.0.1', 5001), 
+</I>&gt;<i> authkey='f1f16683f3e0208131b46d37a79c8921')
+</I>&gt;<i> w.connect()
+</I>&gt;<i> worker = w.Worker() #TOHLE FUNGUJE JAK MA
+</I>&gt;<i>
+</I>&gt;<i> ale
+</I>&gt;<i>
+</I>&gt;<i> worker.terminate()
+</I>&gt;<i>
+</I>&gt;<i> File &quot;/home/tom/web2py/applications/init/controllers/sniffer.py&quot;, line 
+</I>&gt;<i> 143, in index
+</I>&gt;<i>     worker.terminate()
+</I>&gt;<i> File &quot;&lt;string&gt;&quot;, line 2, in terminate
+</I>&gt;<i> File &quot;/usr/lib/python2.6/multiprocessing/managers.py&quot;, line 740, in 
+</I>&gt;<i> _callmethod
+</I>&gt;<i>     raise convert_to_error(kind, result)
+</I>&gt;<i> AttributeError: 'NoneType' object has no attribute 'terminate'
+</I>&gt;<i>
+</I>&gt;<i> Zarazi me ze go() funguje a terminate() nikoliv. Lokalne funfuje vse 
+</I>&gt;<i> tak jak ma.
+</I>&gt;<i>
+</I>&gt;<i> Diky za rady.
+</I>
+Nejzvlastnejsi mi prijde to ze super(Worker, self).terminate(), tedy 
+super(Worker, self) je podle pythonu NoneType.
+
+-- 
+Tomas Pelka
+
+------------- dal?í ?ást ---------------
+HTML p?íloha byla odstran?na...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20100729/070d874d/attachment.html">http://www.py.cz/pipermail/python/attachments/20100729/070d874d/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009903.html">[python] multiprocess manager
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009896.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9904">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9904">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9904">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9904">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009904.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+</html>

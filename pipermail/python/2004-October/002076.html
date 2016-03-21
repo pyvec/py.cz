@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002076.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:14 GMT -->
+<HEAD>
+   <TITLE> [python] Re: time, DateTime a MySQLdb
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20time%2C%20DateTime%20a%20MySQLdb&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-October/002078.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-October/002077.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Re: time, DateTime a MySQLdb</H1>
+    <B>Zdeněk Böhm</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20time%2C%20DateTime%20a%20MySQLdb&In-Reply-To="
+       TITLE="[python] Re: time, DateTime a MySQLdb">zdenek.bohm na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Říjen 28 12:13:14 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002078.html">[python] time, DateTime a MySQLdb
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002077.html">[python] Re: matematická olympiáda - P (programování)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2076">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2076">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2076">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2076">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Neni treba to delat tak komplikovane, kdyz to jde takto: (SQL sloupec datum
+musi byt typu datetime)
+
+CAS1 = time.time()
+sqlcas = time.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;,time.localtime(CAS1))
+SQL = &quot;INSERT INTO data(datum) VALUES ('%s')&quot; % sqlcas
+....
+SQL = &quot;SELECT UNIX_TIMESTAMP(datum) FROM data WHERE ...&quot;
+rettuple = cursor.fetchone()
+# rettuple -&gt; (1090011220L,)
+CAS2 = rettuple[0]
+if long(CAS1) == CAS2:
+        print &quot;Cas je opravdu shodny! :-)&quot;
+
+Z.B.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002078.html">[python] time, DateTime a MySQLdb
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002077.html">[python] Re: matematická olympiáda - P (programování)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2076">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2076">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2076">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2076">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002076.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:14 GMT -->
+</html>

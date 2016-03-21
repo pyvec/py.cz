@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011516.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:17 GMT -->
+<HEAD>
+   <TITLE> [python] Seznamy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Seznamy&In-Reply-To=%3CCA%2BvQZ8pvf1%3DPbPhjdr5-wV_rGDJXuEhr6mXKmO2VHE4Udb94NA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011515.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011520.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Seznamy</H1>
+    <B>Ales Zoulek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Seznamy&In-Reply-To=%3CCA%2BvQZ8pvf1%3DPbPhjdr5-wV_rGDJXuEhr6mXKmO2VHE4Udb94NA%40mail.gmail.com%3E"
+       TITLE="[python] Seznamy">ales.zoulek na gmail.com
+       </A><BR>
+    <I>Sobota Únor  7 22:24:53 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011515.html">[python] Seznamy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011520.html">[python] Seznamy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11516">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11516">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11516">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11516">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&quot;lists.pop()&quot; melo byt pravdepodobne &quot;sets.pop()&quot;, jinak urcite radsi to
+druhy.
+
+Jinak na to existuje zkratka, ktera dela v zasade to stejne -
+set.intersection() bere jako parametr libovolny pocet setu. Takze toto by
+melo byt rozumne kratky a furt dost citelny:
+
+non_empty_sets = [set(l) for l in (list_a, list_b, ..) if l]
+result_set = set.intersection(*non_empty_sets)
+return list(result_set)
+
+
+
+
+
+On Fri Feb 06 2015 at 10:55:51 PM Vladimir Macek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">macek na sandbox.cz</A>&gt; wrote:
+
+&gt;<i> Dovolte poznámku,
+</I>&gt;<i>
+</I>&gt;<i> je fajn, jak Honza dodal dva návrhy. Tipuju, že ten druhý je čitelnější pro
+</I>&gt;<i> začátečníky, je takový imperativní. :-)
+</I>&gt;<i>
+</I>&gt;<i> Doporučoval bych však zkusit pochopit eleganci toho druhého, který je IMO
+</I>&gt;<i> přístupnější pro zkušené a otevírá trochu jiný svět uvažování.
+</I>&gt;<i>
+</I>&gt;<i> Čitelnosti by pomohlo rozdělení na dva řádky (nejdřív nazvat generátor),
+</I>&gt;<i> což jistě Honza ví.
+</I>&gt;<i>
+</I>&gt;<i> Pokud tazateli zároveň půjde o zachování pořadí prvků, může se podívat po
+</I>&gt;<i> typu OrderedSet (<A HREF="http://code.activestate.com/recipes/576694/">http://code.activestate.com/recipes/576694/</A>).
+</I>&gt;<i>
+</I>&gt;<i> Vl.
+</I>&gt;<i>
+</I>&gt;<i> On 6.2.2015 20:50, Honza Král wrote:
+</I>&gt;<i> &gt; tohle je kratka odpoved:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; import operator
+</I>&gt;<i> &gt; reduce(operator.and_, (set(l) for l in (list_a, list_b, list_c) if l))
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; ale asi ne nejlepsi (neni prilis citelna)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; doporucil bych spis neco jako:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; sets = [set(l) for l in (list_a, list_b, ..) if l]
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; result =lists.pop()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; for s in sets:
+</I>&gt;<i> &gt;     result &amp;= s
+</I>&gt;<i> &gt; list_vysledny = list(result)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Honza Král
+</I>&gt;<i> &gt; E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>
+</I>&gt;<i> &gt; Phone:  +420 606 678585
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; 2015-02-06 20:10 GMT+01:00 Marcus Scalpere &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">marcus.scalpere na gmail.com</A>&gt;:
+</I>&gt;<i> &gt;&gt; Pěkný večer vinšuji,
+</I>&gt;<i> &gt;&gt; mám několik seznamů a potřebuji zjistit, které jsou a nejsou prázdné
+</I>&gt;<i> (to bych ještě dal) a pokud některé prázdne nejsou, tak je projít a pokud
+</I>&gt;<i> jsou některé hodnoty ve VŠECH, tak je uložit.
+</I>&gt;<i> &gt;&gt; Něco jako:
+</I>&gt;<i> &gt;&gt; list_a = []
+</I>&gt;<i> &gt;&gt; list_b = [x, y, z]
+</I>&gt;<i> &gt;&gt; list_c = [x, y]
+</I>&gt;<i> &gt;&gt; .
+</I>&gt;<i> &gt;&gt; .
+</I>&gt;<i> &gt;&gt; .
+</I>&gt;<i> &gt;&gt; list_vysledny = [x, y]
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Snad jsem se vyjádřil jasně a srozumitelně. Děkuji mnohokráte
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150207/ed644d16/attachment.html">http://www.py.cz/pipermail/python/attachments/20150207/ed644d16/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011515.html">[python] Seznamy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011520.html">[python] Seznamy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11516">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11516">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11516">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11516">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011516.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:17 GMT -->
+</html>

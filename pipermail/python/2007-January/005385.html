@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005385.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:53 GMT -->
+<HEAD>
+   <TITLE> [python] Jak udelat raw string. Vyreseno
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20udelat%20raw%20string.%20Vyreseno&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005387.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005386.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak udelat raw string. Vyreseno</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20udelat%20raw%20string.%20Vyreseno&In-Reply-To="
+       TITLE="[python] Jak udelat raw string. Vyreseno">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Leden 17 12:24:39 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005387.html">[python] localhost server
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005386.html">[python] localhost server
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5385">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5385">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5385">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5385">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Osvědčil se mi občas i zápis ve stylu:
+
+d = { 'dpath': '/home/neco',
+      'user':  'uuuuuu',
+      'host':  'hhhhh',
+      'spath': 'ppppp',
+    }
+
+Obsah slovníku se dá samozřejmě konstruovat dynamicky.
+Jeho obsah se pak dá dosadit přes formátovací řetězec...
+
+cmd = 'scp %(user)s@%(host)s:&quot;%(spath)s&quot; atd.' % d
+...
+
+nebo bez slovníku (v jednodušších případech)
+
+cmd = 'scp %s@%s:&quot;%s&quot; atd.' % (user, host, spath)
+
+
+
+pepr
+
+
+&gt;<i> -----Original Message-----
+</I>&gt;<i> From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On 
+</I>&gt;<i> Behalf Of <A HREF="http://www.py.cz/mailman/listinfo/python">dmichal na altien.com</A>
+</I>&gt;<i> Sent: Wednesday, January 17, 2007 12:02 PM
+</I>&gt;<i> To: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> Subject: Re: [python] Jak udelat raw string. Vyreseno
+</I>&gt;<i> 
+</I>&gt;<i> Tak po ruznych pokusech jsem to vyresil a pak se zastydel. :)
+</I>&gt;<i> Ve finale stacilo prestat blbnout s backslah a dat tam jenom uvozovky.
+</I>&gt;<i> 
+</I>&gt;<i> spath = '&quot;' + spath + '&quot;'
+</I>&gt;<i> 
+</I>&gt;<i> Pekny den,
+</I>&gt;<i> David
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> &gt; -----Original Message-----
+</I>&gt;<i> &gt; From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On 
+</I>&gt;<i> Behalf Of
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">dmichal na altien.com</A>
+</I>&gt;<i> &gt; Sent: Wednesday, January 17, 2007 10:26 AM
+</I>&gt;<i> &gt; To: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> &gt; Subject: Re: [python] Jak udelat raw string.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; Python nezna nic jako &quot;raw string&quot;, prefix &quot;r&quot; pred uvozovkama je
+</I>&gt;<i> &gt; jenom
+</I>&gt;<i> &gt; &gt; berlicka pro tebe, abys nemusel v zapisu kodu (cili v .py souboru)
+</I>&gt;<i> &gt; &gt; escapovat kazdy backslash. Vysledny objekt (obsah a typ 
+</I>&gt;<i> promenne) je
+</I>&gt;<i> &gt; &gt; stejny.
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt; Pokud te dobre chapu, snazis se odescapovat parametry 
+</I>&gt;<i> predevane scp,
+</I>&gt;<i> &gt; &gt; aby
+</I>&gt;<i> &gt; &gt; je neinterpretoval shell, kterym scp poustis. Nebylo by jednodussi
+</I>&gt;<i> &gt; &gt; poustet scp primo (nejakym exec()em treba)?
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt; Hezky vecer,
+</I>&gt;<i> &gt; &gt; -jkt
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Mozna pouziti primo exec by bylo jednodussi ale ja v tom scriptu
+</I>&gt;<i> &gt; zadavam
+</I>&gt;<i> &gt; i heslo, proto potrebuji pouzit ten pexpect modul. Ale 
+</I>&gt;<i> koukal jsem do
+</I>&gt;<i> &gt; zdrojaku pexpect a ten uz predane parametry nijak neupravuje jen je
+</I>&gt;<i> &gt; predava dal. Jakym zpusobem bych tedy mohl &quot;odescapovat&quot; parametry?
+</I>&gt;<i> &gt; Respektive jakym pzusobem bych to mel predate v pripade 
+</I>&gt;<i> pouziti exec?
+</I>&gt;<i> &gt; Protoze s pexpect by to pote melo fungovat stejne.
+</I>&gt;<i> &gt; Diky,
+</I>&gt;<i> &gt; David
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I></PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005387.html">[python] localhost server
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005386.html">[python] localhost server
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5385">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5385">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5385">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5385">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005385.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:53 GMT -->
+</html>

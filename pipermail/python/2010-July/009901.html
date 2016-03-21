@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009901.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:31 GMT -->
+<HEAD>
+   <TITLE> [python] xml.etree.ElementTree , parsování xml
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fxml%3D2Eetree%3D2EElementTree_%3D2C_parsov%3DE1n%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DED_xml%3F%3D&In-Reply-To=%3CAANLkTin465aNCGOiCbPFgHL1eUrjRZFj0QPQWGQHXgnS%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009900.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009902.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] xml.etree.ElementTree , parsování xml</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fxml%3D2Eetree%3D2EElementTree_%3D2C_parsov%3DE1n%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DED_xml%3F%3D&In-Reply-To=%3CAANLkTin465aNCGOiCbPFgHL1eUrjRZFj0QPQWGQHXgnS%40mail.gmail.com%3E"
+       TITLE="[python] xml.etree.ElementTree , parsování xml">petr.messner na gmail.com
+       </A><BR>
+    <I>Úterý Červenec 27 15:39:23 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009900.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009902.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9901">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9901">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9901">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9901">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Když udělám track.find(&quot;name&quot;).text, tak ten text dostanu.
+
+Kód na <A HREF="http://gist.github.com/492225">http://gist.github.com/492225</A> začne vypisovat názvy skladeb.
+
+Mimochodem, pokud máš s XML výstupem z Last.fm problémy, můžeš použít
+nějakou již připravenou knihovnu nebo zkusit JSON výstup (do url
+přidat parametr format=json).
+
+Petr Messner
+
+
+2010/7/27 Visgean Skeloru &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">visgean na gmail.com</A>&gt;:
+&gt;<i> Tak zdrojový kód je tady: <A HREF="http://gist.github.com/492183">http://gist.github.com/492183</A> a parsovaný soubor
+</I>&gt;<i> tady:
+</I>&gt;<i> <A HREF="http://ws.audioscrobbler.com/2.0/?method=library.gettracks&amp;api_key=1851f14522298bf83a76b21c222c8af2&amp;user=Visgean&amp;page=1">http://ws.audioscrobbler.com/2.0/?method=library.gettracks&amp;api_key=1851f14522298bf83a76b21c222c8af2&amp;user=Visgean&amp;page=1</A>
+</I>&gt;<i> , a to o čem já mluvím je na řádce 46:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> print track.find(&quot;name&quot;)
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> což odpovídá xml v tom souboru:
+</I>&gt;<i>
+</I>&gt;&gt;<i> &lt;name&gt;The Ballad Of Chasey Lain&lt;/name&gt;
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> a ještě jedna věc:
+</I>&gt;<i>
+</I>&gt;&gt;<i> &gt;&gt;&gt;print dir(track.find(&quot;name&quot;))
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ['__delitem__', '__delslice__', '__doc__', '__getitem__', '__getslice__',
+</I>&gt;&gt;<i> '__init__', '__len__', '__module__', '__repr__', '__setitem__',
+</I>&gt;&gt;<i> '__setslice__', '_children', 'append', 'attrib', 'clear', 'find', 'findall',
+</I>&gt;&gt;<i> 'findtext', 'get', 'getchildren', 'getiterator', 'insert', 'items', 'keys',
+</I>&gt;&gt;<i> 'makeelement', 'remove', 'set', 'tag', 'tail', 'text']
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> a já prostě nevím jak z toho mam dostat tu hodnotu, k atributům se dostanu -
+</I>&gt;<i> viz řádek 30...
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2010/7/27 Jirka Vejrazka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jirka.vejrazka na gmail.com</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> &gt; Dobrý den, mám tu objekt elementu z modulu xml.etree.ElementTree který
+</I>&gt;&gt;<i> &gt; odpovídá kodu &lt;name&gt;Pepa&lt;/name&gt; ... nevíte jak z toho mam dostat Pepu?
+</I>&gt;&gt;<i> &gt; Zkoušel jsem metody z dokumentace -
+</I>&gt;&gt;<i> &gt; <A HREF="http://docs.python.org/library/xml.etree.elementtree.html">http://docs.python.org/library/xml.etree.elementtree.html</A> ale všechny my
+</I>&gt;&gt;<i> &gt; vracejí nanejvýš atributy, nikoliv však Pepu :( Nevíte někdo jak
+</I>&gt;&gt;<i> &gt; osvobodit
+</I>&gt;&gt;<i> &gt; Pepu z xml klece?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  to je trochu tezke, kdyz nenapises co uz jsi vyzkousel a
+</I>&gt;&gt;<i> nefungovalo. Nevim, jak vypada zbytek tveho XML, ale vyzkousel bych
+</I>&gt;&gt;<i> neco ve stylu:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> et = ElementTree()
+</I>&gt;&gt;<i> data = et.parse(muj_soubor)
+</I>&gt;&gt;<i> names = data.findall('name')
+</I>&gt;&gt;<i> for name in names:
+</I>&gt;&gt;<i>    print name.text
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ale je to jenom strelene od boku, nedal jsi dost informaci.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   Jirka
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009900.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009902.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9901">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9901">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9901">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9901">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009901.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:31 GMT -->
+</html>

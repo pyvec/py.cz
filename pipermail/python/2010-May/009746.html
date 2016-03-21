@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009746.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:35 GMT -->
+<HEAD>
+   <TITLE> [python] parsing souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20parsing%20souboru&In-Reply-To=%3C4BE16ED8.70909%40atlas.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-May/009761.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-May/009748.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] parsing souboru</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20parsing%20souboru&In-Reply-To=%3C4BE16ED8.70909%40atlas.sk%3E"
+       TITLE="[python] parsing souboru">devel na atlas.sk
+       </A><BR>
+    <I>Středa Květen  5 15:12:56 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009761.html">[python] parsing souboru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009748.html">[python] parsing souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9746">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9746">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9746">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9746">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Potesim Vas, z evalu ani z execu sa pokial mi je znamo utiect neda. Teda 
+ak to clovek vie spravit.
+
+staci nieco taketo:
+
+ &gt;&gt;&gt; eval(superNebezpecnyKod, {'__builtins__': {}}, {})
+
+alebo
+
+ &gt;&gt;&gt; exec superNebezpecnyKod in {'__builtins__': {}}, {}
+
+zavisi ale od toho, akym situaciam sa chcete vyhnut.
+
+coho sa nezbavite (ani evalom) je napr nekonecna rekurzia:
+
+ &gt;&gt;&gt; superNebezpecnyKod='(lambda x=(lambda y: y(y)): x(x))()'
+
+to az tak neboli, ak nemate povolenu nejaku prilis hlboku uroven rekurzie.
+
+co tak ale nekonecny cyklus?
+
+ &gt;&gt;&gt; superNebezpecnyKod='(lambda x=[1]: [x.append(1) for i in x])()'
+
+alebo supernarocne operacie?
+
+ &gt;&gt;&gt; superNebezpecnyKod='2**10000000000000000'
+
+vela stastia pri vyuzivani evalu a execu :D
+
+Jan Janech
+
+
+On 05/05/10 14:26, Hynek Fabian wrote:
+&gt;<i> Jan Janech (středa 05 Květen 2010 13:08:49):
+</I>&gt;&gt;<i> Dovolim si oponovat. Vsetko co sa da v pythone v exec spravit pre
+</I>&gt;&gt;<i> narusenie bezpecnosti sa da spravit aj v eval.
+</I>&gt;<i> Jak?
+</I>&gt;<i>
+</I>&gt;<i> eval(x, {}, {})
+</I>&gt;<i>
+</I>&gt;<i> Jakým X se dá z takové konstrukce utéci?
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+-- 
+
+____________________________
+Ing. Jan Janech
+Katedra softverovych technologii
+Fakulta riadenia a informatiky
+Zilinska Univerzita
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009761.html">[python] parsing souboru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009748.html">[python] parsing souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9746">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9746">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9746">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9746">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009746.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:35 GMT -->
+</html>

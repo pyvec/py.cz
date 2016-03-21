@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000369.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] vytvoření serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=389.789-20862-514283842-1155622640%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000368.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000370.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] vytvoření serveru</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=389.789-20862-514283842-1155622640%40seznam.cz"
+       TITLE="[Tutor PyCZ] vytvoření serveru">Jakohv na seznam.cz
+       </A><BR>
+    <I>Úterý Srpen 15 08:26:44 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000368.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000370.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#369">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#369">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#369">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#369">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tadyto je lepší ukázka toho co potřebuju:
+from Tkinter import*
+import socket
+def prijmi():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host = &quot;localhost&quot;
+    port = 1000
+    s.connect((host, port))
+    data=s.recv(1024)
+    text.insert(END,data)
+    s.close()
+        
+okno=Tk()
+prijmi()
+text=Text()
+text.pack()
+mainloop()
+
+Když to normálně pustím a ten server funguje, tak se okno neobjeví. Ale ono by se mělo objevit a každá nová zpráva na serveru by se zobrazila do textu
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Jakub Vojáček &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">Jakohv na seznam.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [Tutor PyCZ] vytvoření serveru
+</I>&gt;<i> Datum: 15.8.2006 08:17:59
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Já vím, ale těch posluchačů bude tolik jako klientů
+</I>&gt;<i> &gt; ------------ Původní zpráva ------------
+</I>&gt;<i> &gt; Od: Pavel Kosina &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">geon na post.cz</A>&gt;
+</I>&gt;<i> &gt; Předmět: Re: [Tutor PyCZ] vytvoření serveru
+</I>&gt;<i> &gt; Datum: 15.8.2006 08:14:20
+</I>&gt;<i> &gt; ----------------------------------------
+</I>&gt;<i> &gt; Jakub Vojáček napsal(a):
+</I>&gt;<i> &gt; &gt; 2)když už teda bude fungovat těch více klientů tak bych chtěl vytvořit
+</I>&gt;<i> &gt; &quot;posluchac.py&quot;. Rekneme, že by to bylo okno v Tk () s Text() a kdyby nějaký
+</I>&gt;<i> &gt; klient něco odeslal, tak by se to co odeslal vložilo do Textu(). 
+</I>&gt;<i> &gt; &gt; dík
+</I>&gt;<i> &gt; &gt;   
+</I>&gt;<i> &gt; pokud ti bude fungovat 1) tak tohle by již neměl být problém. PRostě 
+</I>&gt;<i> &gt; přejmenuješ server.py na posluchač.py. No a pak když máš v proměnné data 
+</I>&gt;<i> &gt; chtěný řetězec, tak ho jednoduše do Text() vložíš. Tuším že 
+</I>&gt;<i> &gt; text.insert(END, data).
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; -- 
+</I>&gt;<i> &gt; geon
+</I>&gt;<i> &gt; Pavel Kosina
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Tutor mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> 
+</I>&gt;<i> Blujacker
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+Blujacker
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000368.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000370.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#369">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#369">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#369">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#369">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000369.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

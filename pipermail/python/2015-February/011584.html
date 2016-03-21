@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011584.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:23 GMT -->
+<HEAD>
+   <TITLE> [python] logging -- matouci chovani
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20logging%20--%20matouci%20chovani&In-Reply-To=%3C54E3CED2.4000002%40sandbox.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011583.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011585.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] logging -- matouci chovani</H1>
+    <B>Vladimir Macek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20logging%20--%20matouci%20chovani&In-Reply-To=%3C54E3CED2.4000002%40sandbox.cz%3E"
+       TITLE="[python] logging -- matouci chovani">macek na sandbox.cz
+       </A><BR>
+    <I>Středa Únor 18 00:29:22 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011583.html">[python] [django-cs] &#9735; Prazske Pyvo #47 &#9735;
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011585.html">[python] Fwd: [django-cs] ? Prazske Pyvo #47 ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11584">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11584">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11584">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11584">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdar,
+
+mozna jste uz taky meli co do cineni s pythonskou hydrou zvanou logging ze
+stdlib. A mozna jste jako ja narazili na chovani, ktere jste necekali a
+pripadalo vam, ze jste blbi. Tyka se i Pythonu samotneho a tak posilam i do
+jeho konference.
+
+Kdyz jsem si chtel nastavit logovani v djangovskem projektu tak, ze ze
+vsech loggeru vsech urovni chci videt hlasky v konzoli, zjistil jsem, ze to
+nejde, i kdyz jsem mel nastaveno disable_existing_loggers na True.
+Dokumentace logging modulu tvrdi, ze v takovem pripade budou existujici
+loggery vypnuty.
+
+Jenze se ukazuje, ze i kdyz je logger vypnuty, neukonci se aplikovani jeho
+nastaveni propagate=False. Takze i vypnuty logger vesele blokuje putovani
+logovane hlasi k root loggeru, ktery jste s nadeji na jednoduchou
+konfiguraci nasmerovali do konzole... A to je pripade loggeru
+django.request a django.security, ktere Django implicitne definuje.
+
+Reportoval jsem jako bug, protoze podle me Django doc je v tomto silne
+zavadejici:
+
+<A HREF="https://code.djangoproject.com/ticket/24361">https://code.djangoproject.com/ticket/24361</A>
+
+Jsou tam i odkazy na stranky, kde se to podrobneji vysvetluje a navrhuje
+reseni s opravdovym resetem loggingu.
+
+Snad to nekomu zachrani hodinu. :-)
+
+-- 
+:<i>  Vladimir Macek  :  <A HREF="http://macek.sandbox.cz/">http://macek.sandbox.cz</A>  :  +420 608 978 164
+</I>:<i>  UNIX &amp;&amp; Dev || Training  :  Python, Django  :  PGP key 97330EBD
+</I>
+
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011583.html">[python] [django-cs] &#9735; Prazske Pyvo #47 &#9735;
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011585.html">[python] Fwd: [django-cs] ? Prazske Pyvo #47 ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11584">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11584">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11584">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11584">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011584.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:23 GMT -->
+</html>

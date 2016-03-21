@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-May/002631.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:28 GMT -->
+<HEAD>
+   <TITLE> RE: [python] některé Pythonovské konstrukce
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_n%3DECkter%3DE9_Pythonovsk%3DE9_konstrukce%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-May/002630.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-May/002632.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] některé Pythonovské konstrukce</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_n%3DECkter%3DE9_Pythonovsk%3DE9_konstrukce%3F%3D&In-Reply-To="
+       TITLE="RE: [python] některé Pythonovské konstrukce">Prikryl na skil.cz
+       </A><BR>
+    <I>Pátek Květen  6 09:29:32 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002630.html">RE: [python] dynamická instance třídy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002632.html">[python] Plone - CMF Calendar
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-May/date.html#2631">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/thread.html#2631">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/subject.html#2631">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/author.html#2631">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jindra Sarson napsal...
+&gt;<i> 
+</I>&gt;<i> předem musím říct, že jsem si Python velmi oblíbil
+</I>&gt;<i> a přijde mi jako super jazyk. Zajímalo by mě ale,
+</I>&gt;<i> proč se tento jazyk, který je ve spoustě oblastí
+</I>&gt;<i> konzistentní a přímočarý uchyluje k dost
+</I>&gt;<i> komplikovaným konstrukcím, které by šly vyřešit
+</I>&gt;<i> určitě lépe.
+</I>
+V podobných případech to bývá věc názoru, vkusu,
+osobních zkušeností... Pokud byste ten jazyk
+implementoval od stejných historických počátků,
+jak to dělal GvR, možná byste se na to díval
+jinak. Samotný postup implementace a vnitřní,
+uživateli neviditelné věci mohou ovlivňovat
+syntaxi. Ačkoliv nové verze Pythonu občas syntaxi
+mělily (dynamičtěji, než jiné známé jazyky), přece
+jen je vhodné dodržovat určitou zpětnou
+kompatibilitu se staršími verzemi. Když se to vše
+prolne a zapadne do sebe, dopadne to tak, jak to
+dopadlo. 
+
+&gt;<i> Mám na mysli např:
+</I>&gt;<i> - definice statické metody přes funkci - tj.
+</I>&gt;<i>   kromě definice fce musím ještě volat funkci
+</I>&gt;<i>   classmethod. Proč se to neřeší např. přes nějaké
+</I>&gt;<i>   klíčové slovo?
+</I>
+Kompilované jazyky vyžadují přísnější strukturu
+zápisu programu, protože se více věcí musí vyřešit
+v době kompilace. Řešení speciálnějších věcí
+vyžaduje zavedení pevnějších, speciálnějších
+konstrukcí. Znamená to často zavedení dalších
+klíčových slov nebo složitější rozpoznávání
+konstrukcí ve zdrojovém textu. 
+
+Čím speciálnější účel klíčové slovo vyjadřuje, tím
+méně se používá a tím má menší oprávněnost pro
+svou existenci (pokud to jde bez něj). 
+
+Vždy se zvažují kompromisy: něco musí patřit do
+jádra jazyka, něco ne (viz C/C++). Čím méně se
+toho nacpe do jádra jazyka, tím pružnější jazyk
+bude při dalším vývoji. Pokud stačí dodat místo
+klíčového slova zabudovanou funkci, pak je vhodné
+dodat spíše zabudovanou funkci. V počátcích se s
+ní lépe experimentuje. Pokud je její použití
+řídké, nebývá stručnější zápis (například pomocí
+klíčového slova nebo speciální syntaktické
+konstrukce) vnímán jako potřebný, nezbytně nutný.
+Jakmile se ukáže obecná životaschopnost a vysoká
+užitečnost nějakého rysu, pak stojí za úvahu
+zavedení speciální syntaxe, která jasný princip
+vyjádří stručněji a přehledněji.
+
+Konkrétně classmethod() a staticmethod() mohou být
+v určitých případech užitečné, ale asi se
+nepoužívají každý den. Samotná konstrukce, kdy se
+voláním podobných funkcí doplňují informace k běžné
+metodě třídy, kdy dochází k nějaké vnitřní změně,
+se ale ukázala jako prakticky požadovaná. Proto se
+autoři Pythonu rozhodli zavést dekorátory
+začínající zavináčem:
+
+  @classmethod
+  def m(cls, a):
+      ...
+
+V podstatě je lze v těchto situacích chápat jako
+klíčová slova, která si ovšem může doplnit sám
+uživatel. Je to něco obecného a nového, co v
+kompilovaných jazycích nenacházíme.
+      
+&gt;<i> - podobně s property
+</I>
+Property jako takové jsou, jak se s oblibou říká,
+&quot;syntaktickým cukrem&quot; a skalní programátoři nad
+takovými věcmi často krčí nos. Skutečností je, že
+při vhodném použití mohou velmi zvýšit čitelnost a
+tím i udržovatelnost programu. Na druhou stranu
+jsou property přece jen věcí v jazycích poměrně
+novou a není tak docela jasné, jak by měl vypadat
+ten &quot;nejsprávnější&quot; zápis za použití těch
+&quot;nejsprávnějších&quot; klíčových slov.
+
+Otázku &quot;Proč neexistuje lepší způsob zápisu?&quot;
+můžeme nahradit otázkou &quot;Jak by měl takový zápis
+konkrétně vypadat?&quot;.
+
+&gt;<i> - podtržítkové zběsilosti - např. při definici
+</I>&gt;<i>   privátní metody - nebylo by opět lepší klíčové
+</I>&gt;<i>   slovo?
+</I>
+Pythonovský přístup v podstatě spočívá v zavedení
+pomůcky, která lépe vynucuje konvenci. Programátor
+nemůže omylem přistupovat k pvkům, které si
+označil jako privátní. Důsledné zavedení
+privátnosti (a dalších úrovní privátnosti) vede ke
+komplikacím v jazyce. Ty mohou mít své výhody u
+kompilovaného jazyka, kde musí být vše řešeno v
+době kompilace. U interpretovaného jazyka, kde lze
+pracovat dynamičtěji, nelze tak dobře zkontrolovat
+záměry programátora. Proto se na něj přenáší více
+zodpovědnosti za zneužití některých možností.
+
+Python je &quot;jiný&quot; než například C++. Vede také k
+jinému stylu práce. Dokud tento styl vyhovuje a
+osvědčuje se, dotud bude vyhovovat i Python. Pokud
+je lepší použít pro určitou věc jiný jazyk, nechť
+je použit jiný jazyk.
+
+&gt;<i> ... našly by se i další věci. Zajímalo by mě, jaký
+</I>&gt;<i> byl důvod k zavedení těchto konstrukcí. Podle mě
+</I>&gt;<i> dost znepřehledňují kód. Je důvodem co nejmenší
+</I>&gt;<i> počet klíčových slov, nebo něco jiného?
+</I>
+Bylo by dobré uvést konkrétní příklad a diskutovat
+nad jeho řešením. Jiné debaty jsou podobně
+akademické, jako &quot;kolik andělů se vleze na špičku
+jehly&quot;.
+
+Petr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002630.html">RE: [python] dynamická instance třídy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002632.html">[python] Plone - CMF Calendar
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-May/date.html#2631">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/thread.html#2631">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/subject.html#2631">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/author.html#2631">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-May/002631.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:28 GMT -->
+</html>

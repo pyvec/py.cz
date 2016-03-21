@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005476.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:29 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s regularnym vyrazom
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20regularnym%20vyrazom&In-Reply-To=45C1F5FF.5080403%40radiante-corp.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005474.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005479.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s regularnym vyrazom</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20regularnym%20vyrazom&In-Reply-To=45C1F5FF.5080403%40radiante-corp.com"
+       TITLE="[python] Problem s regularnym vyrazom">RMiklos na pss.sk
+       </A><BR>
+    <I>Čtvrtek Únor  1 15:28:39 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005474.html">[python] Problem s regularnym vyrazom
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005479.html">[python] Problem s regularnym vyrazom
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5476">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5476">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5476">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5476">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No ano, ale ak tam je iba jedno CREATE TABLE(...) tak to nemusi byt 
+ukoncene so strednikom ;
+
+Ja som zatial obisiel ten regularny vyraz tak, ze este ked vsetko 
+nacitavam do stringu, preventivne hladam prvy strednik zlava a ak tam je, 
+tak vsetko od neho napravo odstranim
+
+    idx_1st_semicolon=sql_statement.find(';')
+    if idx_1st_semicolon &gt; 0:
+      sql_statement=sql_statement[:idx_1st_semicolon]
+
+No aj tak by ma zaujimal ten problem s regularnym vyrazom, pretoze som 
+skusal aj non greedy ale to pracuje uplne zle.
+
+
+
+
+Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos na radiante-corp.com</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+01.02.2007 15:15
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+Re: [python] Problem s regularnym vyrazom
+
+
+
+
+
+
+Zdravim,
+
+ja bych to asi nelamal pres koleno a udelal bych tohle:
+
+re.compile(r&quot;^\s*CREATE\s+TABLE\s+&quot;
+           r&quot;(?P&lt;library&gt;[A-Z0-9]+)\s*[/.]\s*(?P&lt;file&gt;[A-Z0-9]+)\s*&quot;
+           r&quot;\((?P&lt;tbl_field_def&gt;[^;]*)\)&quot;)
+
+tzn: Kazde sql query je ukonceno strednikem.....
+
+Leo
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A> wrote:
+&gt;<i> Rad by som tymto oslovil odbornikov na regularne vyrazy.
+</I>&gt;<i>
+</I>&gt;<i> Extrahujem datove polia tabulky cez regularny vyraz takto:
+</I>&gt;<i> --------------------------- skript ---------------------------
+</I>&gt;<i> import sys,re
+</I>&gt;<i>
+</I>&gt;<i> sql_statement='''CREATE TABLE IBPDDB071/R004660V
+</I>&gt;<i> (PERSONNR    DECIMAL     (10, 0)    NOT NULL WITH DEFAULT, LFDNR1 
+</I>DECIMAL 
+&gt;<i>   (3, 0)     NOT NULL WITH DEFAULT, VOTYP       CHARACTER   (1) NOT 
+</I>&gt;<i> NULL WITH DEFAULT, BSSTAMMNR   DECIMAL     (7, 0)     NOT NULL WITH 
+</I>&gt;<i> DEFAULT,BSVNR       DECIMAL     (2, 0)     NOT NULL WITH DEFAULT );'''
+</I>&gt;<i> regexp_sql_create=\
+</I>&gt;<i> re.compile(r&quot;^\s*CREATE\s+TABLE\s+&quot;
+</I>&gt;<i>            r&quot;(?P&lt;library&gt;[A-Z0-9]+)\s*[/.]\s*(?P&lt;file&gt;[A-Z0-9]+)\s*&quot;
+</I>&gt;<i>            r&quot;\((?P&lt;tbl_field_def&gt;.*)\)\s*&quot;)
+</I>&gt;<i>
+</I>&gt;<i> result=regexp_sql_create.search(sql_statement)
+</I>&gt;<i> if result == None:
+</I>&gt;<i>   # CREATE TABLE statement not valid ! 
+</I>&gt;<i>   print &quot;SQL CREATE TABLE statement is not valid !!!&quot;
+</I>&gt;<i>   sys.exit()
+</I>&gt;<i> else:
+</I>&gt;<i>   # Parse data from RegExp
+</I>&gt;<i>   library=result.group('library')
+</I>&gt;<i>   print &quot;Library=%s&quot; % library
+</I>&gt;<i>   table=result.group('file')
+</I>&gt;<i>   print &quot;Table=%s&quot; %table
+</I>&gt;<i>   table_field_def=result.group('tbl_field_def')
+</I>&gt;<i>   print &quot;Field Definitions=%s&quot; % table_field_def
+</I>&gt;<i> ------------------------ konec skriptu ------------------------
+</I>&gt;<i>
+</I>&gt;<i> Potom definicie dat. poli dalej pracovavam. 
+</I>&gt;<i> Toto by fungovalo, az na to ze SQL-skript je vygenerovany a okrem CREATE 
+</I>
+&gt;<i> TABLE (...); moze obsahovat aj LABEL ON (...);
+</I>&gt;<i> takze moze vyzerat takto:
+</I>&gt;<i>
+</I>&gt;<i> sql_statement='''CREATE TABLE IBPDDB071/R004660V
+</I>&gt;<i> (PERSONNR    DECIMAL     (10, 0)    NOT NULL WITH DEFAULT, LFDNR1 
+</I>DECIMAL 
+&gt;<i>   (3, 0)     NOT NULL WITH DEFAULT, VOTYP       CHARACTER   (1) NOT 
+</I>&gt;<i> NULL WITH DEFAULT, BSSTAMMNR   DECIMAL     (7, 0)     NOT NULL WITH 
+</I>&gt;<i> DEFAULT,BSVNR       DECIMAL     (2, 0)     NOT NULL WITH DEFAULT ); 
+</I>Label 
+&gt;<i> on IBPDDB071/R004660V(PERSONNR   IS 'PERSONNR', LFDNR1     IS 'LFDNR1', 
+</I>&gt;<i> VOTYP      IS 'VOTYP', BSSTAMMNR  IS 'BSSTAMMNR', BSVNR      IS 
+</I>&gt;<i> 'BSVNR');'''
+</I>&gt;<i>
+</I>&gt;<i> Vtedy mi horeuvedeny regexp matchuje (pretoze je greedy) vsetko, takze 
+</I>&gt;<i> rozpozna vsetko od 'CREATE TABLE(' az po poslednu zatvorku ')' stringu 
+</I>&gt;<i> t.j. '..); LABEL ON(..' ale ja potrebujem aby rozpoznal len to co je v 
+</I>&gt;<i> tele CREATE TABLE. 
+</I>&gt;<i>
+</I>&gt;<i> Vie mi niekto poradit ako napisat ten regularny vyraz aby robil co 
+</I>&gt;<i> potrebujem?
+</I>&gt;<i> Mgr. Ing. Roman MIKLÓŠ 
+</I>&gt;<i> Prvá stavebná sporiteľňa a.s. 
+</I>&gt;<i> Bajkalská 30, P. O. Box 48 
+</I>&gt;<i> 829 48  Bratislava 25 
+</I>&gt;<i> Tel.: +421/ 2 / 582 31 174 
+</I>&gt;<i> Fax: +421/ 2 / 582 31 109 
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005474.html">[python] Problem s regularnym vyrazom
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005479.html">[python] Problem s regularnym vyrazom
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5476">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5476">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5476">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5476">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005476.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:29 GMT -->
+</html>

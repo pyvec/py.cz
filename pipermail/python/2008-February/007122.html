@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-February/007122.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:43 GMT -->
+<HEAD>
+   <TITLE> [python] jak vyplnit formulář
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fjak_vyplnit_formul%3DC3%3DA1%3DC5%3D99%3F%3D&In-Reply-To=47C2880F.9000601%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-February/007118.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-February/007123.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] jak vyplnit formulář</H1>
+    <B>&quot;V.Segeďa&quot;</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fjak_vyplnit_formul%3DC3%3DA1%3DC5%3D99%3F%3D&In-Reply-To=47C2880F.9000601%40post.cz"
+       TITLE="[python] jak vyplnit formulář">v.segeda na madalbal.cz
+       </A><BR>
+    <I>Pondělí Únor 25 20:55:28 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-February/007118.html">[python] jak vyplnit formulář
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-February/007123.html">[python] jak vyplnit formulář
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-February/date.html#7122">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/thread.html#7122">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/subject.html#7122">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/author.html#7122">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Na vypĺňanie formulárov používam buď twill - <A HREF="http://twill.idyll.org/">http://twill.idyll.org/</A> 
+alebo zope.testbrowser - <A HREF="http://pypi.python.org/pypi/zope.testbrowser">http://pypi.python.org/pypi/zope.testbrowser</A>
+twill je veľmi jednoduchý a elegantný, ale zdá sa, že má isté obmedzenia.
+Zato testbrowser funguje spoľahlivo:
+
+# -*- coding: utf-8 -*-
+from zope.testbrowser.browser import Browser
+browser = 
+Browser('<A HREF="http://spreadsheets.google.com/viewform?key=piYHG7JxUHxstW-8oPftQHQ'">http://spreadsheets.google.com/viewform?key=piYHG7JxUHxstW-8oPftQHQ'</A>)
+
+form = browser.getForm()
+form.getControl(name='single:7').value = 'Honza Nový'
+form.getControl(name='single:8').value = 'Nová Ves'
+c = form.getControl(name='group:2')
+print c.options
+
+    [' žloutenka typu A', ' žloutenka typu B', ' žloutenka typu C']
+
+c.getControl(value=' žloutenka typu C').selected = True
+form.getControl(name='group:3').value = ['premenstruční syndrom', 'zánět 
+močového měchýře']
+form.getControl(name='single:5').value = 'pěkný příklad'
+form.submit()
+print browser.contents
+
+    &lt;!DOCTYPE HTML PUBLIC ...
+    &lt;title&gt;Děkujeme!&lt;/title&gt;
+    ...
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-February/007118.html">[python] jak vyplnit formulář
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-February/007123.html">[python] jak vyplnit formulář
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-February/date.html#7122">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/thread.html#7122">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/subject.html#7122">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/author.html#7122">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-February/007122.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:43 GMT -->
+</html>

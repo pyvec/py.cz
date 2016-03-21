@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008726.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:45 GMT -->
+<HEAD>
+   <TITLE> [python] Skript v linuxu a zapis do jine konzole nez v ktere	bezi
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Skript%20v%20linuxu%20a%20zapis%20do%20jine%20konzole%20nez%20v%20ktere%0A%09bezi&In-Reply-To=%3C200903101548.45490.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-March/008725.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-March/008727.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Skript v linuxu a zapis do jine konzole nez v ktere	bezi</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Skript%20v%20linuxu%20a%20zapis%20do%20jine%20konzole%20nez%20v%20ktere%0A%09bezi&In-Reply-To=%3C200903101548.45490.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] Skript v linuxu a zapis do jine konzole nez v ktere	bezi">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Úterý Březen 10 15:48:45 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008725.html">[python] Skript v linuxu a zapis do jine konzole nez v ktere bezi
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008727.html">[python] py2exe, nereagující Qt program
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8726">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8726">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8726">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8726">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>1) pracny reseni - delat to rucne vsude kde chci
+
+	fd = open(&quot;/dev/ttyS0&quot;)
+	print &gt;&gt; fd, &quot;ahoj svete&quot;
+
+ciste pro uplnost, nepredpokladam ze by nekdo chtel takovou vec delat :-)
+
+2) jednoduchy reseni - grep a tee
+
+	somecommand | tee /dev/stderr | grep &quot;IMPORTANT&quot; &gt; /dev/ttyS0
+
+cely vystup skonci ve stderr, IMPORTANT radky v seriaci. 0% prace, 100% unix
+
+3) spravny reseni (IMO) - syslog
+python ma prekvapive modul syslog. je to vic prace, ale ta by sla udelat z 
+vetsi casti nejakym tim regexem. o schopnostech syslogu se snad rozepisovat 
+nemusim.
+
+Urcite by se dalo vymyslet N jinych zpusobu, tohle jsou prvni tri co me 
+napadly.
+	hynek
+
+sebastian (10.3.09):
+&gt;<i> Zdravim,
+</I>&gt;<i> netusite nekdo jestli jde ve skriptu spustenem v linuxu psat do jine
+</I>&gt;<i> konzole nez ve ktere skript bezi? Prihlasim se k masine pres ssh, a
+</I>&gt;<i> spustim skript ktery pomoci print vypisuje hlaseni do ssh konzole v
+</I>&gt;<i> ktere bezi ale hodilo by se mi nektere zpravy vypisovat i v zakladni
+</I>&gt;<i> konzoli ktera v tomto pripade bezi na seriovem portu. Neni problem
+</I>&gt;<i> zapsat primo do portu ale ja do te prvni konzole smeruji vsechny bezne
+</I>&gt;<i> zpravy ostatnich programu (rozhrani bezi/nebezi apod.) takze by mne
+</I>&gt;<i> zajimalo nejake ciste systemove reseni pokud existuje.
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008725.html">[python] Skript v linuxu a zapis do jine konzole nez v ktere bezi
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008727.html">[python] py2exe, nereagující Qt program
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8726">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8726">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8726">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8726">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008726.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:45 GMT -->
+</html>

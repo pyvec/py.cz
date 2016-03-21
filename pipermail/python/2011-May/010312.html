@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010312.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:53 GMT -->
+<HEAD>
+   <TITLE> [python] Optimalizace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Optimalizace&In-Reply-To=%3CBANLkTi%3DLv0t8%2BEf9c8%3DEnvVfecT5HcTVFw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-May/010311.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-May/010313.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Optimalizace</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Optimalizace&In-Reply-To=%3CBANLkTi%3DLv0t8%2BEf9c8%3DEnvVfecT5HcTVFw%40mail.gmail.com%3E"
+       TITLE="[python] Optimalizace">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Pondělí Květen  2 14:17:28 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010311.html">[python] Optimalizace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010313.html">[python] Optimalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10312">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10312">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10312">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10312">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Me to napada, ale nejsem ted bohuzel u PC a na mobilu se kod pise spatne.
+
+  Kazdopadne bych zrusil &quot;while True&quot; a test na deleni ctyrmi, udelal
+bych si promennou &quot;idx&quot; a z &quot;dat&quot; bych bral [I:i+3], ktere bych pak
+poslal funkci, ktera by spocitala dane 32-bitove cislo a
+
+  Pokud by ani to rychlostne nestacilo, zkusil bych ten cyklus dat na
+starost necemu z itertools a pripadne to jeste zrychlit pomoci psyco.
+
+  Jirka
+
+
+On 02/05/2011, <A HREF="http://www.py.cz/mailman/listinfo/python">mol-python at seznam.cz</A> &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mol-python at seznam.cz</A>&gt; wrote:
+&gt;<i>
+</I>&gt;<i> Čistě v Pythonu existujou věci jako array a struct moduly
+</I>&gt;<i> <A HREF="http://docs.python.org/library/array.html">http://docs.python.org/library/array.html</A>
+</I>&gt;<i> <A HREF="http://docs.python.org/library/struct.html">http://docs.python.org/library/struct.html</A>
+</I>&gt;<i> numpy neznám, náhledem do dokumentace mě zaujal memmap
+</I>&gt;<i> <A HREF="http://docs.scipy.org/doc/numpy/reference/generated/numpy.memmap.html">http://docs.scipy.org/doc/numpy/reference/generated/numpy.memmap.html</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;&gt;<i> Od: Radek Machulka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">radek.machulka at gmail.com</A>&gt;
+</I>&gt;&gt;<i> Předmět: [python] Optimalizace
+</I>&gt;&gt;<i> Datum: 02.5.2011 11:36:14
+</I>&gt;&gt;<i> ----------------------------------------
+</I>&gt;&gt;<i> Zdravim,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> v souboru mam (krom jineho) ulozene 2D pole cisel.  Cisla jsou 32bit float
+</I>&gt;&gt;<i> a
+</I>&gt;&gt;<i> jsou rozdelena vzdy do 4 po sobe jdoucich bytu.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Pro vytvoreni pozadovaneho pole hodnot mam nasledujici funkci (informaci o
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> rozmerech mam z jineho mista v souboru):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> from numpy import array
+</I>&gt;&gt;<i> from numpy import reshape
+</I>&gt;&gt;<i> from numpy import float32
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def createMatrix(dat, shape):
+</I>&gt;&gt;<i> 	lst = []
+</I>&gt;&gt;<i> 	i = 0
+</I>&gt;&gt;<i> 	while True:
+</I>&gt;&gt;<i> 		try:
+</I>&gt;&gt;<i> 			if i % 4 == 0:
+</I>&gt;&gt;<i> 				lst.append(float(ord(dat[i]) &lt;&lt; 3 * 8 | ord(dat[i + 1]) &lt;&lt;
+</I>&gt;&gt;<i> 2 * 8 | ord(dat[i + 2]) &lt;&lt; 1 * 8 | ord(dat[i + 3])))
+</I>&gt;&gt;<i> 			i = i + 1
+</I>&gt;&gt;<i> 		except IndexError:
+</I>&gt;&gt;<i> 			break
+</I>&gt;&gt;<i> 	return array(lst, float32).reshape(shape)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Funkce funguje, ale je prilis pomala. Napada nekoho jak  to cele napsat
+</I>&gt;&gt;<i> vykonove optimalneji.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dik
+</I>&gt;&gt;<i> Radek
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010311.html">[python] Optimalizace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010313.html">[python] Optimalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10312">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10312">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10312">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10312">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010312.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:53 GMT -->
+</html>

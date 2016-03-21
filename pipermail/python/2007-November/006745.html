@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006745.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=473D9855.3090202%40radiante-corp.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006739.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006746.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Tomy novella</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=473D9855.3090202%40radiante-corp.com"
+       TITLE="[python] sockety - problem s HTTP spojenim">tomasnovella na gmail.com
+       </A><BR>
+    <I>Pátek Listopad 16 19:37:37 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006739.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006746.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6745">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6745">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6745">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6745">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>Přečti si kdyžtak něco o TCP/IP na úrovni socketů a programování v C a
+</I>&gt;<i>dojdeš osvícení
+</I>
+Věroš: nooo ako tak citam o TCP/IP, zamotavam sa do toho hlbsie a
+hlbsie a nakoniec zistujem, ze neviem totalne nic ;-) nechapem naco
+vymysleli ten model ISO/OSI a naco rozlisuju tolko medzi tolkymi tymi
+vrstvami. kazdopadne to osvietenie tak skoro nepride :)
+
+co som sa vsak chcel spytat, je, ze:
+
+- skusam si spravit klienta na telnet, resp. chcem, aby ma to
+pripojilo na atlantis.talker.sk problemom vsak je, ze
+nefunguje(nedokaze komunikovat) ;( what`s wrong?
+-----------------------
+import socket, string
+clisock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+clisock.connect(('atlantis.talker.sk', 23))
+
+while 1:
+    data = clisock.recv(65536) # nechce sa mi to bufferovat ;)
+    for riadok in data.split('\r\n'):
+        print riadok
+    a = raw_input('napis text: ')
+    if(a == 'qq'):
+        print &quot;ukoncujem spojenie&quot;
+        clisock.close()
+        exit # ak napisem  'qq' skonci sa mi program
+    clisock.send(a)
+-----------------------------
+
+
+
+
+
+2007/11/16, Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos na radiante-corp.com</A>&gt;:
+&gt;<i> Uz jsem dlouho lowlevel sockety nepsal, tak doufam, ze nebudu psat blaboly.
+</I>&gt;<i> Fce socket.listen neceka na prichozi spojeni, ale rekne systemu, ze chci
+</I>&gt;<i> poslouchat na portu, ktery jsem si predtim nabindoval (socket.bind).
+</I>&gt;<i> Samotne cekani na prichozi spojeni se dela pomoci socket.accept - tato
+</I>&gt;<i> funkce opravdu zastavi beh programu, dokud se nejaky klient nepripoji.
+</I>&gt;<i> Jakmile se tak stane, tak se prijme spojeni a vrati se novy socket,
+</I>&gt;<i> pomoci ktereho pak probiha komunikace. Z toho plyne, ze dokud nezavolam
+</I>&gt;<i> accept, tak se mi prichozi spojeni radi do fronty, ktera je dlouha jak
+</I>&gt;<i> urcuje parametr &quot;backlog&quot; v socket.listen. Pokud je fronta plna, tak je
+</I>&gt;<i> spojeni okamzite odmitnuto.
+</I>&gt;<i>
+</I>&gt;<i> Leo
+</I>&gt;<i>
+</I>&gt;<i> Tomy novella wrote:
+</I>&gt;<i> &gt; oka thx za ojasnenie celej veci :)
+</I>&gt;<i> &gt; este mi neda spat, ze co robi sock.listen(argument) ? naco je ten
+</I>&gt;<i> &gt; argument? listen je asi na cakanie na spojenie s klientom, ale naco
+</I>&gt;<i> &gt; ten argument? :) v dokumentacii som to velmi nepochopil :(
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; 2007/11/15, Ondrej Beran &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">ondrej.beran na gmail.com</A>&gt;:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt; 2007/11/15, Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos na radiante-corp.com</A>&gt;:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; BTW: kdysi davno jsem to taky zkousel a nepodarilo se mi apache donutit,
+</I>&gt;<i> &gt;&gt;&gt; aby mi odpovidal v HTTP/1.0
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt; Ono to ani nejde, protoze to cislo je treba interpretovat jinak viz
+</I>&gt;<i> &gt;&gt; RFC 2616 kapitola 3.1:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;    The HTTP version of an application is the highest HTTP version for
+</I>&gt;<i> &gt;&gt;    which the application is at least conditionally compliant.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; A protoze v tom ma hodne lidi zmatek, vznikla dokonce extra
+</I>&gt;<i> &gt;&gt; vysvetlujici RFC 2145
+</I>&gt;<i> &gt;&gt; &quot;Use and Interpretation of HTTP Version Numbers&quot;, kde to v kapitole
+</I>&gt;<i> &gt;&gt; 2.3 v podstate jen opakuji:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;    An HTTP server SHOULD send a response version equal to the highest
+</I>&gt;<i> &gt;&gt;    version for which the server is at least conditionally compliant, and
+</I>&gt;<i> &gt;&gt;    whose major version is less than or equal to the one received in the
+</I>&gt;<i> &gt;&gt;    request.  An HTTP server MUST NOT send a version for which it is not
+</I>&gt;<i> &gt;&gt;    at least conditionally compliant.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; HTH, Ondrej
+</I>&gt;<i> &gt;&gt; _______________________________________________
+</I>&gt;<i> &gt;&gt; Python mailing list
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> ----
+</I>&gt;<i> Leos Pol
+</I>&gt;<i> Team Leader
+</I>&gt;<i> Radiante Corp.
+</I>&gt;<i>
+</I>&gt;<i> If it can be imagined,
+</I>&gt;<i> we can implement it
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+-- 
+PS: prosim v mailoch tykat! nie vykat ;)
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">Tom na sQo</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">tomasnovella na gmail.com</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006739.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006746.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6745">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6745">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6745">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6745">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006745.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+</html>

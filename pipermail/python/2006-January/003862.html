@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003862.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:57 GMT -->
+<HEAD>
+   <TITLE> [python] vim/gvim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vim/gvim&In-Reply-To=43BA30E8.6020904%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-January/003853.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-January/003979.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vim/gvim</H1>
+    <B>j_p_misc na centrum.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vim/gvim&In-Reply-To=43BA30E8.6020904%40post.cz"
+       TITLE="[python] vim/gvim">j_p_misc na centrum.cz
+       </A><BR>
+    <I>Úterý Leden  3 20:06:15 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003853.html">[python] vim/gvim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003979.html">[python] vim/gvim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3862">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3862">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3862">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3862">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+&gt;<i> predesle &gt;editace na jinem miste, &gt;
+</I>&gt;<i> To by mne zajímalo, jak to myslíš, jak se to dělá?
+</I>&gt;<i> 
+</I>&gt;<i> &gt;pro me dulezite moznosti zvysovani konstant, &gt;
+</I>&gt;<i> To taky :-)
+</I>
+No, napriklad mas pod sebou nadefinovane nejake konstanty a potrebujes 
+je zvetsit o 5, abys mohl vsunout dalsi. Presunes kurzor na prvni z nich,
+das 5^A a pak delas jenom j. a zvetsis tak vsechny konstanty pod sebou. 
+Tecka opakuje i dalsi operace, jako je vkladani textu, nahrazovani apod. Dobre
+je to, ze jinak bere operace &quot;fyzicke&quot; (nahrad 5 znaku nasledujicim textem: 5s)
+a jinak zase operace logicke (nahrad znaky do konce slova nasledujicim textem:
+ce).
+
+Jinak, makra asi predstavovat nemusim, snad jenom tolik, ze makro se da opet
+provest opakovane - napr. <A HREF="http://www.py.cz/mailman/listinfo/python">10 na a</A>, pokud chceme udelat nejakou operaci 10x pod
+sebou na nejakem pravidelnem textu (makro musi obsahovat i ten pohyb).
+
+Prohnani celeho souboru externim filtrem (aspon na *nixu): 
+
+:<i>%!sort
+</I>
+Nahrazeni textu:
+
+Pepa je rizek.
+Karel je rizek.
+Franta je rizek.
+
+Vybereme ty tri radky, dame:
+
+:<i>'&lt;,'&gt;s/\(\w\+\).*/Velky \1 a maly \1/
+</I>
+a vysledek je:
+
+Velky Pepa a maly Pepa
+Velky Karel a maly Karel
+Velky Franta a maly Franta
+
+Atd. atp.
+
+&gt;<i> Jo jo, CTRL+V fungovalo, já to znal i předtím, ale furt jsem pak chtěl
+</I>&gt;<i> používat myš nebo Shifh+šipky. Bez shiftu to označení jde. Myslím pod
+</I>&gt;<i> Linuxem. Pod Windows se mi to nepodařilo, CTRL+V furt vkládá schránku.
+</I>
+Predevsim je potreba si ve _vimrc zakomentovat
+
+&quot;behave mswin
+
+a mozna i
+
+&quot;source $VIMRUNTIME/mswin.vim
+
+&gt;<i> &gt;Ale casto &gt;existuji ve vimu rychlejsi zpusoby provedeni nejake akce nez
+</I>&gt;<i> pomoci vyberu &gt;sipkami.
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> To by mi zajímalo, jak jinak smazat sloupcový blok (první dva sloupce z
+</I>&gt;<i> celého dokumentu)
+</I>
+Jak uz psal V. Hula, pomoci pomoci gg^VlGd apod.
+
+&gt;<i> 
+</I>&gt;<i> &gt; mam konfiguraci docela slozitou a na spoustu veci nemam copyright, ale
+</I>&gt;<i> &gt;zkusim ti zitra vecer neco zajimaveho vytahnout, pokud mas zajem.
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> jo, mám, pokud by šlo vyseparovat nastavení pro Python - já bych to pak i
+</I>&gt;<i> hodil na wiki
+</I>&gt;<i> 
+</I>&gt;<i> Díky
+</I>&gt;<i> 
+</I>&gt;<i> -- geon
+</I>&gt;<i> Vyjímka je pravidlo.
+</I>&gt;<i> 
+</I>
+No, ja osobne pouzivam treba:
+
+&quot; nastaveni barevneho schematu, zruseni toolbaru a menu
+colorscheme darkblue
+set guioptions-=T
+set guioptions-=m
+
+&quot; inkrementalni vyhledavani zadaneho textu, zvyrazneni hledaneho textu
+set incsearch
+set hlsearch
+
+dale:
+
+set expandtab           &quot; simulate tab with spaces
+set shiftwidth=4        &quot; number of spaces to use for each step of indent
+set laststatus=2        &quot; always show the status line
+
+Ty moje konfiguracni soubory jsou z velke casti zdedene a z meho hlediska
+je v nich dost nepotrebnych veci, takze tohle by pro zacatek asi stacilo. 
+
+Osvedcil se mi napriklad i plugin TabBar.
+
+Mam ale pocit, ze tady jsou &quot;zaslouzilejsi&quot; uzivatele vimu, takze treba prispeji
+necim lepsim.
+
+JP
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003853.html">[python] vim/gvim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003979.html">[python] vim/gvim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3862">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3862">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3862">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3862">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003862.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:57 GMT -->
+</html>

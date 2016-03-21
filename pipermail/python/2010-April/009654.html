@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009654.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:43 GMT -->
+<HEAD>
+   <TITLE> [python] Záměna funkce v instanci objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZ%3DE1m%3DECna_funkce_v_instanci_objektu%3F%3D&In-Reply-To=%3Ci2l67c97cd91004200155k788f3a5amb0dd04da192331e9%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009647.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009656.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Záměna funkce v instanci objektu</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZ%3DE1m%3DECna_funkce_v_instanci_objektu%3F%3D&In-Reply-To=%3Ci2l67c97cd91004200155k788f3a5amb0dd04da192331e9%40mail.gmail.com%3E"
+       TITLE="[python] Záměna funkce v instanci objektu">petr.messner na gmail.com
+       </A><BR>
+    <I>Úterý Duben 20 10:55:14 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009647.html">[python] Záměna funkce v instanci objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009656.html">[python] Záměna funkce v instanci objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9654">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9654">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9654">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9654">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Existuje jiný způsob, než změna typu za běhu:
+
+
+class A:
+    def b(self, x):
+        self.x = x
+    def c(self):
+        return self.x
+
+a = A()
+a.b(42)
+assert  a.x == 42
+
+class Proxy:
+    def __init__(self, obj):
+        self.__dict__[&quot;_obj&quot;] = obj
+    def __getattr__(self, name):
+        return getattr(self._obj, name)
+    def __setattr__(self, name, value):
+        return setattr(self._obj, name, value)
+
+class A2 (Proxy):
+    def b(self, x):
+        self.x = x+1
+
+a = A2(a)
+a.b(42)
+assert a.x == 43
+assert a.x == a.c()  # dukaz, ze se to priradi skutecne objektu tridy A
+
+
+Schválně, co to je - já myslím, že je to návrhový vzor dekorátor :)
+
+Nevýhoda je v tom, že když se takto vytvoří delší řetěz objektů, stoupá režie.
+
+Nebo pokud opravdu chcete mít takto dynamický objekt, možná by bylo
+lepší nepoužívat přímo Python objekt, ale naimplementovat si ho
+vlastními silami pomocí slovníku a obalu, který při zavolání metody
+vezme funkci ze slovníku (klíčem je název) a zavolá ji se sebou samým
+jako první parametr té funkce.
+
+PM
+
+2010/4/20 302302 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">302302 na centrum.cz</A>&gt;:
+&gt;<i>
+</I>&gt;<i> Mám nadefinovanou třídu
+</I>&gt;<i>
+</I>&gt;<i> class tridaA():
+</I>&gt;<i>        def b(self,x):
+</I>&gt;<i>              self.x=x
+</I>&gt;<i>
+</I>&gt;<i> vytvořím její instanci
+</I>&gt;<i>
+</I>&gt;<i> a=tridaA()
+</I>&gt;<i>
+</I>&gt;<i> místo metody b, ale chci, aby se vždy v tomto objektu zavolala funkce c, která je nadefinována někde mimo:
+</I>&gt;<i>
+</I>&gt;<i> def c(self, x):
+</I>&gt;<i>         self.x = x+1
+</I>&gt;<i>
+</I>&gt;<i> Pokud to ale pouze přiřadím a zavolám
+</I>&gt;<i>
+</I>&gt;<i> a.b=c
+</I>&gt;<i> a.b(1)
+</I>&gt;<i>
+</I>&gt;<i> tak se do parametru self automaticky nepřiřazuje daný objekt a.
+</I>&gt;<i>
+</I>&gt;<i> Jak můžu zaměnit funkce ve vytvořené instanci objektu, aby se to chovalo jako běžná metoda?
+</I>&gt;<i>
+</I>&gt;<i> Czenek
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009647.html">[python] Záměna funkce v instanci objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009656.html">[python] Záměna funkce v instanci objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9654">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9654">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9654">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9654">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009654.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:43 GMT -->
+</html>

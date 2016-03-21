@@ -1,0 +1,325 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/006046.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:49 GMT -->
+<HEAD>
+   <TITLE> [python] XML
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML&In-Reply-To=ea2fac0d0706140115t670767a0sa0da80f2bb3cfdb5%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-June/006045.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-June/006048.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] XML</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML&In-Reply-To=ea2fac0d0706140115t670767a0sa0da80f2bb3cfdb5%40mail.gmail.com"
+       TITLE="[python] XML">RMiklos na pss.sk
+       </A><BR>
+    <I>Čtvrtek Červen 14 12:52:18 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006045.html">[python] XML, amara
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006048.html">[python] XML
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#6046">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#6046">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#6046">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#6046">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>nevim jak napsat to prohledavani.
+</I>&gt;<i>parser by mel umet podle nejake podminky i vyhledavat ne? 
+</I>&gt;<i>nejak sem to tam nenasel
+</I>&gt;<i>bo to nejak pres cyklus cely prochazet? 
+</I>
+Pouzil som doteraz len standardne moduly: xml.sax a xml.dom.
+Co sa tyka prechadzania dokumentu je to podla toho ci pouzijes SAX- alebo 
+DOM-parser.
+Pri SAXe sa nadefinujeje trieda pre handler a pri DOMe sa to da prechadzat 
+v cykle
+for node in doc.getElementsByTagName(...)
+
+Ale najlepsi je konkretny priklad.
+
+Majme tento xml-subor so zoznamom knih
+-------------------------------------------------------
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;windows-1250&quot;?&gt;
+&lt;catalog&gt;
+  &lt;book isbn=&quot;1-56592-724-9&quot;&gt;
+    &lt;title&gt;The Cathedral &amp;amp; the Bazaar&lt;/title&gt;
+    &lt;author&gt;Eric S. Raymond&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;1-56592-051-1&quot;&gt;
+    &lt;title&gt;Making TeX Work&lt;/title&gt;
+    &lt;author&gt;Norman Walsh&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-247-0367-X&quot;&gt;
+    &lt;title&gt;Naučte se Python&lt;/title&gt;
+    &lt;author&gt;Mark Lutz &amp;amp; David Ascher&lt;/author&gt;
+  &lt;/book&gt; 
+  &lt;book isbn=&quot;63-558-81&quot;&gt;
+    &lt;title&gt;Kompilátory čislicových počítačov&lt;/title&gt;
+    &lt;author&gt;David Gries&lt;/author&gt;
+  &lt;/book&gt; 
+  &lt;book isbn=&quot;80-05-00153-3&quot;&gt;
+    &lt;title&gt;Algoritmy a štruktúry údajov&lt;/title&gt;
+    &lt;author&gt;Niklaus Wirth&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-05-00153-3&quot;&gt;
+    &lt;title&gt;Algoritmy a štruktúry údajov&lt;/title&gt;
+    &lt;author&gt;Niklaus Wirth&lt;/author&gt;
+  &lt;/book&gt; 
+  &lt;book isbn=&quot;80-7226-799-X&quot;&gt;
+    &lt;title&gt;Začínáme programovat v jazyce Python&lt;/title&gt;
+    &lt;author&gt;Daryl Harms &amp;amp; Kenneth McDonald&lt;/author&gt;
+  &lt;/book&gt; 
+  &lt;book isbn=&quot;80-251-0343-9&quot;&gt;
+    &lt;title&gt;Algoritmy - Datové struktury a programovací techniky&lt;/title&gt;
+    &lt;author&gt;Piotr Wróblewski&lt;/author&gt;
+  &lt;/book&gt; 
+  &lt;book isbn=&quot;80-86330-05-2&quot;&gt;
+    &lt;title&gt;Python - Podrobná referenční příručka pro programovací jazyk 
+Python&lt;/title&gt;
+    &lt;author&gt;David M. Beazley&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;x-y-z&quot;&gt;
+    &lt;title&gt;Průvodce jazykem SCHEME&lt;/title&gt;
+    &lt;author&gt;Skoupil, D., Kopka, M.&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;3-89319-744-3&quot;&gt;
+    &lt;title&gt;Einführung in die Automathentheorie, Formale Sprachen und 
+Komplexitätstheorie&lt;/title&gt;
+    &lt;author&gt;John E. Hopcroft, Jeffrey D. Ullman&lt;/author&gt;
+  &lt;/book&gt; 
+  &lt;book isbn=&quot;80-247-0442-0&quot;&gt;
+    &lt;title&gt;PHP4 - Učebnice základů jazyka&lt;/title&gt;
+    &lt;author&gt;Jiří Bráza&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-247-0441-2&quot;&gt;
+    &lt;title&gt;PHP4 - Praktické příklady&lt;/title&gt;
+    &lt;author&gt;Jiří Bráza&lt;/author&gt;
+  &lt;/book&gt; 
+&lt;/catalog&gt;
+-------------------------------------------------------
+
+Tu je priklad ako prechadzat tento xml-dokument cez DOM
+-------------------------------------------------------
+import pprint
+
+import xml.dom.minidom
+from xml.dom.minidom import Node
+
+doc = xml.dom.minidom.parse(&quot;books5.xml&quot;)
+
+mapping = {}
+
+# Vratit vsetky prvky typu &quot;book&quot;
+# print doc.getElementsByTagName(&quot;book&quot;)
+
+# Pre kazdy prvok &quot;book&quot;
+for node in doc.getElementsByTagName(&quot;book&quot;):
+  #urcit hodnotu atributu &quot;isbn&quot; 
+  isbn = node.getAttribute(&quot;isbn&quot;)
+
+  # Zoznam dat ku knihe bude tvorit nazov a autor
+  bookdata = []
+ 
+  # vratist vsetky prvky typu &quot;title&quot;
+  L = node.getElementsByTagName(&quot;title&quot;)
+  # pre kazdy prvok typu &quot;title&quot;
+  for node2 in L:
+    title = &quot;&quot;
+    #print node2.childNodes
+    for node3 in node2.childNodes:
+      if node3.nodeType == Node.TEXT_NODE:
+        title += node3.data
+    bookdata.append(title)
+
+  # vratist vsetky prvky typu &quot;author&quot;
+  L = node.getElementsByTagName(&quot;author&quot;)
+  # pre kazdy prvok typu &quot;author&quot;
+  for node2 in L:
+    author = &quot;&quot;
+    #print node2.childNodes
+    for node3 in node2.childNodes:
+      if node3.nodeType == Node.TEXT_NODE:
+        author += node3.data
+    bookdata.append(author)
+
+  # vytvorit polozku slovniku
+  mapping[isbn] = bookdata
+
+keys = mapping.keys()
+#keys.sort()
+# vytlacit kluce a polozky slovnika
+for key in keys:
+  print &quot;%s:  %s\n(ISBN %s)\n&quot;\
+  % (mapping[key][1].ljust(25), mapping[key][0].ljust(30), key)
+-------------------------------------------------------
+
+a tu je priklad ako sa to da prechadzat cez SAX
+-------------------------------------------------------
+import xml.sax.handler
+
+class BookHandler(xml.sax.handler.ContentHandler):
+  def __init__(self):
+    self.inTitle = 0
+    self.inAuthor = 0
+    self.mapping = {}
+
+  def startElement(self, name, attributes):
+    if name == &quot;book&quot;:
+      # Zoznam dat ku knihe bude tvorit nazov a autor
+      self.bookdata = []
+      self.title = &quot;&quot;
+      self.author = &quot;&quot;
+      self.isbn = attributes[&quot;isbn&quot;]
+    elif name == &quot;title&quot;:
+      self.inTitle = 1
+    elif name == &quot;author&quot;:
+      self.inAuthor = 1
+
+  def characters(self, data):
+    if self.inTitle:
+      self.title += data
+    elif self.inAuthor:
+      self.author +=data
+ 
+  def endElement(self, name):
+    if name == &quot;title&quot;:
+      self.inTitle = 0
+      self.bookdata.append(self.title)
+    elif name == &quot;author&quot;:
+      self.inAuthor = 0 
+      self.bookdata.append(self.author) 
+    self.mapping[self.isbn] = self.bookdata
+    # pre kontrolu
+    # print self.mapping
+
+import xml.sax
+import pprint
+
+parser = xml.sax.make_parser( )
+handler = BookHandler( )
+parser.setContentHandler(handler)
+parser.parse(&quot;books5.xml&quot;)
+# pre kontrolu
+# print handler.mapping
+# pprint.pprint(handler.mapping)
+
+keys = handler.mapping.keys()
+#keys.sort()
+# vytlacit kluce a polozky slovnika
+for key in keys:
+  print &quot;%s:  %s\n(ISBN %s)\n&quot;\
+  % (handler.mapping[key][1].ljust(25), handler.mapping[key][0].ljust(30), 
+key)
+-------------------------------------------------------
+
+Subory prikladam
+
+
+
+
+
+
+
+&quot;Luboš Melichar&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lubos.melichar na gmail.com</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+14.06.2007 10:15
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+cc
+
+Subject
+[python] XML, amara
+
+
+
+
+
+
+zdravim..
+potrebuju zpracovat XML..
+
+tzn. otevrit soubor, najit urcity tag, vypsat ho a zmenit mu parametr...
+
+koukal sem na amara
+<A HREF="http://uche.ogbuji.net/tech/4suite/etc/amara-manual.html">http://uche.ogbuji.net/tech/4suite/etc/amara-manual.html</A> 
+
+nevim jak napsat to prohledavani.
+parser by mel umet podle nejake podminky i vyhledavat ne? 
+nejak sem to tam nenasel
+bo to nejak pres cyklus cely prochazet? 
+
+mohl byste nekdo nastinit nejaky funkcni priklad...? 
+
+dikes _______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: books5.xml
+Typ: application/octet-stream
+Velikost: 1880 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20070614/caddf4a4/attachment.obj">http://www.py.cz/pipermail/python/attachments/20070614/caddf4a4/attachment.obj</A> 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: dombook5.py
+Typ: application/octet-stream
+Velikost: 1328 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20070614/caddf4a4/attachment-0001.obj">http://www.py.cz/pipermail/python/attachments/20070614/caddf4a4/attachment-0001.obj</A> 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: saxbook5.py
+Typ: application/octet-stream
+Velikost: 1415 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20070614/caddf4a4/attachment-0002.obj">http://www.py.cz/pipermail/python/attachments/20070614/caddf4a4/attachment-0002.obj</A> 
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006045.html">[python] XML, amara
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006048.html">[python] XML
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#6046">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#6046">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#6046">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#6046">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/006046.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:49 GMT -->
+</html>

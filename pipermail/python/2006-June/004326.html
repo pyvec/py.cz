@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004326.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:27 GMT -->
+<HEAD>
+   <TITLE> [python] ukončení interpretu, zničení objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=44853736.7080606%40dp.fce.vutbr.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004325.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004309.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ukončení interpretu, zničení objektu</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=44853736.7080606%40dp.fce.vutbr.cz"
+       TITLE="[python] ukončení interpretu, zničení objektu">geon na post.cz
+       </A><BR>
+    <I>Úterý Červen  6 10:21:11 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004325.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004309.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4326">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4326">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4326">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4326">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Martinek napsal(a):
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> poslal jsem to jako bugreport a zde je vyjádření vývojářů:
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="https://sourceforge.net/tracker/?func=detail&amp;atid=105470&amp;aid=1500167&amp;group_id=5470">https://sourceforge.net/tracker/?func=detail&amp;atid=105470&amp;aid=1500167&amp;group_id=5470</A>
+</I>&gt;<i>
+</I>&gt;<i> --------------
+</I>&gt;<i> On shutdown time, Python clears each module by replacing all
+</I>&gt;<i> module entries with None. So at some point, it does
+</I>&gt;<i>    a1 = None # or a1 = None
+</I>&gt;<i> and at some other point, it does
+</I>&gt;<i>    M = None
+</I>&gt;<i> Depending on the order in which these happen, M might be
+</I>&gt;<i> None (i.e. might not be class M anymore) when __del__ runs.
+</I>&gt;<i>
+</I>&gt;<i> The order in which these happen depends on the order which
+</I>&gt;<i> the names have in the module's dict. This, in turn,
+</I>&gt;<i> depends
+</I>&gt;<i> on the hash values of the strings, modulo the size of the
+</I>&gt;<i> dictionary. Apparently, &quot;a1&quot; gets hashed after
+</I>&gt;<i> &quot;M&quot;, but &quot;a&quot;
+</I>&gt;<i> gets hashed before &quot;M&quot;.
+</I>&gt;<i>
+</I>&gt;<i> This isn't really a bug, atleast not one that we plan to
+</I>&gt;<i> fix. The order in which modules get emptied is unspecified,
+</I>&gt;<i> and it can easily happen that things are gone when some
+</I>&gt;<i> destructor runs. Classes should be written to be resistent
+</I>&gt;<i> against this behaviour, e.g. by writing
+</I>&gt;<i>
+</I>&gt;<i>    def __del__(self):
+</I>&gt;<i>      self.__class__.b = 0 # name &quot;M&quot; might be gone
+</I>&gt;<i> already
+</I>&gt;<i>
+</I>&gt;<i> Closing this as &quot;won't fix&quot;.
+</I>&gt;<i>
+</I>&gt;<i> -------------
+</I>&gt;<i>
+</I>&gt;<i> Závěr je, že se nejedná o chybu, tedy alespoň ne takovou, kterou je v 
+</I>&gt;<i> plánu opravit. Doporučuje se používat self.__class__.
+</I>&gt;<i>
+</I>&gt;<i> Děkuji všem za reakce. Zůstává mi ale pořád jedna nejasnost - jaktože to 
+</I>&gt;<i> windowsářům tu výjimku nehází? Je tam jiné hashování+dict a je potřeba 
+</I>&gt;<i> zvolit jiné názvy proměnných?
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Tak jestli to dobře chápu, tak záleží na tom, v jakém pořadí jsou 
+proměnné uložené ve slovníku. A ve windows se to pravděpodobně řadí v 
+tom správném pořadí (pro tento příklad). Myslím že Petr Přikryl tu 
+jednou ukazoval, že u slovníku skutečně záleží na volbě klíče (v tomto 
+případě je to název proměnné) - podle toho se pak řadí do slovníku 
+jednotlivé položky.
+
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004325.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004309.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4326">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4326">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4326">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4326">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004326.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:27 GMT -->
+</html>

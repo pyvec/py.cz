@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005107.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:32 GMT -->
+<HEAD>
+   <TITLE> [python] List comprehention
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20List%20comprehention&In-Reply-To=OFF3CEC4BF.DFE5E94C-ONC1257226.002D8332-C1257226.002EDAAF%40pds.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005103.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005106.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] List comprehention</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20List%20comprehention&In-Reply-To=OFF3CEC4BF.DFE5E94C-ONC1257226.002D8332-C1257226.002EDAAF%40pds.sk"
+       TITLE="[python] List comprehention">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Listopad 14 10:18:01 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005103.html">[python] List comprehention
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005106.html">[python] List comprehention
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5107">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5107">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5107">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5107">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No, ale ono se to dá napsat i takhle:
+
+lst = [f
+          for a in arguments
+            for f in glob.glob(a)
+       ]
+
+Je to vlastně jen jinak napsané
+
+lst = []
+for a in arguments:
+     for f in glob.glob(a):
+         lst.append(f)
+
+
+Diky za tento pekny priklad P.Prikryl, 
+Teraz uz list-comprehention chapem, nerozumel som tomu ked to bolo v 
+jednom riadku. 
+Uznavam, moj odpor k tomu bol sposobeny neznalostou. 
+
+
+
+
+&quot;Petr Přikryl&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prikryl na atlas.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+13.11.2006 23:36
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+cc
+
+Subject
+[python] Je tohle skutecne krasne reseni? (bylo Buducnost Pythonu: lambda, 
+map, filter)
+
+
+
+
+
+
+Roman Miklos
+&gt;<i> # pouzitie reduce()
+</I>&gt;<i> filez = reduce(lambda x,y: x+y, map(glob.glob, arguments))
+</I>&gt;<i> print filez
+</I>
+A v čem je ten kód elegantní. Ano, funguje. Ale v čem je
+tak dobrý? Je dobrý proto, že mu někteří vyznavači rozumí
+a neználci nikoliv? Je dobrý proto, že se za cenu nutné
+znalosti tří speciálních funkcí dá řešení zapsat na jeden
+řádek? V čem je ta přehlednost? Když bys to viděl poprvé
+a neznal bys lambda kalkul, tak si budeš myslet, že takové
+řešení vymyslel leda blázen! Vždyť se na to koukni nezaujatě.
+ze seznamu masek chceš dostat seznam odpovídajících jmen
+souborů. Kdybys nevěděl, čemu se říká &quot;glob&quot; a že plus
+tady není sčítání ale append do seznamu a reduce v podstatě
+nic neredukuje a jen elementy do toho seznamu (díky záhadnému
+plus) složí... V čem je ten kód tak dobrý? Nic proti soutěžím
+v bizarnosti kódu. Je to někdy dobrá zábava. Ale z hlediska
+pochopení takový kód stojí za h***o (za hovno). A nebude
+mu rozumět ani znalec lambda kalkulu, který nebude vědět
+že plus tady není plus, protože glob.glob vrací seznam.
+
+
+Roman Miklos napsal(a):
+ &gt; Mas pravdu, ze je to otazka vkusu, ale ja osobne
+ &gt; si myslim, ze tento list-comprehention
+ &gt; [f for a in arguments for f in glob.glob(a)]
+ &gt; je krkolomnejsi ako tento reduce
+ &gt; filez = reduce(operator.add, map(glob.glob, arguments))
+
+No, ale ono se to dá napsat i takhle:
+
+lst = [f
+          for a in arguments
+            for f in glob.glob(a)
+       ]
+
+Je to vlastně jen jinak napsané
+
+lst = []
+for a in arguments:
+     for f in glob.glob(a):
+         lst.append(f)
+
+
+Myslím, že zanořený cyklus for zná mnohem více lidí,
+než lambda kalkul.
+
+pepr
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+
+
+
+
+Roman Miklos &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+14.11.2006 09:30
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+[python] List comprehention
+
+
+
+
+
+
+List comprehention som doteraz okrem trivialnych prikladov nikdy nepouzil. 
+
+Kedze to vsak ma v buducnosti v Pythone nahradit ine konstrukcie zacinam 
+sa o to zaujimat.
+
+Zaujalo, ma ze 
+filez = reduce(lambda x,y: x+y, map(glob.glob, arguments))
+
+alebo
+
+filez=[]
+for arg in arguments:
+  arg_list=glob.glob(arg)
+  filez += arg_list
+
+sa da napisat cez generator zoznamu napisat takto:
+
+[f for a in arguments for f in glob.glob(a)]
+
+Nemozem vsak pochopit ako sa ten zapis skonstruuje:-) Uff, je to pre mna 
+intuitivne asi tak ako teoria relativity. 
+Da sa to nejako rozobrat na casti, alebo prezatvorkovat, aby bolo vidiet 
+co k comu patri? Moze mi to niekto vysvetlit?
+
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005103.html">[python] List comprehention
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005106.html">[python] List comprehention
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5107">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5107">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5107">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5107">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005107.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:32 GMT -->
+</html>

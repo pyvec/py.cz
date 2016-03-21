@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002326.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:54 GMT -->
+<HEAD>
+   <TITLE> RE: [python] dotaz-mřížka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_dotaz-m%3DF8%3DED%3DBEka%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-February/002324.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-February/002327.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] dotaz-mřížka</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_dotaz-m%3DF8%3DED%3DBEka%3F%3D&In-Reply-To="
+       TITLE="RE: [python] dotaz-mřížka">Prikryl na skil.cz
+       </A><BR>
+    <I>Středa Únor 16 07:56:39 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002324.html">[python] news.vol.cz
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002327.html">[python] dotaz-mřížka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2326">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2326">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2326">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2326">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> From: p.kosina [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">gen2n na seznam.cz</A>] 
+</I>&gt;<i> [...] Ještě jedno řešení [...] tentokrát okenní:
+</I>
+Dovolil jsem si drobnou úpravu. Protože se jako klíče slovníku
+BARVA používala čísla 0 až 2, může se to změnit na jednodušší
+strukturu -- seznam. Drobnou úpravou se pak dá zajistit, 
+že se použijí všechny barvy, kterými seznam naplním (doplněna
+žlutá).
+
+Místo range(DELKA) je lepší používat xrange(DELKA).
+
+Osobně považuji takové příklady za vynikající prostředek
+k diskusi. Vždycky se na tom dá najít nějaký chlup (je jich
+tam ještě hodně) a vždycky se na tom dá dozvědět něco nového
+(i když to sleduji jen pasivně). Navrhuji došolichat ten 
+příklad do vzorové podoby (i co se týká stylu), vytvořit
+z toho nějaký dokument (HTML) a zařadit to do nějakých 
+školiček včetně zpracované podoby nastávající diskuse.
+A taky navrhuji, předělat to do ryze české podoby, včetně
+českých komentářů a textů. Zvýrazní se tím nové problémy, 
+které se v reálných českých aplikacích musí řešit.
+
+
+from Tkinter import *
+import random
+
+KROK=30                                     # velikost jednoho ctverecku
+OKRAJ=20                                    # velikost okraje
+DELKA=10                                    # pocet poli
+BARVA=['white', 'red', 'lightgreen', 'yellow']   # barvicky (free bonus)
+
+def ctverec(x,y,vypln):
+    &quot;Vytiskne ctverecek v souradnicich x,y a s vyplni&quot;
+    x=x*KROK+OKRAJ
+    y=y*KROK+OKRAJ
+    canvas.create_rectangle(x,y,x+KROK,y+KROK,fill=BARVA[vypln])
+
+def sachovnice():
+    &quot;Vymalovani sachovnice bunek&quot;
+    for y in xrange(DELKA):
+        for x in xrange(DELKA):
+            bakterie=(random.randint(0,len(BARVA)-1))
+            ctverec(x,y, bakterie)
+
+# inicializace Tkinter
+root=Tk()
+root.title(&quot;Sachovnice&quot;)
+frame=Frame(root)
+frame.pack()
+canvas=Canvas(frame, bg='white', 
+              height=DELKA*KROK+2*OKRAJ, width=DELKA*KROK+2*OKRAJ)
+canvas.pack()
+
+# vykresleni sachovnice
+sachovnice()
+root.mainloop()
+
+&gt;<i> -----Original Message-----
+</I>&gt;<i> From: p.kosina [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">gen2n na seznam.cz</A>] 
+</I>&gt;<i> Sent: Monday, February 14, 2005 7:31 AM
+</I>&gt;<i> To: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> Subject: Re: [python] dotaz-mřížka
+</I>&gt;<i> 
+</I>&gt;<i> Ještě jedno řešení, jestli tu  ještě jsi, tentokrát okenní:
+</I>&gt;<i> 
+</I>&gt;<i> from Tkinter import *
+</I>&gt;<i> import random
+</I>&gt;<i> 
+</I>&gt;<i> KROK=30                                     # velikost 
+</I>&gt;<i> jednoho ctverecku
+</I>&gt;<i> OKRAJ=20                                    # velikost okraje
+</I>&gt;<i> DELKA=10                                    # pocet poli
+</I>&gt;<i> BARVA={0:'white',1:'red', 2:'lightgreen'}   # barvicky (free bonus)
+</I>&gt;<i> 
+</I>&gt;<i> def ctverec(x,y,vypln):
+</I>&gt;<i>      &quot;Vytiskne ctverecek v souradnicich x,y a s vyplni&quot;
+</I>&gt;<i>      x=x*KROK+OKRAJ
+</I>&gt;<i>      y=y*KROK+OKRAJ
+</I>&gt;<i>      canvas.create_rectangle(x,y,x+KROK,y+KROK,fill=BARVA[vypln])
+</I>&gt;<i> 
+</I>&gt;<i> def sachovnice():
+</I>&gt;<i>      &quot;Vymalovani sachovnice bunek&quot;
+</I>&gt;<i>      for y in range(DELKA):
+</I>&gt;<i>          for x in range(DELKA):
+</I>&gt;<i>                  bakterie=(random.randint(0,2))
+</I>&gt;<i>                  ctverec(x,y, bakterie)
+</I>&gt;<i> [...]
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002324.html">[python] news.vol.cz
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002327.html">[python] dotaz-mřížka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2326">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2326">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2326">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2326">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002326.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:54 GMT -->
+</html>

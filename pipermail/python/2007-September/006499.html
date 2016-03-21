@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006499.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:19 GMT -->
+<HEAD>
+   <TITLE> [python] Regexpy a re.DOTALL
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Regexpy%20a%20re.DOTALL&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-September/006500.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Regexpy a re.DOTALL</H1>
+    <B>martin.stiborsky na gmail.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Regexpy%20a%20re.DOTALL&In-Reply-To="
+       TITLE="[python] Regexpy a re.DOTALL">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Úterý Září  4 11:39:10 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006500.html">[python] Regexpy a re.DOTALL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6499">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6499">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6499">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6499">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím.
+Tady (<A HREF="http://groups.google.com/group/cz.comp.lang.python/browse_thread/">http://groups.google.com/group/cz.comp.lang.python/browse_thread/</A>
+thread/4466880ab8c859c7?hl=cs) jsem s Vaší pomocí řešil, jak z
+textového zdroje dostat část textu uzavřenou mezi nějakými značkami.
+Teď to zkouším pomocí regexpů.
+Pokud je celý zápis mezi start a end značkou na jednom řádku, je
+všechno v pohodě a regexp funguje, pokud je ale text který chci
+vypreparovat na více řádku a přidám do re.compile() flag re.DOTALL,
+chová se dost podivně, asi to bude chtít jiný zápis, nevím ..
+
+.py soubor:
+
+# -*- coding: cp1250 -*-
+
+import re
+
+source = file('muj_regexp_pokus.txt' , 'r')
+text = []
+for line in source:
+	text.append(line)
+
+retezec = ''.join(text)
+
+vzor = re.compile(r&quot;:start:(.*):end:&quot;, re.DOTALL)
+
+
+for vyskyt in re.finditer(vzor, retezec):
+	print vyskyt.group(1)
+
+
+
+.txt soubor:
+
+toto je textovy soubor pro pokus s regexpem :) ( file:
+muj_regexp_pokus.py)
+
+z tohoto radku budem regularem parsovat ... :start: toto chci, mam
+to ? :end:
+z tohoto radku nechci nic, nejsou tady start/end znacky, za ano :)
+na tenhle taky prdim, je tu tak maximalne pro okrasu
+ale tady by se uz neco naslo :start: regexpy jsou fajn :) :end:
+tady taky: :start: Regulary jsou fakt sranda :end:
+FOO :)
+
+:<i>start:
+</I>a tady to bude zajimave, zdrojak a text, zdrojak je pres nekolik
+radku :)
+
+import os
+
+def getDir(dir='/'):
+  adresare = [x for x in os.listdir(dir) if os.path.isdir('%s%s' %
+(dir,x))]
+  print adresare
+
+getDir()
+
+to jsem zvedav jak ten regexp dokopu k tomu, aby fungoval, snad jo :)
+:<i>end:
+</I>
+No a to by snad stacilo .. snad jen nakonec
+:<i>start: Predposledni radek, ten chci taky .... :end:
+</I>Konec.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006500.html">[python] Regexpy a re.DOTALL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6499">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6499">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6499">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6499">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006499.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:20 GMT -->
+</html>

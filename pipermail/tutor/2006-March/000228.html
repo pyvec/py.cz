@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000228.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Jmeno, hodnota, prirazeni, funkce,
+	return (bylo  Return)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Jmeno%2C%20hodnota%2C%20prirazeni%2C%20funkce%2C%0A%09return%20%28bylo%20%20Return%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000227.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000229.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Jmeno, hodnota, prirazeni, funkce,
+	return (bylo  Return)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Jmeno%2C%20hodnota%2C%20prirazeni%2C%20funkce%2C%0A%09return%20%28bylo%20%20Return%29&In-Reply-To="
+       TITLE="[Tutor PyCZ] Jmeno, hodnota, prirazeni, funkce,
+	return (bylo  Return)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Březen  8 09:25:08 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000227.html">[Tutor PyCZ] Return
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000229.html">[Tutor PyCZ] py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#228">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#228">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#228">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#228">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>jak.petr
+&gt;<i> Prosim vas, vysvetlete mi co presne provadi return
+</I>&gt;<i> (navraci hodnoty), ale co presne to udela 
+</I>&gt;<i> (kdyz je navrati). Dekuji za pomoc
+</I>
+Zkusím to nejdříve jakoby jednoduše a stručně,
+potom to trochu rozvedu. Funčnost příkazu return
+úzce souvisí s chápáním pojmu proměnná a s příkazem
+přiřazování.
+
+Skutečný mechanismus proměnných a jejich přiřazování
+dělá problémy i zkušenějším programátorům, kteří 
+jsou zvyklí na jiné chápání pojmu proměnná, spojené 
+s kompilačními jazyky. Ve skutečnosti to není tak
+jednoduché, jak by to na první pohled mohlo vypadat.
+Je to spíš úplně jiné. Pokud dobře pochopíš celý 
+další text, vyjasní se ti spousta dalších věcí. 
+Dokud ho nepochopíš, bude pro tebe Python stále 
+záhadný.
+
+
+Teď ta odpověď...
+=============================================
+
+V okamžiku návratu se také ukončuje činnost
+funkce, která příkaz return použila.
+V běhu programu se pokračuje v místě, kde byla
+funkce zavolána. Její volání se jakoby nahradí
+návratovou hodnotou. 
+
+Dejme tomu, že máme definovánu funkci, která
+k zadanému číslu připočte pět:
+
+def funkce(n):
+    vysledek = n + 5
+    return vysledek
+
+A dejme tomu, že v nějakém místě v programu
+tuto funkci voláme během vyhodnocování nějakého
+našeho vzorce. (V tom okamžiku nemusíme vědět, 
+co přesně funkce dělá. Víme, že dělá něco správného.)
+
+hodnota = 3 + funkce(8)
+
+Pravá strana přiřazovacího příkazu (=) se 
+vyhodnotí a výsledek se spojí s jménem &quot;hodnota&quot;.
+Při vyhodnocování se narazí na volání funkce(8).
+V tom okamžiku se pozastaví vyhodnocování výrazu,
+protože zápis &quot;funkce(8)&quot; potřebujeme nahradit
+jejím výsledkem. Tímto zápisem tedy funkci 
+zavoláme. Běh programu se zanoří do funkce
+a provedou se příkazy:
+    
+     vysledek = 8 + 5     
+     return vysledek
+
+Jméno vysledek se spojí s hodnotou 13. Představ
+si to jako kuličku, ve které je zavřena třináctka.
+Napíšu to takhle (13). S touto kuličkou je spojen
+štítek s jménem vysledek. Znázorněme to takhle:
+
+   [vysledek]--&gt;(13)
+
+Kdykoliv nyní použiji jméno vysledek, je to stejné,
+jako kdybych použil (13). Jméno ale není důležité.
+Důležitá je ta třináctka v kuličce (objekt s hodnotou
+13). Ta existuje už v okamžiku, kdy se provedlo
+8 + 5. Ten první příkaz uvnitř funkce se nejdříve
+změnil takto:
+
+   vysledek = (13)
+
+Zopakujme si, že příkazem přiřazení se spojí jméno
+s objektem (13). Přímé použití 13, jména spojeného
+s (13) nebo nepojmenovaného odkazu na (13) chápe
+Python úplně stejně. Nepojmenovaný odkaz bychom
+mohli zapsat takto:
+  
+   []--&gt;(13)
+
+Číselné konstanty můžeme chápat jako jméno 
+odkazující na objekt se stejnou hodnotou. 
+Můžeme to znázornit takto:
+
+    [3]--&gt;(3)
+   
+Z toho všeho plyne, proč můžeme původní funkci
+zapsat zjednodušeně takto:
+
+def funkce(n):
+    return n + 5
+
+Příkaz return navenek předá právě nepojmenovaný
+odkaz na tu kuličku (13). Volání &quot;funkce(8)&quot; je 
+ukončeno a nahrazeno odkazem na (13).  
+
+Volání funkce s parametry můžeme považovat
+za jakési jméno, které před vyhodnocením
+není spojeno s žádným objektem. V okamžiku,
+kdy se snažíme místo zápisu funkce dosadit
+hodnotu, dojde k zavolání funkce s předepsanými
+parametry (zde 8), k vyhodnocení (zde 8 + 5),
+vzniku výsledného objektu (zde (13)). Příkaz
+return je vlastně totéž, jako kdybychom
+původnímu místu, kde jsme použili volání funkce,
+přiřadili odkaz na výslednou hodnotu (vazbu na 
+objekt (13).
+
+Zápis přiřazovacího příkazu tedy můžeme nejdříve
+chápat jako zápis jmen, která se postupně, podle
+pravidel, proměňují ve výsledné objekty, až se
+dopracujeme k jednomu objektu popsanému jedním
+jménem. 
+
+Postupné proměny by se mohly symbolicky rozepsat 
+nějak takto:
+
+1.  hodnota = 3 + funkce(8)
+2.  hodnota = [3]-&gt;(3)  +  [funkce(8)]--&gt;(?)
+
+Volá se funkce -- zanořujeme se do hlubší úrovně...
+
+a.       vysledek = [n]--&gt;(8) + [5]--&gt;(5)
+
+Jména nejsou důležitá, takže můžeme stejně dobře
+psát...
+
+b.       vysledek = (8) + (5)
+
+takže...
+
+c.       vysledek = []--&gt;(13)
+
+&quot;Žádné&quot; jméno má stejnou důležitost, jako každé
+jiné. Důležitý je ten objekt, na který se odkazujeme.
+Takže můžeme psát také...
+
+c.       vysledek = (13)
+
+což vlastně vytvoří vazbu...
+
+d.       [vysledek]--&gt;(13)
+e.       return [vysledek]--&gt;(13) 
+
+... je vlastně jako, kdybychom psali
+
+e.  &quot;funkce(8)&quot; = [vysledek]--&gt;(13)
+
+Ale jméno vysledek je viditelné jen uvnitř funkce.
+Jenže v tomto okamžiku stejně není důležité, takže
+můžeme psát...
+
+f.  &quot;funkce(8)&quot; = (13)
+
+Vytváří se vazba na fiktivní jméno &quot;funkce(8)&quot;
+
+g.  [funkce(8)]--&gt;(13)
+
+V okamžiku provádění return se vynořujeme z volání
+funkce a dostáváme se vlastně k pokračování kroku 2.
+
+3. hodnota = [3]-&gt;(3)  +  [funkce(8)]--&gt;(13)
+
+Fiktivní jméno [funkce(8)] bylo navázáno na objekt
+s výslednou hodnotou a přestává být důležité. Všechna
+jména jsou vlastně od tohoto okamžiku nedůležitá. 
+Důležité jsou objekty, na které odkazují.
+
+4. hodnota = (3) + (13)
+
+Pokračujeme ve vyhodnocování výrazu.
+
+5. hodnota = []--&gt;(16)
+6. hodnota = (16)
+
+A dostáváme se k vytvoření výsledné vazby mezi jménem
+hodnota a celkovým výsledkem výrazu.
+
+7. [hodnota]--&gt;(16)
+
+Jméno je důležité jen k tomu účelu, abychom se mohli
+nějak odkázat na skutečný objekt, který je pro nás 
+důležitý.
+
+Kdekoliv se ve výše uvedeném příkladu vyskytl objekt
+s číselnou hodnotou (v kulatých závorkách), jde o jeden
+a ten samý objekt. Při přiřazování se neprovádí jeho
+kopírování v tom smyslu, že by se vytvořil jiný objekt
+se stejnou hodnotou. Když například provedeme přiřazení
+
+8. hodnotaX = hodnota
+
+Vytvoří se vazba jména na ten samý objekt:
+
+9. hodnotaX = [hodnota]--&gt;(16)
+10. [hodnotaX]--&gt;(16)
+
+Přesněji bychom to měli znázornit takto:
+
+        [hodnota]--&gt;(16)
+        [hodnotaX]---^
+
+(obě jména odkazují na stejný objekt).
+
+Dokud se na objekt (třeba (16)) odkazuje alespoň
+jedno jméno, můžeme se na něj dostat. Pokud se na něj
+neodkazuje žádné jméno, stává se nedostupným a je to 
+stejné, jako kdyby neexistoval. V tom okamžiku se 
+může uvolnit, zničit. Například,po provedení 
+následujících dvou příkazů se jména spojí s jinými 
+objekty:
+
+11. hodnota = 3
+12. hodnotaX = 5
+
+Situaci můžeme znázornit takto:
+
+                    (16)   
+        [hodnota]--&gt;(3)
+        [hodnotaX]--&gt;(5)
+
+Na objekt (16) se už nikdo neodkazuje, takže bude
+zrušen.
+
+
+
+Pro začátečníka to může být trochu moc věcí
+najednou. Ptej se na nejasnosti.
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000227.html">[Tutor PyCZ] Return
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000229.html">[Tutor PyCZ] py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#228">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#228">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#228">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#228">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000228.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009678.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:45 GMT -->
+<HEAD>
+   <TITLE> [python] Python WSGI (začátečník)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPython_WSGI_%3D28za%3DE8%3DE1te%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3Cq2l67c97cd91004241647sf8bd2994u6bd9f26f832c7416%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009676.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009679.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Python WSGI (začátečník)</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPython_WSGI_%3D28za%3DE8%3DE1te%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3Cq2l67c97cd91004241647sf8bd2994u6bd9f26f832c7416%40mail.gmail.com%3E"
+       TITLE="[python] Python WSGI (začátečník)">petr.messner na gmail.com
+       </A><BR>
+    <I>Neděle Duben 25 01:47:11 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009676.html">[python] Python WSGI (začátečník)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009679.html">[python] Python WSGI (začátečník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9678">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9678">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9678">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9678">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2010/4/24 Thomix &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">thomixcz na gmail.com</A>&gt;:
+...
+&gt;<i>
+</I>&gt;<i> Na začátek bych strašně rád poděkoval za nádherné odezvy, které mě
+</I>&gt;<i> přivádějí na tu dle mého správnou cestu. Moje projekty navštěvuje více
+</I>&gt;<i> než deset lidí. Celový traffik je 4TB měsičné, beží na VPS (ubuntu a
+</I>&gt;<i> debian). Zpracovávám databáze o velikosti 100 a více mb. Příjde mě že
+</I>&gt;<i> PHP je v tomto při velké návštevnosti strašně pomalé. Proto by mě
+</I>&gt;<i> zajímalo zda není chyba používat python frameworky na velké projekty.
+</I>&gt;<i> Pokud ne v čem by jste mě doporučili je dělat ? Rád bych si právě
+</I>&gt;<i> udělal i vlastní administraci a nechtěl bych využívat něco co už je.
+</I>&gt;<i> Ještě jednou děkuji :)
+</I>
+Čísla, která uvádíš, jsou několikařádově menší než třeba weby
+Seznam.cz, které jsou implementovány v Pythonu. Nechci (a asi ani
+nemůžu) popisovat, jaký framework je pro ně použit, ale nebude to
+výkonově nic lepšího ani horšího než nějaký normálně navržený
+Pythonový framework. Ať už již existující nebo co si sám člověk může
+napsat.
+
+Na druhou stranu třeba Facebook je celý v PHP. Myslím, že fakt, že
+Facebook nedávno vydal (opensourcoval) překladač PHP do C++, a vůbec
+existence různých PHP optimalizátorů a bytecode keší trochu naznačuje
+jisté výkonové nedostatky PHP, ale ono PHP na tom není až tak špatně.
+Naopak, pokud vím, je to jeden z nejrychlejších interpreterů. Bohužel
+v rukávu zrovna nemůžu najít odkaz na nějaký důvěryhodný test.
+
+Problém opět není v rychlosti toho či onoho, ale v tom, jak to celé
+funguje - PHP skript i se všemi includovanými knihovnami se musí
+načíst, zparsovat a zinicializovat při každém HTTP požadavku. Toto se
+u dlouhoběžící Pythonové aplikace děje jen při spuštění, obsluha
+každého jednotlivého HTTP požadavku je pak o tento rozdíl rychlejší.
+(Pojmem dlouhoběžící myslím, že to nesmíš nakonfigurovat zrovna jako
+CGI nebo nějak podobně, to pak o popsanou výhodu samozřejmě
+přicházíš.)
+
+Když už máš webovou aplikaci nataženou v paměti a ona tam zůstává
+(tzn. není smazána na konci prvního požadavku, jako se to obvykle děje
+v PHP), můžeš s tím dělat psí kusy. Můžeš si třeba přímo v paměti (v
+nějakém objektu apod.) kešovat data, vygenerované stránky, výsledky z
+databáze... Pokud použiješ šablonovací engine (jako že asi ano), bývá
+obvyklé, že obsahuje nějaký loader, který také kešuje načtené šablony.
+Můžeš si v nějakém poolu uchovávat i samotná databázová spojení (to v
+PHP jde taky, říká se tomu persistentní spojení, ale někdy to bývá
+vypnuté).
+
+Abych začal odpovídat nějak konkrétně:
+
+&gt;<i> Příjde mě že PHP je v tomto při velké návštevnosti strašně pomalé.
+</I>
+Viz výše :) Záleží na tom, co konkrétně ty PHP skripty dělají.
+
+&gt;<i> Proto by mě zajímalo zda není chyba používat python frameworky na velké projekty.
+</I>
+Myslím, že není. Existují nástroje, jako ab (Apache benchmarking tool)
+nebo httperf, které ti změří, kolik požadavků za sekundu web zvládne.
+Nevygenerují takovou zátěž, jakou ti udělají uživatelé, ale pro
+změření, zda je to či ono dostatečně rychlé, to je dobré. Konečně,
+všechno stejně může hodně (pozitivně) ovlivnit kešování na
+proxy/webserveru.
+
+&gt;<i> Rád bych si právě udělal i vlastní administraci a nechtěl bych využívat něco co už je.
+</I>
+Dělej jak chceš. Já dělám také :) &quot;Velké&quot; frameworky na to mají
+fíčury, jako je koncept controllerů, scaffolding, generování formulářů
+(s validací, načítáním názvů sloupců z databáze a tak). Ale zase to
+dělají dost obecně a hlavně tak, aby to každý mohl použít. Když to
+uděláš podle sebe, může to mít pro tebe lepší výsledky. Podle mě je
+důležité se v tom vyznat, vědět jak to funguje jinde, abys při
+vynalézání vlastního kola nevynalezl něco hranatého :) Jinak, pokud
+zrovna otázku &quot;framework ano nebo ne&quot; nemusíš řešit se spolupracovníky
+na projektu, se zadavatelem nebo s firemními zvyklostmi, je to asi
+jedno.
+
+PM
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009676.html">[python] Python WSGI (začátečník)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009679.html">[python] Python WSGI (začátečník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9678">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9678">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9678">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9678">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009678.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:45 GMT -->
+</html>

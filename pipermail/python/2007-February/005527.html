@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005527.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:35 GMT -->
+<HEAD>
+   <TITLE> [python] sqllite - existuje záznam v DB?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fsqllite_-_existuje_z%3DC3%3DA1znam_v_DB%3D3F%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005523.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005529.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sqllite - existuje záznam v DB?</H1>
+    <B>Petr Vanek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fsqllite_-_existuje_z%3DC3%3DA1znam_v_DB%3D3F%3F%3D&In-Reply-To="
+       TITLE="[python] sqllite - existuje záznam v DB?">petr na scribus.info
+       </A><BR>
+    <I>Středa Únor  7 10:29:34 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005523.html">[python] sqllite - existuje záznam v DB?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005529.html">[python] sqllite - existuje záznam v DB?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5527">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5527">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5527">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5527">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Dobrý den, začínám s sqllite a potřebuji zjisti jestli určitý
+</I>záznam 
+&gt;<i> existuje DB nebo ne
+</I>&gt;<i> zatím to řeším takto, ale chtěl jsem se zeptat jestli by to šlo i
+</I>nějak 
+&gt;<i> jinak (jednodušeji, elegantněji ....)
+</I>&gt;<i> 
+</I>&gt;<i> cur.execute('SELECT * FROM soubory WHERE jmeno=&quot;test.txt&quot;')
+</I>&gt;<i> if len(cur.fetchall()) == 0:
+</I>&gt;<i>     print &quot;zaznam nexistuje&quot;
+</I>&gt;<i> else:
+</I>&gt;<i>     print &quot;zaznam existuje&quot;
+</I>
+Je to boj. Sqlite je &quot;jednoducha&quot; DB. Takze nektere veci z python db
+API tak nejak podporuje-nepodporuje.
+
+viz prave &quot;rowcount&quot; na:
+<A HREF="http://docs.python.org/lib/sqlite3-Cursor-Objects.html">http://docs.python.org/lib/sqlite3-Cursor-Objects.html</A>
+
+takze len() se pouzit da. Otazkou ale zustava, proc na elementarni
+zjisteni poctu zaznamy vyhovujicich dane podmince pouzivas projekci &quot;*&quot;?
+Proc nepouzijes count() (pres sikovny index), a pak jen porovnas jedinou
+vyslednou hodnotu na == 0? Netahal bys hromadu dat a nemusel bys pocitat
+len().
+
+petr
+
+P.S.: neodpustim si poznamku, ze v PyQt4.QtSql.* &quot;affected rows&quot; samozrejme
+funguje ;)
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005523.html">[python] sqllite - existuje záznam v DB?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005529.html">[python] sqllite - existuje záznam v DB?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5527">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5527">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5527">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5527">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005527.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:35 GMT -->
+</html>

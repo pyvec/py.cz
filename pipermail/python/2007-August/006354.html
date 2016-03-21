@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006354.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:27 GMT -->
+<HEAD>
+   <TITLE> [python] zamykani jednoho vlakna druhym
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zamykani%20jednoho%20vlakna%20druhym&In-Reply-To=1e5f8cdc0708141002k372e89b3td9f741e47e677e4f%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-August/006350.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-August/006355.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zamykani jednoho vlakna druhym</H1>
+    <B>Karol Tarcak</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zamykani%20jednoho%20vlakna%20druhym&In-Reply-To=1e5f8cdc0708141002k372e89b3td9f741e47e677e4f%40mail.gmail.com"
+       TITLE="[python] zamykani jednoho vlakna druhym">ktx na matfyz.cz
+       </A><BR>
+    <I>Středa Srpen 15 12:50:47 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006350.html">[python] zamykani jednoho vlakna druhym
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006355.html">[python] zamykani jednoho vlakna druhym
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6354">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6354">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6354">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6354">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+takyto postup nemozno nazvat riesenie, ale hnusna &quot;praktika&quot; =&gt;
+nespolahlive, nebezpecne, nepredvidatelne vysledky ...
+Odporucam pozriet dokumentaciu [1] a clanok [2],
+pre lenivych:
+
+import threading
+
+# &quot;alokujem&quot; zamok
+lock=threading.Lock()
+
+# zamknem (a zaroven cakam kym nebude odomknuty)
+lock.acquire()
+
+do_something()
+
+# odomknem
+lock.release()
+
+Trochu googlenia by nezaskodilo, napr. pod heslom &quot;python thread lock
+example&quot;
+
+Karol
+
+
+[1] <A HREF="http://docs.python.org/lib/module-threading.html">http://docs.python.org/lib/module-threading.html</A>
+[2] <A HREF="http://linuxgazette.net/107/pai.html">http://linuxgazette.net/107/pai.html</A>
+
+
+On Tue, Aug 14, 2007 at 07:02:03PM +0200, Jirka Vejrazka wrote:
+&gt;<i>      caute mam maly problem mam dve vlakna urobene cez threading  a
+</I>&gt;<i>      potrebujem jedno vlakno uzamknut na chvilku druhym da sa to nejako?
+</I>&gt;<i> 
+</I>&gt;<i>    Nevim co znamena &quot;uzamknout&quot; a nikdy jsem neresil podobny problem, ale
+</I>&gt;<i>    vzhledem k tomu ze vlakna sdileji globalni promenne by nemel byt problem v
+</I>&gt;<i>    jednom vlakne nastavit:
+</I>&gt;<i> 
+</I>&gt;<i>    vlakna_mutex = True
+</I>&gt;<i> 
+</I>&gt;<i>    a v druhem na vhodnem miste:
+</I>&gt;<i> 
+</I>&gt;<i>    while vlakna_mutex is True:
+</I>&gt;<i>        sleep(1)
+</I>&gt;<i> 
+</I>&gt;<i>    Tohle by bylo &quot;brutalni reseni&quot; ktere bych zkusil jako prvni.
+</I>&gt;<i> 
+</I>&gt;<i>    Neco sofistikovanejsiho je treba tady:
+</I>&gt;<i>    [1]<A HREF="http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/502283">http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/502283</A>
+</I>&gt;<i> 
+</I>&gt;<i>      Jirka
+</I>&gt;<i> 
+</I>&gt;<i>    P.S. Je docela dobre takovymto dotazum dat rozumny predmet mailu...
+</I>&gt;<i> 
+</I>&gt;<i> References
+</I>&gt;<i> 
+</I>&gt;<i>    Visible links
+</I>&gt;<i>    1. <A HREF="http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/502283">http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/502283</A>
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006350.html">[python] zamykani jednoho vlakna druhym
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006355.html">[python] zamykani jednoho vlakna druhym
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6354">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6354">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6354">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6354">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006354.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:27 GMT -->
+</html>

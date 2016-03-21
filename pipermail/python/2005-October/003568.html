@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003568.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:37 GMT -->
+<HEAD>
+   <TITLE> [python] unicode
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003567.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003569.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] unicode</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To="
+       TITLE="[python] unicode">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pondělí Říjen 31 14:31:49 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003567.html">[python] plone - par veci
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003569.html">[python] unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3568">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3568">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3568">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3568">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>geon...
+&gt;<i> ViNiL napsal(a):
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Python lze zkompilovat jak s UCS-2, tak 
+</I>&gt;<i> &gt; s UCS-4. Snad vsechny Linuxove
+</I>&gt;<i> &gt; distribuce presly k tomu druhemu a doufam, 
+</I>&gt;<i> &gt; ze se tak deje i jinde ;-)
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Viz sys.maxunicode
+</I>&gt;<i> 
+</I>&gt;<i> Python 2.4 (#60, Nov 30 2004, 11:49:19) [MSC v.1310 32 bit 
+</I>&gt;<i> (Intel)] on win32
+</I>&gt;<i> Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license()&quot; for more information.
+</I>&gt;<i> 
+</I>&gt;<i>  &gt;&gt;&gt; import sys
+</I>&gt;<i>  &gt;&gt;&gt; sys.maxunicode
+</I>&gt;<i> 65535
+</I>&gt;<i> 
+</I>&gt;<i> což je 2**16, 16/8= 2 byty pod mými současnými w2k.
+</I>
+Parametr sys.maxunicode uvádí maximální hodnotu
+kódu znaku, jakou umí Python vnitřně uložit. Neříká
+asi nic o kódování ve vnějším souboru.
+
+Dvoubajtové znaky budou v drtivé většině případů asi
+stačit -- viz dříve zmíněný odkaz:
+
+<A HREF="http://www.unicode.org/standard/principles.html">http://www.unicode.org/standard/principles.html</A>
+
+  &quot;The majority of common-use characters fit into the first
+  64K code points, an area of the codespace that is called
+  the basic multilingual plane, or BMP for short. There are
+  about 6,300 unused code points for future expansion in the
+  BMP, plus over 870,000 unused supplementary code points on
+  the other planes. More characters are under consideration
+  for addition to future versions of the standard.&quot;
+
+Soubor používající způsob kódování UTF-16 může obsahovat i znaky
+s kódem větším, než 64k. V takovém případě se použijí 4 bajty
+na znak. Stejně tak bychom mohli bez ztráty informace
+použít UTF-8.
+
+Implementační problém s &quot;čínštinou&quot; nastane tedy jen v případě,
+kdy fyzicky spoléháme na to, že jeden znak zabírá v souboru
+přesně dva bajty. Bude to problém chybného předpokladu o počtu
+bajtů na znak v souboru, nikoliv problém samotného kódování
+Unicode.
+
+Konkrétní překlad Pythonu (sys.maxunicode 64k nebo větší)
+nic neříká o vnější podobě souborů, ale jen o vnitřním
+uložení Unicode znaků. Pokud pro daný lidský jazyk
+obecně nestačí dva bajty, pak se prostě použije 
+jiný Python. Soubory zůstanou stejné.
+
+Závěr: Není dobré spoléhat na počet bajtů v souboru 
+       s unicode obsahem.
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003567.html">[python] plone - par veci
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003569.html">[python] unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3568">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3568">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3568">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3568">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003568.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:37 GMT -->
+</html>

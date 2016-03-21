@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-July/000352.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Problem s formatovanim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Problem%20s%20formatovanim&In-Reply-To=44C68636.70205%40inmail.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-July/000351.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-July/000353.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Problem s formatovanim</H1>
+    <B>Petr Hlávka</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Problem%20s%20formatovanim&In-Reply-To=44C68636.70205%40inmail.cz"
+       TITLE="[Tutor PyCZ] Problem s formatovanim">petrhlavka na gmail.com
+       </A><BR>
+    <I>Středa Červenec 26 07:26:17 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-July/000351.html">[Tutor PyCZ] Problem s formatovanim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-July/000353.html">[Tutor PyCZ] email
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-July/date.html#352">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-July/thread.html#352">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-July/subject.html#352">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-July/author.html#352">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+On 7/25/06, slacker &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">slacker na inmail.cz</A>&gt; wrote:
+&gt;<i> users = cursor.execute(&quot;SELECT user FROM table  WHERE user = '%s'&quot; % test)
+</I>&gt;<i>
+</I>
+mel bych jenom drobnou poznamku, z bezpecnostnich duvodu (SQL
+injection) by prikaz mel vypadat spise takto:
+
+users = cursor.execute(&quot;SELECT user FROM table  WHERE user = %s&quot;, (test,))
+
+kdy primo DBAPI provede escape vsech specialnich znaku...
+
+  S pozdravem Petr Hlavka.
+
+
+
+&gt;<i> preju hezky den.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> smoke wrote:
+</I>&gt;<i> &gt; Zdravim,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; narazil sem na jeden problem, ktery se mi bohuzel nedari vyresit.
+</I>&gt;<i> &gt; Neznate prosim nekdo reseni?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; O co jde:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Pomoci modulu MySQLdb provadim select z db. Problem nastane tehdy, kdy
+</I>&gt;<i> &gt; pomoci formatovani do selectu dosadim promenou:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; import MySQLdb
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; conn = MySQLdb.connect (host = &quot;host&quot;,
+</I>&gt;<i> &gt;                            user = &quot;user&quot;,
+</I>&gt;<i> &gt;                            passwd = &quot;******&quot;,
+</I>&gt;<i> &gt;                            db = &quot;db&quot;)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; cursor = conn.cursor()
+</I>&gt;<i> &gt; test = &quot;user1&quot;
+</I>&gt;<i> &gt; users = cursor.execute(&quot;SELECT user FROM table  WHERE user = '%s'&quot;)    %
+</I>&gt;<i> &gt; test
+</I>&gt;<i> &gt; ....
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; a zde to bohuzel vyhodi tuto chybu:
+</I>&gt;<i> &gt; TypeError: unsupported operand type(s) for %: 'long' and 'str'
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Vypada to jako drobnost ;o), ale nedari se mi na ni prijit - diky za
+</I>&gt;<i> &gt; kazdou radu nebo nasmerovani.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-July/000351.html">[Tutor PyCZ] Problem s formatovanim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-July/000353.html">[Tutor PyCZ] email
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-July/date.html#352">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-July/thread.html#352">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-July/subject.html#352">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-July/author.html#352">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-July/000352.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

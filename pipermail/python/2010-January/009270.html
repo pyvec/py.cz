@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009270.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:09 GMT -->
+<HEAD>
+   <TITLE> [python] JA k bysem udělal následující věc pomocí regulárních výrazů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FJA_k_bysem_ud%3DEClal_n%3DE1sleduj%3DEDc%3DED_v%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DECc_pomoc%3DED_regul%3DE1rn%3DEDch_v%3DFDraz%3DF9%3F%3D&In-Reply-To=%3C1571400937.20100115090103%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-January/009269.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-January/009271.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] JA k bysem udělal následující věc pomocí regulárních výrazů</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FJA_k_bysem_ud%3DEClal_n%3DE1sleduj%3DEDc%3DED_v%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DECc_pomoc%3DED_regul%3DE1rn%3DEDch_v%3DFDraz%3DF9%3F%3D&In-Reply-To=%3C1571400937.20100115090103%40atlas.cz%3E"
+       TITLE="[python] JA k bysem udělal následující věc pomocí regulárních výrazů">mtip na atlas.cz
+       </A><BR>
+    <I>Pátek Leden 15 09:01:03 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009269.html">[python] JA k bysem udělal následující věc pomocí regulárních výrazů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009271.html">[python] JA k bysem udělal následující věc pomocí regulárních výrazů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9270">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9270">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9270">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9270">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ja bych na to sel nejak takto:
+def sconv(text, colString=(), delimiter='\t'):
+    text = text.split(delimiter)
+    for i in xrange(len(text)):
+        s = text[i]
+        if s in colString:
+           text[i] = &quot;'%s'&quot; %s
+    return delimiter.join(text)
+
+# pak
+print sconv(&quot;1    a    c&quot;, (0,))
+
+
+Mozna to neni na jeden radek, ale nemusi se to priste upravovat pri
+zmene pocti spoupcu nebo zmene delimiteru. Akorat to nebude fungovat,
+kdyz v polich bude obsazen tabulator.
+Mirek N.
+
+
+
+MJM&gt; Vymyslel sem todle, lae není to asi příliš elegantní
+MJM&gt; print
+MJM&gt; re.sub(r&quot;([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)&quot;,&quot;'\g&lt;1&gt;'\t'\g&lt;2&gt;'\t\g&lt;3&gt;\t\g&lt;4&gt;\t'\g&lt;5&gt;'&quot;,
+MJM&gt; &quot;A	1n2	2	3	b5n2&quot;)
+MJM&gt; Je. 
+
+MJM&gt; -----Original Message-----
+MJM&gt; From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of MICHÁLEK Jan Mgr.
+MJM&gt; Sent: Friday, January 15, 2010 7:10 AM
+MJM&gt; To: Konference PyCZ
+MJM&gt; Subject: Re: [python]JA k bysem udělal následující věc pomocí regulárních výrazů
+
+MJM&gt; Abych lepší specifikoval dotaz, řekněme, že bysem měl tab
+MJM&gt; delimited tabulku, kde sou čísla a alfanumerické řetězce. A
+MJM&gt; potřeboval bych zauvozovkovat všechno, co obsahuje něco jinýho
+MJM&gt; než čísla.
+MJM&gt; Příklad:
+MJM&gt; A	1n2	2	3	b5n2
+
+MJM&gt; A chci:
+
+MJM&gt; 'A'	'1n2'	2	3	'b5n2'
+
+MJM&gt; A nejlíp kdyby šlo zadat, aby sem zauvozvoval konkrétbní
+MJM&gt; sloupce, tj, udělat, abysem zauvozovkoval natvrdo 1,2 a 5
+MJM&gt; sloupec??
+MJM&gt; Díky
+MJM&gt; Je.
+
+MJM&gt; -----Original Message-----
+MJM&gt; From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of MICHÁLEK Jan Mgr.
+MJM&gt; Sent: Friday, January 15, 2010 7:03 AM
+MJM&gt; To: Konference PyCZ
+MJM&gt; Subject: Re: [python]JA k bysem udělal následující věc pomocí regulárních výrazů
+
+MJM&gt; Ještě bych se rád optal, jak udělat, aby to bralo jen ty
+MJM&gt; písmenka, před kterejma a za kterejma je \t. Dík 
+
+MJM&gt; -----Original Message-----
+MJM&gt; From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of Petr Hlávka
+MJM&gt; Sent: Thursday, January 14, 2010 12:24 PM
+MJM&gt; To: Konference PyCZ
+MJM&gt; Subject: Re: [python]JA k bysem udělal následující věc pomocí regulárních výrazů
+
+MJM&gt; Dobrý den,
+
+MJM&gt; mělo by to jít udělat snadno s pomocí &quot;group reference&quot;
+
+MJM&gt; re.sub(r&quot;([a-z])&quot;, r&quot;'\1'&quot;, table)
+
+MJM&gt; (table je retezec obsahujici tabulku)
+
+MJM&gt;   S pozdravem Petr Hlávka.
+
+MJM&gt; 2010/1/14 MICHÁLEK Jan Mgr. &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Michalek.Jan na uhul.cz</A>&gt;:
+&gt;&gt;<i> Mam tab delimited tabulku kde jsou čísla a písmenka a potřebuju dát
+</I>&gt;&gt;<i> všechny písmenka '[a-z]' do jednoduchejch uvozovek.
+</I>&gt;&gt;<i> Takhle to vypadá
+</I>&gt;&gt;<i> 1    a    c
+</I>&gt;&gt;<i> 2    d    s
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> a takhle to chci
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 1    'a'    'c'
+</I>&gt;&gt;<i> 2    'd'    's'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> je na to nějaká finta??
+</I>&gt;&gt;<i> Dík
+</I>&gt;&gt;<i> Je.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Mgr Jan Michálek
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> oddělení GIS
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> útvar ISaT
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ÚHÚL Brandýs nad Labem
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> tel.: +420 322 319 886
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> email: mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">michalek.jan na uhul.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> url: <A HREF="http://www.uhul.cz/">http://www.uhul.cz/</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> __________ Informace od ESET NOD32 Antivirus, verze databaze 4769
+</I>&gt;&gt;<i> (20100113) __________
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Tuto zpravu proveril ESET NOD32 Antivirus.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>MJM&gt; _______________________________________________
+MJM&gt; Python mailing list
+MJM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+MJM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+ 
+
+MJM&gt; __________ Informace od ESET NOD32 Antivirus, verze
+MJM&gt; databaze 4769 (20100113) __________
+
+MJM&gt; Tuto zpravu proveril ESET NOD32 Antivirus.
+
+MJM&gt; <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+ 
+
+MJM&gt; __________ Informace od ESET NOD32 Antivirus, verze
+MJM&gt; databaze 4773 (20100114) __________
+
+MJM&gt; Tuto zpravu proveril ESET NOD32 Antivirus.
+
+MJM&gt; <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+MJM&gt; _______________________________________________
+MJM&gt; Python mailing list
+MJM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+MJM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+ 
+
+MJM&gt; __________ Informace od ESET NOD32 Antivirus, verze
+MJM&gt; databaze 4773 (20100114) __________
+
+MJM&gt; Tuto zpravu proveril ESET NOD32 Antivirus.
+
+MJM&gt; <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+ 
+
+MJM&gt; __________ Informace od ESET NOD32 Antivirus, verze
+MJM&gt; databaze 4773 (20100114) __________
+
+MJM&gt; Tuto zpravu proveril ESET NOD32 Antivirus.
+
+MJM&gt; <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+MJM&gt; _______________________________________________
+MJM&gt; Python mailing list
+MJM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+MJM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+ 
+
+MJM&gt; __________ Informace od ESET NOD32 Antivirus, verze
+MJM&gt; databaze 4773 (20100114) __________
+
+MJM&gt; Tuto zpravu proveril ESET NOD32 Antivirus.
+
+MJM&gt; <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+ 
+
+MJM&gt; __________ Informace od ESET NOD32 Antivirus, verze
+MJM&gt; databaze 4773 (20100114) __________
+
+MJM&gt; Tuto zpravu proveril ESET NOD32 Antivirus.
+
+MJM&gt; <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+MJM&gt; _______________________________________________
+MJM&gt; Python mailing list
+MJM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+MJM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009269.html">[python] JA k bysem udělal následující věc pomocí regulárních výrazů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009271.html">[python] JA k bysem udělal následující věc pomocí regulárních výrazů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9270">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9270">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9270">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9270">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009270.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:09 GMT -->
+</html>

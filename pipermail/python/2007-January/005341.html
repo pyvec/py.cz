@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005341.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+<HEAD>
+   <TITLE> [python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FModifikace_seznamu_bez_kopirovnani_%3D28byl%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fo_SQLite_-_forma_selectovan%3DFDch_dat%3D29%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005338.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005343.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FModifikace_seznamu_bez_kopirovnani_%3D28byl%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fo_SQLite_-_forma_selectovan%3DFDch_dat%3D29%3F%3D&In-Reply-To="
+       TITLE="[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pondělí Leden  8 10:33:21 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005338.html">[python] ftp passive
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005343.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5341">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5341">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5341">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5341">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman
+&gt;<i> &gt; Iterace není &quot;read only&quot;. Read only jsou zpřístupňované objekty.
+</I>&gt;<i> Iterace je &quot;read only&quot; vzhledem k iterovanému objektu, což je 
+</I>&gt;<i> občas dost nešikovné.
+</I>
+Tady se musím hádat. Přes iterátor mohu objekt zpřístupnit
+jako přes jinou referenci. Pokud objekt lze modifikovat, 
+můžu jej prostřednictvím iterátoru modifikovat na místě.
+
+&gt;<i> [...]
+</I>&gt;<i> &gt;   a = [(1,2),(3,4)]
+</I>&gt;<i> &gt;   for i in range(len(a)):
+</I>&gt;<i> &gt;       a[i] = list(a[i])
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Můžu přepsat na 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt;   a = [ (1, 2), (3, 4) ]
+</I>&gt;<i> &gt;   for i, elem in enumerate(a):
+</I>&gt;<i> &gt;       a[i] = list(elem)
+</I>&gt;<i> 
+</I>&gt;<i> Obávám se, ale že ten můj kód, tedy první verze bude 
+</I>&gt;<i> rychlejší.
+</I>
+Čím je tato obava podložena? Tipnul bych, že k tomu
+není důvod. Naopak bych čekal, že ta druhá verze bude
+rychlejší. Dá se to změřit -- přenechávám iniciativu jiným.
+
+&gt;<i> [...]
+</I>&gt;<i> &gt; Pokud bych definoval svou vlastní třídu objektů 
+</I>&gt;<i> &gt; s celočíselnou hodnotou, které by mohly být modifikovány
+</I>&gt;<i> &gt; (mutable), bylo by možné modifikovat seznam bez
+</I>&gt;<i> &gt; vytváření nového.
+</I>&gt;<i> 
+</I>&gt;<i> To jenom se snaží obejít &quot;read only&quot; vlastnost iterátoru. 
+</I>&gt;<i> Jinak já jsem modifikoval seznam bez vytváření nového.
+</I>
+Důkaz vyvracející ničím nepodložený mýtus o &quot;read-only&quot; 
+iterátorech:
+
+class T(object):
+    def __init__(self, hodnota):
+        self.hodnota = hodnota
+    def __repr__(self):
+        return repr(self.hodnota)
+
+a = [ 1, 2, 3, 4, 5 ]
+lst = [ T(e) for e in a ]
+print lst
+for t in lst:
+    t.hodnota += 3
+print lst
+
+
+pepr
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005338.html">[python] ftp passive
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005343.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5341">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5341">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5341">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5341">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005341.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+</html>

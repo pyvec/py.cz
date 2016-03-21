@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-January/000153.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] mod_python Tutorial
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20mod_python%20Tutorial&In-Reply-To=43C6709D.5000308%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-January/000152.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-January/000154.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] mod_python Tutorial</H1>
+    <B>Tomas Brabenec</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20mod_python%20Tutorial&In-Reply-To=43C6709D.5000308%40post.cz"
+       TITLE="[Tutor PyCZ] mod_python Tutorial">konference na brabenec.net
+       </A><BR>
+    <I>Pátek Leden 13 09:26:02 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-January/000152.html">[Tutor PyCZ] mod_python Tutorial
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-January/000154.html">[Tutor PyCZ] mod_python Tutorial
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/date.html#153">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/thread.html#153">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/subject.html#153">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/author.html#153">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Tomas Brabenec
+<A HREF="http://brabenec.net/">http://brabenec.net</A>
+ 
+
+
+
+geon napsal(a):
+&gt;<i> from mod_python import apache
+</I>&gt;<i>
+</I>&gt;<i> class handler:
+</I>&gt;<i>      def __init__(self, req):
+</I>&gt;<i>        self.zapisuj(req)
+</I>&gt;<i>
+</I>&gt;<i>    def zapisuj(self, req):
+</I>&gt;<i>        req.write( &quot;Ja jsem instance!&quot;)
+</I>&gt;<i>
+</I>&gt;<i>        return apache.OK
+</I>&gt;<i>
+</I>&gt;<i> :-) , sice to zapisuje do stránky, ale navíc to pořád na konec píše, 
+</I>&gt;<i> že to vrací chybu - má to totiž vrátit číslo (nejlépe 0), ale vrací to 
+</I>&gt;<i> samu sebe (třída), takže výstup je chyba  a nevím jak to ošetřit bez 
+</I>&gt;<i> zásahu do apache.py ...
+</I>&gt;<i>
+</I>&gt;<i> &lt;Directory &quot;C:/Program Files/Apache Group/Apache2/htdocs/test&quot;&gt;
+</I>&gt;<i>    AddHandler mod_python .py
+</I>&gt;<i>    PythonHandler mptest
+</I>&gt;<i>    PythonDebug On
+</I>&gt;<i> &lt;/Directory&gt;
+</I>&gt;<i>
+</I>&gt;<i> Zdar
+</I>Tak to se mi to chova uplne stejne jako tobe, ale je divny, ze kdyz 
+udelam toto:
+
+&lt;Directory &quot;C:/www&quot;&gt;
+   AddHandler mod_python .py
+   PythonHandler mod_python.publisher
+   PythonDebug On
+&lt;/Directory&gt;
+
+
+from mod_python import apache
+
+class index:
+    def __init__(self, req):
+        self.zapisuj(req)
+
+    def zapisuj(self, req):
+        req.write( &quot;Ja jsem instance!&quot;)
+
+        return apache.OK   
+
+Tak mi to pri pristupu napise: You don't have permission to access 
+/mptest.py/index on this server.
+To je divny.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-January/000152.html">[Tutor PyCZ] mod_python Tutorial
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-January/000154.html">[Tutor PyCZ] mod_python Tutorial
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/date.html#153">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/thread.html#153">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/subject.html#153">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/author.html#153">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-January/000153.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

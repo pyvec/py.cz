@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003335.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:43 GMT -->
+<HEAD>
+   <TITLE> [python] CA certifikat + rewrite Apache a ZOPE
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20CA%20certifikat%20%2B%20rewrite%20Apache%20a%20ZOPE&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-September/003334.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-September/003336.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] CA certifikat + rewrite Apache a ZOPE</H1>
+    <B>Google Mail</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20CA%20certifikat%20%2B%20rewrite%20Apache%20a%20ZOPE&In-Reply-To="
+       TITLE="[python] CA certifikat + rewrite Apache a ZOPE">markiza na gmail.com
+       </A><BR>
+    <I>Středa Září 21 03:58:42 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003334.html">[python] Instalace Python pod XP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003336.html">[python] CA certifikat + rewrite Apache a ZOPE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3335">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3335">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3335">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3335">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim podarilo sa mi (konecne) rozchodit rewrite z https, ale nastal 
+zaujimavy problem, ked dam na tu rewrite domenu browser vypyta si to okno na 
+schvalenie certifikatu, pritom je to obycajny http.
+
+rewrite mam takto:
+&lt;VirtualHost 195.11.11.11:80 &lt;<A HREF="http://195.11.11.11/">http://195.11.11.11:80</A>&gt;&gt;
+ ServerAdmin <A HREF="http://www.py.cz/mailman/listinfo/python">markiza na gmail.com</A>
+ ServerName www.test.sk:80 &lt;<A HREF="http://www.test.sk/">http://www.test.sk:80</A>&gt;
+ RewriteEngine On
+ RewriteRule ^[^/].* - [F,L]
+ RewriteCond %{HTTP_COOKIE} ^.*__ac.* [OR]
+ RewriteCond %{HTTP_URI} ^.*/login_.*
+ RewriteRule ^/(.*) <A HREF="https://www.test.sk/www.test.sk/$1">https://www.test.sk/www.test.sk/$1</A> [L,R]
+ RewriteRule ^/manage(.*) <A HREF="https://www.test.sk/www.test.sk/manage$1">https://www.test.sk/www.test.sk/manage$1</A> [L,R]
+ RewriteRule ^/(.*)login_form(.*) 
+<A HREF="https://www.test.sk/www.test.sk/$1login_form$2">https://www.test.sk/www.test.sk/$1login_form$2</A> [L,R]
+ RewriteRule ^/(.*)
+<A HREF="http://127.0.0.1:8080/VirtualHostBase/http/www.test.sk:80/www.test.sk/VirtualHostRoot/$1">http://127.0.0.1:8080/VirtualHostBase/http/www.test.sk:80/www.test.sk/VirtualHostRoot/$1</A>
+[L,P]&lt;<A HREF="http://127.0.0.1:8080/VirtualHostBase/http/www.test.sk:80/www.test.sk/VirtualHostRoot/$1[L,P]">http://127.0.0.1:8080/VirtualHostBase/http/www.test.sk:80/www.test.sk/VirtualHostRoot/$1[L,P]</A>&gt;
+&lt;/VirtualHost&gt;
+
+
+Toto slape ked dam browser na www.test.sk &lt;<A HREF="http://www.test.sk/">http://www.test.sk</A>&gt; tak pekne ide 
+pod http a nie https, ale vypyta si na odklepnutie certifikat, ten som aj 
+autorizoval a ani to nepomohlo, neviem naco si ho pyta na http protokole.
+
+Certifikat som robil (nepopisujem vytvorenie demoCA, index atd.):
+#
+openssl req -new -nodes -x509 -nodes -out /etc/ssl/demoCA/cacert.pem -keyout 
+/etc/ssl/demoCA/private/cakey.pem -days 3650
+chmod 400 /etc/ssl/demoCA/private/cakey.pem
+#hotovo na strane CA
+
+#vytvorenie podpisaneho certifikatu
+#tymto ziskame ziadost a kluc
+openssl req -new -nodes -out request.pem -keyout key.pem -days 3650
+#a zahrame sa na certifikacnu autoritu
+openssl ca -in request.pem -out cert.pem
+
+v apachovi som samozrejme dal:
+SSLCertificateFile /etc/apache2/ssl/cert.pem
+SSLCertificateKeyFile /etc/apache2/ssl/key.pem
+a restart
+
+Vie niekto kde by mohol byt problem?
+
+Vdaka.
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20050921/7f5cc6f8/attachment.htm">http://www.py.cz/pipermail/python/attachments/20050921/7f5cc6f8/attachment.htm</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003334.html">[python] Instalace Python pod XP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003336.html">[python] CA certifikat + rewrite Apache a ZOPE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3335">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3335">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3335">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3335">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003335.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:43 GMT -->
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002064.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:13 GMT -->
+<HEAD>
+   <TITLE> [python] multithreading &amp; mutable sequence types
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20multithreading%20%26%20mutable%20sequence%20types&In-Reply-To=mailman.13.1098704971.32358.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-October/002065.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-October/002067.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multithreading &amp; mutable sequence types</H1>
+    <B>Marek Schmidt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20multithreading%20%26%20mutable%20sequence%20types&In-Reply-To=mailman.13.1098704971.32358.python%40py.cz"
+       TITLE="[python] multithreading &amp; mutable sequence types">xschmi01 na stud.fit.vutbr.cz
+       </A><BR>
+    <I>Pondělí Říjen 25 14:13:40 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002065.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002067.html">[python] time, DateTime a MySQLdb
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2064">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2064">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2064">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2064">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Radek Kanovsky wrote:
+&gt;<i> On Mon, Oct 25, 2004 at 11:02:52AM +0200, Marek Schmidt wrote:
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;&gt;<i>Dobrý den,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>s Pythonem teprve začínám a tak ještě nejsem příliž zběhlý v hledání 
+</I>&gt;&gt;<i>odpovědí na otázky... snažil jsem se... :-)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Jsou operace s pythonovským seznamem thread-safe?
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Obecne nejsou zadne operace v pythonu thread-safe, ale konkretne append
+</I>&gt;<i> a pop nad seznamem jo, protoze jsou implementovane v C a behem jejich
+</I>&gt;<i> vykonavani je zamceny Global Interpreter Lock (GIL) a nikdo druhy by
+</I>&gt;<i> nemel mit sanci neco s tim seznamem udelat. Funkce/metody psane v C
+</I>&gt;<i> mohou GIL explicitne odemknout, pokud na neco cekaji (typicky na I/O),
+</I>&gt;<i> ale tyto dve to nedelaji. Nicmene asi neni dobre na to spolehat a navic
+</I>&gt;<i> to urcite plati jenom CPythonu. Jython, IronPython a dalsi odrudy se
+</I>&gt;<i> mohou chovat odlisne (neznam).
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;&gt;<i>Potřebuji udělat něco takového:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>class KnightWhoSayNi(threading.Thread):
+</I>&gt;&gt;<i>  def __init__(self):
+</I>&gt;&gt;<i>    ...
+</I>&gt;&gt;<i>    self.semafor = threading.Semaphore(0)
+</I>&gt;&gt;<i>    self.queue = []
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  def queueSayNi(self, target):
+</I>&gt;&gt;<i>    self.queue.append(target)
+</I>&gt;&gt;<i>    self.semafor.release()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  def run(self):
+</I>&gt;&gt;<i>    while True:
+</I>&gt;&gt;<i>       self.semafor.acquire()
+</I>&gt;&gt;<i>       target = self.queue.pop(0)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>       sayNiToTarget(target)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>queueSayNi se bude volat z jiných threadů. Můj dotaz pochopitelně zní: 
+</I>&gt;&gt;<i>Je bezpečné to udělat takto a nebo je nutné operace s queue uzavřít mezi 
+</I>&gt;&gt;<i>lock.acquire a lock.release? (případně, nejde to vše udělat nějak úplně 
+</I>&gt;&gt;<i>jinak a lépe? :-)
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Ja bych na tohle pouzil asi threading.Condition. Moc se mne nelibi
+</I>&gt;<i> ono acquire/release v ruznych metodach.
+</I>&gt;<i>     
+</I>&gt;<i>     [...]
+</I>&gt;<i> 
+</I>&gt;<i>     def __init__ (self) :
+</I>&gt;<i>         ....
+</I>&gt;<i>         self.cond = threading.Condition()
+</I>&gt;<i>         self.queue = []
+</I>&gt;<i> 
+</I>&gt;<i>     def queueSayNi(self, target):
+</I>&gt;<i>         self.cond.acquire()
+</I>&gt;<i>         self.queue.append(target)
+</I>&gt;<i>         self.cond.notify()
+</I>&gt;<i>         self.cond.release()
+</I>&gt;<i>  
+</I>&gt;<i>     def run(self):
+</I>&gt;<i>         while True:
+</I>&gt;<i>             self.cond.acquire()
+</I>&gt;<i>             while not self.queue :
+</I>&gt;<i>                 self.cond.wait()
+</I>&gt;<i>             target = self.queue.pop(0)
+</I>&gt;<i>             self.cond.release()
+</I>&gt;<i>             sayNiToTarget(target)
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Pokud je seznam prazdny, odemce cond.wait() zamek a ceka na cond.notify().
+</I>&gt;<i> cond.notify() je volano po vlozeni noveho prvku a to vzbudi cekajici
+</I>&gt;<i> cond.wait(). Po navratu z cond.wait() je zamek opet zamceny.
+</I>
+Aha! Tak takhle se da pouzit Condition.. diky moc!
+
+&gt;<i> Ni! Ni! Ni! Ni! Ni! Ni!
+</I>
+Od ted je to KnightWhoTillRecentlySaidNi
+&gt;<i> RadekK
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002065.html">[python] multithreading &amp; mutable sequence types
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002067.html">[python] time, DateTime a MySQLdb
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2064">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2064">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2064">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2064">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002064.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:13 GMT -->
+</html>

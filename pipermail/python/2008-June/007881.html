@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007881.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:05 GMT -->
+<HEAD>
+   <TITLE> [python] Guido o funkcich reduce(), filter() a map() v Python 3000
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=48626003.603%40brabenec.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007873.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007876.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Guido o funkcich reduce(), filter() a map() v Python 3000</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=48626003.603%40brabenec.net"
+       TITLE="[python] Guido o funkcich reduce(), filter() a map() v Python 3000">feed na centrum.cz
+       </A><BR>
+    <I>Středa Červen 25 17:51:12 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007873.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007876.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7881">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7881">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7881">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7881">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i> V assembleru neni moc co noveho vymyslet a i ostatni se vyviji. Vzdy 
+</I>&gt;<i> Python se od ostatnich jazyku co do vyvoje nikdy moc nelisil, proste sel 
+</I>&gt;<i> svouji cestou vyvoje. Jedinne co je jinak je proste chut udelat &quot;cistku&quot;.
+</I>&gt;<i>   
+</I>Assembler se dost vyvíjí :-) Divil byste se, jaké změny jsou teď právě 
+na úrovni assembleru a strojového kódu. :-)
+
+Ohledně toho nelišení se - všechny ženy jsou &quot;v zásadě stejné&quot; - po 
+anatomické, vývojové i řadě dalších stránek. A přesto si nevyberete 
+namítkou mezi nimi :-)
+
+Já jediné co říkám, je že Python je prostě hračka nikoli možnostmi 
+jazyka, ale jeho &quot;zázemím&quot; a přístupem pana Rossuma a komunikty kolem 
+něj. Já jenom co mohu říci - celý hw/sw/it svět je plný záruk, norem, 
+standardů - jinak by to nešlo. A pokud o něco většího jde, záruky je 
+první, co se řeší. Vlastně i tuto konferenci i maily můžeme dostávat 
+jenom díky tomu, že spousta lidí nedostala chuť udělat &quot;čistku&quot;, protože 
+jinak bychom dnes svítili loučemi.
+
+&gt;&gt;<i> Jinak vybral jste si špatný jazyk - PHP se dost mění a je mu to značně
+</I>&gt;&gt;<i> vytýkáno.
+</I>&gt;&gt;<i>   
+</I>&gt;&gt;<i>     
+</I>&gt;<i> Ano prave, moc se meni, ale necisti, naopak se plni novym a novym 
+</I>&gt;<i> balastem a to je ten problem.
+</I>&gt;<i>   
+</I>To je do jisté míry pravda. Nicméně mi přijde poněkud slabošský přístup 
+obhajovat Python tak, že najdeme horší přístup a srovnáme to s Pythonem.
+&gt;<i> Guido se rozhodl jazyk vycistit a to je to o cem mluvim.
+</I>&gt;<i>   
+</I>A otázka je, zda to nedopadne třeba hůř, než PHP. Výsledek tu ještě 
+nemáme, a neříkejte hop, dokud se nepřeskočí. Já osobně nejsem 
+přesvědčen, že jeho změny jsou až tak moc k lepšího, ba právě naopak.
+&gt;<i>
+</I>&gt;<i> Jinak, kdyz jsme u te zpetne nekompatibility, jaky myslite, ze je 
+</I>&gt;<i> rozdil, kdyz se &quot;trosku&quot; zmeni cely jazyk, nebo kdyz Vam vyvojari 
+</I>&gt;<i> kompletne prekopou framework, ve kterem vyvijite aplikaci?
+</I>&gt;<i> Navic u Pythonu bude verze 2.6, ktera pomuze odhalit nedostatky, 
+</I>&gt;<i> upozorni na ne, a clovek je bude moci upravit, ale kdyz vyvojari 
+</I>&gt;<i> kompletne zahodili CherryPy a zacali od nuly nebo kdyz se pod rukama 
+</I>&gt;<i> meni Pylons (bez radne dokumentace), co chcete delat potom.
+</I>&gt;<i>   
+</I>A jaký je mezi tím rozdíl? Vyberte si seriózní jazyk, a seriózní 
+framework se zárukami. Záruky nemusí být vůbec vyslovené, ale sledujte 
+přístup lidí, co rozhodují.
+
+Já osobně na záruky velmi dbám. Když jsem objevil Python, byl jsem 
+nadšen. Rozhodl jsem se, že z něho udělám hlavní programovací jazyk, a 
+začal jsem věci na zakázku dělat v něm. Jak jsem ho postupně objevoval a 
+rozšiřoval se můj záběr v Pythonu, začal jsem studovat i dění a 
+Rossumovy akce. Velmi rychle mi došlo, že buď se mi něco zdá, a nebo 
+jsem vsadil na špatného koně. Po hlubším studiu dění kolem Pythonu mi 
+došla pravda, a já jsem pochopil, že Python není seriózní volba. Rád ho 
+používám na jednorázové akce, dále jako shell, a jinak jsem se vrátil k 
+jiným technologiím. Některé věci jsem z Pythonu přepsal do jiných 
+technologií, a Python jsem škrtnul díky nulovým zárukám a nulové 
+zodpovědnosti pana Rossuma z jazyků, které používám na důležité věci.
+
+U frameworků a technologií je to to samé - úplně stejný přístup.
+
+&gt;<i> Navic kompletni zmena frameworku je docela zavazny problem, predstavte 
+</I>&gt;<i> si, ze mate aplikaci, ktera nekolik let funguje, funguje dobre, stale ji 
+</I>&gt;<i> vyvijite a najednou zjistite, ze tvurci frameworku na kterem mate 
+</I>&gt;<i> aplikaci postavenou starou koncepci zahazuji a delaji uplne novou. 
+</I>&gt;<i> Nezbyva nez celou aplikaci prepsat nebo si ji udrzovat pod starym 
+</I>&gt;<i> frameworkem s tim, ze uz k nemu nevychazi aktualizace a vsechny bugy tam 
+</I>&gt;<i> zustali, takze si je musite upravit sami, pripadne proste cely framework 
+</I>&gt;<i> pojmout jako soucast aplikace takze vcetne dalsiho rozsirovani.
+</I>&gt;<i>   
+</I>Souhlasím s tím, že změna frameworku je závažný problém. Ale 
+programovací jazyk je jako magnet - přitahuje stejné lidi. Jestliže 
+Pythonovské komunitě nevadí, že jim někdo v jazyce pořád řeže větve pod 
+rukama, a že si autor Pythonu naváží práce programátorů pracujících v 
+Python, pak bude přitahovat stejné lidi. A větší projekty v Pythonu 
+budou dělat lidi, kterým vyhovuje Pythonovská zásada = kašleme na 
+zopodvědnost, kašleme na práci druhých. A není pak divu, že pythonovské 
+frameworky budou dělat lidé se stejnou filozofií jako &quot;vůdce&quot;, tedy 
+Rossum. Nebudou se tedy bát zničit Vaší práci, ani totálně leccos 
+změnit, protože to je správné! To je ten správný vývoj!
+
+Stejné přitahuje stejné - to platí v životě, ve firmách, ve vztazích, v 
+komunitách, i v programovacích jazycích.
+&gt;<i> Osobne se taky prechodu trosku obavam (jako pri kazdem prechodu na novou 
+</I>&gt;<i> verzi jazyka) a nejsem z toho nadseny, bude to asi docela makacka, ale 
+</I>&gt;<i> to je proste zivot. Proste chci jen rict, ze pohnutkam castecne rozumim 
+</I>&gt;<i> a ikdyz se mi neco v nove verzi nelibi, je to proste tak. Stejne tak i 
+</I>&gt;<i> rozumim Vasemu rozhorceni. Porad si ale rikam, ze kdyz neco vede k 
+</I>&gt;<i> lepsimu (coz snad Py3 zase o neco lepsi bude), tak clovek musi holt neco 
+</I>&gt;<i> prekousnout.
+</I>&gt;<i>   
+</I>Jenže v jiných jazycích před každou změnou se tvrdě obhajuje, že to bude 
+změna k lepšímu a dává se na jednu stranu vah přínos změny a na druhou 
+ztráty na základě nutnosti investic do změn již napsaného kódu a jejich 
+nové odladění. A u pana Rossuma ani komunity nevidím zvážení té druhé 
+misky vah.
+&gt;<i> Kazdopadne tohle se tu rozebiralo uz milionkrat a je to porad dokola ;-) 
+</I>&gt;<i> tak uz radsi s reakcema koncim, nebo zas udelame vlakno dlouhy jak 
+</I>&gt;<i> konvoj veznu do Gulagu :-D
+</I>&gt;<i>   
+</I>Souhlasím.
+
+Miloslav Ponkrác
+
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007873.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007876.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7881">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7881">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7881">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7881">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007881.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:05 GMT -->
+</html>

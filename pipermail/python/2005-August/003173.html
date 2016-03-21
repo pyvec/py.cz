@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003173.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:49 GMT -->
+<HEAD>
+   <TITLE> [python] utf-8 na ascii
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20utf-8%20na%20ascii&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-August/003179.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-August/003183.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] utf-8 na ascii</H1>
+    <B>garabik-news-2005-05 na kassiopeia.juls.savba.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20utf-8%20na%20ascii&In-Reply-To="
+       TITLE="[python] utf-8 na ascii">garabik-news-2005-05 na kassiopeia.juls.savba.sk
+       </A><BR>
+    <I>Pátek Srpen  5 10:01:50 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003179.html">[python] utf-8 na ascii
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003183.html">[python] utf-8 na ascii
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3173">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3173">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3173">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3173">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>SIBAL Pavel &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">entexsoft na entexsoft.cz</A>&gt; wrote:
+&gt;<i> Zdravim Vas
+</I>&gt;<i> Mam problem s prevodem textu v utf-8 (s diakritikou) na text bez diakritiky 
+</I>&gt;<i> (ascii).
+</I>
+na text bez diakritiky alebo na ascii? je to rozdiel, napriklad ak tam
+bude nejaka azbuka alebo grectina....
+
+&gt;<i> Chtel bych se zeptat, zda existuje nejake jednodussi (elegantnejsi) 
+</I>&gt;<i> reseni nez prepsat celou kodovaci tabulku necim takovym:
+</I>&gt;<i> ...
+</I>&gt;<i> line = string.replace (line, &quot;\342\200\224&quot;, &quot;--&quot;)
+</I>
+line = unicode(line, 'utf-8')
+line = unicodedata.normalize('NFKD', line)
+output = ''
+for c in line:
+    if not unicodedata.combining(c):
+        output += c
+
+pripadny prepis s pouzitim list comprehensions necham za domacu ulohu
+:<i>-)
+</I>
+
+-- 
+ -----------------------------------------------------------
+|<i> Radovan Garabík <A HREF="http://kassiopeia.juls.savba.sk/~garabik/">http://kassiopeia.juls.savba.sk/~garabik/</A> |
+</I>|<i> __..--^^^--..__    garabik @ kassiopeia.juls.savba.sk     |
+</I> -----------------------------------------------------------
+Antivirus alert: file .signature infected by signature virus.
+Hi! I'm a signature virus! Copy me into your signature file to help me spread!
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003179.html">[python] utf-8 na ascii
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003183.html">[python] utf-8 na ascii
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3173">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3173">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3173">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3173">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003173.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:49 GMT -->
+</html>

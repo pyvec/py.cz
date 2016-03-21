@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000595.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] tkinter X wxpython - pohled zacatecnika
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20tkinter%20X%20wxpython%20-%20pohled%20zacatecnika&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000596.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000600.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] tkinter X wxpython - pohled zacatecnika</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20tkinter%20X%20wxpython%20-%20pohled%20zacatecnika&In-Reply-To="
+       TITLE="[Tutor PyCZ] tkinter X wxpython - pohled zacatecnika">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Říjen 17 11:06:54 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000596.html">[Tutor PyCZ] tkinter X wxpython - licence (pohled zacatecnika)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000600.html">[Tutor PyCZ] tkinter X wxpython - licence (pohled zacatecnika)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#595">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#595">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#595">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#595">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman
+&gt;<i> sebastian
+</I>&gt;<i> &gt; [nejdříve se tázal, jaké GUI zvolit]
+</I>&gt;<i> &gt; Asi bych se mel trochu rozepsat o tom co vlastne hledam.
+</I>&gt;<i> &gt; [...] Ale ted mam casu malo ;-) a kdyz uz do neceho 
+</I>&gt;<i> &gt; investuji svuj cas chci aby se to v budoucnu dalo pouzit 
+</I>&gt;<i> &gt; na co nejvice veci (proto se taky ucim Python a ne 
+</I>&gt;<i> &gt; &quot;nove&quot; C++ ;-)).
+</I>&gt;<i> &gt; [...] vim ze neexistuje jednoznacna odpoved ale jde 
+</I>&gt;<i> &gt; o to co je prespektivnejsi, univerzalnejsi a efektivnejsi
+</I>&gt;<i> &gt; [...]
+</I>
+wx znamená Windows/uniX (možná X-window) a už z principu
+se od Tkinter liší tím, že neexistuje &quot;nějaký&quot; toolkit, který
+se snaží napasovat do &quot;cizího&quot; operačního systému. Místo 
+toho se snaží hledat to, co je v různých OS obecné. Zakládá
+abstrakce (jako třeba &quot;událost&quot;), které principiálně musí
+existovat, ale které může každý OS řešit jinak. wxWidgets
+tím posunuje úroveň abstrakce směrem k vyšším hladinám 
+a zakrývá před programátorem nutnost řešit související
+problémy. To je podle mého názoru jediná do budoucna 
+udržitelná cesta -- vytvořit abstrakce nezávislé na konkrétním 
+prostředí. Uživatel (programátor) musí být osvobozen od věcí, 
+které jej nemusí zajímat. Může pak uvažovat v abstrakcích, 
+které jsou principiální a zadávat jen principiálně důležité
+věci.
+
+wxWidgets tedy budují abstraktní základy, na kterých 
+je celé GUI postaveno. Jedním z praktických důsledků
+je právě to, že výsledek vypadá přirozeně v každém OS.
+
+Druhý praktický důsledek je ten, že se to pak pod různými
+OS programuje stejně. Tím mám na mysli způsob uvažování
+a výstavby programu při jeho tvorbě. Jako ilustrační protipól
+bych uvedl MS Windows a využití starých překladačů C++
+(Borland + OWL starší) a novějších překladačů C++: 
+Borland + OWL, MSC + Petzold like, MSVC + ATL, MSVC + WTL, 
+MSVC + MFC, MSVC + .NET framework), kdy každá kombinace
+vyžaduje jiný styl práce.
+
+Třetí praktický důsledek -- mnozí to již pochopili
+a proto je kolem wxWidgets taková aktivita.
+
+&gt;<i> [...] moje zkušenosti jsou takové, že ačkoli Vám kdekdo 
+</I>&gt;<i> poradí, stejně narazíte na problémy. [...]
+</I>&gt;<i> U wxPython tyhle problémy nejsou, ale jsou problémy jiné. 
+</I>&gt;<i> Například v případě chyby se otevře okno, vypíše se chyba, 
+</I>&gt;<i> okno se okamžitě zavře a aplikace se ukončí. Výborný kurs 
+</I>&gt;<i> rychločtení, akorát se mi fakt ještě nepovedlo přečíst 
+</I>&gt;<i> popis chyby za desetinu sekundy... Takže pokud budete 
+</I>&gt;<i> psát bezchybné programy jste z obliga :-)
+</I>
+Je jasné, že tohle není a nemůže být problém jediného
+člověka a že to asi někdo řešil a vyřešil. Možná se stačilo
+jen zeptat.
+
+Zdá se, že u Python 2.5 a odpovídající verze wxPython
+už to funguje lépe (se mi zdá). Ale už dříve se to dalo 
+vyřešit pouhým použitím parametru při konstrukci aplikačního
+objektu. Pokud hlavní spouštěný skript končí třeba takhle...
+
+def main():
+    app = App()
+    app.MainLoop()
+
+
+if __name__ == '__main__':
+    main()
+
+a jen to problikne, stačí při ladění spustit aplikaci
+z terminálového okna explicitně příkazem &quot;python main.py&quot;.
+Pokud to nevyhovuje, stačí změnit implicitní parametr na 
+
+    app = App(True)
+
+případně dokonce
+
+    app = App(True, 'err.log')
+
+Na přečtení výpisu o chybě pak bude dost času.
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000596.html">[Tutor PyCZ] tkinter X wxpython - licence (pohled zacatecnika)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000600.html">[Tutor PyCZ] tkinter X wxpython - licence (pohled zacatecnika)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#595">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#595">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#595">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#595">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000595.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

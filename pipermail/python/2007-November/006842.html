@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006842.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:13 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=474DBC9B.3000104%40gentoo.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006841.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006843.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Filip Štědrosnký</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=474DBC9B.3000104%40gentoo.org"
+       TITLE="[python] sockety - problem s HTTP spojenim">regnarg na seznam.cz
+       </A><BR>
+    <I>Středa Listopad 28 20:27:13 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006841.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006843.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6842">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6842">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6842">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6842">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, Nov 28, 2007 at 08:08:11PM +0100, Jan Kundr&#65533;t wrote:
+&gt;<i> Filip Štědrosnký wrote:
+</I>&gt;<i> &gt; buffer=&quot;příkaz1\npříkaz2\n&quot;
+</I>&gt;<i> &gt; buffer+=&quot;příkaz3\n&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Omlouvam se, ze si tuto hypotezu neoverim, ale neda mi nez reagovat.
+</I>&gt;<i> Tenhle pristup obecne neni thread-safe. Budeme predpokladat, ze operator
+</I>&gt;<i> &quot;+=&quot; opravdu provede pouze hloupy append za konec stavajiciho stringu, a
+</I>&gt;<i> ze tedy &quot;buffer&quot; je opravdu obycejny string a ne nejaka specialni
+</I>&gt;<i> aio-specificka struktura, ktera si zamykani resi sama.
+</I>&gt;<i> 
+</I>&gt;<i> Problemem je, ze &quot;append stringu&quot; zdaleka neni atomicka operace, teda
+</I>&gt;<i> takova, ktera kdyz jednou zacne, tak bez preruseni dobehne (coz mimojine
+</I>&gt;<i>  je opravdu malo veci, i obycejne &quot;pricteni jednicky k intu&quot; neni
+</I>&gt;<i> atomicke). Muze klidne nastat situace, kdy operace += muze vyzadovat
+</I>&gt;<i> relokaci pameti, a potom se muze stat nasledujici:
+</I>&gt;<i> 
+</I>&gt;<i> Hlavni thread: volam operator+=().
+</I>&gt;<i> Hlavni thread: operator+=(): vidim, ze v bufferu uz neco je, a pridani
+</I>&gt;<i> dat si vyzada zvetseni pridelene pameti. Naalokuju tedy interne novy
+</I>&gt;<i> buffer a prekopiruju do nej stavajici data. Chystam se za konec pridat
+</I>&gt;<i> data nova, kdyz tu...
+</I>&gt;<i> Thread AIO se dostava ke slovu. Vidi data v bufferu, tak je precte,
+</I>&gt;<i> odstrani, odesle. Chysta se dale delat svou praci, kdyz tu ho planovac
+</I>&gt;<i> uspi a pusti ke slovu...
+</I>&gt;<i> Hlavni thread: ani nevi, ze byl prerusen. Takze placnu za svou kopii(!)
+</I>&gt;<i> puvodnich dat data nova a cely interni nove naalokovany buffer priradim
+</I>&gt;<i> do promenne &quot;buffer&quot;, ktera se vsak mezitim vyprazdnila. Ja o tom ale
+</I>&gt;<i> vubec nevim.
+</I>&gt;<i> 
+</I>&gt;<i> Vysledek: V bufferu jsou stara data, ktera tam nemaji co delat.
+</I>&gt;<i> 
+</I>&gt;<i> Hezky vecer a pouzivejte zamykani, pripadne vhodnejsi datove struktury,
+</I>
+
+Zdravím a omlouvám se za další narušení hypotézy, ale:
+1) myslel jsem, že se nejedná o threaded aplikaci ale asyncore/asynchat,
+   alespoň jsem to tak z kontextu pochopil
+
+2) stringy jsou neměnitelné, takže to není append, ve skutečnosti se
+   spojí, vytvoří se nový string a ten se teprve přiřadí, to už atomická
+   operace je
+
+3) vzhledem k pythonímu GIL je vše (mnohdy až příliš) thread-safe a pokud
+   nepoužíváte nějaké neobvyklé C extenze, nemusíte zamykat skoro nic
+
+
+-- 
+regnarg -- Homepage: <A HREF="http://rg.pretel.cz/">http://rg.pretel.cz</A> -- JID: <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>
+V péči o štěstí druhých nacházíme své vlastní.         -- Platón
+Čestná smrt je lepší než život v hanbě.                -- Tacticus
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006841.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006843.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6842">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6842">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6842">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6842">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006842.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:13 GMT -->
+</html>

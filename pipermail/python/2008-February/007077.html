@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-February/007077.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:41 GMT -->
+<HEAD>
+   <TITLE> [python] přiřazení proměnným název p roměnných
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FcMWZacWZYXplbsOtIHByb23Em25uw71tIG7DoXpldiBw%3F%3D%0A%09%3D%3Futf-8%3Fb%3FIHJvbcSbbm7DvWNo%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-February/007076.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-February/007078.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] přiřazení proměnným název p roměnných</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FcMWZacWZYXplbsOtIHByb23Em25uw71tIG7DoXpldiBw%3F%3D%0A%09%3D%3Futf-8%3Fb%3FIHJvbcSbbm7DvWNo%3F%3D&In-Reply-To="
+       TITLE="[python] přiřazení proměnným název p roměnných">azurit na pobox.sk
+       </A><BR>
+    <I>Sobota Únor  2 13:54:53 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-February/007076.html">[python] přiřazení proměnným název proměnných
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-February/007078.html">[python] přiřazení proměnným název proměnných
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-February/date.html#7077">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/thread.html#7077">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/subject.html#7077">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/author.html#7077">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+ak pouzivas MySQL a modul mysql-python, tak tam je mozne urobit toto:
+db_conn.query(&quot;SELECT id,jmeno,prijmeni ....&quot;)
+res = db_conn.store_result().fetch_row(maxrows=0, how=1) # dolezite tu je to how=1
+
+nasledne mozes robit toto:
+
+for i in res:
+  print i[&quot;id&quot;]
+  print i[&quot;jmeno&quot;]
+  print i[&quot;prijmeni&quot;]
+
+proste to vrati dictionary
+
+
+&gt;<i>-----Pôvodná správa-----
+</I>&gt;<i>Od: Vladislav Ludík [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>]
+</I>&gt;<i>Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i>Predmet: [python] přiřazení proměnným název p roměnných
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Z databáze načítám data, například:
+</I>&gt;<i>
+</I>&gt;<i>select = [id,jmeno,prijmeni,...]
+</I>&gt;<i>data =  nacti(select) # funkce nacti(select) čte data z databáze
+</I>&gt;<i>
+</I>&gt;<i>pro další přehlednost v práci pak provádím ručně přiřazení:
+</I>&gt;<i>
+</I>&gt;<i>id = data[0]
+</I>&gt;<i>jmeno = data[1]
+</I>&gt;<i>prijmeni = data[2]
+</I>&gt;<i>atd.
+</I>&gt;<i>
+</I>&gt;<i>Nakonec pracuji se stejnými jmény proměnných, jaké jsem definoval na
+</I>&gt;<i>začátku při výběru v select.
+</I>&gt;<i>Pokud je proměnných pár, nic se neděje. Často ale mám proměnných desítky.
+</I>&gt;<i>
+</I>&gt;<i>A nyní dotaz:
+</I>&gt;<i>
+</I>&gt;<i>Lze přiřazování proměnných provést efektivněji?
+</I>&gt;<i>
+</I>&gt;<i>Zná někdo jednoduché řešení?
+</I>&gt;<i>Děkuji předem za konkrétní příklad.
+</I>-------------------
+Menu.sk - Denne aktualizovany zoznam obedovych menu a restauracii s presnou lokalizaciou. 
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-February/007076.html">[python] přiřazení proměnným název proměnných
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-February/007078.html">[python] přiřazení proměnným název proměnných
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-February/date.html#7077">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/thread.html#7077">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/subject.html#7077">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-February/author.html#7077">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-February/007077.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:41 GMT -->
+</html>

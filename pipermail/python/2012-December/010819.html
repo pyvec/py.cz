@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-December/010819.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:19 GMT -->
+<HEAD>
+   <TITLE> [python] gui,vlakna
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20gui%2Cvlakna&In-Reply-To=%3C1983938361-1354647554-cardhu_decombobulator_blackberry.rim.net-32458140-%40b4.c4.bise7.blackberry%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-December/010818.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-December/010820.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] gui,vlakna</H1>
+    <B>rainbof na gmail.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20gui%2Cvlakna&In-Reply-To=%3C1983938361-1354647554-cardhu_decombobulator_blackberry.rim.net-32458140-%40b4.c4.bise7.blackberry%3E"
+       TITLE="[python] gui,vlakna">rainbof na gmail.com
+       </A><BR>
+    <I>Úterý Prosinec  4 19:59:13 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010818.html">[python] gui,vlakna
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010820.html">[python] gui,vlakna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-December/date.html#10819">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/thread.html#10819">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/subject.html#10819">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/author.html#10819">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hledal bych metodu process
+
+odeslano z blackberry 9900 (iphone sucks)
+
+-----Original Message-----
+From: vepro &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt;
+Sender: &quot;Python&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>&gt;Date: Mon, 03 Dec 2012 13:15:28 
+To: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A> &gt;&gt; Konference PyCZ&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+Reply-To: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+Subject: [python] gui,vlakna
+
+ahoj,
+Potreboval bych poradit s nasledujicim. Vytvarim aplikaci (python 2.7) s 
+gui (qt4), ktera vycita data z pripojene kamery. Aplikaci resim pomoci 
+vlaken a zkracene takto:
+1] inicializuji gui
+2] tlacitko na start vycitani &gt; spusti se vycitaci vlakno z modulu 
+threading odkazujici na fuknci self.streaming
+
+self.alive_streaming=threading.Event()
+self.thread_streaming=threading.Thread(target = self.streaming)
+self.thread_streaming.start()
+
+ktera v nekonecne cyklu:
+
+def streaming(self):
+                 while self.alive_streaming.isSet():
+                     vycitani kamery
+
+
+3] v gui mam tlacitko stop, ktere kdyz zmacknu vyvola:
+
+self.alive_streaming.clear()
+
+
+Vse koncepcne funguje ok, avsak po startu vycitani gui funguje zcela 
+nepruzne a trva napr. 5 sec nez dojde k vykonani prikazu stop (reakce 
+tlacitka na zmacknuti). Je potreba nejaky gui &quot;update&quot;? zkousel jsem 
+pomoci signalu:
+
+self.connect(self,QtCore.SIGNAL(&quot;clicked()&quot;),self.update_streaming_gui)
+
+ve vycitaci smycce pak:
+self.emit(QtCore.SIGNAL(&quot;clicked()&quot;))   #signal&gt; update gui
+
+volajici funkci:
+def update_streaming_gui(self):
+self.ui.streamingProgressBar.setValue(self.streamer_order)
+
+Coz ma za nasledek update progressbaru, avsak tlacitka jsou nadale &quot;mrtva&quot;.
+
+Nejake rady, navrhy?
+Diky
+
+
+
+Petr
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010818.html">[python] gui,vlakna
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010820.html">[python] gui,vlakna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-December/date.html#10819">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/thread.html#10819">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/subject.html#10819">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/author.html#10819">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-December/010819.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:19 GMT -->
+</html>

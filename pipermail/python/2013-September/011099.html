@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-September/011099.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:59 GMT -->
+<HEAD>
+   <TITLE> [python] Zradne +=, ktere pracuje in-place
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Zradne%20%2B%3D%2C%20ktere%20pracuje%20in-place&In-Reply-To=%3C5228330A.9040001%40sandbox.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-September/011100.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zradne +=, ktere pracuje in-place</H1>
+    <B>Vladimir Macek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Zradne%20%2B%3D%2C%20ktere%20pracuje%20in-place&In-Reply-To=%3C5228330A.9040001%40sandbox.cz%3E"
+       TITLE="[python] Zradne +=, ktere pracuje in-place">macek na sandbox.cz
+       </A><BR>
+    <I>Čtvrtek Září  5 09:30:18 CEST 2013</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-September/011100.html">[python] nahrada pip ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-September/date.html#11099">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/thread.html#11099">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/subject.html#11099">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/author.html#11099">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mutable objekt obsazen v immutable objektu.
+
+Inspiruju se clankem <A HREF="http://www.py.cz/PastiJazykaPython,">http://www.py.cz/PastiJazykaPython,</A> nebot tyto
+dusledky jsem si plne neuvedomoval. :-/
+
+    &gt;&gt;&gt; t = ([],)
+    &gt;&gt;&gt; t[0] += [2, 3]
+    Traceback (most recent call last):
+      File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+    TypeError: 'tuple' object does not support item assignment
+    &gt;&gt;&gt; t
+    ([2, 3],)
+
+    &gt;&gt;&gt; t = ([],)
+    &gt;&gt;&gt; t[0].extend([2,3])
+    &gt;&gt;&gt; t
+    ([2, 3],)
+
+
+Funguje i v Pythonu 3.2.
+
+Michani tridnich a instancnich atributu:
+
+    &gt;&gt;&gt; class Foo:
+    ...    
+    ...     bar = []
+    ...     def __init__(self, x):
+    ...         self.bar = self.bar + [x]
+    ...    
+    &gt;&gt;&gt; f = Foo(42)
+    &gt;&gt;&gt; g = Foo(100)
+    &gt;&gt;&gt; f.bar
+    [42]
+    &gt;&gt;&gt; g.bar
+    [100]
+
+    &gt;&gt;&gt; class Foo:
+    ...     bar = []
+    ...     def __init__(self, x):
+    ...             self.bar += [x]
+    ...            
+    &gt;&gt;&gt; f = Foo(42)
+    &gt;&gt;&gt; g = Foo(100)
+    &gt;&gt;&gt; f.bar
+    [42, 100]
+    &gt;&gt;&gt; g.bar
+    [42, 100]
+
+
+Bacha.
+
+BTW, jo a doporucuju v tom clanku precist vysvetleni, proc se zdanlive
+nahodile objevuje tajemna UnboundLocalError, kdyz hrisne pouzivame
+nelokalni promenne.
+
+Neuvedomoval jsem si napriklad, ze Python jiz pri analyze kodu striktne
+rozlisuje promenne na lokalni a nelokalni. Dulezity je pak tedy i kod,
+ktery se ve funkci nachazi ZA radkem, ktery hazi chybu.
+
+BTW2, spodni odkaz na Python Warts se zmenil:
+<A HREF="http://web.archive.org/web/20031002184114/www.amk.ca/python/writing/warts.html">http://web.archive.org/web/20031002184114/www.amk.ca/python/writing/warts.html</A>
+
+A jeste jsem nasel <A HREF="https://wiki.python.org/moin/PythonWarts">https://wiki.python.org/moin/PythonWarts</A>
+
+-- 
+:<i>  Vladimir Macek  :  <A HREF="http://macek.sandbox.cz/">http://macek.sandbox.cz</A>  :  +420 608 978 164
+</I>:<i>  UNIX &amp;&amp; Dev || Training  :  Python, Django  :  GPG key 1F059424
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-September/011100.html">[python] nahrada pip ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-September/date.html#11099">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/thread.html#11099">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/subject.html#11099">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/author.html#11099">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-September/011099.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:00 GMT -->
+</html>

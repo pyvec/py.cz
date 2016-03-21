@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010684.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:31 GMT -->
+<HEAD>
+   <TITLE> [python] Unicode/ne-unicode problem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode/ne-unicode%20problem&In-Reply-To=%3C0ce301cd2876%242e424780%246164a8c0%40IBMXP%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-May/010680.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-May/010681.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Unicode/ne-unicode problem</H1>
+    <B>Jaroslav Lukesh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode/ne-unicode%20problem&In-Reply-To=%3C0ce301cd2876%242e424780%246164a8c0%40IBMXP%3E"
+       TITLE="[python] Unicode/ne-unicode problem">lukesh na seznam.cz
+       </A><BR>
+    <I>Středa Květen  2 17:13:50 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010680.html">[python] Unicode/ne-unicode problem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010681.html">[python] file.close
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10684">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10684">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10684">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10684">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Aha, toto by byla cesta. Jenže mě to překóduje cp1250 (tak to jde do 
+browseru) přes utf8 (tak to jde z browseru), to chytnu a pošlu do browseru 
+zpět jako cp1250 a ten zmetek co od něj pak dostanu vypadá takhle:
+
+vstup, který projde ttímto mlýnem: 'ě š č ř' a výstup:
+
+&gt;&gt;&gt;<i> a='Ă˝ Ăˇ Ă­ Ă.'
+</I>&gt;&gt;&gt;<i> a
+</I>'\xc3\xbd \xc3\xb7 \xc3\xad \xc3.'
+&gt;&gt;&gt;<i> a.encode('raw_unicode_escape').decode('utf-8')
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 0: 
+ordinal not in range(128)
+&gt;&gt;&gt;<i>
+</I>
+tak jsem našel další neobvyklé volby, ale nenapadá mě co s tím:
+
+&gt;&gt;&gt;<i> a.encode('string_escape').decode('utf-8')
+</I>u'\\xc3\\xbd \\xc3\\xb7 \\xc3\\xad \\xc3.'
+
+&gt;&gt;&gt;<i> a.encode('unicode_internal').decode('cp1250')
+</I>u'\u0102\u02dd \u0102\xb7 \u0102\xad \u0102.'
+
+&gt;&gt;&gt;<i> a.encode('unicode_internal').decode('cp1250').encode('utf8')
+</I>'\xc4\x82\xcb\x9d \xc4\x82\xc2\xb7 \xc4\x82\xc2\xad \xc4\x82.'
+
+
+
+
+----- Původní zpráva ----- 
+Od: &quot;Zdeněk Böhm&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zdenek.bohm na seznam.cz</A>&gt;
+
+
+&gt;<i> Tento problém vzniká, když je text převeden do lokálního kódování dvakrát.
+</I>&gt;<i>
+</I>&gt;<i> # výchozí text:
+</I>&gt;&gt;&gt;&gt;<i> &quot;ě š č ř&quot;
+</I>&gt;<i> '\xc4\x9b \xc5\xa1 \xc4\x8d \xc5\x99'
+</I>&gt;<i>
+</I>&gt;<i> # Tady se text chybně považuje za unicode:
+</I>&gt;<i> text = u'\xc4\x9b \xc5\xa1 \xc4\x8d \xc5\x99'.encode(&quot;utf8&quot;)
+</I>&gt;<i>
+</I>&gt;<i> # a takovou to pak udělá &quot;paseku&quot;:
+</I>&gt;&gt;&gt;&gt;<i> text
+</I>&gt;<i> '\xc3\x84\xc2\x9b \xc3\x85\xc2\xa1 \xc3\x84\xc2\x8d \xc3\x85\xc2\x99'
+</I>&gt;&gt;&gt;&gt;<i> print text
+</I>&gt;<i> &#196;&#155; &#197;&#161; &#196;&#141; &#197;&#153;
+</I>&gt;<i>
+</I>&gt;<i> # Takto se to opraví zpět do správného tvaru:
+</I>&gt;&gt;&gt;&gt;<i> fixed = text.encode('raw_unicode_escape').decode('utf-8')
+</I>&gt;&gt;&gt;&gt;<i> print fixed
+</I>&gt;<i> ě š č ř
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010680.html">[python] Unicode/ne-unicode problem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010681.html">[python] file.close
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10684">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10684">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10684">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10684">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010684.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:31 GMT -->
+</html>

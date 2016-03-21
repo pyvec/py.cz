@@ -1,0 +1,311 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009552.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:54 GMT -->
+<HEAD>
+   <TITLE> [python] Trida pro IP adresu,	vyjimky (bylo RE: Re:  nevznik objektu)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Trida%20pro%20IP%20adresu%2C%0A%09vyjimky%20%28bylo%20RE%3A%20Re%3A%20%20nevznik%20objektu%29&In-Reply-To=%3C6d86a3a8d451402faf82b7733a3847bb%40177f5fd83f20477b91aa02786334c25e%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009555.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009556.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Trida pro IP adresu,	vyjimky (bylo RE: Re:  nevznik objektu)</H1>
+    <B>Přikryl Petr</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Trida%20pro%20IP%20adresu%2C%0A%09vyjimky%20%28bylo%20RE%3A%20Re%3A%20%20nevznik%20objektu%29&In-Reply-To=%3C6d86a3a8d451402faf82b7733a3847bb%40177f5fd83f20477b91aa02786334c25e%3E"
+       TITLE="[python] Trida pro IP adresu,	vyjimky (bylo RE: Re:  nevznik objektu)">prikryl na atlas.cz
+       </A><BR>
+    <I>Středa Březen 24 13:41:50 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009555.html">[python] &quot;Dive
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009556.html">[python] Trida pro IP adresu, 	vyjimky (bylo RE: Re:  nevznik objektu)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9552">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9552">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9552">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9552">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+Přidám svůj pohled na řešení problému s IP objektem 
+a na pohled na výjimky (s ohledem na vaše vzdělání
+a působení).
+
+S tím návrhem třídy IP bych se přimlouval k promyšlení
+pohledu na to, co objekt třídy IP reprezentuje. Zohlednil
+bych taky to, jak by to vypadalo v jiných jazycích, třeba
+v C++. Prakticky žádný jazyk neumožní korektní &quot;nevznik&quot;
+objektu -- pokud nedojde k nějaké nízkoúrovňové havárii.
+
+Objekt v kompilovaných jazycích buď vytvořím staticky, 
+na zásobníku (jakoby staticky, ale v prostoru zásobníku)
+nebo dynamicky (new nebo něco takového). Jakmile vznikne,
+zpřístupňuji jej přímo přes jméno proměnné (statický
+objekt nebo na zásobníku -- tohle v Pythonu není),
+přes referenci (to je případ Pythonu) nebo přes ukazatel.
+
+Pouze v případě použití ukazatele mám možnost vrátit
+alternativně hodnotu NULL. Pak to musí být případ,
+který popisoval Petr Messner -- zavolat funkci a ta
+vrátí buď NULL nebo hodnotu ukazatele na vytvořený 
+objekt. Tohle by v Pythonu bylo stejné.
+
+Při návrhu se musí rozhodnout, co vlastně objekt
+třídy IP má vyjadřovat. Má vyjadřovat zachycení 
+přání vnějšího prostředí (uživatele, volajícího kódu)
+získat objekt s právě takovou IP adresou? Má existence
+objektu vyjadřovat platnost IP adresy? Co to vůbec
+je &quot;platná IP adresa&quot;? Je to syntakticky správně 
+napsaná adresa, nebo je to adresa, která se dá skutečně
+použít? Nebo dokonce adresa, která mi umožní udělat
+operaci, kterou bych chtěl provést (tj. s ověřením,
+že se přes ni někam dostanu)? A co když se syntaxe
+IP adres v budoucnu změní? Jak to udělat, abych
+toho musel předělávat co nejméně?
+
+V tomto smyslu se přimlouvám za to, aby objetk třídy
+IP vznikl vždy, ale aby se bránil použití v případě,
+kdy má nepoužitelný obsah -- v okamžiku použití, 
+nikoliv v okamžiku vzniku (viz například momentální
+nedostupnost přes IP). Na vyšší úrovni si pak můžu
+rozhodnout, zda objekt s nepoužitelnou IP adresou
+(po otestovnání jeho vlastností) ponechám nebo zruším.
+
+V tomto smyslu se přimlouvám znovu za návrh Petra 
+Messnera -- využít __nozero__. Protože přesně pro
+tento účel byla metoda navržena. Ona se vlastně jmenuje
+blbě. Její jméno by mělo být odvozeno spíš z myšlenky
+&quot;hodnota v boolovském kontextu&quot;. Ale vznikla v době,
+kdy Python místo True a False používal ještě 0 a != 0
+(jako C). Pak nepotřebuji pomocnou funkci, ale objekt
+můžu použít k testování přesně stejným způsobem, jako
+bylo původně zamýšleno:
+
+    ipaddr = IP(&quot;192.168.34536.45&quot;)
+    ....
+    if not ipaddr:
+        print &quot;zadavas blby vstup&quot;
+
+Chování v boolovském kontextu implementované
+metodou __nozero__ navíc umožňuje dynamicky měnit
+&quot;platnost&quot; objektu podle potřeby.
+
+Teď k výjimkám. Souhlasím s názorem, že výjimky
+by se měly vyskytovat výjimečně. Ale spíše jde o to,
+že se výjimečným způsobem ošetřují.
+
+Co se týká výjimky StopIteration, tu považuji spíš
+za výjimečnou ;) Jde o to, že samotný cyklus for
+je v Pythonu proti &quot;klasickým kompilovaným&quot; jazykům
+trochu výjimečný. Není to počítaný cyklus. Je to
+zobecněný cyklus přes sekvenci. Existence StopIteration
+přestavuje jednu z mála možností, ja mohou všechny možné
+iterace dát najevo svůj konec (různé kontejnery, 
+generátory...)
+
+A co se týká programování s výjimkami a bez výjimek, 
+je to otázka změněného přístupu k tvorbě programu
+(podle mého k lepšímu). Když to srovnáváte s goto...
+
+Dříve &quot;neřízené&quot; používání goto způsobovalo těžko
+řešitelné problémy. Postupně to vedlo k &quot;objevu&quot;
+strukturovaného programování (Wirth jako představitel).
+Pořád ale bylo založeno na jednoduchém toku řízení.
+Proto bylo možné &quot;následně&quot; testovat, jak to dopadlo
+před chvílí.
+
+Ve školních příkladech se často &quot;testování jak to 
+dopadlo&quot; pro jednoduchost vynechávalo... protože
+to zkrátka vede k zaplevelení kódu smetím, které
+není užitečné z hlediska abstraktního uvažování
+o problému. Jenže v praxi právě k tomuto jevu dochází
+a programy se stávají hůře čitelné (se všemi
+důsledky, jako třeba vznik dalších chyb díky bobtnání
+kódu). To testování se taky muselo dělat otrocky.
+Muselo se myslet na všechny možné situace, které
+mohly selhat. Při rozsáhlejším programu je to 
+na mašlu.
+
+Objektové programování představuje další změnu
+pohledu ve smyslu &quot;spolupráce kooperujících objektů&quot;.
+A i když se o tom programátoři v praxi zatím 
+tak moc neuvažují, znamená to &quot;potenciálně paralelní
+činnost&quot; těch objektů. Potom už je velmi těžké
+uvažovat v kategoriích co bylo dříve a co později. 
+Umělá serializace akcí vede k navození situace, 
+kdy by se uplatnil Amdahlův zákon (úzké hrdlo
+paralelismu). Výjimka je v takovém případě výhodným
+komunikačním prostředkem, který bude fungovat 
+i v paralelním prostředí. A opět, výjimečný není
+samotný objekt výjimky, ale způsob, jakým je 
+jeho existence zpracována.
+
+V jazycích typu C++ získaly kdysi výjimky přívlastek
+těžkopádného nástroje. Ale bylo to proto, že existovalo
+méně zkušeností s tím, jak jsou užitečné a obtížně
+nahraditelné. A taky to souviselo s vývojem překladačů
+a s generováním kompilovaného kódu. A taky, v C/C++
+se vše měřilo na mikrosekundy a vše je velmi rychlé.
+Nutná složitost se proto někdy neoprávněně zaměňovala
+za pomalou těžkopádnost.
+
+Ten změněný přístup při návrhu aplikace by se dal
+shrnout ve stylu: Naprogramuji to tak, jak by to mělo
+fungovat v ideálním případě a pak uvidíme. Selhání 
+se mohou ošetřit &quot;bokem&quot;.
+
+A ještě jedna výhoda výjimek. Když zapomenu něco 
+otestovat v ifech (klasicky), může to krachnout velmi
+nepříjemně. Když někde neobsloužím výjimku, můžu ji
+krásně obsloužit v hlavní funkci (main).
+
+Mějte se krásně,
+   pepr
+
+
+&gt;<i>---------------------------------------------------------
+</I>&gt;<i>Od: David Rohleder
+</I>&gt;<i>Přijato: 24.3.2010 9:55:53
+</I>&gt;<i>Předmět: Re: [python] nevznik objektu
+</I>&gt;<i>
+</I>&gt;<i>Vladimir Macek píše v Út 23. 03. 2010 v 23:51 +0100:
+</I>&gt;<i>
+</I>&gt;&gt;<i> On 19.3.2010 00:04, Jirka Vejrazka wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> &gt; Davide, smir se s tim. Vyjimky jsou v Pythonu zavedeny, chapany a
+</I>&gt;<i>
+</I>&gt;&gt;<i> &gt; podporovany zpusob reagovani na chybove stavy, zejmena na
+</I>&gt;<i>
+</I>&gt;&gt;<i> &gt; neocekavana data.
+</I>&gt;<i>
+</I>&gt;&gt;<i> 
+</I>&gt;<i>
+</I>&gt;&gt;<i> A i to je zbytecne uzky pohled na to, na co se daji vyjimky pouzivat. Za
+</I>&gt;<i>
+</I>&gt;&gt;<i> prve, nekdy vubec nenesou chybovou informaci, ani nejsou spojeny
+</I>&gt;<i>
+</I>&gt;&gt;<i> necekanymi daty. Prikladem je built-in
+</I>&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://docs.python.org/library/exceptions.html#exceptions.StopIteration">http://docs.python.org/library/exceptions.html#exceptions.StopIteration</A>
+</I>&gt;<i>
+</I>&gt;&gt;<i> Tedy vyjimka, kterou iterator indikuje, ze je vyprodano.
+</I>&gt;<i>
+</I>&gt;&gt;<i> 
+</I>&gt;<i>
+</I>&gt;&gt;<i> Za druhe, vyjimky jsou normalni objekty, ktere mohou nest libovolna
+</I>&gt;<i>
+</I>&gt;&gt;<i> data. Jakoby promenne, ale zpusobi zmenu provadeni programu zcela jinym,
+</I>&gt;<i>
+</I>&gt;&gt;<i> ale predem danym a casto uzitecnym smerem (z vnoreni ven).
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Přesně na to jsem narážel, když jsem říkal, že někdo používá výjimky
+</I>&gt;<i>
+</I>&gt;<i>jako lepší goto (kterým navíc dokážeš vyskočit z funkce).
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i>  Nejcasteji
+</I>&gt;<i>
+</I>&gt;&gt;<i> skutecne nesou podrobnou informaci o chybe vykonavani, ale nikdo nikoho
+</I>&gt;<i>
+</I>&gt;&gt;<i> neomezuje v rozsireni tohoto modelu podle aktualnich potreb.
+</I>&gt;<i>
+</I>&gt;&gt;<i> 
+</I>&gt;<i>
+</I>&gt;&gt;<i> 
+</I>&gt;<i>
+</I>&gt;&gt;<i> &gt; Zkus to chvili nechat odlezet, treba se ti to zacne libit :)
+</I>&gt;<i>
+</I>&gt;&gt;<i> 
+</I>&gt;<i>
+</I>&gt;&gt;<i> Za tohle se taky velmi primlouvam.
+</I>&gt;<i>
+</I>&gt;&gt;<i> 
+</I>&gt;<i>
+</I>&gt;&gt;<i> Davide, podle toho, co pisete, jste na zacatku: Syntaxi a knihovnu treba
+</I>&gt;<i>
+</I>&gt;&gt;<i> zvladate, ale jeste vas ceka krok prijmouti zpusobu mysleni, ktery
+</I>&gt;<i>
+</I>&gt;&gt;<i> zkusenemu pythonistovi pomaha dosahnout vynikajici vykonnosti a elegance
+</I>&gt;<i>
+</I>&gt;&gt;<i> kodu. To neni vycitka, naopak, jsem rad, ze se ucite a my ostatni vam
+</I>&gt;<i>
+</I>&gt;&gt;<i> radi pomuzeme.
+</I>&gt;<i>
+</I>&gt;&gt;<i> 
+</I>&gt;<i>
+</I>&gt;&gt;<i> Jen to, ze predcasne soudite a snazite se roubovat novy pristup na drive
+</I>&gt;<i>
+</I>&gt;&gt;<i> naucene (coz clovek ma clovek tendenci povazovat za to lepsi), to je
+</I>&gt;<i>
+</I>&gt;&gt;<i> mirne iritujici.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Já to nějak nesoudím, akorát si snažím objasnit některé věci. Imho jsou
+</I>&gt;<i>
+</I>&gt;<i>napřiklad některé z těch syntaktických cukrů špatně - např. odstranění
+</I>&gt;<i>
+</I>&gt;<i>závorek z generátorů (i*i for i in range(4)). Ne, že by se na to nedalo
+</I>&gt;<i>
+</I>&gt;<i>zvyknout, akorát to tady trochu přehnali.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Ještě pořád mně vy pythonu přijdou některé věci poměrně nešikovně
+</I>&gt;<i>
+</I>&gt;<i>vyřešené, ale to se časem vsákne.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>
+</I>&gt;<i>Python mailing list
+</I>&gt;<i>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009555.html">[python] &quot;Dive
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009556.html">[python] Trida pro IP adresu, 	vyjimky (bylo RE: Re:  nevznik objektu)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9552">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9552">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9552">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9552">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009552.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:54 GMT -->
+</html>

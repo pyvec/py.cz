@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004080.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:53 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s metodami
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20metodami&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-February/004079.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-February/004081.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s metodami</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20metodami&In-Reply-To="
+       TITLE="[python] Problem s metodami">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Únor 17 11:13:02 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004079.html">[python] Problem s metodami
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004081.html">[python] Problem s metodami
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4080">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4080">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4080">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4080">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Svec napsal...
+&gt;<i> muze mi nekdo potvrdit nasledujici chovani na nejnovejsi verzi Python
+</I>&gt;<i> (testovano na 2.3.5 a 2.4.1):
+</I>&gt;<i> 
+</I>&gt;<i> &gt;&gt;&gt; class cls(object):
+</I>&gt;<i> ...   def method(): pass
+</I>&gt;<i> ...
+</I>&gt;<i> &gt;&gt;&gt; obj = cls()
+</I>&gt;<i> &gt;&gt;&gt; obj.method is obj.method     # !!!
+</I>&gt;<i> False
+</I>&gt;<i> &gt;&gt;&gt; obj.method == obj.method
+</I>&gt;<i> True
+</I>&gt;<i> 
+</I>&gt;<i> Pravdepodobne nejde o chybu, nebot ne vzdy plati treba (ilustrativne):
+</I>&gt;<i> 
+</I>&gt;<i> &gt;&gt;&gt; 'jedna' is 'jedna'
+</I>&gt;<i> 
+</I>&gt;<i> Dane chovani me ale docela prekvapilo. Pravdepodobne k tomu dojde
+</I>&gt;<i> pri ziskavani objektu metody na zaklade definice funkcniho objektu
+</I>&gt;<i> uvnitr tridy.
+</I>
+Potvrzuji pro...
+
+Python 2.4.2 (#67, Sep 28 2005, 12:41:11) [MSC v.1310 32 bit (Intel)] on win32
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+
+To 'jedna' is 'jedna' vrací pro uvedenou verzi Pythonu
+True, ale určitě je to věc, na kterou se obecně nedá
+spolehnout. Při jednodušší implementaci by se řetězec se stejným
+obsahem mohl vytvořit dvakrát.
+
+Logicky vzato, s tím &quot;obj.method is obj.method&quot; je to podobné.
+Metoda samotná neudržuje žádný vnitřní stav a jakákoliv kopie 
+kódu bude fungovat stejně. Možná je to chování operátoru is
+implementováno uměle, aby programátoři nikdy nespoléhali na to,
+že kód metody objektu vždy leží na stejném místě. Dovedu si
+třeba představit, že objekt vznikl v distribuovaném nebo 
+paralelním prostředí a třída se rozkopírovala mezi více
+procesorů. Vzhledem k tomu, že Python vznikal v souvislosti
+s vývojem jednoho paralelního systému, mohlo se to tady odrazit.
+
+Jiná situace nastává, když třída definuje svou proměnnou, která
+udržuje stav. Pak by mělo být zajištěno, že &quot;obj.v is obj.v&quot;.
+Vyzkoušel jsem to, a potvrdilo se to (viz dále). Je to jen
+takový black-box náhled.
+
+&gt;&gt;&gt;<i> class cls(object):
+</I>...     def method(): pass
+...     v = 0
+...
+&gt;&gt;&gt;<i> obj = cls()
+</I>&gt;&gt;&gt;<i> obj.method == obj.method
+</I>True
+&gt;&gt;&gt;<i> obj.method is obj.method
+</I>False
+&gt;&gt;&gt;<i> obj.v == obj.v
+</I>True
+&gt;&gt;&gt;<i> obj.v is obj.v
+</I>True
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004079.html">[python] Problem s metodami
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004081.html">[python] Problem s metodami
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4080">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4080">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4080">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4080">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004080.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:53 GMT -->
+</html>

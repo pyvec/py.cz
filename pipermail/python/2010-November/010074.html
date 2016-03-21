@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010074.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:19 GMT -->
+<HEAD>
+   <TITLE> [python] ctypes a file object
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20ctypes%20a%20file%20object&In-Reply-To=%3CAANLkTi%3DySqX0s_cMsDE-%2BBKPfS93WeFQPe2tYUFhcEye%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-November/010073.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-November/010078.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ctypes a file object</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20ctypes%20a%20file%20object&In-Reply-To=%3CAANLkTi%3DySqX0s_cMsDE-%2BBKPfS93WeFQPe2tYUFhcEye%40mail.gmail.com%3E"
+       TITLE="[python] ctypes a file object">petr.messner na gmail.com
+       </A><BR>
+    <I>Středa Listopad 24 18:01:55 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010073.html">[python] ctypes a file object
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010078.html">[python] ctypes a file object
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10074">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10074">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10074">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10074">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jenom takovy napad - nebylo by lepsi fp =
+C.pythonapi.PyFile_AsFile(open(&quot;phototest.tif&quot;)) ?
+
+PM
+
+
+2010/11/24 Zdenko Podobný &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zdposter na gmail.com</A>&gt;
+
+&gt;<i> Zdravim,
+</I>&gt;<i>
+</I>&gt;<i> potrebujem v pythone robit s viacstrankovymi tiff subormi a po roznych
+</I>&gt;<i> testoch a googlovani som skoncil na tom, ze cisto python riesenie
+</I>&gt;<i> neexistuje. Najrozumnejsie sa mi javi pouzitie ctypes a kniznice leptonica.
+</I>&gt;<i> Problem je v tom, ze v niektorych pripadoch jej potrebujem posunut file
+</I>&gt;<i> object.
+</I>&gt;<i>
+</I>&gt;<i> Napr. (C kod):
+</I>&gt;<i> filein = &quot;phototest.tif&quot;;
+</I>&gt;<i> fp = fopen(filein, &quot;r&quot;);
+</I>&gt;<i> tiffGetCount(fp, &amp;npages);
+</I>&gt;<i> fprintf(stderr, &quot; Tiff: %d pages\n&quot;, npages);
+</I>&gt;<i> fclose(fp);
+</I>&gt;<i>
+</I>&gt;<i> Ked to skusim spravit v pythone, tak dostanem chybu:
+</I>&gt;<i>
+</I>&gt;<i> import ctypes
+</I>&gt;<i> leptonica = ctypes.CDLL(&quot;liblept.so&quot;)
+</I>&gt;<i> filein = &quot;phototest.tif&quot;
+</I>&gt;<i> fp = open(filein, &quot;r&quot;)
+</I>&gt;<i> npages = leptonica.tiffGetCount(fp)
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+</I>&gt;<i> ctypes.ArgumentError: argument 1: &lt;type 'exceptions.TypeError'&gt;: Don't know
+</I>&gt;<i> how to convert parameter 1
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Skusal som to aj cez PyFile_AsFile ale to tiez skonci s chybou:
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt;&gt; import ctypes as C
+</I>&gt;<i> &gt;&gt;&gt; lib = C.CDLL(&quot;liblept.so&quot;)
+</I>&gt;<i> &gt;&gt;&gt; class FILE(C.Structure):
+</I>&gt;<i> ...     pass
+</I>&gt;<i> ...
+</I>&gt;<i> &gt;&gt;&gt; FILE_P = C.POINTER(FILE)
+</I>&gt;<i> &gt;&gt;&gt; C.pythonapi.PyFile_AsFile.argtypes = [C.py_object]
+</I>&gt;<i> &gt;&gt;&gt; C.pythonapi.PyFile_AsFile.restype = FILE_P
+</I>&gt;<i> &gt;&gt;&gt; fp = C.pythonapi.PyFile_AsFile(&quot;phototest.tif&quot;)
+</I>&gt;<i> &gt;&gt;&gt; npages = lib.tiffGetCount(fp)
+</I>&gt;<i> Error in tiffGetCount: stream not defined
+</I>&gt;<i>
+</I>&gt;<i> Skusal som googlovat, ale sa nic funkcne sa mi nepodarilo zostavit... Vie
+</I>&gt;<i> mi s tym niekto pomoc?
+</I>&gt;<i>
+</I>&gt;<i> Zd.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- dal?í ?ást ---------------
+HTML p?íloha byla odstran?na...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20101124/f644497b/attachment.html">http://www.py.cz/pipermail/python/attachments/20101124/f644497b/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010073.html">[python] ctypes a file object
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010078.html">[python] ctypes a file object
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10074">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10074">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10074">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10074">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010074.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:19 GMT -->
+</html>

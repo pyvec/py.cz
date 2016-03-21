@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005336.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+<HEAD>
+   <TITLE> [python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FModifikace_seznamu_bez_kopirovnani_%3D28byl%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fo_SQLite_-_forma_selectovan%3DFDch_dat%3D29%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC1F1913%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005333.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005339.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FModifikace_seznamu_bez_kopirovnani_%3D28byl%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fo_SQLite_-_forma_selectovan%3DFDch_dat%3D29%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC1F1913%40skil01.skil.mistni"
+       TITLE="[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)">feed na centrum.cz
+       </A><BR>
+    <I>Pondělí Leden  8 09:27:30 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005333.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005339.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5336">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5336">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5336">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5336">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Iterace není &quot;read only&quot;. Read only jsou zpřístupňované objekty.
+</I>
+Iterace je &quot;read only&quot; vzhledem k iterovanému objektu, což je občas dost 
+nešikovné.
+
+&gt;<i> Od Python 2.3 existuje standardní funkce enumerate(), která
+</I>&gt;<i> vrací iterátor. Jeho metoda next() vrací dvojici (index, element).
+</I>&gt;<i> Takže původní kód
+</I>&gt;<i> 
+</I>&gt;<i>   a = [(1,2),(3,4)]
+</I>&gt;<i>   for i in range(len(a)):
+</I>&gt;<i>       a[i] = list(a[i])
+</I>&gt;<i> 
+</I>&gt;<i> Můžu přepsat na 
+</I>&gt;<i> 
+</I>&gt;<i>   a = [ (1, 2), (3, 4) ]
+</I>&gt;<i>   for i, elem in enumerate(a):
+</I>&gt;<i>       a[i] = list(elem)
+</I>
+Obávám se, ale že ten můj kód, tedy první verze bude rychlejší.
+
+Jasně je druhou otázkou zda jde o high level konstrukce, nebo o rychlost.
+
+&gt;<i> Tohle je problém v rozdílném pojetí homogenního pole
+</I>&gt;<i> (všechny prvky mají stejný typ) a pythonovského
+</I>&gt;<i> seznamu, který je svým způsobem sice taky homogenní,
+</I>&gt;<i> ale obsahuje jen reference, které se automaticky 
+</I>&gt;<i> dereferencují (když už musím použít tak pěkně české slovo).
+</I>
+Ano tohle je pro mě vždycky problém přepnout do myšlení dynamických 
+jazyků, kde neexistují hodnoty, ale jen odkazy.
+
+&gt;<i> V Pythonu nemohu měnit hodnotu prvku typu int, protože
+</I>&gt;<i> jde o objekt s konstantní hodnotou (immutable). Mohu jej
+</I>&gt;<i> pouze nahradit jiným objektem typu int, který je vypočtený
+</I>&gt;<i> z hodnoty původního a z další konstanty. V seznamu tedy
+</I>&gt;<i> musím opět použít obrat, kdy modifikuji samotný prvek 
+</I>&gt;<i> seznamu. V tomto případě ale dojde k modifikaci každého
+</I>&gt;<i> prvku seznamu, takže nejefektivnější a nejstručnější 
+</I>&gt;<i> způsob spočívá v konstrukci nového, upraveného seznamu:
+</I>&gt;<i> 
+</I>&gt;<i>   a = [ 1, 2, 3, 4, 5 ]
+</I>&gt;<i>   a = [ e+3 for e in a ]
+</I>&gt;<i>   print a
+</I>
+V mém případě se ale nový seznam nekonstruoval, nedocházelo tedy k 
+alokaci nového objektu. Navíc hodnoty typu int se nutně nemusejí znovu 
+vytvářet, protože vnitřně je Python intepretr udělaný tak, že základní 
+řada čísel je &quot;předalokovaná&quot; při startu interpretru a při použití 
+běžných konstant se prostě jen předhodí odkaz na již uvnitř Python 
+interpreteru existující objekt typu int. Kdyby se všechno mělo alokovat 
+a znovu vytvářet, tak je Python slimák.
+
+&gt;<i> Pokud bych definoval svou vlastní třídu objektů 
+</I>&gt;<i> s celočíselnou hodnotou, které by mohly být modifikovány
+</I>&gt;<i> (mutable), bylo by možné modifikovat seznam bez
+</I>&gt;<i> vytváření nového.
+</I>
+To jenom se snaží obejít &quot;read only&quot; vlastnost iterátoru. Jinak já jsem 
+modifikoval seznam bez vytváření nového.
+
+Ing. Miloslav Ponkrác
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005333.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005339.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5336">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5336">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5336">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5336">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005336.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+</html>

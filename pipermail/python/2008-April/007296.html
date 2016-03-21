@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007296.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+<HEAD>
+   <TITLE> [python] for-else -&gt; wtf?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for-else%20-%3E%20wtf%3F&In-Reply-To=77c3131a0804230647y1a5aed66n6af81e6aa7845603%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007295.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007297.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] for-else -&gt; wtf?</H1>
+    <B>Koumes21</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for-else%20-%3E%20wtf%3F&In-Reply-To=77c3131a0804230647y1a5aed66n6af81e6aa7845603%40mail.gmail.com"
+       TITLE="[python] for-else -&gt; wtf?">koumes21 na gmail.com
+       </A><BR>
+    <I>Středa Duben 23 15:49:36 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007295.html">[python] for-else -&gt; wtf?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007297.html">[python] for-else -&gt; wtf?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7296">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7296">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7296">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7296">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ve tretim radku ma byt samozrejme
+    if not znak in &quot;0123456789abcdef&quot;:
+
+omlouvam se za hloupou chybu, psal jsem to z hlavy a nekontroloval
+
+Koumes21
+
+2008/4/23, Koumes21 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">koumes21 na gmail.com</A>&gt;:
+&gt;<i>
+</I>&gt;<i> Například když chci otestovat všechny položky seznamu nebo se všemi něco
+</I>&gt;<i> provést a za určitého předpokladu vím, že nemusím v testování pokračovat, je
+</I>&gt;<i> jednodušší použí break. Ale když chci na základě toho jestli proces proběhl
+</I>&gt;<i> až do konce nebo byl přerušen něco provést, použiju právě else.
+</I>&gt;<i> Například takto:
+</I>&gt;<i>
+</I>&gt;<i> n=raw_input()
+</I>&gt;<i> for znak in n:
+</I>&gt;<i>     if not n in &quot;0123456789abcdef&quot;:
+</I>&gt;<i>         print &quot;spatne&quot;
+</I>&gt;<i>         break
+</I>&gt;<i> else:print &quot;spravne&quot;
+</I>&gt;<i>
+</I>&gt;<i> pozn.: místo toho by šlo v nové verzi použít all(map(lambda x:x in
+</I>&gt;<i> &quot;0123456789abcdef&quot;,n))
+</I>&gt;<i>
+</I>&gt;<i> kdyby ovšem neměl řetězec ani jeden znak, pak by to podle vašeho systému
+</I>&gt;<i> nebylo ani &quot;spravne&quot; ani &quot;spatne&quot;, tak jak to je nyní v pythonu
+</I>&gt;<i> bude vysledek &quot;spravne&quot;
+</I>&gt;<i>
+</I>&gt;<i> Koumes21
+</I>&gt;<i>
+</I>&gt;<i> 2008/4/23, Dusan Zatkovsky &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">msk.conf na seznam.cz</A>&gt;:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; DD.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Riesili sme tu s kolegami jeden priklad, ktory na prvy pohlad bol
+</I>&gt;<i> &gt; syntakticky
+</I>&gt;<i> &gt; nespravne. Potom som na neho narazil na
+</I>&gt;<i> &gt; <A HREF="http://docs.python.org/tut/node6.html#SECTION006400000000000000000">http://docs.python.org/tut/node6.html#SECTION006400000000000000000</A> a z
+</I>&gt;<i> &gt; dokumentacie som zistil, ze je dokonca syntakticky spravne.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Tak som sa s for-else chcel zoznamit a tak som si vytvoril 3 testcase:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; # cyklus sa vykona
+</I>&gt;<i> &gt; for x in 'a':
+</I>&gt;<i> &gt;         pass
+</I>&gt;<i> &gt; else:
+</I>&gt;<i> &gt;         print &quot;test1&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; # cyklus sa vykona a breakne
+</I>&gt;<i> &gt; for x in 'a':
+</I>&gt;<i> &gt;         break
+</I>&gt;<i> &gt; else:
+</I>&gt;<i> &gt;         print &quot;test2&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; # cyklus sa nevykona
+</I>&gt;<i> &gt; for x in '':
+</I>&gt;<i> &gt;         pass
+</I>&gt;<i> &gt; else:
+</I>&gt;<i> &gt;         print &quot;test3&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Vysledok zodpoveda tomu, co vravi dokumentacia, ale mne to pride
+</I>&gt;<i> &gt; zvratene.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Preco to else zavisi na break vo vnutri cyklu a nie na tom, ci sa cyklus
+</I>&gt;<i> &gt; vykonal, alebo nie? Ked totiz na toto narazi niekto, kto sa python uci,
+</I>&gt;<i> &gt; tak
+</I>&gt;<i> &gt; sa z toho osype ( pisem prilezitostne v pythone uz 2 roky a je to aj moj
+</I>&gt;<i> &gt; pripad ).
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Mozete mi niekto ozrejmit, co tym autor myslel a preco je ta logika
+</I>&gt;<i> &gt; postavena
+</I>&gt;<i> &gt; prave takto? Intuicia mi totiz hovori, ze else by sa malo vykonat prave
+</I>&gt;<i> &gt; ked
+</I>&gt;<i> &gt; sa nevykona ani jeden priebeh cyklu...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Dik
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt; Dusan
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080423/0d104121/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080423/0d104121/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007295.html">[python] for-else -&gt; wtf?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007297.html">[python] for-else -&gt; wtf?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7296">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7296">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7296">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7296">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007296.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+</html>

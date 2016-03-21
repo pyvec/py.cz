@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-July/001842.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:24 GMT -->
+<HEAD>
+   <TITLE> [python] problem s modulom threading
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20problem%20s%20modulom%20threading&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-July/001843.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] problem s modulom threading</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20problem%20s%20modulom%20threading&In-Reply-To="
+       TITLE="[python] problem s modulom threading">azurit na pobox.sk
+       </A><BR>
+    <I>Čtvrtek Červenec  1 21:04:15 CEST 2004</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-July/001843.html">[python] problem s modulom threading
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-July/date.html#1842">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-July/thread.html#1842">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-July/subject.html#1842">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-July/author.html#1842">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>zdravim,
+
+mam problem, s ktorym si fakt nevjem rady :) chyba je podla mna 
+(zase) v pythone ale mozno by sa to dalo spravit aj nejakym inym 
+sposobom kedze tymto, ktorym to robim to nejde. mame napriklad script:
+
+
+import threading
+from time import sleep
+
+operations = 10000
+max_threads = 100
+
+try:
+
+  for i in range(operations):
+    while 1:
+      # skontrolujeme ci uz nje je spusteny maximalny pocet threadov
+      if threading.activeCount() &lt; max_threads:
+        # 'nejaka_funkcia' je proste funkcia, ktora njeco robi
+        # a potrebujeme mu spustit n krat
+        thrd = threading.Thread(target=nejaka_funkcia)
+        thrd.start()
+        break
+      # ak je, chvilu pockame a skusime znovu (ci uz nejaka z
+      # nich nedokoncila pracu)
+      else:
+        sleep(1)
+
+  print &quot;waiting for all threads to complete..&quot;
+  # pockame kym vsetky thready nedokoncja pracu
+  while threading.activeCount() != 1:
+    sleep(1)
+  # teraz mozme napriklad vypisat vysledok scriptu
+  ...
+  print &quot;dokoncene&quot;
+
+except KeyboardInterrupt:
+  print &quot;waiting for all threads to complete..&quot;
+  # pockame kym vsetky thready nedokoncja pracu
+  while threading.activeCount() != 1:
+    sleep(1)
+  # teraz mozme spravit napriklad subor, pomocou ktoreho by sa
+  # neskor dalo pokracovat tam, kde bola praca prerusena
+  ...
+  print &quot;prerusene&quot;
+
+
+
+
+ked script prebehne bez prerusenja, tak ide vsetko ok avsak po
+preruseni sa mi obcas stalo, ze proste prestal odpovedat a musel som
+ho killnut. konecne som objavil kde je chyba.funkcia activeCount z
+threading.py:
+
+def activeCount():
+    _active_limbo_lock.acquire()
+    count = len(_active) + len(_limbo)
+    _active_limbo_lock.release()
+    return count
+
+v scripte sa tato funkcia pouziva velmi casto
+...
+while 1:
+  if threading.activeCount() &lt; max_threads:
+...
+a tak sa aj casto stane situacia, ze script prerusime vnutri tejto
+funkcie a prave po uzavreti zamku (_active_limbo_lock.acquire()). 
+tento zamok sa v module threading pouziva takmer v kazdej funkcii (aj 
+pri ukonceni thready) cize ked ostane uzavrety, zjadna z thread 
+nemoze pokracovat a preto prestal script odpovedat - cakal kym sa 
+uvolni zamok. ten sa vsak uz nikdy neuvolni kedze threada, ktora ho 
+uzavrela bola ukoncena KeyboardInterrupt-om a samotny script ku nemu 
+nema pristup. nejake napady ako to spravit tak aby to slo dobre ? :) 
+podla mna je to jednoznacne chyba v pythone (resp. v module
+threading), presne toto iste sa moze stat v hociktorej funkcii z 
+modulu threading.
+
+azurIt
+____________________________________
+<A HREF="http://www.pobox.sk/">http://www.pobox.sk/</A> - najvacsi slovensky freemail
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-July/001843.html">[python] problem s modulom threading
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-July/date.html#1842">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-July/thread.html#1842">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-July/subject.html#1842">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-July/author.html#1842">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-July/001842.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:24 GMT -->
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008187.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:32 GMT -->
+<HEAD>
+   <TITLE> [python] Přetěžování metod v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FP%3DF8et%3DEC%3DBEov%3DE1n%3DED_metod_v_Pythonu%3F%3D&In-Reply-To=%3C972067484.20080829141513%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008190.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008189.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Přetěžování metod v Pythonu</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FP%3DF8et%3DEC%3DBEov%3DE1n%3DED_metod_v_Pythonu%3F%3D&In-Reply-To=%3C972067484.20080829141513%40atlas.cz%3E"
+       TITLE="[python] Přetěžování metod v Pythonu">mtip na atlas.cz
+       </A><BR>
+    <I>Pátek Srpen 29 14:15:13 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008190.html">[python] Přetěžování metod v Pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008189.html">[python] Přetěžování metod v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8187">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8187">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8187">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8187">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Uf to je to pomotany.
+ten prvni priklad neni v pythonu pretezovani, ale prekryvani metod
+takze to nema s pretezovanim co delat.
+
+K pretezovani operatoru metod (coz je ten druhy priklad to funguje takto:
+def metoda (*args, **kwargs):
+    print args
+    print kwargs
+
+a ted muzu volat metodu bud s libovolnym poctem parametru:
+metoda(1,2,3,4) #kdy se ulozi parametry do list args
+nebo:
+metoda(a=1,b=2,c=3)   #kdy se ulozi parametry do dict kwargs
+
+nebo oboje kombinace
+metoda(1,2,c=3,d=4): #kdy se naplni args i kwargs.
+
+Mirek N.
+
+
+
+
+DM&gt; Python nepodporuje pretezovani (overloading) metod stejne
+DM&gt; jako C++ nebo Java. Ale podporuje keywords argumenty.
+DM&gt; Takze misto napr.:
+DM&gt; def a(x):
+DM&gt;     print x
+    
+DM&gt; def a(x,y):
+DM&gt;     print x + y
+    
+DM&gt; a(1)
+DM&gt; a(1,1)
+DM&gt; (Coz je nefunkcni priklad, ale myslim ze podobne sis to nejak predstavoval.)
+
+DM&gt; Pouzijeme:
+DM&gt; def a(x, *args):
+DM&gt;     for i in args:
+DM&gt;         x = x + i
+DM&gt;     print x
+    
+DM&gt; a(1)
+DM&gt; a(1,1)
+
+DM&gt; Co ovsem python podporuje je pretezovani operatoru, viz:
+DM&gt; <A HREF="http://docs.python.org/ref/specialnames.html">http://docs.python.org/ref/specialnames.html</A>
+
+DM&gt; Ale to uz musi vysvetlit nekdo jinej.
+
+DM&gt; Dokazal by nekdo vysvetlit, jak pouzit pretezovani operatoru?
+DM&gt; Diky,
+DM&gt; David
+
+&gt;&gt;<i> -----Original Message-----
+</I>&gt;&gt;<i> From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">pydevil na gmail.com</A>
+</I>&gt;&gt;<i> Sent: Friday, August 29, 2008 9:22 AM
+</I>&gt;&gt;<i> To: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> Subject: [python] Přetěžování metod v Pythonu
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i> koukam jestli to Python ma nebo nema ale nevygooglil sem...
+</I>&gt;&gt;<i> Vite nekdo jestli to dovoluje a nebo proc to nema? =)
+</I>
+DM&gt; _______________________________________________
+DM&gt; Python mailing list
+DM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+DM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008190.html">[python] Přetěžování metod v Pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008189.html">[python] Přetěžování metod v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8187">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8187">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8187">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8187">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008187.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:32 GMT -->
+</html>

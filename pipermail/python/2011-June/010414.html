@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010414.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:49 GMT -->
+<HEAD>
+   <TITLE> [python] pytho + php sifrovanie/desifrovanie
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pytho%20%2B%20php%20sifrovanie/desifrovanie&In-Reply-To=%3CBANLkTikMM2wtVxLV7YhhkxQWLEa_hGPUQA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010413.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010415.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pytho + php sifrovanie/desifrovanie</H1>
+    <B>Visgean Skeloru</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pytho%20%2B%20php%20sifrovanie/desifrovanie&In-Reply-To=%3CBANLkTikMM2wtVxLV7YhhkxQWLEa_hGPUQA%40mail.gmail.com%3E"
+       TITLE="[python] pytho + php sifrovanie/desifrovanie">visgean na gmail.com
+       </A><BR>
+    <I>Středa Červen  8 16:21:55 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010413.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010415.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10414">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10414">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10414">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10414">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Btw: nemáte zkušenosti s nějakým modulem pro šifrování na vyšší úrovni?
+
+
+
+
+2011/6/8 Jirka Vejrazka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jirka.vejrazka na gmail.com</A>&gt;
+
+&gt;<i> &gt; Jediné, čo ma trápi je to, že pri posledných dvoch plainoch sú rovnaké
+</I>&gt;<i> &gt; začiatky. zaujímavé je, že pri &quot;Hello, World11&quot; a &quot;Hello, World111&quot;
+</I>&gt;<i> &gt; nie sú rovnaké začiatky. hm. Skúšal som zmeniť mód na CFB, CBC, ale
+</I>&gt;<i> &gt; vždy tie začiatky sú rovnaké. prečo tomu tak je? dúfal som, že by to
+</I>&gt;<i> &gt; nemalo byť rovnaké.
+</I>&gt;<i>
+</I>&gt;<i>   Ahoj,
+</I>&gt;<i>
+</I>&gt;<i>  Podivej se bliz na to, jak funguje AES. Zjistis, ze AES je blokova
+</I>&gt;<i> sifra, kdy se plaintext rozdeli na bloky a ty se zasifruji. Vychazi ti
+</I>&gt;<i> stejny ciphertext v poslednich dvou pripadech, protoze je stejny
+</I>&gt;<i> vstupni blok dat i stejny sifrovaci klic. Ty prvni dva pripady maji
+</I>&gt;<i> jiny ciphertext, protoze vstupni data maji mene nez 16 znaku (128
+</I>&gt;<i> bitu) a tim padem jsou zarovnane mezerami a nejde o stejny vstup do
+</I>&gt;<i> blokove sifry. Experimentalne zjistis, ze kdyz ke druhemu pokusu
+</I>&gt;<i> (plain = &quot;Hello, World111&quot;) pridas na konec jeste jednu jednicku,
+</I>&gt;<i> dostanes stejny vysledek jako v pokusech 3 a 4, protoze len(plain) &gt;=
+</I>&gt;<i> 16.
+</I>&gt;<i>
+</I>&gt;<i>  Pro ECB (ktery by se nemel pouzivat pro nic citliveho) tohle plati
+</I>&gt;<i> pro kazdy blok plaintextu, takze pokud bys mel opakovanou sekvenci 16
+</I>&gt;<i> znaku na vstupu, dostanes pri ECB opakujici se sekvenci na vystupu
+</I>&gt;<i> (tech zasifrovanych 16 znaku). Pri ostatnich modech se do sifrovani
+</I>&gt;<i> bloku X promitne (neni uplne dulezite jak) neco z bloku X-1, takze 16
+</I>&gt;<i> opakujicich se znaku se v kazdem bloku zasifruje &quot;trochu jinak&quot;. Proto
+</I>&gt;<i> pro ty ostatni mody potrebujes inicializacni vektor, coz je prave
+</I>&gt;<i> falesne &quot;neco z bloku X-1&quot; pro x=1 (prvni zasifrovavany blok dat).
+</I>&gt;<i>
+</I>&gt;<i>  Snad jsem to moc nezkomplikoval :)
+</I>&gt;<i>
+</I>&gt;<i>   Jirka
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+PGP pub key:
+
+<A HREF="http://keyserver.pgp.com/vkd/SubmitSearch.event?SearchCriteria=visgean%40gmail.com">http://keyserver.pgp.com/vkd/SubmitSearch.event?SearchCriteria=visgean%40gmail.com</A>
+           <A HREF="http://www.abclinuxu.cz/lide/visgean/gpg">http://www.abclinuxu.cz/lide/visgean/gpg</A>
+           A453 B7F3 33D9 3BE6 2B8A | F014 5347 EBAC 0A5A 3E92
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">visgean na jabber.org</A> | <A HREF="http://www.py.cz/mailman/listinfo/python">visgean na jabber.cz</A>
+Github: <A HREF="http://github.com/Visgean">http://github.com/Visgean</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20110608/cf3e1370/attachment.html">http://www.py.cz/pipermail/python/attachments/20110608/cf3e1370/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010413.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010415.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10414">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10414">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10414">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10414">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010414.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:49 GMT -->
+</html>

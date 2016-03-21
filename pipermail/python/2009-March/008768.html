@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008768.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:49 GMT -->
+<HEAD>
+   <TITLE> [python] hash, mysql
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20hash%2C%20mysql&In-Reply-To=%3C56a40698c16c4b2daf18ad15bdd3b46e%40pobox.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-March/008772.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-March/008783.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] hash, mysql</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20hash%2C%20mysql&In-Reply-To=%3C56a40698c16c4b2daf18ad15bdd3b46e%40pobox.sk%3E"
+       TITLE="[python] hash, mysql">azurit na pobox.sk
+       </A><BR>
+    <I>Čtvrtek Březen 19 20:47:16 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008772.html">[python] hash, mysql
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008783.html">[python] hash, mysql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8768">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8768">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8768">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8768">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mimochodom, podla toho, ako to ten clovek pouziva, to vyzera, ze bud pouziva modul _mysql alebo pouziva MySQLdb avsak blbo. Malo by to byt takto:
+
+db_curr.execute(&quot;SELECT * FROM users WHERE name='root' AND password=%s&quot;, (password
+,) )
+
+
+
+
+-----Pôvodná správa-----
+Od: slush [<A HREF="http://www.py.cz/mailman/listinfo/python">slush na slush.cz</A>]
+Komu: Konference PyCZ 
+Predmet: Re: [python] hash, mysql
+
+Muzu poprosit o nejaky zdroj, resp. vysvetleni duvodu? S mysql jsem hojne pracoval, ale ne v pythonu. Takove chovani me trochu zarazi a rad bych ho pochopil. Ja ve vyse uvedenem prikladu vidim obycejne spojovani retezcu, takze na server pujde &quot;hash=asdfjhasdfh&quot;, coz je samozrejme spatne.
+ 
+Marek
+
+
+
+2009/3/19 azurIt &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>&gt;
+ Nemusi (vlastne nesmie) to byt v uvodovkach pokial sa pouziva modul MySQLdb . Jedine pri _mysql (lowlevel) musi.
+ 
+ 
+ 
+ 
+ -----Pôvodná správa-----
+ Od: slush [<A HREF="http://www.py.cz/mailman/listinfo/python">slush na slush.cz</A>]
+ Komu: Konference PyCZ
+ Predmet: Re: [python] hash, mysql
+ 
+
+
+ A nejaky duvod, proc %s neni v uvozovkach?
+ 
+ Marek
+ 
+ 
+ 
+ 2009/3/19 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A>&gt;
+ 
+
+
+
+ Dobrý den, mám problémy se spoluprací se sql serverem:
+ 
+  server my vrací chybu:
+  ProgrammingError: (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'\xa1A\x91k\xc7\xde\x17M\xe0j\xec\xc2\xf1(,iq|\x839;&amp;\x17\xc4\xc1\xcc\x04\x93\x0e\xc81R\xf5UB&amp;\xd1\xaf\xb4P&quot;\' at line 1')
+ 
+ 
+  při interpretaci:  &quot;SELECT * FROM users WHERE name='root' AND password=%s&quot; % password
+ 
+  kde password je text získaný metodou:
+  def passToHash(self, password):
+         hash = hashlib.sha512()
+         hash.update(password)
+         hash = hash.digest()
+         return hash
+ 
+  Nevíte kde dělám chybu?
+  _______________________________________________
+  Python mailing list
+  <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+  <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+ 
+ 
+ _______________________________________________
+ Python mailing list
+ <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+ <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+ 
+ 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008772.html">[python] hash, mysql
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008783.html">[python] hash, mysql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8768">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8768">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8768">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8768">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008768.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:49 GMT -->
+</html>

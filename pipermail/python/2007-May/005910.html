@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005910.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:01 GMT -->
+<HEAD>
+   <TITLE> [python] Využití dědičnosti, čistota použití ...
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FVyu%3DBEit%3DED_d%3DECdi%3DE8nosti%3D2C_%3DE8istota_p%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fou%3DBEit%3DED_%3D2E%3D2E%3D2E%3F%3D&In-Reply-To=1178450061.609870.199580%40p77g2000hsh.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005909.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005911.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Využití dědičnosti, čistota použití ...</H1>
+    <B>Jan Jakubuv</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FVyu%3DBEit%3DED_d%3DECdi%3DE8nosti%3D2C_%3DE8istota_p%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fou%3DBEit%3DED_%3D2E%3D2E%3D2E%3F%3D&In-Reply-To=1178450061.609870.199580%40p77g2000hsh.googlegroups.com"
+       TITLE="[python] Využití dědičnosti, čistota použití ...">jakubuv na gmail.com
+       </A><BR>
+    <I>Neděle Květen  6 15:42:28 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005909.html">[python] Využití dědičnosti, čistota použití ...
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005911.html">[python] web
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5910">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5910">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5910">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5910">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>dobry den,
+
+ja myslim, ze je vse v poradku. snad akorat pokud v konstruktoru
+odvozene tridy (JinaPage.__init__) pouze volate konstruktor predka
+nemusite konstruktor uvadet, staci celou JinaPage.__init__ vynechat a
+konstruktor se pak zdedi od tridy Page a vse bude fungovat stejne.
+konstruktor u JinaPage je nutne uvadet az v pripade ze je odlisny od
+konstruktoru Page.
+
+jeste bych si dovolil poznamku k importovani modulu kid:
+  import kid
+  from kid import *
+zda se, ze importovani provadite zbytecne 2x...
+
+co se tyce vhodnosti pouziti dedicnosti to uz bude zrejme jen a jen na
+Vas. pokud je skutecne jediny rozdil v promenne data, dalo by se vse
+resit zrejme i jedinou tridou s metodou nastavujici data. pokud se
+rozhodnote pro pouziti dedicnosti, mozna by jste mohl pouzit neco jako
+abstraktniho predka, tj. vytvorit jednu zakladni tridu ktera bude
+obsahovat metody a atributy spolecne vsem strankam avsak nebude
+reprezentovat zadnou konkretni stranku/y. vsechny ostatni tridy pak
+muzete odvodit od ni.
+
+mozna bych jeste v pythonu 2.5 napsal 'class Page(object):' ..
+
+s pozdarvem,
+  h.
+
+
+6 May 2007 04:14:21 -0700, <A HREF="http://www.py.cz/mailman/listinfo/python">martin.stiborsky na gmail.com</A>
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">martin.stiborsky na gmail.com</A>&gt;:
+&gt;<i> Zdravím, ještě trochu vás budu otravovat s dotazy :)
+</I>&gt;<i> Napsal jsem si dvě třídy, chci se zeptat jestli jsem správně použilu
+</I>&gt;<i> dědičnost, zda-li tam není něco zapsáno zbytečně složitě nebo
+</I>&gt;<i> nesmyslně ...
+</I>&gt;<i>
+</I>&gt;<i> kód:
+</I>&gt;<i>
+</I>&gt;<i> import cherrypy
+</I>&gt;<i> import kid
+</I>&gt;<i> from kid import *
+</I>&gt;<i> kid.enable_import()
+</I>&gt;<i> from templates.front import front_page,one_page
+</I>&gt;<i>
+</I>&gt;<i> serializer = 'xhtml-strict'
+</I>&gt;<i> template_list = {'front_page': front_page,'one_page': one_page}
+</I>&gt;<i>
+</I>&gt;<i> class Page:
+</I>&gt;<i>     def __init__(self,page_template):
+</I>&gt;<i>         self.template = template_list[page_template]
+</I>&gt;<i>         self.template.menu = [('frontpage','/'),
+</I>&gt;<i>                               ('foo1','index?page_handler=onepage'),
+</I>&gt;<i>                               ('foo2','index?page_handler=onepage')]
+</I>&gt;<i>         self.template.data = 'test stranky'
+</I>&gt;<i>     def show(self):
+</I>&gt;<i>         return self.template
+</I>&gt;<i>
+</I>&gt;<i> class JinaPage(Page):
+</I>&gt;<i>     def __init__(self,page_template):
+</I>&gt;<i>         Page.__init__(self, page_template)
+</I>&gt;<i>     def show(self):
+</I>&gt;<i>         self.template.data = 'uplne jina data'
+</I>&gt;<i>         return self.template
+</I>&gt;<i>
+</I>&gt;<i> Jde mi hlavně o to, že hlavně se bude měnit proměnná data, handlerů
+</I>&gt;<i> bude víc, u některých bude vícero proměnných předávaných šabloně,
+</I>&gt;<i> takhle se mi to líbí, snad to je i správně....
+</I>&gt;<i> Díky moc za každou radu
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005909.html">[python] Využití dědičnosti, čistota použití ...
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005911.html">[python] web
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5910">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5910">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5910">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5910">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005910.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:01 GMT -->
+</html>

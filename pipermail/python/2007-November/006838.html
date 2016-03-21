@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006838.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:12 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006837.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006839.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To="
+       TITLE="[python] sockety - problem s HTTP spojenim">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Listopad 28 13:01:24 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006837.html">[python] Jak na textový parser
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006839.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6838">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6838">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6838">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6838">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tomy novella
+&gt;<i> ------
+</I>&gt;<i> c = atlantis_client()
+</I>&gt;<i> c.buffer = &quot;JEDEN PRIKAZ\r\n&quot;
+</I>&gt;<i> c.buffer = &quot;DRUHY PRIKAZ\r\n&quot;
+</I>&gt;<i> ------
+</I>&gt;<i> 
+</I>&gt;<i> ... a odoslalo mi LEN tu druhu vec(v tomto pripade &quot;DRUHY PRIKAZ\r\n&quot;)
+</I>&gt;<i> preco? ako mam odoslat obe?
+</I>
+Dvakrát za sebou se naplnil buffer, pokaždé
+něčím jiným. Asi se mezi tím musí provést 
+nějaká akce, která obsah bufferu odešle.
+
+&gt;<i> 2) (filozoficka):  stale ked poslem po nejakom protokole prikaz, tak
+</I>&gt;<i> ma koncit &quot;\r\n&quot;? - totiz donedavna som novy riadok ukoncoval len
+</I>&gt;<i> &quot;\n&quot;a stacilo to, preco je tak aj \r  ved to je tabulator a ten predsa
+</I>&gt;<i> nevidno! :) aspon ja v tom nevidim logiku ;(
+</I>
+Není to filosofická, ale technická otázka. Sekvence \r reprezentuje
+řídicí znak Carriage Return (návrat vozíku), posloupnost \n
+reprezentuje řídicí znak Line Feed (odřádkování). Oba řídicí znaky
+dostaly název v době, kdy vznikl klasický mechanický dálnopis.
+Znamenaly skutečně takto pojmenované mechanické akce. (Proto se taky
+řídícím znakům začalo říkat řídicí znaky.) V uvedeném
+pořadí se používaly proto, protože mechanická konstrukce dovolovala,
+aby se přechod na nový řádek (pootočení válce) prováděla i při
+pohybu vozíku na začátek. Pro zpětný pohyb vozíku tedy bylo dvakrát
+tolik času. Tolik tedy k postrádané logice.
+
+Postupem doby se sekvence označovaná také jako CR LF stala oddělovačem
+řádků v textových souborech, které už se na dálnopisnou stanici
+neodesílaly. V unixových systémech se vypustilo \r, u Mac je to 
+myslím naopak. V DOSu a ve Windows zůstaly oba znaky.
+
+Aby se to programátorsky sjednotilo, zavedl se pojem &quot;otvírání
+souboru v textovém režimu&quot;, kdy se všechny možné koncové sekvence
+při načítání upravují na jediný znak \n a při zápisu se \n
+expanduje na příslušnou sekvenci, která se používá v daném OS.
+
+Pokud se ale soubor otvírá binárně, je nutné zapisovat všechny
+znaky koncové sekvence. Při odesílání přes buffer se typicky
+pracuje v binárním režimu.
+
+(Rýpnu si.) Unixoví programátoři otvírání souborů v textovém 
+režimu často ignorují právě proto, že při otvírání v binárním
+režimu se vše v Unixu chová stejně, jako v textovém režimu.
+Díky tomu někteří na-Unix-hrdí jedinci vytvářejí špatně
+přenositelné zdrojové texty.
+
+Python až do verze 3.0 nedefinuje přísný datový typ řetězec
+(ne unicode). Do uvozovek zapisujeme posloupnost bajtů, i když
+nám je editor ukazuje jako písmenka. Ke konverzi jednoho znaku
+\n z řetězce na příadnou dvojici dochází až při zápisu 
+do souboru otevřeného v textovém režimu -- a to jen v DOS/Windows. 
+Nikdy jindy.
+
+pepr
+
+&gt;<i> PS: prosim v mailoch tykat! nie vykat ;)
+</I>
+P.S. Klidně mi v mailech vykej. Není to věc použitého média ;)
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006837.html">[python] Jak na textový parser
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006839.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6838">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6838">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6838">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6838">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006838.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:12 GMT -->
+</html>

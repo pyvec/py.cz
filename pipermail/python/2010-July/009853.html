@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009853.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:27 GMT -->
+<HEAD>
+   <TITLE> [python] Buffer overflow na Win7?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Buffer%20overflow%20na%20Win7%3F&In-Reply-To=%3C1279188557.201862.21824.nullmailer%40mail1004.cent%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009851.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009859.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Buffer overflow na Win7?</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Buffer%20overflow%20na%20Win7%3F&In-Reply-To=%3C1279188557.201862.21824.nullmailer%40mail1004.cent%3E"
+       TITLE="[python] Buffer overflow na Win7?">prikryl na atlas.cz
+       </A><BR>
+    <I>Čtvrtek Červenec 15 12:09:17 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009851.html">[python] Buffer overflow na Win7?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009859.html">[python] Buffer overflow na Win7?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9853">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9853">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9853">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9853">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;&gt;<i> To znamená, že to může mít co do činění s použitím vyrovnávacího
+</I>&gt;&gt;<i> bufferu, který může být v Linuxu a pod Windows obsluhován jinak
+</I>&gt;<i>
+</I>&gt;<i>Takze to znamena, ze Windowsi fread() &quot;obsahuje&quot; buffer overflow? OK,
+</I>&gt;<i>chapu, nemusi to byt chyba pythonu, ale v takovem pripade to je snad
+</I>&gt;<i>jeste horsi.
+</I>
+Je to asi chyba v Pythonu, protože Python by neměl takovou situaci dovolit.
+Dokumentace ale svým způsobem na tento nedodělek upozorňuje.
+
+V Pythonu 3 už to funguje.
+
+&gt;<i>Co se tyka toho 'a+', zkousel jsem to i s jinymi R/W mody, ale
+</I>&gt;<i>vysledek stejny. Znamena to, ze Windows ma z nejakeho duvodu problem s
+</I>&gt;<i>&quot;obousmerne&quot; otevrenym souborem? Bavil jsem se o tom s kolegou
+</I>&gt;<i>javistou, ktery tvrdi, ze treba v Jave vubec koncept R/W souboru neni
+</I>&gt;<i>(udajne jsou jen R nebo W streamy). Tak me napadlo, ze to je proste
+</I>&gt;<i>jejich &quot;workaround&quot; pro platformove specificke problemy s praci se
+</I>&gt;<i>soubory.
+</I>
+Ona je to taky trochu koncepční záležitost. Když je soubor otevřen
+pro připisování na konec, jak lze správně rozhodnout, že soubor
+už skončil?  Pokud chci použít operaci &quot;přečti soubor až do konce souboru&quot;,
+je takový požadavek vůbec korektní?
+
+Další zádrhel, který by v tomto případě mohl hrát roli, je rozlišování
+binárního a textového otevření souboru. Je všeobecně známé, že 
+řada vývojářů pod Unixem na rozlišování kašle, protože obsah
+souboru v ASCII načteme stejně, ať se to otevře v textovém nebo
+v binárním režimu. V textovém režimu se taky z důvodů
+kompatibility interpretuje Ctrl-Z jako EOF. V současnosti ale asi
+nikdo explicitně do souboru jako EOF znak Ctrl-Z necpe. Je možné,
+že implementace interpretace EOF můžou být různě zprasené.
+
+Otvírání textových souborů pro současné čtení a zápis je ale 
+taky problematické, protože textové soubory už často bývají v UTF-8
+a seek lze dělat jen velmi opatrně.  Jediný spolehlivý způsob
+je chovat se k souboru jako k stream.
+
+Java je UNICODE, takže odtud může pramenit rozhodnutí 
+nedělat podobné low-level prasárny jako seek v textovém souboru.
+
+Petr
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009851.html">[python] Buffer overflow na Win7?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009859.html">[python] Buffer overflow na Win7?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9853">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9853">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9853">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9853">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009853.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:27 GMT -->
+</html>

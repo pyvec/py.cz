@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005692.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:22 GMT -->
+<HEAD>
+   <TITLE> [python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Q%3A%20Cteni%20unicode%20retezcu%20ze%20souboru%20UTF-8%20s%20BOM%3F&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005691.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005693.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Q%3A%20Cteni%20unicode%20retezcu%20ze%20souboru%20UTF-8%20s%20BOM%3F&In-Reply-To="
+       TITLE="[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Březen 15 07:52:53 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005691.html">[python] Fwd: Python 2.5 (Modules/zlib) minigzip local buffer	overflow vulnerability
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005693.html">[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5692">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5692">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5692">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5692">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj všeci,
+
+Tak nějak prakticky poprvé se dostávám k tomu, 
+jak přečíst unicode řetězce ze souboru, který
+je uložen ve formátu UTF-8 se signaturou
+na začátku (BOM). Nějak se mi nedaří.
+
+Mám takovýto soubor.txt v UTF-8 s BOM
+=====================================
+První řádek.
+Druhý řádek.
+Třetí řádek.
+Příšerně žluťoučký kůň úpěl ďábelské ódy.
+=====================================
+
+... a pustím skript
+=====================================
+import codecs
+f = codecs.open('soubor.txt', 'r', 'utf-8')
+for line in f:
+    print repr(line)
+    print line[1:]
+f.close()
+=====================================
+
+Výsledek vypadá takto
+=====================================
+C:\tmp&gt;python a.py
+u'\ufeffPrvn\xed \u0159\xe1dek.\r\n'
+První řádek.
+
+u'Druh\xfd \u0159\xe1dek.\r\n'
+ruhý řádek.
+
+u'T\u0159et\xed \u0159\xe1dek.\r\n'
+řetí řádek.
+
+u'P\u0159\xed\u0161ern\u011b \u017elu\u0165ou\u010dk\xfd k\u016f\u0148 \xfap\u011bl \u010f\xe1belsk\xe9 \xf3dy.\r\n'
+říšerně žluťoučký kůň úpěl ďábelské ódy.
+=====================================
+
+Všimněte si, že na prvním řádku je \ufeff, což je Byte Order Mark, 
+který se tam vůbec nemá objevit. Jeví se mi to jako chyba. 
+Na všech řádcích záměrně nevypisuji printem první znak, 
+protože u toho prvního řádku to krachne (což je pochopitelné).
+Řešil někdo něco podobného? Musí se BOM ukousávat ve vlastní režii?
+
+Díky, 
+  pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005691.html">[python] Fwd: Python 2.5 (Modules/zlib) minigzip local buffer	overflow vulnerability
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005693.html">[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5692">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5692">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5692">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5692">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005692.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:22 GMT -->
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-September/000429.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] CherryPy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20CherryPy&In-Reply-To=mailman.1.1159264802.30397.tutor%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-September/000428.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-September/000430.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] CherryPy</H1>
+    <B>viktor vraniak</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20CherryPy&In-Reply-To=mailman.1.1159264802.30397.tutor%40py.cz"
+       TITLE="[Tutor PyCZ] CherryPy">tyctor na post.cz
+       </A><BR>
+    <I>Úterý Září 26 18:10:29 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000428.html">[Tutor PyCZ] CherryPy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000430.html">[Tutor PyCZ] dotaz k &quot;import&quot;
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/date.html#429">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/thread.html#429">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/subject.html#429">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/author.html#429">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>myslim, ze sme sa nepochopili
+
+vysvetlim:
+mam 2 funkcie. kazda vracia cast html kodu stranky.
+ak budem pridavat ladiace hlasky do html kodu vrateneho funkciami, tak budu tie hlasky roztrusene po stranke.
+v tomto pridade ladiace hlasky druhej volanej funkcie budu az za html kodom vratenym prvou funkciou.
+
+ale pri mod_python, ako pouzijem req.write(), tak vsetky ladiace hlasky budu pokope, na zaciatku stranky a pod nimi bude vrateny html kod...
+
+neviem ci som to dostatocne vysvetlil.
+zatial pridavam hlasky do navratovych hodnot funkcii, pretoze req.write() v lubovolnom mieste kodu asi v cherrypy nepojde... ;o)
+
+v podstate ide iba o zvyk, vypisat si cokolvek kdekolvek v kode a nemusiet upravovat kod funkcie.
+
+viktor vraniak
+
+&gt;<i> Zdravim,
+</I>&gt;<i> to, co je ve skriptu poslano na std. vystup je automaticky soucasti html
+</I>&gt;<i> kodu poslaneho na klienta.
+</I>&gt;<i> Pokud dojde k vyjimce, tak je na klienta zaslana stranka s informacemi o
+</I>&gt;<i> chybe (stejne, jako v interaktivnim rezimu).
+</I>&gt;<i> Server ale musi bezet v develompment modu, jinak zobrazi jen &quot;Chyba skriptu&quot;
+</I>&gt;<i> viz. dokumentace k CherryPy.
+</I>&gt;<i> J.
+</I>&gt;<i> 
+</I>&gt;<i> On 25/09/06, viktor vraniak &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tyctor na post.cz</A>&gt; wrote:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; dobry den
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; do diskusie prislo par prispevkov o cherrypy
+</I>&gt;<i> &gt; ja mam dotaz ohladom debugovania skriptu, ktory bezi pod cherrypy
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; akym sposobom ladite aplikaciu?
+</I>&gt;<i> &gt; ako dostat ladiace vypisy do html odoslaneho na klienta?
+</I>&gt;<i> &gt; (ak nechcem aby boli sucastou vrateneho html, ale vypisovali sa uz pocas
+</I>&gt;<i> &gt; generovania stranky)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; mod_python ma metodu req.write(), ktora sa da pouzit v lubovolnej faze na
+</I>&gt;<i> &gt; vypis, napr. stavu premennych.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; dakujem za pomoc.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; tyctor
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Tutor mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> ------------- dal??? ---------------
+</I>&gt;<i> HTML příloha byla odstraněna...
+</I>&gt;<i> URL:
+</I>&gt;<i> <A HREF="http://www.py.cz/pipermail/tutor/attachments/20060925/82d7d88b/attachment.html">http://www.py.cz/pipermail/tutor/attachments/20060925/82d7d88b/attachment.html</A> 
+</I>&gt;<i> 
+</I>&gt;<i> ------------------------------
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i> 
+</I>&gt;<i> Konec: Tutor Digest, Vol 16, Issue 12
+</I>&gt;<i> *************************************
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000428.html">[Tutor PyCZ] CherryPy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000430.html">[Tutor PyCZ] dotaz k &quot;import&quot;
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/date.html#429">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/thread.html#429">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/subject.html#429">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/author.html#429">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-September/000429.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

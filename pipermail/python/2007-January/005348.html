@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005348.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+<HEAD>
+   <TITLE> [python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FModifikace_seznamu_bez_kopirovnani_%3D28byl%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fo_SQLite_-_forma_selectovan%3DFDch_dat%3D29%3F%3D&In-Reply-To=20070108103009.257F562A8F%40charon.hkfree.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005346.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005350.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FModifikace_seznamu_bez_kopirovnani_%3D28byl%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fo_SQLite_-_forma_selectovan%3DFDch_dat%3D29%3F%3D&In-Reply-To=20070108103009.257F562A8F%40charon.hkfree.org"
+       TITLE="[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)">feed na centrum.cz
+       </A><BR>
+    <I>Pondělí Leden  8 12:37:09 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005346.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005350.html">[python] vnitřní implementace python listu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5348">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5348">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5348">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5348">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Pokud by však platila teze, že čtení prvku seznamu pomocí indexu je pro
+</I>&gt;<i> velké seznamy pomalé, tak by varianta s enumerate mohla být rychlejší.
+</I>&gt;<i> Důvodem je to, že získává další hodnotu načtením následujícího prvku v
+</I>&gt;<i> seznamu (rychlá operace) namísto pomalého přístupu přes index.
+</I>&gt;<i> Test však ukázal, že uvedená tese neplatí, takže pythovský list() asi není
+</I>&gt;<i> obyčejný obousměrně svázaný seznam.
+</I>
+A není ani důvod aby byl. Každý trochu zkušený programátor by určitě 
+list neimplementoval vnitřně jako obousměrně vázaný seznam, protože tím 
+získá prakticky jenom nevýhody.
+
+O vnitřní implementaci list napovídá to, že Python má tuple a list, tedy 
+dva objekty dělající de facto to samé (pomiňte teď konstantnost tuple) a 
+tipnul bych si tedy že spíše jde o to, že list alokuje paměť pro indexy 
+dopředu, a že se jedná o obyčejné pole s empiricky vyladěnými algoritmy 
+pro minimální počet alokací a trochu plýtvající pamětí, zatímco tuple 
+bude vnitřně to samé co list, akorát alokuje paměť na indexy přesně.
+
+Jinak už jen úvaha, že přístup přes index je pomalejší, než cokoli 
+jiného je úchylná, protože si fakt neumím představit, že by někdo 
+implementoval pole (tj. něco s neměnnou lineární řadou celočíselných 
+indexů) tak, aby přístup přes indexy nebyl superrychlý. Zvlášť když 
+přístup k poli přes index je suverénně nejčastěji vyžadovaná operace v 
+programu a tím pádem je logické, že je implmentována s ohledem na 
+maximální rychlost.
+
+Ing. Miloslav Ponkrác
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005346.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005350.html">[python] vnitřní implementace python listu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5348">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5348">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5348">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5348">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005348.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+</html>

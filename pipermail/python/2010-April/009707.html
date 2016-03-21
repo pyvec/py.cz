@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009707.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:47 GMT -->
+<HEAD>
+   <TITLE> [python] OT: překlad pojmů &quot;first-class object&quot; a &quot;stream object&quot;
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FOT%3D3A_p%3DC5%3D99eklad_pojm%3DC5%3DAF_%3D22first-class_o%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fbject%3D22_a_%3D22stream_object%3D22%3F%3D&In-Reply-To=%3C1272397738.176782.22219.nullmailer%40mail1012.cent%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009703.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009709.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] OT: překlad pojmů &quot;first-class object&quot; a &quot;stream object&quot;</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FOT%3D3A_p%3DC5%3D99eklad_pojm%3DC5%3DAF_%3D22first-class_o%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fbject%3D22_a_%3D22stream_object%3D22%3F%3D&In-Reply-To=%3C1272397738.176782.22219.nullmailer%40mail1012.cent%3E"
+       TITLE="[python] OT: překlad pojmů &quot;first-class object&quot; a &quot;stream object&quot;">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Duben 27 21:48:58 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009703.html">[python] OT: překlad pojmů &quot;first-class object&quot; a &quot;stream object&quot;
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009709.html">[python] OT: překlad pojmů &quot;first-class object&quot; a &quot;stream object&quot;
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9707">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9707">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9707">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9707">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Michal Vyskocil
+:<i> &gt;Přikryl Petr
+</I>:<i> &gt;...
+</I>:<i> &gt; otázka, jestli je to vhodný název pro pojem
+</I>:<i> &gt; (plnohodnotný objekt). Taky se k tomu můžu postavit
+</I>:<i> &gt; tak, že by to nebylo vnucováno jako kodifikovaný pojem,
+</I>:<i> &gt; ale prostě jako srozumitelné vyjádření -- opis významu.
+</I>:<i> 
+</I>:<i> Se slovem plnohodnotný je problém, že se to vztahuje spíše k jazyku,
+</I>:<i> než tomu objektu. Takže při opisném použití bych asi napsal něco jako
+</I>:<i> 
+</I>:<i> &quot;&quot;&quot;
+</I>:<i> Objekty a funkce v Pythonu jsou plnohodnotné složky/elementy/...
+</I>:<i> jazyka. Mohou být použity jako argument, či návratová hodnota funkce.
+</I>:<i> V angličtině se označují termínem first-class object.
+</I>:<i> &quot;&quot;&quot;
+</I> 
+No, tady nevím, jestli si rozumíme. Objekty jsou objekty (plnohodnotné).
+Nemůžou být ničím jiným. Jsou to objekty z definice.
+
+Funkce jsou taky objekty (plnohodnotné). Mají třídu, můžeme na ně dělat
+reference. Mají atributy, funkce mají také metody...  &quot;Funkce jsou objekty se vším všudy.&quot;
+
+Třídy jsou taky plnohodnotné objekty. Mají svou (meta)třídu, lze na ně
+dělat reference (tj. předávat). Mají atributy, mají také metody... 
+&quot;Třídy jsou objekty se vším všudy.&quot;
+
+Plnohodnotnou &quot;složkou&quot; jazyka může být cokoliv, třeba přiřazení.
+Takže ne nějaké abstraktní složky jazyka, ale skutečné objekty.
+
+c:Python31&gt;python
+Python 3.1.2 (r312:79149, Mar 21 2010, 00:41:52) [MSC v.1500 32 bit (Intel)] on
+win32
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt;<i> class A:  pass
+</I>...
+&gt;&gt;&gt;<i> B = A
+</I>&gt;&gt;&gt;<i> id(B)
+</I>12721968
+&gt;&gt;&gt;<i> id(A)
+</I>12721968
+&gt;&gt;&gt;<i> type(A)
+</I>&lt;class 'type'&gt;
+&gt;&gt;&gt;<i> a = B()
+</I>&gt;&gt;&gt;<i> type(a)
+</I>&lt;class '__main__.A'&gt;
+&gt;&gt;&gt;<i> id(a)
+</I>12112816
+&gt;&gt;&gt;<i> def f(x): pass
+</I>...
+&gt;&gt;&gt;<i> type(f)
+</I>&lt;class 'function'&gt;
+&gt;&gt;&gt;<i> id(f)
+</I>12524040
+&gt;&gt;&gt;<i>
+</I></PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009703.html">[python] OT: překlad pojmů &quot;first-class object&quot; a &quot;stream object&quot;
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009709.html">[python] OT: překlad pojmů &quot;first-class object&quot; a &quot;stream object&quot;
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9707">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9707">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9707">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9707">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009707.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:47 GMT -->
+</html>

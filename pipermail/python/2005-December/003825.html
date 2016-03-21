@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003825.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:15 GMT -->
+<HEAD>
+   <TITLE> [python] for + eval()
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for%20%2B%20eval%28%29&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC06987B%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-December/003823.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-December/003828.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] for + eval()</H1>
+    <B>Tomas Brabenec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for%20%2B%20eval%28%29&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC06987B%40skil01.skil.mistni"
+       TITLE="[python] for + eval()">konference na brabenec.net
+       </A><BR>
+    <I>Čtvrtek Prosinec 22 13:19:25 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003823.html">[python] for + eval()
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003828.html">[python] Pzthon a MS SQL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3825">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3825">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3825">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3825">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jo neco v tomto smyslu, to co jsem napsal je jen část toho co potřebuju.
+Kazdopadne diky vsem za namety, myslim, ze ted uz to dam do kupy.
+
+Diky
+
+Tomas Brabenec
+<A HREF="http://brabenec.net/">http://brabenec.net</A>
+ 
+
+
+
+Petr Prikryl napsal(a):
+&gt;<i> Už to možná trochu chápu.
+</I>&gt;<i> Když to formuluji jinak, tak
+</I>&gt;<i> vlastně ani nevím, kdy a kolikrát
+</I>&gt;<i> se má provést to tělo cyklu.
+</I>&gt;<i> Bude to předepsáno zvenku, řetězcem.
+</I>&gt;<i>
+</I>&gt;<i> Zjednoduším případ s objects na řetězec,
+</I>&gt;<i> jedním objektem bude znak a do data
+</I>&gt;<i> se bude přidávat něco jiného.
+</I>&gt;<i>
+</I>&gt;<i> Natvrdo tedy můžu napsat a spustit (a.py)
+</I>&gt;<i> ----------------------------------
+</I>&gt;<i> objects = 'abcd'
+</I>&gt;<i> data = []              
+</I>&gt;<i>
+</I>&gt;<i> for x in xrange(1, 5):
+</I>&gt;<i>     for object in objects:
+</I>&gt;<i>         data.append((x, object))
+</I>&gt;<i>
+</I>&gt;<i> for d in data:
+</I>&gt;<i>     print d
+</I>&gt;<i> ----------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Výsledek bude vypadat takto:
+</I>&gt;<i>
+</I>&gt;<i> (1, 'a')
+</I>&gt;<i> (1, 'b')
+</I>&gt;<i> (1, 'c')
+</I>&gt;<i> (1, 'd')
+</I>&gt;<i> (2, 'a')
+</I>&gt;<i> (2, 'b')
+</I>&gt;<i> (2, 'c')
+</I>&gt;<i> (2, 'd')
+</I>&gt;<i> (3, 'a')
+</I>&gt;<i> (3, 'b')
+</I>&gt;<i> (3, 'c')
+</I>&gt;<i> (3, 'd')
+</I>&gt;<i> (4, 'a')
+</I>&gt;<i> (4, 'b')
+</I>&gt;<i> (4, 'c')
+</I>&gt;<i> (4, 'd')
+</I>&gt;<i>
+</I>&gt;<i> Druhé řešení spočívá v tom, že tělo
+</I>&gt;<i> cyklu nadefinuji do podoby funkce.
+</I>&gt;<i> Příkazem exec pak provedu nějaký 
+</I>&gt;<i> zkonstruovaný příkaz, ve kterém se 
+</I>&gt;<i> bude vyskytovat volání této funkce:
+</I>&gt;<i>
+</I>&gt;<i> (a2.py)
+</I>&gt;<i> ----------------------------------
+</I>&gt;<i> objects = 'abcd'
+</I>&gt;<i> data = []              
+</I>&gt;<i>
+</I>&gt;<i> def f(objects):
+</I>&gt;<i>     for object in objects:
+</I>&gt;<i>         data.append((x, object))
+</I>&gt;<i>
+</I>&gt;<i> sss = 'x in xrange(1, 5)'
+</I>&gt;<i> exec (&quot;for %s: f(objects)&quot; % sss)
+</I>&gt;<i>
+</I>&gt;<i> for d in data:
+</I>&gt;<i>     print d
+</I>&gt;<i> ----------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Výsledek je stejný, jako v předchozím 
+</I>&gt;<i> případě.
+</I>&gt;<i>
+</I>&gt;<i> pepr
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Mělo by to vypadat napr. takhle:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> data = []              
+</I>&gt;&gt;<i> for x in range (1,5):
+</I>&gt;&gt;<i>    for sub_object in object.kids:
+</I>&gt;&gt;<i>        data.append(parsetag(self,sub_object))
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Je to jen vytazek z kodu.
+</I>&gt;&gt;<i>     
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003823.html">[python] for + eval()
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003828.html">[python] Pzthon a MS SQL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3825">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3825">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3825">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3825">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003825.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:15 GMT -->
+</html>

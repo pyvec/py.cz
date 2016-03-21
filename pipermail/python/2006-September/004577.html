@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004577.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:09 GMT -->
+<HEAD>
+   <TITLE> [python] os.popen vs. os.system
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20os.popen%20vs.%20os.system&In-Reply-To=20060914080829.GB31068%40q.uh.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-September/004576.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-September/004582.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] os.popen vs. os.system</H1>
+    <B>Petr Vaněk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20os.popen%20vs.%20os.system&In-Reply-To=20060914080829.GB31068%40q.uh.cz"
+       TITLE="[python] os.popen vs. os.system">petr na scribus.info
+       </A><BR>
+    <I>Čtvrtek Září 14 10:44:57 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004576.html">[python] os.popen vs. os.system
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004582.html">[python] os.popen vs. os.system
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4577">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4577">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4577">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4577">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne čtvrtek 14 září 2006 10:08 Radek Kanovsky napsal(a):
+&gt;<i> On Thu, Sep 14, 2006 at 08:40:35AM +0200, Martin Jedlička wrote:
+</I>&gt;<i> &gt; Zdravim,  mam takovy problem. Poustim prikaz v prikazove radce (volam
+</I>&gt;<i> &gt; cvs.exe s parametrama) a rad bych, aby se nezobrazovalo to cerne okno
+</I>&gt;<i> &gt; cmd (os.system(cmd))* *K tomu jsem pouzil os.popen, problem je ale v
+</I>&gt;<i> &gt; tom, ze kdyz se vyskytne nejaky problem (chyba pri spusteni cvs.exe),
+</I>&gt;<i> &gt; tak to nevidim. Existuje nejaky zpusob, jak mi popen vyhodi nejaky vytup
+</I>&gt;<i> &gt; pri nepovedeni operace? Nebo existuje nejaky lepsi zpusob, jak spoustet
+</I>&gt;<i> &gt; externi programek s parametrama, aniz by se poustelo cerne cmd okno, ale
+</I>&gt;<i> &gt; pri chybe by to vyhodilo nejakou navratovou hodnotu (execl ?)?
+</I>&gt;<i>
+</I>&gt;<i> V 2.4 pribyl modul `subprocess', ktery nahrazuje os.system a os.popen*.
+</I>&gt;<i> Je docela flexibilni, takze by mel umet to, co pozadujete.
+</I>
+jednoznacne se primlouvam za subprocess.
+Ve svych vecech to delam tak, ze ke zdrojakum pribalim i subprocess.py 
+prejmenovany treba na subprocess24.py a pri importu provedu:
+
+# local file subprocess24 is imported only for &lt;2.4
+if sys.version_info[:3] &lt; (2, 4, 2):
+    import subprocess24 as subprocess
+else:
+    import subprocess
+
+p.
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: [žádný popis není k dispozici]
+Typ: application/pgp-signature
+Velikost: 189 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20060914/a649efa3/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20060914/a649efa3/attachment.pgp</A> 
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004576.html">[python] os.popen vs. os.system
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004582.html">[python] os.popen vs. os.system
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4577">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4577">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4577">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4577">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004577.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:09 GMT -->
+</html>

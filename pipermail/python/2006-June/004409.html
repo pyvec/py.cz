@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004409.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:34 GMT -->
+<HEAD>
+   <TITLE> [python] Regulární výraz s proměnnou
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FRegul%3DE1rn%3DED_v%3DFDraz_s_prom%3DECnnou%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004408.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004411.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Regulární výraz s proměnnou</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FRegul%3DE1rn%3DED_v%3DFDraz_s_prom%3DECnnou%3F%3D&In-Reply-To="
+       TITLE="[python] Regulární výraz s proměnnou">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Červen 28 11:45:43 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004408.html">[python] Regulární výraz s proměnnou
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004411.html">[python] Regulární výraz s proměnnou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4409">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4409">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4409">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4409">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+Martin Jedlička
+&gt;<i>   mám takovýto kus zdrojáku pro hledání souboru *.sch:
+</I>&gt;<i> 
+</I>&gt;<i> RegVyrazSCH = 
+</I>&gt;<i> re.compile(
+</I>&gt;<i>  r&quot;(?P&lt;souborsch&gt;\d{4}-\d{1,3}-[-a-zA-Z0-9]+-\d{1,3}\.sch)&quot;)    
+</I>[...]
+&gt;<i> potřeboval bych vědet, jak hledat soubor pomocí regulárního výrazu s 
+</I>&gt;<i> proměnnou, tedy když bych chtěl mít v regulárním výrazu místo \d{4}  
+</I>&gt;<i> nějakou proměnnou, v které by bylo čtyřmístné číslo, které se 
+</I>&gt;<i> bude měnit.
+</I>
+Vzorek pro regulární výraz je řetězec. Řetězec si můžu kdykoliv
+zkonstruovat. Pokud tomu rozumím dobře, pak se má používat
+dynamicky se měnící vzorek, vypadající například takto:
+
+r&quot;(?P&lt;souborsch&gt;1234-\d{1,3}-[-a-zA-Z0-9]+-\d{1,3}\.sch)&quot;
+
+kde 1234 je konkrétní předpona určená obsahem proměnné.
+Konkrétně si na vhodném místě můžu generovat vzorek...
+
+vzorek = r&quot;(?P&lt;souborsch&gt;&quot; + s + r&quot;-\d{1,3}-[-a-zA-Z0-9]+-\d{1,3}\.sch)&quot;
+
+kde s naplním řetězcovou podobou toho čísla v očekávaném 
+tvaru. Příklad:
+
+&gt;&gt;&gt;<i> i = 5
+</I>&gt;&gt;&gt;<i> s = '%04d' % i
+</I>&gt;&gt;&gt;<i> s
+</I>'0005'
+
+Další problém v uvedeném příkladu je ten, že se regulární
+výraz kompiluje na začátku. V tomto případě se bude muset
+kompilovat po každé změně vzorku -- nebo se musí použít
+varianta příkazu bez kompilace.
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004408.html">[python] Regulární výraz s proměnnou
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004411.html">[python] Regulární výraz s proměnnou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4409">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4409">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4409">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4409">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004409.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:34 GMT -->
+</html>

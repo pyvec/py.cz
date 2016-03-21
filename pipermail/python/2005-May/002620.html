@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-May/002620.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:28 GMT -->
+<HEAD>
+   <TITLE> [python] Přetížení třídní metody
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3FB%3FUPhldO2%2BZW7t%3F%3D%0A%09%3D%3Fiso-8859-2%3FB%3FIHT47WRu7Q%3D%3D%3F%3D%20%09metody&In-Reply-To=1115233969.1002.17.camel%40penmat">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-May/002617.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-May/002618.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Přetížení třídní metody</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3FB%3FUPhldO2%2BZW7t%3F%3D%0A%09%3D%3Fiso-8859-2%3FB%3FIHT47WRu7Q%3D%3D%3F%3D%20%09metody&In-Reply-To=1115233969.1002.17.camel%40penmat"
+       TITLE="[python] Přetížení třídní metody">rk na dat.cz
+       </A><BR>
+    <I>Čtvrtek Květen  5 09:52:23 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002617.html">[python] Přetížení třídní metody
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002618.html">[python] python challenge
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-May/date.html#2620">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/thread.html#2620">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/subject.html#2620">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/author.html#2620">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, May 04, 2005 at 07:12:49PM +0000, Jaroslav Aster wrote:
+
+&gt;<i> Dobrý den,
+</I>&gt;<i> 
+</I>&gt;<i> chtěl bych se zeptat, zda jde v Pythonu nějak přetížit třídní metoda.
+</I>&gt;<i> Tj. něco takovédleho (což nefunguje):
+</I>&gt;<i> 
+</I>&gt;<i> def xmlToNative(self, xmlFileName):
+</I>&gt;<i>     print &quot;objectmethod&quot;
+</I>&gt;<i> 
+</I>&gt;<i> @classmethod
+</I>&gt;<i> def xmlToNative(cls, profile, xmlFileName):
+</I>&gt;<i>     print &quot;classmethod&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Změna názvu metody je jasná, ale to právě nechci. Za případnou radu
+</I>&gt;<i> děkuji.
+</I>
+Nevím, proč to přesně potřebujete, ale možná tohle pomůže:
+
+    from new import instancemethod
+
+    class clsobjmethod(object):
+        
+        def __init__(self, clsmethod, objmethod):
+            self.clsmethod = clsmethod
+            self.objmethod = objmethod
+
+        def __get__(self, obj, typ=None):
+            if obj is None:
+                return instancemethod(self.clsmethod,typ,typ)
+            else:
+                return instancemethod(self.objmethod,obj,typ)
+
+
+    class Klass(object):
+        
+        def _xmlToNativeObj(self, xmlFileName):
+            print 'called from object', self, xmlFileName
+
+        def _xmlToNativeCls(cls, profile, xmlFileName):
+            print 'called from class', cls, profile, xmlFileName
+
+        xmlToNative = clsobjmethod(_xmlToNativeCls, _xmlToNativeObj)
+
+
+    Klass.xmlToNative('prof', 'file')
+    klass = Klass()
+    klass.xmlToNative('file')
+
+
+Zdraví
+
+Radek Kaňovský
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002617.html">[python] Přetížení třídní metody
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002618.html">[python] python challenge
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-May/date.html#2620">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/thread.html#2620">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/subject.html#2620">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/author.html#2620">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-May/002620.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:28 GMT -->
+</html>

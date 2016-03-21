@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-September/009103.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:18 GMT -->
+<HEAD>
+   <TITLE> [python] pymssql a collation
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pymssql%20a%20collation&In-Reply-To=%3C913F77222E913C49A057FDD7BBDEAAA3019502F6%40br-dc.uhul.wan%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-September/009102.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-September/009104.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pymssql a collation</H1>
+    <B>MICHÁLEK Jan Mgr.</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pymssql%20a%20collation&In-Reply-To=%3C913F77222E913C49A057FDD7BBDEAAA3019502F6%40br-dc.uhul.wan%3E"
+       TITLE="[python] pymssql a collation">Michalek.Jan na uhul.cz
+       </A><BR>
+    <I>Úterý Září  8 14:48:51 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009102.html">[python] pymssql a collation
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009104.html">[python] pymssql a collation
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-September/date.html#9103">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/thread.html#9103">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/subject.html#9103">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/author.html#9103">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No, jednak je možné změnit kódování skriptu v pythonu
+# -*- coding: cp582 -*-
+Nebo to změnit ve MSSQL, což by mělo jít, nebo to propašovat do dotazu, to jsem nezkoušel.
+Nejjednodušší je ale použít
+
+X.decode('cp852').encode('do ceho to chces')
+
+Obecně jsem s tím měl konkrétně v MS SQL taky docela problémy, pak jsme to nějak udělali (už si nespomenu jak), jde taky o to, jesti to máš ve varchar, nebo v nvarchar, páč v nvarchar je to uložený včetně kódování (proto taky nvarchar zabere víc místa).
+Mrkni sem
+<A HREF="http://msdn.microsoft.com/en-us/library/aa276823(SQL.80).aspx">http://msdn.microsoft.com/en-us/library/aa276823%28SQL.80%29.aspx</A>
+A sem
+<A HREF="http://msdn.microsoft.com/en-us/library/ms184391.aspx">http://msdn.microsoft.com/en-us/library/ms184391.aspx</A>
+A sem
+
+Pymssql je príma, mám s tím jen ty nejlepší zkušenosti.
+Je.
+
+-----Original Message-----
+From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of zu1234
+Sent: Tuesday, September 08, 2009 1:56 PM
+To: Konference PyCZ
+Subject: [python] pymssql a collation
+
+Pokud se připojím na MS-SQL databázi pomocí pymssql dostávám data v kódování cp852 ('dosová čeština') přesto že kódování dat je Czech_CI_AS což je cp1250  ('windows čeština').
+???
+Je to vlastnost nebo chyba?
+Dá se to změnit?
+
+ZU
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+ 
+
+__________ Informace od ESET NOD32 Antivirus, verze databaze 4405 (20090908) __________
+
+Tuto zpravu proveril ESET NOD32 Antivirus.
+
+<A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+ 
+
+__________ Informace od ESET NOD32 Antivirus, verze databaze 4405 (20090908) __________
+
+Tuto zpravu proveril ESET NOD32 Antivirus.
+
+<A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009102.html">[python] pymssql a collation
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009104.html">[python] pymssql a collation
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-September/date.html#9103">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/thread.html#9103">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/subject.html#9103">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/author.html#9103">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-September/009103.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:18 GMT -->
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009663.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:44 GMT -->
+<HEAD>
+   <TITLE> [python] Zkrácená forma přiřazení selže
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FZkr%3DE1cen%3DE1_forma_p%3DF8i%3DF8azen%3DED_sel%3DBE%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fe%3F%3D&In-Reply-To=%3Cm2r67c97cd91004200718z5abb273co67b60e5556db9523%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009661.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009664.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zkrácená forma přiřazení selže</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FZkr%3DE1cen%3DE1_forma_p%3DF8i%3DF8azen%3DED_sel%3DBE%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fe%3F%3D&In-Reply-To=%3Cm2r67c97cd91004200718z5abb273co67b60e5556db9523%40mail.gmail.com%3E"
+       TITLE="[python] Zkrácená forma přiřazení selže">petr.messner na gmail.com
+       </A><BR>
+    <I>Úterý Duben 20 16:18:46 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009661.html">[python] Zkrácená forma přiřazení selže
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009664.html">[python] Zkrácená forma přiřazení selže
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9663">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9663">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9663">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9663">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ještě mě napadlo, že by se na to dalo jít takto:
+
+class Seznam:
+
+    def __init__(self, sez):
+        self.data = sez
+
+    def __getitem__(self, idx):
+        if isinstance(idx, slice):
+            return self._slice(idx.start, idx.stop, idx.step)
+        return self.data[idx] if idx &lt; len(self.data) else None
+
+    def _slice(self, start, stop, step):
+        if step is None:
+            step = 1
+        for i in range(start, stop, step):
+            yield self[i]
+
+
+slova = Seznam((&quot;item1&quot;, &quot;item2&quot;))
+
+a, b, c, d = slova[:4]
+assert (a, b, c, d) == (&quot;item1&quot;, &quot;item2&quot;, None, None)  # projde to
+
+PM
+
+
+2010/4/20 Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.messner na gmail.com</A>&gt;:
+&gt;<i> Problem ale stejne bude v tom, ze kdyz chci
+</I>&gt;<i>
+</I>&gt;<i> prvy, druhy, treti, ctrty = slova
+</I>&gt;<i>
+</I>&gt;<i> tak ten iterator musi vratit presne 4 hodnoty a pak vyvolat
+</I>&gt;<i> StopIteration. A jak tomu reknes, ze z toho tahas ty 4 hodnoty? Leda
+</I>&gt;<i> tak tim, ze tam fakt budou presne 4. To ale neni chovani, ktere
+</I>&gt;<i> ocekava tazatel.
+</I>&gt;<i>
+</I>&gt;<i> viz <A HREF="http://docs.python.org/reference/simple_stmts.html#assignment-statements">http://docs.python.org/reference/simple_stmts.html#assignment-statements</A>
+</I>&gt;<i> - &quot;If the target list is a comma-separated list of targets: The object
+</I>&gt;<i> must be an iterable with the same number of items as there are targets
+</I>&gt;<i> in the target list,&quot;
+</I>&gt;<i>
+</I>&gt;<i> PM
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009661.html">[python] Zkrácená forma přiřazení selže
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009664.html">[python] Zkrácená forma přiřazení selže
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9663">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9663">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9663">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9663">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009663.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:44 GMT -->
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006839.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:12 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC33D6A1%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006838.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006840.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Tomy novella</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC33D6A1%40skil01.skil.mistni"
+       TITLE="[python] sockety - problem s HTTP spojenim">tomasnovella na gmail.com
+       </A><BR>
+    <I>Středa Listopad 28 17:32:12 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006838.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006840.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6839">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6839">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6839">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6839">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ahoj :)
+
+1) no prave v tom, je ten pes zakopany, ze sa ma odoslat ten buffer,
+len co sa naplni, a neviem, ze aka ina akcia by sa mala
+vykonat ;( v dokumentacii k asyncore nieje nic take napisane ;(
+
+2) diky veeeeeelmi pekne za krasne napisane vysvetlenie celej tej veci
+s riadiacimi znakmi ;)
+
+k tomu ps: napisal som to preto, lebo nemam rad, ked mi niekto
+vyka(mam to zo skoly, co mi od minuleho roku zacali novi ucitelia
+vykat, a ja nie a nie si na to zvyknut ;(( ) :)
+
+este raz diky za vysvetlenie :)
+
+2007/11/28, Petr Prikryl &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">PrikrylP na skil.cz</A>&gt;:
+&gt;<i> Tomy novella
+</I>&gt;<i> &gt; ------
+</I>&gt;<i> &gt; c = atlantis_client()
+</I>&gt;<i> &gt; c.buffer = &quot;JEDEN PRIKAZ\r\n&quot;
+</I>&gt;<i> &gt; c.buffer = &quot;DRUHY PRIKAZ\r\n&quot;
+</I>&gt;<i> &gt; ------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; ... a odoslalo mi LEN tu druhu vec(v tomto pripade &quot;DRUHY PRIKAZ\r\n&quot;)
+</I>&gt;<i> &gt; preco? ako mam odoslat obe?
+</I>&gt;<i>
+</I>&gt;<i> Dvakrát za sebou se naplnil buffer, pokaždé
+</I>&gt;<i> něčím jiným. Asi se mezi tím musí provést
+</I>&gt;<i> nějaká akce, která obsah bufferu odešle.
+</I>&gt;<i>
+</I>&gt;<i> &gt; 2) (filozoficka):  stale ked poslem po nejakom protokole prikaz, tak
+</I>&gt;<i> &gt; ma koncit &quot;\r\n&quot;? - totiz donedavna som novy riadok ukoncoval len
+</I>&gt;<i> &gt; &quot;\n&quot;a stacilo to, preco je tak aj \r  ved to je tabulator a ten predsa
+</I>&gt;<i> &gt; nevidno! :) aspon ja v tom nevidim logiku ;(
+</I>&gt;<i>
+</I>&gt;<i> Není to filosofická, ale technická otázka. Sekvence \r reprezentuje
+</I>&gt;<i> řídicí znak Carriage Return (návrat vozíku), posloupnost \n
+</I>&gt;<i> reprezentuje řídicí znak Line Feed (odřádkování). Oba řídicí znaky
+</I>&gt;<i> dostaly název v době, kdy vznikl klasický mechanický dálnopis.
+</I>&gt;<i> Znamenaly skutečně takto pojmenované mechanické akce. (Proto se taky
+</I>&gt;<i> řídícím znakům začalo říkat řídicí znaky.) V uvedeném
+</I>&gt;<i> pořadí se používaly proto, protože mechanická konstrukce dovolovala,
+</I>&gt;<i> aby se přechod na nový řádek (pootočení válce) prováděla i při
+</I>&gt;<i> pohybu vozíku na začátek. Pro zpětný pohyb vozíku tedy bylo dvakrát
+</I>&gt;<i> tolik času. Tolik tedy k postrádané logice.
+</I>&gt;<i>
+</I>&gt;<i> Postupem doby se sekvence označovaná také jako CR LF stala oddělovačem
+</I>&gt;<i> řádků v textových souborech, které už se na dálnopisnou stanici
+</I>&gt;<i> neodesílaly. V unixových systémech se vypustilo \r, u Mac je to
+</I>&gt;<i> myslím naopak. V DOSu a ve Windows zůstaly oba znaky.
+</I>&gt;<i>
+</I>&gt;<i> Aby se to programátorsky sjednotilo, zavedl se pojem &quot;otvírání
+</I>&gt;<i> souboru v textovém režimu&quot;, kdy se všechny možné koncové sekvence
+</I>&gt;<i> při načítání upravují na jediný znak \n a při zápisu se \n
+</I>&gt;<i> expanduje na příslušnou sekvenci, která se používá v daném OS.
+</I>&gt;<i>
+</I>&gt;<i> Pokud se ale soubor otvírá binárně, je nutné zapisovat všechny
+</I>&gt;<i> znaky koncové sekvence. Při odesílání přes buffer se typicky
+</I>&gt;<i> pracuje v binárním režimu.
+</I>&gt;<i>
+</I>&gt;<i> (Rýpnu si.) Unixoví programátoři otvírání souborů v textovém
+</I>&gt;<i> režimu často ignorují právě proto, že při otvírání v binárním
+</I>&gt;<i> režimu se vše v Unixu chová stejně, jako v textovém režimu.
+</I>&gt;<i> Díky tomu někteří na-Unix-hrdí jedinci vytvářejí špatně
+</I>&gt;<i> přenositelné zdrojové texty.
+</I>&gt;<i>
+</I>&gt;<i> Python až do verze 3.0 nedefinuje přísný datový typ řetězec
+</I>&gt;<i> (ne unicode). Do uvozovek zapisujeme posloupnost bajtů, i když
+</I>&gt;<i> nám je editor ukazuje jako písmenka. Ke konverzi jednoho znaku
+</I>&gt;<i> \n z řetězce na příadnou dvojici dochází až při zápisu
+</I>&gt;<i> do souboru otevřeného v textovém režimu -- a to jen v DOS/Windows.
+</I>&gt;<i> Nikdy jindy.
+</I>&gt;<i>
+</I>&gt;<i> pepr
+</I>&gt;<i>
+</I>&gt;<i> &gt; PS: prosim v mailoch tykat! nie vykat ;)
+</I>&gt;<i>
+</I>&gt;<i> P.S. Klidně mi v mailech vykej. Není to věc použitého média ;)
+</I>&gt;<i> ______________________________&#8203;&#8203;_________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listiâânfo/python">http://www.py.cz/mailman/listi&#8203;&#8203;nfo/python</A>
+</I>&gt;<i>
+</I>
+
+-- 
+PS: prosim v mailoch tykat! nie vykat ;)
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">Tom na sQo</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">tomasnovella na gmail.com</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006838.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006840.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6839">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6839">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6839">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6839">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006839.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:12 GMT -->
+</html>

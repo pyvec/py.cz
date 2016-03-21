@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005561.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:39 GMT -->
+<HEAD>
+   <TITLE> [python] gettext+glade+win32
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20gettext%2Bglade%2Bwin32&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005581.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005562.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] gettext+glade+win32</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20gettext%2Bglade%2Bwin32&In-Reply-To="
+       TITLE="[python] gettext+glade+win32">devel na atlas.sk
+       </A><BR>
+    <I>Neděle Únor 11 21:18:27 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005581.html">[python] livewires
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005562.html">[python] Offtopic - python projekt
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5561">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5561">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5561">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5561">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hello
+
+mam trochu problem s touto carovnou trojkombinaciou.
+
+Pracujem na jednom projekte, ktory sa pomaly priblizuje ku svojej prvej 
+beta verzii. Takze sme sa rozhodli, ze by bolo na case zacat riesit 
+preklady sw. Samozrejme ideme pouzivat gettext, ktory je (sice divno, 
+ale predsa) implementovany aj v pythone a ma podporu aj v libglade.
+
+A teraz ku nasemu problemu. Kedze ma ist o program multiplatformny, musi 
+ponukat svoju funkcnost aj beznemu (no u naseho sw nie az tak beznemu, 
+ale to je jedno) klikacovi vo windows. Takze potrebujem prepinat jazyky 
+z konfiguracie programu. Takze som po chvylke skusania prisiel na takyto 
+sposob prepnutia jazyka (pri spusteni programu):
+
+import os
+os.putenv('LC_ALL', 'sk_SK') # alebo iny jazyk
+
+Tuto premennu pouziva aj Cckovy gettext, aj Pythonacky gettext, takze 
+vsetko funguje aj v programe aj v gui cez libglade. Lepsie povedane 
+funguje na Linuxe. Nas dokonaly majoritny operacny system na taketo 
+nastavenie kasle. Neviem preco, ale libglade takto nastavenu environment 
+variable odignoruje a pouziva iba LC_ALL z parentovskeho procesu.
+
+Skusal som nieco taketo. Spravil som druhy pythonacky zdrojak (dajme 
+tomu runme.py, povodny je dajme tomu main.py):
+
+import os
+os.putenv('LC_ALL', 'sk_SK')
+os.execvp('python', 'python', 'main.py')
+
+A cuduj sa svete, v main.py uz funguje slovensky preklad. Ale bol by som 
+somar, keby to berem ako riesenie.
+
+Neviete mi niekto poradit, co s tym? (mr. Google nevedel /Alebo som sa 
+ja nevedel spytat :D /)
+
+Dakujem
+
+Jan Janech
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005581.html">[python] livewires
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005562.html">[python] Offtopic - python projekt
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5561">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5561">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5561">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5561">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005561.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:39 GMT -->
+</html>

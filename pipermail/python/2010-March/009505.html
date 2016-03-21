@@ -1,0 +1,338 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009505.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:52 GMT -->
+<HEAD>
+   <TITLE> [python] Problém s subprocess
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_subprocess%3F%3D&In-Reply-To=%3C5f7d017963444815815520049d8f7141%40pobox.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009504.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009506.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problém s subprocess</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_subprocess%3F%3D&In-Reply-To=%3C5f7d017963444815815520049d8f7141%40pobox.sk%3E"
+       TITLE="[python] Problém s subprocess">azurit na pobox.sk
+       </A><BR>
+    <I>Neděle Březen 14 22:39:07 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009504.html">[python] Problém s subprocess
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009506.html">[python] Problém s subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9505">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9505">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9505">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9505">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Argumenty davas v liste ? Skusal si pustat aj nieco ine ako javu ?
+
+
+&gt;<i>-----Pôvodná správa-----
+</I>&gt;<i>Od: Radek Hol [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">radekholypublic na gmail.com</A>]
+</I>&gt;<i>Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i>Predmet: Re: [python] Problém s subprocess
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Tak to dopadne takto:
+</I>&gt;<i>
+</I>&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+</I>&gt;&gt;&gt;&gt;<i> while True:
+</I>&gt;&gt;&gt;&gt;<i>     data = javac.stdout.read()
+</I>&gt;&gt;&gt;&gt;<i>     print [data]
+</I>&gt;&gt;&gt;&gt;<i>     if not data: break
+</I>&gt;<i>['']
+</I>&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;<i>-------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>Děkuju, Radek
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>2010/3/14 azurIt &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>&gt;:
+</I>&gt;&gt;<i> Pardon, ta tvoja aplikacia ma aj argumenty (som robil len copy&amp;paste a nepozeral, co tam je):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> javac = subprocess.Popen(args=[&quot;C:\\java\\bin\\javac.exe&quot;, &quot;Main.java&quot;, &quot;-d&quot;, &quot;.&quot;], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>-----Pôvodná správa-----
+</I>&gt;&gt;&gt;<i>Od: azurIt [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>]
+</I>&gt;&gt;&gt;<i>Komu: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;&gt;<i>Predmet: Re: [python] Problém s subprocess
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>A toto ?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>import subprocess
+</I>&gt;&gt;&gt;<i>javac = subprocess.Popen(args=[&quot;C:\\java\\bin\\javac.exe Main.java -d .&quot;], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>while True:
+</I>&gt;&gt;&gt;<i>data = javac.stdout.read()
+</I>&gt;&gt;&gt;<i>print [data]
+</I>&gt;&gt;&gt;<i>if not data: break
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>-----Pôvodná správa-----
+</I>&gt;&gt;&gt;&gt;<i>Od: Radek Hol [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">radekholypublic na gmail.com</A>]
+</I>&gt;&gt;&gt;&gt;<i>Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;&gt;&gt;<i>Predmet: Re: [python] Problém s subprocess
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>Právě jsem zkusil tyto dvě varianty v systémovém příkazovém řádku
+</I>&gt;&gt;&gt;&gt;<i>(python MakeJar.py) a dopadlo to stejně:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se vypíše.)
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.communicate()
+</I>&gt;&gt;&gt;&gt;<i>(None, None)
+</I>&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>Možná by pomohlo to, že při první variantě to vypadá tak, že se spustí
+</I>&gt;&gt;&gt;&gt;<i>můj program. Program skončí. Vypíše se &quot;command line prompt&quot; (&quot;C:\&gt;&quot;).
+</I>&gt;&gt;&gt;&gt;<i>A teprve potom se vypíše hláška od &quot;javac.exe&quot;.
+</I>&gt;&gt;&gt;&gt;<i>Mám zkoušet i ostatní varianty spustit z příkazového řádku?
+</I>&gt;&gt;&gt;&gt;<i>Předpokládam, že to není nutné...
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>Dále jsem zjistil, že když spustím první variantu (bez
+</I>&gt;&gt;&gt;&gt;<i>&quot;communicate()&quot;) a na konec program přidám ještě třeba jen jednoduché
+</I>&gt;&gt;&gt;&gt;<i>&quot;print &quot;a&quot;&quot; (i několikrát), tak se výpis &quot;javac.exe&quot; vypíše. Pokud ale
+</I>&gt;&gt;&gt;&gt;<i>na konec dám např. &quot;time.sleep()&quot; nebo třeba &quot;shutil.copytree()&quot; (na
+</I>&gt;&gt;&gt;&gt;<i>nějaký větší adresář), tak se výpis nevypíše.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>Další metody subprocess dopadly takto:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.returncode
+</I>&gt;&gt;&gt;&gt;<i>None
+</I>&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se vypíše.)
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.returncode
+</I>&gt;&gt;&gt;&gt;<i>None
+</I>&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se vypíše.)
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.communicate()
+</I>&gt;&gt;&gt;&gt;<i>(None, None)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.returncode
+</I>&gt;&gt;&gt;&gt;<i>0
+</I>&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.poll()
+</I>&gt;&gt;&gt;&gt;<i>None
+</I>&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se vypíše.)
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.communicate()
+</I>&gt;&gt;&gt;&gt;<i>(None, None)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.poll()
+</I>&gt;&gt;&gt;&gt;<i>0
+</I>&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.wait()
+</I>&gt;&gt;&gt;&gt;<i>0
+</I>&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.communicate()
+</I>&gt;&gt;&gt;&gt;<i>(None, None)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.wait()
+</I>&gt;&gt;&gt;&gt;<i>0
+</I>&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>Děkuji, Radek
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>2010/3/13 azurIt &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>&gt;:
+</I>&gt;&gt;&gt;&gt;&gt;<i> Skusal si to pustat mimo PyDev ?
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> To, ako sa ti to sprava, je vcelku zvlastne, pretoze ked zavolas communicate(), tak subprocess pocka na dokoncenie programu (nie je teda mozne, ze ten skonci az po skonceni skriptu). Skus este funkcie/premenne stadeto:
+</I>&gt;&gt;&gt;&gt;&gt;<i> <A HREF="http://docs.python.org/release/2.5.4/lib/node532.html">http://docs.python.org/release/2.5.4/lib/node532.html</A>
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> Hlavne wait(), poll() a returncode.
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>-----Pôvodná správa-----
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Od: Radek Hol [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">radekholypublic na gmail.com</A>]
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Predmet: Re: [python] Problém s subprocess
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Děkuju za odpověď.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Předtím jsem si experimentálně ověřil, že bez přesměrování se to také
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>vypisuje na stdout, stderr.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Pro jistotu uvádím výsledky různých možností:
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se vypíše.)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.communicate()
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>(None, None)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.communicate()
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>('', '')
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se vypíše.)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.communicate()
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>(None, None)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>(Hláška &quot;javac.exe&quot; se NEvypíše.)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>-------------------------------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Navíc by to bohužel neřešilo ten druhý podstatnější problém, že se mi
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>soubor (Main.class) vytvoří až po skončení mého programu.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Pro jistotu uvádím, že testuji v prostředí PyDev.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Děkuji, Radek
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>2010/3/13 azurIt &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>&gt;:
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> subprocess predsa plne podporuje presmerovanie standardneho aj chyboveho vystupu (hint: stdout, stderr):
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> <A HREF="http://docs.python.org/release/2.5.4/lib/node528.html">http://docs.python.org/release/2.5.4/lib/node528.html</A>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> Priklad:
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> import subprocess
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> javac = subprocess.Popen(args=[&quot;C:\\java\\bin\\javac.exe Main.java -d .&quot;], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> print javac.communicate()
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> azur
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>-----Pôvodná správa-----
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Od: Radek Hol [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">radekholypublic na gmail.com</A>]
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Predmet: [python] Problém s subprocess
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Ahoj,
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>chtěl bych se Vás zeptat, zda byste mi neuměli poradit s mým problémem
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>s voláním externího programu.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Používám Python 2.5.4 (věřím, že kvůli kompatibilitě s Jython 2.5.1)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>na Windows 7.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Snažím se o spuštění &quot;překladače&quot; &quot;javac.exe&quot;:
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>...
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>javac = subprocess.Popen(u&quot;C:\\java\\bin\\javac.exe Main.java -d .&quot;)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>javac.communicate()
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>------------------------------------------------
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Zjistil jsem ale, že takto volaný externí program (nebo alepoň
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>&quot;javac.exe&quot;) s následným voláním &quot;communicate()&quot; (ale nemusí to být
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>jen volání této metody - může to být jakýkoliv další kód) mi nevypíše
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>na chybový výstup žádné informace (pokud je chyba v &quot;Main.java&quot;), i
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>když při volání ze systémové příkazové řádky se informace vypíší.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Dále jsem zjistil, že když můj program skončí ihned po
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>&quot;...subprocess.Popen...&quot; (tedy vynechám &quot;communicate()&quot;), tak se na
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>chybový výstup vypíše, co má. Jenže já tímto samozřejmě nechci
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>končit...
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Zkoušel jsem i použití funkce &quot;time.sleep()&quot;, ale bez úspěchu.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Pokud v &quot;Main.java&quot; chyba není, má &quot;javac.exe&quot; vygenerovat soubor
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>&quot;Main.class&quot;, jenže chování je podobné... Tedy, pokud se pod voláním
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>&quot;javac.exe&quot; vyskytuje ještě další kód, soubor &quot;Main.class&quot; se
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>vygeneruje až po skončení mého programu. (Ověřeno pomocí
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>&quot;os.path.exists()&quot; i &quot;os.listdir()&quot;)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Přitom návratový kód je již nastaven...
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Předem děkuji za pomoc, Radek Holý
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>_______________________________________________
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>Python mailing list
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>_______________________________________________
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>Python mailing list
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>_______________________________________________
+</I>&gt;&gt;&gt;&gt;<i>Python mailing list
+</I>&gt;&gt;&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i>_______________________________________________
+</I>&gt;&gt;&gt;<i>Python mailing list
+</I>&gt;&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009504.html">[python] Problém s subprocess
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009506.html">[python] Problém s subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9505">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9505">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9505">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9505">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009505.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:52 GMT -->
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-January/002205.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:56 GMT -->
+<HEAD>
+   <TITLE> RE: [python] globální proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_glob%3DE1ln%3DED_prom%3DECnn%3DE9%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-January/002204.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-January/002206.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] globální proměnné</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_glob%3DE1ln%3DED_prom%3DECnn%3DE9%3F%3D&In-Reply-To="
+       TITLE="RE: [python] globální proměnné">Prikryl na skil.cz
+       </A><BR>
+    <I>Úterý Leden  4 09:25:47 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002204.html">[python] globální proměnné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002206.html">[python] navrhove vzory v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-January/date.html#2205">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/thread.html#2205">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/subject.html#2205">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/author.html#2205">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj Pavle, (doufám, že tykání nevadí ;)
+
+&gt;<i> Děkuji za vyčerpávající vysvětlení. Nechci vypadat jako
+</I>&gt;<i> Tlučhuba :-), přesto zkusím ještě jednou můj postoj.
+</I>
+Já zase nechci vypadat jako přechytralý, ale můj obor
+vzdělání a praxe mi alespoň statisticky zaručuje, že bych se
+v tomto případě nemusel mýlit.
+
+Pokud jde o postoj, jeho změna by ti možná pomohla posunout
+se o kousek dál. Třeba ti v tom pomůžu.
+
+&gt;<i> class G:
+</I>&gt;<i>    pass
+</I>&gt;<i> 
+</I>&gt;<i> g=G()
+</I>&gt;<i> g.x=30
+</I>&gt;<i> 
+</I>&gt;<i> Možná nepoužívám nejsprávnější terminologii, když nazývám x
+</I>&gt;<i> globální proměnnou (ano, je to lokální uvnitř G), nicméně
+</I>&gt;<i> objekt 'g.x' je &quot;veřejně přístupný&quot;, *ze všech funkcí
+</I>&gt;<i> měnitelný bez jakýchkoliv dalších fíglu v rámci celého
+</I>&gt;<i> programu*, jedná se tedy, podle mne, o mnou obhajovanou
+</I>&gt;<i> superglobalni (superglobalni z hlediska celého programu a ne
+</I>&gt;<i> jednotlivé třídy či instance - z jejich hlediska to je
+</I>&gt;<i> samozřejmě lokální) proměnnou. Ale i výraz veřejně přístupný
+</I>&gt;<i> je OK, nic to na věci nemění. Možná se pletu, možná existují
+</I>&gt;<i> skulinky, kdy to neplatí, nicméně v programu s pár funkcemi
+</I>&gt;<i> a jednou main to funguje.
+</I>
+Při debatách o programování je opravdu dobré používat
+jednotnou terminologii, protože jinak si všichni můžeme
+věcně myslet to samé a přitom se budeme hádat. &quot;Globálně
+přístupná&quot; znamená přístupná ze všech míst programu bez
+výjimky. Složka x není přístupná odkudkoliv -- pouze přes g.
+Nemůže tedy být globální. Ale protože g je přístupné, pak je
+i jeho veřejná složka přístupná. To nemá s globálností
+přístupu nic společného. Píšeš &quot;(ano, je to lokální uvnitř
+G)&quot;. To není pravda. Složka x je přístupná přes g, nikoliv
+přes G. Není součástí třídy, je součástí instance třídy
+(objektu). Třída pouze předepisuje chování, objekt je
+realizuje.
+
+Zavedením objektu g nic superglobálního nevyřeším. Je to jen
+falešný dojem. Pouze se ti složitějším způsobem podařilo
+vyjádřit něco podobného, jako kdybys vytvořil skutečně
+globální proměnnou x. Funguje to úplně stejně, jenže kvůli
+zvýšení složitosti vyjádření jsi přehlédl, že je to úplně
+stejné. Zkus tohle (pro zjednodušení vynechávám češtinu,
+okopíruj do souboru a spusť):
+
+========================================================
+
+class G:
+   pass
+
+   
+def fa():
+    g = 'funkce fa() lokalne predefinovala jmeno g'
+    print 'Uvnitr fa():', g
+    
+    try:
+        print 'Pokus o pristup k g.x uvnitr fa():', g.x
+    except:
+        print 'Chyba!'
+        
+
+def fb():
+    g = G()       # nova, lokalni instance tridy G
+    g.x = 'hodnota lokalni instance objektu -- fb()'
+    print 'Uvnitr fb():', g.x
+    
+    
+g = G()
+g.x = 'superglobalni hodnota'
+
+print '\n\n\n' + '-' * 20           # jen oddelovac
+print 'Na globalni urovni:', g.x
+
+fa()
+
+print 'Na globalni urovni:', g.x
+
+fb()
+
+print 'Na globalni urovni:', g.x
+
+g2 = g        # navazu objekt na jine jmeno
+g = 'nove g'
+
+print 'Objekt s jinym jmenem:', g2.x    # OK
+print 'Nova hodnota pojmenovana g:', g
+print 'Na globalni urovni:', g.x        # chyba
+
+========================================================
+
+Všimni si, že funkce fa() i fb() definují svou lokální
+proměnnou g a tím (dočasně, v jejich těle) znepřístupní 
+g definovanou na globální úrovni. Funkce fa() mění typ
+proměnné zpřístupňované přes jméno g, funkce fb() zachovává
+dokonce stejný typ (stejnou třídu) objektu. Ale pro celý
+kód uvnitř fb() a pro všechny případné funkce volané z fb()
+znemožňuje přístup k objektu g na globální úrovni. Místo
+něj podstrčí lokálnější g, definovaný na úrovni těla fb().
+
+Teď přepíšu totéž bez třídy G a jejích instancí. Místo g.x
+budu psát x a místo g2.x budu psát x2. Uvnitř fa() nebude
+nutné ošetřovat přístup ke složce x a zviditelní se tím
+lokálnost nového x. Funkce fb() nyní demonstruje použití
+klíčového slova global, které potlačí vytvoření lokálního x
+(narozdíl od fa()).
+
+========================================================
+
+def fa():
+    x = 'funkce fa() lokalne predefinovala jmeno x'
+    print 'Uvnitr fa():', x
+    
+def fb():
+    global x
+    x = 'nova globalni hodnota x'
+    print 'Uvnitr fb():', x
+    
+x = 'globalni hodnota'
+
+print '\n\n\n' + '-' * 20           # jen oddelovac
+print 'Na globalni urovni:', x
+
+fa()
+
+print 'Na globalni urovni:', x
+
+fb()
+
+print 'Na globalni urovni:', x
+
+x2 = x        # navazu objekt na jine jmeno
+x = 'nove x'
+
+print 'Objekt s jinym jmenem:', x2    # OK
+print 'Nova hodnota x:', x
+
+========================================================
+
+
+&gt;<i> Uznávám, není to čisté řešení, přesto mi to připadá
+</I>&gt;<i> &quot;čistější&quot; než použití global. 
+</I>
+Klíčové slovo 'global' není nečisté. Pouze umožňuje &quot;nečisté
+praktiky&quot; používání globálních proměnných. Tím, že sis
+&quot;nějak&quot; vynutil zabalení x do nadřízené struktury, ses
+jakoby vyhnul použití globální proměnné z hlediska jména x,
+ale nevyhnul ses používání globální proměnné z hlediska
+jména g, jehož je x složkou. Pokud tvoje funkce nebudou
+definovat novou hodnotu g jako celku (neprovedou novou vazbu
+mezi jménem g a jiným objektem) a budou pouze pracovat s
+jeho složkami, pak jsi vyřešil svůj problém.
+
+Napadá mě, že možná intuitivně směřuješ k řešení, kterému se
+v objektově orientovaném návrhu říká singleton (jeden z
+návrhových vzorů). Singleton je objekt, u kterého je
+zajištěno, že existuje v jediné instanci. To znamená, že i
+když nemusí mít přidělené jméno, vždy se nějak dostanu k
+jedinému objektu. Pokud si nějak zajistím přístup k objektu
+této třídy, pak je zajištěno, že budu pracovat s jediným
+možným a tím samým objektem. Typicky se k němu
+nedostávám přes jméno, ale pokusím se o vytvoření instance
+vyhrazené třídy. Třída ale zajistí, že se objekt vytvoří jen
+poprvé a při ostatních pokusech se místo nových instancí
+vracejí reference na již existující, jediný objekt. Jde 
+návrhový vzor, který se používá napříč různými OO jazyky,
+ale v různých jazycích se implementuje různým způsobem.
+
+&gt;<i> Když ukazujete &quot;zjednodušování&quot; kódu vypouštěním funkcí f()
+</I>&gt;<i> i r(), tak to nevyjadřuje praxi. V praxi samozřejmě funkce
+</I>&gt;<i> takto jednoduché nejsou a nedají se vypustit, protože &quot;něco
+</I>&gt;<i> dělají&quot; a veřejně přístupné proměnné jsou tam jenom pro
+</I>&gt;<i> usnadnění práce (funkce tam není samoúčelně, kvůli nim), pro
+</I>&gt;<i> zpřehlednění kódu, pro přiblížení se práce v OOP. Snad
+</I>&gt;<i> klasickým případem je vznik nových proměnných ve funkci,
+</I>&gt;<i> které však je třeba si uchovat do dalšího průchodu
+</I>&gt;<i> funkcí,kde se s nimi bude opět pracovat.
+</I>
+V příkladech z minulé diskuse jsem zaváděl a rušil funkce
+jen proto, abych ukázal, že se zavedením nebo rozepsáním
+funkce principiálně nic nemění. Chtěl jsem tím ukázat, že
+definice funkce do vyjasňování nic nového nevnáší. Chtěl
+jsem také ukázat, že definice třídy G do problému
+globální/lokální proměnná nic nového nevnáší. 
+
+Funkce se teoreticky dají vypustit vždy -- jejich volání lze
+rozepsat jejich těly --, což ale neznamená, že je jejich
+používání zbytečné. Zde spolu nejsme &quot;ve_při&quot; ;)
+
+Používání funkcí v Pythonu se od používání funkcí v
+typických kompilovaných jazycích liší v tom, že ačkoliv
+parametry předáváme vždy odkazy (nikdy hodnotami), některé z
+předaných objektů nemůžeme měnit (jsou &quot;immutable&quot;, neměnné
+-- typicky čísla a řetězce). Proto, pokud má pythonovská
+funkce modifikovat například nějakou číselnou proměnnou a
+nechceme používat globální proměnnou, musíme používat obrat
+podobný následujícímu:
+
+def f(x):
+    return x + 1
+
+v = 10
+for i in xrange(10):
+    v = f(v)
+    print v
+    
+Pro stejný účel nelze použít funkci, která by nevyužívala
+možnost vracet výslednou hodnotu, aniž bychom využili nějaké
+globálně přístupné struktury:
+
+
+def f(x):
+    x = x + 1
+
+v = 10
+for i in xrange(10):
+    f(v)
+    print v
+    
+
+Naposledy uvedený příklad by fungoval například v Pascalu při
+předávání parametru x odkazem. V Pythonu nebude fungovat
+nikdy, protože příkaz x = x + 1 vede k vytvoření nového
+objektu a k vazbě lokálního jména x na tento nově vytvořený
+objekt. Původní vazba jména v na objekt s hodnotou 10
+zůstává nezměněna. Nově vytvořená vazba x se s ukončením
+těla funkce ztrácí.
+    
+&gt;<i> Já si tedy OOP dost zjednodušuji, třebas když se vytváří
+</I>&gt;<i> nějaký textový editor v OOP, tak vlastně celý program je
+</I>&gt;<i> jedna velká třída a uvnitř ní jsou její proměnné 'self.x'
+</I>&gt;<i> viditelné ze všech jejích metod. Tomu jsem se právě chtěl
+</I>&gt;<i> svým přístupem přiblížit.
+</I>
+Používání objektově orientovaného přístupu by nemělo být
+cílem, ale prostředkem. Nemá smysl znásilňovat třídy. Pro
+začátek je možná lepší osvojit si práci s moduly a uvnitř
+definovanými funkcemi. Pokud ti práce s třídami a s objekty
+připadá trochu nepřirozená, je dobré zajímat se o to proč.
+
+Postoj se dá změnit, věci se dají doučit a pochopit.
+Budováním programu jako jedné velké třídy můžeš oddálit svůj
+zážitek, pocit, pochopení významu OOP. Spočívá mimo jiné ve
+změně přístupu k programování. Ta změna nespočívá v tom, že
+přestanu používat &quot;obyčejné&quot; proměnné, &quot;obyčejné&quot; funkce a
+&quot;obyčejné&quot; moduly. Ta změna přístupu spočívá v tom, že začnu
+složitější aplikace řešit lepším způsobem.
+
+Petr
+
+-- 
+Petr Prikryl (<A HREF="http://www.py.cz/mailman/listinfo/python">prikrylp na skil.cz</A>)  
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002204.html">[python] globální proměnné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002206.html">[python] navrhove vzory v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-January/date.html#2205">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/thread.html#2205">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/subject.html#2205">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/author.html#2205">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-January/002205.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:56 GMT -->
+</html>

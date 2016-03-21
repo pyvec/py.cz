@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002743.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:13 GMT -->
+<HEAD>
+   <TITLE> [python] zmatený python?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3FUTF-8%3FB%3Fem1hdGVuw70gcHl0aG9uPw%3D%3D%3F%3D&In-Reply-To=mailman.300.1118492903.5712.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-June/002742.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-June/002744.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zmatený python?</H1>
+    <B>pavel.kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3FUTF-8%3FB%3Fem1hdGVuw70gcHl0aG9uPw%3D%3D%3F%3D&In-Reply-To=mailman.300.1118492903.5712.python%40py.cz"
+       TITLE="[python] zmatený python?">geon na post.cz
+       </A><BR>
+    <I>Sobota Červen 11 14:31:33 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002742.html">[python] zmatený python?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002744.html">[python] 
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2743">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2743">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2743">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2743">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mě toto:
+
+import sqlite
+dbfile='aaa.dbf'
+db=sqlite.connect(dbfile, encoding=&quot;utf-8&quot;)
+
+proběhne v pohodě. I s nainstalovanym nebo smazanym PIL. Není někde chyba v tvym dbfile? A není 
+kolize jmen self.db a db? (střílím)
+
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+
+Petr Mach napsal(a):
+&gt;<i> Mám takovou nevážnou záhadu. Píšu program, který používá
+</I>&gt;<i> SQLite a teď testuju jeho oddolnost a robustnost. Mimo jiné
+</I>&gt;<i> při prvotním plnění databáze daty (její inicializace)
+</I>&gt;<i> klinu python, smažu soubor databáze a spustím ji znovu.
+</I>&gt;<i> 
+</I>&gt;<i> Teoreticky, protože je ten soubor smazaný, by se nemělo
+</I>&gt;<i> vůbec nic dít, program nemá jak vědět, že při minulém
+</I>&gt;<i> spuštění se něco nepovedlo, jenž to tak není a on spadne
+</I>&gt;<i> na výjimku. Při dalším spuštění pak už funguje jak má.
+</I>&gt;<i> 
+</I>&gt;<i> Největší záhadou je na tom ta výjimka. Posílám ji jako
+</I>&gt;<i> přílohu. Nechapu, jak prikaz:
+</I>&gt;<i> 
+</I>&gt;<i>   import sqlite as db
+</I>&gt;<i>   self.db=db.connect(dbfile, encoding=&quot;utf-8&quot;)
+</I>&gt;<i> 
+</I>&gt;<i> Muze lezt do:
+</I>&gt;<i> 
+</I>&gt;<i>   File &quot;/usr/lib/python2.3/site-packages/PIL/__init__.py&quot;, line 61, in 
+</I>&gt;<i> connect
+</I>&gt;<i> 
+</I>&gt;<i> Zvlast kdyz knihovnu PIL v programu vubec nepouzivam a
+</I>&gt;<i> predevsim, uvedeny soubor ma jen 13 zakomentovanych radku.
+</I>&gt;<i> Napada nekoho, proc Python hlasi tento falesny soubor?
+</I>&gt;<i> 
+</I>&gt;<i> Dalsi uvedeny soubor:
+</I>&gt;<i> 
+</I>&gt;<i>   File 
+</I>&gt;<i> &quot;/dar/tmp/python-sqlite-0.5.0-1.1.fc3.rf-root//usr/lib/python2.3/site-packages/sqlite/main.py&quot; 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> je uz uplne mimo, neco jako /dar/tmp/python-sqlite-0.5.0-1.1.fc3.rf-root/
+</I>&gt;<i> 
+</I>&gt;<i> na pocitaci vubec nemam. Odkud Python bere ty cesty
+</I>&gt;<i> kdyz se neridi skutecnosti?
+</I>&gt;<i> 
+</I>&gt;<i> Je to jen pro teoreticke zamysleni, prakticky me to
+</I>&gt;<i> nijak netrapi. Jen bych rad vedel, co se odehrava na
+</I>&gt;<i> pozadi.
+</I>&gt;<i> 
+</I>&gt;<i> Petr Mach
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i> 
+</I>&gt;<i> [<A HREF="http://www.py.cz/mailman/listinfo/python">wraith na frodo</A> erzety-svr]$ ./init
+</I>&gt;<i> 050611-135425.196 LOG[init] DB file is: /home/wraith/tmp/l1.db
+</I>&gt;<i> 050611-135428.198 LOG[DB] [fce] __init__
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;svr.py&quot;, line 72, in ?
+</I>&gt;<i>     server=Server((&quot;&quot;, svrPort), Handler, dbFile)
+</I>&gt;<i>   File &quot;/mnt/flash/data/projekty/erzety/svr/s_main.py&quot;, line 68, in __init__
+</I>&gt;<i>     self.db=Db(self.log, dbFile)
+</I>&gt;<i>   File &quot;/mnt/flash/data/projekty/erzety/svr/s_db.py&quot;, line 21, in __init__
+</I>&gt;<i>     self.db=db.connect(dbfile, encoding=&quot;utf-8&quot;)
+</I>&gt;<i>   File &quot;/usr/lib/python2.3/site-packages/PIL/__init__.py&quot;, line 61, in connect
+</I>&gt;<i>     
+</I>&gt;<i>   File &quot;/dar/tmp/python-sqlite-0.5.0-1.1.fc3.rf-root//usr/lib/python2.3/site-packages/sqlite/main.py&quot;, line 436, in __init__
+</I>&gt;<i> _sqlite.DatabaseError: file is encrypted or is not a database
+</I>&gt;<i> Exception exceptions.AttributeError: &lt;exceptions.AttributeError instance at 0xb7f960ec&gt; in &lt;bound method Connection.__del__ of &lt;sqlite.main.Connection instance at 0xb7c26fcc&gt;&gt; ignored
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002742.html">[python] zmatený python?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002744.html">[python] 
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2743">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2743">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2743">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2743">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002743.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:13 GMT -->
+</html>

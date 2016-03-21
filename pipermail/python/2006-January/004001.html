@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/004001.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:06 GMT -->
+<HEAD>
+   <TITLE> RE: [python] Pocet instancí objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3A_%3D5Bpython%3D5D_Pocet_instanc%3DED_objektu%3F%3D&In-Reply-To=20060125185547.GY6115%40potato">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-January/004000.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-January/004002.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] Pocet instancí objektu</H1>
+    <B>Jan Matejka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3A_%3D5Bpython%3D5D_Pocet_instanc%3DED_objektu%3F%3D&In-Reply-To=20060125185547.GY6115%40potato"
+       TITLE="RE: [python] Pocet instancí objektu">matejka na cat.cz
+       </A><BR>
+    <I>Středa Leden 25 20:38:36 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/004000.html">[python] Pocet instancí objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/004002.html">[python] Pocet instancí objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#4001">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#4001">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#4001">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#4001">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zkousel jsem to taky pres weakref abych se vyhnul __del__ ktery zneschopnuje
+garbage colllection.  Funguje to pouze ke zjisteni, ze existuje alespon
+jedna instance objektu.
+Jako by weakref.getweakrefcount nevracela skutecny pocet referenci jak je v
+dokumentaci ale pouze jestli nejaka je ci neni.
+
+
+import weakref
+
+class InstanceCounter:
+    pass
+
+class A:
+    ic=InstanceCounter()
+    def __init__(self):
+        self.m_ic=weakref.ref(A.ic)
+
+print weakref.getweakrefcount(A.ic)
+o1=A()
+print weakref.getweakrefcount(A.ic)
+o2=A()
+print weakref.getweakrefcount(A.ic)
+del o1
+print weakref.getweakrefcount(A.ic)
+del o2
+print weakref.getweakrefcount(A.ic)
+
+vypise:
+0
+1
+1
+1
+0
+
+ale cekal bych
+0
+1
+2
+1
+0
+
+
+Jan Matejka
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/004000.html">[python] Pocet instancí objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/004002.html">[python] Pocet instancí objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#4001">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#4001">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#4001">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#4001">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/004001.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:06 GMT -->
+</html>

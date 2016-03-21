@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-January/010133.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:13 GMT -->
+<HEAD>
+   <TITLE> [python] sigint
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20sigint&In-Reply-To=%3C201101251945.28174.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-January/010132.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-January/010134.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sigint</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20sigint&In-Reply-To=%3C201101251945.28174.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] sigint">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Úterý Leden 25 19:45:27 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-January/010132.html">[python] sigint
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-January/010134.html">[python] PSF Sprints - Call For Applications
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-January/date.html#10133">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/thread.html#10133">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/subject.html#10133">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/author.html#10133">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>V *nixu emulator terminalu pri zavirani posle SIGHUP
+Defaultni akce je ukonceni procesu coz by v pythonu melo 
+vystrelit vyjimku SystemExit (IMO, nezkousel jsem to)
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A> (Tuesday 25 January 2011 19:15:12):
+&gt;<i> Díky, funguje. A dá se ve win odchytit i zavření okna, kde běží
+</I>&gt;<i> pythonovský script?
+</I>&gt;<i> 
+</I>&gt;<i> Hynek Fabian napsal(a), dne 25.1.2011 11:36:
+</I>&gt;<i> &gt; ^C ma  defaultni handler, odchyt vyjimku KeyboardInterrupt.
+</I>&gt;<i> &gt; Btw delat v kontextu signal handleru blokujici operace neni moc dobrej
+</I>&gt;<i> &gt; napad.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A> (Tuesday 25 January 2011 06:37:51):
+</I>&gt;<i> &gt;&gt; Ahoj,
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; v jedné části programu kopíruji soubory (obvykle velké) a chci mít
+</I>&gt;<i> &gt;&gt; zajištěno, že když dám ctrl+c tak že v cíli nezbude jen část souboru -
+</I>&gt;<i> &gt;&gt; chci zajistit jeho smazání přes odchycení sigint:
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; def signal_handler(signal, frame):
+</I>&gt;<i> &gt;&gt;         print 'You pressed Ctrl+C!'
+</I>&gt;<i> &gt;&gt;         print dest
+</I>&gt;<i> &gt;&gt;         
+</I>&gt;<i> &gt;&gt;         if os.path.isdir(item):
+</I>&gt;<i> &gt;&gt;                 shutil.rmtree(dest)
+</I>&gt;<i> &gt;&gt;         
+</I>&gt;<i> &gt;&gt;         if os.path.isfile(item):
+</I>&gt;<i> &gt;&gt;                 os. remove(dest)
+</I>&gt;<i> &gt;&gt;         
+</I>&gt;<i> &gt;&gt;         sys.exit(0)
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; signal.signal(signal.SIGINT, signal_handler)
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; toto ale nefunguje, protože cíl je asi stále otevřen původním procesem
+</I>&gt;<i> &gt;&gt; kopírování. Díky za rady jak z toho ven.
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; You pressed Ctrl+C!
+</I>&gt;<i> &gt;&gt; xyz.mkv
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; Traceback (most recent call last):
+</I>&gt;<i> &gt;&gt;   File &quot;D:\Zaloha\W7610034.py&quot;, line 48, in &lt;module&gt;
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;     shutil.copy(item, dest)
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;   File &quot;C:\prg\Python26\lib\shutil.py&quot;, line 88, in copy
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;     copyfile(src, dst)
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;   File &quot;C:\prg\Python26\lib\shutil.py&quot;, line 54, in copyfile
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;     copyfileobj(fsrc, fdst)
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;   File &quot;C:\prg\Python26\lib\shutil.py&quot;, line 30, in copyfileobj
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;     fdst.write(buf)
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;   File &quot;D:\Zaloha\W7610034.py&quot;, line 11, in signal_handler
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;     os. remove(dest)
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; WindowsError: [Error 32] Proces nemß p°Ýstup k souboru, neboŁ jej prßvý
+</I>&gt;<i> &gt;&gt; vyu×Ývß
+</I>&gt;<i> &gt;&gt; jinř proces: 'xyz.mkv'
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; xpsp3, py2.x
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; Díky
+</I>&gt;<i> &gt;&gt; geon
+</I>&gt;<i> &gt;&gt; Pavel Kosina
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; _______________________________________________
+</I>&gt;<i> &gt;&gt; Python mailing list
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-January/010132.html">[python] sigint
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-January/010134.html">[python] PSF Sprints - Call For Applications
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-January/date.html#10133">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/thread.html#10133">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/subject.html#10133">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/author.html#10133">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-January/010133.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:13 GMT -->
+</html>

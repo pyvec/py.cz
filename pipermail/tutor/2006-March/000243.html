@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000243.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Roboti Přicházejí - Final(?)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FRoboti_P%3DF8ich%3DE1zej%3DED_-_Final%3D28%3D3F%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F%3D29%3F%3D&In-Reply-To=ca0bf9ff0603230949seb78cdcg%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000242.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000244.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Roboti Přicházejí - Final(?)</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FRoboti_P%3DF8ich%3DE1zej%3DED_-_Final%3D28%3D3F%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F%3D29%3F%3D&In-Reply-To=ca0bf9ff0603230949seb78cdcg%40mail.gmail.com"
+       TITLE="[Tutor PyCZ] Roboti Přicházejí - Final(?)">geon na post.cz
+       </A><BR>
+    <I>Pátek Březen 24 18:35:45 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000242.html">[Tutor PyCZ] Roboti Přicházejí - Final(?)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000244.html">[Tutor PyCZ] Roboti Přicházejí - Final(?)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#243">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#243">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#243">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#243">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tomáš Bělonožník napsal(a):
+&gt;<i> Ahoj,
+</I>&gt;<i> tak jsem se rozhodl že vám sem postnu link na dodělanou hru Roboti
+</I>&gt;<i> Přicházejí. 
+</I> &gt; # Funkce na výrobu robotova těla.
+ &gt; def vyrobRobota(hrac, seznam):
+    &gt; p = 0
+    &gt; for i in range(20):
+        &gt; robot = Robot()
+        &gt; robot.x=random.randint(1, 63)                  
+        &gt; robot.y=random.randint(1, 47)
+
+Tyto (horní) dva řádky, se ti v programu minimálně dvakrát --&gt; je 
+vhodnější z toho udělat funkci
+
+
+        &gt; robot.xsrot = 0
+        &gt; robot.ysrot = 0
+
+TO jsem moc nepochopil -- proc zjistujes a nastavujes x,y souradnice 
+srotu? Vzdyt muzes pouzit poslední souradnice pred smrtí... (pak se již 
+nehýbe)
+
+        &gt; robot.srot = 0
+        &gt; # Část funkce zajišťující, že hráč a robot nezačnou na sobě.
+        &gt; while robot.x == hrac.x and robot.y == hrac.y:
+            &gt; robot.x=random.randint(1, 63)
+            &gt; robot.y=random.randint(1, 47)
+        &gt; # Část, která by měla zajišťovat, že roboti nezačnou na sobě.
+        &gt; # Výsledek asi hodinového uvažování. Základ ostatních funkcí 
+kontroly kolizí.
+        &gt; for n in range(p):
+            &gt; if robot.x == seznam[n].x and robot.y == seznam[n].y:
+                &gt; robot.x = random.randint(1, 63)
+                &gt; robot.y = random.randint(1, 47)
+
+Jinými slovy - horní řádky kontrolují, jestli se robot nesrazil s jinými 
+roboty.. ale to by mělo být velmi stejné jako při kontrole obyčejných 
+srážek ---&gt; funkce
+
+        &gt; p = p+1
+        &gt; seznam.append(robot)
+ &gt;           
+        &gt; robot.telo = 
+box(robot.x*10-5,robot.y*10-5,robot.x*10+5,robot.y*10+5, filled=1, 
+colour=Colour.dark_blue)    # Popis těla robota
+    &gt; return robot, seznam
+ &gt;    
+ &gt; # Mění hráčovy koordináty dle stisků kláves, ale nepohybuje jím.
+ &gt; # Je tu i možnost 5x se nechat přesunout na náhodné místo plochy - 
+&quot;teleportace&quot;.
+ &gt; def zmena_XY_hr(hrac, teleportace):
+        &gt; if &quot;2&quot; in klavesy:                     
+            &gt; hrac.y = hrac.y - 1   
+        &gt; elif &quot;8&quot; in klavesy:
+            &gt; hrac.y = hrac.y + 1
+        &gt; elif &quot;4&quot; in klavesy:
+            &gt; hrac.x = hrac.x - 1
+        &gt; elif &quot;6&quot; in klavesy:
+            &gt; hrac.x = hrac.x + 1
+        &gt; elif &quot;1&quot; in klavesy:
+            &gt; hrac.x = hrac.x - 1
+            &gt; hrac.y = hrac.y - 1
+        &gt; elif &quot;3&quot; in klavesy:
+            &gt; hrac.x = hrac.x + 1
+            &gt; hrac.y = hrac.y - 1
+        &gt; elif &quot;7&quot; in klavesy:
+            &gt; hrac.x = hrac.x - 1
+            &gt; hrac.y = hrac.y + 1
+        &gt; elif &quot;9&quot; in klavesy:
+            &gt; hrac.x = hrac.x + 1
+            &gt; hrac.y = hrac.y + 1
+        &gt; elif teleportace &lt; 5:
+
+
+moooc velký krok --- já jsem experimentálně určil krok=0.02 a pro roboty 
+třetinový (aby se vždy vyhrálo ;-) )
+Znám jednu poučku, která říká, že mnoho if/elif se dá řešit elegantněji 
+nějakou datovou strukturou. Ale v tomto případě mě nic nenapadá. Věděl 
+by někdo?
+
+            &gt; if &quot;t&quot; in klavesy:
+                &gt; hrac.x = random.randint(1, 63)
+                &gt; hrac.y = random.randint(1, 47)
+                &gt; teleportace = teleportace + 1
+                &gt; sleep(0.1)
+        &gt; return hrac, teleportace
+ &gt;
+ &gt; # Funkce, která posouvá robotem do osmi směrů tak, aby pronásledoval 
+hráče.
+ &gt; # Dále kontroluje kolize robot-robot a vytváří šrot.
+ &gt; def posunRobota(robot):
+    &gt; p = 0
+    &gt; for robot in seznam:
+        &gt; if robot.srot == 0:
+            &gt; if robot.x &lt; hrac.x:
+                &gt; robot.x = float(robot.x) + 0.5
+            &gt; elif robot.x &gt; hrac.x:
+                &gt; robot.x = float(robot.x) - 0.5
+            &gt; if robot.y &lt; hrac.y:
+                &gt; robot.y = float(robot.y) + 0.5
+            &gt; elif robot.y &gt; hrac.y:
+                &gt; robot.y = float(robot.y) - 0.5
+            &gt; move_to(robot.telo, float(robot.x)*10, float(robot.y)*10)
+            &gt; for n in range(p):
+                &gt; if robot.x == seznam[n].x and robot.y == seznam[n].y:
+                    &gt; remove_from_screen(robot.telo)
+                    &gt; robot.xsrot = robot.x
+                    &gt; robot.ysrot = robot.y
+                    &gt; robot.srotelo = 
+box(robot.xsrot*10-5,robot.ysrot*10-5,robot.xsrot*10+5,robot.ysrot*10+5, 
+filled=0, colour=Colour.dark_blue)
+                    &gt; robot.x = 0
+                    &gt; robot.y = 0
+                    &gt; robot.srot = 1
+                    &gt; return robot
+
+[1] myslím, že když se srazí dva roboti, tak jeden musí zmizet a z 
+druhého se stane srot. Musí zmizet ze seznamu a z druhého je srot (bez 
+ohledu na to, jestli jiz srotem byl), který v seznamu zůstává. 
+
+            &gt; p = p+1
+        &gt; sleep(0.0025)
+
+to bych dal pryč, protože jsme zjemnili krok
+
+ &gt;        
+ &gt; # Tato funkce pohne hráčem podle koordinátů upravených ve funkci 
+zmena_XY       
+ &gt; def posunHrace():                              
+    &gt; move_to(hrac.telo, hrac.x*10, hrac.y*10)
+ &gt;
+ &gt; # Funkce znemožňující hráčův pohyb za okraj hrací plochy
+ &gt; def kontrola_plochy(hrac):
+    &gt; if hrac.x &lt; 1:
+       &gt; hrac.x = 1
+ &gt;       
+    &gt; elif hrac.x &gt; 63:
+       &gt; hrac.x = 63
+ &gt;       
+    &gt; if hrac.y &lt; 1:
+       &gt; hrac.y = 1
+ &gt;       
+    &gt; elif hrac.y &gt; 47:
+       &gt; hrac.y = 47
+    &gt; move_to(hrac.telo, hrac.x*10, hrac.y*10)
+    &gt; return hrac
+ &gt;    
+ &gt; # Kontrola srážky hráče s robotem
+ &gt; def kontrola_srazky(konec_sub):
+    &gt; for robot in seznam:
+        &gt; if float(robot.x) == float(hrac.x)  and float(robot.y) == 
+float(hrac.y):
+
+tady si myslím že je největší chyba - takto se souřadnice musí shodovat 
+absolutně přesně - proto často &quot;očividné&quot; srážky nezpůsobí nic. Je lepší 
+použít nepřesnější, zato přirozenější funkci round()
+            &gt; konec_sub = 1
+            &gt; return konec_sub
+        &gt; elif robot.xsrot == hrac.x and robot.ysrot == hrac.y:
+            &gt; konec_sub = 1
+            &gt; return konec_sub
+ &gt;
+ &gt; # Kontrola srážky robota se šrotem
+ &gt; def kontrola_srazky_robotu(robot):
+    &gt; p = 0
+    &gt; for robot in seznam:
+        &gt; for n in range(10):
+            &gt; if robot.x == seznam[n].xsrot and robot.y == seznam[n].ysrot:
+                &gt; remove_from_screen(robot.telo)
+                &gt; robot.x = 800
+                &gt; robot.y = 800
+                &gt; robot.srot = 2
+                &gt; return robot
+
+tak nevím,  - -já myslel že tohle testování je už tam nahoře [1]- 
+připadá mi to tu dvojité
+
+        &gt; p = p+1
+ &gt;
+ &gt; # Funkce kontrolující, jestli hráč nezvítězil.
+ &gt; def vyhra():
+    &gt; check = 0
+    &gt; vyhra_seznam = []
+    &gt; for robot in seznam:
+        &gt; if robot.srot != 0:
+            &gt; vyhra_seznam.append(&quot;yes&quot;)
+        &gt; else:
+            &gt; vyhra_seznam.append(&quot;no&quot;)
+    &gt; for n in range(20):
+        &gt; if vyhra_seznam[n] == &quot;yes&quot;:
+            &gt; check = check + 1
+    &gt; if check == 20:
+        &gt; vyhra_v = 1
+        &gt; return vyhra_v
+
+pokud se hrac srazi s robotem (at zivim nebo mrtvým), tak to je jasné, 
+to řešíš jinde. tady se řeší jak poznat, jestli tam již není žádný 
+&quot;živý&quot; robot, že jo? nedá se to nějak jednodušeji?např. při posunu 
+robotů počítat, kolik jsme jich posunuly (kolik jeich není srotem). No a 
+pokud je to číslo 0, tak huuuurrrrááááá!
+
+ &gt;    
+ &gt;        
+ &gt; ###################   
+ &gt; # SAMOTNÝ PROGRAM #
+ &gt; ###################
+ &gt;
+ &gt; # Vytváří okraj hrací plochy
+ &gt; box(4,4,636,476)
+ &gt; box(5,5,635,475)                       
+ &gt; # Výroba objektů
+ &gt; hrac = vyrobHrace()       
+ &gt; robot, seznam = vyrobRobota(hrac, seznam)
+ &gt; # Počátek herního cyklu
+ &gt; while konec != 2:
+    &gt; klavesy = keys_pressed()
+    &gt; # Spuštení hráčovy posunové dvoj-funkce
+    &gt; hrac, teleportace = zmena_XY_hr(hrac, teleportace)
+    &gt; posunHrace()
+    &gt; # Kontrola, jestli není hráč za okrajem plochy, posunutí robotem a 
+případné vyhodnocení kolize
+    &gt; hrac = kontrola_plochy(hrac)
+    &gt; # Posun robotem a kontrola kolizi
+    &gt; robot = posunRobota(robot)
+    &gt; konec_sub = kontrola_srazky(konec_sub)
+    &gt; robot = kontrola_srazky_robotu(robot)
+    &gt; # Funkce kontrolující, jestli hráč nezvítězil.
+    &gt; vyhra_v = vyhra()
+    &gt; # Ukončení hry v případě srážky.
+    &gt; if konec_sub == 1:
+        &gt; print &quot;Prohrál jsi!&quot;
+        &gt; konec = 2
+    &gt; # Ukončení hry v případě výhry.
+    &gt; elif vyhra_v == 1:
+        &gt; print &quot;Vyhrál jsi!&quot;
+        &gt; konec = 2
+    &gt; # Přerušení hry uživatelem.
+    &gt; if &quot;q&quot; in klavesy:
+        &gt; konec = 2
+ &gt;        
+ &gt; end_graphics()  # Tjádadýdadá...to je konec.          
+
+
+nebylo by to přehlednější nějak takto?
+
+
+while not koncime:
+    posunHrace()
+    posunRobota()
+    kontrolaSrazek()
+
+
+Pokud budeš chtít, pošlu ti mé řešení, ale radši to sem nedávám rovnou, 
+abych ti nekazil radost.
+
+Ahoj!!!
+
+-- 
+geon
+volume doprava.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000242.html">[Tutor PyCZ] Roboti Přicházejí - Final(?)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000244.html">[Tutor PyCZ] Roboti Přicházejí - Final(?)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#243">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#243">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#243">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#243">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000243.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011121.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:56 GMT -->
+<HEAD>
+   <TITLE> [python] volání funkce, kde název je uložen v proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3Fdm9sw6Fuw60gZnVua2NlLCBrZGUgbsOhemV2IGplIHVs%3F%3D%0A%09%3D%3Futf-8%3Fb%3Fb8W%2BZW4gdiBwcm9txJtubsOp%3F%3D&In-Reply-To=%3CCAO8PW4zRMV3KjWnhh1TPHPAXNEiVTh7YbaQnj4vX6HEt%2BkEpog%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-October/011120.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-October/011122.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] volání funkce, kde název je uložen v proměnné</H1>
+    <B>Dan Pressl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3Fdm9sw6Fuw60gZnVua2NlLCBrZGUgbsOhemV2IGplIHVs%3F%3D%0A%09%3D%3Futf-8%3Fb%3Fb8W%2BZW4gdiBwcm9txJtubsOp%3F%3D&In-Reply-To=%3CCAO8PW4zRMV3KjWnhh1TPHPAXNEiVTh7YbaQnj4vX6HEt%2BkEpog%40mail.gmail.com%3E"
+       TITLE="[python] volání funkce, kde název je uložen v proměnné">nu.frix na gmail.com
+       </A><BR>
+    <I>Středa Říjen  9 16:02:39 CEST 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011120.html">[python] volání funkce, kde název je uložen v proměnné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011122.html">[python] volání funkce, kde název je uložen v proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11121">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11121">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11121">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11121">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+nejjednodussi zpusob, ktery me napada, vypada takhle:
+
+&gt;&gt;&gt;<i> def function(x, y):
+</I>...     print x + y
+...
+&gt;&gt;&gt;<i> function_name = &quot;function&quot;
+</I>&gt;&gt;&gt;<i> eval(&quot;%s(1,2)&quot; % function_name)
+</I>3
+
+Urcite to neni programatorsky uplne nejkrasnejsi a &quot;nejlepcejsi&quot;, ale
+funguje to. V podstate se vyuzije funkce *eval*:
+
+<A HREF="http://docs.python.org/2/library/functions.html#eval">http://docs.python.org/2/library/functions.html#eval</A>
+
+ktera se pokusi vyhodnotit zadany retezec. Nejdrive se tedy provede operace
+*&quot;%s(1,2)&quot; % function_name* jejimz vystupem je retezec *&quot;function(1,2)&quot; *a
+ten se pak preda jako parametr do funkce *eval*.
+
+Pokud ale chces volat metodu (funkci uvnitr tridy), tak je mozne pouzit
+getattr:
+
+<A HREF="http://docs.python.org/2/library/functions.html#getattr">http://docs.python.org/2/library/functions.html#getattr</A>
+
+ale tam nevim o zpusobu, jak metode predat parametr.
+
+
+2013/10/9 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">bertikster na gmail.com</A>&gt;
+
+&gt;<i> Mám název funkce v proměnné, tak bych se chtěl zeptat jak tu funkci můžu
+</I>&gt;<i> zavolat? jde mi o to abych dále té funkci mohl dát další parametry
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+^nu.friX
+aka Dan Pressl
+Reality is useless &amp; F4Q DMNC!!!
+Every syntax creates code. And code is poetry.
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20131009/f01cb3c1/attachment.html">http://www.py.cz/pipermail/python/attachments/20131009/f01cb3c1/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011120.html">[python] volání funkce, kde název je uložen v proměnné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011122.html">[python] volání funkce, kde název je uložen v proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11121">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11121">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11121">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11121">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011121.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:56 GMT -->
+</html>

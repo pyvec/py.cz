@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004119.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:55 GMT -->
+<HEAD>
+   <TITLE> [python] Kratka DOSova jmena (bylo SQLite Windows)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Kratka%20DOSova%20jmena%20%28bylo%20SQLite%20Windows%29&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC06A3D8%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-February/004118.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-February/004120.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Kratka DOSova jmena (bylo SQLite Windows)</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Kratka%20DOSova%20jmena%20%28bylo%20SQLite%20Windows%29&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC06A3D8%40skil01.skil.mistni"
+       TITLE="[python] Kratka DOSova jmena (bylo SQLite Windows)">leos na radiante-corp.com
+       </A><BR>
+    <I>Pondělí Únor 27 15:20:55 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004118.html">[python] Kratka DOSova jmena (bylo SQLite Windows)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004120.html">[python] Kratka DOSova jmena (bylo SQLite Windows)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4119">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4119">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4119">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4119">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Petr Prikryl wrote:
+&gt;<i> (Dík, geone, za nakopnutí ;)
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Radek Svarz napsal(a):
+</I>&gt;&gt;<i>     
+</I>&gt;&gt;&gt;<i> [...] zkuste pouzit &quot;short DOS name&quot; cestu. Ta 
+</I>&gt;&gt;&gt;<i> nabodenicka nema.
+</I>&gt;&gt;&gt;<i>       
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i> pepr
+</I>&gt;&gt;<i>     
+</I>&gt;&gt;&gt;<i> Jenže takovou cestu si nemohu spolehlivě uschovat, protože
+</I>&gt;&gt;&gt;<i> Windows nezaručí, že se za chvíli (za určitých okolností)
+</I>&gt;&gt;&gt;<i> nebude jmenovat jinak.
+</I>&gt;&gt;&gt;<i>       
+</I>&gt;<i>
+</I>&gt;<i> Vyzkoušejte:
+</I>&gt;<i>
+</I>&gt;<i> a.py
+</I>&gt;<i> ---------------------------------------------------------
+</I>&gt;<i> import os
+</I>&gt;<i> import win32api
+</I>&gt;<i>
+</I>&gt;<i> def q(text):
+</I>&gt;<i>     return &quot;'&quot; + text + &quot;'&quot;
+</I>&gt;<i>
+</I>&gt;<i> os.mkdir('aaaaaaaaaaaaA')
+</I>&gt;<i> os.mkdir('aaaaaaaaaaaaB')
+</I>&gt;<i> os.mkdir('aaaaaaaaaaaaC')
+</I>&gt;<i> os.mkdir('aaaaaaaaaaaaD')
+</I>&gt;<i>
+</I>&gt;<i> for item in os.listdir('.'):
+</I>&gt;<i>     if os.path.isdir(item):
+</I>&gt;<i>         print q(item), q(win32api.GetShortPathName(item))
+</I>&gt;<i>
+</I>&gt;<i> os.rmdir('aaaaaaaaaaaaB')
+</I>&gt;<i> os.rmdir('aaaaaaaaaaaaC')
+</I>&gt;<i> os.rmdir('aaaaaaaaaaaaD')
+</I>&gt;<i>
+</I>&gt;<i> print '-' * 70
+</I>&gt;<i>
+</I>&gt;<i> os.mkdir('aaaaaaaaaaaaE')
+</I>&gt;<i> os.mkdir('aaaaaaaaaaaaF')
+</I>&gt;<i> os.mkdir('aaaaaaaaaaaaG')
+</I>&gt;<i> os.mkdir('aaaaaaaaaaaaH')
+</I>&gt;<i>
+</I>&gt;<i> lst = os.listdir('.')
+</I>&gt;<i> for item in lst:
+</I>&gt;<i>     if os.path.isdir(item):
+</I>&gt;<i>         print q(item), q(win32api.GetShortPathName(item))
+</I>&gt;<i>
+</I>&gt;<i> for item in lst:
+</I>&gt;<i>     if os.path.isdir(item):
+</I>&gt;<i>         os.rmdir(item)
+</I>&gt;<i> ---------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> V mém případě to vrací 
+</I>&gt;<i>
+</I>&gt;<i> C:\tmp\a&gt;python a.py
+</I>&gt;<i> 'aaaaaaaaaaaaA' 'AAAAAA~1'
+</I>&gt;<i> 'aaaaaaaaaaaaB' 'AAAAAA~2'
+</I>&gt;<i> 'aaaaaaaaaaaaC' 'AAAAAA~3'
+</I>&gt;<i> 'aaaaaaaaaaaaD' 'AAAAAA~4'
+</I>&gt;<i> ---------------------------
+</I>&gt;<i> 'aaaaaaaaaaaaA' 'AAAAAA~1'
+</I>&gt;<i> 'aaaaaaaaaaaaE' 'AAAAAA~2'
+</I>&gt;<i> 'aaaaaaaaaaaaF' 'AAAAAA~3'
+</I>&gt;<i> 'aaaaaaaaaaaaG' 'AAAAAA~4'
+</I>&gt;<i> 'aaaaaaaaaaaaH' 'AABDBB~1'
+</I>&gt;<i>
+</I>&gt;<i> Takže například, když si někde schovám AAAAAA~2, 
+</I>&gt;<i> nevím v budoucnu, jakému adresáři to vlastně 
+</I>&gt;<i> odpovídá. Raději by se to mělo řešit jinak.
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Na prevod zpet se pak muze pouzit api fce GetLongPathName:
+
+     &gt;&gt;&gt; import win32api
+     &gt;&gt;&gt; short = win32api.GetShortPathName('c:/program files')
+     &gt;&gt;&gt; win32api.GetLongPathName(short)
+    'c:/Program Files'
+     &gt;&gt;&gt;
+
+Leo
+&gt;<i> pepr
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>   
+</I>
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004118.html">[python] Kratka DOSova jmena (bylo SQLite Windows)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004120.html">[python] Kratka DOSova jmena (bylo SQLite Windows)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4119">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4119">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4119">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4119">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004119.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:55 GMT -->
+</html>

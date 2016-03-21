@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010054.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:18 GMT -->
+<HEAD>
+   <TITLE> [python] vlakna,cpu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20vlakna%2Ccpu&In-Reply-To=%3C4CE5535D.504%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-November/010053.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-November/010055.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vlakna,cpu</H1>
+    <B>vepro</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20vlakna%2Ccpu&In-Reply-To=%3C4CE5535D.504%40gmail.com%3E"
+       TITLE="[python] vlakna,cpu">p.zlamal na gmail.com
+       </A><BR>
+    <I>Čtvrtek Listopad 18 17:25:01 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010053.html">[python] vlakna,cpu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010055.html">[python] vlakna,cpu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10054">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10054">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10054">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10054">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dekuji vsem za radu. Zkusim se kouknout na ten processing.
+Petr
+
+On 11/18/2010 05:06 PM, Petr Messner wrote:
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> může za to věc zvaná Global Interpreter Lock (GIL). V dynamickém
+</I>&gt;<i> jazyce jako je Python je totiž trochu problém korektně pracovat ve
+</I>&gt;<i> více vláknech, proto to autoři Pythonu vyřešili tímto zámkem (mutexem)
+</I>&gt;<i> - v jednom okamžiku běží Pythonový kód pouze v jednom vlákně. Přesto
+</I>&gt;<i> program může být vícevláknový a má to smysl třeba při práci se sítí,
+</I>&gt;<i> databázemi - GIL je v patřičných okamžicích uvolňován a je požadován
+</I>&gt;<i> až při předávání dat zpět do Pythonu.
+</I>&gt;<i>
+</I>&gt;<i> Lze to obejít spuštěním programu ve více procesech. Pokud je potřeba,
+</I>&gt;<i> aby procesy mezi sebou komunikovaly, lze to řešit, i když to není tak
+</I>&gt;<i> jednoduché jako řešit to mezi vlákny. Viz modul multiprocessing,
+</I>&gt;<i> zmiňovaný ostatními. Třeba u webového nebo aplikačního serveru nemusí
+</I>&gt;<i> být důležité, aby mezi sebou jednotlivé procesy vůbec komunikovaly,
+</I>&gt;<i> pak je řešení triviální (spustit více procesů).
+</I>&gt;<i>
+</I>&gt;<i> Petr Messner
+</I>&gt;<i>
+</I>&gt;<i> 2010/11/18 vepro&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt;:
+</I>&gt;<i>    
+</I>&gt;&gt;<i> Pratele,
+</I>&gt;&gt;<i> Napsal jsem si aplikaci, ktera vyuziva vlakna v pythonu (modul threading).
+</I>&gt;&gt;<i> Muzu libovolne volit od jednoho vlakna az po X vlaken. Co se deje je, ze
+</I>&gt;&gt;<i> pokud spustim kod pouze na jednom vlakne je uloha dokoncena o dost rychleji,
+</I>&gt;&gt;<i> nez pokud ji pustim na vice vlaknech. Tusim, ze nejaky cas zabere &quot;rezie&quot;
+</I>&gt;&gt;<i> ,ale v tomto bych to nehledal. Procedury v jednotlivych vlaknech jsou temer
+</I>&gt;&gt;<i> nezavisle (pouze jeden zamek u &quot;sdilene&quot; promenne). Co je mi divne a myslim,
+</I>&gt;&gt;<i> ze v tom je zakopan pes, ze vyuziti procesoru je zhruba stejne (100%) pro
+</I>&gt;&gt;<i> ulohu bezici v jednom, tak i ve vice vlaknech. Vypada to tak, ze vice vlaken
+</I>&gt;&gt;<i> vyuziva pouze jedno jadro procesoru (onech 100%), tak jako jednovlaknovy
+</I>&gt;&gt;<i> proces. Je tedy nutne nejak pythonu &quot;rici&quot;, ze ma vyuzivat vice jader pro
+</I>&gt;&gt;<i> vlakna?
+</I>&gt;&gt;<i> Dekuji za pripadnou radu
+</I>&gt;&gt;<i> Petr
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>      
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>    
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010053.html">[python] vlakna,cpu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010055.html">[python] vlakna,cpu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10054">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10054">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10054">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10054">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010054.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:18 GMT -->
+</html>

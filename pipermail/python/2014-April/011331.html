@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-April/011331.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:41 GMT -->
+<HEAD>
+   <TITLE> [python] dynamicke metody
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dynamicke%20metody&In-Reply-To=%3CCAK9Q5BQh%3D8UzgnfYf%3D5hWEve6O9AWwiX3q%2BfubV5BgcD%3D94kCA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-April/011330.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-April/011332.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dynamicke metody</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dynamicke%20metody&In-Reply-To=%3CCAK9Q5BQh%3D8UzgnfYf%3D5hWEve6O9AWwiX3q%2BfubV5BgcD%3D94kCA%40mail.gmail.com%3E"
+       TITLE="[python] dynamicke metody">petr.messner na gmail.com
+       </A><BR>
+    <I>Pátek Duben 25 01:15:55 CEST 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011330.html">[python] dynamicke metody
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011332.html">[python] dynamicke metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-April/date.html#11331">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/thread.html#11331">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/subject.html#11331">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/author.html#11331">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+nejzásadnější problém, který tam vidím, je zranitelnost proti SQL injection:
+
+<A HREF="http://xkcd.com/327/">http://xkcd.com/327/</A>
+
+Místo celého Template prostě ty parametry předej do execute:
+
+<A HREF="http://initd.org/psycopg/docs/usage.html#query-parameters">http://initd.org/psycopg/docs/usage.html#query-parameters</A>
+
+Doporučuji podívat se na SQLAlchemy (<A HREF="http://docs.sqlalchemy.org/en/latest/">http://docs.sqlalchemy.org/en/latest/</A>).
+Skládá se ze dvou částí: ORM a Core. Core řeší jednotnou práci s databází v
+Pythonu pro více typů databází (PostgreSQL, MySQL, MS SQL, Oracle). Až
+začneš řešit, že placeholdery v query pro parametry jsou někde &quot;?&quot; (např.
+SQLite) a jinde &quot;%s&quot;, tak přesně s tímhle ti to pomůže. Nebo třeba
+connection pooling nebo introspekce. No a ORM je ORM... to je trochu víc
+high level přístup, nevím, jestli se o tom teď rozepisovat... Až budeš
+řešit, že pro dvacet tabulek tam máš vlastně dvacet skoro stejných sad SQL
+dotazů, že by to místo slovníků mohlo vracet objekty a jak potom volat SQL
+dotazy nějak automaticky při práci s těmito objekty a jak řešit různé
+situace s najoinovanými dalšími objekty, tak se na to podívej :)
+
+Máš nějaký konkrétnější dotaz nebo problém, který chceš vyřešit? Není mi
+úplně jasné, na co se vlastně ptáš. Ještě mě napadá, že asi budeš chtít,
+aby metoda _sql() vracela funkci. To uděláš takhle pomocí closure funkce:
+
+    def _sql(self, query):
+        def f(**kwargs):
+            self._CUR.execute(query, kwargs)
+        return f
+
+Nebo můžeš místo toho implementovat metodu __getattr__().
+
+Tu metodu del budeš asi muset pojmenovat jinak, protože del je klíčové
+slovo.
+
+Jinak takovému hraní fandím. Samozřejmě je to znovuvynalézání kola. Ale je
+to nejlepší způsob, jak zjistit, jak kolo vlastně funguje :)
+
+PM
+
+Dne 25. dubna 2014 0:23 Marek Sirový &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">msirovy na gmail.com</A>&gt; napsal(a):
+
+&gt;<i> Zdravim,
+</I>&gt;<i>
+</I>&gt;<i> behem studia pythonu a hrani si s Flaskem a databazemi obecne me napadla
+</I>&gt;<i> abstrakce nad sql, kterou bych si rad zkusil vytvorit, tusim, ze nejde o
+</I>&gt;<i> nic efektivniho, nebo noveho, ale nejsem programator a python mam jako
+</I>&gt;<i> konicek a toto me zajima ciste ze studijnich duvodu, rad bych vedel, jak se
+</I>&gt;<i> to da vyresit, proto prosim nevymlouvejte mi to, ale poradte  cestu... Nebo
+</I>&gt;<i> ukazte kde mam chybu
+</I>&gt;<i>
+</I>&gt;<i> Predstava:
+</I>&gt;<i>
+</I>&gt;<i> mam tridu db, ktere dam jako slovnik jmeno metody a sql dotaz, tim se mi
+</I>&gt;<i> vytvori objekt s metodami, kterym bude stacit jen predavat parametry a
+</I>&gt;<i> vrati se mi data z databaze. cili melo by fungovat neco takoveho:
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> #!/usr/bin/env python3
+</I>&gt;<i> from string import Template
+</I>&gt;<i> import psycopg2
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ### trida s dynamickymi metodami
+</I>&gt;<i> class db:
+</I>&gt;<i>     &quot;&quot;&quot; test dynamickych metod
+</I>&gt;<i>     &quot;&quot;&quot;
+</I>&gt;<i>
+</I>&gt;<i>     def _sql(self, _sql = None, **kwargs):
+</I>&gt;<i>         &quot;&quot;&quot; predloha pro dynamicke funkce
+</I>&gt;<i>         &quot;&quot;&quot;
+</I>&gt;<i>         query = Template(_sql).substitute(**kwargs)
+</I>&gt;<i>         print(query)
+</I>&gt;<i>         _self._CUR.execute( query )
+</I>&gt;<i>         return _self._conn.commit()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>     def __init__(self, SQL = None):
+</I>&gt;<i>         if SQL is None:
+</I>&gt;<i>             raise(KeyError(&quot;Musite definovat slovni SQL&quot;))
+</I>&gt;<i>
+</I>&gt;<i>         # DB CONNECT
+</I>&gt;<i>         self._conn = psycopg2.connect(&quot;dbname=mail user=marek&quot;,
+</I>&gt;<i> cursor_factory= psycopg2.extras.DictCursor)
+</I>&gt;<i>         self._CUR = self._conn.cursor()
+</I>&gt;<i>
+</I>&gt;<i>         # create methods by SQL dict
+</I>&gt;<i>         for _func, _sql in SQL.items():
+</I>&gt;<i>             setattr(self, _func, self._sql(_sql = _sql))
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>     def close(self):
+</I>&gt;<i>         return(True)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> if __name__ == '__main__':
+</I>&gt;<i>     '''Priklad pouziti
+</I>&gt;<i>     - pridam zaznam pepa
+</I>&gt;<i>     - smazu zaznam pepa
+</I>&gt;<i>     '''
+</I>&gt;<i>     _SQLS = {
+</I>&gt;<i>             'add' : 'insert into tabulka (name, age, email) VALUES ($name,
+</I>&gt;<i> $age, $email);',
+</I>&gt;<i>             'edit' : 'update tabulka set age = $age, email = $email where
+</I>&gt;<i> name = $name;',
+</I>&gt;<i>             'del' : 'remove from tabulka where name = $name;',
+</I>&gt;<i>             }
+</I>&gt;<i>
+</I>&gt;<i>     data = db(_SQLS)
+</I>&gt;<i>     data.add(name = 'Pepa', age = '12', email = '<A HREF="http://www.py.cz/mailman/listinfo/python">pepa12 na gmail.fi</A>')
+</I>&gt;<i>     data.del(name = 'Pepa')
+</I>&gt;<i>     data.close()
+</I>&gt;<i>
+</I>&gt;<i> Omlouvam se za nedodrzovani PEP, skutecne nejsem moc programator a obcas
+</I>&gt;<i> docela prasim v zapalu boje.
+</I>&gt;<i>
+</I>&gt;<i> Predem diky za vysvetleni, pomoc, nasmerovani...
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20140425/007b7bee/attachment.html">http://www.py.cz/pipermail/python/attachments/20140425/007b7bee/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011330.html">[python] dynamicke metody
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011332.html">[python] dynamicke metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-April/date.html#11331">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/thread.html#11331">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/subject.html#11331">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/author.html#11331">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-April/011331.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:41 GMT -->
+</html>

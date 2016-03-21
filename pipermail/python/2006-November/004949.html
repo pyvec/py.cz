@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004949.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:14 GMT -->
+<HEAD>
+   <TITLE> [python] Dynamicke volani trid
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Dynamicke%20volani%20trid&In-Reply-To=OFF1C8712A.693C524C-ONC125721F.005BC99C-C125721F.0063EB03%40pds.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004944.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004945.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dynamicke volani trid</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Dynamicke%20volani%20trid&In-Reply-To=OFF1C8712A.693C524C-ONC125721F.005BC99C-C125721F.0063EB03%40pds.sk"
+       TITLE="[python] Dynamicke volani trid">mtip na atlas.cz
+       </A><BR>
+    <I>Úterý Listopad  7 20:39:47 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004944.html">[python] Dynamicke volani trid
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004945.html">[python] Dynamicke volani trid
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4949">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4949">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4949">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4949">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Myslel jsem to takhle -- tady je podle me rozdil mezi x=a  a instanci x=a()
+
+# 1.
+class a:
+    def __init__(self):
+        print 1
+
+x=a  #neprintne nic
+x=a()   #print 1
+
+# 2.
+x=a  #pri x=a() to samozrejme selze
+class aa(x):
+    def __init__(self):
+        x.__init__(self)
+
+    def add(self):
+        self.mx=5
+
+d=aa()
+
+#asi jsem si to vylozil tak, ze o tohle autorovi puvodne slo
+Mirek
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+RM&gt; Neviem ci autor mal presne na mysli metody triedy, alebo myslel na metody
+RM&gt; instancie, ale rad by som k tomu dodal toto:
+
+RM&gt; Pretoze
+&gt;&gt;&gt;&gt;<i> x=a
+</I>&gt;&gt;&gt;&gt;<i> print x
+</I>RM&gt; __main__.a
+&gt;&gt;&gt;&gt;<i> print x()
+</I>RM&gt; &lt;__main__.a instance at 0x00B7FBE8&gt;
+&gt;&gt;&gt;&gt;<i> x=a()
+</I>&gt;&gt;&gt;&gt;<i> print x
+</I>RM&gt; &lt;__main__.a instance at 0x00B7FBE8&gt;
+&gt;&gt;&gt;&gt;<i> 
+</I>
+RM&gt; tak nevidim na prvy pohlad rozdiel medzi tym, ci sa pouzije
+&gt;&gt;&gt;&gt;<i> x=a
+</I>&gt;&gt;&gt;&gt;<i> x().fa()
+</I>RM&gt; alebo sa vytvori hned instancia x a pouzije sa jej metoda fa() 
+&gt;&gt;&gt;&gt;<i> x=a()
+</I>&gt;&gt;&gt;&gt;<i> x.fa()
+</I>RM&gt; Az na to, ze v tom prvom pripade sa jedna o vynutene instancovanie, pri
+RM&gt; ktorom nevznikne trvanliva instancia (t.j. objekt), ale nejaky nullobjekt.
+
+RM&gt; Ked chcem napriklad zmenit jeho atribut nefunguje to -  pozri priklad
+RM&gt; dole. 
+
+RM&gt; Ale v oboch horeuvedenych pripadoch sa jedna o volanie metody instancie a
+RM&gt; nie triedy.
+RM&gt; Nie je mi zname, ze by v Pythone boli mozne metody triedy (podobne ako
+RM&gt; static v Jave)
+RM&gt; Da sa vytvorit neviazana (unbound) metoda
+&gt;&gt;&gt;&gt;<i> um=a.fa
+</I>&gt;&gt;&gt;&gt;<i> print um
+</I>RM&gt; &lt;unbound method a.fa&gt;
+
+RM&gt; ale pokus o jej zavolanie zlyha
+&gt;&gt;&gt;&gt;<i> um()
+</I>RM&gt; Traceback (most recent call last):
+RM&gt;   File &quot;&lt;pyshell#17&gt;&quot;, line 1, in -toplevel-
+RM&gt;     um()
+RM&gt; TypeError: unbound method fa() must be called with a instance as first
+RM&gt; argument (got nothing instead)
+
+RM&gt; Musim vzdy najprv vytvorit instanciu triedy a a potom zavolat um, kde jej
+RM&gt; ako prvy parameter odovzdam instanciu
+&gt;&gt;&gt;&gt;<i> ia=a()
+</I>&gt;&gt;&gt;&gt;<i> um(ia)
+</I>RM&gt; 1
+
+
+
+
+RM&gt; Priklad: Problem s vynutenym instancovanim
+
+RM&gt; # definujem triedu 
+&gt;&gt;&gt;&gt;<i> class person:
+</I>RM&gt;         def __init__(self):
+RM&gt;                 self.name = 'old'
+RM&gt;         def setname(self, new):
+RM&gt;                 self.name = new
+
+RM&gt; # menim atribut self.name cez vynutene instancovanie 
+&gt;&gt;&gt;&gt;<i> print person().name
+</I>RM&gt; old
+&gt;&gt;&gt;&gt;<i> person().setname('Roman')
+</I>&gt;&gt;&gt;&gt;<i> print person().name
+</I>RM&gt; old
+
+RM&gt; takze nefunguje to- atribut self.name nezmenil hodnotu
+
+
+RM&gt; # menim atribut self.name normalne t.j. vytvorenim instancie triedy
+&gt;&gt;&gt;&gt;<i> myperson=person()
+</I>&gt;&gt;&gt;&gt;<i> print myperson.name
+</I>RM&gt; old
+&gt;&gt;&gt;&gt;<i> myperson.setname('Roman')
+</I>&gt;&gt;&gt;&gt;<i> print myperson.name
+</I>RM&gt; Roman
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004944.html">[python] Dynamicke volani trid
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004945.html">[python] Dynamicke volani trid
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4949">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4949">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4949">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4949">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004949.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:14 GMT -->
+</html>

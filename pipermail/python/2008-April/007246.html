@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007246.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+<HEAD>
+   <TITLE> [python] HTTP Autorizace + metoda post
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20HTTP%20Autorizace%20%2B%20metoda%20post&In-Reply-To=4806F1FB.3060003%40firma.seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007245.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007247.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] HTTP Autorizace + metoda post</H1>
+    <B>Calis.martin na seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20HTTP%20Autorizace%20%2B%20metoda%20post&In-Reply-To=4806F1FB.3060003%40firma.seznam.cz"
+       TITLE="[python] HTTP Autorizace + metoda post">Calis.martin na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Duben 17 12:29:22 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007245.html">[python] HTTP Autorizace + metoda post
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007247.html">[python] HTTP Autorizace + metoda post
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7246">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7246">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7246">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7246">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>To mě prozměnu vypíše toto:&quot;Traceback (most recent call last):
+  File &quot;I:\Programy v Pythonu\MOJE\Ukoly\pripojeni.py&quot;, line 23, in &lt;module&gt;
+    urllib2.urlopen(req)
+  File &quot;C:\Python25\lib\urllib2.py&quot;, line 121, in urlopen
+    return _opener.open(url, data)
+  File &quot;C:\Python25\lib\urllib2.py&quot;, line 380, in open
+    response = meth(req, response)
+  File &quot;C:\Python25\lib\urllib2.py&quot;, line 491, in http_response
+    'http', request, response, code, msg, hdrs)
+  File &quot;C:\Python25\lib\urllib2.py&quot;, line 418, in error
+    return self._call_chain(*args)
+  File &quot;C:\Python25\lib\urllib2.py&quot;, line 353, in _call_chain
+    result = func(*args)
+  File &quot;C:\Python25\lib\urllib2.py&quot;, line 499, in http_error_default
+    raise HTTPError(req.get_full_url(), code, msg, hdrs, fp)
+urllib2.HTTPError: HTTP Error 401: Unauthorized&quot;
+
+jedna se asi o chybu s &quot;urllib2.urlopen(req)&quot;, nechal jsem si vypsat hodnotu req:&quot;&lt;urllib2.Request instance at 0x00A3ADC8&gt;&quot; což ale asi nijak nepomuže...
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos.pol na firma.seznam.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] HTTP Autorizace + metoda post
+</I>&gt;<i> Datum: 17.4.2008 08:46:00
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Ahoj,
+</I>&gt;<i> 
+</I>&gt;<i> chybka je v parametru uri, tam se ceka string nebo sekvence stringu. 
+</I>&gt;<i> Oprava je:
+</I>&gt;<i> 
+</I>&gt;<i> 	auth_handler.add_password(realm='PDQ Application', uri=req.get_full_url(),
+</I>&gt;<i> user='user', passwd='password')
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Leo
+</I>&gt;<i> 
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A> wrote:
+</I>&gt;<i> &gt; Dobrý den, nedávno jsem psal o svém problému ohldedně autorizace... 
+</I>&gt;<i> &gt; Stále jsem na věc nepřišel. Napadlo mně udělat tohle:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &quot;import urllib2,urllib
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; adresa = &quot;<A HREF="http://www.cheatfella.com/authentifikace.php"">http://www.cheatfella.com/authentifikace.php&quot;</A>
+</I>&gt;<i> &gt; parametry = {
+</I>&gt;<i> &gt;     &quot;print &quot; : &quot;Hello world&quot;}
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; params = urllib.urlencode(parametry)  # Prekoduje parametry do tvaru vhodneho
+</I>&gt;<i> pro odeslani
+</I>&gt;<i> &gt; req = urllib2.Request(adresa, params) # Vytvori request, coz je smichanina
+</I>&gt;<i> adresy a parametru, pripadne i hlavicek
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; #~ spojeni = urllib2.urlopen(req)       # Otevre
+</I>&gt;<i> &gt; #~ spojeni.read()  
+</I>&gt;<i> &gt; #~ spojeni.close()        
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; # Create an OpenerDirector with support for Basic HTTP Authentication...
+</I>&gt;<i> &gt; auth_handler = urllib2.HTTPBasicAuthHandler()
+</I>&gt;<i> &gt; auth_handler.add_password(realm='PDQ Application',
+</I>&gt;<i> &gt;                           uri=req,
+</I>&gt;<i> &gt;                           user='user',
+</I>&gt;<i> &gt;                           passwd='password')
+</I>&gt;<i> &gt; opener = urllib2.build_opener(auth_handler)
+</I>&gt;<i> &gt; # ...and install it globally so it can be used with urlopen.
+</I>&gt;<i> &gt; urllib2.install_opener(opener)
+</I>&gt;<i> &gt; urllib2.urlopen(req)&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; což nefunguje a vypíše nasledující hlášku: &quot;
+</I>&gt;<i> &gt; Traceback (most recent call last):
+</I>&gt;<i> &gt;   File &quot;I:\Programy v Pythonu\MOJE\Ukoly\pripojeni.py&quot;, line 22, in &lt;module&gt;
+</I>&gt;<i> &gt;     passwd='password')
+</I>&gt;<i> &gt;   File &quot;C:\Python25\lib\urllib2.py&quot;, line 706, in add_password
+</I>&gt;<i> &gt;     [self.reduce_uri(u, default_port) for u in uri])
+</I>&gt;<i> &gt; TypeError: iteration over non-sequence&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Nevíte kde je chyba? 
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; -----------------------------
+</I>&gt;<i> &gt; Moto: Teorie je, když všechno víme, ale nic nefunguje. Praxe je, když všechno
+</I>&gt;<i> funguje, ale nikdo neví proč. My jsme spojili teorii s praxí - nic nefunguje a
+</I>&gt;<i> nikdo neví proč. 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+-----------------------------
+Moto: Teorie je, když všechno víme, ale nic nefunguje. Praxe je, když všechno funguje, ale nikdo neví proč. My jsme spojili teorii s praxí - nic nefunguje a nikdo neví proč. 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007245.html">[python] HTTP Autorizace + metoda post
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007247.html">[python] HTTP Autorizace + metoda post
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7246">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7246">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7246">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7246">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007246.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+</html>

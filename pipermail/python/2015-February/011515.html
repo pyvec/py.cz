@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011515.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:17 GMT -->
+<HEAD>
+   <TITLE> [python] Seznamy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Seznamy&In-Reply-To=%3C54D53861.1060708%40sandbox.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011514.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011516.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Seznamy</H1>
+    <B>Vladimir Macek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Seznamy&In-Reply-To=%3C54D53861.1060708%40sandbox.cz%3E"
+       TITLE="[python] Seznamy">macek na sandbox.cz
+       </A><BR>
+    <I>Pátek Únor  6 22:55:45 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011514.html">[python] Seznamy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011516.html">[python] Seznamy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11515">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11515">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11515">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11515">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dovolte poznámku,
+
+je fajn, jak Honza dodal dva návrhy. Tipuju, že ten druhý je čitelnější pro
+začátečníky, je takový imperativní. :-)
+
+Doporučoval bych však zkusit pochopit eleganci toho druhého, který je IMO
+přístupnější pro zkušené a otevírá trochu jiný svět uvažování.
+
+Čitelnosti by pomohlo rozdělení na dva řádky (nejdřív nazvat generátor),
+což jistě Honza ví.
+
+Pokud tazateli zároveň půjde o zachování pořadí prvků, může se podívat po
+typu OrderedSet (<A HREF="http://code.activestate.com/recipes/576694/">http://code.activestate.com/recipes/576694/</A>).
+
+Vl.
+
+On 6.2.2015 20:50, Honza Král wrote:
+&gt;<i> tohle je kratka odpoved:
+</I>&gt;<i>
+</I>&gt;<i> import operator
+</I>&gt;<i> reduce(operator.and_, (set(l) for l in (list_a, list_b, list_c) if l))
+</I>&gt;<i>
+</I>&gt;<i> ale asi ne nejlepsi (neni prilis citelna)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> doporucil bych spis neco jako:
+</I>&gt;<i>
+</I>&gt;<i> sets = [set(l) for l in (list_a, list_b, ..) if l]
+</I>&gt;<i>
+</I>&gt;<i> result =lists.pop()
+</I>&gt;<i>
+</I>&gt;<i> for s in sets:
+</I>&gt;<i>     result &amp;= s
+</I>&gt;<i> list_vysledny = list(result)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Honza Král
+</I>&gt;<i> E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>
+</I>&gt;<i> Phone:  +420 606 678585
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2015-02-06 20:10 GMT+01:00 Marcus Scalpere &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">marcus.scalpere na gmail.com</A>&gt;:
+</I>&gt;&gt;<i> Pěkný večer vinšuji,
+</I>&gt;&gt;<i> mám několik seznamů a potřebuji zjistit, které jsou a nejsou prázdné (to bych ještě dal) a pokud některé prázdne nejsou, tak je projít a pokud jsou některé hodnoty ve VŠECH, tak je uložit.
+</I>&gt;&gt;<i> Něco jako:
+</I>&gt;&gt;<i> list_a = []
+</I>&gt;&gt;<i> list_b = [x, y, z]
+</I>&gt;&gt;<i> list_c = [x, y]
+</I>&gt;&gt;<i> .
+</I>&gt;&gt;<i> .
+</I>&gt;&gt;<i> .
+</I>&gt;&gt;<i> list_vysledny = [x, y]
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Snad jsem se vyjádřil jasně a srozumitelně. Děkuji mnohokráte
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011514.html">[python] Seznamy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011516.html">[python] Seznamy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11515">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11515">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11515">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11515">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011515.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:17 GMT -->
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-June/001820.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:29 GMT -->
+<HEAD>
+   <TITLE> [python] timeout pri socket.connect()
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20timeout%20pri%20socket.connect%28%29&In-Reply-To=200406230930.i5N9UdZK021146%40www6.pobox.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-June/001819.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-June/001821.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] timeout pri socket.connect()</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20timeout%20pri%20socket.connect%28%29&In-Reply-To=200406230930.i5N9UdZK021146%40www6.pobox.sk"
+       TITLE="[python] timeout pri socket.connect()">rk na dat.cz
+       </A><BR>
+    <I>Středa Červen 23 12:23:48 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001819.html">[python] timeout pri socket.connect()
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001821.html">[python] timeout pri socket.connect()
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-June/date.html#1820">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/thread.html#1820">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/subject.html#1820">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/author.html#1820">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, Jun 23, 2004 at 11:30:39AM +0200, azurIt wrote:
+
+&gt;<i> zdravim,
+</I>&gt;<i> 
+</I>&gt;<i> sck = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</I>&gt;<i> sck.connect((host, port))
+</I>&gt;<i> ^- da sa v tomto stadiu nejako spravit timeout ? lebo napr. ked sa 
+</I>&gt;<i> konektujem na njeco, co ma odmietne a filtruje to ICMP pakety, tak 
+</I>&gt;<i> musim cakat kym sa to samo ne-timeout-tne co trva dost dlho. proste, 
+</I>&gt;<i> ak tam nje je po urcitom (kratkom) case zjadna odpoved, tak 
+</I>&gt;<i> potrebujem to pripajanje ukoncit. PO nadviazani spojenja sa da 
+</I>&gt;<i> timeout pri prijimani dat pekne robit cez select.select, ale tu fakt 
+</I>&gt;<i> nevjem. dikes
+</I>
+V pythonu 2.3 ma socket metodu settimeout(sec) :
+
+
+    sck = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sck.settimeout(1)
+    sck.connect((host, port))
+
+RadekK
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001819.html">[python] timeout pri socket.connect()
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001821.html">[python] timeout pri socket.connect()
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-June/date.html#1820">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/thread.html#1820">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/subject.html#1820">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/author.html#1820">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-June/001820.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:29 GMT -->
+</html>

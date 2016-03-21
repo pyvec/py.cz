@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007551.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:25 GMT -->
+<HEAD>
+   <TITLE> [python] py2exe dll export
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20py2exe%20dll%20export&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-May/007549.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-May/007552.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] py2exe dll export</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20py2exe%20dll%20export&In-Reply-To="
+       TITLE="[python] py2exe dll export">slush na centrum.cz
+       </A><BR>
+    <I>Pátek Květen 30 18:28:50 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007549.html">[python] Neviditelné, lze zobrazit?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007552.html">[python] py2exe dll export
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7551">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7551">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7551">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7551">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+snazim se uz par dni rozchodit binding mezi jednou Win aplikaci a Pythonem.
+Aplikace podporuje system pluginu na zaklade DLL knihoven (nacita DLL
+knihovny a ocekava funkce s urcitymi jmeny).
+
+Vymyslel jsem dva postupy, ale ani u jednoho jsem nebyl dostatecne uspesny:
+a) Puvodni zamer byl udelat v Ccku skeleton DLL knihovny a v ni pomoci
+elmeru (<A HREF="http://elmer.sourceforge.net/">http://elmer.sourceforge.net/</A>) zapouzdrit python kod. To temer
+fungovalo. Povedlo se mi zkompilovat Cckovy kod do DLL a zavolat ho jako
+plugin, stejne tak se mi povedlo rozchodit Elmer tak, ze mi (pod Linuxem)
+generoval adekvatni Cckovy kod, ktery by slo pouzit v te DLL kostre. Narazil
+jsem ale na problem, ze nevim, jak zkompilovat kod Elmeru pod Windows,
+protoze Elmer je podporovany jen na Linuxovych kompilatorech :-). Kdybyste
+nekdo vedel...
+
+b) Druhy postup predpoklada, ze jsem schopny pomoci py2exe vytvorit DLL
+knihovnu primo z cisteho python kodu. I zde jsem byl uspesny a povedlo se mi
+zkompilovat DLL knihovnu. Kdyz se ale podivam na exporty, ktere ta knihovna
+ma, vidim tam pouze zakladni DllRegisterServer, DllGetClassObject a dalsi,
+ktere ma kazdy COM DLL. Hloubam tady nad tim uz kolik hodin, Google moc
+nepomohl (asi to moc lidi nepotrebuje) a nevim, jak tam dostat sve vlasni
+exporty. Zajimave je, ze uvnitr kodu te DLL knihovny existuje retezec
+&quot;Vysledek&quot;, takze to ten skript my_com_server.py (viz. priloha) s funkcemi
+obsahuje.
+
+Jelikoz predpokladam, ze v bode b) najdu vice lidi, kteri s tim maji nejakou
+zkusenost, prikladam ukazkovy setup.py, ktery mi generuje DLL kod (a ve
+kterem je zrejme neco spatne).
+
+Pozn: Priznam se, ze z py2exe nejsem moc moudry. Predpokladal jsem, ze class
+Target je prave ona class, jejiz funkce jsou exportovany v DLLku (proto jsem
+tam vytvoril nejake funkce). Pak me ale zmatlo, ze py2exe vyzadoval
+existenci nejakeho modulu, tak jsem vytvoril jeste my_com_server.py, ktery
+opet obsahuje jakousi prazdnou tridu s par funkcemi...
+
+Diky za jakoukoliv radu,
+Marek
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080530/dbbede1c/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080530/dbbede1c/attachment.htm</A> 
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+Netextová p?íloha byla odstran?na...
+Jméno: setup.py
+Typ: text/x-python
+Velikost: 1115 bytes
+Popis: [?ádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20080530/dbbede1c/attachment.py">http://www.py.cz/pipermail/python/attachments/20080530/dbbede1c/attachment.py</A> 
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+Netextová p?íloha byla odstran?na...
+Jméno: my_com_server.py
+Typ: text/x-python
+Velikost: 107 bytes
+Popis: [?ádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20080530/dbbede1c/attachment-0001.py">http://www.py.cz/pipermail/python/attachments/20080530/dbbede1c/attachment-0001.py</A> 
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007549.html">[python] Neviditelné, lze zobrazit?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007552.html">[python] py2exe dll export
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7551">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7551">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7551">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7551">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007551.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:25 GMT -->
+</html>

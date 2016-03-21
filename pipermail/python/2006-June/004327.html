@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004327.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:29 GMT -->
+<HEAD>
+   <TITLE> [python] ukončení interpretu, zničení objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004337.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004328.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ukončení interpretu, zničení objektu</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To="
+       TITLE="[python] ukončení interpretu, zničení objektu">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Červen  6 11:04:45 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004337.html">[python] font v TK menu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004328.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4327">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4327">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4327">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4327">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Martínek napsal...
+&gt;<i> class M:
+</I>&gt;<i>    b = 0
+</I>&gt;<i>    def __del__(self):
+</I>&gt;<i>      M.b
+</I>&gt;<i>
+</I>&gt;<i> a1 = M()
+</I>&gt;<i>
+</I>&gt;<i> vyhodí výjimku
+</I>&gt;<i> Exception exceptions.AttributeError: &quot;'NoneType' object 
+</I>&gt;<i> has no attribute 'b'&quot; in &lt;bound method M.__del__ of 
+</I>&gt;<i> &lt;__main__.M instance at 0x2aaaaab50a28
+</I>&gt;<i> ignored   
+</I>
+a později...
+&gt;<i> Děje se tak na Linuxu ve verzích Pythonu 2.4.2 i 2.4.3.
+</I>
+[Funguje to, pokud se místo &quot;a1&quot; uvede &quot;a&quot;.] Potvrzuji
+stejné chování pro Python 2.4.3 pod Windows.
+
+Radek Kaňovský reagoval...
+&gt;<i> Ja myslim, ze tohle chovani je v poradku. Metoda __del__ se
+</I>&gt;<i> muze spolehnout v podstate jenom na jmeno `self'. Globalni
+</I>&gt;<i> objekty uz mohou byt odalokovane.
+</I>
+Jan Janech...
+&gt;<i> Ja viem, ze globalne objekty uz mozu byt zrusene garbage
+</I>&gt;<i> collectorom, ale ja som sa prave snazil ukazat ze u tej
+</I>&gt;<i> classy to tak nieje. Prave to sa mi zda zvlastne, ze
+</I>&gt;<i> premenna ma nastavenu hodnotu None, ale objekt triedy este
+</I>&gt;<i> existuje v pamati a moze byt referencovany... okrem toho,
+</I>&gt;<i> pri tom ako je python spraveny si neviem predstavit ako by
+</I>&gt;<i> niekto chcel zrusit najskor instanciu class objektu a az
+</I>&gt;<i> potom instanciu danej triedy...
+</I>
+Radek Kaňovský reagoval...
+&gt;<i> On tu tridu nezrusi driv nez instanci, pouze neni trida
+</I>&gt;<i> dostupna pres nazev tridy z namespacu modulu. Pres
+</I>&gt;<i> `self.__class__' se da trida ziskat. Nekde se proste s
+</I>&gt;<i> rusenim referenci musi zacit.
+</I>
+Svatá pravda. Dokumentace pro __del__ říká:
+
+   Warning: [...] Also, when __del__() is invoked in
+   response to a module being deleted (e.g., when execution
+   of the program is done), other globals referenced by the
+   __del__() method may already have been deleted. For this
+   reason, __del__() methods should do the absolute minimum
+   needed to maintain external invariants. [...]
+   
+   Česky: Pokud se __del__() volá v rámci rušení modulu
+   (např. při ukončení programu), mohou již být ostatní
+   globální jména, na které se metoda __del__() odkazuje,
+   zrušeny. Z tohoto důvodu by toho měla metoda __del__()
+   z pohledu udržování externích invariantů dělat co nejméně.
+
+A co se vlatně děje, když to s &quot;a&quot; nefunguje a s &quot;a1&quot;
+funguje&quot;? Když se ruší jména z globálního slovníku,
+vyvolávají se akce související s rušením příslušných
+objektů. Objekt se nezruší, pokud na něj existuje nějaká
+reference, ale v tomto případě se neuvažují reference z
+onoho rušeného globálního slovníku (to by se nedalo zrušit
+nic). Globální slovník se prochází pravděpodobně v pořadí
+určeném hash hodnotou, která souvisí s jménem. Jenže u hash
+hodnoty nelze říci (bez znalosti implementace), zde je pro
+&quot;a&quot; menší nebo větší, než pro &quot;M&quot;. Při _vhodném_ jméně třídy
+a nebo odkazu na instanci třídy lze dosáhnout různého
+pořadí. Když se ruší nejdříve &quot;a&quot;, pak v okamžiku volání
+a.__del__() jméno &quot;M&quot; ještě existuje a ve slovníku se najde.
+Pokud je to naopak (tj. nejdříve se zruší &quot;M&quot; -- při něm se
+__del__() nevolá), pak se při rušení &quot;a&quot; volá a.__del__() a
+jméno &quot;M&quot; se nenalezne. Lépe řečeno, položka slovníku &quot;M&quot;
+není zcela zrušena, jméno stále existuje, ale kvůli
+odstranění co nejvíce vzájemných referencí byla jménu &quot;M&quot;
+přidělena reference None (proto NoneType).
+ 
+Dokumentace na stejném místě pokračuje...
+
+   Starting with version 1.5, Python guarantees that globals
+   whose name begins with a single underscore are deleted
+   from their module before other globals are deleted; if no
+   other references to such globals exist, this may help in
+   assuring that imported modules are still available at the
+   time when the __del__() method is called.
+   
+   Česky: Od verze 1.5 Python zaručuje, že globální [věci],
+   jejichž jméno začítá jedním podtržítkem, jsou v jejich
+   vlastním modulu zrušeny dříve, než ostatní globální
+   [věci] [...atd]
+   
+Takže stejné chybné chování v původně fungujícím příkladu
+lze navodit tak, že třídě přidáme k jménu podtržítko. Takže
+tohle funguje...
+
+    class M:
+       b = 0
+       def __del__(self):
+           M.b = 1
+    a = M()
+
+a tohle ne:    
+
+    class _M:
+       b = 0
+       def __del__(self):
+           _M.b = 1
+    a = _M()
+
+A kde se stala chyba? Metoda __del__() se nesnaží přímo
+odkazovat na vlastní třídu, ale hledá jméno v globálním
+slovníku, který se právě vyprazdňuje (jménu &quot;M&quot; byla mezi
+tím přidělena reference None). Ale dělá tak jen proto, aby
+zjistila odkaz na vlastní třídu. Jenže odkaz na vlastní
+třídu nemusíme zjišťovat přes globální slovník, protože
+každá instance jej zná. Podle mě tedy nejčistší řešení
+naznačil už Radek Kaňkovský (schválně tam dávám &quot;a1&quot;, které
+nefungovalo):
+
+    class M:
+       b = 0
+       def __del__(self):
+           self.__class__.b = 1
+    a1 = M()
+
+pepr    
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004337.html">[python] font v TK menu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004328.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4327">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4327">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4327">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4327">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004327.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:29 GMT -->
+</html>

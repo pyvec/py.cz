@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005446.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:01 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s kodovanim PyDev - pokracovani
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20kodovanim%20PyDev%20-%20pokracovani&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005445.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005447.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s kodovanim PyDev - pokracovani</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20kodovanim%20PyDev%20-%20pokracovani&In-Reply-To="
+       TITLE="[python] Problem s kodovanim PyDev - pokracovani">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Leden 31 07:33:18 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005445.html">[python] Problem s kodovanim PyDev - pokracovani
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005447.html">[python] Lokalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5446">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5446">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5446">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5446">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ondrej Beranek
+OB&gt; # -*- coding: cp1250 -*-
+OB&gt; jmeno = raw_input(u #39;Zadejte jméno (nic =&gt; konec):  #39;)
+OB&gt; print jmeno
+
+OB&gt; Me v eclipse serve:
+OB&gt; Traceback (most recent call last):
+OB&gt; File &quot;C:\Documents and 
+OB&gt; Settings\Administrator\workspace\prvni\src\temp.py&quot;, line 2, in
+OB&gt; &lt;module&gt;
+	
+Tipnul bych, že problém není na straně eclipse. V raw_input()
+s unicode textem je chyba (už dlouho). Kopíruji jednu z dávných
+zpráv...
+
+pepr
+
+&gt;<i> [ 1099364 ] raw_input() displays wrong unicode prompt
+</I>&gt;<i> <A HREF="https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1099364&amp;group_id=5470&amp;atid=105470">https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1099364&amp;group_id=5470&amp;atid=105470</A>
+</I>&gt;<i> 
+</I>&gt;<i> ale ted jsem ho tam hledal a vůbec tam není. Taky nechápu, 
+</I>&gt;<i> proč tam nejde vyhledávat podle ID.
+</I>
+Je to tam, ale je mezi uzavřenými (kliknutím na link 
+se tam dá dostat). Mezi tím došlo k určitému posunu,
+ale nejsem s tím tak docela spokojený. Částečné řešení
+lze nalézt u poslední poznámky by birkenfeld, tj. explicitně
+
+    raw_input(s.encode(sys.stdout.encoding))
+
+Dá se to vyřešit centralizovaně například definicí vlastní funkce:
+
+def my_input(s):
+    import sys
+    return raw_input(s.encode(sys.stdout.encoding))
+
+Ale moc se mi to nelíbí, protože takhle by měla fungovat
+raw_input() už &quot;od narození&quot;.
+
+Aby to celé nezapadlo, přidal jsem výzvu ke komentářům
+níže zmíněného patch
+
+<A HREF="https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1214889&amp;group_id=5470&amp;atid=305470">https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1214889&amp;group_id=5470&amp;atid=305470</A>
+
+pepr
+
+--------------------------------------------------------------------------------
+
+Date: 2005-06-26 13:34
+Sender: birkenfeld
+Logged In: YES 
+user_id=1188172
+
+Actually, your sys.stdout.encoding is set to something
+different than cp1250, which is why the result of DOS type
+looks the same as the one of print.
+
+This is because print observes sys.stdout.encoding, while
+sys.stdout.write uses the system default encoding, which is,
+as you set it, cp1250 and is displayed wrong on the console.
+
+Closing this bug, as it is currently expected behaviour (but
+will perhaps change when patch #1214889 is accepted).
+ 
+--------------------------------------------------------------------------------
+
+Date: 2005-06-27 22:56
+Sender: prikryl
+Logged In: YES 
+user_id=771873
+
+Should I understand it that there is no bug, but I do use it 
+incorrectly? I cannot agree that this is expected behaviour. (I 
+am not the only one who found this strange.) 
+
+Of course, the sys.stdout.encoding is different for a DOS 
+window (cp852) than the default encoding (cp1250). Windows 
+simply behaves this way when working with DOS window 
+(because of legacy DOS applications).
+
+I do not complain on behaviour of sys.stdout.write() but on 
+behaviour of raw_input(). The output of raw_input() prompt 
+should be displayed the same way as the print diplays the 
+results to the user. The raw_input() is used for building user 
+interface. Its prompt should not be displayed differently in 
+windows that use different encoding (i.e. DOS console vs. 
+say IDLE console).
+
+In other words, how should I use raw_input() to make it 
+working correctly?
+ 
+--------------------------------------------------------------------------------
+
+Date: 2005-06-27 23:40
+Sender: birkenfeld
+Logged In: YES 
+user_id=1188172
+
+You'll have to explicitly encode the unicode string using
+raw_input(s.encode(sys.stdout.encoding)).
+
+As said, this behaviour will change if the patch mentioned
+is accepted.
+ 
+--------------------------------------------------------------------------------
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005445.html">[python] Problem s kodovanim PyDev - pokracovani
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005447.html">[python] Lokalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5446">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5446">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5446">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5446">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005446.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:01 GMT -->
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-February/008637.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:53 GMT -->
+<HEAD>
+   <TITLE> [python] PyGTK, crontab, a já :)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPyGTK%3D2C_crontab%3D2C_a_j%3DE1_%3D3A%3D29%3F%3D&In-Reply-To=%3Cbd9056300902031338u6abb9705s1396a53bcae63e6%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-February/008636.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-February/008642.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PyGTK, crontab, a já :)</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPyGTK%3D2C_crontab%3D2C_a_j%3DE1_%3D3A%3D29%3F%3D&In-Reply-To=%3Cbd9056300902031338u6abb9705s1396a53bcae63e6%40mail.gmail.com%3E"
+       TITLE="[python] PyGTK, crontab, a já :)">slush na slush.cz
+       </A><BR>
+    <I>Úterý Únor  3 22:38:09 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008636.html">[python] PyGTK, crontab, a já :)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008642.html">[python] PyGTK, crontab, a já :)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-February/date.html#8637">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/thread.html#8637">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/subject.html#8637">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/author.html#8637">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>myslim, ze je to
+
+DISPLAY=:0.0
+
+Jinak je pravda, ze zjistit, ktery DBUS demon je toho spravneho uzivatele je
+trochu problem.
+
+Podle
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">marekp na omicron</A>:~$ export | grep DBUS
+declare -x
+DBUS_SESSION_BUS_ADDRESS=&quot;unix:abstract=/tmp/dbus-qgBF7wx9ZH,guid=61b7f9ea7ec36e6dbc1e9db5498735b8&quot;
+
+je dbus session proste UNIX socket a ted me (na rozdil od promenne DISPLAY)
+nenapada, jak elegantne zjistit, jak tu bus address zjistit :(.
+
+Marek
+
+2009/2/3 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A>&gt;
+
+&gt;<i> Hmm,
+</I>&gt;<i> A: tá proměná by měla být DISPLAY=:0?
+</I>&gt;<i> pygtk nepouzivam, jenom modul pynotify
+</I>&gt;<i> B: Jakou má ten DBUS trvanlivost? Po dobu celé session? protože já ten
+</I>&gt;<i> script spouštím každou hodinu takže už mam grafický rozhraní nastartovaný..
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> &gt; ------------ Původní zpráva ------------
+</I>&gt;<i> &gt; Od: slush &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">slush na slush.cz</A>&gt;
+</I>&gt;<i> &gt; Předmět: Re: [python] PyGTK, crontab, a já :)
+</I>&gt;<i> &gt; Datum: 03.2.2009 20:37:18
+</I>&gt;<i> &gt; ----------------------------------------
+</I>&gt;<i> &gt; Je to, jak psal Filip, složitější, každopádně to má řešení.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; a) v crontabu by na začátku měla být korektně nastavena proměnná DISPLAY,
+</I>&gt;<i> &gt; která řekne aplikaci, s kterým X serverem má povídat. Případně jsem teď
+</I>&gt;<i> &gt; našel čistě pythoní řešení na
+</I>&gt;<i> &gt;
+</I>&gt;<i> <A HREF="http://www.le-web.org/2008/11/06/pygtk-how-to-display-a-systray-icon-from-a-cronjob/">http://www.le-web.org/2008/11/06/pygtk-how-to-display-a-systray-icon-from-a-cronjob/</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; b) D-BUS funguje na principu klient (Vaše aplikace) - server (DBUS
+</I>&gt;<i> daemon)
+</I>&gt;<i> &gt; modelu. Pokud aplikaci pouštíte jako root, může komunikovat jen se
+</I>&gt;<i> &gt; systémovou DBUS sběrnicí (na které mmj visí HAL apod). Pokud je crontab
+</I>&gt;<i> &gt; uživatelův, aplikace si může vybrat systémovou nebo session sběrnici
+</I>&gt;<i> &gt; (existuje separátně pro každého přihlášeného uživatele). Co děláte v
+</I>&gt;<i> &gt; aplikaci špatně je, že předpokládáte, že DBUS již běží. Já bych to řešil
+</I>&gt;<i> &gt; periodickým pokusem o připojení a při neúspěchu neukončoval aplikaci (a
+</I>&gt;<i> &gt; předpokládal, že dbus za chvíli naběhne).
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Marek
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090203/0b504779/attachment.htm">http://www.py.cz/pipermail/python/attachments/20090203/0b504779/attachment.htm</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008636.html">[python] PyGTK, crontab, a já :)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008642.html">[python] PyGTK, crontab, a já :)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-February/date.html#8637">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/thread.html#8637">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/subject.html#8637">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/author.html#8637">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-February/008637.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:53 GMT -->
+</html>

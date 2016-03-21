@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-January/002221.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:57 GMT -->
+<HEAD>
+   <TITLE> [python] MySQLdb a Warning
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20MySQLdb%20a%20Warning&In-Reply-To=41DE65E7.1020104%40brabenec.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-January/002218.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-January/002223.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] MySQLdb a Warning</H1>
+    <B>EsoRimer</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20MySQLdb%20a%20Warning&In-Reply-To=41DE65E7.1020104%40brabenec.net"
+       TITLE="[python] MySQLdb a Warning">EsoRimer na centrum.cz
+       </A><BR>
+    <I>Pátek Leden  7 12:09:10 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002218.html">[python] MySQLdb a Warning
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002223.html">[python] MySQLdb a Warning
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-January/date.html#2221">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/thread.html#2221">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/subject.html#2221">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/author.html#2221">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Takhle nějak:
+
+import MySQLdb
+
+db = MySQLdb.connect(db='test')
+c = db.cursor()
+
+Akorát je to nějak zamotaný do tříd, proto je ve výpisu self.c.execute
+A arg = None
+
+
+On Fri, 07 Jan 2005 11:35:19 +0100
+Tomas Brabenec &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A>&gt; wrote:
+
+&gt;<i> Co používáš pro přístup do databáze.
+</I>&gt;<i> 
+</I>&gt;<i> Jak vypadá inicializace pripojení do DB?
+</I>&gt;<i> 
+</I>&gt;<i> TB
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> EsoRimer napsal(a):
+</I>&gt;<i> 
+</I>&gt;<i> &gt;Ahoj,
+</I>&gt;<i> &gt; mám takový problém s modulem MySQLdb.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Pokus o vložení dat do databáze mi končí takto:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Traceback (most recent call last):
+</I>&gt;<i> &gt;  File &quot;./log_sql.py&quot;, line 160, in execute
+</I>&gt;<i> &gt;    return self.c.execute(SQL,arg)
+</I>&gt;<i> &gt;  File &quot;/usr/lib/python2.1/site-packages/MySQLdb/cursors.py&quot;, line 61, in execute
+</I>&gt;<i> &gt;    r = self._query(query)
+</I>&gt;<i> &gt;  File &quot;/usr/lib/python2.1/site-packages/MySQLdb/cursors.py&quot;, line 168, in _query
+</I>&gt;<i> &gt;    rowcount = self._BaseCursor__do_query(q)
+</I>&gt;<i> &gt;  File &quot;/usr/lib/python2.1/site-packages/MySQLdb/cursors.py&quot;, line 118, in __do_query
+</I>&gt;<i> &gt;    self._check_for_warnings()
+</I>&gt;<i> &gt;  File &quot;/usr/lib/python2.1/site-packages/MySQLdb/cursors.py&quot;, line 150, in _check_for_warnings
+</I>&gt;<i> &gt;    raise Warning, self._info
+</I>&gt;<i> &gt;  Warning: Records: 69  Duplicates: 0  Warnings: 1
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Když spustím SQL příkaz normálně mysql test &lt; soubor_s_prikazem,
+</I>&gt;<i> &gt;žádné varování se nevypíše.
+</I>&gt;<i> &gt;Jak  můžu zjistit o jaký Warning jde a proč to pak padá?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;SQL příkaz vypadá takhle (zkráceně):
+</I>&gt;<i> &gt;INSERT INTO paxn(pnr_id,cislo,fname,sname,title,type,created,modified) VALUES (1,'1','ADRIANA','TROTTA','MRS','ADT','20041209112110',NULL),(1,'2','PETER','WHITTAM','MR','ADT','20041209112110',NULL),(2,'1','HANA','BILA','MS','ADT','20041209152442',NULL),(2,'2','ANDREA','HORNA','MS','ADT','20041209152442',NULL),(3,'1','ZIKMUND','BARTONICEK','','CHD','20041216152527',NULL),(3,'2','JAN','MARTINEK','MR','ADT','20041216152527',NULL),(3,'3','PROKOP','MARTINEK','','CHD','20041216152527',NULL),(3,'4','SARKA','MARTINKOVA','MRS','ADT','20041216152527',NULL),(3,'5','VILMA MARIE','MARTINKOVA','','CHD','20041216152527',NULL),(4,'1','KATERINA','VESELA','MS','ADT','20041216110354',NULL),(5,'1','JAN','LAZAR','
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;_______________________________________________
+</I>&gt;<i> &gt;Python mailing list
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt;<A HREF="http://hugo.zagamma.cz/mailman/listinfo/python">http://hugo.zagamma.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;  
+</I>&gt;<i> &gt;
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> Objevte znovu web - <A HREF="http://firefox.czilla.cz/">http://firefox.czilla.cz</A>
+</I>&gt;<i> Zkroťte svoji poštu - <A HREF="http://www.czilla.cz/help/thunderbird">http://www.czilla.cz/help/thunderbird</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> Odchozi zprava neobsahuje viry.
+</I>&gt;<i> Zkontrolováno Antivirovým systémem AVG.
+</I>&gt;<i> Verze: 7.0.299 / Virová báze: 265.6.9 - datum vydání: 6.1.2005
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://hugo.zagamma.cz/mailman/listinfo/python">http://hugo.zagamma.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002218.html">[python] MySQLdb a Warning
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002223.html">[python] MySQLdb a Warning
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-January/date.html#2221">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/thread.html#2221">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/subject.html#2221">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/author.html#2221">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-January/002221.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:57 GMT -->
+</html>

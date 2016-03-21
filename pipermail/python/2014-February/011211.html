@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011211.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:46 GMT -->
+<HEAD>
+   <TITLE> [python] Zjištění dne v týdnu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FWmppxaF0xJtuw60gZG5lIHYgdMO9ZG51%3F%3D&In-Reply-To=%3CCAPy44ZV7wc-VwtcM093g-EXDbHU6WchuMpKKq13vauL%2B%2BCjc3A%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-February/011210.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-February/011212.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zjištění dne v týdnu</H1>
+    <B>Visgean Skeloru</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FWmppxaF0xJtuw60gZG5lIHYgdMO9ZG51%3F%3D&In-Reply-To=%3CCAPy44ZV7wc-VwtcM093g-EXDbHU6WchuMpKKq13vauL%2B%2BCjc3A%40mail.gmail.com%3E"
+       TITLE="[python] Zjištění dne v týdnu">visgean na gmail.com
+       </A><BR>
+    <I>Pondělí Únor  3 22:58:34 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011210.html">[python] Zjištění dne v týdnu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011212.html">[python] Zjištění dne v týdnu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11211">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11211">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11211">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11211">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Nevím co myslíš tím &quot;jak to využít pro zjištění dalších dnů&quot;, ale asi chces
+ziskat neco jako seznam roku podle weekday nebo tak neco, nevim jestli ti
+tohle pomuze ale koukni na nasledujici gist
+<A HREF="https://gist.github.com/Visgean/8793232">https://gist.github.com/Visgean/8793232</A>
+asi nejužitečnější tam bude tenhle oneliner:
+
+years_by_weekday = lambda weekday: [datetime.date(day=1, month=1, year
+= year).year for year in range(1582,2014) if datetime.date(day=1,
+month=1, year = year).isoweekday() == weekday]
+
+btw tenhle kus dokumentace se hodí:
+date.weekday()
+
+Return the day of the week as an integer, where *Monday is 0 and Sunday is
+6.* For example, date(2002, 12, 4).weekday() == 2, a Wednesday. See also
+isoweekday()&lt;<A HREF="http://docs.python.org/2/library/datetime.html#datetime.date.isoweekday">http://docs.python.org/2/library/datetime.html#datetime.date.isoweekday</A>&gt;
+.
+ date.isoweekday()
+
+Return the day of the week as an integer, where *Monday is 1 and Sunday is
+7*. For example, date(2002, 12, 4).isoweekday() == 3, a Wednesday. See also
+weekday()&lt;<A HREF="http://docs.python.org/2/library/datetime.html#datetime.date.weekday">http://docs.python.org/2/library/datetime.html#datetime.date.weekday</A>&gt;,
+isocalendar()&lt;<A HREF="http://docs.python.org/2/library/datetime.html#datetime.date.isocalendar">http://docs.python.org/2/library/datetime.html#datetime.date.isocalendar</A>&gt;
+.
+
+:<i>)
+</I>
+
+2014-02-03 Marcus Scalpere &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">xdlabacekm na seznam.cz</A>&gt;:
+
+&gt;<i> Zdravím pánové,
+</I>&gt;<i> mám dotaz ohledně zjištění dne v týdnu. Řekněme, že vím ve který den v
+</I>&gt;<i> týdnu začíná nový rok (1. 1.), jak to využít pro zjištění dalších dnů? A
+</I>&gt;<i> ano, vím, že už jsou hotové funkce, ale zatím jsem nenašel žádnou, který by
+</I>&gt;<i> byla bez časového omezení. A o to mi právě jde, aby to bylo použitelný pro
+</I>&gt;<i> greg. kalendář od 1582, pro jul. kalendář...ještě dál do minulosti.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+github/visgean &lt;<A HREF="http://github.com/Visgean">http://github.com/Visgean</A>&gt;
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20140203/2b720f16/attachment.html">http://www.py.cz/pipermail/python/attachments/20140203/2b720f16/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011210.html">[python] Zjištění dne v týdnu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011212.html">[python] Zjištění dne v týdnu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11211">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11211">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11211">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11211">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011211.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:46 GMT -->
+</html>

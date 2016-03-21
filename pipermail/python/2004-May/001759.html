@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001759.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:35 GMT -->
+<HEAD>
+   <TITLE> [python] zope - vyjimka pri startu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zope%20-%20vyjimka%20pri%20startu&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-May/001760.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-May/001761.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zope - vyjimka pri startu</H1>
+    <B>Hynek &quot;rADOn&quot; Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zope%20-%20vyjimka%20pri%20startu&In-Reply-To="
+       TITLE="[python] zope - vyjimka pri startu">radonk na psj.cz
+       </A><BR>
+    <I>Úterý Květen 25 20:48:52 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001760.html">[python] ANN: getphoto
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001761.html">[python] ANN: getphoto
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1759">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1759">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1759">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1759">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>mam potiz se zope - pri startu chvili chrousta a skonci vyjimkou. vystup je na 
+konci. nejde mi rovnou o reseni ale spis jak se k nemu dobrat - zope je pro 
+me novy prostredi a nevim za kterej konec to vzit. od prohlizeni zdrojaku me 
+odradila hloubka zasobniku, adresar s logy je prazdny
+prohlizel jsem zope.org ale o 'administrator's guide' se pise ze je zastarala 
+a 'zope book' (ktera je jinak btw sqela, uz jsem nekde v pulce) jsem radu 
+nenasel. 
+
+bedna je cistej slack 9.1 + Python 2.3.3 + Zope 2.7 zkompilovany ze zdroje
+(na jiny bedne s gentoo a stejnou verzi pythonu to slape)
+
+-- cut here --
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">zope na it_intranet</A>:~/Zope-2.7.0 inst$ /var/zope/instance1/bin/runzope
+Traceback (most recent call last):
+  File &quot;/var/zope/lib/python/Zope/Startup/run.py&quot;, line 49, in ?
+    run()
+  File &quot;/var/zope/lib/python/Zope/Startup/run.py&quot;, line 18, in run
+    opts = _setconfig()
+  File &quot;/var/zope/lib/python/Zope/Startup/run.py&quot;, line 41, in _setconfig
+    opts.realize(doc=&quot;Sorry, no option docs yet.&quot;)
+  File &quot;/var/zope/lib/python/zdaemon/zdoptions.py&quot;, line 264, in realize
+    self.load_configfile()
+  File &quot;/var/zope/lib/python/zdaemon/zdoptions.py&quot;, line 308, in 
+load_configfile
+    self.zconfig_options)
+  File &quot;/var/zope/lib/python/ZConfig/loader.py&quot;, line 43, in loadConfig
+    return _get_config_loader(schema, overrides).loadURL(url)
+  File &quot;/var/zope/lib/python/ZConfig/loader.py&quot;, line 71, in loadURL
+    return self.loadResource(r)
+  File &quot;/var/zope/lib/python/ZConfig/loader.py&quot;, line 183, in loadResource
+    self._parse_resource(sm, resource)
+  File &quot;/var/zope/lib/python/ZConfig/loader.py&quot;, line 234, in _parse_resource
+    parser.parse(matcher)
+  File &quot;/var/zope/lib/python/ZConfig/cfgparser.py&quot;, line 63, in parse
+    section = self.end_section(section, line[2:-1])
+  File &quot;/var/zope/lib/python/ZConfig/cfgparser.py&quot;, line 116, in end_section
+    self.context.endSection(
+  File &quot;/var/zope/lib/python/ZConfig/loader.py&quot;, line 201, in endSection
+    sectvalue = matcher.finish()
+  File &quot;/var/zope/lib/python/ZConfig/matcher.py&quot;, line 170, in finish
+    return self.constuct()
+  File &quot;/var/zope/lib/python/ZConfig/matcher.py&quot;, line 212, in constuct
+    v = v.convert(ci.datatype)
+  File &quot;/var/zope/lib/python/ZConfig/info.py&quot;, line 65, in convert
+    return datatype(self.value)
+  File &quot;/var/zope/lib/python/Zope/Startup/datatypes.py&quot;, line 106, in 
+importable_name
+    package = __import__(n, g, g, component)
+  File &quot;/var/zope/lib/python/DBTab/ClassFactories.py&quot;, line 18, in ?
+    import OFS.Uninstalled
+  File &quot;/var/zope/lib/python/OFS/Uninstalled.py&quot;, line 16, in ?
+    import  SimpleItem, Globals, Acquisition
+  File &quot;/var/zope/lib/python/OFS/SimpleItem.py&quot;, line 27, in ?
+    from CopySupport import CopySource
+  File &quot;/var/zope/lib/python/OFS/CopySupport.py&quot;, line 549, in ?
+    action ='manage_main',)
+  File &quot;/var/zope/lib/python/DocumentTemplate/DT_String.py&quot;, line 474, in 
+__call__
+    try: result = render_blocks(self._v_blocks, md)
+  File &quot;/var/zope/lib/python/DocumentTemplate/pDocumentTemplate.py&quot;, line 202, 
+in render_blocks
+    cond=md[cond]
+  File &quot;/var/zope/lib/python/DocumentTemplate/pDocumentTemplate.py&quot;, line 140, 
+in __getitem__
+    v = self.dicts[key]
+  File &quot;/var/zope/lib/python/DocumentTemplate/pDocumentTemplate.py&quot;, line 100, 
+in __getitem__
+    raise KeyError, key
+KeyError: &quot;'v'&quot;
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001760.html">[python] ANN: getphoto
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001761.html">[python] ANN: getphoto
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1759">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1759">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1759">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1759">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001759.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:35 GMT -->
+</html>

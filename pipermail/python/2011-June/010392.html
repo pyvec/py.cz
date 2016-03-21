@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010392.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+<HEAD>
+   <TITLE> [python] pytho + php sifrovanie/desifrovanie
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pytho%20%2B%20php%20sifrovanie/desifrovanie&In-Reply-To=%3CBANLkTi%3Dwx4VAXQnFZRQ7YqEJGqgTY-ZyhQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010391.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010393.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pytho + php sifrovanie/desifrovanie</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pytho%20%2B%20php%20sifrovanie/desifrovanie&In-Reply-To=%3CBANLkTi%3Dwx4VAXQnFZRQ7YqEJGqgTY-ZyhQ%40mail.gmail.com%3E"
+       TITLE="[python] pytho + php sifrovanie/desifrovanie">petr.messner na gmail.com
+       </A><BR>
+    <I>Sobota Červen  4 18:59:56 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010391.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010393.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10392">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10392">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10392">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10392">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+jen ze zajímavosti jsem vyzkoušel AES a šlo to dobře, v PHP s nějakou
+knihovnou, co jsem našel na webu...
+
+Zašifrování v Pythonu:
+
+#!/usr/bin/env python
+from Crypto.Cipher import AES
+def resize(s, blockSize):
+    if len(s) % blockSize == 0:
+        return s
+    else:
+        return s + &quot; &quot; * (blockSize - len(s) % blockSize)
+plain = &quot;Hello, World!&quot;
+ciphertext = AES.new(&quot;tajneheslo123456&quot;,
+AES.MODE_ECB).encrypt(resize(plain, AES.block_size))
+def to_hex(s):
+    return &quot; &quot;.join(hex(ord(c)).replace(&quot;0x&quot;, &quot;&quot;).rjust(2, &quot;0&quot;) for c in s)
+print to_hex(ciphertext)  # napise 3d e8 9f 9f 8d dc f1 ef 1c 6f fc 45
+c6 72 14 f7
+
+Dešifrování v PHP:
+
+&lt;?php
+$ciphertext = &quot;3d e8 9f 9f 8d dc f1 ef 1c 6f fc 45 c6 72 14 f7&quot;;
+require(&quot;./AES.class.php&quot;);  // <A HREF="http://www.phpaes.com/">http://www.phpaes.com/</A>
+$aes = new AES('tajneheslo123456');
+$ciphertext = &quot;\x3d\xe8\x9f\x9f\x8d\xdc\xf1\xef\x1c\x6f\xfc\x45\xc6\x72\x14\xf7&quot;;
+echo &quot;'&quot; . $aes-&gt;decrypt($ciphertext) . &quot;'\n&quot;;
+?&gt;
+
+Problém je, že klíč pro AES musí mít délku 16, 24 nebo 32 bajtů a
+délka plaintextu musí být dělitelná 16, takže jsem na konec přidal
+patřičný počet mezer (v Pythonu funkcí resize). Správně bych měl asi
+místo mezer použít náhodné znaky a spolu se zprávou poslat i délku
+plaintextu a dešifrovaný text pak na tuto délku oříznout.
+
+AES má různé módy, použil jsem ECB, protože phpAES umí (podle
+informací na phpaes.com) v neplacené verzi jen tento mód. Bohužel
+nevím v čem se tyto módy liší. U ostatních módů se musí kromě klíče
+určit i inicializační vektor.
+
+Jo a pokud by bylo potřeba binární řetězec (tedy zašifrovaný text)
+nějak rozumně čitelně vypsat, hodí se na to base64 (v ukázce jsem
+použil hexadecimální čísla).
+
+Petr Messner
+
+
+2011/6/4 miamia &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">peterirbizon na gmail.com</A>&gt;
+&gt;<i>
+</I>&gt;<i> Dobry den,
+</I>&gt;<i> prosim Vas, potrebujem zasifrovat text v pythone a potom ho desifrovat
+</I>&gt;<i> v skripte PHP. Skusal som pycrypto a nejake aes php skripty, ale
+</I>&gt;<i> vysledky (zasefirovanie/desifrovanie) neboli rovnake - nepodarilo sa
+</I>&gt;<i> mi to rozchodit. Da sa niekde najst priamo nejaky priklad, ako toto
+</I>&gt;<i> spravit v pythone a desifrovat v PHP (najlepsie zdrojaky)?velka vdaka
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010391.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010393.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10392">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10392">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10392">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10392">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010392.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+</html>

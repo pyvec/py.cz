@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2002-December/000366.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:39 GMT -->
+<HEAD>
+   <TITLE> [python] globalni a lokalni promenne
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20a%20lokalni%20promenne&In-Reply-To=20021210035906.GA3169%40oentar">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2002-December/000364.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2002-December/000368.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] globalni a lokalni promenne</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20a%20lokalni%20promenne&In-Reply-To=20021210035906.GA3169%40oentar"
+       TITLE="[python] globalni a lokalni promenne">rk na dat.cz
+       </A><BR>
+    <I>Úterý Prosinec 10 10:32:30 CET 2002</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000364.html">[python] globalni a lokalni promenne
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000368.html">[python] globalni a lokalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-December/date.html#366">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/thread.html#366">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/subject.html#366">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/author.html#366">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, Dec 09, 2002 at 10:59:06PM -0500, Petr Vanek wrote:
+
+&gt;<i> def connect(self,db,dir):
+</I>&gt;<i> 	import gadfly
+</I>&gt;<i> 	conn=gadfly.gadfly()
+</I>&gt;<i> 	conn.startup=(db,dir)
+</I>&gt;<i> 	return conn
+</I>&gt;<i> 
+</I>&gt;<i> co musim udelat, abych mohl v cele aplikaci pouzivat tuhle connekci? ted
+</I>&gt;<i> mi to vraci asi (logicky): raise error, &quot;not bound to database&quot;
+</I>&gt;<i> ja v tech lokalnich a globalnich promennych mam takovy chaos, vzdycky
+</I>&gt;<i> to nejak zmastim, ale nejak to preci musi byt korektne, ne?
+</I>
+Zdravim,
+
+vono neni jasne, co chtej vlastne delat. Pokud gadfly nedela nejake
+kejkle s importem, tak jim tahle funkce vrati vzdy nove spojeni do
+databaze a to by melo fungovat i mimo tuto funkci. Mozna by bylo dobre,
+kdyby poslali nejaky kratky priklad, ktery jim takto havaruje.
+
+Pokud by chteli, aby tato funkce vratila vzdy stejne spojeni (nejaka
+obdoba singletonu), tj. stejnou instanci spojeni, musej to udelat trosku
+jinak.
+
+Von ten &quot;import gadfly&quot; je sice volan lokalne, ale muze mit dalekosahle
+globalni ucinky. Minimalne by mel v sys.modules zanechat tento modul
+naimportovany. Gadly nepouzivam, ale ta jejich funkce by mela urcite
+fungovat.
+
+--------------------------------------------------------
+#!/usr/bin/env python
+
+import sys
+
+def connect (db, dir) :
+    import gadfly
+    conn=gadfly.gadfly()
+    conn.startup=(db,dir)
+    return conn
+
+print sys.modules.has_key('gadfly') and 'gadfly importovan' or 'no gadfly'
+conn1 = connect('ahoj', '/tmp')
+print &quot;connect('ahoj'):&quot;, conn1
+print sys.modules.has_key('gadfly') and 'gadfly importovan' or 'no gadfly'
+conn2 = connect('ahoj', '/tmp')
+print &quot;connect('ahoj'):&quot;, conn2
+print sys.modules.has_key('gadfly') and 'gadfly importovan' or 'no gadfly'
+--------------------------------------------------------
+
+Tento skript mne vypise:
+
+--------------------------------------------------------
+no gadfly
+connect('ahoj'): &lt;gadfly.database.gadfly instance at 0x815104c&gt;
+gadfly importovan
+connect('ahoj'): &lt;gadfly.database.gadfly instance at 0x821962c&gt;
+gadfly importovan
+--------------------------------------------------------
+
+Ve vystupu je videt, ze gadfly je importovan az pri prvnim volani funkce
+connect, a ze funkce connect vratila pokazde jinou instanci spojeni do
+gadfly databaze. Je otazka, jestli je to presne to, co chtej.
+
+
+Radek Kaňovský
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000364.html">[python] globalni a lokalni promenne
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000368.html">[python] globalni a lokalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-December/date.html#366">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/thread.html#366">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/subject.html#366">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/author.html#366">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2002-December/000366.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:39 GMT -->
+</html>

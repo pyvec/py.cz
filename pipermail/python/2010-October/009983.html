@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009983.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:21 GMT -->
+<HEAD>
+   <TITLE> [python] Proces vs. vlakno
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Proces%20vs.%20vlakno&In-Reply-To=%3CAANLkTi%3D%3DSvQS8h%3D76bh-tgmCkHFTZ5Ah6%2BULhshZmrCO%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-October/009980.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-October/009985.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Proces vs. vlakno</H1>
+    <B>Tomas Hnizdil</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Proces%20vs.%20vlakno&In-Reply-To=%3CAANLkTi%3D%3DSvQS8h%3D76bh-tgmCkHFTZ5Ah6%2BULhshZmrCO%40mail.gmail.com%3E"
+       TITLE="[python] Proces vs. vlakno">tomash.cz na gmail.com
+       </A><BR>
+    <I>Pátek Říjen 22 14:29:31 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009980.html">[python] Proces vs. vlakno
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009985.html">[python] Proces vs. vlakno
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9983">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9983">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9983">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9983">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zacinam si myslet, ze to bude schovane nekde na urovni OS pripadne HW,
+zjistil jsem totiz, ze na mem 32b stroji se to chova jako na tech 64bitech
+... tak a ted babo rad :) Nejspis to bude schovane nekde pod podporou HW/OS
+neceho, co se jmenuje copy-on-write (zkopiruj procesu data az ve chvili, kdy
+do nich bude  chtit psat), coz prave pamet znacne usetri ... zajimave je, ze
+se ale i tak server ukazuje jako jediny proces (ale treba s dvojnasobnou
+alokaci pameti, coz je porad lepsi nez Nkrat polovicni mnozstvi pameti, kde
+N pujde treba do tisicu), coz jsem si myslel ukazuje prave na pouziti vlaken
+... jak pises, python tohle nema proc ovlivnovat, mel by delat co chce
+uzivatel.
+
+(no doufam, ze jsem to nenapsal uplne zmatecne)
+
+OT - Nevidel jste nekdo nejaky zajimavy clanek, ktery by se venoval prave
+sprave procesu v modernich OS/prip. s podporou HW/, kde by toto bylo trochu
+lepe vysvetlene?
+
+Diky
+
+2010/10/22 Tomas Brabenec &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A>&gt;
+
+&gt;<i>  Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> no, podle mě to přímo v Pythonu být nemůže. Python se chová tak, jak je
+</I>&gt;<i> napsaný kód :-D Python přeci sám nerozhoduje, jestli aplikace pojede
+</I>&gt;<i> procesově nebo vláknově.
+</I>&gt;<i> Takže pokud se to jinak chová na 32-bit a 64-bit, případně se to jinak
+</I>&gt;<i> chová s jedním jádrem a jinak s 4 jádry, atd., tak bych začal hledat uvnitř
+</I>&gt;<i> aplikace, případně v nějakém použitém modulu, jak jsi psal.
+</I>&gt;<i>
+</I>&gt;<i> Tomáš
+</I>&gt;<i>
+</I>&gt;<i> Dne 22.10.2010 0:51, Tomas Hnizdil napsal(a):
+</I>&gt;<i>
+</I>&gt;<i> Ano, snazim se zjistit, proc se to chova na ruznych platformach ruzne a
+</I>&gt;<i> proc to nekde tvori procesy a nekde vlakna - ten problem je, ze stezejni kod
+</I>&gt;<i> by mel byt na platforme nezavisly, coz me vede k myslence, ze by pes mohl
+</I>&gt;<i> byt zakopany v pythonu, ale kdo vi ... diky za nasmerovani, pokusim se
+</I>&gt;<i> hledat timto smerem.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i>   Ahoj,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  ja jsem mozna takhle vecer trochu unaveny, ale nejsem schopen poznat
+</I>&gt;&gt;<i> na co se vlastne ptas, krome toho ze tam je mozna &quot;ruzne chovani&quot;
+</I>&gt;&gt;<i> pythonu. Nevim, jestli ten fakt se na 32-bitovych platformach se
+</I>&gt;&gt;<i> pouzivaji procesy a na 64-bitovych vlakna je zamer nebo ten problem, i
+</I>&gt;&gt;<i> ktereho se snazis zjistit pricinu.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  Pokut to to to druhe a mas k tomu zdrojaky, tak by to nemel byt
+</I>&gt;&gt;<i> zasadni problem, proste je prohledej a hledej slova &quot;threading&quot; a
+</I>&gt;&gt;<i> &quot;processing&quot;, velmi pravdepodobne narazis na nejaky kus kodu, ktery se
+</I>&gt;&gt;<i> chova na ruznych platformach ruzne. Tak me napada, ze by stalo za to
+</I>&gt;&gt;<i> hledat &quot;import platform&quot; nebo &quot;from platform import architecture&quot;.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  Snad to aspon trochu pomuze. Jinak se to da samozrejme vystopovat
+</I>&gt;&gt;<i> pomoci debuggeru na urovni OS, ale to uz je trochu slozitejsi :)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Jirka
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing <A HREF="http://www.py.cz/mailman/listinfo/python">listPython na py.czhttp</A>://www.py.cz/mailman/listinfo/python
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20101022/b16e9f59/attachment.html">http://www.py.cz/pipermail/python/attachments/20101022/b16e9f59/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009980.html">[python] Proces vs. vlakno
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009985.html">[python] Proces vs. vlakno
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9983">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9983">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9983">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9983">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009983.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:21 GMT -->
+</html>

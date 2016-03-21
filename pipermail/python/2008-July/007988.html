@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007988.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:36 GMT -->
+<HEAD>
+   <TITLE> [python] httplib a socks proxy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20httplib%20a%20socks%20proxy&In-Reply-To=2038.3399-27847-1026340275-1216118693%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/007987.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/007989.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] httplib a socks proxy</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20httplib%20a%20socks%20proxy&In-Reply-To=2038.3399-27847-1026340275-1216118693%40seznam.cz"
+       TITLE="[python] httplib a socks proxy">slush na centrum.cz
+       </A><BR>
+    <I>Úterý Červenec 15 16:05:05 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007987.html">[python] httplib a socks proxy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007989.html">[python] Thread a wxpython
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7988">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7988">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7988">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7988">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Diky za linky, ten prvni me nakopnul spravnym smerem ;-).
+
+Nasleduje funkcni reseni tunelovani:
+
+import socks #SockSiPy
+import socket
+proxy = socks.socksocket()
+proxy.setproxy(socks.PROXY_TYPE_SOCKS5, 'localhost', 9050) # Nakonektim se
+na proxy
+proxy.connect((&quot;www.domena.com&quot;, 80)) # Reknu ji, at se nakonekti na cilovy
+pocitac
+conn = httplib.HTTPConnection(&quot;www.domena.com&quot;, 80) # Reknu httplib, s cim
+ma komunikovat
+conn.sock = proxy # A podstrcim ji otevreny existujici socket na cilovy
+pocitac
+
+Nakonec to je temer standardni cesta, jen jsem se musel ve zdrojacich
+httplib presvedcit, ze prepsani conn.sock mym socketem nenadela neplechu...
+
+Diky,
+Marek
+
+2008/7/15 Bystroushaak &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Bystrousak na seznam.cz</A>&gt;:
+
+&gt;<i> Dobrý den. Možná že budu psát blbosti (vzhledem ke zkušenostem co mám je to
+</I>&gt;<i> dost možné..), ale osobně mi přijde lepší použít knihovnu urllib2, se kterou
+</I>&gt;<i> mám zatím jenom dobré zkušenosti.
+</I>&gt;<i>
+</I>&gt;<i> Dál tady mam několik odkazů, které by snad mohly pomoct:
+</I>&gt;<i> <A HREF="http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/301740">http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/301740</A>
+</I>&gt;<i> <A HREF="http://love-python.blogspot.com/2008/03/use-proxy-in-your-spider.html">http://love-python.blogspot.com/2008/03/use-proxy-in-your-spider.html</A>
+</I>&gt;<i> <A HREF="http://www.w3.org/People/Connolly/drafts/socksForPython.html">http://www.w3.org/People/Connolly/drafts/socksForPython.html</A>
+</I>&gt;<i>
+</I>&gt;<i> Doufám že jsem pomohl, jestli ne tak se omlouvám za ztrátu času..
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ---------- Forwarded message ----------
+</I>&gt;<i> From: slush &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">slush na centrum.cz</A>&gt;
+</I>&gt;<i> To: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> Date: Tue, 15 Jul 2008 00:52:11 +0200 (CEST)
+</I>&gt;<i> Subject: [python] httplib a socks proxy
+</I>&gt;<i> Zdravim,
+</I>&gt;<i>
+</I>&gt;<i> badam tady nad tim dobu, zkusim se obratit na Vas.
+</I>&gt;<i>
+</I>&gt;<i> Snazim se o program, ktery bude komunikovat s http serverem. Pro me ucely
+</I>&gt;<i> se mi jako nejvhodnejsi (tj. dostatecne jednoducha) jevi knihovna httplib.
+</I>&gt;<i> Problem je, ze vyzaduji pripojeni pres SOCKS proxy, ale jak koukam na
+</I>&gt;<i> zdrojaky httplib, nic takoveho neumi a co hur, neumi ani prijmou jiz
+</I>&gt;<i> otevreny socket, po kterem by dal komunikovala.
+</I>&gt;<i>
+</I>&gt;<i> Na otevirani socketu pres SOCKS proxy mam funkcni knihovnu (SocksiPy),
+</I>&gt;<i> kazdopadne ta je prilis low-level, abych psal komunikaci se serverem primo v
+</I>&gt;<i> ni (byt je to extremni alternativa).
+</I>&gt;<i>
+</I>&gt;<i> Napada me nekolik reseni, ale ani jedno hezke. Mozna vite o necem jinem
+</I>&gt;<i> (treba o knihovne pro jednoduchou praci s HTTP, ktera umi pouzivat
+</I>&gt;<i> existujici socket).
+</I>&gt;<i>
+</I>&gt;<i> a) Naprgat to primo v socksipy. Zbytecny overhead, parsovani navratovych
+</I>&gt;<i> hodnot.
+</I>&gt;<i> b) Forknout httplib a donutit ji prijimat socket. Velmi seredne reseni, mel
+</I>&gt;<i> bych vlastni verzi knihovny, proste fuj.
+</I>&gt;<i> c) Pouzit jinou knihovnu, ale nevim jakou.
+</I>&gt;<i> d) Vzhledem k tomu, ze SocksiPy je *transparentni* z hlediska interface ke
+</I>&gt;<i> knihovne socks, NEJAK podvrhnout knihovne httplib, aby pri &quot;import socks&quot;
+</I>&gt;<i> naimportovala (a pouzila) SocksiPy. Kdyby to slo (nejakym pekne lowlevel
+</I>&gt;<i> python hackem), byl bych zauzlovan...
+</I>&gt;<i>
+</I>&gt;<i> Verim, ze pokud se najde reseni k d), najde se i nenulova mnozina odpurcu
+</I>&gt;<i> takovych hacku, ale pro muj ucel by to bylo 100% prijatelne.
+</I>&gt;<i>
+</I>&gt;<i> Diky za kazdy tip,
+</I>&gt;<i> Marek
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080715/4fb134c4/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080715/4fb134c4/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007987.html">[python] httplib a socks proxy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007989.html">[python] Thread a wxpython
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7988">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7988">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7988">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7988">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007988.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:36 GMT -->
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011683.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:09 GMT -->
+<HEAD>
+   <TITLE> [python] Pulnocni rozjimani :-)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Pulnocni%20rozjimani%20%3A-%29&In-Reply-To=%3C55511B06.6040602%40sandbox.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-May/011689.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-May/011687.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Pulnocni rozjimani :-)</H1>
+    <B>Vladimir Macek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Pulnocni%20rozjimani%20%3A-%29&In-Reply-To=%3C55511B06.6040602%40sandbox.cz%3E"
+       TITLE="[python] Pulnocni rozjimani :-)">macek na sandbox.cz
+       </A><BR>
+    <I>Pondělí Květen 11 23:11:34 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011689.html">[python] Pulnocni rozjimani :-)
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011687.html">[python] Pulnocni rozjimani :-)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11683">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11683">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11683">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11683">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Inspirovan, jeste malicko rozvinu. :-)
+
+    &gt;&gt;&gt; a = 257
+    &gt;&gt;&gt; b = 257
+    &gt;&gt;&gt; a is b
+    False
+    &gt;&gt;&gt; c = d = 257
+    &gt;&gt;&gt; c is d    # logicky True
+    True
+    &gt;&gt;&gt; e, f = 257, 257     # tohle je vsak zajimave
+    &gt;&gt;&gt; e is f
+    True
+    &gt;&gt;&gt; g = 'nazdar'
+    &gt;&gt;&gt; h = 'nazdar'
+    &gt;&gt;&gt; g is h
+    True
+    &gt;&gt;&gt; i = 'nazdar'*1000
+    &gt;&gt;&gt; j = 'nazdar'*1000
+    &gt;&gt;&gt; i is j
+    False
+    &gt;&gt;&gt; i == j
+    True
+    &gt;&gt;&gt; k = intern(i)
+    &gt;&gt;&gt; l = intern(j)
+    &gt;&gt;&gt; k is l
+    True
+
+
+
+On 11.5.2015 12:46, Pavel Schön wrote:
+&gt;<i> $ python
+</I>&gt;<i> Python 2.6.6 (r266:84292, Nov 21 2013, 10:50:32) 
+</I>&gt;<i> [GCC 4.4.7 20120313 (Red Hat 4.4.7-4)] on linux2
+</I>&gt;&gt;&gt;&gt;<i> a = 256
+</I>&gt;&gt;&gt;&gt;<i> b = 256
+</I>&gt;&gt;&gt;&gt;<i> a is b
+</I>&gt;<i> True
+</I>&gt;&gt;&gt;&gt;<i> a = 257
+</I>&gt;&gt;&gt;&gt;<i> b = 257
+</I>&gt;&gt;&gt;&gt;<i> a is b
+</I>&gt;<i> False
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Sunday, May 10, 2015 at 1:05:58 AM UTC+2, Vladimir Macek wrote:
+</I>&gt;&gt;<i> Just having fun.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     $ python
+</I>&gt;&gt;<i>     &gt;&gt;&gt; a = {}
+</I>&gt;&gt;<i>     &gt;&gt;&gt; b = {'a': a}
+</I>&gt;&gt;<i>     &gt;&gt;&gt; a['b'] = b
+</I>&gt;&gt;<i>     &gt;&gt;&gt; a
+</I>&gt;&gt;<i>     {'b': {'a': {...}}}
+</I>&gt;&gt;<i>     &gt;&gt;&gt; b
+</I>&gt;&gt;<i>     {'a': {'b': {...}}}
+</I>&gt;&gt;<i>     &gt;&gt;&gt; import cPickle
+</I>&gt;&gt;<i>     &gt;&gt;&gt; ap = cPickle.dumps(a)
+</I>&gt;&gt;<i>     &gt;&gt;&gt; del a, b
+</I>&gt;&gt;<i>     &gt;&gt;&gt; len(ap)
+</I>&gt;&gt;<i>     26
+</I>&gt;&gt;<i>     &gt;&gt;&gt; a = cPickle.loads(ap)
+</I>&gt;&gt;<i>     &gt;&gt;&gt; a
+</I>&gt;&gt;<i>     {'b': {'a': {...}}}
+</I>&gt;&gt;<i>     &gt;&gt;&gt; a['b']
+</I>&gt;&gt;<i>     {'a': {'b': {...}}}
+</I>&gt;&gt;<i>     &gt;&gt;&gt; a['b']['a']
+</I>&gt;&gt;<i>     {'b': {'a': {...}}}
+</I>&gt;&gt;<i>     &gt;&gt;&gt; a['b']['a']['b']
+</I>&gt;&gt;<i>     {'a': {'b': {...}}}
+</I>&gt;&gt;<i>     &gt;&gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Navaze nekdo? :-)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> V.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --- <A HREF="news://freenews.netfront.net/">news://freenews.netfront.net/</A> - complaints: <A HREF="http://www.py.cz/mailman/listinfo/python">news na netfront.net</A> ---
+</I>&gt;<i>
+</I>
+
+-- 
+:<i>  Vladimir Macek  :  <A HREF="http://macek.sandbox.cz/">http://macek.sandbox.cz</A>  :  +420 608 978 164
+</I>:<i>  UNIX &amp;&amp; Dev || Training  :  Python, Django  :  PGP key 97330EBD
+</I>:<i>  <A HREF="http://macek.sandbox.cz/skoleni/">http://macek.sandbox.cz/skoleni/</A>
+</I>
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011689.html">[python] Pulnocni rozjimani :-)
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011687.html">[python] Pulnocni rozjimani :-)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11683">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11683">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11683">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11683">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011683.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:09 GMT -->
+</html>

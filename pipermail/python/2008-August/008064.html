@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008064.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:24 GMT -->
+<HEAD>
+   <TITLE> [python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVGlweSBuYSBu77%2B9dnJoIHTvv73vv71keQ%3D%3D%3F%3D&In-Reply-To=981749.38699.qm%40web33004.mail.mud.yahoo.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008065.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVGlweSBuYSBu77%2B9dnJoIHTvv73vv71keQ%3D%3D%3F%3D&In-Reply-To=981749.38699.qm%40web33004.mail.mud.yahoo.com"
+       TITLE="[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy">regnarg na seznam.cz
+       </A><BR>
+    <I>Pátek Srpen  1 18:57:15 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008065.html">[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8064">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8064">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8064">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8064">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Čt, čec 31, 2008 at 11:55:59 +0200, Tomas Fulajtar wrote:
+&gt;<i> V teto souvislosti se nabizi pouzit modifikaci navrhoveho vzoru Command viz napr: <A HREF="http://en.wikipedia.org/wiki/Command_pattern,">http://en.wikipedia.org/wiki/Command_pattern,</A> pripadne ho zkombinovat se vzorem Strategy. Doporucuji prostudovat, je zde spousta napadu, jak navrhovat. 
+</I>&gt;<i> 
+</I>&gt;<i> Pokud vim ,tak ceska prace na tohle tema vytvorena Iljou Kravalem je nabizena zdarma na <A HREF="http://www.objects.cz/produkty/produkty.html">http://www.objects.cz/produkty/produkty.html</A> viz &quot;Design Patterns v OOP&quot;. Mne se velice libila, i kdyz je psana pomerne narocnym stylem. Presto obsahuje dobre priklady a analogie.  
+</I>
+Zdravím...
+...a zcela nesouhlasím. Návrhové vzory jsem nikdy neměl 
+rád protože jsem zastáncem toho, že je vždy třeba 
+posoudit konrétní situaci a najít chytré řešení, ne 
+napasovat nějakou &quot;oficiální&quot; metodu jen pro vytvoření 
+dojmu něčeho lepšího. Navíc, s OOP se to nikdy nesmí
+přehánět, a co-příkaz-to-třída může spíš uškodit než na 
+opak.
+
+Měli bychom se ptát: co je příkaz ? Je to reakce na 
+událost, reakce jako kód, posloupnost odpovědí vyvolaných
+určitou podmínkou. Kód, tedy funkce. Necpějeme OOP, kam
+nepatří, jen protože je to OO. Odhoďme předsudky, odhoďme
+iluze. Ne vždy je dokonalé zapozdření či úplná 
+objektovost ideálním východiskem. Proto se také Python 
+nevydal cestou Javy. Protože tam je vynucené používání
+tříd na příliš mnoho věcí, kde je to jinak absurdní. 
+
+Je třeba přemýšlet. Každý problém si vyžaduje řešení. 
+Důmyslné, originální a chytré řešení, které zároveň je
+pohodlné pro okolí. V tomto případě navrhuji rozšířit
+původní, dle mého názoru dobrý, nápad, jen bez 
+&quot;zneužívání&quot; dokumentačních řetězců, které se můžou třeba
+později zneužít pro nápovědu k příkazům.
+
+Dekorátor. Opět to samozřejmě vyžaduje prohledání 
+namespace, ale od čeho máme metatřídy ? Je nesmysl to 
+dělat při každé inicializaci instance. Při vytváření 
+třídy se stejně ns prochází a mění, takže na efektivitě
+netratíme. Ba naopak.
+
+import inspect
+
+class CmdMeta(type):
+    def __init__(self, *a):
+        type.__init__(*a)
+        self.commands={}
+        for k,v in inspect.getmembers(self):
+            if hasattr(v, '__command__'):
+                self.commands[v.__command__]=v
+
+class command(object):
+    def __init__(self, cmd):
+        self.cmd=cmd
+    def __call__(self, fx): #when decorating
+        fx.__command__=self.cmd
+        return fx
+
+class Commands(object):
+    __metaclass__=CmdMeta
+
+    ### vlastní definice příkazů ###
+    @command(&quot;echo&quot;)
+    def echo(self, rest):
+        self.connection.send(rest)
+    ################################
+
+    def execute_command(self, line):
+        cmd,rest=line.split(None, 1)
+        self.__class__.commands[cmd](self, rest) #unbound
+
+Ukázka je velmi jednoduchá ve stylu &quot;příkazového řádku&quot;,
+tedy že bere jen formát &quot;příkaz parametr&quot;, ale to již lze
+jakkoliv upravit. A troufám si toto řešení označit za
+elegantní...
+
+
+-- 
+regnarg --- <A HREF="http://rg.pretel.cz/">http://rg.pretel.cz</A> -- JID: <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>
+V péči o štěstí druhých nacházíme své vlastní.   --Platón
+Přátelství může trvat jedině mezi dobrými lidmi. --Cicero
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008065.html">[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8064">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8064">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8064">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8064">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008064.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:24 GMT -->
+</html>

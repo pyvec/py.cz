@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008070.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:25 GMT -->
+<HEAD>
+   <TITLE> [python] asynchronni programovani, stavovy stroj
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20asynchronni%20programovani%2C%20stavovy%20stroj&In-Reply-To=bd9056300808020428k4bb0b13bi476ffb659ad629db%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008068.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008071.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] asynchronni programovani, stavovy stroj</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20asynchronni%20programovani%2C%20stavovy%20stroj&In-Reply-To=bd9056300808020428k4bb0b13bi476ffb659ad629db%40mail.gmail.com"
+       TITLE="[python] asynchronni programovani, stavovy stroj">feed na centrum.cz
+       </A><BR>
+    <I>Sobota Srpen  2 14:02:06 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008068.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008071.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8070">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8070">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8070">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8070">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i>
+</I>&gt;<i> A vas se ptam - prehlednul jsem neco, co by cely proces zjednodusilo, 
+</I>&gt;<i> doporucili byste mi neco jineho nebo mate zkusenosti s navrhem 
+</I>&gt;<i> asynchronnich procesu?
+</I>&gt;<i>
+</I>
+Ano, přehlédnul. Tento problém se řeší velmi často, a je na něj krásné 
+standardizované řešení. To řešení spočívá v tom, že se určí maximální 
+počet běžících threadů - řekněme třeba 50. Pak se vytvoří tzv. thread 
+pool, tedy objekt, který spustí 50 threadů a drží je v pozastaveném 
+stavu. Všechny potřebné úkoly se řadí do fronty operací, které pak 
+přebírá thread pool a přiřazuje jim jednotlivé thready. Tedy pokud je 
+potřebných operací méně, než max. počet threadů, některé thready spí a 
+zbylé vykonávají operace. Pokud je operací více, než threadů, pak 
+všechny thready vykonávají operace až do max. počtu, tedy v tomto 
+případě do 50 a zbylé čekají ve frontě. Jakmile jakákoli operace skončí, 
+volný thread vybere z fronty další operaci a začne jí vykonávat.
+
+Tímto dosáhnete max. rychlosti a vysokého výkonu. Za prvé se zbavíte 
+režie vytváření a rušení threadu - všech 50 threadů vytvoříte najednou a 
+stále existují v thread poolu. Za druhé - příliš velký počet threadů 
+naráz je neefektivní a režie operačního systémů při přepínání kontextu 
+obrovského množství threadů sežere značnou část výkonu. Takže při 
+rozumně zvoleném počtu threadů probíhají operace nejrychlejší možnou 
+rychlostí - vyšší, než kdyby bylo threadů méně, nebo více. Za třetí - 
+snažší synchronizace thread díky tomu, že je máte najednou pod kontrolou 
+v jednom objektu - synchronizační akce bývají výrazně zjednodušeny.
+
+Psal bych víc, ale pro základní představu to stačí.
+
+Miloslav Ponkrác
+
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008068.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008071.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8070">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8070">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8070">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8070">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008070.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:25 GMT -->
+</html>

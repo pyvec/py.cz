@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001720.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:32 GMT -->
+<HEAD>
+   <TITLE> [python] select vs threads
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20select%20vs%20threads&In-Reply-To=20040507140639.GA877%40asura.bsd">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-May/001716.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-May/001717.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] select vs threads</H1>
+    <B>Zdenek Pavlas</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20select%20vs%20threads&In-Reply-To=20040507140639.GA877%40asura.bsd"
+       TITLE="[python] select vs threads">pavlas na nextra.cz
+       </A><BR>
+    <I>Pondělí Květen 10 10:50:14 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001716.html">[python] select vs threads
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001717.html">[python] (no subject)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1720">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1720">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1720">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1720">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Radim Kolar wrote:
+
+&gt;<i> Zajimalo by mne jak nejlepe / t.j. s nejmensi namahou/ nabastlit jeho serverovou
+</I>&gt;<i> cast.  Zda je lepsi pouzit thready per client nebo select(). Pokud jde o
+</I>&gt;<i> efektivitu kodu select bude asi rychlejsi, protoze kernel nebude muset delat
+</I>&gt;<i> zbytecne context switche.
+</I>
+Mam dobre zkusenosti s pouzivanim threadoveho modelu.
+Rezie na switchovani threadu je zcela minimalni, na Linuxu
+zadne problemy. Vede to na maly, prehledny, 
+dobre udrzovatelny kod.
+
+Je akorat dobre pro provozni nasazeni kazdy dulezitejsi 
+thread (minimalne kazdou accept() smycku) obalit jednim 
+try: except:, vyjimky logovat, a smycku restartovat.
+
+Problemy jsou spis v tomto:
+
+- udelat spravne zamykani muze byt problem, Python navic
+  umi jen exklusivni locky, vsechno ostatni je nad tim
+  dost nesikovne a pomalu emulovano (Rlock, Condition).
+  Je zahodno .release () davat pokudmozno do finally: :)
+
+- signaly jsou vsude mimo Linux velky problem. Moc tomu 
+  nerozumim, ale POSIXove thready jsou navrzeny nejak 
+  idiotsky, takze vetsina implementaci potrebuje pri prvnim 
+  vytvorenem threadu spustit jeste jeden &quot;servisni&quot; thread,
+  a v OSech kde vsechny thready maji stejny PID je nemozne
+  urcit ktery thread signal obdrzi, a chovani toho servisniho
+  threadu nejde menit. Aplikace ktere na Linuxu nebo Solarisu
+  bezi OK mi padaji na FreeBSD po SIGHUP kvuli reloadu 
+  konfigurace, a neprisel jsem na to jestli/jak
+  to vyresit. To ze threading +signaly = trouble je tusim
+  i nekde v dokumentaci Pythonu.
+
+&gt;<i> Neni lepsi pouzit twisted framework?
+</I>
+Mi to prislo jako mamut, psany nejakym OO maniakem,
+ktery na kdejakou blbost, kterou normalni clovek nekam
+prilepi jako kus kodu, pise samostatnou tridu, na uplne
+jinem miste vytvari instanci, a nekde zase uplne jinde
+to poslepuje dohromady, v dusledku cehoz se v tom vubec
+neda vyznat. Pouzit jsem to radeji ani nezkousel, ale
+mozna ze jini maji jine zkusenosti.
+
+-- 
+Zdenek Pavlas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001716.html">[python] select vs threads
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001717.html">[python] (no subject)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1720">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1720">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1720">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1720">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001720.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:32 GMT -->
+</html>

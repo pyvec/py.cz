@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004506.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:20 GMT -->
+<HEAD>
+   <TITLE> [python] najdi, nahrad, uloz v ascii subore
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20najdi%2C%20nahrad%2C%20uloz%20v%20ascii%20subore&In-Reply-To=1156339133.589961.94280%40p79g2000cwp.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004505.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004509.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] najdi, nahrad, uloz v ascii subore</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20najdi%2C%20nahrad%2C%20uloz%20v%20ascii%20subore&In-Reply-To=1156339133.589961.94280%40p79g2000cwp.googlegroups.com"
+       TITLE="[python] najdi, nahrad, uloz v ascii subore">leos na radiante-corp.com
+       </A><BR>
+    <I>Středa Srpen 23 16:42:20 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004505.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004509.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4506">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4506">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4506">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4506">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ano, soubor se precte cely a pri opravdu velkych souborech to muze 
+skoncit na pameti. Napada me pouze jeden zpusob, jak toto vyresit. 
+Prochazet vstupni soubor po radcich, vzdy nacist cely block (NAME, 
+CODE), pripadne pozmenit a vzdy to pridat do noveho souboru. Nakonec 
+novy soubor prejmenovat na puvodni.
+Leo
+
+peter wrote:
+&gt;<i> Diky moc,
+</I>&gt;<i>
+</I>&gt;<i> pokial som dobre pochopil z manualu tak
+</I>&gt;<i>
+</I>&gt;<i> content = fd.read()
+</I>&gt;<i>
+</I>&gt;<i> nacita cely obsah suboru do cache alebo bufferu, a to je prave to co ja
+</I>&gt;<i> nechcem, pretoze pracujem s velkymi subormi. Chcem sa vyhnut tomu ze
+</I>&gt;<i> nacitam vsetko do pamate, nahradim co potrebujem a potom to zase vsetko
+</I>&gt;<i> ulozim. Ale neviem ci je to vobec mozne, nie som az taky velky
+</I>&gt;<i> specialista v pythone. V mojom kode idem po jednotlivych riadkoch
+</I>&gt;<i> suboru....
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Leos Pol wrote:
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i> omlouvam se, ale nedokazal jsem tvuj kod opravit, tak posilam alespon
+</I>&gt;&gt;<i> svoje reseni:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     import re
+</I>&gt;&gt;<i>     fd = open('data.txt', 'r+')
+</I>&gt;&gt;<i>     content = fd.read()
+</I>&gt;&gt;<i>     delimiter = re.search('\$-+', content).group()
+</I>&gt;&gt;<i>     blocks = re.split('\$-+', content)
+</I>&gt;&gt;<i>     for idx in range(len(blocks)):
+</I>&gt;&gt;<i>         if 'NAME=\'ALFA\'' in blocks[idx]:
+</I>&gt;&gt;<i>             code = re.search('CODE=\'(.*)\'', blocks[idx]).groups()
+</I>&gt;&gt;<i>             blocks[idx] = blocks[idx].replace('NAME=\'ALFA\'',
+</I>&gt;&gt;<i>     'NAME=\'BETA%s\'' % code)
+</I>&gt;&gt;<i>     fd.seek(0)
+</I>&gt;&gt;<i>     fd.write(delimiter.join(blocks))
+</I>&gt;&gt;<i>     fd.close()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Doufam, ze to pomuze,
+</I>&gt;&gt;<i> Leo
+</I>&gt;&gt;<i> PS: nejspise ale asi hledas &quot;seek&quot; a &quot;tell&quot;.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> peter wrote:
+</I>&gt;&gt;<i>     
+</I>&gt;&gt;&gt;<i> Zdravim,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> potreboval by som poradit.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Priklad (jeden blok v subore):
+</I>&gt;&gt;&gt;<i> $------------------------
+</I>&gt;&gt;&gt;<i> NAME='ALFA'
+</I>&gt;&gt;&gt;<i> CODE='x'
+</I>&gt;&gt;&gt;<i> $------------------------
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Takychto blokov je v subore vela s roznymi menami a kodmi. Potrebujem
+</I>&gt;&gt;&gt;<i> naprogramovat skript ktory prehlada cely subor a najde vyrazy s menami
+</I>&gt;&gt;&gt;<i> ALFA a podla toho co za kazdou ALFOU bude nasledovat (napr. x,y,z)
+</I>&gt;&gt;&gt;<i> zmeni meno ALFA na BETAx,BETAy, BETAz a zemeneny subor ulozi.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Dostal som sa k tomu ze najdem vsetky vyrazy ktore potrebujem, podla
+</I>&gt;&gt;&gt;<i> kodu zmenim meno na BETAx,y alebo z ale uz neviem ako zapisat nove
+</I>&gt;&gt;&gt;<i> nazvy na rovnake miesto ako bola dana ALFA. Vzdy mi to zapise na koniec
+</I>&gt;&gt;&gt;<i> suboru. Tu je moj kod.
+</I>&gt;&gt;&gt;<i> Dakujem vopred za akukolvek pomoc.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Moj kod:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>  import shutil
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> NamFile=&quot;test2.nam&quot;
+</I>&gt;&gt;&gt;<i> BackupNamFile = 1
+</I>&gt;&gt;&gt;<i> if BackupNamFile == 1:
+</I>&gt;&gt;&gt;<i>      shutil.copyfile(NamFile,NamFile.replace(&quot;.nam&quot;,&quot;.nam.bak&quot;))
+</I>&gt;&gt;&gt;<i> LineNum=1
+</I>&gt;&gt;&gt;<i> LineNumQuantity=0
+</I>&gt;&gt;&gt;<i> ArrayCount=0
+</I>&gt;&gt;&gt;<i> LineNumArray=[]
+</I>&gt;&gt;&gt;<i> ReqArray=[]
+</I>&gt;&gt;&gt;<i> ReqName=&quot;&quot;
+</I>&gt;&gt;&gt;<i> NamFileOpen=file(NamFile,&quot;r+&quot;)
+</I>&gt;&gt;&gt;<i> for line in NamFileOpen:
+</I>&gt;&gt;&gt;<i>      LineTextFound1 = line.find(&quot;bk&quot;)
+</I>&gt;&gt;&gt;<i>      LineTextFound2 = line.find(&quot;_results&quot;)
+</I>&gt;&gt;&gt;<i>      if LineTextFound1 != -1 and LineTextFound2 != -1:
+</I>&gt;&gt;&gt;<i>           ReqName=line.split(&quot;'&quot;)[1]
+</I>&gt;&gt;&gt;<i>           print &quot;Line: \t\t\t&quot;+ str(LineNum)
+</I>&gt;&gt;&gt;<i>           print &quot;Request Name: \t\t&quot;+ ReqName
+</I>&gt;&gt;&gt;<i>           LineNumQuantity = LineNum + 2
+</I>&gt;&gt;&gt;<i>           ReqArray=[LineNum-2,ReqName]
+</I>&gt;&gt;&gt;<i>      if LineNum == LineNumQuantity:
+</I>&gt;&gt;&gt;<i>           QuantityName=line.split(&quot;'&quot;)[1]
+</I>&gt;&gt;&gt;<i>           print &quot;Quantity Type: \t\t&quot;+QuantityName
+</I>&gt;&gt;&gt;<i>           if QuantityName == &quot;dx&quot;:
+</I>&gt;&gt;&gt;<i>                Suffix = &quot;_disp&quot;
+</I>&gt;&gt;&gt;<i>           elif QuantityName == &quot;vx&quot;:
+</I>&gt;&gt;&gt;<i>               Suffix = &quot;_velo&quot;
+</I>&gt;&gt;&gt;<i>           elif QuantityName == &quot;fx&quot;:
+</I>&gt;&gt;&gt;<i>                Suffix = &quot;_force&quot;
+</I>&gt;&gt;&gt;<i>           else:
+</I>&gt;&gt;&gt;<i>                Suffix = &quot;_results&quot;
+</I>&gt;&gt;&gt;<i>           print &quot;Suffix: \t\t&quot;+Suffix
+</I>&gt;&gt;&gt;<i>           NewReqName=ReqName.replace(&quot;_results&quot;,Suffix,1)
+</I>&gt;&gt;&gt;<i>           ReqArray.append(NewReqName)
+</I>&gt;&gt;&gt;<i>           LineNumArray.insert(ArrayCount,ReqArray)
+</I>&gt;&gt;&gt;<i>           ArrayCount+=1
+</I>&gt;&gt;&gt;<i>           print &quot;New Request Name: \t&quot;+NewReqName
+</I>&gt;&gt;&gt;<i>           print &quot;-----------------------&quot;
+</I>&gt;&gt;&gt;<i>      LineNum = LineNum+1
+</I>&gt;&gt;&gt;<i> print LineNumArray
+</I>&gt;&gt;&gt;<i> print len(LineNumArray)
+</I>&gt;&gt;&gt;<i> NamFileOpen.close()
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> NamFileOpen2=file(NamFile,&quot;r+&quot;)
+</I>&gt;&gt;&gt;<i> LineNum=1
+</I>&gt;&gt;&gt;<i> for i in LineNumArray:
+</I>&gt;&gt;&gt;<i>      print i
+</I>&gt;&gt;&gt;<i>      for line in NamFileOpen2:
+</I>&gt;&gt;&gt;<i>           print line
+</I>&gt;&gt;&gt;<i>           print LineNum
+</I>&gt;&gt;&gt;<i>           print i[1]
+</I>&gt;&gt;&gt;<i>           if i[0]== LineNum:
+</I>&gt;&gt;&gt;<i>                print i[0]
+</I>&gt;&gt;&gt;<i>                print LineNum
+</I>&gt;&gt;&gt;<i>                print line
+</I>&gt;&gt;&gt;<i>                Temp=line.replace(line.split(&quot;'&quot;)[1],i[2],1)
+</I>&gt;&gt;&gt;<i>                print Temp
+</I>&gt;&gt;&gt;<i>                NamFileOpen2.write(Temp)
+</I>&gt;&gt;&gt;<i>           LineNum=LineNum+1
+</I>&gt;&gt;&gt;<i> NamFileOpen2.close()
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>       
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> ----
+</I>&gt;&gt;<i> Leos Pol
+</I>&gt;&gt;<i> SW Engineer
+</I>&gt;&gt;<i> Radiante Corp.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> If it can be imagined,
+</I>&gt;&gt;<i> we can implement it
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>   
+</I>
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004505.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004509.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4506">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4506">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4506">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4506">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004506.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:20 GMT -->
+</html>

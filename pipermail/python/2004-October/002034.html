@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002034.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:11 GMT -->
+<HEAD>
+   <TITLE> [python] Automaticky import v podmodulech
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Automaticky%20import%20v%20podmodulech&In-Reply-To=kVV8d.351630%24vG5.289268%40news.chello.at">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-October/002033.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-October/002035.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Automaticky import v podmodulech</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Automaticky%20import%20v%20podmodulech&In-Reply-To=kVV8d.351630%24vG5.289268%40news.chello.at"
+       TITLE="[python] Automaticky import v podmodulech">rk na dat.cz
+       </A><BR>
+    <I>Čtvrtek Říjen  7 11:15:31 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002033.html">[python] Automaticky import v podmodulech
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002035.html">[python] Lolita in China
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2034">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2034">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2034">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2034">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, Oct 06, 2004 at 05:26:40PM +0000, Ales Teska wrote:
+
+&gt;<i> Tady zatim docela tapu - zrejme bych dokazal pomoci 
+</I>&gt;<i> sys.modules zjistit 'jednoduche importy' nicmene s 'from foo import bar;' 
+</I>&gt;<i> si uz poradit nedokazi.
+</I>&gt;<i> Mate nekdo nejaky napad jak z toho ?
+</I> 
+Pokud vam jde o to, jak nasimulovat konstrukci `from foo import bar' za
+behu, tak by to mohlo jit nejak takto:
+
+
+    import sys
+
+    def importFromAs (fromModule, importName, toModule, asName=None) :
+        smod = __import__(fromModule)
+        dmod = sys.modules[toModule]
+
+        obj  = smod
+        path = (&quot;%s.%s&quot; % (fromModule, importName)).split(&quot;.&quot;)[1:]
+        for p in path :
+            obj = getattr(obj, p)
+
+        if asName is None :
+            setattr(dmod, importName, obj)
+        else :
+            setattr(dmod, asName, obj)
+
+    # ``from os.path import join''  v modulu __main__
+    importFromAs ('os.path', 'join', '__main__')
+
+    # ``from os.path import join as pathjoin'' v modulu __main__
+    importFromAs ('os.path', 'join', '__main__', 'pathjoin')
+
+    # ``from os.path import join''  v modulu sys
+    importFromAs ('os.path', 'join', 'sys')
+    
+
+    assert pathjoin is join is sys.join
+
+    print pathjoin('/etc', 'profile')
+    print join('/etc', 'profile')
+    print sys.join('/etc', 'profile')
+    
+
+Radek Kaňovský
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002033.html">[python] Automaticky import v podmodulech
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002035.html">[python] Lolita in China
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2034">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2034">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2034">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2034">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002034.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:11 GMT -->
+</html>

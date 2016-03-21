@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-September/000397.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Co znamená tato chyba při vytváření exe pomocí py2exe
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FCo_znamen%3DE1_tato_chyba_p%3DF8i_vytv%3DE1%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F%3DF8en%3DED_exe_pomoc%3DED_py2exe%3F%3D&In-Reply-To=450AE240.9050609%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-September/000396.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-September/000398.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Co znamená tato chyba při vytváření exe pomocí py2exe</H1>
+    <B>David Vachulka</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FCo_znamen%3DE1_tato_chyba_p%3DF8i_vytv%3DE1%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F%3DF8en%3DED_exe_pomoc%3DED_py2exe%3F%3D&In-Reply-To=450AE240.9050609%40centrum.cz"
+       TITLE="[Tutor PyCZ] Co znamená tato chyba při vytváření exe pomocí py2exe">david na konstrukce-cad.com
+       </A><BR>
+    <I>Pátek Září 15 23:28:31 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000396.html">[Tutor PyCZ] Co znamená tato chyba při vytváření exe pomocí py2exe
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000398.html">[Tutor PyCZ] py2exe problém
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/date.html#397">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/thread.html#397">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/subject.html#397">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/author.html#397">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Cau,
+
+
+superman wrote:
+&gt;<i> Dobrý den,
+</I>&gt;<i>
+</I>&gt;<i> vytvořil jsem program, který používá moduly Mysqldb a loggin a od té
+</I>&gt;<i> doby co jsem přidal do programu loggin mám potíže. Program bez problémů
+</I>&gt;<i> běží, pokud je nainstalován python, ale pokud jej zabalím do exe pomocí
+</I>&gt;<i> py2exe a přenesu na počítač bez nainstalovaného pythonu začne hlásit
+</I>&gt;<i> následující:
+</I>&gt;<i>
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>    File &quot;C:\Python24\lib\site-packages\py2exe\boot_common.py&quot;, line 92, in ?
+</I>&gt;<i> ImportError: No module named linecache
+</I>&gt;<i>   
+</I>to je proto, ze modul linecache neni v exe, zkus treba toto
+includes = [&quot;linecache&quot;,
+            &quot;zipextimporter&quot;,]
+options = {&quot;py2exe&quot;: { # create a compressed zip archive
+                      &quot;compressed&quot;: 1,
+                      &quot;optimize&quot;: 2,
+                      &quot;excludes&quot;: excludes,
+                      &quot;includes&quot;: includes,
+                          }}
+napsat do setup.py
+&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>    File &quot;&lt;install zipextimporter&gt;&quot;, line 1, in ?
+</I>&gt;<i> ImportError: No module named zipextimporter
+</I>&gt;<i> Nastala chyba
+</I>&gt;<i>    Typ chyby: exceptions.ImportError
+</I>&gt;<i>    Informace: No module named logging
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>    File &quot;LojzaDbCleaner.py&quot;, line 559, in ?
+</I>&gt;<i> NameError: name 'log_it' is not defined
+</I>&gt;<i>
+</I>&gt;<i> Přitom pokud je nainstalován python, vše chodí. Nevím si s tím rady a
+</I>&gt;<i> řeším to už týdny. Děkuji za každé nakopnutí, v Pythonu jsem začátečník.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+-- 
+S pozdravem / Best regards
+
+David Vachulka
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000396.html">[Tutor PyCZ] Co znamená tato chyba při vytváření exe pomocí py2exe
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000398.html">[Tutor PyCZ] py2exe problém
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/date.html#397">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/thread.html#397">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/subject.html#397">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/author.html#397">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-September/000397.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

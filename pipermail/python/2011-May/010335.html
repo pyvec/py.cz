@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010335.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:55 GMT -->
+<HEAD>
+   <TITLE> [python] Jak voval externi prikaz a ziskat jeho ouptut
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Jak%20voval%20externi%20prikaz%20a%20ziskat%20jeho%20ouptut&In-Reply-To=%3C4DCBF615.1070106%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-May/010347.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-May/010345.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak voval externi prikaz a ziskat jeho ouptut</H1>
+    <B>zu1234</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Jak%20voval%20externi%20prikaz%20a%20ziskat%20jeho%20ouptut&In-Reply-To=%3C4DCBF615.1070106%40seznam.cz%3E"
+       TITLE="[python] Jak voval externi prikaz a ziskat jeho ouptut">zu1234 na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Květen 12 17:00:37 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010347.html">[python] Jak voval externi prikaz a ziskat jeho ouptut
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010345.html">[python] Jak voval externi prikaz a ziskat jeho ouptut
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10335">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10335">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10335">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10335">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Můj příklad na volání sqlcmd.exe od MS-SQL:
+
+	SUB_PRC = subprocess.Popen(
+		PARAMS_SQLCMD + [SQL_TXT.replace(os.linesep, ' ')]
+		, stdout=subprocess.PIPE
+		, stderr=subprocess.PIPE
+		)
+
+	OUT, ERR = SUB_PRC.communicate()
+
+	## print &quot;OUT: &gt;&gt;&gt;&quot; + OUT + &quot;&lt;&lt;&lt;&quot;
+	## print &quot;ERR: &gt;&gt;&gt;&quot; + ERR + &quot;&lt;&lt;&lt;&quot;
+
+	if SUB_PRC.returncode != 0:
+		FCE_ERR(ERR_TXT)
+
+ZU
+
+Dne 12.5.2011 15:06, Stone napsal(a):
+&gt;<i> Zdravim vyvojare pythonu,
+</I>&gt;<i>
+</I>&gt;<i> chci se zeptat, mam textovou (command line) aplikaci a chci zavolat
+</I>&gt;<i> prikaz
+</I>&gt;<i> a ziskat jeho standartni vystup. Jaky prikaz se da na to pouzit?
+</I>&gt;<i>
+</I>&gt;<i> Zkousel jsem os.system(command), ale to neni ono.
+</I>&gt;<i> Zkousel jsem taky: output = subprocess.Popen([&quot;ls -la /
+</I>&gt;<i> root&quot;],shell=False,stdout=subprocess.PIPE)
+</I>&gt;<i> test = output.communicate
+</I>&gt;<i>
+</I>&gt;<i> V promenne test by mel byt vystup z ls -la /root spravne?
+</I>&gt;<i>
+</I>&gt;<i> Diky
+</I>&gt;<i> Petr
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010347.html">[python] Jak voval externi prikaz a ziskat jeho ouptut
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010345.html">[python] Jak voval externi prikaz a ziskat jeho ouptut
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10335">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10335">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10335">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10335">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010335.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:55 GMT -->
+</html>

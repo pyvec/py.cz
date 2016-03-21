@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003236.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:53 GMT -->
+<HEAD>
+   <TITLE> [python] Sifrovani
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Sifrovani&In-Reply-To=43057EFD.1070004%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-August/003234.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-August/003237.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Sifrovani</H1>
+    <B>Ivo Štolpa</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Sifrovani&In-Reply-To=43057EFD.1070004%40seznam.cz"
+       TITLE="[python] Sifrovani">pussa na pussa.cz
+       </A><BR>
+    <I>Pátek Srpen 19 09:35:11 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003234.html">[python] Sifrovani
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003237.html">[python] Sifrovani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3236">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3236">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3236">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3236">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Milan Zmatlo napsal(a):
+
+&gt;<i> Zdravim,
+</I>&gt;<i>
+</I>&gt;<i> obracim se na zdejsi osazensvto s nasledujicim mirnym OT:
+</I>&gt;<i>
+</I>&gt;<i> Rad bych k zakaznikovi distribuoval obecne &quot;prelozeny kus kodu&quot;, ktery 
+</I>&gt;<i> by obsahoval nejakym zpusobem zasifrovanou informaci o nastaveni teto 
+</I>&gt;<i> konkterni distribuce (poc. uzivatelu, casova platnost atp.) Tento kod 
+</I>&gt;<i> bych generoval pro kazdou instalaci unikatni.. to neni problem.
+</I>&gt;<i>
+</I>&gt;<i> Potrebuji poradit s pouzitim vhodneho algoritmu na zasifrovani / 
+</I>&gt;<i> rozsifrovani teto informace. Nerad bych ale do aplikace ukladal nejaky 
+</I>&gt;<i> klic pro sifrovani a desifrovani, to mi nepripada vhodne. Radsi bych 
+</I>&gt;<i> mel dva klice. Mam spis predstavu, nez znalosti..
+</I>&gt;<i>
+</I>&gt;<i> Natuknete me prosim, kudy se vydat....
+</I>&gt;<i>
+</I>Já to dělám trochu &quot;naruby&quot; pomocí md5, který je v Pythonu standardním 
+modulem. Ty informace k uživateli dopravuji zcela veřejně v textovém 
+souboru. Při prvním spuštění aplikace se zobrazí registrační formulář, 
+do kterého načtu hodnoty z toho textového souboru (kdyby tam nebyl, tak 
+by to holt uživatel musel všechno vypsat ručně). Jako poslední je místo 
+pro zadání kódu md5, který musí uživatel vyplnit dle dodané registrační 
+karty. Graficky to může být rozsekáno do několika částí, aby se to při 
+zadávání lépe kontrolovalo. Program pak z vyplněných údajů vypočítá kód 
+md5 a porovná ho se zadaným kódem. Pokud se rovná, je to OK vše se 
+zapíše někam do hloubi programu. Nemusí se to nějak moc schovávat, 
+protože při každém startu se z uložených hodnot vypočítá kód md5 a 
+porovná s uloženým kódem, takže by poznal, že se s údaji manipulovalo a 
+zobrazil by znovu registrační formulář.
+
+Jak jsem říkal není to bůhvíco, ale šel jsem cestou nejmenšího odporu. 
+Nelíbí se mi například, že při prodloužení musí uživatel zadat nové 
+datum platnosti, nebo při rozšíření o další modul jej zafajfknout a poté 
+zadat 32znakové hausnumero. Na druhou stranu je možné mít jeden instalák 
+(třeba pro internet bez toho textového souboru). Uživatel pak sice musí 
+vyplnit všechno, ale pro mne to znamená pouhé zaslání registrační údajů 
+včetně kódu md5 e-mailem nebo poštou.
+
+Pokud někdo zná lepší řešení, sem s ním.
+
+Ivo
+
+-- 
+Ing. Ivo Štolpa
+
+***********************************************
+PUSSA software, Žižkova 13, 58601 Jihlava
+e-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">pussa na pussa.cz</A>, <A HREF="http://www.py.cz/mailman/listinfo/python">ivo.stolpa na seznam.cz</A>
+stránky: <A HREF="http://www.pussa.cz/">http://www.pussa.cz</A>
+mobilní telefon: 602 735 124
+pevná linka: 567 320 386
+fax: 602 783 071
+***********************************************
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003234.html">[python] Sifrovani
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003237.html">[python] Sifrovani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3236">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3236">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3236">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3236">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003236.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:53 GMT -->
+</html>

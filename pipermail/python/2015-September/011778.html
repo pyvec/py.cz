@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011778.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:05 GMT -->
+<HEAD>
+   <TITLE> [python] Chyba v distribuci Pythonu?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Chyba%20v%20distribuci%20Pythonu%3F&In-Reply-To=%3CCADoCwr03XB3B2nQDDKb%3DuJKwZRQC%3DCk4%2Bzhv0%3D1ewmUh6b4Rnw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-September/011777.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-September/011779.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Chyba v distribuci Pythonu?</H1>
+    <B>Honza Král</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Chyba%20v%20distribuci%20Pythonu%3F&In-Reply-To=%3CCADoCwr03XB3B2nQDDKb%3DuJKwZRQC%3DCk4%2Bzhv0%3D1ewmUh6b4Rnw%40mail.gmail.com%3E"
+       TITLE="[python] Chyba v distribuci Pythonu?">honza.kral na gmail.com
+       </A><BR>
+    <I>Pátek Září 18 19:02:03 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011777.html">[python] Chyba v distribuci Pythonu?
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011779.html">[python] Chyba v distribuci Pythonu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11778">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11778">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11778">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11778">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>a je ten .py soubor skutecne v kodovani utf-8?
+Honza Král
+E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>
+Phone:  +420 606 678585
+
+
+2015-09-18 18:55 GMT+02:00 Petr Přikryl &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prikryl na atlas.cz</A>&gt;:
+&gt;<i> :) Nelaškuj. Jde o to, že ten český text je v time.tzname blbě převeden do UNICODE.
+</I>&gt;<i>
+</I>&gt;&gt;&gt;<i> =========================================
+</I>&gt;&gt;&gt;<i> 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:43:06) [MSC v.1600 32 bit (Intel)]
+</I>&gt;&gt;&gt;<i> Should be: Střední Evropa (běžný čas) | Střední Evropa (letní čas)
+</I>&gt;&gt;&gt;<i> but it is: St&#248;edn&#237; Evropa (b&#236;&#65532;n&#253; &#232;as) | St&#248;edn&#237; Evropa (letn&#237; &#232;as)
+</I>&gt;&gt;&gt;<i>     types: &lt;class 'str'&gt; | &lt;class 'str'&gt;
+</I>&gt;&gt;&gt;<i> =========================================
+</I>&gt;<i>
+</I>&gt;<i> Žádný string by neměl v Python 3 vypadat takhle blbě.
+</I>&gt;<i>
+</I>&gt;<i> P.
+</I>&gt;<i>
+</I>&gt;<i> ______________________________________________________________
+</I>&gt;&gt;<i> Od: Vladimir Macek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">macek na sandbox.cz</A>&gt;
+</I>&gt;&gt;<i> Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;<i> Datum: 18.09.2015 16:29
+</I>&gt;&gt;<i> Předmět: Re: [python] Chyba v distribuci Pythonu?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Ahoj. Pridavam se do databaze. :-)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>$ cat tzname_bug.txt
+</I>&gt;&gt;<i>3.4.0 (default, Jun 19 2015, 14:18:46)
+</I>&gt;&gt;<i>[GCC 4.8.2]
+</I>&gt;&gt;<i>Should be: Střední Evropa (běžný čas) | Střední Evropa (letní čas)
+</I>&gt;&gt;<i>but it is: CET | CEST
+</I>&gt;&gt;<i>    types: &lt;class 'str'&gt; | &lt;class 'str'&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>$ lsb_release -a
+</I>&gt;&gt;<i>LSB Version:    ...
+</I>&gt;&gt;<i>Distributor ID:    Ubuntu
+</I>&gt;&gt;<i>Description:    Ubuntu 14.04.3 LTS
+</I>&gt;&gt;<i>Release:    14.04
+</I>&gt;&gt;<i>Codename:    trusty
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>$ uname  -a
+</I>&gt;&gt;<i>Linux ... 3.13.0-62-generic #102-Ubuntu SMP Tue Aug 11 14:28:35 UTC 2015
+</I>&gt;&gt;<i>i686 i686 i686 GNU/Linux
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>$ set | grep ^L
+</I>&gt;&gt;<i>LANG=en_US.UTF-8
+</I>&gt;&gt;<i>LANGUAGE=en
+</I>&gt;&gt;<i>...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>On 18.9.2015 16:19, Petr Přikryl wrote:
+</I>&gt;&gt;&gt;<i> Ahoj všeci,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Můžete někdo potvrdit, jestli vám to taky funguje blbě? Spouštěl jsem to
+</I>&gt;&gt;&gt;<i> pod Windows. Pod Linuxem to bude nejspíš bez problémů.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> tzname_bug.py
+</I>&gt;&gt;&gt;<i> =========================================
+</I>&gt;&gt;&gt;<i> #!python3
+</I>&gt;&gt;&gt;<i> import time
+</I>&gt;&gt;&gt;<i> import sys
+</I>&gt;&gt;&gt;<i> with open('tzname_bug.txt', 'w', encoding='utf-8') as f:
+</I>&gt;&gt;&gt;<i>     f.write(sys.version + '\n')
+</I>&gt;&gt;&gt;<i>     f.write('Should be: Střední Evropa (běžný čas) | Střední Evropa (letní čas)\n')
+</I>&gt;&gt;&gt;<i>     f.write('but it is: ' + time.tzname[0] + ' | ' + time.tzname[1] + '\n')
+</I>&gt;&gt;&gt;<i>     f.write('    types: ' + repr(type(time.tzname[0])) + ' | ' + repr(type(time.tzname[1])) + '\n')
+</I>&gt;&gt;&gt;<i> =========================================
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Vygeneruje to tzname_bug.txt. Mail asi nebude schopen
+</I>&gt;&gt;&gt;<i> zachytit problém s kódováním. Připomínám, že je to Python 3
+</I>&gt;&gt;&gt;<i> a všechny řetězce mají být v UNICODE.
+</I>&gt;&gt;&gt;<i> =========================================
+</I>&gt;&gt;&gt;<i> 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:43:06) [MSC v.1600 32 bit (Intel)]
+</I>&gt;&gt;&gt;<i> Should be: Střední Evropa (běžný čas) | Střední Evropa (letní čas)
+</I>&gt;&gt;&gt;<i> but it is: St&#248;edn&#237; Evropa (b&#236;&#65532;n&#253; &#232;as) | St&#248;edn&#237; Evropa (letn&#237; &#232;as)
+</I>&gt;&gt;&gt;<i>     types: &lt;class 'str'&gt; | &lt;class 'str'&gt;
+</I>&gt;&gt;&gt;<i> =========================================
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Stejně blbě pro verzi 3.5
+</I>&gt;&gt;&gt;<i> =========================================
+</I>&gt;&gt;&gt;<i> 3.5.0 (v3.5.0:374f501f4567, Sep 13 2015, 02:27:37) [MSC v.1900 64 bit (AMD64)]
+</I>&gt;&gt;&gt;<i> Should be: Střední Evropa (běžný čas) | Střední Evropa (letní čas)
+</I>&gt;&gt;&gt;<i> but it is: St&#248;edn&#237; Evropa (b&#236;&#65532;n&#253; &#232;as) | St&#248;edn&#237; Evropa (letn&#237; &#232;as)
+</I>&gt;&gt;&gt;<i>     types: &lt;class 'str'&gt; | &lt;class 'str'&gt;
+</I>&gt;&gt;&gt;<i> =========================================
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Přeju pěkný víkend,
+</I>&gt;&gt;&gt;<i> Petr
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>--
+</I>&gt;&gt;:<i>  Vladimir Macek  :  <A HREF="http://macek.sandbox.cz/">http://macek.sandbox.cz</A>  :  +420 608 978 164
+</I>&gt;&gt;:<i>  UNIX &amp;&amp; Dev || Training  :  Python, Django  :  PGP key 97330EBD
+</I>&gt;&gt;:<i>
+</I>&gt;&gt;:<i> Velmi souhlasim s <A HREF="http://www.vyzvavedcu.cz/,">http://www.vyzvavedcu.cz/,</A> zvazte take podporu
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>_______________________________________________
+</I>&gt;&gt;<i>Python mailing list
+</I>&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I></PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011777.html">[python] Chyba v distribuci Pythonu?
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011779.html">[python] Chyba v distribuci Pythonu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11778">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11778">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11778">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11778">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011778.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:05 GMT -->
+</html>

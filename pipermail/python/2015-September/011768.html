@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011768.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:03 GMT -->
+<HEAD>
+   <TITLE> [python] Roboti, REST, Flask?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Roboti%2C%20REST%2C%20Flask%3F&In-Reply-To=%3CCAPAmg-ccoTBeBBju9X-eKB2hMGVO%2B5Wd1at_D84XHQSvXxuTMg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-September/011769.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-September/011774.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Roboti, REST, Flask?</H1>
+    <B>Honza Javorek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Roboti%2C%20REST%2C%20Flask%3F&In-Reply-To=%3CCAPAmg-ccoTBeBBju9X-eKB2hMGVO%2B5Wd1at_D84XHQSvXxuTMg%40mail.gmail.com%3E"
+       TITLE="[python] Roboti, REST, Flask?">mail na honzajavorek.cz
+       </A><BR>
+    <I>Středa Září 16 11:40:06 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011769.html">[python] Roboti, REST, Flask?
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011774.html">[python] Roboti, REST, Flask?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11768">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11768">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11768">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11768">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+Petr byl rychlejší. Rozdíl mezi GET, PUT, POST, atd. je v tom, že je přesně
+ve specifikaci řečeno, co může nebo nemůže způsobit, např. opakovaným
+zavoláním.
+
+&gt;<i> HTTP REST uz je striktnejsi a popisuje presnejsi pouziti i DELETE, PUT,
+</I>PATCH, etc.
+
+To není úplně přesné. HTTP je protokol a má svoje specifikace. REST je
+nějaký styl architektury aplikace, se slovesy v HTTP nemá až tak moc
+společného a nemusíme jej tady asi ani řešit (jo, vím že jsem to sám dřív
+taky motal do sebe). Úplně pro tento případ postačí, pokud se budeme držet
+toho, co nám radí (či specifikací přikazuje?) HTTP samotné.
+
+Jsou na to v zásadě dvě RFC:
+
+- základ v <A HREF="https://tools.ietf.org/html/rfc7231">https://tools.ietf.org/html/rfc7231</A>
+- PATCH dodělaný a dolepený v <A HREF="http://tools.ietf.org/html/rfc5789">http://tools.ietf.org/html/rfc5789</A>
+
+Nebát se číst specifikaci! Je to lidsky psané. Tady přesně se mluví o tom,
+jaký je rozdíl mezi metodami, co jaká znamená a co přináší jejich použití a
+je tam i pěkná tabulka: <A HREF="https://tools.ietf.org/html/rfc7231#section-4.1">https://tools.ietf.org/html/rfc7231#section-4.1</A>
+
+GET je jen čtení, akce, která neublíží. Když budeš při GET mazat, projede
+ti odkazy Google nebo kdokoliv jiný a smaže ti cokoliv co tam zrovna mažeš.
+Tzn. vše podle specifikace předpokládá, že GET by neměl nic měnit. Taky to
+znamená, že cokoliv co je GET se může kdekoliv po cestě kešovat.
+
+PUT je nějaká změna, která je tzv. idempotentní, tzn. když ji pošleš
+několikrát za sebou, tak se pak už nic nezmění. Typicky když něco nastavíš
+na &quot;vypnuto&quot;, tak stejný request můžeš poslat třeba tisíckrát po sobě a ta
+věc bude mít nakonec stále &quot;vypnuto&quot;. Abych dal protipříklad, nehodí se to
+na věci, které jsou např. &quot;přepni&quot; ve stylu vypínače na světlo - když ho
+pošlu jednou tak vypne, podruhé zapne, atd. Aby to mělo danou vlastnost,
+implementace PUTu vypadá tak, že sestrojíš celou novou reprezentaci a tou
+&quot;přeplácneš&quot; tu starou. Takový &quot;replace&quot;. Když v cíli nic není, tak se to
+při PUTu na dané URL vytvoří, tzn. vhodné i pro vytváření, pokud víš &quot;ID&quot;
+předem.
+
+DELETE maže, následně by po něm nemělo nic zůstat.
+
+PATCH je speciál na částečné změny, tzn. že pošleš nějaký diff, kterým
+řekneš co se má změnit a server to podle toho diffu nějak změní. Záruky
+neveliké, všelijaké, a tak dále.
+
+POST je nějaká změna, která ale nemusí být nutně idempotentní. Je to
+základní způsob, jak udělat změnu stavu na serveru. Nedá se to kešovat a
+tak dále.
+
+Pozn.: HTML formát a klienti kolem něj (typicky prohlížeče atd.) podporují
+často jen GET a POST. S tím si vystačí, protože to hlavní co je potřeba
+rozlišit je kešovat/nekešovat a bezpečné/nebezpečné. POST má myslím ve
+specifikaci někde taková &quot;zadní vrátka&quot;, že kromě toho, že je určen k tomu
+co jsem napsal výše, tak může být použit i na &quot;cokoliv jiného&quot;. V důsledku
+je tedy i HTML s formulářem na mazání osedílaným přes POST udělán správně
+podle HTTP specifikace. Klidně můžeš udělat všechno přes POST a bude to
+jakože správně, ale tím se připravuješ o to, že GET je pro čtení
+efektivnější. Udělat ale všechno v GET místo POST je špatně a koleduješ si,
+protože označuješ &quot;nebezpečné&quot; akce jako &quot;bezpečné&quot; (stejně tak s
+kešovatelností).
+
+Sorry že jsem se tak rozepsal. Hlavně mi moc nevěřte a přečtěte si to
+raději v té specifikaci. Já jsem taky jenom člověk, ale tam je to prostě
+vysvětlené a napsané, tak jak to má být.
+
+Honza
+
+
+2015-09-16 9:37 GMT+02:00 Petr Viktorin &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">encukou na gmail.com</A>&gt;:
+
+&gt;<i> 2015-09-16 7:45 GMT+02:00 Petr Blahos &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petrblahos na gmail.com</A>&gt;:
+</I>&gt;<i> &gt; Ještě poznámečka: Pokud bude GET měnit vnitřní stav aplikace, a povede k
+</I>&gt;<i> &gt; němu
+</I>&gt;<i> &gt; nějaký link, tak ho Google klidně navštíví při indexování :-) Nebo jak
+</I>&gt;<i> měl
+</I>&gt;<i> &gt; kdysi takové
+</I>&gt;<i> &gt; to přednačítání odkazů...
+</I>&gt;<i>
+</I>&gt;<i> Je psáno [1], že GET nemá měnit stav, a spousta nástrojů to předpokládá.
+</I>&gt;<i> Kromě robotů to předpokládají třeba různé keše nebo load balancery. Ty
+</I>&gt;<i> sice teď asi nepoužíváš, ale neměl bys zapomenout na to, že *učíš*
+</I>&gt;<i> lidi používat HTTP. Nauč je to prosím správně.
+</I>&gt;<i>
+</I>&gt;<i> [1] ve specifikaci HTTP:
+</I>&gt;<i> <A HREF="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html</A>
+</I>&gt;<i> &gt; the GET and HEAD methods SHOULD NOT have the significance of taking an
+</I>&gt;<i> action other than retrieval. These methods ought to be considered &quot;safe&quot;.
+</I>&gt;<i>
+</I>&gt;<i> &gt; 2015-09-15 22:33 GMT+02:00 Ales Zoulek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">ales.zoulek na gmail.com</A>&gt;:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Technicky rozdil mezi PUT a GET je minimalni. Je ale konvence, aby akce
+</I>&gt;<i> &gt;&gt; odpovidala tomu HTTP &quot;slovesu&quot;.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Uplnym minimem je rozliseni mezi GET a POST. Tzn. GET (narozdil od POST)
+</I>&gt;<i> &gt;&gt; by nemel menit vnitrni stav serveru, pouze ten stav cist.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; HTTP REST uz je striktnejsi a popisuje presnejsi pouziti i DELETE, PUT,
+</I>&gt;<i> &gt;&gt; PATCH, etc.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Pokud nemas vylozene duvod to nedodrzovat, tak je lepsi se te konvence
+</I>&gt;<i> &gt;&gt; drzet.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; A.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; On Tue, Sep 15, 2015 at 9:54 PM Marek Nožka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">marek na tlapicka.net</A>&gt; wrote:
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; Ahoj
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; On Tue, 15 Sep 2015 08:40:33 +0200 Honza Javorek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mail na honzajavorek.cz</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt;&gt; wrote to Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;:
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; &gt; Jestli mají posílat nějaké informace a těma měnit stav na serveru,
+</I>&gt;<i> tak
+</I>&gt;<i> &gt;&gt;&gt; &gt; musíš použít i něco jiného než GET, pokud se budeme bavit aspoň o
+</I>&gt;<i> &gt;&gt;&gt; &gt; samotném
+</I>&gt;<i> &gt;&gt;&gt; &gt; blbém HTTP, když už ne o RESTu.
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; To je právě to, co nechápu. Pokud vezmu množinu jednoduchých akcí jaký
+</I>&gt;<i> je
+</I>&gt;<i> &gt;&gt;&gt; rozdíl mezi
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; GET /123acb/krok
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; a mezi
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; PUT
+</I>&gt;<i> &gt;&gt;&gt; id = &quot;123abc&quot;,
+</I>&gt;<i> &gt;&gt;&gt; akce = &quot;krok&quot;
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; Chápu, že když chci poslat nějaký větší objem dat je PUT jistě lepší,
+</I>&gt;<i> ale
+</I>&gt;<i> &gt;&gt;&gt; pokud jde jen o jednoduché povely, co mi PUT nebo DELETE přináší za
+</I>&gt;<i> &gt;&gt;&gt; výhodu?
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; &gt; Já bych ti to klidně nějak zkusil namodelovat, ale k tomu by se
+</I>&gt;<i> hodila
+</I>&gt;<i> &gt;&gt;&gt; &gt; komplet pravidla té hry a možné stavy, do jakých se lze dostat a jak
+</I>&gt;<i> se
+</I>&gt;<i> &gt;&gt;&gt; &gt; do
+</I>&gt;<i> &gt;&gt;&gt; &gt; nich lze dostat.
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; Pravidla jsou zatím velice jednoduchá:
+</I>&gt;<i> &gt;&gt;&gt; Server umístí hráče na hrací pole a ukáže jim, kde je poklad. V každém
+</I>&gt;<i> &gt;&gt;&gt; kole
+</I>&gt;<i> &gt;&gt;&gt; lze provést jednu z akcí:
+</I>&gt;<i> &gt;&gt;&gt;   * otoč se o 90° doleva
+</I>&gt;<i> &gt;&gt;&gt;   * otoč se o 90° doprava
+</I>&gt;<i> &gt;&gt;&gt;   * udělej krok
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; Cílem je, za co nejmenší počet kol dosáhnout cíle. Server upozorní
+</I>&gt;<i> pokud
+</I>&gt;<i> &gt;&gt;&gt; by klient šel do zdi nebo pokud chtějí dva hráči vejít na stejné
+</I>&gt;<i> políčko.
+</I>&gt;<i> &gt;&gt;&gt; Počítám, ale časem s rozšířením pravidel o časované bomby, střílení,
+</I>&gt;<i> &gt;&gt;&gt; dobíjení
+</I>&gt;<i> &gt;&gt;&gt; a vybíjení baterií, práce v týmu. Uvidíme jak nám to půjde.
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; Díky
+</I>&gt;<i> &gt;&gt;&gt;       Marek
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150916/a7b00fb2/attachment.html">http://www.py.cz/pipermail/python/attachments/20150916/a7b00fb2/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011769.html">[python] Roboti, REST, Flask?
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011774.html">[python] Roboti, REST, Flask?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11768">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11768">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11768">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11768">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011768.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:03 GMT -->
+</html>

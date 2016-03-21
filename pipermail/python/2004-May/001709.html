@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001709.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:31 GMT -->
+<HEAD>
+   <TITLE> [python] kopirovanie suborov
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kopirovanie%20suborov&In-Reply-To=409A1EB4.7060302%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-May/001705.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-May/001710.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] kopirovanie suborov</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kopirovanie%20suborov&In-Reply-To=409A1EB4.7060302%40seznam.cz"
+       TITLE="[python] kopirovanie suborov">rk na dat.cz
+       </A><BR>
+    <I>Čtvrtek Květen  6 16:48:38 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001705.html">[python] kopirovanie suborov
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001710.html">[python] kopirovanie suborov
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1709">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1709">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1709">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1709">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Thu, May 06, 2004 at 01:17:08PM +0200, Petr Mach wrote:
+
+&gt;<i> A kdybych chtel mit ukazatel o prubhu kopirovani, treba jako ma mc, 
+</I>&gt;<i> vedel byste jak na to? Jak zjistit kolik se toho uz zkopirovalo?
+</I>
+
+    import os, stat, sys, select
+
+    src, dest = sys.argv[1:]
+    size = os.stat(src)[stat.ST_SIZE]
+    blocksize = 1024
+    ifd, ofd = file(src), file(dest, 'wb')
+
+    s = 0.0
+    while True :
+        sys.stdout.write(&quot;%3d%%\r&quot; % ((s/size) * 100))
+        sys.stdout.flush()
+        data = ifd.read(blocksize)
+        ofd.write(data)
+        s += len(data)
+        if len(data) &lt; blocksize :
+            break
+        select.select([],[],[],0.1) # sleep
+    print &quot;100%&quot;
+    ofd.close()
+    ifd.close()
+
+
+Radek Kaňovský
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001705.html">[python] kopirovanie suborov
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001710.html">[python] kopirovanie suborov
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1709">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1709">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1709">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1709">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001709.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:31 GMT -->
+</html>

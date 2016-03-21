@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008789.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:50 GMT -->
+<HEAD>
+   <TITLE> [python] hash, mysql
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20hash%2C%20mysql&In-Reply-To=%3Cb2a26cd6dafc4025b78f1e83903822dd%40pobox.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-March/008787.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-March/008790.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] hash, mysql</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20hash%2C%20mysql&In-Reply-To=%3Cb2a26cd6dafc4025b78f1e83903822dd%40pobox.sk%3E"
+       TITLE="[python] hash, mysql">azurit na pobox.sk
+       </A><BR>
+    <I>Pátek Březen 20 01:20:43 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008787.html">[python] hash, mysql
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008790.html">[python] hash, mysql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8789">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8789">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8789">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8789">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ja samozrejme nehovorim o klasickom formatovani ale o sposobe, akym to robi MySQLdb (pretoze o nom sa bavime) - a tam teda naozaj nevidim dovod, preco by sa nemohlo pouzit '%s'.
+
+Ak sa nenahnevas slush, tak ta malo poupravim nech tu nelieta chybny kod v konfere. Parametre musia ist ako tuple, cize:
+
+&quot;SELECT * FROM blabla WHERE promenna=%s&quot;, (promenna,)   # ano, ta ciarka v zatvorke je tam ok, musi tam v tomto pripade byt
+
+
+
+-----Pôvodná správa-----
+Od: slush [<A HREF="http://www.py.cz/mailman/listinfo/python">slush na slush.cz</A>]
+Komu: Konference PyCZ 
+Predmet: Re: [python] hash, mysql
+
+Tady vidim vzajemne nepochopeni. Jak je videt, bezpecnostni diry v aplikacich casto zavisi i na jedinem znaku :-). Porovnejte nasledujici:
+
+&quot;SELECT * FROM blabla WHERE promenna='%s'&quot; % promenna
+&quot;SELECT * FROM blabla WHERE promenna=%s&quot;, promenna
+ 
+Uz je videt ten rozdil? Prvni radek je klasicke python prirazeni - zadne pridavani uvozovek, zadna ochrana proti SQL injection apod. Druhy priklad, jako jednotlive parametry predavane do funkce knihovny MySQLdb, jiz toto vse resi. Jediny rozdil je v carce versus procentu.
+ 
+Marek
+
+
+
+2009/3/20 Dan Pressl &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">nu.frix na gmail.com</A>&gt;
+ Prekvapuje me to, ze %s v kombinaci s % provadi, pokud dobre vim,
+ jenom nahrazeni %s nejakym retezcem. Z sqlite3 sem zvykly pouzivat ?
+ misto %s prave kvuli odstraneni moznosti SQL Injection, aby prave
+ nedoslo k nahrazeni retezcem, ktery by nemusel byt zrovna koser:)
+ 
+ 
+ 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008787.html">[python] hash, mysql
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008790.html">[python] hash, mysql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8789">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8789">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8789">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8789">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008789.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:50 GMT -->
+</html>

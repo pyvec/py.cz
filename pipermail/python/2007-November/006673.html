@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006673.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:00 GMT -->
+<HEAD>
+   <TITLE> [python] Řešení Sudoku
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3F%3DD8e%3DB9en%3DED_Sudoku%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006678.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006674.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Řešení Sudoku</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3F%3DD8e%3DB9en%3DED_Sudoku%3F%3D&In-Reply-To="
+       TITLE="[python] Řešení Sudoku">jakohv na seznam.cz
+       </A><BR>
+    <I>Středa Listopad  7 21:38:22 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006678.html">[python] Scite
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006674.html">[python] Řešení Sudoku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6673">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6673">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6673">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6673">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+Pracuji na programu řešícím Sudoku. Udělal jsem část programu, která postupuje podobně jako když to řeším já (zjištuje, to kde která čísla být nesmí a podle toho doplní). Pokud ale tato část nebyla schopna doplnit celou mřížku, musím ji doplnit jiným mechanismem.
+Zkusil jsem naprogramovat mechanism na zkoušení všech možných variant. Postupně procházím celým polem a pokud narazím na políčko, které bylo na začátku prázdné, zvětším jeho hodnotu +1. Potom testuju zda upravné políčko &quot;pasuje&quot; do sudoku (jestli není v řadě, čáře, čtverci 2x). Pokud pasuje, posunu se v poli dál, pokud ne opakuje se celý cyklus kdy zvětšuju hodnotu políčka o jedno. Pokud hodnota políčka překročí maximální povolenou hodnotu, vynuluju ho a vracím se zkoušet o jedno políčko zpět.
+Takto vypadá algrotitmus:
+
+
+# -*- coding: cp1250 -*-
+import copy
+from math import sqrt
+def vypis(co,sirka):
+    ctverec=int(sqrt(sirka))
+    for x in range(len(co)):
+        if x % ctverec == 0 and x != 0:
+            print int(2.5*sirka)*&quot;-&quot;,&quot;\n&quot;,
+        for y in range(len(co[x])):
+            if y % ctverec == 0 and y != 0:
+                print &quot;|&quot;,
+            print co[x][y],
+        print &quot;&quot;
+class SudokuDores:
+    def __init__(self):
+        pass
+    def find_vzad(self,pos):
+        pos=self.nuly.index(pos)-1
+        if pos &lt; 0:return -1
+        pos=self.nuly[pos]
+        
+        return pos
+    def pasuje(self, x,y,co):
+      
+        #hor:
+        if co in self.zadani[x]:
+            return False
+        s=[]
+        #ver
+        for prvek in self.zadani:
+            s.append(prvek[y])
+        if co in s:
+            return False
+        #rec
+        cx,cy=x/self.ctverec,y/self.ctverec
+        s=[]
+        for x in range((cx*self.ctverec+self.ctverec)-cx*self.ctverec):
+            for y in range((cy*self.ctverec+self.ctverec)-cy*self.ctverec):
+                s.append(self.zadani[x][y])
+        s.sort()
+        if co in s and range(1,self.sirka+1) != s:
+            
+            
+            return False
+        return True
+    def pocitej(self, zadani):
+        self.zadani=zadani
+        self.kontrola=copy.deepcopy(self.zadani)
+        self.sirka=len(self.zadani[0])
+        self.ctverec = int(sqrt(self.sirka))
+        self.nuly=[]
+        cislo=0
+        for prvek in self.zadani:
+            for x in prvek:
+                if x == 0:
+                    self.nuly.append(cislo)
+                cislo=cislo+1
+        pos=0
+        while pos &gt;= 0:
+            
+            if pos &gt;= self.sirka**2-1:
+                print &quot;Nalezeno řešení:&quot;
+                vypis(self.zadani,self.sirka)
+                break
+                
+            x=pos/self.sirka
+            y=pos%self.sirka
+            if self.kontrola[x][y] == 0:
+                h=self.zadani[x][y]+1
+                if h &gt; self.sirka:
+                    self.zadani[x][y] = 0
+                    pos=self.find_vzad(pos)
+                else:
+                    if self.pasuje(x,y,h):
+                        pos=pos+1
+            
+                    self.zadani[x][y]=h
+            else:
+                pos=pos+1
+    def je_ok(self, seznam):
+        _=range(1,self.sirka+1)
+        s=[]
+        for prvek in seznam:
+            s.append(prvek)
+        for prvek in _:
+            if s.count(prvek) &gt; 1 and prvek != 0:
+                return False
+        return True
+    def je_sudoku(self, _zadani):
+        zadani=copy.deepcopy(_zadani)
+        for radek in zadani:
+          
+            if not self.je_ok(radek):
+                return False
+        zadani=copy.deepcopy(_zadani)  
+        for x in range(self.sirka):
+            s=[]
+            for p in range(len(zadani)):
+                s.append(zadani[p][x])
+            if not self.je_ok(s):
+                return False
+        return True                
+
+
+if __name__ == &quot;__main__&quot;:
+    zadani1=[
+[2,0,4,0,1,0,0,0,0],
+[6,1,5,0,0,0,0,0,4],
+[0,0,0,9,6,0,0,0,0],
+[3,0,7,0,0,1,0,0,0],
+[0,4,0,0,0,0,0,5,0],
+[0,0,0,4,0,0,9,0,3],
+[0,0,0,0,3,9,0,0,0],
+[1,0,0,0,0,0,6,2,0],
+[5,7,2,0,8,0,3,0,9],
+
+    ]
+    zadani2=[
+[0,0,2,0],
+[2,0,1,4],
+[0,1,3,2],
+[0,0,0,0],
+        ]
+    r=SudokuDores()
+    r.pocitej(zadani2)
+
+
+Pokud ho spustíte, spočítá správně sudoku o 4 sloupcích. Ale pokud mu zadám &quot;zadani1&quot; nedojdu k žádnému výsledku.
+
+Kde je chyba? 
+
+Děkuji
+
+Jakub 'Blujacker' Vojáček
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20071107/ef61781a/attachment.htm">http://www.py.cz/pipermail/python/attachments/20071107/ef61781a/attachment.htm</A> 
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006678.html">[python] Scite
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006674.html">[python] Řešení Sudoku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6673">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6673">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6673">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6673">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006673.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:00 GMT -->
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/006207.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:59 GMT -->
+<HEAD>
+   <TITLE> [python] [pygtk] Global grab
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5Bpygtk%5D%20Global%20grab&In-Reply-To=4685A75D.3070105%40dp.fce.vutbr.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-June/006206.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] [pygtk] Global grab</H1>
+    <B>regnarG</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5Bpygtk%5D%20Global%20grab&In-Reply-To=4685A75D.3070105%40dp.fce.vutbr.cz"
+       TITLE="[python] [pygtk] Global grab">regnarg na seznam.cz
+       </A><BR>
+    <I>Sobota Červen 30 07:43:36 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006206.html">[python] [pygtk] Global grab
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#6207">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#6207">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#6207">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#6207">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Martinek napsal(a):
+&gt;<i> regnarG wrote:
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Mám následující problém, který se mi nepodařilo vyřešit ani po půlhodině
+</I>&gt;&gt;<i> googlování. Potřebuji v PyGtk provést globální grab, tj. omezit veškerý
+</I>&gt;&gt;<i> vstup kláves v rámci systému na jedno okno, jako to dělá např.
+</I>&gt;&gt;<i> XScreenSaver nebo gksu. Zkoušel jsem  gtk.gdk.keyboard_grab(w.window, 1,
+</I>&gt;&gt;<i> 0), ale bezúspěšně. Existuje nějaké řešení ?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> Zkus tohle (program bych nazval &quot;napínavých deset sekund&quot;):
+</I>&gt;<i>
+</I>&gt;<i> #!/usr/bin/python
+</I>&gt;<i> import gtk, gobject
+</I>&gt;<i>
+</I>&gt;<i> def konec(entry):
+</I>&gt;<i>      gtk.gdk.keyboard_ungrab()
+</I>&gt;<i>      gtk.main_quit()
+</I>&gt;<i>
+</I>&gt;<i> e = gtk.Entry()
+</I>&gt;<i> e.show()
+</I>&gt;<i> w = gtk.Window()
+</I>&gt;<i> w.add(e)
+</I>&gt;<i> w.show()
+</I>&gt;<i> w.connect('destroy', gtk.main_quit)
+</I>&gt;<i> def_win = gtk.gdk.get_default_root_window()
+</I>&gt;<i> gtk.gdk.keyboard_grab(def_win, True)
+</I>&gt;<i> gobject.timeout_add(10000, konec, e)
+</I>&gt;<i> gtk.main()
+</I>&gt;<i>
+</I>&gt;<i> Nevím proč, ale neukazuje se kurzor.
+</I>&gt;<i> A když jsem si s tím hrál, tak jsem si dvakrát omylem zablokoval 
+</I>&gt;<i> klávesnici a musel restartovat Xka.
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Jan Martinek
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Přesně tohle jsem potřeboval. Mnohokrát děkuji !!
+
+-- 
+
+                                                  regnarG
+<A HREF="http://regnarg.kx.cz/">http://regnarg.kx.cz</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006206.html">[python] [pygtk] Global grab
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#6207">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#6207">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#6207">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#6207">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/006207.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:59 GMT -->
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004386.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:32 GMT -->
+<HEAD>
+   <TITLE> [python] MS Windows, ISA, urllib a proxy autentizace?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20MS%20Windows%2C%20ISA%2C%20urllib%20a%20proxy%20autentizace%3F&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004390.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004388.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] MS Windows, ISA, urllib a proxy autentizace?</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20MS%20Windows%2C%20ISA%2C%20urllib%20a%20proxy%20autentizace%3F&In-Reply-To="
+       TITLE="[python] MS Windows, ISA, urllib a proxy autentizace?">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Červen 20 12:16:36 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004390.html">[python] MS Windows, ISA, urllib a proxy autentizace?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004388.html">[python] MS Windows, ISA, urllib a proxy autentizace?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4386">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4386">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4386">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4386">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dík aspoň za potvrzení, že jsem na dobré stopě, ale...
+
+Martin Blazik
+&gt;<i> mozna by stalo za to, se na tu stranku prece jen podivat :)
+</I>&gt;<i> Je tam primo priklad na to co potrebujes.
+</I>&gt;<i> <A HREF="http://docs.python.org/lib/urllib2-examples.html">http://docs.python.org/lib/urllib2-examples.html</A>
+</I>&gt;<i> Jinak ja pouzivam nasledujici kod, ale to je bez autentifikace.
+</I>&gt;<i> 
+</I>&gt;<i> import urllib2
+</I>&gt;<i> 
+</I>&gt;<i> def download(proxy, url, postData = ''):
+</I>&gt;<i> 	proxyHandler = urllib2.ProxyHandler({'http': proxy})
+</I>&gt;<i> 	opener = urllib2.build_opener(proxyHandler)
+</I>&gt;<i> 	if postData:
+</I>&gt;<i> 		f = opener.open(url, postData)
+</I>&gt;<i> 	else:
+</I>&gt;<i> 		f = opener.open(url)
+</I>&gt;<i> 	data = f.read()
+</I>&gt;<i> 	return data
+</I>
+... tohle jsem právě zkoušel v následující podobě (skutečná
+jména a hesla zaměněna):
+
+=============================================================
+import urllib2
+
+proxy_handler = urllib2.ProxyHandler({'http': '<A HREF="http://mujserver1:8080/'}">http://mujserver1:8080/'}</A>)
+proxy_auth_handler = urllib2.HTTPBasicAuthHandler()
+proxy_auth_handler.add_password('DOMENA', 'mujserver2', 'jmeno', 'heslo')
+
+opener = urllib2.build_opener(proxy_handler, proxy_auth_handler)
+f = opener.open('<A HREF="http://www.py.cz/'">http://www.py.cz/'</A>)
+s = f.read()
+f.close()
+
+print s
+=============================================================
+
+Hlásí mi to tohle:
+
+C:\tmp&gt;python tst4.py
+Traceback (most recent call last):
+  File &quot;tst4.py&quot;, line 8, in ?
+    f = opener.open('<A HREF="http://www.py.cz/'">http://www.py.cz/'</A>)
+  File &quot;C:\Python24\lib\urllib2.py&quot;, line 364, in open
+    response = meth(req, response)
+  File &quot;C:\Python24\lib\urllib2.py&quot;, line 471, in http_response
+    response = self.parent.error(
+  File &quot;C:\Python24\lib\urllib2.py&quot;, line 402, in error
+    return self._call_chain(*args)
+  File &quot;C:\Python24\lib\urllib2.py&quot;, line 337, in _call_chain
+    result = func(*args)
+  File &quot;C:\Python24\lib\urllib2.py&quot;, line 480, in http_error_default
+    raise HTTPError(req.get_full_url(), code, msg, hdrs, fp)
+urllib2.HTTPError: HTTP Error 407: Proxy Authentication Required ( The ISA Serve
+r requires authorization to fulfill the request. Access to the Web Proxy service
+ is denied.  )
+
+Zjevně buď nestačí urllib2.HTTPBasicAuthHandler() nebo nějak špatně
+zadávám parametry. Překládám si 'realm' správně jako doménu
+(takovou tu windowsovskou)?
+
+proxy_auth_handler = urllib2.HTTPBasicAuthHandler()
+proxy_auth_handler.add_password('realm', 'host', 'username', 'password')
+
+pepr
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004390.html">[python] MS Windows, ISA, urllib a proxy autentizace?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004388.html">[python] MS Windows, ISA, urllib a proxy autentizace?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4386">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4386">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4386">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4386">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004386.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:32 GMT -->
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-August/000059.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Kde najdu Exception arguments
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Kde%20najdu%20Exception%20arguments&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-August/000058.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-August/000060.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Kde najdu Exception arguments</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Kde%20najdu%20Exception%20arguments&In-Reply-To="
+       TITLE="[Tutor PyCZ] Kde najdu Exception arguments">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pondělí Srpen 15 09:17:37 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-August/000058.html">[Tutor PyCZ] Kde najdu Exception arguments
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-August/000060.html">[Tutor PyCZ] py2exe, nezakompilovani py souboru s konfiguraci
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-August/date.html#59">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-August/thread.html#59">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-August/subject.html#59">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-August/author.html#59">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>geon napsal...
+&gt;<i> Oktavian Glider napsal
+</I>&gt;<i> 
+</I>&gt;<i> &gt; Potřebuji vědět jaký počet argumentů mají 
+</I>&gt;<i> &gt; jednotlivé exceptions. [...] Kde najdu nějaký
+</I>&gt;<i> &gt; seznam argumentů k jednotlivým exeptions? 
+</I>&gt;<i> [...]
+</I>&gt;<i> myslím, že se to vždy předává jako tuple, 
+</I>&gt;<i> jen někdy, často má tuple jen jeden prvek, 
+</I>&gt;<i> takže se automaticky přiřazuje do proměnné
+</I>&gt;<i> jako řetězec. [...]
+</I>
+Standardní třída Exceptions() může mít libovolný
+počet argumentů. Záleží na uživateli, kolik jich
+použije. 
+
+Vnitřně se uchovávají v podobě n-tice (tuple, 
+tedy později neměnitelné struktury). Je přístupná 
+prostřednictvím atributu args. Příklad:
+
+  &gt;&gt;&gt; e = Exception(1, 'ahoj', 3)
+  &gt;&gt;&gt; e
+  &lt;exceptions.Exception instance at 0x00925F80&gt;  
+  &gt;&gt;&gt; e.args
+  (1, 'ahoj', 3)
+  &gt;&gt;&gt; type(e.args)
+  &lt;type 'tuple'&gt;
+
+Jejich konkrétní počet můžu zjistit stejně, 
+jako zjišťuji počet prvků n-tice:
+
+  &gt;&gt;&gt; len(e.args)
+  3
+
+Indexováním můžeme zpřístupňovat jednotlivé
+argumenty z args (jako u každé běžné n-tice).
+  
+  &gt;&gt;&gt; e.args[0]
+  1
+  &gt;&gt;&gt; e.args[1]
+  'ahoj'
+  &gt;&gt;&gt; e.args[2]
+  3
+  &gt;&gt;&gt; e.args[3]
+  Traceback (most recent call last):
+    File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  IndexError: tuple index out of range
+
+Protože je definována metoda __getitem__(), 
+můžeme argumenty zpřístupňovat i indexováním
+samotného objektu:
+
+  &gt;&gt;&gt; e[0]
+  1
+  &gt;&gt;&gt; e[1]
+  'ahoj'
+  &gt;&gt;&gt; e[2]
+  3
+  &gt;&gt;&gt; e[3]
+  Traceback (most recent call last):
+    File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  IndexError: tuple index out of range
+
+Metoda __str__() je definována tak, aby se 
+zobrazila řetězcová reprezentace argumentů.
+Její výsledek typicky získáváme prostřednictvím
+zabudované funkce str() nebo dosazením do příkazu
+print:
+
+  &gt;&gt;&gt; print e
+  (1, 'ahoj', 3)
+  &gt;&gt;&gt; str(e)
+  &quot;(1, 'ahoj', 3)&quot;
+
+S výše uvedenými znalostmi bych mohl definovat
+svou vlastní bázovou třídu pro výjimky s podobnými
+vlastnostmi takto:
+
+  class MyException:
+      &quot;&quot;&quot;Common base class for all MY exceptions.&quot;&quot;&quot;
+
+      def __init__(self, *args):
+          self.args = tuple(args)
+
+      def __getitem__(self, i):
+          return self.args[i]
+
+      def __str__(self):
+          return 'My exception: ' + str(self.args)
+
+Standardní třída Exceptions nemá pythonovský
+zdrojový text, protože je implementována přímo
+v jádře jazyka, ale její definice by mohla 
+vypadat téměř stejně -- takto:
+
+  class Exception:
+      &quot;&quot;&quot;Common base class for all exceptions.&quot;&quot;&quot;
+
+      def __init__(self, *args):
+          self.args = tuple(args)
+
+      def __getitem__(self, i):
+          return self.args[i]
+
+      def __str__(self):
+          return str(self.args)
+
+Vyvolání výjimky a její odchycení může v dokumentaci
+vypadat trochu zmateně, protože se dříve výjimky 
+realizovaly v podobě řetězcových objektů. V současnosti
+se mají vždy používat výjimky odvozené od Exception.
+Při vyvolávání výjimky si typicky objekt reprezentující
+výjimku vytvářím -- doporučuje se zápis vyjadřující
+konstrukci nového objektu:
+
+
+  try:
+      ...
+      raise Exception(1, 'ahoj', 3)
+      ...
+
+Při odchytávání výjimky se definuje především
+typ odchytávané výjimky (tj. typ objektu výjimky:
+
+  except Exception:
+      print 'Nastala vyjimka.'
+
+Volitelně můžeme uvést jméno, které bude spojeno 
+s konkrétní instancí výjimky (s konkrétním objektem).
+Jeho prostřednictvím si můžeme zpřístupnit argumenty
+výjimky:
+
+  except Exception, e:
+      # e zpřístupňuje objekt výjimky.
+      print e.args
+      print e
+      print len(e.args)
+      for arg in e.args:
+          print arg
+
+... případně po zpracování argumentů můžeme 
+výjimku znovu zápisem raise bez argumentů 
+nebo, v našem případě, zápisem &quot;raise e&quot;.
+V druhém případě můžu před opakovaným vyvoláním
+výjimky přiřadit do e.args novou n-tici, takže
+vlastně můžu upřesnit nebo zcela změnit argumenty
+výjimky. Systému je to jedno, ten se o argumenty
+výjimky nestará. Je to čistě uživatelská záležitost.
+
+Všechny ostatní formy zápisu (pokud se nepletu) jsou
+dědictvím minulosti a nedoporučuje se je používat.
+
+
+
+
+pepr   
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-August/000058.html">[Tutor PyCZ] Kde najdu Exception arguments
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-August/000060.html">[Tutor PyCZ] py2exe, nezakompilovani py souboru s konfiguraci
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-August/date.html#59">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-August/thread.html#59">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-August/subject.html#59">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-August/author.html#59">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-August/000059.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+</html>

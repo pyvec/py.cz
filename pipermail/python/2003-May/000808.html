@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-May/000808.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:36 GMT -->
+<HEAD>
+   <TITLE> [python] polednice v pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20polednice%20v%20pythonu&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-May/000834.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-May/000810.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] polednice v pythonu</H1>
+    <B>Martin Hassman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20polednice%20v%20pythonu&In-Reply-To="
+       TITLE="[python] polednice v pythonu">martin.hassman na vscht.cz
+       </A><BR>
+    <I>Pondělí Květen 12 08:24:15 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000834.html">[python] linux a vlakna
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000810.html">[python] polednice v pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-May/date.html#808">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/thread.html#808">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/subject.html#808">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/author.html#808">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+predem se omlouvam za spamming (pokud to tak nekdo nazve :-),
+ale snad by to nekoho mohlo pobavit.
+Tak jsem po trapeni s pythonem a thready mel o vikendy nejakou inspirujici naladu a 
+preportoval jsem Polednici do pythonu. Jak se to povedlo ci nepovedlo posudte sami.
+Jen schovivavost - ta anglictina neni dokonala a ani pres dukladne ladeni modulu 
+nevylucuji, ze tam neni nejaky bug ;-)
+Kdyby se to nejak pres mail spatne zalomovalo, ci problemy s cestinou apod., tak jsem to 
+vystavil pod sebou 
+<A HREF="http://www.py.cz/Members/met/midday_witch.py">http://www.py.cz/Members/met/midday_witch.py</A> (v utf-8)
+
+
+#!/usr/bin/env python
+# Porting of Czech poetry to Python
+# Module: [midday_witch.py] (Polednice)
+# Original module author: K. J. Erben
+# Author of ported module: Martin Hassman
+#
+
+# 'U lavice dítě stálo,
+# z plna hrdla křičelo.'
+room = [bank, child, table, mother]
+child.cry()
+
+try:
+	child.stop_cry() 
+
+except IgnoreMotherError:
+	mother.echo(&quot;Bodejž bys jen trochu málo ty cikáně mlčelo!&quot;)
+
+# 'Poledne v tom okamžení, táta přijde z roboty...'
+from time import *
+if localtime(time())[3:5] == (12, 0): # noon
+	room.append(father) # but this does not happen yet ;-)
+
+# 'Mlč! Hle husar, kočárek -
+# hrej si! - tu máš kohouta!'
+room[2:2] = [hussar, buggy, cock]
+# look at the actual situation: [bank, child, hussar, buggy, cock, table, mother]
+
+
+# 'Než kohout, vůz i husárek
+# bouch, bác! letí do kouta.'
+fly = room[2:5]
+del room[2:5]
+room.append(fly)
+del fly
+# [bank, child, table, mother, [hussar, buggy, cock]]
+
+child.cry()
+# 'Pojď si proň ty Polednice...'
+mother.echo(&quot;Midday Witch, where are you? Come in for my bad son!&quot;)
+
+room.append(midday_witch)
+# [bank, child, table, mother, [hussar, buggy, cock], midday_witch]
+
+# simple description of the new object
+# 'Malá, hnědá, hnáty křivé
+# pod plachetkou osoba'
+for k in midday_witch.keys:
+	print k, &quot;=&quot;, midday_witch[k]
+
+	# this prints:
+	# height = small
+	# color = brown
+	# hands = bowed
+
+# 'Dej sem dítě!'
+midday_witch.echo(&quot;Give me the child!&quot;)
+
+# simple objects relocation: mother runs to the child
+# and sit with him on the bank
+escape = [room[0], room[3], room[1]]
+del room[3]
+del room[0:2]
+room[0:0] = [escape]
+del escape
+del child # mother trying to save his child deletes global reference to it,
+          # so the last reference to the child is in safe place - room[0],
+          # but this induce a critical problem later
+
+# [ [bank, mother, child], table, [hussar, buggy, cock], midday_witch]
+
+# 'Polednice blíž se plíží,
+# blíž - a již je v zápětí.'
+while room.index(midday_witch) &gt; 1:
+	witch_position = room.index(midday_witch)
+	step = room[witch_position]
+	del room[witch_position]
+	room[witch_position - 1 : witch_position - 1] = [step]
+	del step
+	sleep(30) # midday_witch is moving a little bit slowly
+
+# [ [bank, mother, child], midday_witch, table, [hussar, buggy, cock]]
+
+# 'Již vztahuje po něm ruku'
+try:
+	midday_witch[&quot;children&quot;].append(room[0][2]) # this raises an exception
+	del room[0][2]
+
+except StrongMotherError:
+	# 'Matka tisknouc ramena'
+	# 'klesá smyslů znavena'
+	fall = room[0][1:]
+	del room[0][1:]
+	room[1:1] = fall[0] # &lt;-- here is a bad mother mistake
+	del fall # reference to the child lost, child died
+
+# Sorry, but here is a piece of 'closed source' code :-(,
+# we do not know exactly what happened until:
+
+# 'Táta vchází do dveří.'
+room.append(father)
+
+# 'Ve mdlobách tu matka leží'
+# look at the actual situation: [bank, mother, table, [hussar, buggy, cock], father]
+
+try:
+	room.index(child) # father try to find his child
+                      # but this gives only Exception
+
+except ChildNotHereError:
+	import gc               # child is not here, father searches the garbage collection
+	try:
+		gc.garbage.index(child) 
+
+	except VeryBadError:    # no child is not here :-(
+		father[&quot;sad&quot;] = 1
+
+print &quot;That's all folks&quot;
+
+
+-- 
+Martin Hassman
+Institute of Chemical Technology in Prague
+Department of Biochemistry and Microbiology
+Jaky Internetovy prohlizec pouzivat? Zkuste Mozillu <A HREF="http://czilla.cz/">http://czilla.cz</A>
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">hassmanm na njs.netlab.cz</A>, ICQ: #295399122
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000834.html">[python] linux a vlakna
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000810.html">[python] polednice v pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-May/date.html#808">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/thread.html#808">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/subject.html#808">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/author.html#808">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-May/000808.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:36 GMT -->
+</html>

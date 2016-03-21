@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008253.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:23 GMT -->
+<HEAD>
+   <TITLE> [python] freeze,PyQt4.QtGui.so
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20freeze%2CPyQt4.QtGui.so&In-Reply-To=%3C48D611C7.6090604%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-September/008252.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-September/008254.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] freeze,PyQt4.QtGui.so</H1>
+    <B>Petr Zlamal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20freeze%2CPyQt4.QtGui.so&In-Reply-To=%3C48D611C7.6090604%40gmail.com%3E"
+       TITLE="[python] freeze,PyQt4.QtGui.so">p.zlamal na gmail.com
+       </A><BR>
+    <I>Neděle Září 21 11:20:07 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008252.html">[python] freeze,kodovani
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008254.html">[python] freeze,PyQt4.QtGui.so
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8253">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8253">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8253">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8253">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mam jeste dotaz. Myslel jsem, ze pokud dojde k uspesnemu zmrazeni pujde 
+aplikace spustit nezavisle na instalovanych soucastech v hostitelskem 
+systemu. Na stroji, kde doslo k &quot;zmrazeni&quot; vse funguje ok a binarka je 
+zavisla na hostitelskem pocitaci, zda se, jen na:
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">vepro na blackbox</A>:/home/bin_linux$ ldd run_BastControl_v1
+        linux-gate.so.1 =&gt;  (0xb7fb1000)
+        libpython2.5.so.1.0 =&gt; /usr/lib/libpython2.5.so.1.0 (0xb7e6b000)
+        libpthread.so.0 =&gt; /lib/tls/i686/cmov/libpthread.so.0 (0xb7e53000)
+        libdl.so.2 =&gt; /lib/tls/i686/cmov/libdl.so.2 (0xb7e4e000)
+        libutil.so.1 =&gt; /lib/tls/i686/cmov/libutil.so.1 (0xb7e4a000)
+        libm.so.6 =&gt; /lib/tls/i686/cmov/libm.so.6 (0xb7e25000)
+        libc.so.6 =&gt; /lib/tls/i686/cmov/libc.so.6 (0xb7cd6000)
+        /lib/ld-linux.so.2 (0xb7fb2000)
+
+Na hostitelskem pocitaci se tyto knihovny vyskytuji. Avsak pri spusteni 
+(nutno podotknout, ze se jedna o gui aplikaci v pyqt4):
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">vepro na blackbox</A>:/bin_linux$ ./run_BastControl_v1
+Traceback (most recent call last):
+  File &quot;/usr/lib/cx_Freeze/initscripts/Console.py&quot;, line 27, in &lt;module&gt;
+  File &quot;run_BastControl_v1.py&quot;, line 10, in &lt;module&gt;
+  File &quot;ExtensionLoader_PyQt4_QtGui.py&quot;, line 12, in &lt;module&gt;
+ImportError: /bin_linux/PyQt4.QtGui.so: undefined symbol: 
+_ZTI19QStyledItemDelegate
+
+
+QStyledItemDelegate je trida, kterou pouziva QTableWidget. Tu pouzivam. 
+Je mi divne, ze nativni skript na hostitelskem stroji spustim a 
+prenesena binarka hlasi tento error.
+
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008252.html">[python] freeze,kodovani
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008254.html">[python] freeze,PyQt4.QtGui.so
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8253">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8253">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8253">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8253">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008253.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:23 GMT -->
+</html>

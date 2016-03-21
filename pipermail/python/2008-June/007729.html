@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007729.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:47 GMT -->
+<HEAD>
+   <TITLE> [python] Brainstorm request: Vyuka programovani na gymplu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Brainstorm%20request%3A%20Vyuka%20programovani%20na%20gymplu&In-Reply-To=bd9056300806131527u5d8f4167pb83a27d7157786f3%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007722.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007645.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Brainstorm request: Vyuka programovani na gymplu</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Brainstorm%20request%3A%20Vyuka%20programovani%20na%20gymplu&In-Reply-To=bd9056300806131527u5d8f4167pb83a27d7157786f3%40mail.gmail.com"
+       TITLE="[python] Brainstorm request: Vyuka programovani na gymplu">regnarg na seznam.cz
+       </A><BR>
+    <I>Sobota Červen 14 12:07:44 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007722.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007645.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7729">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7729">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7729">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7729">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On So, čen 14, 2008 at 12:27:47 +0200, slush wrote:
+&gt;<i> No vidite, a prave tohle prijde nelogicke zase mne. Pokud predefinuji tridu
+</I>&gt;<i> str, cekal bych, ze dalsi instance teto tridy bude pouzivat moji
+</I>&gt;<i> customizaci.
+</I>
+Dobrý den, vy NEPŘEDEFINUJETE třídu, protože nic takového
+v Pythonu neexistuje. Vy vytvoříte NOVOU třídu, která je
+ODVOZENÁ od třídy str, ale je to jiná třída, nezávislá
+entita, a ČISTĚ NÁHODOU ji také pojmenujete str. Takže
+nic není předefinované, máte DVĚ různé třídy. Chování
+jejich instancí tedy záleží na tom, instanci KTERÉ třídy
+vytvoříte. A nikde není dáno že to musí být ta nová. Tu
+třídu jste vytvořil v určitém NAMESPACE a pokud k ní
+Python dojde prostřednictvím pravidel pro vyhodnocování
+názvů, použije ji. V jiném modulu však již třeba bude str
+ukazovat na původní třídu (__builtin__.str), JEJÍŽ
+chování změnit NELZE (alespoň ne nastíněným způsobem). A
+NIKDE není dáno, ani z ničeho nevyplývá, že by pro KAŽDOU
+řetězcovou konstantu měl Python vyhledávat, zda se
+nevyskytuje v aktuálním namespace třída str.
+
+Proč by to dělal ? Jeho úkolem je vytvořit řetězec a to
+je jednoznačný datový typ. Z definice vyplývá, že
+apostrofy/uvozovky vytváří ŘETĚZEC, řetězec jak jej chápe
+Python, instanci původní třídy, jejíž název &quot;str&quot; vůbec
+není podstatný, protože se na ni Python odkazuje přímo.
+Není to žádná výjimka ani nelogičnost, je to součást
+systému. Co by se jinak stalo, kdyby uživatel omylem
+napsal str=None ? Měl by se kvůli tomu zhroutit
+interpreter ? A jak nákladné by asi bylo pro každý
+řetězec znovu lexikálně prohledávat název str ? A jaký by
+k tomu měl být důvod ? Řetězec má jasnou strukturu a
+vlastnosti, není jediný důvod, proč by jej někdo měl
+měnit. Pravidla platí všeude stejná, jen je třeba je
+důkladně pochopit.
+
+Přeji hezký den
+
+-- 
+regnarg --- <A HREF="http://rg.pretel.cz/">http://rg.pretel.cz</A> -- JID: <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>
+V péči o štěstí druhých nacházíme své vlastní.   --Platón
+Přátelství může trvat jedině mezi dobrými lidmi. --Cicero
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007722.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007645.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7729">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7729">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7729">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7729">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007729.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:47 GMT -->
+</html>

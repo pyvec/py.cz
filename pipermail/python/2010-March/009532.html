@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009532.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:51 GMT -->
+<HEAD>
+   <TITLE> [python] py2exe
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20py2exe&In-Reply-To=%3C4BA1FB64.2060104%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009530.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009495.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] py2exe</H1>
+    <B>vepro</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20py2exe&In-Reply-To=%3C4BA1FB64.2060104%40gmail.com%3E"
+       TITLE="[python] py2exe">p.zlamal na gmail.com
+       </A><BR>
+    <I>Čtvrtek Březen 18 11:07:32 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009530.html">[python] py2exe
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009495.html">[python] Problém s subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9532">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9532">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9532">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9532">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Problem jsem uspesne vyresil a binarku je spustitelna snad jiz nezavisle 
+na nainstalovanem softwaru. Pro celistvost posilam reseni problemu:
+
+Jiz jsem nevedel jak dal a tak jsem nainstaloval Microsoft Visual Studio 
+2008 (VS) v plnotucne verzi jako 30 denni trial. Spustil svou pythoni 
+binarku, ktera zacala fungovat. Bylo tedy jasne, ze chybely knihovny 
+zavlecene prave VS, ktere Express verze (ta byla nainstalovana jiz 
+drive) nezavlekla. Od toho jsem se odpichl, zkopiroval slozku s VS a 
+posleze odinstaloval. Ujistil jsem se, ze binarka opet nefunguje a zacal 
+zkouset pridavat knihovny ze zkopirovane slozky VS. Resenim bylo do dir 
+s binarkou nakopirovat 4 soubory ze slozky:
+Microsoft Visual Studio 
+9/VC/redist/Debug_NonRedist/amd64/Microsoft.VC90.DebugCRT/
+manifest
+msvcm90d.dll
+msvcp90d.dll
+msvcr90d.dll
+
+Po tomto zasahu se binarka jiz spustila korektne. Mam vsak takove 
+tuseni, ze jiz drive jsem tyto knihovny zkousel dohravat (avsak nebyly 
+zkopirovane z VS ale nekde ze systemu ci z netu) a bezuspechu. Snad to v 
+budoucnu nekomu pomuze.
+
+Vepro
+
+
+
+&gt;<i> Jop, myslel, chybicka se vloudila pri kopirovani z terminalu :)
+</I>&gt;<i>
+</I>&gt;<i> Hmm, zacinaji mi dochazet napady :-/ jeste mozna - py2exe vypisuje na
+</I>&gt;<i> konci seznam DLL knihoven, ktery by ta binarka mela potrebovat, jeste
+</I>&gt;<i> zkus kouknout, jestli mas vsecky... Ale popravde moc sanci tomu
+</I>&gt;<i> nedavam.
+</I>&gt;<i>
+</I>&gt;<i> -j-
+</I>&gt;<i>
+</I>&gt;<i> 2010/3/17 vepro&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt;:
+</I>&gt;<i>    
+</I>&gt;&gt;<i> Nemyslel jsi misto svcr90.dl  msvcr90.dll?? Jelikoz svcr90 neni ani na
+</I>&gt;&gt;<i> &quot;kompilacnim&quot; stroji. Pokud ano tak vsechny tyto knihovny jsou v adresari
+</I>&gt;&gt;<i> dist (adr s binarkou) jiz od prapocatku, takze rada nepomohla:(
+</I>&gt;&gt;<i> Vepro
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> On 03/17/2010 12:38 PM, rajcze wrote:
+</I>&gt;&gt;<i>      
+</I>&gt;&gt;&gt;<i> Kdyztak jen zkontroluj, ze na te cilove masine urcite mas
+</I>&gt;&gt;&gt;<i> svcr90.dl, msvcp90.dll a msvcm90.dll
+</I>&gt;&gt;&gt;<i> pripadne je zkopiruj k tomu vybuildenymu exe souboru ze sveho
+</I>&gt;&gt;&gt;<i> vyvojoveho stroje, mohlo by to pomoct.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Joza
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>        
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>      
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>    
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009530.html">[python] py2exe
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009495.html">[python] Problém s subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9532">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9532">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9532">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9532">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009532.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:51 GMT -->
+</html>

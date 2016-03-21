@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011309.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:45 GMT -->
+<HEAD>
+   <TITLE> [python] Gtk LED on/off (začiatočník)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FGtk_LED_on/off_%3D28za%3DE8iato%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3CCAEO8NYx7gwwkdBUOOZps-8gjzNWoGwesRkz-AbAZJqd4c-6UBQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-March/011308.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-March/011310.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Gtk LED on/off (začiatočník)</H1>
+    <B>Jakub Vysoky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FGtk_LED_on/off_%3D28za%3DE8iato%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3CCAEO8NYx7gwwkdBUOOZps-8gjzNWoGwesRkz-AbAZJqd4c-6UBQ%40mail.gmail.com%3E"
+       TITLE="[python] Gtk LED on/off (začiatočník)">jakub na borka.cz
+       </A><BR>
+    <I>Úterý Březen 25 21:40:05 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011308.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011310.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11309">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11309">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11309">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11309">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ad neco noveho&gt; udelejte to tady pres konferenci, nebo kdekoliv jinde,
+ale public - myslim, ze by to mohlo byt zajimave pro spoustu lidi to
+alespon sledovat (nebo se i pripojit?) a treba na to pak i vselijak
+navazat.. co vy a to?
+
+2014-03-25 20:32 GMT+01:00 Petr Blahos &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petrblahos na gmail.com</A>&gt;:
+&gt;&gt;<i> trochu som sa &quot;hral s LEDkami&quot; a chcel by som tam dorobiť funkciu blikania
+</I>&gt;&gt;<i> lediek.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> [...]
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     def cyklus_bliknutia (self, button, name):
+</I>&gt;&gt;<i>         for name in range(4):
+</I>&gt;&gt;<i>             if button.get_active():
+</I>&gt;&gt;<i>                 self.leds[int(name)].set_from_file(&quot;LED_off.png&quot;)   # ak
+</I>&gt;&gt;<i> je aktívne zhasne LEDku
+</I>&gt;&gt;<i>             else:
+</I>&gt;&gt;<i>                 self.leds[int(name)].set_from_file(&quot;LED_on.png&quot;)    # ak
+</I>&gt;&gt;<i> nie je aktívne, zapne LEDku
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Viem, že je to blobosť hneď z niekoľkých dôvodov:
+</I>&gt;&gt;<i> 1, vo funckii 'blikanie' nevolám funkciu 'cyklus_bliknutia' pretože
+</I>&gt;&gt;<i> netuším, ako ju zavolať :)
+</I>&gt;&gt;<i> 2, vo funckii 'cyklus_bliknutia' mám síce for, ale zasa neviem, ako
+</I>&gt;&gt;<i> otestovať postupne všetky tlačítka, keďže to ide cez 'name'.
+</I>&gt;&gt;<i>
+</I>&gt;<i> Jde o to, co jsme psali u té předchozí otázky: Je tam Gtk.main(), což je
+</I>&gt;<i> Event loop, která se stará
+</I>&gt;<i> o to, aby poslala event tam, kam patří. Takže když máš
+</I>&gt;<i>   button.connect(&quot;toggled&quot;, handler, ...)
+</I>&gt;<i> tak ta event loop, musí v okamžiku, kdy se s tlačítkem stane toggle zavolat
+</I>&gt;<i> handler. Ty potřebuješ,
+</I>&gt;<i> aby v době, kdy chceš blikat, Ti event loop v pravidelných intervalech
+</I>&gt;<i> říkala: Teď blikni.
+</I>&gt;<i>
+</I>&gt;<i>   <A HREF="https://gist.github.com/petrblahos/9769152">https://gist.github.com/petrblahos/9769152</A>
+</I>&gt;<i>
+</I>&gt;<i> To je ten GLib.timeout_add. Všimni si, že já nechám to &quot;blikni&quot; zavolat
+</I>&gt;<i> ikdyž je tlačítko vypnuté, a
+</I>&gt;<i> v handleru blink_timer se dívám, jestli je to tlačítko sepnuté. Tím pádem
+</I>&gt;<i> ale nebliknu hned jak někdo
+</I>&gt;<i> zmáčkne tlačítko, ale bliknu to 1/2 sekundy. Navíc to blikání je konstantní,
+</I>&gt;<i> a nedívá se, co bylo na
+</I>&gt;<i> obrázku, když se začalo blikat, takže celkově nic moc. No, takhle musí
+</I>&gt;<i> programátor přemýšlet. Hmm.
+</I>&gt;<i>
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> A teraz otázky:
+</I>&gt;&gt;<i> Je nejaké presné poradie, podľa ktorého je potrebné uvádzať tieto premenné
+</I>&gt;&gt;<i> v zátvorke?
+</I>&gt;&gt;<i> Môžem s nimi pracovať lubovoľne? Mám na mysli tak, že keby som napr. chcel
+</I>&gt;&gt;<i> moje dve pseudofunckie zlučiť do jednej, môžem použiť niečo ako (self,
+</I>&gt;&gt;<i> btn_blikanie, button, name)? A ak áno, v akom poradí?
+</I>&gt;<i>
+</I>&gt;<i> [...]
+</I>&gt;<i>
+</I>&gt;<i> Já bych se moc nechtěl pouštět do vysvětlování těchto konceptů přes mail, a
+</I>&gt;<i> navíc na
+</I>&gt;<i> tak pokročilém tématu, jako je tvorba UI. Bohužel Ti nedokážu poradit
+</I>&gt;<i> vhodnou literaturu
+</I>&gt;<i> na začátek, ale zkus si pročíst python.cz, protože v nějakém uceleném
+</I>&gt;<i> tutoriálu, nebo
+</I>&gt;<i> knize, to bude popsané konzistentněji, než to dokážeme my, tady na listu.
+</I>&gt;<i>
+</I>&gt;<i> Tak mě napadlo, jak říkal Moss v IT Crowdu, díle Moss a Němec, občas je
+</I>&gt;<i> potřeba zkusit
+</I>&gt;<i> něco nového. Takže jestli chceš, udělám Ti korespondenční kurz tím způsobem,
+</I>&gt;<i> že dostaneš
+</I>&gt;<i> úkol, ten vyřešíš (nebo ne), já Ti to opravím, a pošlu další úkol. Teda s
+</I>&gt;<i> tím, že nemám
+</I>&gt;<i> rozmyšleno, jestli dokážu udělat ty správné úkoly :-)
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Petr
+</I>&gt;<i> ____________________
+</I>&gt;<i> <A HREF="http://pysk.blog.root.cz/">http://pysk.blog.root.cz/</A>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>
+
+
+-- 
+Jakub Vysoky
+
+mob: +420 605 852 377
+jab: <A HREF="http://www.py.cz/mailman/listinfo/python">jakub.vysoky na gmail.com</A>
+twit: <A HREF="https://twitter.com/kvbik">https://twitter.com/kvbik</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011308.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011310.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11309">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11309">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11309">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11309">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011309.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:45 GMT -->
+</html>

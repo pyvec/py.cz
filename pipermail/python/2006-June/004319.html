@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004319.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+<HEAD>
+   <TITLE> [python] ukončení interpretu, zničení objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4482109E.9010104%40gentoo.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004317.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004320.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ukončení interpretu, zničení objektu</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4482109E.9010104%40gentoo.org"
+       TITLE="[python] ukončení interpretu, zničení objektu">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Neděle Červen  4 09:43:52 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004317.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004320.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4319">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4319">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4319">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4319">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Kundrát wrote:
+&gt;<i> Jan Martinek wrote:
+</I>&gt;&gt;<i> class M:
+</I>&gt;&gt;<i>    b = 10
+</I>&gt;&gt;<i>    def __init__(self):
+</I>&gt;&gt;<i>      self.b += 1         # což není totéž co self.b.__add__(1)
+</I>&gt;&gt;<i>    def __del__(self):
+</I>&gt;&gt;<i>      print self.b        # Objekt instance
+</I>&gt;&gt;<i>      print M.b           # Objekt třídy
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> a1 = M()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> by měl vypsat
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 11
+</I>&gt;&gt;<i> 10
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ale místo toho napíše 11 a pak spadne. Tedy alespoň u mě ;-)
+</I>&gt;<i> 
+</I>&gt;<i> Nemel by spis vypsat 11 a 11?
+</I>&gt;<i> 
+</I>
+
+Doufám, že nežiju v nějakých bludech, ale podle mě to má opravdu vypsat
+11
+10
+Například tento program
+
+class M:
+   b = 10
+   def __init__(self):
+     print self.b, M.b, id(self.b) == id(M.b)
+     self.b = 11
+     print self.b, M.b, id(self.b) == id(M.b)
+
+a = M()
+
+Vypíše
+
+10 10 True
+11 10 False
+
+Jestliže se odkážu na self.b aniž bych ho předtím inicializoval, tak 
+Python tento název nenajde. Nicméně pokračuje dál v prohledávání 
+jmenného prostoru, až narazí na M.b. Takže se self.b a M.b jeví jako 
+tytéž objekty. Ale jakmile do self.b přiřadím nějakou (jinou) referenci, 
+najde se při volání self.b přednostně. A od té chvíle už self.b a M.b 
+není totéž.
+Pokud se ale pletu, tak mě prosím vyveďte z omylu.
+
+--
+Jan Martinek
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004317.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004320.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4319">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4319">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4319">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4319">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004319.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+</html>

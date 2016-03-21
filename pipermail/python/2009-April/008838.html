@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008838.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:40 GMT -->
+<HEAD>
+   <TITLE> [python] Smazání určitého řádku s widgety z QGridLayoutu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3FU21hesOhbsOtIHVyxI1pdMOpaG8gxZnDoWRrdSBzIHdp%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fdgety_z_QGridLayoutu%3F%3D&In-Reply-To=%3C200904192044.30262.petr%40scribus.info%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-April/008837.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-April/008839.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Smazání určitého řádku s widgety z QGridLayoutu</H1>
+    <B>Petr Vaněk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3FU21hesOhbsOtIHVyxI1pdMOpaG8gxZnDoWRrdSBzIHdp%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fdgety_z_QGridLayoutu%3F%3D&In-Reply-To=%3C200904192044.30262.petr%40scribus.info%3E"
+       TITLE="[python] Smazání určitého řádku s widgety z QGridLayoutu">petr na scribus.info
+       </A><BR>
+    <I>Neděle Duben 19 20:44:30 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008837.html">[python] Smazání určitého řádku s widgety z QGridLayoutu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008839.html">[python] Smazání určitého řádku s widgety z QGridLayoutu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8838">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8838">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8838">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8838">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne neděle 19 Duben 2009 19:37:02 Martin Stiborský napsal(a):
+&gt;<i> Umím zjistit kterého řádku čudlik byl zmáčknut, umím najít widgety
+</I>&gt;<i> onoho konkrétního řádku, ale pomocí removeItem je neumím smazat.
+</I>&gt;<i> Tedy ony zmizí, ale funguje to nějak divně,řádek se posune někam
+</I>&gt;<i> naspod QGridLayoutu, kousek widgetu je pořád vidět, těžko popsat.
+</I>&gt;<i>
+</I>&gt;<i> Kód kterým mažu:
+</I>&gt;<i> def deleteRow(self):
+</I>&gt;<i>     sender = self.sender()
+</I>&gt;<i>     index = self.answersWidgets.indexOf(sender)
+</I>&gt;<i>     row = self.answersWidgets.getItemPosition(index)[0]
+</I>&gt;<i>     for x in range(self.answersWidgets.columnCount()):
+</I>&gt;<i> 	widget = self.answersWidgets.itemAtPosition(row, x)
+</I>&gt;<i> 	if widget is not None:
+</I>&gt;<i> 	    self.answersWidgets.removeItem(widget)
+</I>&gt;<i>
+</I>&gt;<i> Udělal jsem video, tam je dobře vidět, kde je problém.
+</I>&gt;<i> <A HREF="http://www.vimeo.com/4226650">http://www.vimeo.com/4226650</A>
+</I>&gt;<i> Co d&#283;l&#225;m &#353;patn&#283;&#8201;?
+</I>
+z dokumentace:
+&quot;Removes the layout item item from the layout. It is the caller's 
+responsibility to delete the item.&quot;
+
+Takže widget stále zůstává potomkem &quot;parenta&quot; - přesune se z layoutu někam do 
+rodiče. Musíš jej smazat/zrušit ručně.
+
+p.
+
+P.S.: obecná - chlapíci, kdybyste dávali nějaké &quot;minimální fungující kódy&quot;, 
+tak to můžu hned nasimulovat, ale takhle mne ani nehne ;)
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008837.html">[python] Smazání určitého řádku s widgety z QGridLayoutu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008839.html">[python] Smazání určitého řádku s widgety z QGridLayoutu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8838">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8838">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8838">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8838">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008838.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:40 GMT -->
+</html>

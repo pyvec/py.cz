@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010605.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:36 GMT -->
+<HEAD>
+   <TITLE> [python] Jak získat název procesu když znám PID procesu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FJak_z%3DC3%3DADskat_n%3DC3%3DA1zev_procesu_kdy%3DC5%3DBE_z%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fn%3DC3%3DA1m_PID_procesu%3F%3D&In-Reply-To=%3C4F5B99A7.4000301%40ludik.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-March/010604.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-March/010606.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak získat název procesu když znám PID procesu</H1>
+    <B>&quot;Ing. Vladislav Ludík&quot;</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FJak_z%3DC3%3DADskat_n%3DC3%3DA1zev_procesu_kdy%3DC5%3DBE_z%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fn%3DC3%3DA1m_PID_procesu%3F%3D&In-Reply-To=%3C4F5B99A7.4000301%40ludik.cz%3E"
+       TITLE="[python] Jak získat název procesu když znám PID procesu">vlada na ludik.cz
+       </A><BR>
+    <I>Sobota Březen 10 19:12:55 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010604.html">[python] How To
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010606.html">[python] Jak získat název procesu když znám PID procesu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10605">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10605">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10605">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10605">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím všechny.
+
+Spouštím pythonovský program.py (pod Linuxem) a chci zajistit jeho 
+stabilní chod i v nepředvídatelných režimech.
+Zatím to dělám tak, že program o sobě dává vědět a jiný program check.py 
+to kontroluje.
+program.py je trvale spuštěn. Pokud check.py nedostane správnou odpověď 
+a včas, nastartuje jej znovu.
+Při testech jsem zjistil, že občas po nepředpokládané chybě program 
+neodpoví jak má, popřípadě včas.
+
+Abych vyloučil dvojí spuštění, hlídám jeho název a PID procesu:
+
+_prg = os.path.basename(sys.argv[0])   # název
+_pid = os.getpid()                                 # PID
+
+Potřebuji zjistit podle názvu a PIDu, zda je spuštěný a existuje.
+Zatím to dělám přes subprocess, příkaz ps -d
+
+cmd = [&quot;ps&quot;, &quot;-d&quot;]
+proces = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+proces.wait()
+out = proces.stdout.read()
+
+out pak čtu a hledám potřebné.
+
+Mimochodem linuxovský příkaz ps -d | grep program.py, který by 
+vyfiltroval jen to co hledám, funguje pod linuxem, ale přes subprocess ne.
+Hlásí:  ERROR: Garbage option.
+
+Takže k mému konkrétnímu dotazu:
+
+existuje nějaký os příkaz nalezení PID podle jména programu ?
+
+Díky
+
+V.L.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010604.html">[python] How To
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010606.html">[python] Jak získat název procesu když znám PID procesu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10605">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10605">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10605">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10605">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010605.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:36 GMT -->
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004039.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:50 GMT -->
+<HEAD>
+   <TITLE> [python] Unicode řetězce
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Unicode%20%3D%3FISO-8859-2%3FQ%3F%3DF8et%3DECzce%3F%3D&In-Reply-To=ds7krp%242f2a%241%40boco.fee.vutbr.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-February/004038.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-February/004043.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Unicode řetězce</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Unicode%20%3D%3FISO-8859-2%3FQ%3F%3DF8et%3DECzce%3F%3D&In-Reply-To=ds7krp%242f2a%241%40boco.fee.vutbr.cz"
+       TITLE="[python] Unicode řetězce">geon na post.cz
+       </A><BR>
+    <I>Pondělí Únor  6 17:22:57 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004038.html">[python] Unicode řetězce
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004043.html">[python] Unicode řetězce
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4039">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4039">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4039">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4039">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tento &quot;program&quot; vám bude vždy češtinu tisknout dobře, protože ve stejném 
+kodovani čte i tiskne:
+
+text=raw_input(&quot;Zadej cesky text: &quot;)
+print text
+
+Pokud chcete text převést na unicode, musíte nejdřív vědět, v kterém 
+kodovani byl pořízen. Třeba u mě na konsoli Windows to je cp852. V IDLE 
+to je &quot;cp1250&quot;, v mém Linuxu to je tuším iso-8859-2. Takže když z  toho 
+chci udělat unicode, musím to převést takto:
+
+text=raw_input(&quot;Zadej cesky text: &quot;)
+print unicode(text,&quot;cp852&quot;) # pro konsoli windows
+
+Tímto způsobem to tiskne taky dobře (stejně jako v předchozím případě), 
+ale navíc, to můžete použít kdekoliv chcete, protože to je unicode.
+
+Navíc, pokud budete zadávat řetězce přímo v textu programu, musíte před 
+ně dát &quot;u&quot; a na první řádek doplnit informaci o použitém kodovaní.
+
+To přesměrování do souboru, kde to hází chybu, můžete ukázat kod?
+
+geon
+
+
+Radek Kubicek napsal(a):
+&gt;<i> Zdravím.
+</I>&gt;<i>
+</I>&gt;<i> Mám následující problém. Dělám aplikaci, ve které bych chtěl používat
+</I>&gt;<i> řetězce tím stylem, že se všechny převádí do UTF-8 a pracuje se s ním.
+</I>&gt;<i> Ale problém je v tom, že když zadám nějaký řetězec a načtu ho do
+</I>&gt;<i> proměnné (např. str), potom str.encode('utf-8') i str.decode('utf-8') i
+</I>&gt;<i> unicode(str, 'utf-8') vyhodí výjimku...
+</I>&gt;<i>
+</I>&gt;<i> A i pokud se mi to podaří tak, že řetězce se převedou a v pořádku
+</I>&gt;<i> vypíší, pokud tento výstup přesměruju do souboru (pomocí: aplikace &gt;
+</I>&gt;<i> soubor), vyhodí mi to UnicodeError při prvním non-ascii znaku.
+</I>&gt;<i>
+</I>&gt;<i> Nevíte někdo, jak na to?
+</I>&gt;<i>
+</I>&gt;<i> RK
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004038.html">[python] Unicode řetězce
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004043.html">[python] Unicode řetězce
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4039">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4039">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4039">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4039">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004039.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:50 GMT -->
+</html>

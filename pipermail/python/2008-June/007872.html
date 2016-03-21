@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007872.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:03 GMT -->
+<HEAD>
+   <TITLE> [python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%09filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=486252E0.1020507%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007869.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007875.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Guido o funkcich reduce(),	filter() a map() v Python 3000</H1>
+    <B>David Michal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%09filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=486252E0.1020507%40centrum.cz"
+       TITLE="[python] Guido o funkcich reduce(),	filter() a map() v Python 3000">dmichal na altien.com
+       </A><BR>
+    <I>Středa Červen 25 16:43:13 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007869.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007875.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7872">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7872">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7872">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7872">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No ale pak pokud kod neni treba menit tak proc by mela byt pozadovana udrzba starych knihoven?
+Pak preci staci pouzit starsi verzi pythonu a nechat to byt ne?
+Tim myslim odpovidam I na dalsi polozene dotazy. :)
+David
+
+&gt;<i> -----Original Message-----
+</I>&gt;<i> From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of
+</I>&gt;<i> superman
+</I>&gt;<i> Sent: Wednesday, June 25, 2008 3:15 PM
+</I>&gt;<i> To: Konference PyCZ
+</I>&gt;<i> Subject: Re: [python] Guido o funkcich reduce(), filter() a map() v
+</I>&gt;<i> Python 3000
+</I>&gt;<i> 
+</I>&gt;<i> Proč by musel být každý projekt neustále přepisován? Ba právě naopak!!!
+</I>&gt;<i> Betonově stabilní programy a kód získáte tak, že máte mnoho let
+</I>&gt;<i> nepřepisované programy, do kterých se zasáhne jen v případě nalezené
+</I>&gt;<i> chyby, jinak ne!
+</I>&gt;<i> 
+</I>&gt;<i> Dotaz: Jak moc byste věřili letadlu a byli ochotní s ním letět,
+</I>&gt;<i> kdybyste
+</I>&gt;<i> věděli, že programy v palubním počítači jsou neustále zahazovány a
+</I>&gt;<i> přepisovány? Já osobně bych do něj nenasedl.
+</I>&gt;<i> 
+</I>&gt;<i> Dotaz: Proč v kosmonautice se stále používá 20 i více let starý hw a
+</I>&gt;<i> programy?
+</I>&gt;<i> 
+</I>&gt;<i> Dotaz: Proč ve velké byznyse a nadnárodních firmách běží desítky let
+</I>&gt;<i> starý sw, často ještě v COBOLu?
+</I>&gt;<i> 
+</I>&gt;<i> Dotaz: Máte pocit, že v dnešní době, kdy se vyrábějí výrobky s čím dál
+</I>&gt;<i> rychlejší řadou modelů, verzí programů apod.. se oproti minulosti
+</I>&gt;<i> zvýšila kvalita elektroniky a sw? Tedy třeba, že dřív mi lednička
+</I>&gt;<i> vydržela 30 let, takže dnešní vydrží 60. Že dnešní neustále přepisované
+</I>&gt;<i> firmwary v mobilech způsobují, že máme čím dál stabilnější mobily. A že
+</I>&gt;<i> dnešní programy jsou promyšlenější a kvaitnější a spolehlivější?
+</I>&gt;<i> 
+</I>&gt;<i> Pro zamyšlení: Proč se nezahazuje linux kernel, ale stále se pokračuje
+</I>&gt;<i> ve 20 let starém kódu? Nápověda: Jak by asi Linux byl spolehlivý, kdyby
+</I>&gt;<i> se postupovalo metodou &quot;kompletního přepisování projektu&quot; jak navrhuje
+</I>&gt;<i> David?
+</I>&gt;<i> 
+</I>&gt;<i> Atd. atd..
+</I>&gt;<i> 
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> &gt; No urcite dost dlouho na to aby si clovek stihnul prepsat svoje
+</I>&gt;<i> projekty. :)
+</I>&gt;<i> &gt; Nove cele cislo ve verzi aplikace ma stejne symbolizovat kompletni
+</I>&gt;<i> prepsani projektu, a kazdy nemrtvy projekt je preci neustale
+</I>&gt;<i> prepisovan.
+</I>&gt;<i> &gt; David
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007869.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007875.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7872">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7872">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7872">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7872">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007872.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:03 GMT -->
+</html>

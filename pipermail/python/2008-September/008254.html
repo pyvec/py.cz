@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008254.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:23 GMT -->
+<HEAD>
+   <TITLE> [python] freeze,PyQt4.QtGui.so
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20freeze%2CPyQt4.QtGui.so&In-Reply-To=%3C20080921110633.GB9150%40sunstel.asu.cas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-September/008253.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-September/008255.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] freeze,PyQt4.QtGui.so</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20freeze%2CPyQt4.QtGui.so&In-Reply-To=%3C20080921110633.GB9150%40sunstel.asu.cas.cz%3E"
+       TITLE="[python] freeze,PyQt4.QtGui.so">fuky na sunstel.asu.cas.cz
+       </A><BR>
+    <I>Neděle Září 21 13:06:34 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008253.html">[python] freeze,PyQt4.QtGui.so
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008255.html">[python] freeze,PyQt4.QtGui.so
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8254">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8254">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8254">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8254">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+21. Sep (Sunday) v 11:20:07 CEST 2008, <A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A> napsal(a):
+&gt;<i> ImportError: /bin_linux/PyQt4.QtGui.so: undefined symbol: 
+</I>&gt;<i> _ZTI19QStyledItemDelegate
+</I>
+Knihovna QtGui.so je pouze obálka, která využívá spoustu knihoven. Však se
+podívej:
+
+    $ ldd /usr/lib/python/site-packages/PyQt4/QtGui.so
+
+A v jedné z těchto knihoven (tuším, že v té první) je uložena třída
+QAbstractItemDelegate:
+
+    libQtGui.so.4 =&gt; /usr/lib/libQtGui.so.4 (0xb7351000)
+    libQtCore.so.4 =&gt; /usr/lib/libQtCore.so.4 (0xb71d1000)
+
+Ovšem ta byla zavedena až od Qt 4.4.
+
+             S pozdravem Jan Fuchs
+
+-- 
+
+/**************************************************************
+*   _    Žádný program není bezchybný, dokonalý ani nejlepší, *
+*  °v°   to samé platí i o lidech a nejen o nich.             *
+* /(_)\                                      -- Jan Fuchs --  *
+*  ^ ^                                                        *
+*        <A HREF="http://www.fuky.org/">http://www.fuky.org</A>                 ICQ: 200692177   *
+**************************************************************/
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008253.html">[python] freeze,PyQt4.QtGui.so
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008255.html">[python] freeze,PyQt4.QtGui.so
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8254">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8254">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8254">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8254">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008254.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:23 GMT -->
+</html>

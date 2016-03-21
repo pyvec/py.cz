@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009332.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:00 GMT -->
+<HEAD>
+   <TITLE> [python] GTK a klíčová slova
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FR1RLIGEga2zDrcSNb3bDoSBzbG92YQ%3D%3D%3F%3D&In-Reply-To=%3Calpine.DEB.2.00.1002070037470.24325%40fuky.localdomain%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-February/009331.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-February/009351.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] GTK a klíčová slova</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FR1RLIGEga2zDrcSNb3bDoSBzbG92YQ%3D%3D%3F%3D&In-Reply-To=%3Calpine.DEB.2.00.1002070037470.24325%40fuky.localdomain%3E"
+       TITLE="[python] GTK a klíčová slova">fuky na sunstel.asu.cas.cz
+       </A><BR>
+    <I>Neděle Únor  7 01:35:32 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009331.html">[python] GTK a klíčová slova
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009351.html">[python] GTK a klíčová slova
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9332">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9332">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9332">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9332">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+nějaké články o Pythonu nalezneš ještě na:
+
+     <A HREF="http://www.linuxsoft.cz/">http://www.linuxsoft.cz</A>
+     <A HREF="http://www.root.cz/">http://www.root.cz</A>
+
+Určitě mrkni na <A HREF="http://python.wraith.cz/">http://python.wraith.cz</A> (děkuji za něj Petrovi Machovi).
+
+Pokud by Tě zajímala knížka v češtině, tak mě se docela líbí:
+
+     Začínáme programovat v jazyce Python - Daryl Harms, Kenneth McDonald
+     <A HREF="http://umarecka.cz/cze/pocitacova/programovani/ostatni/zaciname_programovat_v_jazyce_python_2_opravene_vydani">http://umarecka.cz/cze/pocitacova/programovani/ostatni/zaciname_programovat_v_jazyce_python_2_opravene_vydani</A>
+
+&gt;<i> Wing IDE neznám, ale dle Feature Listu na webu to nevypadá, že by
+</I>&gt;<i> obsahoval vizuální editor GUI. Takže GUI tvého programu budeš asi
+</I>&gt;<i> muset napsat &quot;ručně&quot;, což (především ze začátku) není na škodu :)
+</I>
+GUI pro GTK doporučuji navrhovat v <A HREF="http://glade.gnome.org/">http://glade.gnome.org/</A> , výsledek si
+uložíš do XML souboru, který posléze načteš a použiješ z téměř
+libovolného jazyka včetně Pythonu. Takže je samotný vzhled GUI pěkně
+oddělen od zbytku aplikace. Miniukázka:
+
+     #!/usr/bin/python
+     # -*- coding: utf-8 -*-
+
+     import gtk
+     import gtk.glade
+
+     xml = gtk.glade.XML('python.glade', 'window')
+
+     def spustit(button):
+       info_LB.set_text(&quot;Complete.&quot;)
+
+     def quit(window):
+       gtk.main_quit()
+       print &quot;End...&quot;
+
+     xml.signal_autoconnect(locals())
+     info_LB = xml.get_widget(&quot;info_LB&quot;)
+     gtk.main()
+
+&gt;<i> (Linux, Mac OS X, Windows...). Je na tobě, pro co se rozhodneš (zda
+</I>&gt;<i> WxPython, PyGTK či PyQt), s čím se ti bude lépe pracovat, případně co
+</I>
+S PyGTK jsem spokojen, má výbornou dokumentaci a pěkně udělaný binding.
+
+Samotné Qt je určitě špičkový nástroj, s bindingem PyQt nemám žádné
+zkušenosti, ale nevím o žádných zásadních nedostatcích, mimo licence viz
+níže.
+
+WxWidgets a tedy WxPython bych se doporučoval obloukem vyhnout. Oproti
+výše zmíněným knihovnám nenabízí žádnou zásadní výhodu a přináší spíše
+problémy. Např.:
+
+     <A HREF="http://www.abclinuxu.cz/blog/txt/2010/2/python-linux-a-software.-nocni-mura-mi-neda-spat/diskuse#10">http://www.abclinuxu.cz/blog/txt/2010/2/python-linux-a-software.-nocni-mura-mi-neda-spat/diskuse#10</A>
+
+A na Linuxu stejně využívá GTK.
+
+Ještě by Tě mohlo zajímat Tk, je svižné a jednoduché:
+
+     <A HREF="http://www.tkdocs.com/">http://www.tkdocs.com/</A>
+
+Verze 8.5 přinesla zajímavé novinky, již lze např. snadno měnit vzhled,
+takže konečně GUI vypadá k světu i na Linuxu. Výhoda je, že na Windows
+je přímo součástí instalace Pythonu, takže není třeba doinstalovávat
+další SW. O žádném kvalitním nekomerčním návrháři GUI pro Tk nevím.
+
+&gt;<i> bude mít přijatelnější licenční podmínky (teď narážím na PyQt a GPL).
+</I>
+Licence Qt je již v současné době i GPL, problém byl jen s bindingem
+PyQt, který vyvíjí jiná komerční firma:
+
+     <A HREF="http://www.riverbankcomputing.co.uk/software/pyqt/intro">http://www.riverbankcomputing.co.uk/software/pyqt/intro</A>
+
+Ovšem Nokia vyvíjí binding pod LGPL licencí:
+
+     <A HREF="http://www.pyside.org/">http://www.pyside.org</A>
+
+          S pozdravem Jan Fuchs
+
+--
+/**************************************************************
+*   _    Žádný program není bezchybný, dokonalý ani nejlepší, *
+*  °v°   to samé platí i o lidech a nejen o nich.             *
+* /(_)\                                      -- Jan Fuchs --  *
+*  ^ ^                                                        *
+*        <A HREF="http://www.fuky.org/">http://www.fuky.org</A>   Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">jan.fuchs.cz na gmail.com</A> *
+**************************************************************/
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009331.html">[python] GTK a klíčová slova
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009351.html">[python] GTK a klíčová slova
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9332">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9332">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9332">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9332">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009332.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:00 GMT -->
+</html>

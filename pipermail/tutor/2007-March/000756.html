@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000756.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] ještě seznam jako globální proměnná
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fje%3DB9t%3DEC_seznam_jako_glob%3DE1ln%3DED_pr%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fom%3DECnn%3DE1%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000755.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000757.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] ještě seznam jako globální proměnná</H1>
+    <B>Jan Šimůnek</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fje%3DB9t%3DEC_seznam_jako_glob%3DE1ln%3DED_pr%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fom%3DECnn%3DE1%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] ještě seznam jako globální proměnná">jsim na med.muni.cz
+       </A><BR>
+    <I>Středa Březen 28 11:00:23 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000755.html">[Tutor PyCZ] ještě seznam jako globální proměnná
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000757.html">[Tutor PyCZ] Tkinter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#756">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#756">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#756">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#756">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Děkuji za odpověď
+
+Dělám formulář, ve kterém je cca 70-100 OptionMenu. Formulář se vyplní výběrem 
+myší z přednastavených hodnot (tím je ohlídáno, že se tam nedostanou věcné 
+(odpověď mimo nabídnuté možnosti) nebo formální (např. číslo se dvěma 
+pozicemi za desetinnou tečkou, když je přednastavena jedna pozice) nesmysly.
+Po odkliknutí stáhne příslušná funkce nastavené hodnoty, přežvýká je (v zásadě 
+spojí do stringu, ale nad některými údaji ještě provede výpočet a jeho 
+výsledek převede na string přednastavené délky a s přednastavenou pozicí 
+desetinné tečky) a uloží spolu s DOSovským koncem řádku (výsledky bude 
+zpracovávat - statistika - DOSovský program, jehož vkládací interface je 
+jinak hrozné).
+
+Takže mám spoustu položek typu:
+
+polozkaOM18=OptionMenu(ram3,polozka18,&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;x&quot;)
+polozkaOM18.grid(row=16,column=1)
+
+V jakési nulté verzi, kterou jsem tu před časem konzultoval, jsem měl na 
+začátku programu sloupec:
+...
+polozka0=StringVar()
+...
+polozka18=StringVar()
+polozka18.set(&quot;x&quot;)
+...
+polozka100.set(&quot;x&quot;)
+...
+
+a v záhlaví funkce uloz sáhdlouhý výčet všech proměnných z OptionMenu
+global polozka0
+...
+global polozka18
+...
+global polozka100
+...
+
+Teď jsem zjistil, že se dá udělat něco jako
+
+polozka=[]
+for i in range(100)
+     polozka.append(StringVar())
+     polozka[x].set(&quot;x&quot;)
+a že to funguje,
+a teď bych více-méně potřeboval něco podobného do záhlaví té funkce uloz, aby 
+se tam pokud možno nemusel vypisovat celý seznam položka po položce.
+
+Proto by mi více-méně pomohlo, zda je seznam implicitně globální záležitost, 
+případně zda se musí nějak jako globální definovat a s jakou syntaxí.
+
+Nějaké volání funkce uloz po vyplněn í jednotlivých položek by mi patrně moc 
+nepomohlo, protože jednotlivá OptionMenu na sebe vzájemně nevidí, pokud 
+jejich proměnné nejsou nastaveny jako global. Navíc je formulář udělaný tak, 
+aby po uložení hodnoty v OptionMenu zůstaly, protože dotazníky, které se do 
+něj vkládají, jsou často podobné a dobrá třetina (někdy i polovina) 
+vyplněných kolonek se dá při vyplňování následujícího dotazníku přeskočit, 
+protože tam zůstává předchozí hodnota, což šetří čas.
+
+S pozdravem
+
+Jan Šimůnek
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000755.html">[Tutor PyCZ] ještě seznam jako globální proměnná
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000757.html">[Tutor PyCZ] Tkinter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#756">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#756">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#756">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#756">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000756.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+</html>

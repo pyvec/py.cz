@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008132.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:29 GMT -->
+<HEAD>
+   <TITLE> [python] Vkladani listu do SQL prikazu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vkladani%20listu%20do%20SQL%20prikazu&In-Reply-To=48A55CC5.4060806%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008131.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008133.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vkladani listu do SQL prikazu</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vkladani%20listu%20do%20SQL%20prikazu&In-Reply-To=48A55CC5.4060806%40centrum.cz"
+       TITLE="[python] Vkladani listu do SQL prikazu">slush na centrum.cz
+       </A><BR>
+    <I>Pátek Srpen 15 12:46:37 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008131.html">[python] Vkladani listu do SQL prikazu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008133.html">[python] Vkladani listu do SQL prikazu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8132">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8132">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8132">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8132">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Musim se Honzy zastat, obavam se, ze jste jeho konstrukci uplne nepochopil.
+On nevklada pres stringove operace samotne polozky z listu, ale pouze
+rozkopirovava string &quot;%s&quot; tak, aby nasledne DB API &quot;vyklofala&quot; jednotlive
+polozky listu sama. Je to sice trochu kuriozni reseni, na druhou stranu tam
+zadne bezpecnostni riziko opravdu nevidim (a to jsem docela paranoidni).
+
+Marek
+
+Dne 15. srpen 2008 12:39 superman &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">feed na centrum.cz</A>&gt; napsal(a):
+
+&gt;<i> Napadlo Vás, že v tom listu může být naprosto cokoli? A že když je tam
+</I>&gt;<i> co nemá být, tak se to dostane do databáze?
+</I>&gt;<i>
+</I>&gt;<i> Způsob nabourání se liší od databáze k databázi, ale zkuste si to toho
+</I>&gt;<i> listu dát třeba pro mysql
+</I>&gt;<i>
+</I>&gt;<i> nejaky_list = [&quot;)&quot;, &quot;;drop database jmeno_database;&quot;]
+</I>&gt;<i>
+</I>&gt;<i> A máte vymalováno, uvolníte spoustu místa na disku zrušením totálně celé
+</I>&gt;<i> databáze. Můžete odložit nákup nového disku, na kterém už docházelo
+</I>&gt;<i> místo. :-)
+</I>&gt;<i>
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Jan Janech napsal(a):
+</I>&gt;<i> &gt; Osobne tam nevidim nic zle. Nie je to &quot;pitome&quot; riesenie, nakolko sa o
+</I>&gt;<i> &gt; vyplnenie a formatovanie stara DB-API a nie ja. Poprosim o ukazku toho,
+</I>&gt;<i> &gt; ako to dokaze nejaky cracker naburat.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; superman wrote:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt; Já se moc omlouvám, ale proti podobně pitomým řešením se musím ozvat.
+</I>&gt;<i> &gt;&gt; Tedy pokud toužíte po tom dát případnému crackerovi do ruky naprosto
+</I>&gt;<i> &gt;&gt; ideální nástroj k průniku do vašeho systému tak je toto řešení skvělé. A
+</I>&gt;<i> &gt;&gt; pokud takto řešíte listy, tak není pro mě problém vám zvenčí třeba
+</I>&gt;<i> &gt;&gt; zrušit celou databázi a vyčistit vám jí dočista do čista pouhým vstupem
+</I>&gt;<i> &gt;&gt; zvenku jakožto uživatel.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Nehledě na tom, že na některých vstupech v listech to musí selhat tak
+</I>&gt;<i> &gt;&gt; jako tak.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Takhle se to nedá dělat!
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Miloslav Ponkrác
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080815/8a5d9505/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080815/8a5d9505/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008131.html">[python] Vkladani listu do SQL prikazu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008133.html">[python] Vkladani listu do SQL prikazu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8132">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8132">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8132">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8132">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008132.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:29 GMT -->
+</html>

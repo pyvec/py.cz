@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2002-July/000180.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:41 GMT -->
+<HEAD>
+   <TITLE> [python]  from modul import *
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20from%20modul%20import%20%2A&In-Reply-To=20020705081410.A6611%40ns.chl.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2002-July/000179.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2002-July/000181.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python]  from modul import *</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20from%20modul%20import%20%2A&In-Reply-To=20020705081410.A6611%40ns.chl.cz"
+       TITLE="[python]  from modul import *">rk na dat.cz
+       </A><BR>
+    <I>Pátek Červenec  5 12:01:52 CEST 2002</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000179.html">[python]  from modul import *
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000181.html">[python]  python a cestina
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-July/date.html#180">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/thread.html#180">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/subject.html#180">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/author.html#180">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, Jul 05, 2002 at 08:14:10AM +0200, ViNiL wrote:
+
+&gt;<i> On Fri, Jul 05, 2002 at 02:44:52AM +0200, Petr Vanek wrote:
+</I>&gt;<i> &gt; zdravim,
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; ve vsech howto se nedoporucuje importovat * from modul, nebot
+</I>&gt;<i> &gt; to promicha karty jmen promenny v namespace (pekne receno ;-). navic se
+</I>&gt;<i> &gt; mi zda (a i jsem to nekde cetl), ze to zpomali start programu, nebot se
+</I>&gt;<i> &gt; nacte i to, co neni potrebne.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; pouzivam wxPython GUI a zkusil jsem namisto from wxPython.wx import * 
+</I>&gt;<i> &gt; pouzit from wxPython.wx import wx, ale casove to vychazi na stejno (mam
+</I>&gt;<i> &gt; slaby pocitac, tak vim, o cem mluvim - zhruba o osmi vterinach
+</I>&gt;<i> &gt; natahovani modulu wxPython). problemy se jmeny  promennych v v
+</I>&gt;<i> &gt; namespaces mne tolik netrapi, ma pro mne smysl se trapit se specifikaci
+</I>&gt;<i> &gt; konkretnich importovanych veci, kdyz mi to nic neprinasi?
+</I>&gt;<i> 
+</I>&gt;<i> Cele to zalezi na tom, jak je ten modul napsany.
+</I>&gt;<i> 
+</I>&gt;<i> Vubec nejlepsi je v importu 'from' nepouzivat, ale uznavam, ze nekdy by to byl
+</I>&gt;<i> vopruz.
+</I>&gt;<i> 
+</I>&gt;<i> To, ze importovani konkretnich veci ti nic neprinasi, neni pravda. Prave onen
+</I>&gt;<i> name clash zjistis obvykle az po dni hledani :-) Krome toho je to vyrazne
+</I>&gt;<i> hezci.
+</I>
+Rozhodne se nedoporucuje pouzivat konstrukci ``from mod import *''
+v modulech, o kterych se predpoklada, ze je budou pouzivat dalsi
+lidi/moduly. Pokud pisu uz nejaky finalni program, o kterem se
+predpoklada, ze nebude nikdy importovany, tak si myslim, ze je
+to jedno.
+
+&gt;<i> Ta rychlost se neprojevi anitak pri samotnem importu (predpokladam, ze ten
+</I>&gt;<i> modul mas zbytecompilovany), jako pri behu tveho programu. Je logicke, ze cim
+</I>&gt;<i> &quot;bohatsi&quot; namespace, tim vic rezie navic (v podstate pri kazdem hledani (t.j.
+</I>&gt;<i> pouziti) napr. promenne). A vzhledem k tomu, ze onim &quot;from blabla import *&quot;
+</I>&gt;<i> importujes take importovane moduly, neni to jaksi ono...
+</I>
+Co se tyce te rychlosi, tak to mne neni moc jasne, ale zadne poradne
+testy jsem nedelal. Podle meho badani to ale zavisi na situaci:
+
+Varianta-1
+------------------------------------------
+from xml.dom.minidom import *
+
+def vratNode () :
+	return Node
+------------------------------------------
+
+Kazdy odkaz na Node z modulu xml.dom.minidom generuje nasledujici bytecode:
+
+          6 LOAD_GLOBAL              0 (Node)
+
+Generuje teda pouze jednu instrukci, ktera vyhleda klic Node
+v asciativnim poli globalnich promennych. Ikdyz toto pole muze
+byt vetsi, nez pri pouziti druhe varianty, myslim si, ze to bude
+rychlejsi, ale spotrebuje to vetsinou vice pameti.
+
+Varianta-2
+------------------------------------------
+import xml.dom.minidom
+
+def vratNode () :
+	return xml.dom.minidom.Node
+------------------------------------------
+
+V tomto pripade odkaz na xml.dom.minidom.Node generuje nasledujici bytecode:
+
+          6 LOAD_GLOBAL              0 (xml)
+          9 LOAD_ATTR                1 (dom)
+         12 LOAD_ATTR                2 (minidom)
+         15 LOAD_ATTR                3 (Node)
+
+Evidentne se tu vykonava vic kodu. Pokud nenaroste pole globalnich
+promennych pouzitim 'from cosi import *' zasadnim zpusobem, bude tohle
+asi vzdy pomalejsi. Spotrebuje se ovsem mene pameti (vetsinou).
+
+Ja osobne pouzivam v pripade, ze nechci porad dokola psat
+modul.sub1.sub2.Neco kostrukci:
+
+import modul.sub1.sub2 as zkrakta
+
+Pak se na modul.sub1.sub2.Neco odkazuju jako na zkratka.Neco.
+Ve starsim pythonu ``as'' nefunguje, ale lze docilit stejneho efektu
+pouzitim:
+
+import modul.sub1.sub2
+zkratka = modul.sub1.sub2
+
+
+Zdravi
+
+Radek Kaňovský
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000179.html">[python]  from modul import *
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000181.html">[python]  python a cestina
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-July/date.html#180">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/thread.html#180">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/subject.html#180">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/author.html#180">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2002-July/000180.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:41 GMT -->
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003849.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:56 GMT -->
+<HEAD>
+   <TITLE> [python] vim/gvim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vim/gvim&In-Reply-To=43B92776.3040808%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-January/003848.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-January/003851.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vim/gvim</H1>
+    <B>Jaroslav Pachola</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vim/gvim&In-Reply-To=43B92776.3040808%40post.cz"
+       TITLE="[python] vim/gvim">j_p na centrum.cz
+       </A><BR>
+    <I>Pondělí Leden  2 17:08:56 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003848.html">[python] vim/gvim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003851.html">[python] vim/gvim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3849">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3849">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3849">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3849">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+Dne Monday 02 January 2006 14:15 geon napsal(a):
+&gt;<i> Zkoušel jsem VIM/ GVIM a přesto, že zatím stále dokážu rychleji a lépe
+</I>&gt;<i> pracovat s PSPadem, chtěl bych věřit, že VIM je lepší ....
+</I>
+jak pro koho. Nektere moznosti jen tak nekde nenajdes (ikdyz vetsinu asi 
+vykonna prostredi maji) - mocny makrojazyk, moznost pouzivani externich 
+filtru na vybrany text , mocne regularni vyrazy, moznost opakovani predesle 
+editace na jinem miste, pro me dulezite moznosti zvysovani konstant, obecne 
+provedeni nejake akce s urcenym poctem opakovani a dalsi veci. Perfektni je 
+prave, ze se clovek muze pouzivani sipek a podobnych veci zcela vyvarovat.
+
+Jak ale psal David Necas, tento editor ma zcela jinou filosofii nez 
+wordstarovske editory. Ucici krivka je o neco delsi, ale clovek zacne byt 
+pomerne brzo vcelku efektivni. Ja jsem presel na (g)vim  v praci - pouzivame 
+casto explicitni foldy (pomoci # {{{, # }}}), coz je velice vyhodna vec a 
+nikde jinde jsem to nevidel, takze moc moznosti mi nezbylo. Ale nelituju, 
+ikdyz urcite jsou veci, ktere jsou jinde resene pohodlneji nebo ve (g)vimu 
+chybi zcela.
+
+Vynecham veci, ktere nevim nebo na ktere odpovedeli druzi:
+
+&gt;<i> * jak udělat automatické dokončování (i pro klíčová slova a standardní
+</I>&gt;<i> moduly)
+</I>
+Myslim, ze se to da nejak zaridit pres tags. Ale ja to nepouzivam.
+
+&gt;<i> * jak označovat pomocí Shift a kurzorové šipky? jak myší?(ve VIM)
+</I>
+Napred das v, V nebo ^V, pohybuju sipkama a shift nechas byt. :-) Ale casto 
+existuji ve vimu rychlejsi zpusoby provedeni nejake akce nez pomoci vyberu 
+sipkami.
+
+&gt;<i> * ze schránky se vkládá text vcelku netradičně &quot;+p. Proč tak jednoduše?
+</I>
+Ono je to docela vyhodne, tady jde o to, ze (g)vim podporuje nejruznejsi typy 
+registru. Napriklad &quot;%p vlozi nazev editovaneho souboru. Pro praci v ramci 
+otevreneho (g)vimu staci p pro vlozeni za kurzor a P pro vlozeni pred nej. 
+Petrfektni je, ze muzes vlozit ten text opakovane, pomoci 10p vlozis obsah 
+registru 10x.
+
+&gt;<i> * jak pracovat s kódováními? Lze nastavovat různé kódové stránky
+</I>&gt;<i> pohodlně jako v PSPadu?
+</I>
+PSPad prakticky neznam (ve Windows se moc nepohybuju a i tam poustim gvim). 
+Docela vyhodne muze byt pouziti &quot;modeline&quot;. Napriklad v Pythonu das nekam do 
+souboru
+
+# vim:enc=utf-8:fenc=utf-8:
+
+a mas kodovani pro dany soubor natvrdo, at s nim pracujes ve (g)vimu kdekoliv 
+a s jakoukoliv konfiguraci. Pro jine jazyky jenom zmenis komentar:
+
+% vim:enc=utf-8:fenc=utf-8:ts=4:sw=4:
+// vim:enc=utf-8:fenc=utf-8:foldmethod=marker:
+&lt;! vim:enc=utf-8:fenc=utf-8:
+&gt;<i>
+</I>
+atd.
+
+&gt;<i> * .vimrc - pustil by sem někdo svůj .vimrc s nastavením pro Python?
+</I>
+Ja mam konfiguraci docela slozitou a na spoustu veci nemam copyright, ale 
+zkusim ti zitra vecer neco zajimaveho vytahnout, pokud mas zajem.
+
+JP
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003848.html">[python] vim/gvim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003851.html">[python] vim/gvim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3849">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3849">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3849">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3849">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003849.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:56 GMT -->
+</html>

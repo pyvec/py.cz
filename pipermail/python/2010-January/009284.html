@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009284.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:10 GMT -->
+<HEAD>
+   <TITLE> [python] python subprocess vraci porad 1
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20python%20subprocess%20vraci%20porad%201&In-Reply-To=%3C4B5766F7.50506%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-January/009283.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-January/009285.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] python subprocess vraci porad 1</H1>
+    <B>Tomas Pelka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20python%20subprocess%20vraci%20porad%201&In-Reply-To=%3C4B5766F7.50506%40gmail.com%3E"
+       TITLE="[python] python subprocess vraci porad 1">tompelka na gmail.com
+       </A><BR>
+    <I>Středa Leden 20 21:26:31 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009283.html">[python] generator seznamu - TypeError: object cannot be interpreted as an index
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009285.html">[python] python subprocess vraci porad 1
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9284">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9284">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9284">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9284">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim konferenci,
+temer cely den se peru se subprocess. Problem me dela naledujici
+jednoducha konstrukce:
+
+--------------------------------------------------
+import subprocess
+
+pattern = &quot;python&quot;
+cmd = &quot;/usr/bin/locate&quot;
+args = &quot; -i -d /var/www/books/mlocate.db %s&quot; % pattern
+
+p1 = subprocess.Popen([cmd,  args], shell=False, stdout=subprocess.PIPE,
+stderr=subprocess.PIPE)
+(stdoutdata, stderrdata) = p1.communicate()
+
+print p1.returncode
+print &quot;%s -- %s&quot; % (stdoutdata, stderrdata)
+--------------------------------------------------
+
+Takze cilem je spustit prikaz
+/usr/bin/locate -i -d /var/www/books/mlocate.db python
+v shellu tento prikaz vypise nenulovy vysledek a skonci s nulovym
+navratovym kodem. V pythonu konci s navratovym kodem &quot;1&quot; a &quot; -- &quot;.
+
+Netusim proc tomu tak je, ma nekdo nejaky napad.
+Dekuji.
+
+-- 
+Tom
+
+Key fingerprint = 06C0 23C6 9EB7 0761 9807  65F4 7F6F 7EAB 496B 28AA
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009283.html">[python] generator seznamu - TypeError: object cannot be interpreted as an index
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009285.html">[python] python subprocess vraci porad 1
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9284">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9284">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9284">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9284">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009284.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:10 GMT -->
+</html>

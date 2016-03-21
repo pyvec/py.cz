@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006726.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=46e1f0de0711150752k2adf9069r4976230d2b237042%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006725.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006728.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=46e1f0de0711150752k2adf9069r4976230d2b237042%40mail.gmail.com"
+       TITLE="[python] sockety - problem s HTTP spojenim">leos na radiante-corp.com
+       </A><BR>
+    <I>Čtvrtek Listopad 15 17:33:28 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006725.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006728.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6726">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6726">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6726">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6726">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mozna jste presne nepochopil muj priklad, tak ho trosku rozepisu. 
+Nejdrive si pripravim buffer, ktery bude obsahovat nakonec vysledek, 
+tzn. string obsahujici nactene hlavicky + celou html. Cyklim a pokud je 
+porad co cist, tak prectu maximalne 4k a pridavam to do vysledneho buf. 
+To znamena, ze vzdy prectu celou stranku. Jen se trosku opravim, protoze 
+tam mam trapnou chybku:
+
+    buf = ''
+    read = 'go'
+    while read:
+        read = clisock.recv(4096)
+        buf += read
+    print buf
+
+
+Ohledne teorie vas odporucim treba na nasledujici linky:
+
+    <A HREF="http://cs.wikipedia.org/wiki/UDP">http://cs.wikipedia.org/wiki/UDP</A>
+    <A HREF="http://cs.wikipedia.org/wiki/TCP">http://cs.wikipedia.org/wiki/TCP</A>
+
+Predstavte si, ze pisete jednoducheho clienta na prenos souboru. Je pro 
+vas samozrejme dulezite, aby vsechny odeslana data dosly a jeste k tomu 
+ve spravnem poradi. Proto pouzijete steam, ktery tyto problemy resi. 
+Datagram pak naopak pouzijete tam, kde toto nepotrebujete a ani vas to 
+nezajima - VoIP, DNS, broadcast.
+Ale to je jen takovy nastrel, proto radeji vyhledejte nejake materialy 
+na internetu - vytecne veci se daji docist v prednaskovych materialech 
+univerzit :-)
+
+Leo
+BTW: kdysi davno jsem to taky zkousel a nepodarilo se mi apache donutit, 
+aby mi odpovidal v HTTP/1.0
+
+Tomy novella wrote:
+&gt;<i> ahoj,
+</I>&gt;<i> tak potom mam este jednu otazku. presnejsie dve :) totiz nedalo by sa
+</I>&gt;<i> to nejak tak spravit, aby mi zobrazo hocako velku stranku? nechcem
+</I>&gt;<i> robit obmedzenie na velkost stranky, pretoze co ak bude vacsia, ako je
+</I>&gt;<i> dane obmedzenie.. (naco je vlastne to obmedzenie dobre?;-(( ). este by
+</I>&gt;<i> ma zaujimalo, ze ci niekto nevie, ze ako to riesia webove browsre? oni
+</I>&gt;<i> maju nejake obmedzenie?
+</I>&gt;<i>
+</I>&gt;<i> aa ta &quot;druha otazka&quot; ;) sa tyka socketov, presnejsie
+</I>&gt;<i> kedy sa pouziva datagramove a kedy streamove spojenie? na nete som sa
+</I>&gt;<i> len dozvedel rozdiel medzi nimi, ale par prikladov pouzitia z praxi by
+</I>&gt;<i> nezaskodilo :)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> diky:)
+</I>&gt;<i>
+</I>&gt;<i> 2007/11/15, Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos na radiante-corp.com</A>&gt;:
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Zdravim,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> v podstate vsechno dobre, jen ze socketu pak nactete jen 100B, takze
+</I>&gt;&gt;<i> radek recv bych treba prepsal na tohle:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     buf = ''
+</I>&gt;&gt;<i>     read = clisock.recv(4096)
+</I>&gt;&gt;<i>     while read:
+</I>&gt;&gt;<i>         buf += read
+</I>&gt;&gt;<i>         read = clisock.recv(4096)
+</I>&gt;&gt;<i>     print buf
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Leo
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Tomy novella wrote:
+</I>&gt;&gt;<i>     
+</I>&gt;&gt;&gt;<i> ahoj,
+</I>&gt;&gt;&gt;<i> ucim sa zaklady prace so socketmi, tak som si napisal takyto skriptik:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> import socket
+</I>&gt;&gt;&gt;<i> clisock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</I>&gt;&gt;&gt;<i> clisock.connect(('ww1.chatq.sk', 80))
+</I>&gt;&gt;&gt;<i> clisock.send('GET /index.php HTTP/1.0\nHost: ww1.chatq.sk\n\n')
+</I>&gt;&gt;&gt;<i> print clisock.recv(100)
+</I>&gt;&gt;&gt;<i> clisock.close()
+</I>&gt;&gt;&gt;<i> print &quot;koniec&quot;
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> problemom vsak je, ze ked ho spustim, tak mi vrati nieco taketo:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> HTTP/1.1 200 OK
+</I>&gt;&gt;&gt;<i> Date: Thu, 15 Nov 2007 15:04:15 GMT
+</I>&gt;&gt;&gt;<i> Server: Apache
+</I>&gt;&gt;&gt;<i> X-Powered-By: PHP/4.4.8_pre200
+</I>&gt;&gt;&gt;<i> koniec
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> a ja pritom chcem, aby mi vratilo aj cely HTML kod, ktory by mal
+</I>&gt;&gt;&gt;<i> apache vraciat...
+</I>&gt;&gt;&gt;<i> preco ho nevracia a vracia mi spat len par hlaviciek?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> aa ako ceresnicka by ma zaujimalo, ze preco ked to pytam cez HTTP
+</I>&gt;&gt;&gt;<i> verziu 1.0, tak mi to vracia cez HTTP 1.1 :)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> diky :)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>       
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> ----
+</I>&gt;&gt;<i> Leos Pol
+</I>&gt;&gt;<i> Team Leader
+</I>&gt;&gt;<i> Radiante Corp.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> If it can be imagined,
+</I>&gt;&gt;<i> we can implement it
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+
+-- 
+----
+Leos Pol
+Team Leader
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006725.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006728.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6726">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6726">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6726">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6726">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006726.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+</html>

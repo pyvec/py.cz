@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2002-December/000368.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:39 GMT -->
+<HEAD>
+   <TITLE> [python] globalni a lokalni promenne
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20a%20lokalni%20promenne&In-Reply-To=20021210093230.GN8108%40dat.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2002-December/000366.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2002-December/000369.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] globalni a lokalni promenne</H1>
+    <B>Petr Vanek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20a%20lokalni%20promenne&In-Reply-To=20021210093230.GN8108%40dat.cz"
+       TITLE="[python] globalni a lokalni promenne">vanous na penguin.cz
+       </A><BR>
+    <I>Úterý Prosinec 10 20:59:56 CET 2002</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000366.html">[python] globalni a lokalni promenne
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000369.html">[python] globalni a lokalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-December/date.html#368">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/thread.html#368">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/subject.html#368">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/author.html#368">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> &gt; On Mon, Dec 09, 2002 at 10:59:06PM -0500, Petr Vanek wrote:
+</I>&gt;<i> &gt; co musim udelat, abych mohl v cele aplikaci pouzivat tuhle connekci? ted
+</I>&gt;<i> &gt; mi to vraci asi (logicky): raise error, &quot;not bound to database&quot;
+</I>&gt;<i> &gt; ja v tech lokalnich a globalnich promennych mam takovy chaos, vzdycky
+</I>&gt;<i> &gt; to nejak zmastim, ale nejak to preci musi byt korektne, ne?
+</I>
+upresnim:
+
+mam aplikaci ( <A HREF="http://cvs.penguin.cz/index.cgi/PyBookShelve/">http://cvs.penguin.cz/index.cgi/PyBookShelve/</A> ) ve ktere
+chci pouzivat databazi. chci se pripojit jen jednou a v cele te aplikaci
+pouzivat to spojeni (ted mne napada - nemusi to byt _perzistentni_
+pripojeni? - ja jsem vetsinou delal v php + mysql a tam to je asi
+jinak...). zkusil jsem si teda vytvorit funkci pro pripojeni, tu zavolam
+ale nemuzu ten connect dale pouzivat, protoze tvrdi, ze neni napojen...
+
+&gt;<i> On Tue, Dec 10, 2002 at 10:32:30AM +0100, Radek Kanovsky wrote:
+</I>&gt;<i> 
+</I>&gt;<i> vono neni jasne, co chtej vlastne delat. Pokud gadfly nedela nejake
+</I>&gt;<i> kejkle s importem, tak jim tahle funkce vrati vzdy nove spojeni do
+</I>&gt;<i> databaze a to by melo fungovat i mimo tuto funkci. Mozna by bylo dobre,
+</I>&gt;<i> kdyby poslali nejaky kratky priklad, ktery jim takto havaruje.
+</I>&gt;<i> 
+</I>&gt;<i> Pokud by chteli, aby tato funkce vratila vzdy stejne spojeni (nejaka
+</I>&gt;<i> obdoba singletonu), tj. stejnou instanci spojeni, musej to udelat trosku
+</I>&gt;<i> jinak.
+</I>
+jojo, chci volat porad to stejne pripojeni...
+
+&gt;<i> no, pouzivat... jak tuhle metodu volaj? co kdyby to udelal
+</I>&gt;<i> tak, ze do jednoho modulu by dal tohle:
+</I>&gt;<i> 
+</I>&gt;<i> import gadfly
+</I>&gt;<i> conn=gadfly.gadfly()
+</I>&gt;<i> conn.startup=(db,dir)
+</I>&gt;<i> 
+</I>&gt;<i> a v ostatnich by volal:
+</I>&gt;<i> import muj_konekti_modulek
+</I>&gt;<i> ...
+</I>&gt;<i> ...
+</I>&gt;<i> def nejaka_slaka_funkce:
+</I>&gt;<i> 	global conn
+</I>&gt;<i> 	...
+</I>&gt;<i> ...
+</I>&gt;<i> 
+</I>&gt;<i> nemam to vyzkousene, takze jim to mozna bude
+</I>&gt;<i> pekne nadavat.
+</I>&gt;<i> 
+</I>nedal jsem to do mudulu, ale zkusil jsem to dat primo na zacatek
+programu, ale nejede to takhle... ;-(
+
+On Tue, Dec 10, 2002 at 10:58:35AM +0100, Jan Svec wrote:
+&gt;<i> 
+</I>&gt;<i> Na to si davaj pozor. Lokalni a globalni promenne jsou
+</I>&gt;<i> hajzli a kazdy by mel umet, kdyz ukazeme na jmeno promenny,
+</I>&gt;<i> rict, jestli je lokalni nebo globalni! Proto take
+</I>&gt;<i> nedoporucujou pouzivat 'from module import *', protoze to
+</I>&gt;<i> naimportuje spoustu veci a pak uz mi nereknou, ktera
+</I>&gt;<i> promenna je kde definovana :)
+</I>
+se polepsej ;-) , budou vic cist manualy
+
+&gt;<i> 
+</I>&gt;<i> Pokud maj bordel ve jmenech, zkusi tohle:
+</I>&gt;<i> 
+</I>&gt;<i> def connect(self,db,dir):
+</I>&gt;<i> 	global gadfly, conn
+</I>&gt;<i> 	import gadfly
+</I>&gt;<i> 	conn=gadfly.gadfly()
+</I>&gt;<i> 	conn.startup=(db,dir)
+</I>&gt;<i> 	return conn
+</I>&gt;<i> 
+</I>&gt;<i> Po volani teto funkce maj globalnim v namespace dve novy
+</I>&gt;<i> promenny - gadfly (modul) a conn (konekce).
+</I>
+zkusili, ale nepohlo jim to...
+
+&gt;<i> 
+</I>&gt;<i> &gt; co musim udelat, abych mohl v cele aplikaci pouzivat tuhle connekci? ted
+</I>&gt;<i> &gt; mi to vraci asi (logicky): raise error, &quot;not bound to database&quot;
+</I>&gt;<i> 
+</I>&gt;<i> To ale vypada, ze nejsou pripojeny k databazi! Nemaj problem
+</I>&gt;<i> na jejich strane?
+</I>
+prave, myslej si, ze to neni perzistetni spoj. jdou na to kouknout
+
+&gt;<i> PS: Maj v Kanade hodne snehu? V Cechach snih nemame, jen
+</I>&gt;<i> strasnej mraz, rano nam malem upadli usi. Asi vytahneme
+</I>&gt;<i> kulicha.
+</I>&gt;<i> hm, to musej mit ramena jako &quot;schwarzgreen&quot;, kdyz
+</I>&gt;<i> musej v kanade uklizet kvanta snehu... :)
+</I>&gt;<i>
+</I>
+tady to maj k tomu snehu:
+vloni to bylo o nicem, slaba zima celkove nic moc. letos to vypada lepe,
+i kdyz tento tyden nam hlasej zase plusy. uz jsme meli i minus dvacet
+sedum (slovy dvacet sedum pod nulou) a napadlo nam hafo snehu, winter
+jak slak!!! sak si to letos uzivaj i kdyz nemaj zimu obecne radi...nase
+draha polovicka jezdi na bezkach i do office, jojo, ta ma radost ;-)
+
+
+dou koukat na dokumentaky k gadfly, sak to nejak musi byt, ne?
+
+bajo
+-- 
+
+bye
+
+Vanous
+-------------------------------------------------
+Petr Vanek                       ..... ./\.  ....
+Debian GNU Linux                 .. _|\|  |/|_ ..
+<A HREF="http://www.py.cz/mailman/listinfo/python">vanous na penguin.cz</A>                .. \        /...
+<A HREF="http://www.penguin.cz/~vanous">http://www.penguin.cz/~vanous</A>    ... &gt;______&lt; ...
+Angus, Ontario, CANADA           ...... / .......
+-------------------------------------------------
+Registered linux user #217487
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: [žádný popis není k dispozici]
+Typ: application/pgp-signature
+Velikost: 232 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20021210/2e1dce6f/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20021210/2e1dce6f/attachment.pgp</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000366.html">[python] globalni a lokalni promenne
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000369.html">[python] globalni a lokalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-December/date.html#368">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/thread.html#368">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/subject.html#368">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/author.html#368">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2002-December/000368.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:39 GMT -->
+</html>

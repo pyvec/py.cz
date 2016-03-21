@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2002-April/000065.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:42 GMT -->
+<HEAD>
+   <TITLE> [python] Kde se da sehnat codec pro windows-1250 kodovani?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Kde%20se%20da%20sehnat%20codec%20pro%20windows-1250%20kodovani%3F&In-Reply-To=20020424174459.A3276%40ns.chl.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2002-April/000064.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2002-April/000066.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Kde se da sehnat codec pro windows-1250 kodovani?</H1>
+    <B>Radek Hnilica</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Kde%20se%20da%20sehnat%20codec%20pro%20windows-1250%20kodovani%3F&In-Reply-To=20020424174459.A3276%40ns.chl.cz"
+       TITLE="[python] Kde se da sehnat codec pro windows-1250 kodovani?">Radek na Hnilica.CZ
+       </A><BR>
+    <I>Čtvrtek Duben 25 07:33:15 CEST 2002</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-April/000064.html">[python] Kde se da sehnat codec pro windows-1250 kodovani?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-April/000066.html">[python] Zope na Pythonu 2.2?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-April/date.html#65">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-April/thread.html#65">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-April/subject.html#65">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-April/author.html#65">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, Apr 24, 2002 at 05:44:59PM +0200, ViNiL wrote:
+&gt;<i> Co je spatneho na souboru /usr/lib/python2.2/encodings/cp1250.py?
+</I>&gt;<i> Zacina slovy &quot;class Codec&quot; :-)
+</I>
+Dobry víle, budiz ti chvala za napovedu.
+Spatneho na nem je to, ze prislusne kodovani neexistuje :) viz.
+
+&gt;&gt;&gt;<i> codecs.lookup('windows_1251')
+</I>(&lt;bound method Codec.encode of &lt;encodings.cp1251.Codec instance at 0x80ad104&gt;&gt;, &lt;bound method Codec.decode of &lt;encodings.cp1251.Codec instance at 0x80c909c&gt;&gt;, &lt;class encodings.cp1251.StreamReader at 0x80c035c&gt;, &lt;class encodings.cp1251.StreamWriter at 0x80c00fc&gt;)
+&gt;&gt;&gt;<i> codecs.lookup('windows_1250')
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+LookupError: unknown encoding
+
+jednak neni na rozdil treba od 1251 ani zavedene v aliases.py.  Prave
+jsem se vytiskl oba soubory jak pro 1250 tak i pro 1251 a porovnam
+je...  tak vzajemne opticke srovnani, i s vypomoci diffu neobjevilo
+nic neobvykleho.  Zkusil ....  tak se zda, ze jsem na to dosel.  Nejni
+to v aliases, tak se musi pouzit
+
+&gt;&gt;&gt;<i> codecs.lookup('cp1250')
+</I>(&lt;bound method Codec.encode of &lt;encodings.cp1250.Codec instance at 0x809e7f4&gt;&gt;, &lt;bound method Codec.decode of &lt;encodings.cp1250.Codec instance at 0x80aee34&gt;&gt;, &lt;class encodings.cp1250.StreamReader at 0x80a61fc&gt;, &lt;class encodings.cp1250.StreamWriter at 0x809e79c&gt;)
+
+a nebo to pridat do aliases.  Clovek se porad uci :)
+
+-- 
+Radek Hnilica &lt;Radek at Hnilica dot CZ&gt;
+===========================
+No matter how far down the wrong road you've gone, turn back.
+						Turkish proverb
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-April/000064.html">[python] Kde se da sehnat codec pro windows-1250 kodovani?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-April/000066.html">[python] Zope na Pythonu 2.2?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-April/date.html#65">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-April/thread.html#65">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-April/subject.html#65">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-April/author.html#65">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2002-April/000065.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:42 GMT -->
+</html>

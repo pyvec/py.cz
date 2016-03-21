@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007927.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:08 GMT -->
+<HEAD>
+   <TITLE> [python] Obecn&#65533; rada
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FObecn%3DEF%3DBF%3DBD_rada%3F%3D&In-Reply-To=46e1f0de0806270626s64a0ba1ew43b4602e94f6bd3e%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007922.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007924.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Obecn&#65533; rada</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FObecn%3DEF%3DBF%3DBD_rada%3F%3D&In-Reply-To=46e1f0de0806270626s64a0ba1ew43b4602e94f6bd3e%40mail.gmail.com"
+       TITLE="[python] Obecn&#65533; rada">regnarg na seznam.cz
+       </A><BR>
+    <I>Pátek Červen 27 16:33:22 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007922.html">[python] Obecná rada
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007924.html">[python] zwiki doplnění css
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7927">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7927">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7927">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7927">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Pá, čen 27, 2008 at 03:26:36 +0200, Tomy Novella wrote:
+&gt;<i> no predsa len ostavam pri pyGame ;-))
+</I>Dobrý den,
+odborník na PyGame nejsem, takže mé odpovědi berte
+s rezervou, ale myslím, že zhruba vím, o co jde.
+
+&gt;<i> co to znamena, ze je to skonvertovane do &quot;the same pixel format as our
+</I>&gt;<i> display&quot; ??
+</I>&gt;<i> a co je vlastne Ten display? 
+</I>
+Display je pojem převzatý X Windowing Systemu (&quot;Xek&quot;, 
+grafického prostředí používaného v unixových systémech)
+a znamená něco jako zobrazovací zařízení. Zjednodušeně
+řečeno obrazovka (ve skutečnosti je to komplikovanější,
+každý displej může mít několik obrazovek, pokud má uživatel
+více monitorů, a také k němu patří vstupní zařízení).
+
+Pixel format znamená nejspíše způsob vyjádření barev,
+tedy barevný model (na většině klasických počítačových
+systémů RGB) a hloubku (počet barev). Obrázek je 
+zkonvertován do stejného formátu, aby jej bylo možné
+zobrazit přímo.
+
+&gt;<i> dalsia otazka k pygame(a zrejme ku vsetkych GUI knizniciam vseobecne):
+</I>&gt;<i> je rozdiel, ci napisem
+</I>&gt;<i> pygame.time.delay(100) alebo
+</I>&gt;<i> time.sleep(0.1)
+</I>Tady jen odhaduji, ale všechny grafické knihovny mají
+něco jako mainloop, tedy hlavní smyčku, která drží
+řízení (na rozdíl od CLI aplikací, kde má řízení toku
+v rukou programátor). Což znamená, že připravíte objekty,
+spustíte mainloop a čekáte na události. Ale po větišnu
+běhu programu se aktuální kód vykonává z PyGame, ne 
+Vašeho skriptu, tedy PyGame drží řízení a předává ho jen
+při určité události.
+
+Pokud nepoužíváte vlákna (thready), může vždy probíhat
+pouze jeden kód (blbá formulace) najednou, takže když běží
+sleep, nemůže se dít nic jiného. Hra se zastaví, včetně 
+přednastavených pohybů a nejnutnějšího překreslování.
+pygame.time.delay pravděpodobně předá řízení hlavní smyčce,
+aby v průběhu pauzy mohla obsluhovat události a vykonávat,
+co má. Po skončení dané prodlevy se tento &quot;vnořený mainloop&quot;
+ukončí a program může pokračovat. Ale to je jen teorie.
+
+Přeji hezké odpoledne,
+regnarg
+-- 
+regnarg --- <A HREF="http://rg.pretel.cz/">http://rg.pretel.cz</A> -- JID: <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>
+V péči o štěstí druhých nacházíme své vlastní.   --Platón
+Přátelství může trvat jedině mezi dobrými lidmi. --Cicero
+
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007922.html">[python] Obecná rada
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007924.html">[python] zwiki doplnění css
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7927">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7927">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7927">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7927">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007927.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:08 GMT -->
+</html>

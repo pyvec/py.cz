@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-December/002142.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:04 GMT -->
+<HEAD>
+   <TITLE> [python] crypting
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20crypting&In-Reply-To=cpmn03%24us%241%40news.vol.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-December/002141.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-December/002143.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] crypting</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20crypting&In-Reply-To=cpmn03%24us%241%40news.vol.cz"
+       TITLE="[python] crypting">rk na dat.cz
+       </A><BR>
+    <I>Úterý Prosinec 14 14:41:55 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002141.html">[python] crypting
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002143.html">[python] crypting
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-December/date.html#2142">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/thread.html#2142">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/subject.html#2142">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/author.html#2142">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, Dec 14, 2004 at 01:40:55PM +0100, p.kosina wrote:
+
+&gt;<i> Ve scriptu na odesilani pres ftp mam i jmeno a heslo a chtel bych to 
+</I>&gt;<i> nejak zaheslovat, coz se mi i pres import hmac podarilo.
+</I>&gt;<i> Nevim ale jak to pak rozheslovat :-), kdyz to prectu ze souboru....
+</I>
+HMAC je (stejne jako MD5 nebo SHA) jednocestna hasovaci funkce,
+takze o desifrovani v tomto pripade nelze mluvit. Vtip je zalozen
+na tom, ze nalezeni puvodniho vstupu k vysledku hasovaci funkce
+(desifrovani) by melo byt vypocente velmi narocne, tj. na beznem
+pocitaci nerealizovatelne.
+
+S pomoci HMAC muzete teda maximalne overit, ze heslo, co zadal uzivatel
+na vstupu, je stejne jako to, co mate ulozene v zahashovane podobe
+(vysledek methody digest()). Overeni probehne tak, ze se zadanym heslem
+provedete to same co s originalnim heslem a vysledny 'digest()' musi byt
+oba vstupy stejny. Pokud se digest() lisi, uzivatel urcite zadal spatne
+heslo. Vyhoda je v tom, ze puvodni heslo nemusi byt nikde ulozeno v
+otevrene podobe, nevyhoda v tom, ze puvodni heslo nezjistite.
+
+Pokud chcete neco zasifrovat tak, abyste to mohl pozdeji desifrovat,
+je potreba pouzit nejakou symetrickou sifru. Ta vetsinou ale vyzaduje
+nejaky klic. A ten klic musite zase nekam ulozit, takze jste tam, kde
+jste byl. Pokud pouzijete sifru bez hesla, tak si to zase muze kdokoliv
+desifrovat, protoze algoritmus pro desifrovani bude primo v tom skriptu.
+Asi zalezi na tom, co presne chcete udelat.
+
+Radek Kaňovský
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002141.html">[python] crypting
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002143.html">[python] crypting
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-December/date.html#2142">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/thread.html#2142">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/subject.html#2142">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/author.html#2142">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-December/002142.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:04 GMT -->
+</html>

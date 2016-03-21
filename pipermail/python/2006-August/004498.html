@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004498.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:19 GMT -->
+<HEAD>
+   <TITLE> [python] vytvoření serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fvytvo%3DC5%3D99en%3DC3%3DAD_serveru%3F%3D&In-Reply-To=457.775-5518-1592166426-1155628988%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004494.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004495.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vytvoření serveru</H1>
+    <B>Jan Kundrát</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fvytvo%3DC5%3D99en%3DC3%3DAD_serveru%3F%3D&In-Reply-To=457.775-5518-1592166426-1155628988%40seznam.cz"
+       TITLE="[python] vytvoření serveru">jkt na gentoo.org
+       </A><BR>
+    <I>Čtvrtek Srpen 17 02:53:39 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004494.html">[python] vytvoření serveru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004495.html">[python] Boa Constructor + vlastni knihovna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4498">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4498">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4498">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4498">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jakub VojĂĄÄek wrote:
+&gt;<i> jak ale udÄlat funkci, kterĂĄ byÄekala aĹž na server pĹijde nÄjakĂĄ zprĂĄva a pak by jĂ­ stĂĄhla? 
+</I>
+select.poll() ci select.select()?
+
+&gt;<i> klient ma dve funkce:
+</I>&gt;<i> def posli_rozkaz(self,co):       
+</I>&gt;<i>         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</I>&gt;<i>         host = &quot;localhost&quot;
+</I>&gt;<i>         port = 1001
+</I>&gt;<i>         s.connect((host, port))
+</I>&gt;<i>         s.send(co)
+</I>&gt;<i>         s.close()
+</I>&gt;<i> def prijem_rozkazu(self):
+</I>&gt;<i> 
+</I>&gt;<i>         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</I>&gt;<i>         host = &quot;localhost&quot;
+</I>&gt;<i>         port = 1001
+</I>&gt;<i>             
+</I>&gt;<i>         s.connect((host, port))
+</I>&gt;<i>         s.setblocking(0)
+</I>&gt;<i>         try:
+</I>&gt;<i>                 data= s.recv(1000000)
+</I>&gt;<i>                 exec(data)
+</I>&gt;<i>                 
+</I>&gt;<i>         except:
+</I>&gt;<i>                 pass
+</I>&gt;<i>         s.close()
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ProstÄ jakmile by jakĂ˝koliv klient odeslal pĹĂ­kaz, hned by se u vĹĄech ostatnĂ­ch klientĹŻ zavolal funkce prijem_rozkazu()
+</I>
+Ugh? Ty fakt poustis kod, ktery ti prisel po siti (nehlede na to, ze to
+je loopback)? Myslis to vazne, nebo je chyba na mem prijimaci? Pokud
+odpovis &quot;ano&quot;, zkus se zamyslet.
+
+Jinak vrele doporucuju projit nejaky HOWTO ohledne programovani se
+socketama pod Unixem.
+
+Hezky vecer,
+-jkt
+
+-- 
+cd /local/pub &amp;&amp; more beer &gt; /dev/mouth
+
+------------- další část ---------------
+NetextovĂĄ pĹĂ­loha byla odstranÄna...
+JmĂŠno: signature.asc
+Typ: application/pgp-signature
+Velikost: 252 bytes
+Popis: OpenPGP digital signature
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20060817/3e6e260b/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20060817/3e6e260b/attachment.pgp</A> 
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004494.html">[python] vytvoření serveru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004495.html">[python] Boa Constructor + vlastni knihovna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4498">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4498">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4498">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4498">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004498.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:19 GMT -->
+</html>

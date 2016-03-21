@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005593.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:42 GMT -->
+<HEAD>
+   <TITLE> [python] lstrip
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20lstrip&In-Reply-To=3d8a28740702190433o7c115fa4md547341d4fd075c9%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005592.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005597.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] lstrip</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20lstrip&In-Reply-To=3d8a28740702190433o7c115fa4md547341d4fd075c9%40mail.gmail.com"
+       TITLE="[python] lstrip">leos na radiante-corp.com
+       </A><BR>
+    <I>Pondělí Únor 19 13:42:07 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005592.html">[python] lstrip
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005597.html">[python] OT: Re:  lstrip
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5593">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5593">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5593">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5593">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hynek Beran wrote:
+&gt;<i> Ahoj,
+</I>&gt;<i> mám script, který používá různé parametry.
+</I>&gt;<i> např.
+</I>&gt;<i>
+</I>&gt;<i> pyBackup.py --cfg=celyVyvoj.cfg
+</I>&gt;<i>
+</I>&gt;<i> ve scriptu mám :
+</I>&gt;<i> cfgFile = sys.argv[1].lstrip('--cfg=')
+</I>&gt;<i>
+</I>&gt;<i> očekával jsem, že mi takto napsaný řádek vrátí název souboru  celyVyvoj.cfg .
+</I>&gt;<i> Uřízne to --cfg=
+</I>&gt;<i>
+</I>&gt;<i> Ale ono mi to vrátí elyVyvoj.cfg (odmaže i c znázvu souboru). Když tam
+</I>&gt;<i> zadám cokoli jiného do parametru , co nezačíná na c, tak to projde ...
+</I>&gt;<i> Pochopil jsem špatně funkce ?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Díky za pomoc.
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Hynek BERAN
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Ale vse funguje naprosto spravne. Zadate, aby se zleva odrizly vsechny 
+znaky, ktere jste vypsal v parametru fce. Pokud to chcete jednoduse 
+udelat, tak pouzijte treba:
+
+    cfgFile = sys.argv[1][len('--cfg='):]
+
+Pokud ale chcete udelat parsovani parametru na urovni pouzijte radeji 
+optparse.OptionParser, protoze ho 4 z 5 Pythonistu doporucuji :-).
+Leo
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005592.html">[python] lstrip
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005597.html">[python] OT: Re:  lstrip
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5593">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5593">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5593">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5593">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005593.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:42 GMT -->
+</html>

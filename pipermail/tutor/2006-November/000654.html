@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-November/000654.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:07 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fdaj%3DED_se_n%3DECjak_vlo%3DBEit_v%3DFDb%3DECry%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_z_OptionMenu_jako_polo%3DBEky_do_seznamu%3D3F%3F%3D&In-Reply-To=200611011549.01649.jsim%40med.muni.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-November/000653.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-November/000655.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fdaj%3DED_se_n%3DECjak_vlo%3DBEit_v%3DFDb%3DECry%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_z_OptionMenu_jako_polo%3DBEky_do_seznamu%3D3F%3F%3D&In-Reply-To=200611011549.01649.jsim%40med.muni.cz"
+       TITLE="[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?">geon na post.cz
+       </A><BR>
+    <I>Středa Listopad  1 18:39:56 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-November/000653.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-November/000655.html">[Tutor PyCZ] jak importovat z nadrazeneho adresare
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/date.html#654">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/thread.html#654">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/subject.html#654">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/author.html#654">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Šimůnek napsal(a):
+&gt;<i> Omlouvám se převelice, ale to nepomohlo:
+</I>&gt;<i> program pana Kosiny:
+</I>&gt;<i>   
+</I>nevadí , zkusíme to jinak. Možná to bylo také tím, že jsem minule buď 
+přesně nepochopil, co jsi chtěl, nebo jsi to ted upřesnil, tak, že došlo 
+ke změně. Je to ostatně jedno. ;-)
+&gt;<i> vlastně pokaždé dá hodnotu z OptionMenu na o číslo větší položku seznamu. A to 
+</I>&gt;<i> bez ohledu na to, odkud se volá (ze kterého OptionMenu).
+</I>&gt;<i> Já bych potřeboval, aby OptionMenu 0 dalo svou hodnotu na pozici 0, OptionMneu 
+</I>&gt;<i> 1 na pozici 1 atd., aby se hodnoty v GUI mohly zadávat i v nestejném pořadí, 
+</I>&gt;<i> případně zadání přeskakovat tam, kde byly v minulé sadě stejné hodnoty (např. 
+</I>&gt;<i> po sobě následují dva muži stejné věkové kategorie - takže by se jen v 
+</I>&gt;<i> seznamu změnily jen položky s odličnou hodnotou). A tohle se mi nedaří ani s 
+</I>&gt;<i> tou lambdou. 
+</I>&gt;<i> Mohl bych sice nadefinovat funkce ok0, ok1, ok2, (atd.), které by změnily vždy 
+</I>&gt;<i> odpovídající člen seznamu, ale připadá mi, že by mělo jít nějak poslat z 
+</I>&gt;<i> OptionMenu konkrétní číslo, aby ok &quot;věděla&quot;, že s ní komunikuje OptionMenu č. 
+</I>&gt;<i> 7 (například)  a uložila převzatou hodnotu na pozici seznam[7].
+</I>&gt;<i>   
+</I>Drobnou úpravou toho přeci dosáhneš. Do funkce lambda budeš v každém 
+jiném OptionMenu dávat jiné okno.neco, nebo rovnou nějaké číslo. 
+okno.neco bude ted již vlastně zcela zbytečné i uvnitř funkce. Jestli 
+tomu ted již dobře rozumím. Tedy asi takhle:
+
+option1 = OptionMenu(okno, promenna, u&quot;jedna&quot;, u&quot;dva&quot;, u&quot;tři&quot;, u&quot;čtyři&quot;, 
+command=lambda x:ok(x, 1))
+option2 = OptionMenu(okno, promenna, u&quot;jedna&quot;, u&quot;dva&quot;, u&quot;tři&quot;, u&quot;čtyři&quot;, 
+command=lambda x:ok(x, 2))
+option3 = OptionMenu(okno, promenna, u&quot;jedna&quot;, u&quot;dva&quot;, u&quot;tři&quot;, u&quot;čtyři&quot;, 
+command=lambda x:ok(x, 3))
+
+DOufám, že jsem na něco nezapomněl, píši to narychlo. Koukám, že minule byla funkce napsána nevhodně, ne-li skoro zbytečně blbě. No s tím si snad již poradíš ;-)
+
+
+
+
+-- 
+
+geon
+Pavel Kosina
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-November/000653.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-November/000655.html">[Tutor PyCZ] jak importovat z nadrazeneho adresare
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/date.html#654">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/thread.html#654">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/subject.html#654">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/author.html#654">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-November/000654.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:07 GMT -->
+</html>

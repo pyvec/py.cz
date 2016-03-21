@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007313.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+<HEAD>
+   <TITLE> [python] for-else -&gt; wtf?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for-else%20-%3E%20wtf%3F&In-Reply-To=000001c8a628%246df9f6e0%240100000a%40pc01">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007307.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007308.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] for-else -&gt; wtf?</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for-else%20-%3E%20wtf%3F&In-Reply-To=000001c8a628%246df9f6e0%240100000a%40pc01"
+       TITLE="[python] for-else -&gt; wtf?">feed na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Duben 24 21:27:59 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007307.html">[python] for-else -&gt; wtf?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007308.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7313">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7313">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7313">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7313">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj Štěpáne,
+
+jednak je ten výraz čitelný, jednak ho lze snadno zjednodušit a dále 
+zčitelnit, a v praxi člověk dbající na čitelnost použije spíš:
+
+typedef void(*prazdna_funkce)();
+prazdna_funkce(NULL)();
+
+případně takto:
+
+static_cast&lt;void(*)()&gt;(NULL)();
+
+Nicméně je to výraz, a výraz může dosahovat obstojné složitosti i v 
+Pythonu a jiných jazycích. Navíc je to výraz, jehož hlavním principem je 
+přetypování a zachování správného statického typu, což je věc, kterou 
+srovnávat s Pythonem s dynamickým typováním (za což Python platí 
+pomalostí) je poněkud pasé. A navíc je to výraz neužitečný, k ničemu, je 
+vhodný jenom k tomu, abyste uměle vyrobili chybu v programu a operační 
+systém Vás odstřelil - nic jiného neudělá.
+
+Zatímco tu kritizuji konstrukce Pythonu, a Ty jsou opravdu čím dál více 
+IMHO vymýšleny k nečitelnosti. Čemuž se nedivím, Python je one man show, 
+a když si key-man poněkud začne hrát, tak Python má smůlu.
+
+A nezlobte se, základní konstrukce typu podmíněné přiřazení, select a 
+další jsou v C (a mnoha dalších jazycích) podstatně čitelnější, než v 
+Pythonu. Ale možná je to tím, že s Rossumem opravdu nesouzním - 
+například mi hlava nebere, proč Rossum nemá nic proti else po cyklu (v 
+tom je jedinečný, žádný jiný programovací jazyk neshledal tuto 
+konstrukci užitečnou a nezbytnou), zatímco proti velmi užitečné 
+konstrukci select (která je v obrovské spoustě jazyků, vlastně v 
+naprosté většině) se brání jako zbytečné.
+
+Miloslav Ponkrác
+
+
+Stepan napsal(a):
+&gt;<i>
+</I>&gt;<i> Ahoj Supermane,
+</I>&gt;<i>
+</I>&gt;<i> ohledne necitelnosti Pythonu a citelnosti C; urcite znas:
+</I>&gt;<i>
+</I>&gt;<i> (* (void(*)( ) ) 0) ( );
+</I>&gt;<i>
+</I>&gt;<i> autor A. Koenig, ktery k tomu rika: &#8220;Takovyhle vyrazy jsou OK, nebojte 
+</I>&gt;<i> se jich.&#8221;
+</I>&gt;<i>
+</I>&gt;<i> WTF?!
+</I>&gt;<i>
+</I>&gt;<i> Stepan
+</I>&gt;<i>
+</I>
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007307.html">[python] for-else -&gt; wtf?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007308.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7313">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7313">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7313">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7313">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007313.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008482.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:58 GMT -->
+<HEAD>
+   <TITLE> [python] xml parove a neparove tagy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xml%20parove%20a%20neparove%20tagy&In-Reply-To=%3Cfcba3d560901080432l18c13d89gac57196586022a01%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008481.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008483.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] xml parove a neparove tagy</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xml%20parove%20a%20neparove%20tagy&In-Reply-To=%3Cfcba3d560901080432l18c13d89gac57196586022a01%40mail.gmail.com%3E"
+       TITLE="[python] xml parove a neparove tagy">rainbof na gmail.com
+       </A><BR>
+    <I>Čtvrtek Leden  8 13:32:20 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008481.html">[python] xml parove a neparove tagy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008483.html">[python] xml parove a neparove tagy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8482">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8482">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8482">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8482">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No ja to opravim ze to samozrejme patri takto:
+
+
+import xml.dom.minidom
+from xml.dom.minidom import Node
+
+doc = xml.dom.minidom.parse('c:\\devel\\test\\pokus.xml')
+for step in doc.getElementsByTagName(&quot;info&quot;):
+    x = step.getElementsByTagName(&quot;description&quot;)[0]
+    try:
+     x.nodeValue('popisek')
+    except:
+     x.appendChild(doc.createTextNode('popisek'))
+
+print doc.toxml('utf-8')
+
+
+protoze ta hodnota se udela jen tehdy kdyz se ji nepovede zadat normalne...
+ale reseni je to desne jednoduchy. A ucinny.
+
+
+
+Dne 8. leden 2009 13:14 slush &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">slush na slush.cz</A>&gt; napsal(a):
+
+&gt;<i> Nojo, uz peknou chvili tady nad tim laboruju a tak jednoduche reseni me
+</I>&gt;<i> nenapadlo :-).
+</I>&gt;<i>
+</I>&gt;<i> Dne 8. leden 2009 12:39 BoneFlute &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">boneflute na taco-beru.name</A>&gt; napsal(a):
+</I>&gt;<i>
+</I>&gt;&gt;<i> slush napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Zdravim,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> obavam se, ze to je naprosto korektni chovani. Ve chvili, kdy je tag
+</I>&gt;&gt;&gt;<i> neparovy, do nej z principu nelze vlozit dalsi data/strukturu. V pripade, ze
+</I>&gt;&gt;&gt;<i> existuje nejaky duvod, proc je tag zapsan jako &lt;description/&gt; a ne
+</I>&gt;&gt;&gt;<i> &lt;description&gt;&lt;/description&gt;, doporucuji pouzit &lt;description text=&quot;&quot; /&gt;.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Obávám se, že ne tak docela.
+</I>&gt;&gt;<i> &lt;description/&gt; a &lt;description&gt;&lt;/description&gt; si jsou eqvivalentní. Oboje
+</I>&gt;&gt;<i> označuje tag, který neobsahuje žádné synovské elementy.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Správné řešení je tedy tento element přidat. Například takto:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> import xml.dom.minidom
+</I>&gt;&gt;<i> from xml.dom.minidom import Node
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> doc = xml.dom.minidom.parse('pokus.xml')
+</I>&gt;&gt;<i> for step in doc.getElementsByTagName(&quot;info&quot;):
+</I>&gt;&gt;<i>        x = step.getElementsByTagName(&quot;description&quot;)[0]
+</I>&gt;&gt;<i>        try:
+</I>&gt;&gt;<i>                x.appendChild(doc.createTextNode('Popisek'))
+</I>&gt;&gt;<i>        except:
+</I>&gt;&gt;<i>                print &quot;a co ted ?&quot;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> print doc.toxml('utf-8')
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090108/34fed80a/attachment.htm">http://www.py.cz/pipermail/python/attachments/20090108/34fed80a/attachment.htm</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008481.html">[python] xml parove a neparove tagy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008483.html">[python] xml parove a neparove tagy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8482">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8482">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8482">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8482">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008482.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:58 GMT -->
+</html>

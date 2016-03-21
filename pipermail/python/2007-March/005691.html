@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005691.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:22 GMT -->
+<HEAD>
+   <TITLE> [python] Fwd: Python 2.5 (Modules/zlib) minigzip local buffer	overflow vulnerability
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Fwd%3A%20Python%202.5%20%28Modules/zlib%29%20minigzip%20local%20buffer%0A%09overflow%20vulnerability&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005690.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005692.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Fwd: Python 2.5 (Modules/zlib) minigzip local buffer	overflow vulnerability</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Fwd%3A%20Python%202.5%20%28Modules/zlib%29%20minigzip%20local%20buffer%0A%09overflow%20vulnerability&In-Reply-To="
+       TITLE="[python] Fwd: Python 2.5 (Modules/zlib) minigzip local buffer	overflow vulnerability">azurit na pobox.sk
+       </A><BR>
+    <I>Středa Březen 14 18:18:37 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005690.html">[python] Prosba o nakopnuti spravnym smerem - program na principu klient x server
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005692.html">[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5691">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5691">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5691">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5691">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ahojte,
+
+toto prave prislo do bugtraqu. otestovat som to nemohol lebo python 2.5 nemam nikde nainstalovany (mozno skusi niekto ini ?). posielam len pre zaujimavost :)
+
+azur
+
+
+	-----Pôvodná správa-----
+	Od: starcadi starcadi [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">starcadi na gmail.com</A>]
+	Komu: <A HREF="http://www.py.cz/mailman/listinfo/python">bugtraq na securityfocus.com</A>
+	Predmet: Fwd: Python 2.5 (Modules/zlib) minigzip local buffer overflow vulnerability
+	
+	
+	Description:
+	
+	The source of python contain a various modules, the zlib module
+	contain a minigzip tool, ( * minigzip is a minimal implementation of
+	the gzip utility.  ).
+	
+	Source error:
+	
+	the error was found in:
+	- void file_compress(file, mode)
+	because the use of strcpy() is inapropriatly
+	
+	--
+	#define MAX_NAME_LEN 1024
+	[..]
+	void file_compress(file, mode)
+	char  *file;
+	char  *mode;
+	{
+	local char outfile[MAX_NAME_LEN];
+	FILE  *in;
+	gzFile out;
+	
+	strcpy(outfile, file);
+	strcat(outfile, GZ_SUFFIX);
+	--
+	
+	the function file_compress() was called by main() function.
+	
+	Proof of concept:
+	
+	if you want test the vulnerability try:
+	$ minigzip `perl -e &quot;print 'A'x1050&quot;`
+	
+	-- starcadi
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005690.html">[python] Prosba o nakopnuti spravnym smerem - program na principu klient x server
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005692.html">[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5691">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5691">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5691">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5691">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005691.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:22 GMT -->
+</html>

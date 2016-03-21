@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008812.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:51 GMT -->
+<HEAD>
+   <TITLE> [python] získání dat z formuláře
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_dat_z_formul%3DE1%3DF8e%3F%3D&In-Reply-To=%3C49CC73AF.1060708%40brabenec.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-March/008811.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-March/008815.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] získání dat z formuláře</H1>
+    <B>Tomas Brabenec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_dat_z_formul%3DE1%3DF8e%3F%3D&In-Reply-To=%3C49CC73AF.1060708%40brabenec.net%3E"
+       TITLE="[python] získání dat z formuláře">konference na brabenec.net
+       </A><BR>
+    <I>Pátek Březen 27 07:35:27 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008811.html">[python] získání dat z formuláře
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008815.html">[python] Instant hacking
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8812">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8812">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8812">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8812">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+<A HREF="http://wxpython.org/download.php#binaries">http://wxpython.org/download.php#binaries</A>
+
+Mimo samotneho wxPythonu je tam ke stazeni i dokumentace vcetne demo ukazek.
+Tam vse najdes na realnych prikladech.
+
+Tomas
+
+
+Dne 26.3.2009 20:04, Mix napsal(a):
+&gt;<i> Dobrý den,
+</I>&gt;<i> prosím o pomoc, s následujícím problémem. Mám přihlašovací formulář do 
+</I>&gt;<i> databáze, ale nevím jak udělat to,
+</I>&gt;<i> že když si formulář naimportuju do mého programu tak jak z něho získat 
+</I>&gt;<i> údaje, které uživatel zadal.
+</I>&gt;<i> tento formulář je můj první který dělám ve wxPythonu.
+</I>&gt;<i> děkuji za pomoc
+</I>&gt;<i> Pavel
+</I>&gt;<i>
+</I>&gt;<i> zde je zdrojoví kód.
+</I>&gt;<i>
+</I>&gt;<i> # -*- coding: cp1250 -*-
+</I>&gt;<i> import wx
+</I>&gt;<i>
+</I>&gt;<i> # begin wxGlade: extracode
+</I>&gt;<i> ID_psw = 3002
+</I>&gt;<i> ID_usr = 3001
+</I>&gt;<i> ID_db  = 3000
+</I>&gt;<i> # end wxGlade
+</I>&gt;<i>
+</I>&gt;<i> class MyFrame(wx.Frame):
+</I>&gt;<i>    def __init__(self, db, *args, **kwds):
+</I>&gt;<i>        # begin wxGlade: MyFrame.__init__
+</I>&gt;<i>        kwds[&quot;style&quot;] = wx.CAPTION|wx.CLOSE_BOX|wx.SYSTEM_MENU
+</I>&gt;<i>        wx.Frame.__init__(self, *args, **kwds)
+</I>&gt;<i>        self.dbx = ''
+</I>&gt;<i>        self.set_db = db
+</I>&gt;<i>        self.set_usr = wx.GetUserName()
+</I>&gt;<i>        self.set_psw = &quot;&quot;
+</I>&gt;<i>        self.label_5 = wx.StaticText(self, -1, &quot;Program DC&quot;)
+</I>&gt;<i>        self.label_6 = wx.StaticText(self, -1, &quot;Verze: 
+</I>&gt;<i> 1.0                       Datum: 1.4.2009&quot;)
+</I>&gt;<i>        self.label_2 = wx.StaticText(self, -1, u&quot;Databáze:&quot;)
+</I>&gt;<i>        self.text_ctrl_db = wx.TextCtrl(self, ID_db, self.set_db)
+</I>&gt;<i>        self.label_3 = wx.StaticText(self, -1, u&quot;ID uživatele:&quot;)
+</I>&gt;<i>        self.text_ctrl_usr = wx.TextCtrl(self, ID_usr, self.set_usr)
+</I>&gt;<i>        self.label_4 = wx.StaticText(self, -1, &quot;Heslo:&quot;)
+</I>&gt;<i>        self.text_ctrl_psw = wx.TextCtrl(self, ID_psw, self.set_psw, 
+</I>&gt;<i> style=wx.TE_PASSWORD)
+</I>&gt;<i>        self.button_2 = wx.Button(self, wx.ID_OK, &quot;&quot;)
+</I>&gt;<i>        self.button_3 = wx.Button(self, wx.ID_CLOSE, &quot;&quot;)
+</I>&gt;<i>
+</I>&gt;<i>        self.__set_properties()
+</I>&gt;<i>        self.__do_layout()
+</I>&gt;<i>
+</I>&gt;<i>        self.Bind(wx.EVT_BUTTON, self.login, self.button_2)
+</I>&gt;<i>        self.Bind(wx.EVT_BUTTON, self.konec, self.button_3)
+</I>&gt;<i>        self.Bind(wx.EVT_TEXT_ENTER, self.db, id=ID_db)
+</I>&gt;<i>        self.Bind(wx.EVT_TEXT_ENTER, self.usr, id=ID_usr)
+</I>&gt;<i>        self.Bind(wx.EVT_TEXT_ENTER, self.psw, id=ID_psw)
+</I>&gt;<i>        self.text_ctrl_psw.SetFocus()
+</I>&gt;<i>        # end wxGlade
+</I>&gt;<i>
+</I>&gt;<i>    def __set_properties(self):
+</I>&gt;<i>        # begin wxGlade: MyFrame.__set_properties
+</I>&gt;<i>        self.SetTitle(&quot;Login&quot;)
+</I>&gt;<i>        _icon = wx.EmptyIcon()
+</I>&gt;<i>        self.SetIcon(_icon)
+</I>&gt;<i>        self.SetSize((298, 330))
+</I>&gt;<i>        self.SetBackgroundColour(wx.Colour(192, 192, 192))
+</I>&gt;<i>        self.label_5.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, 
+</I>&gt;<i> wx.BOLD, 0, &quot;&quot;))
+</I>&gt;<i>        self.label_6.SetFont(wx.Font(8, wx.DEFAULT, wx.NORMAL, wx.BOLD, 
+</I>&gt;<i> 0, &quot;&quot;))
+</I>&gt;<i>        self.label_2.SetMinSize((100, 20))
+</I>&gt;<i>        self.label_2.SetFont(wx.Font(8, wx.DEFAULT, wx.NORMAL, wx.BOLD, 
+</I>&gt;<i> 0, &quot;&quot;))
+</I>&gt;<i>        self.text_ctrl_db.SetMinSize((100, 20))
+</I>&gt;<i>        self.label_3.SetMinSize((100, 20))
+</I>&gt;<i>        self.label_3.SetFont(wx.Font(8, wx.DEFAULT, wx.NORMAL, wx.BOLD, 
+</I>&gt;<i> 0, &quot;&quot;))
+</I>&gt;<i>        self.text_ctrl_usr.SetMinSize((100, 20))
+</I>&gt;<i>        self.text_ctrl_usr.SetFocus()
+</I>&gt;<i>        self.label_4.SetMinSize((100, 20))
+</I>&gt;<i>        self.label_4.SetFont(wx.Font(8, wx.DEFAULT, wx.NORMAL, wx.BOLD, 
+</I>&gt;<i> 0, &quot;&quot;))
+</I>&gt;<i>        self.text_ctrl_psw.SetMinSize((100, 20))
+</I>&gt;<i>        self.text_ctrl_psw.SetFocus()
+</I>&gt;<i>        # end wxGlade
+</I>&gt;<i>
+</I>&gt;<i>    def __do_layout(self):
+</I>&gt;<i>        # begin wxGlade: MyFrame.__do_layout
+</I>&gt;<i>        sizer_1 = wx.BoxSizer(wx.VERTICAL)
+</I>&gt;<i>        grid_sizer_1 = wx.GridSizer(7, 2, 2, 2)
+</I>&gt;<i>        sizer_2 = wx.BoxSizer(wx.VERTICAL)
+</I>&gt;<i>        sizer_2.Add(self.label_5, 0, 
+</I>&gt;<i> wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
+</I>&gt;<i>        sizer_2.Add(self.label_6, 0, 
+</I>&gt;<i> wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
+</I>&gt;<i>        sizer_1.Add(sizer_2, 0, wx.EXPAND, 0)
+</I>&gt;<i>        grid_sizer_1.Add((20, 20), 0, 0, 0)
+</I>&gt;<i>        grid_sizer_1.Add((20, 20), 0, 0, 0)
+</I>&gt;<i>        grid_sizer_1.Add(self.label_2, 0, 
+</I>&gt;<i> wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 2)
+</I>&gt;<i>        grid_sizer_1.Add(self.text_ctrl_db, 0, wx.ALL, 0)
+</I>&gt;<i>        grid_sizer_1.Add(self.label_3, 0, 
+</I>&gt;<i> wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 2)
+</I>&gt;<i>        grid_sizer_1.Add(self.text_ctrl_usr, 0, wx.ALL, 0)
+</I>&gt;<i>        grid_sizer_1.Add(self.label_4, 0, 
+</I>&gt;<i> wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 2)
+</I>&gt;<i>        grid_sizer_1.Add(self.text_ctrl_psw, 0, wx.ALL, 0)
+</I>&gt;<i>        grid_sizer_1.Add((20, 20), 0, 0, 0)
+</I>&gt;<i>        grid_sizer_1.Add((20, 20), 0, 0, 0)
+</I>&gt;<i>        grid_sizer_1.Add(self.button_2, 0, 
+</I>&gt;<i> wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 11)
+</I>&gt;<i>        grid_sizer_1.Add(self.button_3, 0, 
+</I>&gt;<i> wx.ALL|wx.ALIGN_CENTER_VERTICAL, 10)
+</I>&gt;<i>        grid_sizer_1.Add((20, 20), 0, 0, 0)
+</I>&gt;<i>        grid_sizer_1.Add((20, 20), 0, 0, 0)
+</I>&gt;<i>        sizer_1.Add(grid_sizer_1, 1, wx.EXPAND, 0)
+</I>&gt;<i>        self.SetSizer(sizer_1)
+</I>&gt;<i>        self.Layout()
+</I>&gt;<i>        self.Centre()
+</I>&gt;<i>        # end wxGlade
+</I>&gt;<i>
+</I>&gt;<i>    def login(self, event): # wxGlade: MyFrame.&lt;event_handler&gt;
+</I>&gt;<i>        print &quot;login&quot;
+</I>&gt;<i>        self.dbx = [self.text_ctrl_db.GetValue(), 
+</I>&gt;<i> self.text_ctrl_usr.GetValue(), self.text_ctrl_psw.GetValue()]
+</I>&gt;<i>        self.Close()
+</I>&gt;<i>        event.Skip()
+</I>&gt;<i>
+</I>&gt;<i>    def konec(self, event): # wxGlade: MyFrame.&lt;event_handler&gt;
+</I>&gt;<i>        print &quot;konec&quot;
+</I>&gt;<i>        self.Destroy()
+</I>&gt;<i>        #event.Skip()
+</I>&gt;<i>          def db(self, event): # wxGlade: MyFrame.&lt;event_handler&gt;
+</I>&gt;<i>        self.text_ctrl_usr.SetFocus()        def usr(self, event): # 
+</I>&gt;<i> wxGlade: MyFrame.&lt;event_handler&gt;
+</I>&gt;<i>        self.text_ctrl_psw.SetFocus()    def psw(self, event): # 
+</I>&gt;<i> wxGlade: MyFrame.&lt;event_handler&gt;
+</I>&gt;<i>        self.button_2.SetFocus()
+</I>&gt;<i> def start(db):
+</I>&gt;<i>    app = wx.PySimpleApp(0)
+</I>&gt;<i>    wx.InitAllImageHandlers()
+</I>&gt;<i>    frame_1 = MyFrame(db, None, -1, &quot;&quot;)
+</I>&gt;<i>    app.SetTopWindow(frame_1)
+</I>&gt;<i>    xx = frame_1.dbx
+</I>&gt;<i>    frame_1.Show()
+</I>&gt;<i>    app.MainLoop()
+</I>&gt;<i>    return xx
+</I>&gt;<i>   print start(&quot;DB&quot;)
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008811.html">[python] získání dat z formuláře
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008815.html">[python] Instant hacking
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8812">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8812">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8812">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8812">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008812.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:51 GMT -->
+</html>

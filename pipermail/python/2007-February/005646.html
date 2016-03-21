@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005646.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:46 GMT -->
+<HEAD>
+   <TITLE> [python] WxPython - ListCtrl
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20WxPython%20-%20ListCtrl&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005645.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] WxPython - ListCtrl</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20WxPython%20-%20ListCtrl&In-Reply-To="
+       TITLE="[python] WxPython - ListCtrl">Jakohv na seznam.cz
+       </A><BR>
+    <I>Středa Únor 28 19:25:13 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005645.html">[python] Cover up attempt
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5646">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5646">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5646">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5646">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+Toto je kod:
+# -*- coding: cp1250 -*-
+import wx
+parent = wx.App(0)
+okno=wx.Frame(None)
+listbox=wx.ListCtrl(okno,pos=(10,10),size=(260,120),style=wx.LC_REPORT 
+                                 | wx.BORDER_NONE
+                                 | wx.LC_EDIT_LABELS
+                                 | wx.LC_SORT_ASCENDING)
+listbox.InsertColumn(0, u&quot;Různá hodnota&quot;)
+listbox.InsertColumn(1, &quot;Četnost&quot;)
+pocet=[3, 1, 1, 1, 1]
+seznam=[u'5', u'7', u'8', u'76', u'2']
+for i in range(len(seznam)):
+    listbox.InsertStringItem(0,seznam[i])
+    listbox.SetStringItem(i,1,str(pocet[i]))
+okno.Show()
+parent.MainLoop()
+
+
+když to spustím, měly by se do listboxu vykreslit udaje:
+##
+Různá hodnota    Četnost
+seznam[0]             pocet[0]
+seznam[1]             pocet[1]
+seznam[2]             pocet[2]
+##
+v tomto tvaru. Ale nějak mi to blbne a nevím proč.. hodnoty jsou různě zpřeházené atd..
+Dík..
+
+
+Blujacker
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005645.html">[python] Cover up attempt
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5646">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5646">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5646">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5646">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005646.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:46 GMT -->
+</html>

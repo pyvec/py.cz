@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006438.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:33 GMT -->
+<HEAD>
+   <TITLE> [python] subprocess
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20subprocess&In-Reply-To=1064.93-7847-580453841-1187905328%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-August/006436.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-August/006440.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] subprocess</H1>
+    <B>Šponar Josef</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20subprocess&In-Reply-To=1064.93-7847-580453841-1187905328%40seznam.cz"
+       TITLE="[python] subprocess">Josef.Sponar na asseco.cz
+       </A><BR>
+    <I>Pátek Srpen 24 15:47:42 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006436.html">[python] subprocess
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006440.html">[python] subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6438">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6438">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6438">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6438">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Skript ověřuje zda jsou splněny podmínky pro spuštění externích programů. Když jsou splněny podmínky, pokusí se vytvořit nový proces a testuje návratovou hodnotu.
+
+V případě, že  externí program běží více než cca.5sekund, tak je vše v pořádku. Ale může se stát, že program  běží kratší dobu a &quot;někdy&quot; to projde v pořádku a &quot;někdy&quot; to skončí popisovanou chybou.
+Zkoušel jsem i popen2, výsledek stejný.
+
+Používam takovouto konstrukci:
+try:
+   process = subprocess.Popen([prog_name])
+   retvalue = process.wait() 
+   if retvalue:
+     print 'program se sice povedlo pustit, ale neco selhalo'
+   else:
+     print 'vse OK'
+except OSError, error:
+   print 'nepovedlo se ho pustit'
+   print error
+
+
+ 
+
+-----Original Message-----
+From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of Petr Nesládek
+Sent: Thursday, August 23, 2007 11:42 PM
+To: Konference PyCZ
+Subject: Re: [python] subprocess
+
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Šponar Josef &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Josef.Sponar na asseco.cz</A>&gt;
+</I>&gt;<i> Předmět: [python] subprocess
+</I>&gt;<i> Datum: 23.8.2007 13:18:06
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> 
+</I>&gt;<i> Ahoj, nevíte někdo jak odstranit tuto podivnost při používání 
+</I>&gt;<i> subprocess.wait().
+</I>&gt;<i> PYTHON = 2.4
+</I>&gt;<i> System = SunOS
+</I>&gt;<i> 
+</I>&gt;<i> prog=SUB.Popen(cmd, stderr=SUB.PIPE, stdout=SUB.PIPE)
+</I>&gt;<i> retval=prog.wait()
+</I>&gt;<i> 
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;av_rizeni.py&quot;, line 283, in ?
+</I>&gt;<i>     main()
+</I>&gt;<i>   File &quot;av_rizeni.py&quot;, line 180, in main
+</I>&gt;<i>     retval=prog.wait()
+</I>&gt;<i>   File &quot;/usr/local/lib/python2.4/subprocess.py&quot;, line 1007, in wait
+</I>&gt;<i>     pid, sts = os.waitpid(self.pid, 0)
+</I>&gt;<i> OSError: [Errno 10] No child processes 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>
+Ahoj, možná sezeptám hloupě, ale ten subproces  se rozběhne, nebo ne ?
+
+Případně co se vůbec děje do momentu než zkončí chybou ?
+
+Petr
+
+
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006436.html">[python] subprocess
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006440.html">[python] subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6438">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6438">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6438">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6438">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006438.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:33 GMT -->
+</html>

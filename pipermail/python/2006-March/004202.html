@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-March/004202.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:47 GMT -->
+<HEAD>
+   <TITLE> [python] pickle
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pickle&In-Reply-To=442A444F.3030304%40premiumsms.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-March/004197.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-March/004201.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pickle</H1>
+    <B>Martin Blazik</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pickle&In-Reply-To=442A444F.3030304%40premiumsms.cz"
+       TITLE="[python] pickle">martin.blazik na premiumsms.cz
+       </A><BR>
+    <I>Středa Březen 29 16:01:12 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004197.html">[python] pickle
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004201.html">[python] Mod_python a uchovani dat v operacni pameti
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-March/date.html#4202">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/thread.html#4202">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/subject.html#4202">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/author.html#4202">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jeste teda jeden dotaz :)
+Ma nekdo zkusenosti se serializaci a new style class obecne? Na rozdil 
+od stareho typu trid mi nechodi pomerne dost veci a nemuzu najit na 
+inetu krome hromady nic nerikajici dokumentace zadne konkretni priklady. 
+Elaboruju s __reduce__(), __getnewargs__(), __setstate__() i 
+__getstate()__, ale neprinasi to kyzene vysledky. Uplne nejlepsi by byl 
+fungujici prikladek serializace tridy odvozene od object. Za vsechny 
+pripominky budu vdecny.
+
+lachtan
+
+Martin Blazik napsal(a):
+
+&gt;<i>Cusik,
+</I>&gt;<i>nesetkal se nahodou jiz nekdo se serializaci instance ve ktere mam 
+</I>&gt;<i>atributy, ktere ukazuji na staticke metody tridy? Nedari se mi to 
+</I>&gt;<i>serializovat. Tady konkretne to muzu obejit, ze metodu noconv udelam 
+</I>&gt;<i>nestatickou, ale mam i jina mista, kde to nelze.
+</I>&gt;<i>Ukazka kde to nechodi:
+</I>&gt;<i>
+</I>&gt;<i>class TypeDict(dict):
+</I>&gt;<i>    &quot;&quot;&quot; Slovnik, ktery je schopny kontrolovat typ vkladanych dat &quot;&quot;&quot;
+</I>&gt;<i>   
+</I>&gt;<i>    def __init__(self, strict = False):
+</I>&gt;<i>        &quot;&quot;&quot; strict - urcuje chovani pri pouziti neregistrovaneho klice
+</I>&gt;<i>        True - lze pouzivat jen registrovane klice
+</I>&gt;<i>        False - konverzni funkce se zalozi automaticky jako TypeDict.noconv
+</I>&gt;<i>        &quot;&quot;&quot;
+</I>&gt;<i>        super(TypeDict, self).__init__()
+</I>&gt;<i>        self.__convert = {}
+</I>&gt;<i>        self.__strict = bool(strict)
+</I>&gt;<i>   
+</I>&gt;<i>    def setkey(self, key, convert):
+</I>&gt;<i>        self.__convert[key] = convert
+</I>&gt;<i>        if key in self:
+</I>&gt;<i>            TypeDict.__setitem__(self, key, self[key])
+</I>&gt;<i>   
+</I>&gt;<i>    @staticmethod
+</I>&gt;<i>    def noconv(value):
+</I>&gt;<i>        return value
+</I>&gt;<i>      
+</I>&gt;<i>    def __setitem__(self, key, value):
+</I>&gt;<i>        if key not in self.__convert:
+</I>&gt;<i>            if self.__strict:
+</I>&gt;<i>                raise KeyError(key)
+</I>&gt;<i>            else:
+</I>&gt;<i>                self.setkey(key, TypeDict.noconv)
+</I>&gt;<i>        super(TypeDict, self).__setitem__(key, self.__convert[key](value))
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>import pickle
+</I>&gt;<i>dct = TypeDict()
+</I>&gt;<i>dct['key'] = 'netusim'
+</I>&gt;<i># ted je pro 'key' nastavena konverzni funkce TypeDict.noconv
+</I>&gt;<i>pickle.dumps(dct)
+</I>&gt;<i>....
+</I>&gt;<i>pickle.PicklingError: Can't pickle &lt;function noconv at 0x402f42cc&gt;: it's 
+</I>&gt;<i>not found as typedict.noconv
+</I>&gt;<i># navic ji ocividne hleda na jinem miste nebot aboslutni umisteni je 
+</I>&gt;<i>typedict.TypeDict.noconv
+</I>&gt;<i>
+</I>&gt;<i>lachtan
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004197.html">[python] pickle
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004201.html">[python] Mod_python a uchovani dat v operacni pameti
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-March/date.html#4202">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/thread.html#4202">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/subject.html#4202">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/author.html#4202">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-March/004202.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:47 GMT -->
+</html>

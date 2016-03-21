@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002359.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:46 GMT -->
+<HEAD>
+   <TITLE> range() vs. xrange() (bylo RE: [python] dotaz-mřížka)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3Frange%3D28%3D29_vs%3D2E_xrange%3D28%3D29_%3D28bylo_RE%3D3A_%3D5Bpython%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3F%3D5D_dotaz-m%3DF8%3DED%3DBEka%3D29%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-March/002358.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-March/002360.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>range() vs. xrange() (bylo RE: [python] dotaz-mřížka)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3Frange%3D28%3D29_vs%3D2E_xrange%3D28%3D29_%3D28bylo_RE%3D3A_%3D5Bpython%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3F%3D5D_dotaz-m%3DF8%3DED%3DBEka%3D29%3F%3D&In-Reply-To="
+       TITLE="range() vs. xrange() (bylo RE: [python] dotaz-mřížka)">Prikryl na skil.cz
+       </A><BR>
+    <I>Čtvrtek Březen 10 10:39:17 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002358.html">[python] dotaz-mřížka
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002360.html">[python] IDE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2359">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2359">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2359">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2359">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ondřej Súkup napsal...
+&gt;<i> Petr Prikryl napsal(a):
+</I>&gt;<i> [...]
+</I>&gt;<i> &gt; Místo range(DELKA) je lepší používat xrange(DELKA).
+</I>&gt;<i>
+</I>&gt;<i> co se tyká budoucnosti moc ne ....
+</I>&gt;<i> xrange je na seznamu to be removed 
+</I>&gt;<i> <A HREF="http://www.python.org/peps/pep-3000.html">http://www.python.org/peps/pep-3000.html</A>
+</I>&gt;<i> tak ze pod budoucími verzemi pythonu nepouzitelne
+</I>
+Dovolím si důrazně nesouhlasit. Stejný dokument
+říká, že range() má vracet iterátor. Jinými slovy
+to znamená, že se staré range() má zcela zrušit
+a xrange() se má přejmenovat na range().
+
+Uvedený dokument je navíc věnován &quot;hypotetické
+budoucí verzi Pythonu&quot; a slouží spíš pro diskusi
+a ověřování nápadů při dalším vývoji.
+
+Hlavním důvodem pro můj důrazný nesouhlas je
+rozdíl ve funčnosti (efektivnosti) range()
+a xrange(). Jméno není tak důležité. Přejmenování
+funkce se dá v Pythonu dosáhnout velmi snadno:
+
+&gt;&gt;&gt;<i> range
+</I>&lt;built-in function range&gt;
+&gt;&gt;&gt;<i> xrange
+</I>&lt;type 'xrange'&gt;
+&gt;&gt;&gt;<i> range = xrange
+</I>&gt;&gt;&gt;<i> range
+</I>&lt;type 'xrange'&gt;
+&gt;&gt;&gt;<i>
+</I>
+Tím už nyní dosáhnu toho, že se zahodí odkaz 
+na zabudovanou funkci range() a pod tímto jménem
+se podstrčí xrange(). Funguje to ale jenom v daném
+(lokálním) prostoru jmen.
+
+Aby budoucí verze Pythonu neznemožnila používání
+starších programů, které používají xrange(), může
+provést něco takového (trochu chytřeji):
+
+def xrange():
+    # print 'Varovani...'
+    return range()
+
+To znamená, že všude, kde budu používat
+(v té době již nepodporovanou) funkci xrange(),
+bude potichu nahrazena použitím nové range().
+Jakmile to bude aktuální, dá se najevo
+změna trochu hlasitěji (naznačeno zakomentovaným
+printem).
+
+Petr
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002358.html">[python] dotaz-mřížka
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002360.html">[python] IDE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2359">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2359">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2359">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2359">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002359.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:46 GMT -->
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003744.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:09 GMT -->
+<HEAD>
+   <TITLE> [python] Chyba v modulu struct
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Chyba%20v%20modulu%20struct&In-Reply-To=200512061256.39721.j.troler%40value-services.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-December/003743.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-December/003745.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Chyba v modulu struct</H1>
+    <B>Radek Kaňovský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Chyba%20v%20modulu%20struct&In-Reply-To=200512061256.39721.j.troler%40value-services.net"
+       TITLE="[python] Chyba v modulu struct">rk na dat.cz
+       </A><BR>
+    <I>Úterý Prosinec  6 16:19:58 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003743.html">[python] Chyba v modulu struct
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003745.html">[python] Chyba v modulu struct
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3744">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3744">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3744">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3744">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, Dec 06, 2005 at 12:56:39PM +0100, Jan Troler wrote:
+
+&gt;<i> Ahoj Vsem,
+</I>&gt;<i> narazil jsem na nasledujici chovani modulu struct:
+</I>&gt;<i> 
+</I>&gt;<i> In [12]: struct.pack('HI',8,1), struct.calcsize('HI')
+</I>&gt;<i> Out[12]: ('\x08\x00\x00\x00\x01\x00\x00\x00', 8)
+</I>&gt;<i> 
+</I>&gt;<i> In [13]: struct.pack('IH',8,1), struct.calcsize('IH')
+</I>&gt;<i> Out[13]: ('\x08\x00\x00\x00\x01\x00', 6)
+</I>&gt;<i> 
+</I>&gt;<i> Je videt, ze formatovy retezec 'HI' a 'IH' dava rozdilny vysledek.
+</I>&gt;<i> Zkouseno na Python 2.3.4. Vite o tom nekdo neco?
+</I>
+Souvisi to s tim, ze s pomoci 'struct' by melo byt mozne &quot;rozparsovat&quot;
+C-ckovske struktury. Kvuli rychlosti pristupu uklada vetsina kompilatoru
+jedno a dvoubajtove cleny C-struktur do ctyr bajtu (na 32-bitovych
+platformach) s tim, ze struktury obsahuji nevyuzite misto. Pokud je
+takovy clen na konci, tak se to neprojevi. Pokud je takovych clenu vic
+za sebou, seskupi se do jedne ctyrbajtove bunky:
+
+    &gt;&gt;&gt; struct.pack('HHI',8,1,1), struct.calcsize('HHI')
+    ('\x08\x00\x01\x00\x01\x00\x00\x00', 8)
+
+Radek Kaňovský
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003743.html">[python] Chyba v modulu struct
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003745.html">[python] Chyba v modulu struct
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3744">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3744">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3744">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3744">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003744.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:09 GMT -->
+</html>

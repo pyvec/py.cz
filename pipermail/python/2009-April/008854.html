@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008854.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:41 GMT -->
+<HEAD>
+   <TITLE> [python] Rozsireni datetime
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Rozsireni%20datetime&In-Reply-To=%3C20090424055810.GE25823%40q.uh.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-April/008850.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-April/008855.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Rozsireni datetime</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Rozsireni%20datetime&In-Reply-To=%3C20090424055810.GE25823%40q.uh.cz%3E"
+       TITLE="[python] Rozsireni datetime">rk na dat.cz
+       </A><BR>
+    <I>Pátek Duben 24 07:58:10 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008850.html">[python] Rozsireni datetime
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008855.html">[python]  Rozsireni datetime
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8854">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8854">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8854">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8854">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, Apr 22, 2009 at 08:05:59AM +0200, mtip wrote:
+
+&gt;<i> Zdravim vsechny,
+</I>&gt;<i> 
+</I>&gt;<i> zkousel jsem rozsirit datetime v modulu datetime a narazil jsem na
+</I>&gt;<i> problem, ze nemohu prekryt metodu __init__. datetime se inicializuje
+</I>&gt;<i> driv nez moje metoda __init__ a jeste selze na chybnych parametrech.
+</I>&gt;<i> Nevite nekdo, jak toho dosahnout ?
+</I>&gt;<i> 
+</I>&gt;<i> Predem dik za odpovedi.
+</I>
+Metoda __init__ u datetime nedela nic. Vse se udela v metode __new__,
+coz plati pro vetsinu trid implementovanych v C. Je teda potreba
+prepsat __new__. Asi nejak takhle:
+
+    import datetime
+
+    class mydatetime(datetime.datetime):
+        
+        def __new__(klass, *args):
+            if not args:
+                return datetime.datetime.now()
+            self = datetime.datetime.__new__(klass, *args)
+            return self
+
+    if __name__ == '__main__':
+        t = mydatetime()
+        print t
+        t = mydatetime(2000, 1, 12, 12, 44, 51)
+        print t
+
+
+Radek Kaňovský, Dat, s.r.o.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008850.html">[python] Rozsireni datetime
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008855.html">[python]  Rozsireni datetime
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8854">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8854">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8854">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8854">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008854.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:41 GMT -->
+</html>

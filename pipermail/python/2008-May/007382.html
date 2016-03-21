@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007382.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:13 GMT -->
+<HEAD>
+   <TITLE> [python] chameleon v pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20chameleon%20v%20pythonu&In-Reply-To=dc2ce000805120453m6a2ff59dob0cb671bd2757b7a%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-May/007380.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-May/007372.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] chameleon v pythonu</H1>
+    <B>Jan Bednařík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20chameleon%20v%20pythonu&In-Reply-To=dc2ce000805120453m6a2ff59dob0cb671bd2757b7a%40mail.gmail.com"
+       TITLE="[python] chameleon v pythonu">jan.bednarik na gmail.com
+       </A><BR>
+    <I>Pondělí Květen 12 14:15:13 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007380.html">[python] chameleon v pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007372.html">[python] OT: budete někdo na OPO v Olomouci ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7382">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7382">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7382">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7382">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+
+pro přímou práci s databází se mi nejlépe osvědčila knihovna psycopg2
+- <A HREF="http://www.initd.org/">http://www.initd.org</A> s použitím Python DB2 API -
+<A HREF="http://www.python.org/dev/peps/pep-0249/">http://www.python.org/dev/peps/pep-0249/</A>
+
+Pokud se jedná o hotový mezixicht, zvolil bych SQLAlchemy -
+<A HREF="http://www.sqlalchemy.org/">http://www.sqlalchemy.org</A>
+
+Jan Bednařík
+
+
+2008/5/12 Robert Helešic &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">helerob na gmail.com</A>&gt;:
+&gt;<i> Dekuji za odpoved,
+</I>&gt;<i>
+</I>&gt;<i>  umoznilo mi to programovat dale co jsem potreboval. Jednalo se
+</I>&gt;<i>  vycitani sesti sloupcu z SQL dumpu, z techto sloupcu nasledne vybrany
+</I>&gt;<i>  shodne skupinky, mezi kterymi byly hledany ruzne vazby, potreboval
+</I>&gt;<i>  jsem tridit dle casu, mista, klienta, identifikace a namerenych
+</I>&gt;<i>  hodnot, proto jsem se snazil o vytvareni seznamu ze seznamu a jejich
+</I>&gt;<i>  nasledne prohledavani. Tato implementace je velmi nevhodna, ale
+</I>&gt;<i>  netusil jsem jak jinak pracovat s danymi daty, jelikoz pristup k
+</I>&gt;<i>  databazi postgresql je dosti problematicky, pokousel jsem se o
+</I>&gt;<i>  instalaci PyGreSQL, ale neprobehla spravne, ted zkousim dalsi
+</I>&gt;<i>  nastavby, pokud mate nejaky oblibeny a lehce pouzitelny mexizicht,
+</I>&gt;<i>  poslete mi jej treba soukrome na email, diky!
+</I>&gt;<i>
+</I>&gt;<i>  2008/5/8 Jan Jakubuv &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakubuv na gmail.com</A>&gt;:
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> &gt; Dobry den,
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;  take si myslim ze to neni nejvhodnejsi reseni, nicmene ve for cyklu
+</I>&gt;<i>  &gt;  muzete k tomu seznamu pristopovat napr. jako:
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;   globals()[i].append('neco')
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;  Pripadne lze jeste pouzit eval, napr:
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;   eval(&quot;%s.append('neco')&quot; % i)
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;  Nicmene daleko cistsi by bylo tohle vse obejit a napr. si definovat
+</I>&gt;<i>  &gt;  vlastni slovnik &quot;promenne&quot; a do nej si ukladat vase hodnoty namisto do
+</I>&gt;<i>  &gt;  'globals()', napr:
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;  promenne = {}
+</I>&gt;<i>  &gt;  for i in seznam:
+</I>&gt;<i>  &gt;   ...
+</I>&gt;<i>  &gt;   promenne[i] = []
+</I>&gt;<i>  &gt;   ...
+</I>&gt;<i>  &gt;   premenne[i].append('neco')
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;  honza.
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;  Dne 8. květen 2008 20:24 Robert Helešic &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">helerob na gmail.com</A>&gt; napsal(a):
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; &gt; Dobry den,
+</I>&gt;<i>  &gt;  &gt;
+</I>&gt;<i>  &gt;  &gt; je mozne pokud mam vygenerovany seznam jmen - ktery se pokazde meni -
+</I>&gt;<i>  &gt;  &gt; vytvorit z jednotlivych polozek dalsi seznamy?
+</I>&gt;<i>  &gt;  &gt; Ano je - to se mi jiz povedlo diky vasim radam:
+</I>&gt;<i>  &gt;  &gt;
+</I>&gt;<i>  &gt;  &gt; seznam = ['aaa', 'bbb']  # normalne se tento seznam generouje z
+</I>&gt;<i>  &gt;  &gt; ruznych souboru, takze jej berte pouze jako ilustraci
+</I>&gt;<i>  &gt;  &gt; for i in seznam:
+</I>&gt;<i>  &gt;  &gt;    globals()[&quot;i&quot;]= []
+</I>&gt;<i>  &gt;  &gt;    globals()[i]=[]
+</I>&gt;<i>  &gt;  &gt;
+</I>&gt;<i>  &gt;  &gt; aaa.append('neco') # projde v pohode
+</I>&gt;<i>  &gt;  &gt;
+</I>&gt;<i>  &gt;  &gt; Timto jsem si vytvoril dva globalni seznamy aaa a bbb, kdyz k nim
+</I>&gt;<i>  &gt;  &gt; pristupuju pod temito jmeny, tak je to v poradku, ale ja bych k nim
+</I>&gt;<i>  &gt;  &gt; potreboval pristupovat bez toho aniz bych znal jejich nazev - snazil
+</I>&gt;<i>  &gt;  &gt; jsem se nejak k nim pristupovat v tom foru, pres promennou i, ale ta
+</I>&gt;<i>  &gt;  &gt; je pochopitelne retezec a nehodla se se mnou vubec bavit, nevite jak
+</I>&gt;<i>  &gt;  &gt; se toto chovani da zmenit?
+</I>&gt;<i>  &gt;  &gt;
+</I>&gt;<i>  &gt;  &gt; Diky moc!
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; &gt; _______________________________________________
+</I>&gt;<i>  &gt;  &gt; Python mailing list
+</I>&gt;<i>  &gt;  &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  &gt;  &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>  &gt;  &gt;
+</I>&gt;<i>  &gt;  &gt;
+</I>&gt;<i>  &gt;  _______________________________________________
+</I>&gt;<i>  &gt;  Python mailing list
+</I>&gt;<i>  &gt;  <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  &gt;  <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  _______________________________________________
+</I>&gt;<i>  Python mailing list
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007380.html">[python] chameleon v pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007372.html">[python] OT: budete někdo na OPO v Olomouci ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7382">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7382">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7382">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7382">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007382.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:13 GMT -->
+</html>

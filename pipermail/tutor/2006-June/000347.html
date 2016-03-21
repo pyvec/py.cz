@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-June/000347.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] zřetězení stringů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DF8et%3DECzen%3DED_string%3DF9%3F%3D&In-Reply-To=44984E92.8010205%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-June/000345.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-June/000346.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] zřetězení stringů</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DF8et%3DECzen%3DED_string%3DF9%3F%3D&In-Reply-To=44984E92.8010205%40centrum.cz"
+       TITLE="[Tutor PyCZ] zřetězení stringů">geon na post.cz
+       </A><BR>
+    <I>Středa Červen 21 11:31:09 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000345.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000346.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/date.html#347">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/thread.html#347">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/subject.html#347">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/author.html#347">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bohumil Douša napsal(a):
+&gt;<i> Tak jsem odpověď dostal na stránkách www.py.cz:
+</I>&gt;<i>
+</I>&gt;<i> &quot;Pythonovské řetězce jsou totiž neměnné (immutable, narozdíl od 
+</I>&gt;<i> pascalovských). V každém cyklu se musí vytvořit nový řetězec (a starý 
+</I>&gt;<i> se zahazuje). To může vést k neočekávanému poklesu rychlosti 
+</I>&gt;<i> provádění. Spojování řetězců pomocí operátorů + nebo += je při 
+</I>&gt;<i> provádění několika změn v pořádku, ale při použití v cyklu se to 
+</I>&gt;<i> nedoporučuje.&quot;
+</I>&gt;<i>
+</I>toto pravděpodobně platilo v dřívějších verzích Pythona. Nyní to již 
+není pravda, alespoň pokud se cyklus opakuje méně než 1.000.000 x. Buď 
+lepší implementací nebo většími pamětmi u dnešních strojů...
+
+import timeit
+
+a=&quot;&quot;&quot;   
+    s = &quot;&quot;
+    for i in range(1000000):
+        s = s + &quot;a&quot;
+        &quot;&quot;&quot;
+           
+b=&quot;&quot;&quot;
+    z = []
+    for i in range(1000000):
+        z.append(&quot;a&quot;)
+    ''.join(z)
+    &quot;&quot;&quot;
+   
+x=timeit.Timer(a)
+print x.timeit(1)
+
+x=timeit.Timer(b)
+print x.timeit(1)
+
+Výsledek:
+0.835770188669
+0.742270595844
+ &gt;&gt;&gt;
+
+U 10-ti milionu opakování je již situace jiná, tam dostávám:
+56.6808538515
+8.99465686281
+ &gt;&gt;&gt;
+
+
+&gt;<i> Bohumil Douša napsal(a):
+</I>&gt;&gt;<i> Dobrý den,
+</I>&gt;&gt;<i> začínám s pythonem a právě jsem si v jedné knize přečetl, že se nemá 
+</I>&gt;&gt;<i> pro zřetězení používat znaménko &quot;+&quot;, protože prý vytváří při každém 
+</I>&gt;&gt;<i> použití nový objekt a že je lépe použít funkci z modulu string 
+</I>&gt;&gt;<i> &quot;string.join&quot;.
+</I>&gt;&gt;<i> Jako příklad použití &quot;+&quot; je uvedeno(toto prý vytvoří dva objekty):
+</I>&gt;&gt;<i> x = &quot;ahoj &quot; + &quot;svete&quot;
+</I>&gt;&gt;<i>
+</I>tento způsob zápisu je pro začátečníka, pro čitelnost a srozumitelnost, 
+daleko vhodnější. Doporučuji zůstávat u tohoto, pokud se jedná prosté 
+slučování řetězců.
+
+
+
+-- 
+geon
+Pavel Kosina
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20060621/de29f5b1/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20060621/de29f5b1/attachment.htm</A> 
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000345.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000346.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/date.html#347">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/thread.html#347">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/subject.html#347">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/author.html#347">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-June/000347.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

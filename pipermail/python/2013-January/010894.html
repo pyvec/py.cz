@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010894.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:18 GMT -->
+<HEAD>
+   <TITLE> [python] Jak ladit QThreads z PySide nebo PyQt ?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Jak%20ladit%20QThreads%20z%20PySide%20nebo%20PyQt%20%3F&In-Reply-To=%3CCAJ9iWDn1nQHH9RMHOGpTYzjp76kb9b_d3KDbmty9d9RpNb9kGg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010893.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010896.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak ladit QThreads z PySide nebo PyQt ?</H1>
+    <B>Radek Holý</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Jak%20ladit%20QThreads%20z%20PySide%20nebo%20PyQt%20%3F&In-Reply-To=%3CCAJ9iWDn1nQHH9RMHOGpTYzjp76kb9b_d3KDbmty9d9RpNb9kGg%40mail.gmail.com%3E"
+       TITLE="[python] Jak ladit QThreads z PySide nebo PyQt ?">radekholypublic na gmail.com
+       </A><BR>
+    <I>Pondělí Leden 14 01:02:44 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010893.html">[python] Jak ladit QThreads z PySide nebo PyQt ?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010896.html">[python] Jak ladit QThreads z PySide nebo PyQt ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10894">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10894">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10894">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10894">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zkusil jsem to v PyCharm (nikdy jsem tam ale debugger nezkousel) a na
+breakpointech v konstruktoru Workerů se mi to zastaví, ale na breakpointech
+v ``MyWorkerThread.run`` ne, takže PyCharm to asi také neumí...
+
+-- 
+Radek
+
+
+
+2013/1/13 darkanry &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">richard.andrysek na freenet.de</A>&gt;
+
+&gt;<i> Stahl jsem si jednoduchy priklad pro praci s QThread. Priklad funguje bez
+</I>&gt;<i> problemu, tak jsem ho zacal upravovat. Bohuzel jsem zjistil, ze to v PyDev
+</I>&gt;<i> nejde ladit. Nevite nekdo jak na to? Kdyz to nejde s PyDev, jde to necim
+</I>&gt;<i> jinym?
+</I>&gt;<i>
+</I>&gt;<i> Priklad:
+</I>&gt;<i>
+</I>&gt;<i> #import pydevd
+</I>&gt;<i> #pydevd.connected = True
+</I>&gt;<i> #pydevd.settrace()
+</I>&gt;<i>
+</I>&gt;<i> from PySide import QtCore
+</I>&gt;<i>
+</I>&gt;<i> import time, sys
+</I>&gt;<i>
+</I>&gt;<i> class MyWorkerThread(QtCore.QThread):
+</I>&gt;<i>     message = QtCore.Signal(str)
+</I>&gt;<i>
+</I>&gt;<i>     def __init__(self, id, parent=None):
+</I>&gt;<i>         super(MyWorkerThread, self).__init__(parent)
+</I>&gt;<i>         self.id = id
+</I>&gt;<i>
+</I>&gt;<i>     def run(self):
+</I>&gt;<i>         for i in range(10):
+</I>&gt;<i>             self.message.emit(&quot;%d: %d&quot; % (self.id, i))
+</I>&gt;<i>             time.sleep(0.2)
+</I>&gt;<i>
+</I>&gt;<i> class MainProgram():
+</I>&gt;<i>     def __init__(self, parent=None):
+</I>&gt;<i>         self.threads = []
+</I>&gt;<i>
+</I>&gt;<i>         self.addWorker(MyWorkerThread(1))
+</I>&gt;<i>         self.addWorker(MyWorkerThread(2))
+</I>&gt;<i>
+</I>&gt;<i>     def addWorker(self, worker):
+</I>&gt;<i>         worker.message.connect(self.printMessage,
+</I>&gt;<i> QtCore.Qt.QueuedConnection)
+</I>&gt;<i>         # connect the finished signal to method so that we are notified
+</I>&gt;<i>         worker.finished.connect(self.workersFinished)
+</I>&gt;<i>         self.threads.append(worker)
+</I>&gt;<i>
+</I>&gt;<i>     def startWorkers(self):
+</I>&gt;<i>         for worker in self.threads:
+</I>&gt;<i>             print worker.id
+</I>&gt;<i>             worker.start()
+</I>&gt;<i>             # no wait, no finished. you start the threads and leave.
+</I>&gt;<i>
+</I>&gt;<i>     def workersFinished(self):
+</I>&gt;<i>         if all(worker.isFinished() for worker in self.threads):
+</I>&gt;<i>             # wait until all the threads finished
+</I>&gt;<i>             QtCore.QCoreApplication.instance().quit()
+</I>&gt;<i>
+</I>&gt;<i>     @QtCore.Slot(str)
+</I>&gt;<i>     def printMessage(self, text):
+</I>&gt;<i>         sys.stdout.write(text+'\n')
+</I>&gt;<i>         sys.stdout.flush()
+</I>&gt;<i>
+</I>&gt;<i> if __name__ == '__main__':
+</I>&gt;<i>
+</I>&gt;<i>     app = QtCore.QCoreApplication(sys.argv)
+</I>&gt;<i>     m = MainProgram()
+</I>&gt;<i>     m.startWorkers()
+</I>&gt;<i>     sys.exit(app.exec_())
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130114/1e6cb90c/attachment.html">http://www.py.cz/pipermail/python/attachments/20130114/1e6cb90c/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010893.html">[python] Jak ladit QThreads z PySide nebo PyQt ?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010896.html">[python] Jak ladit QThreads z PySide nebo PyQt ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10894">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10894">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10894">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10894">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010894.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:18 GMT -->
+</html>

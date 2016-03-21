@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006328.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:25 GMT -->
+<HEAD>
+   <TITLE> [python] detektor znakove sady
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20detektor%20znakove%20sady&In-Reply-To=46B09D54.6070508%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-August/006326.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-August/006329.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] detektor znakove sady</H1>
+    <B>Martin Blazik</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20detektor%20znakove%20sady&In-Reply-To=46B09D54.6070508%40centrum.cz"
+       TITLE="[python] detektor znakove sady">martin.blazik na premiumsms.cz
+       </A><BR>
+    <I>Středa Srpen  1 17:20:12 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006326.html">[python] detektor znakove sady
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006329.html">[python] detektor znakove sady
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6328">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6328">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6328">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6328">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Muj program pracuje nastesti s UTF-8. Bohuzel mam ale stare informace, 
+ktere potrebuji prevest. Mam tam jazyky jako madarstinu, polstinu, 
+rustinu a dalsi. Ja takovou knihovnu napriklad pro cestinu napsanou mam 
+a musim rict ze funguje s dost slusnou presnosti. Takze nejde o to 
+poznat to kodovani na 100%, ale s rozumnou presnosti. Chyby jsou 
+povoleny, ale nesmi jich byt moc. Naopak si myslim, ze situace resitelna 
+pomerne rozumne je, ale radsi bych pouzil stavajici knihovnu nez si psal 
+vlastni reseni.
+
+lachtan
+
+superman napsal(a):
+&gt;<i> Já si myslím, že je naprosto bláhové hledat nějakou detekci charsetu, 
+</I>&gt;<i> která by pracovala s nějakou větší úspěšností. To je zkrátka nemožné a 
+</I>&gt;<i> jakákoli detekce je jenom vážený odhad, a nikdy nemůže dát spolehlivé 
+</I>&gt;<i> výsledky. Jak to ta knihovna na detekci má poznat? Zvlášť pokud je 
+</I>&gt;<i> knihovna mezinárodní, pak je úspěšnost u podobných charsetů jen dost 
+</I>&gt;<i> neurčitá. Nikdy nenajdete knihovnu na detekci charsetu, na jejíž 
+</I>&gt;<i> výsledek se dá spolehnout. Nejde to, je to algoritmicky neřešitelná 
+</I>&gt;<i> úloha. Pokud na tom závisí Váš program, doporučuji ho navrhnout jinak.
+</I>&gt;<i>
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i>
+</I>&gt;<i> Martin Blazik napsal(a):
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i> hledam knihovnu, ktera by dokazala rozpoznat kodovani retezce. Podarilo 
+</I>&gt;&gt;<i> se mi najit akorat
+</I>&gt;&gt;<i> <A HREF="http://chardet.feedparser.org/">http://chardet.feedparser.org/</A>
+</I>&gt;&gt;<i> ale to na muj vkus nevykazuje dostatecne vysledky:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> # psano v konozli v ISO-8859-2
+</I>&gt;&gt;<i>  &gt;&gt;&gt; s = 'příšerně žluťoučký kůň úpěl ďábelské ódy PŘÍŠERĚ ŽLUŤOUČKÝ KŮŇ 
+</I>&gt;&gt;<i> ÚPĚL ĎÁBELSKÉ ÓDY'
+</I>&gt;&gt;<i>  &gt;&gt;&gt; chardet.detect(s)
+</I>&gt;&gt;<i> {'confidence': 0.40226801246065391, 'encoding': 'ISO-8859-8'}
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Nemate nekdo nejaky tip?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> lachtan
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006326.html">[python] detektor znakove sady
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006329.html">[python] detektor znakove sady
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6328">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6328">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6328">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6328">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006328.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:25 GMT -->
+</html>

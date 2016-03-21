@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-November/001479.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:52 GMT -->
+<HEAD>
+   <TITLE> [python] zope - mime - ms excel
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zope%20-%20mime%20-%20ms%20excel&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-November/001480.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zope - mime - ms excel</H1>
+    <B>Joseph O'Ruanaidh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zope%20-%20mime%20-%20ms%20excel&In-Reply-To="
+       TITLE="[python] zope - mime - ms excel">joruanaidh na genuone.com
+       </A><BR>
+    <I>Středa Listopad  5 00:09:22 CET 2003</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-November/001480.html">[python] Vysla nam dalsi kniha o pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-November/date.html#1479">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-November/thread.html#1479">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-November/subject.html#1479">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-November/author.html#1479">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Thanks for the code below. It was helpful to me.
+I now have:
+
+container.REQUEST.RESPONSE.setHeader('Content-type',
+'application/vnd.ms-excel')
+container.REQUEST.RESPONSE.setHeader('Content-disposition',
+'attachment; filename=temp.xls')
+
+I noticed a small spelling mistake: &quot;text/semicolon-seperated-values&quot;
+
+Should this be: &quot;text/semicolon-separated-values&quot; ?
+
+Joe
+
+
+#container.REQUEST.RESPONSE.setHeader('Content-type', 'text/x-cvs')
+#container.REQUEST.RESPONSE.setHeader('Content-type',
+'application/vnd.ms-excel')
+container.REQUEST.RESPONSE.setHeader('Content-type',
+'text/semicolon-seperated-values')
+container.REQUEST.RESPONSE.setHeader('Expires',  'Mon, 26 Jul 1997 05:00:00
+GMT') # Date in the past
+container.REQUEST.RESPONSE.setHeader('Cache-Control', 'no-store, no-cache,
+must-revalidate') # HTTP/1.1
+container.REQUEST.RESPONSE.setHeader('Cache-Control', 'post-check=0,
+pre-check=0')
+container.REQUEST.RESPONSE.setHeader('Pragma', 'no-cache') # HTTP/1.0
+print &quot;user id;Real name;Assignment;Odevzdano;Hodnoceni&quot;
+for i in 
+context.DBQ_assignment_predmet(assignment=formdictionary[&quot;predmet&quot;]):
+    rname = str(i[&quot;realname&quot;])
+    rname = string.replace(rname, &quot;  &quot;, &quot; &quot;)
+    rname = string.rstrip(rname)
+    print
+str(i[&quot;user_id&quot;])+';'+rname+';'+str(i[&quot;predmet&quot;])+';'+str(i[&quot;odevzdano1&quot;])+';'+str(i[&quot;hodnoceni1&quot;])
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-November/001480.html">[python] Vysla nam dalsi kniha o pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-November/date.html#1479">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-November/thread.html#1479">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-November/subject.html#1479">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-November/author.html#1479">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-November/001479.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:52 GMT -->
+</html>

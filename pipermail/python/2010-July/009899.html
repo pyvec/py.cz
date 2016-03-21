@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009899.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+<HEAD>
+   <TITLE> [python] multiprocess manager
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20manager&In-Reply-To=%3C4C4E88B1.7010009%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009898.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009903.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multiprocess manager</H1>
+    <B>Tomas Pelka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20manager&In-Reply-To=%3C4C4E88B1.7010009%40gmail.com%3E"
+       TITLE="[python] multiprocess manager">tompelka na gmail.com
+       </A><BR>
+    <I>Úterý Červenec 27 09:20:17 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009898.html">[python] multiprocess manager
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009903.html">[python] multiprocess manager
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9899">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9899">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9899">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9899">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+On 07/27/2010 08:49 AM, Jirka Vejrazka wrote:
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i>    me to po ranu moc nemysli, tak me ber s rezervou :)
+</I>&gt;<i>
+</I>&gt;&gt;<i> worker = w.Worker() #TOHLE FUNGUJE JAK MA
+</I>&gt;<i>
+</I>Po tomto ma jeste nasledovat jeden radek
+worker.go('eth2', 'tcp port 22') # napriklad
+
+&gt;<i>    Urcite? Neber to ve zlem, ale mas jistotu, ze to startuje ten
+</I>&gt;<i> spravny Worker? Uz je to dlouho, co jsem si s timhle hral, ale koukal
+</I>&gt;<i> jsem ted do nejakeho stareho kodu a tam jsem nasel neco, co by u tebe
+</I>&gt;<i> vypadalo asi takhle:
+</I>&gt;<i>
+</I>&gt;&gt;<i> from Worker import Worker
+</I>&gt;&gt;<i> class WorkerManager(BaseManager):
+</I>&gt;&gt;<i>      pass
+</I>&gt;&gt;<i> WorkerManager.register('Worker', Worker)   # ma 2 parametry!
+</I>&gt;<i>
+</I>&gt;<i>   Navic nikde nevidim, ze bys volal WorkerManager.start(), vypada to,
+</I>&gt;<i> ze cely multiprocessing vlastne nefunguje, budes se na to muset jeste
+</I>&gt;<i> trochu podivat. Vim, ze to neni uplne skvela rada, ale zacni od
+</I>&gt;<i> mensich veci a vyzkousej si na nich jak multiprocessing funguje,
+</I>&gt;<i> sniffovani paketu mezi ne nepatri :-)  Rikam to jenom proto, ze jsem
+</I>&gt;<i> prosel stejnou cestu jako ty a nakonec jsem skoncil u neceho radove
+</I>&gt;<i> slozitejsiho nez jsem cekal.
+</I>&gt;<i>
+</I>&gt;<i>   Par poznamek na okraj:
+</I>&gt;<i>
+</I>&gt;<i>    - mel jsem podobne problemy jako ty, neslo mi volat terminate() na
+</I>&gt;<i> vzdalenem procesu. Nakonec jsem skoncil se specialni &quot;ridici frontou&quot;,
+</I>&gt;<i> kam jsem tomu vzdalenemu procesu poslal vzkaz, aby se ukoncil sam. To
+</I>&gt;<i> fungovalo.
+</I>&gt;<i>   - myslim, ze definovat QueueManager ve Worker.__init__() je spatne
+</I>&gt;<i> jak koncepcne, tak technicky (nejsem si jisty, jestli to
+</I>&gt;<i> multiprocessing zvladne, spustit manager teoreticky na jinem stroji).
+</I>&gt;<i> Navic se zda, ze mu taky chybi start().
+</I>
+Ano start() chybi, mas pravdu, viz vyse.
+
+&gt;<i>   - mrkni se na PEP08 ;-)
+</I>Porad si ten code style nemuzu zazit :)
+&gt;<i>
+</I>&gt;<i>    Jak jsem psal, rano neni moje nejlepsi doba, tak me ber s rezervou ;-)
+</I>&gt;<i>
+</I>&gt;<i>      Jirka
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+-- 
+Tomas Pelka
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009898.html">[python] multiprocess manager
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009903.html">[python] multiprocess manager
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9899">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9899">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9899">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9899">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009899.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+</html>

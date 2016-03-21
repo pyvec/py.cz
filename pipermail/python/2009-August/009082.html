@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-August/009082.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:23 GMT -->
+<HEAD>
+   <TITLE> [python] Podivné chování
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FUG9kaXZuw6kgY2hvdsOhbsOt%3F%3D&In-Reply-To=%3Calpine.DEB.2.00.0908261259500.9881%40fuky.localdomain%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-August/009080.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-August/009083.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Podivné chování</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FUG9kaXZuw6kgY2hvdsOhbsOt%3F%3D&In-Reply-To=%3Calpine.DEB.2.00.0908261259500.9881%40fuky.localdomain%3E"
+       TITLE="[python] Podivné chování">fuky na sunstel.asu.cas.cz
+       </A><BR>
+    <I>Středa Srpen 26 13:06:25 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-August/009080.html">[python] Podivné chování
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-August/009083.html">[python] Podivné chování
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-August/date.html#9082">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-August/thread.html#9082">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-August/subject.html#9082">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-August/author.html#9082">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+děkuji všem za objasnění problému. Jirkův tip je již stejně rychlý.
+
+     $ time cat 100MB_file |./read_normal.py
+
+     real    0m1.003s
+     user    0m0.424s
+     sys     0m0.564s
+
+     $ time cat 100MB_file |./read_fce_array.py
+
+     real    0m1.105s
+     user    0m0.480s
+     sys     0m0.604s
+
+         S pozdravem Jan Fuchs
+
+&gt;<i> Pro zrychleni bych doporucil:
+</I>&gt;<i>
+</I>&gt;<i> tmp = []
+</I>&gt;<i> while True:
+</I>&gt;<i>    buffer = sys.stdin.read(1024)  # nebo radeji 65536
+</I>&gt;<i>    if not buffer:
+</I>&gt;<i>        break
+</I>&gt;<i>    tmp.append(buffer)
+</I>&gt;<i> data = ''.join(tmp)
+</I>&gt;<i>
+</I>&gt;<i> Snad to pomuze, nezkousel jsem to.
+</I>
+--
+/**************************************************************
+*   _    Žádný program není bezchybný, dokonalý ani nejlepší, *
+*  °v°   to samé platí i o lidech a nejen o nich.             *
+* /(_)\                                      -- Jan Fuchs --  *
+*  ^ ^                                                        *
+*        <A HREF="http://www.fuky.org/">http://www.fuky.org</A>   Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">jan.fuchs.cz na gmail.com</A> *
+**************************************************************/
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-August/009080.html">[python] Podivné chování
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-August/009083.html">[python] Podivné chování
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-August/date.html#9082">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-August/thread.html#9082">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-August/subject.html#9082">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-August/author.html#9082">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-August/009082.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:23 GMT -->
+</html>

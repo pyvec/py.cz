@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004496.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:19 GMT -->
+<HEAD>
+   <TITLE> [python] pygtk, odchytávání událostí klávesnice a myši
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fpygtk%3D2C_odchyt%3DE1v%3DE1n%3DED_ud%3DE1lost%3DED_k%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fl%3DE1vesnice_a_my%3DB9i%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004497.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004499.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pygtk, odchytávání událostí klávesnice a myši</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fpygtk%3D2C_odchyt%3DE1v%3DE1n%3DED_ud%3DE1lost%3DED_k%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fl%3DE1vesnice_a_my%3DB9i%3F%3D&In-Reply-To="
+       TITLE="[python] pygtk, odchytávání událostí klávesnice a myši">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Pátek Srpen 18 13:04:19 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004497.html">[python] nejde py.cz
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004499.html">[python] pygtk, odchytávání událostí klávesnice a myši
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4496">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4496">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4496">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4496">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj, nevíte někdo, jak pomocí gtk zachytávat všechny události klávesnice a 
+pohyby myší? Když napíšu tohle
+
+#!/usr/bin/env python
+import gtk
+
+def wakeup(widget, event):
+   print &quot;Event number %d woke me up&quot; % event.type
+
+w = gtk.Window()
+
+w.add_events(gtk.gdk.KEY_PRESS_MASK |
+             gtk.gdk.POINTER_MOTION_MASK |
+             gtk.gdk.BUTTON_PRESS_MASK |
+             gtk.gdk.SCROLL_MASK)
+
+w.connect(&quot;motion-notify-event&quot;, wakeup)
+w.connect(&quot;key-press-event&quot;, wakeup)
+w.connect(&quot;button-press-event&quot;, wakeup)
+w.connect(&quot;scroll-event&quot;, wakeup)
+
+w.show()
+
+gtk.main()
+
+Tak to na stisky kláves reaguje pouze tehdy, když je okno aplikace aktivní.  
+A pohyby myši (a klikání) to zaregistruje jen když se kurzor myši nacházi 
+uvnitř okna.
+Jak by se to dalo napsat, aby to zachytávalo všechno i když je hlavní okno 
+neaktivní/minimalizované/schované? Stačil by mi link na nějakou jednoduchou 
+aplikaci, která toto musí umět, například
+- blbinky, co měří vzdálenost, kterou urazil kurzor myši
+- prográmek, co upozorní uživatele, že už píše příliš dlouho a měl by si 
+  odpočinout
+- něco, co zjišťuje aktivitu/neaktivitu uživatele (různí IM klienti)
+- koulející oči, které se stále otáčejí za kurzorem myši (xeyes)
+- keyloggers - zlomyslné programy (jsou-li nějaké), co čenichají všechny 
+  stisky kláves (hesla) a schovávají je do souboru.
+- ???
+
+Hledám něco, co je napsáno v čistém gtk bez přímého volání xlib.
+Díky 
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004497.html">[python] nejde py.cz
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004499.html">[python] pygtk, odchytávání událostí klávesnice a myši
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4496">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4496">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4496">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4496">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004496.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:19 GMT -->
+</html>

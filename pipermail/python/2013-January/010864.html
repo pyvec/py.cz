@@ -1,0 +1,473 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010864.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:15 GMT -->
+<HEAD>
+   <TITLE> [python] otázka ohladom mojho štýlu písania v OOP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fot%3DE1zka_ohladom_mojho_%3DB9t%3DFDlu_p%3DEDsani%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fa_v_OOP%3F%3D&In-Reply-To=%3CCABfjP1Kw%2B0wO8gnFwqf%2BMmhWT3SSBXdv57ks%3DRStsdo4_2xW_A%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010862.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010865.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] otázka ohladom mojho štýlu písania v OOP</H1>
+    <B>Roman Beno</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fot%3DE1zka_ohladom_mojho_%3DB9t%3DFDlu_p%3DEDsani%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fa_v_OOP%3F%3D&In-Reply-To=%3CCABfjP1Kw%2B0wO8gnFwqf%2BMmhWT3SSBXdv57ks%3DRStsdo4_2xW_A%40mail.gmail.com%3E"
+       TITLE="[python] otázka ohladom mojho štýlu písania v OOP">romanbeno273 na gmail.com
+       </A><BR>
+    <I>Sobota Leden 12 18:08:05 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010862.html">[python] Spouštění Pythonovských programů ve Windows (Re:  program na pozadí Windows)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010865.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10864">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10864">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10864">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10864">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> &lt;<A HREF="http://programujte.com/anonymni-profil/170094/">http://programujte.com/anonymni-profil/170094/</A>&gt;
+
+Dobrý deň,
+
+chcel by som sa spýtať na váš názor ohľadne môjho štýlu písania programov v
+OOP.
+Rád prijmem akukolvek kritiku, mojim cielom je sa v tomto ohľade zlepšit a
+v tejto oblasti som si nie som príliš istý.
+
+Tu sú ukážky mojich kódov:
+
+# -*- coding: utf-8 -*-
+#################Definícia triedy#######################
+class Fibonacci:
+    &quot;Fibonacciho trieda&quot;
+    def __init__(self,a=0,b=1,pocet_cisiel=10,default=0):
+        &quot;Vyrobíme stavebný materiál pre fibonaccciho postupnosť.&quot;
+        self.a=a
+        self.b=b
+        self.pocet_cisiel=pocet_cisiel
+        self.default=default
+    def proces(self):
+        print(self.a,self.b,end=&quot; &quot;)
+        while True:
+            self.a=(self.a+self.b)
+            self.default+=1
+            if self.default&gt;=self.pocet_cisiel:
+                print(&quot;\n&quot;)
+                break
+            print(self.a,end=&quot; &quot;)
+            # postupnost bude a,b,a,b,a,b... tento blok je pre všetky a
+            self.b=(self.a+self.b)
+            self.default+=1
+            if self.default&gt;=self.pocet_cisiel:
+                print(&quot;\n&quot;)
+                break
+            print(self.b,end=&quot; &quot;)
+            # a tento pre všetky b
+#################Hlavný program##########################
+MojaInstancia=Fibonacci(pocet_cisiel=20)
+MojaInstancia.proces()
+
+************************************************************************************************************
+Tu je další:
+
+# -*- coding: utf-8 -*-
+# program Záznamník adries
+# tréning Tkinter + OOP
+# autor JA, dnes
+# ver. 1.0
+# * opravená chyba pri vytvárani poľa pre zadávaní adresy, použitá
+neexistujúca farba okna
+# * opravená chyba pri vytváraní tlačítka ukončujúceho okno zadávania,
+použitý neexistujúci názov prvku
+# * zmenené umiestnenie a veľkosť tlačítka pre zavretie okna pri pridávaní
+adries
+# ver. 1.1
+# * opravená chyba pri potvrdení voľby mena pri pridávaní mena, použitá
+neexistujúca premenná
+# * opravená chyba pri potvrdení voľby mena pri pridávaní adresy, použitá
+neexistujúca premenná
+# ver. 1.2
+# * polia pre zadávaní mena aj adresy sa po zadaní oboch údajov teraz
+vymažú (ich hodnota)m
+#   uživatel ich teraz nemusí zadávať sám
+# * opravená chyba pri  načítaní údajov zo zoznamu, použitá neexistujúca
+premenná
+# ver. 1.2.1
+# * opravená chyba pri zobrazovaní načítaných údajov,použitá neexistujúca
+premenná
+# ver. 1.3
+# * opravená chyba pri vytváraní tlačítka na zavretie okna načítania
+údajov, použitá neexistujúca
+#   premenná
+# * opravená chyba pri zobrazovaní načítaných údajov (druhá chyba v tomto),
+použitá neexistujúca premenná
+# * zmenený text niektorých tlačítok v úvodnom menu
+# * v popisku okna sa teraz zobrazuje aj aktuálna verzia programu
+# ver. 1.3.1
+# * pri načítaní údajov upravená oddelovacia čiara údajov
+# * zmenené rozmery tlačítka ukončujúceho okno načítania údajov
+# ver. 1.3.2
+# * v okne ukladania súboru zmenená farba informačného textu na
+prehľadnejšiu
+# * opravená chyba pri ukladaní súborov, použitá neexistujúca premenná
+# ver. 1.4
+# * opravená chyba pri ukladaní súborov, použitá ďalšia neexistujúca
+premenná
+# * zmenená farba riadku pre chybové hlásenia v okne ukladania dát na
+prirodzenú bledomodrú
+# * pridaná možnosť odstránenia položiek zo zoznamu
+
+ from tkinter import *
+import sys
+import os
+
+class Zaznamnik:
+    &quot;Toto je trieda môjho záznamníku&quot;
+
+    def __init__(self):
+        self.hlavneOkno=Tk()
+        self.hlavneOkno.title(&quot;Záznamník, Ver. 1.4&quot;)
+        self.adresy=[]
+        self.zoznamMena=[]
+
+    def program(self):
+        &quot;Táto časť programu bude mať za úlohu čisto len grafiku hlavného
+menu (nie logiku).&quot;
+
+self.HOuvodnypopisokLabel=Label(self.hlavneOkno,bg=&quot;lightblue&quot;,text=&quot;Vitajte
+v mojom záznamníku adries.\nDúfam, že sa vám bude páčiť.&quot;)
+        self.HOuvodnypopisokLabel.grid(row=0,column=0,sticky=W+E+N+S)
+        # uvodny popisok - label - ktorý nás privíta v programe
+
+self.HOtlacitkoZadavatAdresy=Button(self.hlavneOkno,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,text=&quot;Pridať
+adresy do záznamníka&quot;)
+        self.HOtlacitkoZadavatAdresy.grid(row=1,column=0,sticky=W+E+N+S)
+        # tlačítko, ktoré by malo umožniť zadávanie adries
+
+self.HOtlacitkoOdstranitAdresy=Button(self.hlavneOkno,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,text=&quot;Odstrániť
+adresu zo záznamníka&quot;)
+        self.HOtlacitkoOdstranitAdresy.grid(row=2,column=0,sticky=W+E+N+S)
+        # tlačítko, ktoré by malo umožniť odstránenie adries
+
+self.HOtlacitkoUlozit=Button(self.hlavneOkno,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,text=&quot;Uložiť
+do súboru&quot;)
+        self.HOtlacitkoUlozit.grid(row=3,column=0,sticky=W+E+N+S)
+        # tlačítko, ktoré by malo umožnit uloženie do súboru
+
+self.HOtlacitkoNacitat=Button(self.hlavneOkno,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,text=&quot;Načítať
+dáta zo zoznamu&quot;)
+        self.HOtlacitkoNacitat.grid(row=4,column=0,sticky=W+E+N+S)
+        # tlačítko, ktoré by malo umožniť načítanie dát zo súboru
+
+self.HOtlacitkoNapoveda=Button(self.hlavneOkno,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,text=&quot;Zobrazenie
+nápovedy&quot;)
+        self.HOtlacitkoNapoveda.grid(row=5,column=0,sticky=W+E+N+S)
+        # tlačítko, ktoré by malo zobraziť nápovedu
+
+self.HOtlacitkoUkoncit=Button(self.hlavneOkno,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,text=&quot;Ukončiť
+program&quot;,command=self.hlavneOkno.quit)
+        self.HOtlacitkoUkoncit.grid(row=6,column=0,sticky=W+E+N+S)
+        # tlačítko, ktoré by malo ukončiť program
+
+        def zadavanie_adries():
+            &quot;Táto časť bude zachytávať logiku programu. Kvoli velkému
+rozsahu rozdelenú na niekoľko častí. Konkrétne zadávanie adries.&quot;
+            # prvá časť tejto funkcie
+            # vzhľad podokna na zadávanie
+            self.OknoZadavanie=Toplevel()
+            self.OknoZadavanie.title(&quot;Zadávanie adries&quot;)
+
+self.OknoZadavanieLabel=Label(self.OknoZadavanie,bg=&quot;lightblue&quot;,text=&quot;
+Aktuálna činnosť: Zadávanie adries                 \nPre potvrdenie údaju z
+okna stlačte ENTER.\n&quot;)
+
+self.OknoZadavanieLabel.grid(row=0,column=0,columnspan=4,sticky=W+E+N+S)
+            # Vytvorenie podokna na zadávanie adries, nastavený titulok +
+úvodný Label
+            self.VarPPCH=StringVar()
+
+self.OknoZadavanieLabelChybHlasky=Label(self.OknoZadavanie,bg=&quot;lightblue&quot;,textvariable=self.VarPPCH)
+
+self.OknoZadavanieLabelChybHlasky.grid(row=1,column=0,columnspan=4,sticky=W+E+N+S)
+            # Vytvorená textová premenná pre prípadné chybové hlášky. Pre
+začiatok sa bude tváriť ako
+            # neviditeľná súčasť okna
+
+self.RamecZadajMeno=Frame(self.OknoZadavanie,bd=3,bg=&quot;lightblue&quot;)
+
+self.RamecZadajMeno.grid(row=2,column=0,columnspan=4,sticky=W+E+N+S)
+            self.VarPZM=StringVar()
+            # Vytvorený rámec pre zadanie mena + popisok k nemu. Taktiež
+premenná pre políčko
+            # pre vstup
+            self.RamecPopisokPola=Label(self.RamecZadajMeno,text=&quot;Zadajte
+meno dotyčného:&quot;,bg=&quot;lightblue&quot;)
+            self.RamecPopisokPola.grid(row=2,column=0,sticky=W+E+N+S)
+
+self.PolePreVstupMena=Entry(self.RamecZadajMeno,bg=&quot;lightyellow&quot;,textvariable=self.VarPZM,font=&quot;Arial
+8&quot;)
+
+self.PolePreVstupMena.grid(row=2,column=1,columnspan=3,sticky=W+E+N+S)
+            # Vytvorený popisok pre pole pre vstup + políčko samotné
+
+self.RamecZadajAdresu=Frame(self.OknoZadavanie,bd=4,bg=&quot;lightblue&quot;)
+
+self.RamecZadajAdresu.grid(row=3,column=0,columnspan=4,sticky=W+E+N+S)
+
+self.LabelPreDruhePole=Label(self.RamecZadajAdresu,bg=&quot;lightblue&quot;,text=&quot;Zadajte
+adresu dotyčného: &quot;)
+            self.LabelPreDruhePole.grid(row=3,column=0,sticky=W+E+N+S)
+            self.VarPPA=StringVar()
+
+self.PolePreAdresu=Entry(self.RamecZadajAdresu,bg=&quot;lightyellow&quot;,textvariable=self.VarPPA,font=&quot;Arial
+8&quot;)
+            self.PolePreAdresu.grid(row=3,column=1,columnspan=3)
+            # Vytvorený rámec pre zadanie adresy, popis pre neho, premennú
+pre neho a taktiež pole
+            # samé.
+
+self.ZadavacieTlacitkoUkoncit=Button(self.OknoZadavanie,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,command=self.OknoZadavanie.destroy,text=&quot;Zavrieť
+toto okno&quot;)
+
+self.ZadavacieTlacitkoUkoncit.grid(row=4,column=0,columnspan=4,sticky=W+E+N+S)
+            self.OverovaciToken=0
+            # Vytvorené tlačítko pre zavretie tohto okna pre zadanie adresy.
+            def enter(BoloStlacene):
+                BoloStlacene.widget.configure(state=DISABLED)
+                self.udajMeno=str(self.PolePreVstupMena.get())
+                self.OverovaciToken+=1
+                if self.OverovaciToken==2:
+                    self.PolePreVstupMena.configure(state=NORMAL)
+                    self.PolePreAdresu.configure(state=NORMAL)
+                    self.zoznamMena.append(self.udajMeno)
+                    self.VarPZM.set(&quot;&quot;)
+                    self.VarPPA.set(&quot;&quot;)
+                    self.adresy.append([self.udajMeno,self.udajAdresu])
+                    self.OverovaciToken=0
+            # funkcia, čo sa má stať po zdarnom zadaní informácie do
+políčka Meno. Dané políčko
+            # sa disabluje, údaj z neho sa uloží. + špecialita overovací
+token. Ak dosiahne hodnotu 2,
+            # program zistí, že má spravit ďalšiu &quot;obrátku&quot; pri pridávaní
+do zoznamu
+            def entri(StlaceneBolo):
+                StlaceneBolo.widget.configure(state=DISABLED)
+                self.udajAdresu=str(self.PolePreAdresu.get())
+                self.OverovaciToken+=1
+                if self.OverovaciToken==2:
+                    self.PolePreVstupMena.configure(state=NORMAL)
+                    self.PolePreAdresu.configure(state=NORMAL)
+                    self.zoznamMena.append(self.udajMeno)
+                    self.VarPZM.set(&quot;&quot;)
+                    self.VarPPA.set(&quot;&quot;)
+                    self.adresy.append([self.udajMeno,self.udajAdresu])
+                    self.OverovaciToken=0
+            # táto funkcia zase slúži na definovanie činnosti políčka
+Adresy. Zapíše údaj
+            # do zoznamu a disabluje políčko. Malo by to zabezpečiť
+zadávanie.
+            self.PolePreVstupMena.bind(&quot;&lt;Return&gt;&quot;,enter)
+            self.PolePreAdresu.bind(&quot;&lt;Return&gt;&quot;,entri)
+            # čo sa má stať po stlačení Entrov v rôznych okienkach
+
+        def nacitanie_dat():
+            &quot;Táto funkcia by mala zabezpečiť zobrazenie, resp. načítanie
+dát zo zoznamu.&quot;
+            self.OknoNacitanie=Toplevel()
+            self.OknoNacitanie.title(&quot;Načítanie dát&quot;)
+            # vytvorené vlastné okno pre načítanie dát, kde by sa
+teoreticky mali zobrazovať
+            # dáta uložené v zozname adries
+
+self.oknoNacitanieZobrazenie=Label(self.OknoNacitanie,bg=&quot;lightblue&quot;,text=&quot;&quot;)
+            self.oknoNacitanieZobrazenie.grid(row=0,column=0)
+
+self.premenna=&quot;&quot;&quot;\tMená\t\tAdresy\n***************************************\n&quot;&quot;&quot;
+            if len(self.adresy)==0:
+                self.oknoNacitanieZobrazenie.configure(text=&quot;Zoznam je
+prázdny.&quot;)
+            else:
+                for p in self.adresy:
+                    self.coNacitaj=&quot;\t{0}\t\t{1}\n&quot;.format(p[0],p[1])
+                    self.premenna+=self.coNacitaj
+                self.oknoNacitanieZobrazenie.configure(text=self.premenna)
+            # toto by malo zabezpečiť zdarné zobrazovanie položiek zoznamu
+
+
+self.tlacitkoUkoncitON=Button(self.OknoNacitanie,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,text=&quot;Zavrieť
+toto okno&quot;,command=self.OknoNacitanie.destroy)
+            self.tlacitkoUkoncitON.grid(row=1,column=0,sticky=N+S+E+W)
+            # toto tvorí tlačítko, ktoré by mohlo zavrieť okno
+
+        def ulozenie_do_suboru():
+            &quot;Toto má na starosti zdarné uloženie dát do súboru. Trošku nám
+pomôže predošlá funkcia, načítanie dát.&quot;
+            self.OknoUlozenie=Toplevel()
+            self.OknoUlozenie.title(&quot;Uloženie do súboru&quot;)
+
+self.OknoUlozenieLabelVyber=Label(self.OknoUlozenie,text=&quot;Vyberte meno
+súboru, do ktorého chcete uložiť dáta zo súboru.&quot;,bg=&quot;lightblue&quot;)
+
+self.OknoUlozenieLabelVyber.grid(row=0,column=0,columnspan=2,sticky=W+E+N+S)
+            # vytvorené ukladacie okno, nastavený popisok pre neho +
+popisok pre políčko pre zadanie mena ukladacieho súboru
+            self.OUPPV=StringVar()
+
+self.OUPolePreVstup=Entry(self.OknoUlozenie,bg=&quot;lightyellow&quot;,font=&quot;Arial
+8&quot;,textvariable=self.OUPPV)
+
+self.OUPolePreVstup.grid(row=0,column=2,columnspan=2,sticky=W+E+N+S)
+            # pole, kam môžeme zadávať samotný názov súboru
+
+self.OUPosudzovaciaHlaska=Label(self.OknoUlozenie,bg=&quot;lightblue&quot;,text=&quot;&quot;)
+
+self.OUPosudzovaciaHlaska.grid(row=1,column=0,columnspan=4,sticky=W+E+N+S)
+            # tu sa vypíš prípadná chybová hláška, v závislosti od toho, čo
+zadáme do zmieneného políčka
+            def entricek(ppv):
+                self.result=str(self.OUPolePreVstup.get())
+                if len(self.result)==0:
+                    self.OUPosudzovaciaHlaska.configure(text=&quot;Nezadali ste
+meno žiadneho súboru.&quot;)
+                    self.OUPPV.set(&quot;&quot;)
+                    return
+                # ak ste nezadali nič, tak vypíše hlášku, znuluje hodnotu
+pola a zavrie funkciu
+                if len(self.adresy)==0:
+                    self.OUPosudzovaciaHlaska.configure(text=&quot;Zoznam adries
+je prázdny.&quot;)
+                    self.OUPPV.set(&quot;&quot;)
+                    return
+                # podobné ako v predchádzajúcom prípade, ibaže ak je zoznam
+adries prázdny
+                self.subor=open(self.result,&quot;wt&quot;)
+                try:
+                    self.subor.write(self.premenna)
+                except:
+                    self.OUPosudzovaciaHlaska.configure(text=&quot;Zatial ste
+nenačítali žiadne dáta. Urobte tak cez hlavné menu.&quot;)
+                    self.subor.close()
+                    self.OUPPV.set(&quot;&quot;)
+                    return
+                    # stale je možnost že uživatel nenačítal požadované
+dáta na vloženie
+                self.OUPosudzovaciaHlaska.configure(text=&quot;Zatial ste
+nenačítali žiadne dáta. Urobte tak cez hlavné menu.&quot;)
+                self.subor.close()
+                self.OUPolePreVstup.configure(state=DISABLED)
+                # toto sa stane v pripade že chyba nenastala,
+            self.OknoUlozenie.bind(&quot;&lt;Return&gt;&quot;,entricek)
+
+self.OUTlacitkoZavri=Button(self.OknoUlozenie,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,text=&quot;Zavrieť
+toto okno&quot;,command=self.OknoUlozenie.destroy)
+
+self.OUTlacitkoZavri.grid(row=2,column=0,columnspan=4,sticky=W+E+N+S)
+            # urobené tlačítko, ktoré zavrie okno
+
+        def odstranenie_poloziek():
+            &quot;Odstránenie jedného záznamu zo zoznamu adries a mien&quot;
+            self.OknoOdstranenie=Toplevel()
+            self.OknoOdstranenie.title(&quot;Odstranenie poloziek&quot;)
+            self.OOpripravenytext=[]
+            # vytvorené okno odstránenia, nastavený popisok + náradíčko =
+prázdny zoznam
+            for x in self.zoznamMena:
+                self.OOpripravenytext.append(x)
+
+self.OOodstranenieLabel=Label(self.OknoOdstranenie,bg=&quot;lightblue&quot;,text=&quot;Vyberte
+si položku zoznamu,ktorú\nchcete odstrániť:&quot;)
+            self.OOodstranenieLabel.grid(row=0,column=0)
+            # pripraví zoznam položiek pre neskoršie odstranovanie +
+vytvorenie labelu na odstranenie
+            # položky
+            self.OOPPO=StringVar()
+
+self.OOPolePreOdstranenie=Entry(self.OknoOdstranenie,bg=&quot;lightyellow&quot;,textvariable=self.OOPPO,font=&quot;Arial
+8&quot;)
+
+self.OOPolePreOdstranenie.grid(row=0,column=1,columnspan=2,sticky=W+E+S+N)
+
+self.OOLabelChybovaHlaska=Label(self.OknoOdstranenie,bg=&quot;lightblue&quot;,text=&quot;&quot;)
+
+self.OOLabelChybovaHlaska.grid(row=1,column=0,columnspan=3,sticky=W+E+S+N)
+            # samotné políčko, kam možete zadat meno položky (meno
+konk.osoby, ktorú chcete odstrániť
+            def stlacil_entri(gangnam):
+                coBoloStlacenee=str(self.OOPolePreOdstranenie.get())
+                if coBoloStlacenee in self.zoznamMena:
+
+indexCoBoloStlacenee=self.zoznamMena.index(coBoloStlacenee)
+                else:
+                    self.OOLabelChybovaHlaska.configure(text=&quot;Neexistujúce
+meno.&quot;)
+                    self.OOPPO.set(&quot;&quot;)
+                del self.adresy[indexCoBoloStlacenee]
+                del self.zoznamMena[self.zoznamMena.index(coBoloStlacenee)]
+                self.OOPPO.set(&quot;&quot;)
+                # zoberieme to z políčka pre vstup, ak je v zozname mien,
+odstrán z oboch zoznamov
+                # ak nie, vyhod chybove hlasky. Samozrejmostou je nasledne
+premazanie policka
+            self.OOPolePreOdstranenie.bind(&quot;&lt;Return&gt;&quot;,stlacil_entri)
+
+self.OOZavriOkno=Button(self.OknoOdstranenie,bg=&quot;lightblue&quot;,activebackground=&quot;lightgreen&quot;,text=&quot;Zavrieť
+toto okno&quot;,command=self.OknoOdstranenie.destroy)
+
+self.OOZavriOkno.grid(row=2,column=0,columnspan=3,sticky=W+E+S+N)
+            # zabezpečená akcia pre pole pre vstup po stlačení Enteru.
+            # vytvorené tlačítko na zavretie okna
+
+
+        self.HOtlacitkoNacitat.configure(command=nacitanie_dat)
+        self.HOtlacitkoUlozit.configure(command=ulozenie_do_suboru)
+        self.HOtlacitkoZadavatAdresy.configure(command=zadavanie_adries)
+
+self.HOtlacitkoOdstranitAdresy.configure(command=odstranenie_poloziek)
+
+        self.hlavneOkno.mainloop()
+
+#########################################################
+
+inst=Zaznamnik()
+inst.program()
+
+Ďakujem za akúkolvek odpoved
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130112/8e71c461/attachment.html">http://www.py.cz/pipermail/python/attachments/20130112/8e71c461/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010862.html">[python] Spouštění Pythonovských programů ve Windows (Re:  program na pozadí Windows)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010865.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10864">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10864">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10864">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10864">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010864.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:15 GMT -->
+</html>

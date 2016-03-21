@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011259.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:50 GMT -->
+<HEAD>
+   <TITLE> [python] Třídy, metody, argumenty
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVMWZw61keSwgbWV0b2R5LCBhcmd1bWVudHk%3D%3F%3D&In-Reply-To=%3CCA%2B7MNVryDLmAFHQ6NOdUAcof0arPgayBkfcNCGTAByo%3D5m_%2BXg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-February/011258.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-February/011260.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Třídy, metody, argumenty</H1>
+    <B>starenka .</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVMWZw61keSwgbWV0b2R5LCBhcmd1bWVudHk%3D%3F%3D&In-Reply-To=%3CCA%2B7MNVryDLmAFHQ6NOdUAcof0arPgayBkfcNCGTAByo%3D5m_%2BXg%40mail.gmail.com%3E"
+       TITLE="[python] Třídy, metody, argumenty">starenka0 na gmail.com
+       </A><BR>
+    <I>Pátek Únor 21 20:42:33 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011258.html">[python] Třídy, metody, argumenty
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011260.html">[python] Filozoficko-průzkumná otázka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11259">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11259">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11259">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11259">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>s tema argumentama u funkci se muzes obecne dost vyblbnout... (vizuj
+<A HREF="http://docs.python.org/2/tutorial/controlflow.html#more-on-defining-functions">http://docs.python.org/2/tutorial/controlflow.html#more-on-defining-functions</A>)
+
+napr.
+
+starenka /tmp % cat meh.py
+#!/usr/bin/env python
+# coding=utf-8
+
+def nejaka(prvni, druhej, treti):
+    print prvni, druhej, treti
+
+def dalsi(prvni, *args):
+    print prvni, args
+
+def este_jina(**kwargs):
+    print kwargs
+
+def vrat_tri():
+    return 1, 2, 3
+
+def vrat_dict():
+    return dict(prvni=1, druhej=2, treti=3)
+
+nejaka(*vrat_tri())
+nejaka(*sorted(vrat_dict().values()))
+nejaka(**vrat_dict())
+dalsi(*vrat_tri())
+este_jina(**vrat_dict())
+
+starenka /tmp % python meh.py
+1 2 3
+1 2 3
+1 2 3
+1 (2, 3)
+{'druhej': 2, 'prvni': 1, 'treti': 3}
+
+mej se
+
+s.
+
+---
+In Perl you shoot yourself in the foot, but nobody can understand how
+you did it. Six months later, neither can you. | print
+'aknerats'[::-1]
+
+
+2014-02-21 20:25 GMT+01:00 Marcus Scalpere &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">xdlabacekm at seznam.cz</A>&gt;:
+&gt;<i> Dne 21.2.2014 19:30, Petr Viktorin napsal(a):
+</I>&gt;<i>
+</I>&gt;&gt;<i> 2014-02-21 18:52 GMT+01:00 Marcus Scalpere &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">xdlabacekm at seznam.cz</A>&gt;:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Zdravím,
+</I>&gt;&gt;&gt;<i> můj dotaz je lepší asi předvést než vysvětlovat, takže:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> class pokus:
+</I>&gt;&gt;&gt;<i>      def __init__(self, vstup):
+</I>&gt;&gt;&gt;<i>          self.vstup = vstup
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>      def nejaka_funkce(self):
+</I>&gt;&gt;&gt;<i>          return (self.rok + 9) % 28
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>      def jina_funkce():
+</I>&gt;&gt;&gt;<i>          return ((self.nejaka_funkce - 1) * 11) % 30
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> prvni = pokus(1845)
+</I>&gt;&gt;&gt;<i> print (prvni.jina_funkce())
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> (Jen příklad, skutečnost je trochu složitější, ale i kdyby nebyla, chci
+</I>&gt;&gt;&gt;<i> na
+</I>&gt;&gt;&gt;<i> to přijít)
+</I>&gt;&gt;&gt;<i> Je jasný, že mi to vyhodí chybu, poskytuji argument a přitom žádný
+</I>&gt;&gt;&gt;<i> nepotřebuje. Takže moje otázka je - jak to provést, abych mohl ve třídě
+</I>&gt;&gt;&gt;<i> používat metody, které mají jako argument výsledek jiné funkce ve třídě?
+</I>&gt;&gt;&gt;<i> A
+</I>&gt;&gt;&gt;<i> zároveň abych neměl problém při volání? Je mi jasný, že to určitě nějak
+</I>&gt;&gt;&gt;<i> jde...a omluvte mě, na OOP stále koukám jak pavián na Rosettskou desku:/
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Je to celkem jednoduché: metody definuješ se &quot;self&quot;, ale voláš bez
+</I>&gt;&gt;<i> &quot;self&quot; (ten se doplní sám, z objektu na kterém tu metodu voláš):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class pokus:
+</I>&gt;&gt;<i>      def __init__(self, rok):
+</I>&gt;&gt;<i>          self.rok = rok
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>      def nejaka_funkce(self):
+</I>&gt;&gt;<i>          return (self.rok + 9) % 28
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>      def jina_funkce(self):
+</I>&gt;&gt;<i>          return ((self.nejaka_funkce() - 1) * 11) % 30
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> prvni = pokus(1845)
+</I>&gt;&gt;<i> print (prvni.jina_funkce())
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python at py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i> No jasně, čekal jsem, že to bude jen nějaká drobnost. Hned se cítím o něco
+</I>&gt;<i> dospělejší. Vše funguje jak má, děkuji mnohokráte!
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python at py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011258.html">[python] Třídy, metody, argumenty
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011260.html">[python] Filozoficko-průzkumná otázka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11259">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11259">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11259">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11259">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011259.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:50 GMT -->
+</html>

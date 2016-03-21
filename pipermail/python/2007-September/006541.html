@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006541.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:22 GMT -->
+<HEAD>
+   <TITLE> [python] Jak udělat odpočítávání?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FJak_ud%3DEClat_odpo%3DE8%3DEDt%3DE1v%3DE1n%3DED%3D3F%3F%3D&In-Reply-To=1189689503.911306.149610%40d55g2000hsg.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-September/006540.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-September/006542.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak udělat odpočítávání?</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FJak_ud%3DEClat_odpo%3DE8%3DEDt%3DE1v%3DE1n%3DED%3D3F%3F%3D&In-Reply-To=1189689503.911306.149610%40d55g2000hsg.googlegroups.com"
+       TITLE="[python] Jak udělat odpočítávání?">RMiklos na pss.sk
+       </A><BR>
+    <I>Čtvrtek Září 13 18:51:39 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006540.html">[python] Jak udělat odpočítávání?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006542.html">[python] Jak udělat odpočítávání?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6541">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6541">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6541">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6541">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>v module threading je Timer()
+
+Mozno by to slo urobit nejako takto:
+
+--------------------------------------------------------
+import sys,threading
+
+def timeout():
+    global t
+    print &quot;*******&quot;
+    print &quot;Timeout period expired !&quot;
+    t.cancel() # nefunguje
+
+def inp():
+  global t 
+  s=raw_input('Enter something: ')
+  if s != '': 
+    print &quot;You have entered this: %s&quot; % s
+    t.cancel()
+
+if  __name__ == '__main__':
+  t = threading.Timer(5.0, timeout) 
+  t.start() # after n seconds, timeout will be printed
+  inp()
+--------------------------------------------------------
+
+
+
+
+&quot;Mazlík&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zamazal.jiri na gmail.com</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+13.09.2007 15:18
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+cc
+
+Subject
+[python] Jak udělat odpočítávání?
+
+
+
+
+
+
+Ahoj :-)
+
+Potřebuju udělat script, kde by hned na začátku byl raw_input a
+odpočítávání. Např:
+
+rozcestik = raw_input()
+-----------------------
+Napište číslo podle nabídky a stiskněte ENTER
+(1) Start
+(2) Konfigurace
+(3) Napoveda
+(4) Konec
+-----------------------
+
+A teď chci, aby uživatel měl na tuto volbu např: 10 vteřin a pokud nic
+neudělá, tak se do proměnné &quot;rozcestik&quot; vloží hodnota třeba &quot;1&quot; (Jako
+kdyby místo něj napsal třeba jedničku a enter :-))
+
+Pak mě napadla druhá varianta, že pokud by se script / program spustil
+s určitým argumentem, tak by ta nabídka volby vůbec nebyla a proměnné
+by se hodnota přiřadila sama. Jenže já pak potřebuju udělat .exe
+(py2exe) a nejsem si jistý, jestli by toto argumenty fungovali na
+100pro a hlavně je to otrava psát parametry pro spuštění :)
+
+Mockrát dík :-)
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006540.html">[python] Jak udělat odpočítávání?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006542.html">[python] Jak udělat odpočítávání?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6541">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6541">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6541">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6541">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006541.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:22 GMT -->
+</html>

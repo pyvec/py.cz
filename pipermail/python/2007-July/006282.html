@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006282.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:42 GMT -->
+<HEAD>
+   <TITLE> [python] reportlab a cherrypy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20reportlab%20a%20cherrypy&In-Reply-To=469BD3B7.5060707%40brabenec.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006281.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006275.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] reportlab a cherrypy</H1>
+    <B>Tomáš Brabenec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20reportlab%20a%20cherrypy&In-Reply-To=469BD3B7.5060707%40brabenec.net"
+       TITLE="[python] reportlab a cherrypy">konference na brabenec.net
+       </A><BR>
+    <I>Úterý Červenec 17 08:37:38 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006281.html">[python] reportlab a cherrypy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006275.html">[python] problém s modulem wave
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6282">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6282">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6282">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6282">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Trosku se to rozhodilo, tohle ma byt na jednom radku
+
+response.headerMap['content-disposition'] = 'attachment; filename=soubor.pdf'
+
+
+TB
+
+Tomáš Brabenec napsal(a):
+&gt;<i> Ano, getpdf je spravna metoda,ale nesmite zapomenout, ze musite predat
+</I>&gt;<i> taky spravnou hlavicku
+</I>&gt;<i>
+</I>&gt;<i> Např takto (jak jsem popisoval je to verze 0.10):
+</I>&gt;<i>
+</I>&gt;<i> &lt;pre&gt;
+</I>&gt;<i> pdf_doc = canvas.getpdfdata()
+</I>&gt;<i> response.headerMap['content-type'] = 'application/pdf'
+</I>&gt;<i> response.headerMap['content-disposition'] = 'attachment;
+</I>&gt;<i> filename=soubor.pdf'
+</I>&gt;<i> return pdf_doc
+</I>&gt;<i> &lt;/pre&gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> TB
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Vladislav Ludík napsal(a):
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Problém je jinde.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Přístup na pdf je možný současně z více počítačů:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 1. uživatel vygeneruje stránku s odkazem na uložený pdf.
+</I>&gt;&gt;<i> Než na odkaz přejde, 2. uživatel udělá totéž a vytvoří jiný pdf
+</I>&gt;&gt;<i> A co uvidí 1. uživatel?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Našel jsem sice metodu místo canvas.save() například getpdfdata(), ale 
+</I>&gt;&gt;<i> neumím získaná data zobrazit na webu.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Díky VL
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Tomáš Brabenec napsal(a):
+</I>&gt;&gt;<i>   
+</I>&gt;&gt;<i>     
+</I>&gt;&gt;&gt;<i> Michal Vyskocil napsal(a):
+</I>&gt;&gt;&gt;<i>   
+</I>&gt;&gt;&gt;<i>     
+</I>&gt;&gt;&gt;<i>       
+</I>&gt;&gt;&gt;&gt;<i> Dne Sunday 15 of July 2007 18:09:58 Vladislav Ludík napsal(a):
+</I>&gt;&gt;&gt;&gt;<i>   
+</I>&gt;&gt;&gt;&gt;<i>     
+</I>&gt;&gt;&gt;&gt;<i>       
+</I>&gt;&gt;&gt;&gt;<i>         
+</I>&gt;&gt;&gt;&gt;&gt;<i> Jak ale vygeneruju pdf jinak než příkazem
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> canvas.save() ?
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> Odkaz nebude fungovat.
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> Díky
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i>     
+</I>&gt;&gt;&gt;&gt;&gt;<i>       
+</I>&gt;&gt;&gt;&gt;&gt;<i>         
+</I>&gt;&gt;&gt;&gt;&gt;<i>           
+</I>&gt;&gt;&gt;&gt;<i> Obavam se, ze tento framework neznam, takze moje reseni je pouze obecne
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>   
+</I>&gt;&gt;&gt;&gt;<i>     
+</I>&gt;&gt;&gt;&gt;<i>       
+</I>&gt;&gt;&gt;&gt;<i>         
+</I>&gt;&gt;&gt;<i> Taky nevim kde je problem, pouzivam to v CherryPy, sice v archaicke vezi
+</I>&gt;&gt;&gt;<i> 0.10, ale funguje to.
+</I>&gt;&gt;&gt;<i> Vygeneruju soubor, ulozim ho a potom jeho obsah zobrazim.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> TB
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> __________ Informace od NOD32 2399 (20070714) __________
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Tato zprava byla proverena antivirovym systemem NOD32.
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.nod32.cz/">http://www.nod32.cz</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>   
+</I>&gt;&gt;&gt;<i>     
+</I>&gt;&gt;&gt;<i>       
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20070717/43c2a076/attachment.htm">http://www.py.cz/pipermail/python/attachments/20070717/43c2a076/attachment.htm</A> 
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006281.html">[python] reportlab a cherrypy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006275.html">[python] problém s modulem wave
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6282">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6282">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6282">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6282">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006282.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:42 GMT -->
+</html>

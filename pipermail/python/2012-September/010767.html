@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010767.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+<HEAD>
+   <TITLE> [python] multiprocess problem se sirotkem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20problem%20se%20sirotkem&In-Reply-To=%3CCAK9Q5BREJ0DdceM3XMKub%2B030hTFpT0BEmnp9JoCBE0K5p_fbg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-September/010765.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-September/010768.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multiprocess problem se sirotkem</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20problem%20se%20sirotkem&In-Reply-To=%3CCAK9Q5BREJ0DdceM3XMKub%2B030hTFpT0BEmnp9JoCBE0K5p_fbg%40mail.gmail.com%3E"
+       TITLE="[python] multiprocess problem se sirotkem">petr.messner na gmail.com
+       </A><BR>
+    <I>Středa Září  5 10:45:53 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010765.html">[python] multiprocess problem se sirotkem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010768.html">[python] pygame
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10767">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10767">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10767">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10767">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+můžeš nějak zjistit, jak a čím je ten proces zabit? Třeba přes strace nebo gdb.
+
+Jednoduchý CGI skript, který spustí něco časově delšího přes
+subprocess.Popen (ale samozřejmě nejoinuje) a hned se ukončí, mi
+funguje a proces na pozadí zůstane běžet. Ale záleží na tom, co s tím
+dělá ještě ten server. Můžeš sem poskytnout nějaký konkrétní příklad,
+který se dá spustit a vykazuje to tu chybu? Včetně toho, jak přesně se
+to spouští. Může to být nějaký detail, okolo procesů v unixu jsou
+ještě věci jako process group, připojená konzole, session leader...
+Pak se musejí dělat double forky a podobné srandy.
+
+Jinak, abych to shrnul, už se tu asi zmínily všechny obecnější
+způsoby, jak to řešit:
+
+1) CGI skript uloží někam informace o tom, že je potřeba něco udělat a
+nechá to na něčem jiném. To něco jiného, které tyto joby provádí, může
+být:
+1.1) nějaký proces, který neustále monitoruje, zda není nějaký nový
+job a pokud ano, tak to provede; toto lze zkomplikovat více workery,
+chytřejší (push místo pull) detekcí jobu - místo typické databáze lze
+použít message brokery (např. RabbitMQ) atd.
+1.2) cron script, který dělá to samé jako 1.1), jen to není
+dlouhoběžící proces. Tohle je asi nejjednodušší, pokud nevadí vyšší
+latence (spouštění jednou za minutu) a pokud ten skript při spouštění
+nebere příliš hodně CPU nebo I/O.
+1.3) použití nějakého softwaru pro task queue, který je určen právě
+pro tyto situace, např. již zmíněné Celery
+
+2) Spouštět proces přímo z CGI skriptu, jak píšeš. Zde bych ale uvedl
+pár nevýhod:
+- jak je vidět, někdy to nefunguje kvůli nějakým detailům ohledně
+ukončování procesů :)
+- obecně se nepočítá s tím, že po ukončení zpracování požadavku ještě
+něco zbyde. To může přinášet problémy třeba při restartu.
+- není kontrola nad tím, kolik takových procesů se vlastně spustí,
+mohou dojít prostředky, výrazně to usnadňuje DoS útoky. U řešeních
+popsaných v 1) lze relativně snadno kontrolovat, kolik workerů bude ty
+joby zpracovávat, případně nějak monitorovat jejich prostředky.
+- prostě mi to nepřijde jako elegantní řešení problému, spíš jako hack :)
+
+Zdar
+
+PM
+
+
+Dne 5. září 2012 9:50 Tomas Pelka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">tompelka na gmail.com</A>&gt; napsal(a):
+&gt;<i> Zdravim vsechny,
+</I>&gt;<i>
+</I>&gt;<i> resim nasledujici problem a verim, ze mi nekdo z vas pomuze.
+</I>&gt;<i>
+</I>&gt;<i> Potrebuji z cgi skriptu (interpretuje jej jednoduchy httpserver) pustit
+</I>&gt;<i> dlouho bezici ulohu ale tak abych nemusel volat mutiprocess.join(), protoze
+</I>&gt;<i> pak stranka zustane viset. Jak jsem zminil pouzivam k tomu multiprocess,
+</I>&gt;<i> ktery pouze nastartuji ale nejoinu. Vse ale nasvercuje tomu, ze proces je
+</I>&gt;<i> zabyt i kdyz by mel byt daemonem.
+</I>&gt;<i>
+</I>&gt;<i> import multiprocess
+</I>&gt;<i>
+</I>&gt;<i> mp = Process(target=__handle_execution, args=(args,))
+</I>&gt;<i> mp.daemon = True
+</I>&gt;<i> mp.start()
+</I>&gt;<i>
+</I>&gt;<i> -- zde je konec cgi skriptu --
+</I>&gt;<i>
+</I>&gt;<i> Ma nekdo s podobnym chovanim zkusenosti?
+</I>&gt;<i>
+</I>&gt;<i> Diky
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Tomas Pelka
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010765.html">[python] multiprocess problem se sirotkem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010768.html">[python] pygame
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10767">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10767">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10767">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10767">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010767.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+</html>

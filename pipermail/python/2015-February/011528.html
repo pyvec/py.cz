@@ -1,0 +1,275 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011528.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:20 GMT -->
+<HEAD>
+   <TITLE> [python] Lock
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3CCAEO8NYw9GVfEDJAX%3DPVwF2Lu1JH%2BNoB81PcK9DooQG2EvGsqig%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011522.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011523.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Lock</H1>
+    <B>Jakub Vysoky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3CCAEO8NYw9GVfEDJAX%3DPVwF2Lu1JH%2BNoB81PcK9DooQG2EvGsqig%40mail.gmail.com%3E"
+       TITLE="[python] Lock">jakub na borka.cz
+       </A><BR>
+    <I>Pondělí Únor  9 16:15:51 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011522.html">[python] Lock
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011523.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11528">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11528">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11528">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11528">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>a protoze ve svete bezstavovych webovych workeru bychom se na lokalni
+filesystem spolehat opravdu nemeli, tak kdyz uz kladivo, tak opravdove:
+cili zamek v nejakej sdilenem ulozisti, treba v te databazi, coz jsme
+pomerne blizko i tem transakcim.
+
+2015-02-09 15:01 GMT+01:00 Vladimir Macek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">macek na sandbox.cz</A>&gt;:
+
+&gt;<i>  Existuje na to i opravdu kladivo: souborovy zamek.
+</I>&gt;<i>
+</I>&gt;<i> Na lokalnim souborovem systemu mas zaruceno, ze v kriticke sekci se bude
+</I>&gt;<i> pohybovat jen jeden thread. Pouzivam i u webovych aplikaci v sekcich, kde
+</I>&gt;<i> potrebuju uplnou jistotu.
+</I>&gt;<i>
+</I>&gt;<i> Implementaci prevzatou z webu najdes napr. v me sade nastroju:
+</I>&gt;<i>
+</I>&gt;<i>     <A HREF="https://github.com/tuttle/python-useful/blob/master/useful/filelock.py">https://github.com/tuttle/python-useful/blob/master/useful/filelock.py</A>
+</I>&gt;<i>
+</I>&gt;<i> Lze komplet nainstalovat prikazem:
+</I>&gt;<i>
+</I>&gt;<i> $ pip install useful
+</I>&gt;<i>
+</I>&gt;<i> Drobna ukazecka:
+</I>&gt;<i>
+</I>&gt;<i> $ virtualenv /tmp/test-lock &amp;&amp; /tmp/test-lock/bin/pip install useful &amp;&amp;
+</I>&gt;<i> /tmp/test-lock/bin/python
+</I>&gt;<i> New python executable in /tmp/test-lock/bin/python
+</I>&gt;<i> Installing setuptools, pip...done.
+</I>&gt;<i> Downloading/unpacking useful
+</I>&gt;<i>   Downloading useful-0.6.4-py2-none-any.whl (40kB): 40kB downloaded
+</I>&gt;<i> Installing collected packages: useful
+</I>&gt;<i> Successfully installed useful
+</I>&gt;<i> Cleaning up...
+</I>&gt;<i> Python 2.7.6 (default, Mar 22 2014, 22:59:38)
+</I>&gt;<i> [GCC 4.8.2] on linux2
+</I>&gt;<i> Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt;&gt; import time&gt;&gt;&gt; from multiprocessing.dummy import Pool as ThreadPool&gt;&gt;&gt; &gt;&gt;&gt; from useful.filelock import FileLock&gt;&gt;&gt; &gt;&gt;&gt; def worker_normal(job):...     print &quot;Start&quot;, job...     time.sleep(1)...     print &quot;End&quot;, job...     return job.lower()... &gt;&gt;&gt; def worker_critical(job):...     with FileLock('/tmp/test-lock'):...         print &quot;Start&quot;, job...         time.sleep(1)...         print &quot;End&quot;, job...         return job.lower()... &gt;&gt;&gt; def run_with(worker):...     start = time.time()...     pool = ThreadPool(5)...     print pool.map(worker, 'ABCDEFGHI')...     pool.close()...     pool.join()...     print &quot;Completion time with %s: %d secs&quot; % (worker, time.time()-start)... &gt;&gt;&gt; run_with(worker_normal)
+</I>&gt;<i> Start Start AStart B
+</I>&gt;<i>  Start
+</I>&gt;<i>  DC
+</I>&gt;<i>
+</I>&gt;<i> Start E
+</I>&gt;<i> EndEnd End  CEndEnd A
+</I>&gt;<i> D
+</I>&gt;<i> BE
+</I>&gt;<i>
+</I>&gt;<i> Start F
+</I>&gt;<i>
+</I>&gt;<i> Start G
+</I>&gt;<i>  Start H
+</I>&gt;<i> Start I
+</I>&gt;<i> End F
+</I>&gt;<i>  EndEnd  G
+</I>&gt;<i> H
+</I>&gt;<i> End I['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+</I>&gt;<i> Completion time with &lt;function worker_normal at 0xb6f9dae4&gt;: 2 secs&gt;&gt;&gt; run_with(worker_critical)
+</I>&gt;<i> Start A
+</I>&gt;<i> End A
+</I>&gt;<i> Start F
+</I>&gt;<i> End F
+</I>&gt;<i> Start G
+</I>&gt;<i> End G
+</I>&gt;<i> Start H
+</I>&gt;<i> End H
+</I>&gt;<i> Start I
+</I>&gt;<i> End I
+</I>&gt;<i> Start E
+</I>&gt;<i> End E
+</I>&gt;<i> Start D
+</I>&gt;<i> End D
+</I>&gt;<i> Start C
+</I>&gt;<i> End C
+</I>&gt;<i> Start B
+</I>&gt;<i> End B['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+</I>&gt;<i> Completion time with &lt;function worker_critical at 0xb6f9ddf4&gt;: 9 secs&gt;&gt;&gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> V.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On 9.2.2015 13:43, Petr Blahos wrote:
+</I>&gt;<i>
+</I>&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i>  no, jestli ten kód vypadá opravdu přesně takto, tak dělá tohle:
+</I>&gt;<i> * vytvoří úplně nový zámek a acquirene ho.
+</I>&gt;<i> * udělá to sql
+</I>&gt;<i> * releasene zámek.
+</I>&gt;<i> No a druhý případný thread dělá to stejné:
+</I>&gt;<i>  * vytvoří úplně nový zámek a acquirene ho.
+</I>&gt;<i> * udělá to sql
+</I>&gt;<i> * releasene zámek.
+</I>&gt;<i>  Takže nic ničemu v ničem nezabrání.
+</I>&gt;<i>
+</I>&gt;<i>  Tohle se ale dělá transakcema, a pokud máš MyISAm engine, tak spíš
+</I>&gt;<i> zamčením
+</I>&gt;<i> patřičných tabulek:
+</I>&gt;<i> &quot;LOCK TABLES platby READ&quot;
+</I>&gt;<i> ...
+</I>&gt;<i> &quot;UNLOCK TABLES&quot;
+</I>&gt;<i>
+</I>&gt;<i>  --
+</I>&gt;<i>  Petr
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2015-02-09 11:42 GMT+01:00 mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt;:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i> narazil jsem na problém se zámkem.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Mám  aplikaci  na web serveru, která ukládá příznak booolean Zaplaceno
+</I>&gt;&gt;<i> do MySQL databáze.
+</I>&gt;&gt;<i> Občas  se ale stane, že potvrzení platby přijde najednou ve stejný čas
+</I>&gt;&gt;<i> ze dvou zdrojů. Chtěl jsem to vyřešit zámkem, což ale nepomůže.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Princip kódu:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> from threading import Lock
+</I>&gt;&gt;<i> lock = Lock()
+</I>&gt;&gt;<i> lock.acquire()
+</I>&gt;&gt;<i> try:
+</I>&gt;&gt;<i>     mysql_cursor.execute(&quot;SELECT Zaplaceno FROM platby WHERE Id=%s&quot;, (1,))
+</I>&gt;&gt;<i>     if mysql_cursor.fetchall()[0]['Zaplaceno'] == 0:
+</I>&gt;&gt;<i>         mysql_cursor.execute(&quot;UPDATE Zaplaceno=1 FROM platby WHERE
+</I>&gt;&gt;<i> Id=%s&quot;, (1,))
+</I>&gt;&gt;<i>         mysql_connection.commit()
+</I>&gt;&gt;<i>         # dalsi zpracovani platby...
+</I>&gt;&gt;<i> finally:
+</I>&gt;&gt;<i>     lock.release()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Pokud je request spuštěn 2x ve stený čas provede se zpracování platby 2x.
+</I>&gt;&gt;<i> Přičemž ale SELECT je pod zámkem, takže by se neměl provést mezi SELECT a
+</I>&gt;&gt;<i> UPDATE druhého threadu.
+</I>&gt;&gt;<i> Netušíte, kde může být problém?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Díky za odpovědi.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Mirek
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing <A HREF="http://www.py.cz/mailman/listinfo/python">listpython na py.czhttp</A>://www.py.cz/mailman/listinfo/python
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> :  Vladimir Macek  :  <A HREF="http://macek.sandbox.cz/">http://macek.sandbox.cz</A>  :  +420 608 978 164
+</I>&gt;<i> :  UNIX &amp;&amp; Dev || Training  :  Python, Django  :  PGP key 97330EBD
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+Jakub Vysoky
+
+mob: +420 605 852 377
+jab: <A HREF="http://www.py.cz/mailman/listinfo/python">jakub.vysoky na gmail.com</A>
+twit: <A HREF="https://twitter.com/kvbik">https://twitter.com/kvbik</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150209/3f1bc7d5/attachment.html">http://www.py.cz/pipermail/python/attachments/20150209/3f1bc7d5/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011522.html">[python] Lock
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011523.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11528">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11528">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11528">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11528">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011528.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:20 GMT -->
+</html>

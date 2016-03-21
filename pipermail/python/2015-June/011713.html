@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011713.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:06 GMT -->
+<HEAD>
+   <TITLE> [python] Paměťově náročné řazení
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPam%3DEC%3DBBov%3DEC_n%3DE1ro%3DE8n%3DE9_%3DF8azen%3DED%3F%3D&In-Reply-To=%3Ce1cddc95-2927-4b8a-8519-621527db406c%40googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-June/011712.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-June/011714.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Paměťově náročné řazení</H1>
+    <B>Lumír Balhar</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPam%3DEC%3DBBov%3DEC_n%3DE1ro%3DE8n%3DE9_%3DF8azen%3DED%3F%3D&In-Reply-To=%3Ce1cddc95-2927-4b8a-8519-621527db406c%40googlegroups.com%3E"
+       TITLE="[python] Paměťově náročné řazení">frenzy.madness na gmail.com
+       </A><BR>
+    <I>Pondělí Červen 15 22:36:11 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011712.html">[python] Fwd: 4. setkání studentů a programátorů Pyvec x GymGeek
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011714.html">[python] Paměťově náročné řazení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11713">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11713">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11713">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11713">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj všem.
+
+Řeším s kamarádem jeden jeho projekt, jehož součástí je i Burrows-Wheelerova transformace, která se používá před kompresí dat společně s Move to Front transformací pro snížení entropie vstupních dat a tím zvýšení efektivity kompresního algoritmu, kterému tyto dvě transformace předcházejí.
+
+Pochopení transformací není potřeba. U BWT se využívá tzv, buffer, který obsahuje všechny možné rotace vstupních dat, takže například pro &quot;ema má maso&quot; vypadá takto:
+
+ 0 ema ma maso
+ 1 ma ma masoe
+ 2 a ma masoem
+ 3  ma masoema
+ 4 ma masoema 
+ 5 a masoema m
+ 6  masoema ma
+ 7 masoema ma 
+ 8 asoema ma m
+ 9 soema ma ma
+10 oema ma mas
+
+Pro malá data je to dobré, ale pro velká nelze mít celý buffer v paměti, protože se pro každý vstupní znak navíc rozšíří o řádek i sloupec zároveň.
+Napsal jsem tedy pro Buffer samostatnou třídu, kde pomocí __getitem__ vygeneruji potřebný řádek posunem až ve chvíli, kdy je jeho obsah potřeba.
+
+Základní buffer jsem tím vyřešil a ušetřil hromadu paměti. Problém ale je, že v dalším kroku potřebuji tento buffer lexikograficky seřadit. Abych jej opět nemusel cpát do paměti, vytvořil jsem pole indexů, kde každý index reprezentuje jeden řádek bufferu a řadím jen toto pole (čímž získám přeskládané pořadí řádků původního bufferu), ale jako klíč používám právě obsah řádku pro daný index.
+
+Konkrétně:
+
+class Buffer():
+    def __init__(self, input):
+        self.input = input
+        self.indexes = [x for x in range(len(input))]
+
+    def __getitem__(self, index):
+        return self.input[index:] + self.input[0:index]
+
+    def sort(self):
+        self.indexes.sort(key=lambda x: self[x])
+
+
+A teď jsme se dostali k jádru problému. I když se obsah jednotlivých řádků generuje až ve chvíli, kdy jsou potřeba, a řadit by se mělo jen relativně malé pole indexů, při volání funkce .sort() se jakoby stejně celé to pole nejdříve vytvoří v paměti, seřadí a pak se seřadí to cílové pole s indexy na základě obsahu bufferu.
+
+Existuje způsob, jak implementovat takovýto řadící algoritmus pro velký objem dat, aniž bych je měl v jednu chvíli všechny v paměti?
+
+Předem díky za nakopnutí tím správným směrem.
+Lumír
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011712.html">[python] Fwd: 4. setkání studentů a programátorů Pyvec x GymGeek
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011714.html">[python] Paměťově náročné řazení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11713">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11713">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11713">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11713">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011713.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:06 GMT -->
+</html>

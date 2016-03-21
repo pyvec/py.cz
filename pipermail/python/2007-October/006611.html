@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006611.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:16 GMT -->
+<HEAD>
+   <TITLE> [python] Jak setridit dictionary
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20setridit%20dictionary&In-Reply-To=OF2A22507F.543345D5-ONC1257370.003408D9-C1257370.0034518D%40pss.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-October/006614.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-October/006613.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak setridit dictionary</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20setridit%20dictionary&In-Reply-To=OF2A22507F.543345D5-ONC1257370.003408D9-C1257370.0034518D%40pss.sk"
+       TITLE="[python] Jak setridit dictionary">RMiklos na pss.sk
+       </A><BR>
+    <I>Středa Říjen 10 11:38:26 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006614.html">[python] Jak setridit dictionary
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006613.html">[python] Jak setridit dictionary
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6611">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6611">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6611">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6611">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>def sort_fun(a, b):
+  # compare as integers
+  return (-1)*cmp(int(a), int(b))
+
+my_dict={2:'m', 1:'z', 3:'a'}
+print my_dict
+
+my_keys=my_dict.keys()
+
+my_keys.sort()
+print &quot;my_keys_asc_sort  =%s&quot; %my_keys
+
+my_keys.sort(sort_fun)
+print &quot;my_keys_desc_sort =%s&quot; %my_keys
+
+for key in my_keys:
+  print &quot;%s:%s&quot; % (key, my_dict[key])
+
+
+
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A> 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+10.10.2007 11:33
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+Re: [python] Jak setridit dictionary
+
+
+
+
+
+
+Ak chces triedit kluce podla nejakej funkcie, tak asi takto:
+
+def sort_fun(a, b):
+  # compare as integers
+  return (-1)*cmp(int(a), int(b))
+
+my_dict={2:'m', 1:'z', 3:'a'}
+print my_dict
+
+my_keys=my_dict.keys()
+
+my_keys.sort()
+print &quot;my_keys_asc_sort  =%s&quot; %my_keys
+
+my_keys.sort(sort_fun)
+print &quot;my_keys_desc_sort =%s&quot; %my_keys
+
+
+
+
+&quot;Ondrej Beran&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">ondrej.beran na gmail.com</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+10.10.2007 11:01
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+cc
+
+Subject
+[python] Jak setridit dictionary
+
+
+
+
+
+
+Ahoj vsichni,
+
+mam dictionary napr. {1:'z', 2:'m', 3:'a', ....} a potreboval bych k
+nemu vytvorit neco jako index setrideny podle hodnoty, napr.
+[3,2,1,...], abych mohl s polozkami v dicitionary pracovat v poradi
+danem tim indexem.
+
+Ale nenapada mi, jak to udelat... Poradi mi nekdo?
+
+Diky, Ondrej
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20071010/7efad6cd/attachment.htm">http://www.py.cz/pipermail/python/attachments/20071010/7efad6cd/attachment.htm</A> 
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006614.html">[python] Jak setridit dictionary
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006613.html">[python] Jak setridit dictionary
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6611">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6611">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6611">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6611">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006611.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:16 GMT -->
+</html>

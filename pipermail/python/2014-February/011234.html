@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011234.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:48 GMT -->
+<HEAD>
+   <TITLE> [python] spusteni programu s parametry
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fspusteni_programu_s_parametry%3F%3D&In-Reply-To=%3C20140212125144.F0357CAC%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-February/011233.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-February/011237.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] spusteni programu s parametry</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fspusteni_programu_s_parametry%3F%3D&In-Reply-To=%3C20140212125144.F0357CAC%40atlas.cz%3E"
+       TITLE="[python] spusteni programu s parametry">prikryl na atlas.cz
+       </A><BR>
+    <I>Středa Únor 12 12:51:44 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011233.html">[python] spusteni programu s parametry
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011237.html">[python] spusteni programu s parametry
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11234">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11234">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11234">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11234">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj Ondro,
+ 
+Odhaduji, že pracuješ pod Windows. Zkusil jsem tento jednoduchý program nazvaný a.py:
+ 
+#!python3
+import sys
+print(sys.argv)
+ 
+Od Python 3.3 se dá použít Python Launcher for Windows (viz ten první řádek),
+který spojí příponu .py s c:\windows\py.exe. Při odklepnutí souboru a.py ho spustí přes
+py.exe, který podle prvního řádku pozná, který interpret Pythonu se má použít.
+Dá se to taky spustit explicitně jako &quot;py a.py&quot;. Problém spočívá v předávání
+argumentů. Pokud se to spustí explicitně přes Python nebo přes py.exe, přeberou
+se další parametry. Pokud se to spustí jen přes asociovaný program, parametry
+se nepřeberou. Viz:
+ 
+c:\__Python\pythoncaha\20140210pycz&gt;py a.py -20
+['a.py', '-20']
+
+c:\__Python\pythoncaha\20140210pycz&gt;a.py -20
+['C:\\__Python\\pythoncaha\\20140210pycz\\a.py']
+ 
+Pokud je to tento případ, vytvoř si pro spouštění link nebo dávku.
+ 
+Petr
+ 
+ 
+______________________________________________________________
+&gt;<i> Od: pythoncaha &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">pythoncaha na gmail.com</A>&gt;
+</I>&gt;<i> Komu: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> Datum: 10.02.2014 23:47
+</I>&gt;<i> Předmět: [python] spusteni programu s parametry
+</I>&gt;<i>
+</I>Zdravim vsechny, nemuzu prekonat nasledujici problem, snad nekdo poradi... Spoustim program  program.py -20   tedy s parametrem  minus20.Ale sys.argv[1] mi hodnotu minus 20 nedava. Jak toho docilit. diky Ondra
+
+----------
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>&gt;
+
+Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A> &lt;<A HREF="http://www.py.cz/">http://www.py.cz</A>&gt;
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20140212/9ea615f7/attachment.html">http://www.py.cz/pipermail/python/attachments/20140212/9ea615f7/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011233.html">[python] spusteni programu s parametry
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011237.html">[python] spusteni programu s parametry
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11234">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11234">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11234">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11234">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011234.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:48 GMT -->
+</html>

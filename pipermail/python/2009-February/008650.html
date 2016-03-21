@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-February/008650.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:54 GMT -->
+<HEAD>
+   <TITLE> [python] Struktura modulu - dotaz začátečníka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FStruktura_modulu_-_dotaz_za%3DE8%3DE1te%3DE8n%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DEDka%3F%3D&In-Reply-To=%3C359.786-22223-1590399240-1234304310%40email.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-February/008649.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-February/008651.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Struktura modulu - dotaz začátečníka</H1>
+    <B>pedro-py na email.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FStruktura_modulu_-_dotaz_za%3DE8%3DE1te%3DE8n%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DEDka%3F%3D&In-Reply-To=%3C359.786-22223-1590399240-1234304310%40email.cz%3E"
+       TITLE="[python] Struktura modulu - dotaz začátečníka">pedro-py na email.cz
+       </A><BR>
+    <I>Úterý Únor 10 23:18:30 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008649.html">[python] Struktura modulu - dotaz začátečníka
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008651.html">[python] Struktura modulu - dotaz začátečníka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-February/date.html#8650">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/thread.html#8650">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/subject.html#8650">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/author.html#8650">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Díky za odpověď. Asi jsem to ve snaze o zobecnění napsal málo srozumitelně. Jde mi o to, že počítám hodnotu průtoku a používám k tomu dílčí výpočty hydraulického poloměru, průtočné plochy, omočeného obvodu apod. Já samozřejmě můžu napsat funkci, která mi ten průtok na pár řádcích spočítá. Jde jen o to, že v budoucnosti možná budu potřebovat znát i výsledek toho mezikroku, tzn. například průtočnou plochu. Pokud tedy tu funkci na výpočet průtoku rozložím na dílčí operace a udělám z nich funkce, můžu v budoucnu zavoláním jedné funkce zjistit tu hodnotu průtočné plochy, což asi nejde, je-li to pouze vnitřní proměnná nějaké funkce a ne její návratová hodnota. No, a ten průtok můžu spočítat pomocí těch již nadefinovaných dílčích funkcí.
+Tolik tedy na vysvětlenou. Doufám, že to je trošku srozumitelnější. K půlnoci už mi to tolik nemyslí.
+VD
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Pavel Kosina &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] Struktura modulu - dotaz začátečníka
+</I>&gt;<i> Datum: 10.2.2009 22:37:03
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">pedro-py na email.cz</A> napsal(a), dne 10.2.2009 22:16:
+</I>&gt;<i> &gt; Měl bych dotaz ohledně strukturování kódu modulu. řeším teď nějaký hydraulický
+</I>&gt;<i> problém, kde se počítá průtok v potrubí. Ten je výsledkem postupného určení
+</I>&gt;<i> určitých charakteristik. Na jejich znalost by ovšem v budoucnu mohl být
+</I>&gt;<i> požadavek. 
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Moje dilema je tedy takovéto:
+</I>&gt;<i> &gt; 1, můžu pro každý postupný krok nadefinovat funkci a v následných krocích
+</I>&gt;<i> (funkcích) výpočtu tyto funkce volat 
+</I>&gt;<i> &gt; 2, můžu definovat každou funkci zvlášť, tzn. bude obsahovat kód potřebný pro
+</I>&gt;<i> stanovení dané charakteristiky
+</I>&gt;<i> &gt; 3, můžu (asi) nadefinovat funkci, která bude počítat všechny potřebné
+</I>&gt;<i> charakteristika a vracet je jako seznam
+</I>&gt;<i> &gt;   
+</I>&gt;<i> 
+</I>&gt;<i> Mohu-li soudit z nejasného zadání i vět (např. &quot;Na jejich znalost by 
+</I>&gt;<i> ovšem v budoucnu mohl být požadavek. &quot;), řekl bych že 2/ je správně. Asi 
+</I>&gt;<i> nejlépe se udržují, což bude pro vás snad důležitější než rychlost, 
+</I>&gt;<i> dobře uspořádané funkce. Ještě lepší jsou chytře vymyšlené třídy a 
+</I>&gt;<i> metody. At se již rozhodnete jakkoliv pamatujte, že nejkratší kod nebývá 
+</I>&gt;<i> nejlepší. Nejlepší kod bývá ten, který je čitelný a opravitelný i po 
+</I>&gt;<i> roce. Použijte Python pro sestavení základního přehledného programu, a 
+</I>&gt;<i> pokud bude v budoucnu nutno, můžete si pohrát s rychlostí třebas tak, že 
+</I>&gt;<i> kritické části napíšete v C, pokud na to budete mít čas a schopnosti.
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> geon
+</I>&gt;<i> Pavel Kosina
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008649.html">[python] Struktura modulu - dotaz začátečníka
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008651.html">[python] Struktura modulu - dotaz začátečníka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-February/date.html#8650">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/thread.html#8650">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/subject.html#8650">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/author.html#8650">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-February/008650.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:54 GMT -->
+</html>

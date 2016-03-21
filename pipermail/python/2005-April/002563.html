@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002563.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:41 GMT -->
+<HEAD>
+   <TITLE> [python] cestina a python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cestina%20a%20python&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-April/002561.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-April/002564.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cestina a python</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cestina%20a%20python&In-Reply-To="
+       TITLE="[python] cestina a python">Prikryl na skil.cz
+       </A><BR>
+    <I>Pátek Duben 15 08:53:09 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002561.html">[python] cestina a python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002564.html">[python] čajírna u Pythona
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2563">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2563">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2563">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2563">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ivo Štolpa napsal
+&gt;<i> Nevím, jestli je to ono, protože já to ještě 
+</I>&gt;<i> nepotřeboval, ale v dokumentaci se píše 
+</I>&gt;<i> o raw-unicode-escape. Tedy místo u&quot;text&quot; se píše 
+</I>&gt;<i> ur&quot;text&quot;. A taky to prý jde překódovávat něco 
+</I>&gt;<i> jako t = s.encode('raw-unicode-escape') nebo
+</I>&gt;<i> t = s.encode('unicode-escape'). 
+</I>
+Asi to s tím nemá nic společného. Slovo &quot;raw&quot;
+znamená &quot;surový&quot;, &quot;nezpracovaný&quot;. Identifikátor
+raw_input() znamená, že se zadaný vstup nijak 
+nezpracovává (nepřevádí se například na číslo,
+jako je tomu u input()). Pojem &quot;raw string&quot;
+vyjadřuje skutečnost, že se se zapsaným obsahem
+nic nedělá. Konkrétně to znamená, že se 
+neinterpretují sekvence pro vložení konců řádků
+tabulátorů a další, které se běžně zapisují 
+&quot;\t\n\a...&quot;.
+
+Raw stringy se používají i v neunicodových
+řetězcích. Zmíněná poznámka souvisí s tím,
+že i při zápisu unicode řetězů mohu předepsat,
+že se nemají interpretovat takzvané escape 
+sekvence. To znamená, že například sekvence 
+&quot;\t&quot; není nahrazena znakem s ordinální hodnotou 9,
+ale zůstane přítomna jako dvojice znaků &quot;\&quot; a &quot;t&quot;.
+
+Speciální značky při zápisu řetězce (jako je u a r
+před úvozovkami) říkají jen to, co se má udělat
+při převodu zdrojového textu do paměťové reprezentace.
+Buď vznikne posloupnost bajtů, které lze chápat
+jako řetězec v předem dohodnutém kódování, nebo 
+vznikne unicode řetězec. Zpětně se už nedá zjistit,
+zda bylo předepsáno &quot;raw&quot;.
+
+Zpět k uvedenému problému s češtinou. Příklad můžu
+přepsat i bez unicode a provádět konverzi sám:
+
+# -*- coding: cp1250 -*-
+import sys
+s = u'příšerně žluťoučký kůň úpěl ďábelské ódy'
+print s.encode('cp852') 
+sys.stdout.write(s.encode('cp852') + '\n')
+val = raw_input(s.encode('cp852'))
+
+Pokud v tomto případě spouštím skript v dosovém
+okně českých Windows, pak se unicode konvertuje
+do kódování 852 a vše je v pořádku. Problém spočívá
+v tom, že se takhle obtížně píše přenositelný
+program v tom smyslu, aby korektně vypisoval české
+texty v konzolovém pod Linuxem, v konzolovém okně
+pod Windows, v jiném GUI okně, které může (typicky
+ve Windows) používat jiné kódování, atd.
+
+V návrhu Python 3.0 (viz 
+<A HREF="http://www.python.org/peps/pep-3000.html">http://www.python.org/peps/pep-3000.html</A>) se říká,
+že řetězce budou používat výhradně unicode. Pro 
+posloupnost bajtů bude zaveden nový typ bytes().
+
+Pokud v současném Pythonu nepoužíváme zápis
+u'text', pak vlastně do vnitřní reprezentace
+ukládáme posloupnost bajtů, aniž by byla zachycena
+informace o použitém kódování. Za běhu už se to
+pak nedá zjistit. Musíme to _vědět_ a podle potřeby
+provádět případné konverze. Dělá se to obtížně
+zvláště tehdy, když používáme různé moduly
+a nemáme vše pod vlastní kontrolou. Proto je důležité,
+aby vše unicodové v Pythonu fungovalo.
+
+Petr
+
+P.S. V bug listu jsem uvedené chybě zvýšil prioritu,
+viz [ 1099364 ] raw_input() displays wrong unicode prompt
+
+<A HREF="https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1099364&amp;group_id=5470&amp;atid=105470">https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1099364&amp;group_id=5470&amp;atid=105470</A>
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002561.html">[python] cestina a python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002564.html">[python] čajírna u Pythona
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2563">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2563">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2563">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2563">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002563.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:41 GMT -->
+</html>

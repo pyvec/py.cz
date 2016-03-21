@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006593.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:14 GMT -->
+<HEAD>
+   <TITLE> [python] BFU
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20BFU&In-Reply-To=323.825-22129-861842149-1191510120%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-October/006592.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-October/006594.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] BFU</H1>
+    <B>Ing. Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20BFU&In-Reply-To=323.825-22129-861842149-1191510120%40seznam.cz"
+       TITLE="[python] BFU">devel na atlas.sk
+       </A><BR>
+    <I>Čtvrtek Říjen  4 22:03:36 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006592.html">[python] BFU
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006594.html">[python] spolupráce s Excelem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6593">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6593">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6593">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6593">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Kusok kodu podla examplu niekde z netu:
+
+import urllib2
+import cookielib
+import os.path
+
+def installCookies(f):
+     global cj, COOKIE_FILE
+     cj = cookielib.LWPCookieJar()
+     if os.path.exists(f):
+         cj.load(f)
+     COOKIE_FILE = f
+     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+     urllib2.install_opener(opener)
+
+def saveCookies():
+     cj.save(COOKIE_FILE)
+
+
+installCookies('cookies.dat')
+
+# Tu normalne pouzivas urllib2.urlopen
+
+saveCookies()
+
+
+Roman Morong wrote:
+&gt;<i> Nevím jak na to v urllib2() a nějak mi nejde ani nainstalovat ten 
+</I>&gt;<i> modul :( sem to ale kus lamy. Pomůže mi někdo ?
+</I>&gt;<i> 
+</I>&gt;&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;&gt;<i> Od: Ing. Jan Janech &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">devel na atlas.sk</A>&gt;
+</I>&gt;&gt;<i> Předmět: Re: [python] BFU
+</I>&gt;&gt;<i> Datum: 04.10.2007 15:45:51
+</I>&gt;&gt;<i> ---------------------------------------------
+</I>&gt;&gt;<i> Osobne pouzivam cookie cez urllib2. Zda sa mi to lepsie riesenie, 
+</I>&gt;<i> ako 
+</I>&gt;<i> /&gt;nahadzovat do pythonu dalsi modul 
+</I>&gt;<i> 
+</I>&gt;<i> Koumes21 wrote: 
+</I>&gt;&gt;<i> Stejný &gt; problém jsem také kdysi řešil, došel jsem k závěru, 
+</I>&gt;&gt;<i> že nejjednodušší &gt; cesta je použít modul ClientCookie. 
+</I>&gt;&gt;<i> chová se stejně jako urllib, ale &gt; pracuje i s cookie. 
+</I>&gt;&gt;<i> Vše jde zjistit z jeho dokumentace, ovládání je &gt; velmi 
+</I>&gt;&gt;<i> intuitivní. 
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ClientCookie lze nalézt na &gt; adrese: 
+</I>&gt;&gt;<i> <A HREF="http://wwwsearch.sourceforge.net/ClientCookie/">http://wwwsearch.sourceforge.net/ClientCookie/</A> 
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 4.10.07, * Roman Morong* &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mororo na seznam.cz</A> &lt;mailto:mororo@
+</I>&gt;<i> seznam.cz&gt;&gt;: 
+</I>&gt;<i> /&gt;&gt; 
+</I>&gt;&gt;<i> Ahoj, všechny přišel sem vás požádat o pomoc. 
+</I>&gt;&gt;<i> Vůbec &gt; neumím python ale potřebuji co nejdřív udělat malou 
+</I>&gt;<i> aplikaci, 
+</I>&gt;&gt;<i> ale &gt; nevím jak na to. 
+</I>&gt;&gt;<i> Sem vytvořil tento kod 
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> import &gt; urllib 
+</I>&gt;&gt;<i> myPost = urllib.urlencode({&quot;eba5c8b&quot;: &quot;mororo&quot;, &quot;e316d4e&quot;: &gt; 
+</I>&gt;<i> &quot;topgun&quot;, 
+</I>&gt;&gt;<i> &quot;autologin&quot;: &quot;ja&quot;, &quot;s1&quot;: &quot;login&quot;}) 
+</I>&gt;&gt;<i> data = &gt; urllib.urlopen(&quot;<A HREF="http://s5.travian.cz/dorf1.php",">http://s5.travian.cz/dorf1.php&quot;,</A> myPost) 
+</I>&gt;<i> 
+</I>&gt;&gt;<i> datas = &gt; data.read() 
+</I>&gt;&gt;<i> data.close () 
+</I>&gt;&gt;<i> print datas.count('11800') # &gt; kolik je tam slov '11800' 
+</I>&gt;&gt;<i> s=file('StazenaStranka.html','w') 
+</I>&gt;&gt;&gt;<i> s.write(datas) 
+</I>&gt;&gt;<i> s.close() 
+</I>&gt;&gt;<i> raw_input() 
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> bohužel nedojte k přihlášení :( nejpíš je to proto že tam musí 
+</I>&gt;<i> běžet 
+</I>&gt;&gt;&gt;<i> i Cookie ale nevim jak na ně kdyby jste mi někdo poslal doplnění
+</I>&gt;<i> 
+</I>&gt;&gt;&gt;<i> toho kodu na Cookie byl bych hrozně rád, předem děkuji Mororo 
+</I>&gt;&gt;<i> S Pozdarev Roman Morong 
+</I>&gt;&gt;&gt;<i> _______________________________________________ 
+</I>&gt;&gt;<i> Python mailing &gt; list 
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt; 
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> 
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> ----------------------------------------------------------------
+</I>&gt;<i> -------- 
+</I>&gt;&gt;<i> _______________________________________________ 
+</I>&gt;&gt;<i> Python mailing &gt; list 
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> 
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> 
+</I>&gt;<i> /&gt; 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________ 
+</I>&gt;<i> Python &gt; mailing list 
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> 
+</I>&gt;<i> /&gt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> 
+</I>&gt;<i> 
+</I>&gt;<i> S Pozdarev Roman Morong
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006592.html">[python] BFU
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006594.html">[python] spolupráce s Excelem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6593">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6593">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6593">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6593">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006593.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:14 GMT -->
+</html>

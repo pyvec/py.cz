@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003165.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:48 GMT -->
+<HEAD>
+   <TITLE> [python] raw_input() jeste jednou (bylo raw_input() bug ... vyvoj
+	Pythonu, jimavy pribeh)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20raw_input%28%29%20jeste%20jednou%20%28bylo%20raw_input%28%29%20bug%20...%20vyvoj%0A%09Pythonu%2C%20jimavy%20pribeh%29&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC028A5D%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-August/003164.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-August/003166.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] raw_input() jeste jednou (bylo raw_input() bug ... vyvoj
+	Pythonu, jimavy pribeh)</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20raw_input%28%29%20jeste%20jednou%20%28bylo%20raw_input%28%29%20bug%20...%20vyvoj%0A%09Pythonu%2C%20jimavy%20pribeh%29&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC028A5D%40skil01.skil.mistni"
+       TITLE="[python] raw_input() jeste jednou (bylo raw_input() bug ... vyvoj
+	Pythonu, jimavy pribeh)">geon na post.cz
+       </A><BR>
+    <I>Středa Srpen  3 12:42:36 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003164.html">[python] raw_input() jeste jednou (bylo raw_input() bug ... vyvoj
+	Pythonu, jimavy pribeh)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003166.html">[python] raw_input() jeste jednou (bylo raw_input() bug ...
+	vyvojPythonu, jimavy pribeh)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3165">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3165">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3165">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3165">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Petr Prikryl napsal(a):
+
+&gt;<i>[...]
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>Je to tam, ale je mezi uzavřenými [...] Částečné řešení
+</I>&gt;&gt;<i>lze nalézt u poslední poznámky by birkenfeld, tj. explicitně
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    raw_input(s.encode(sys.stdout.encoding))
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Dá se to vyřešit centralizovaně například definicí vlastní funkce:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>def my_input(s):
+</I>&gt;&gt;<i>    import sys
+</I>&gt;&gt;<i>    return raw_input(s.encode(sys.stdout.encoding))
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Ale moc se mi to nelíbí, protože takhle by měla fungovat
+</I>&gt;&gt;<i>raw_input() už &quot;od narození&quot;. [...]
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Až teď jsem si všiml názoru GvR, který se týká
+</I>&gt;<i>raw_input() -- viz <A HREF="http://www.python.org/peps/pep-3000.html">http://www.python.org/peps/pep-3000.html</A>
+</I>&gt;<i>a <A HREF="http://www.python.org/doc/essays/ppt/regrets/PythonRegrets.pdf">http://www.python.org/doc/essays/ppt/regrets/PythonRegrets.pdf</A>
+</I>&gt;<i>
+</I>&gt;<i>Stučně řečeno, GvR lituje, že raw_input() vůbec vzniklo.
+</I>&gt;<i>Doporučuje používat sys.stdin.readline(). Něco na tom je.
+</I>&gt;<i>Nedobře fungující implementaci raw_input() můžu jednoduše
+</I>&gt;<i>nahradit vlastní malou funkcí:
+</I>&gt;<i>
+</I>&gt;<i>========================================
+</I>&gt;<i>import sys
+</I>&gt;<i>
+</I>&gt;<i>def my_input(prompt):
+</I>&gt;<i>    sys.stdout.write(prompt)
+</I>&gt;<i>    return sys.stdin.readline()
+</I>&gt;<i>
+</I>&gt;<i>r = my_input('prompt: ')
+</I>&gt;<i>print r
+</I>&gt;<i>========================================
+</I>&gt;<i>
+</I>&gt;<i>pepr
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>
+Mám k tomu snad 2 poznámky:
+
+* rozhodně to není pro začátečníky. Je to takové nejednoduché, nepřímé. 
+Sice by se to dalo udělat, jako třebas v kurzu livewires, kde si takto 
+podobně nadefinují funkce i na čtení čísel i s ošetřením hodnot, ale to 
+zas funguje jen pokud člověk jede v livewires nebo v tom jednom kurzu, 
+kde to je implementováno
+* proč se takto neimplementuje raw_input? (možná že to tam guido píše, 
+četl jsem to zhruba)
+
+Myslím že není dobré začátečníky hned upozorňovat na bug, který je téměř 
+v prvním příkazu, se kterým se setkají. Spíš je se snažit přimět  
+nepoužívat diakritiku a teprv když na to sami přijdou, že jim to 
+nefunguje, tak jim napovědět buď co píšeš nebo staré dobré:
+
+# -*- coding: ...... -*-
+vyzva=u&quot;Otázka s nabodeníčky: &quot;
+print vyzva,
+odpoved=raw_input()
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20050803/c23a7349/attachment.htm">http://www.py.cz/pipermail/python/attachments/20050803/c23a7349/attachment.htm</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003164.html">[python] raw_input() jeste jednou (bylo raw_input() bug ... vyvoj
+	Pythonu, jimavy pribeh)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003166.html">[python] raw_input() jeste jednou (bylo raw_input() bug ...
+	vyvojPythonu, jimavy pribeh)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3165">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3165">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3165">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3165">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003165.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:48 GMT -->
+</html>

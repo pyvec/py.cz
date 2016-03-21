@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008071.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:25 GMT -->
+<HEAD>
+   <TITLE> [python] asynchronni programovani, stavovy stroj
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20asynchronni%20programovani%2C%20stavovy%20stroj&In-Reply-To=48944CBE.6010903%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008070.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008072.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] asynchronni programovani, stavovy stroj</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20asynchronni%20programovani%2C%20stavovy%20stroj&In-Reply-To=48944CBE.6010903%40centrum.cz"
+       TITLE="[python] asynchronni programovani, stavovy stroj">slush na centrum.cz
+       </A><BR>
+    <I>Sobota Srpen  2 14:46:28 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008070.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008072.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8071">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8071">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8071">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8071">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Diky za reakci. Je pravda, ze takovy model jsem nebral v uvahu (ikdyz ho
+znam). V konecnem dusledku mi mozna prijde slozitejsi na vyladeni nez
+implementovat tu asynchronni verzi a pritom neprinasi zadny benefit navic.
+
+Samozrejme pokud neni omezenim pocet paralelne otevrenych socketu. Zkousel
+jsem udelat cca 1500 socket pripojeni na servery (z bezne klientske stanice)
+a zadneho zatizeni jsem si nevsimnul. Kazdopadne netvrdim, ze to je
+nejcistsi reseni...
+
+Marek
+
+2008/8/2 superman &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">feed na centrum.cz</A>&gt;
+
+&gt;<i>
+</I>&gt;<i> Ano, přehlédnul. Tento problém se řeší velmi často, a je na něj krásné
+</I>&gt;<i> standardizované řešení. To řešení spočívá v tom, že se určí maximální
+</I>&gt;<i> počet běžících threadů - řekněme třeba 50. Pak se vytvoří tzv. thread
+</I>&gt;<i> pool, tedy objekt, který spustí 50 threadů a drží je v pozastaveném
+</I>&gt;<i> stavu. Všechny potřebné úkoly se řadí do fronty operací, které pak
+</I>&gt;<i> přebírá thread pool a přiřazuje jim jednotlivé thready. Tedy pokud je
+</I>&gt;<i> potřebných operací méně, než max. počet threadů, některé thready spí a
+</I>&gt;<i> zbylé vykonávají operace. Pokud je operací více, než threadů, pak
+</I>&gt;<i> všechny thready vykonávají operace až do max. počtu, tedy v tomto
+</I>&gt;<i> případě do 50 a zbylé čekají ve frontě. Jakmile jakákoli operace skončí,
+</I>&gt;<i> volný thread vybere z fronty další operaci a začne jí vykonávat.
+</I>&gt;<i>
+</I>&gt;<i> Tímto dosáhnete max. rychlosti a vysokého výkonu. Za prvé se zbavíte
+</I>&gt;<i> režie vytváření a rušení threadu - všech 50 threadů vytvoříte najednou a
+</I>&gt;<i> stále existují v thread poolu. Za druhé - příliš velký počet threadů
+</I>&gt;<i> naráz je neefektivní a režie operačního systémů při přepínání kontextu
+</I>&gt;<i> obrovského množství threadů sežere značnou část výkonu. Takže při
+</I>&gt;<i> rozumně zvoleném počtu threadů probíhají operace nejrychlejší možnou
+</I>&gt;<i> rychlostí - vyšší, než kdyby bylo threadů méně, nebo více. Za třetí -
+</I>&gt;<i> snažší synchronizace thread díky tomu, že je máte najednou pod kontrolou
+</I>&gt;<i> v jednom objektu - synchronizační akce bývají výrazně zjednodušeny.
+</I>&gt;<i>
+</I>&gt;<i> Psal bych víc, ale pro základní představu to stačí.
+</I>&gt;<i>
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080802/c4299055/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080802/c4299055/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008070.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008072.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8071">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8071">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8071">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8071">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008071.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:25 GMT -->
+</html>

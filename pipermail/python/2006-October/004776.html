@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004776.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:51 GMT -->
+<HEAD>
+   <TITLE> [python] Staistika python.org
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Staistika%20python.org&In-Reply-To=2150.3610-20978-411471603-1160922233%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004775.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004777.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Staistika python.org</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Staistika%20python.org&In-Reply-To=2150.3610-20978-411471603-1160922233%40seznam.cz"
+       TITLE="[python] Staistika python.org">feed na centrum.cz
+       </A><BR>
+    <I>Neděle Říjen 15 18:32:21 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004775.html">[python] Staistika python.org
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004777.html">[python] Staistika python.org
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4776">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4776">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4776">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4776">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Neni zavisly, to ze interpret zkousi nacist nejake klice neznamena, ze je
+</I>&gt;<i> potrebuje. Ja ve windows nemam zadne klice *.py ani *python* a
+</I>&gt;<i> interpret si klidne funguje a co predevsim, zadne takove klice pri
+</I>&gt;<i> spsteni ani nevytvoril. Overeno exportem registru pred a po spusteni
+</I>&gt;<i> a prohnanim diffem.
+</I>
+To, že je zkouší načíst, to znamená, že je asi zkouší použít, ne? To 
+znamená, že interpretr prostě zkouší použít pokud v registrech něco je, 
+jako jsou cesty, locales, nějaké seznamy modulů a co jsem tam ještě za 
+kýho čerta viděl.
+
+Jinak řečeno, chování Vašeho python intepretru, který si lokálně 
+nainstalujete, nebo spustíte z Flashky je závislé na tom, co náhodně je 
+na tom systému a jestli není nějak jinak nastavený globální python 
+interpretr. Chápete?
+
+&gt;<i> &lt;  &gt; Instalace neni nutna:
+</I>&gt;<i> &lt;  &gt; <A HREF="http://wraith.iglu.cz/python/pouzivani-mobilni.php">http://wraith.iglu.cz/python/pouzivani-mobilni.php</A>
+</I>&gt;<i> &lt;  
+</I>&gt;<i> &lt;  Instalace není nutná, ale to co tam popisuje je legální hackování. 
+</I>&gt;<i> &lt;  Nechápu proč interpretr Pythonu je závislý na registrech, cestách, 
+</I>&gt;<i> &lt;  proměnných a dalších.
+</I>&gt;<i> 
+</I>&gt;<i> To neni zadne hackovani, je to standardni nastaveni env. promennych,
+</I>&gt;<i> z kterych umi python alternativne nacist nutnou konfiguraci.
+</I>
+Ano a závislost na globálních cestách, nikoli na relativních cestách. To 
+hackování spočívá v tom, že se složitě zjistí, na jakém disku je 
+interpretr a navíc ty hacky na tom iglu.cz předpokládají, že je na 
+přesném adresáři na kořeni disku, jinak by to moc nefungovalo. Navíc je 
+otázkou, jestli se tam skutečně nastavuje vše.
+
+&gt;<i> &lt;  &gt; Jedine cim si nejsem jist je, zda dochazi k zapisu do registru, imho ne.
+</I>&gt;<i> &lt;  &gt; Jestli ano, tak do uzivatelske oblasti, ne systemove, do ktere byva
+</I>&gt;<i> &lt;  &gt; adminy casto zakazano zapisovat.
+</I>&gt;<i> 
+</I>&gt;<i> &lt;  Registry monitor bohužel mluví jinak. Python se zajímá jak o systémovou 
+</I>&gt;<i> &lt;  oblast registrů, tak i o uživatelskou. A zajímavé je, že mě Python právě 
+</I>&gt;<i> &lt;  do celosystémové oblasti registrů zapsal.
+</I>&gt;<i> 
+</I>&gt;<i> Zajimat se muze, podstatne je, ze to nepotrebuje k zivotu a kdyz je to zakazane
+</I>&gt;<i> tak mu to nijak nevadi.
+</I>
+Aha, takže on to čte jen pro srandu králíkům. Chápu, prostě si přeště 
+globální hodnotu a pak jí zahodí, programátor si prostě chtěl pocvičit 
+ve čtení registrů, já zapomněl.
+
+&gt;<i> Nejaky konkretni priklad/problem by nebyl? Za celou svou dosavadni
+</I>&gt;<i> praxi jsem se s zadnNejaky konkretni priklad/problem by nebyl? Za celou svou dosavadni
+</I>&gt;<i> praxi jsem se s zadnou potizi nesetkal, pokud k mobilnimu pythonu
+</I>&gt;<i> byly cesty nastaveny jako prvni.
+</I>
+Já jsem se s problémy setkával tak často, dokonce jsem zoufale v této 
+konferenci jich několik přímo popisoval. Problém je, pokud prostě nemáte 
+některé moduly na mobilním internetu a jsou, nebo někdy nejsou v 
+globální instalaci pythonu v systému. A tohle nikdy nevychytáte, protože 
+to prostě je tak zamotané, že se v tom ztratíte.
+
+Prostý příklad, dokud jsem se nepodíval do knihoven mysql, nevěděl jsem, 
+že tato knihovna se pro práci s časem pokouší naimportovat mx knihovny, 
+jinak se spokojí se standardní knihovnou. Samozřejmě, že tyto knihovny 
+nemám nainstalované, ale při přenosu programu na jiný počítač, kde byl 
+nainstalovaný python a mx se můj program chytl těch globálních mx 
+knihoven a choval se jinak, než na počítačích, kde mx nainstalováno 
+nebylo. Mě to ani nenapadlo.
+
+Stejně tak mě zajímá, jak uděláte program třeba s py2exe, aby byl 
+nezávislý na nastavení systému. Protože to jako grafický program bude 
+mít před sebou baťák, který nastaví cesty a pak ho spustí? To je dost 
+nešťastné a neefektivní řešení.
+
+Jinak milión dolarů tomu, kdo mě poradí jak vytvořit pomocí py2exe 
+binárku z pythonu, kterou je možné přejmenovat aby chodila. Když 
+vytvořím binárku s názvem třeba program.exe tak chodí. Ale pokud jí 
+přejmenuji třeba na programx.exe, tak skovčí s výjimkou a ani se 
+nerozběhne. Je to takové dost nedokonalé. I proto raději píšu mnohdy 
+programy v jiných jazycích, než v pythonu, protože tam prostě takové 
+nedodělky necítím.
+
+Omlouvám se, nechci hanět python, rád bych jeho problémy vyřešil, jazyk 
+je to skvělý, ale tyhle věci mě nutí, že ač nerad a nešťasten prostě 
+musím mnohé věci udělat v jazycích, které se mi líbí méně.
+
+
+
+
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004775.html">[python] Staistika python.org
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004777.html">[python] Staistika python.org
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4776">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4776">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4776">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4776">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004776.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:51 GMT -->
+</html>

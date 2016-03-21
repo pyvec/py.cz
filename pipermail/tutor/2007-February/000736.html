@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-February/000736.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] pocet cdrom
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20pocet%20cdrom&In-Reply-To=op.tn9px2p55zon3w%40milasek.muj">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2007-February/000735.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2007-February/000737.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] pocet cdrom</H1>
+    <B>slacker</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20pocet%20cdrom&In-Reply-To=op.tn9px2p55zon3w%40milasek.muj"
+       TITLE="[Tutor PyCZ] pocet cdrom">slacker na inmail.cz
+       </A><BR>
+    <I>Sobota Únor 24 22:52:10 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-February/000735.html">[Tutor PyCZ] pocet cdrom
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-February/000737.html">[Tutor PyCZ] pocet cdrom
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-February/date.html#736">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-February/thread.html#736">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-February/subject.html#736">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-February/author.html#736">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ondryska Jaromír wrote:
+&gt;<i> Zdravím všechny vespolek,
+</I>&gt;<i> rád bych se zeptal na jednu věc: ví někdo, jak jednoduše v linuxu zjistit  
+</I>&gt;<i> počet CDROM/DVD mechanik instalovaných v počítači a jejich označení v  
+</I>&gt;<i> systému (např. hdc) ?
+</I>&gt;<i> Napadlo mě jenom filtrování dmesg nebo něco podobného, pokud někdo ví o  
+</I>&gt;<i> něčem lepším byl bych rád. Nechci vymýšlet kolo. Předem děkuji za Vaše  
+</I>&gt;<i> reakce.
+</I>&gt;<i> 
+</I>
+Zdravím,
+
+  určitě bude existovat i jednodušší způsob, ale takhle to jde taky :-)
+
+----------
+
+#!/usr/bin/python
+
+import os
+
+BASE_DIR = &quot;/sys/block/&quot;
+MEDIA_TYPE = &quot;/device/media&quot;
+
+for device in os.listdir(BASE_DIR):
+     print &quot;device&quot;, device,
+     try:
+         type = file(BASE_DIR + device + MEDIA_TYPE).read()
+         print &quot;- media type:&quot;, type.strip()
+     except:
+         print &quot;- media type: unknown&quot;
+
+----------
+
+  S pozdravem
+  slacker
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-February/000735.html">[Tutor PyCZ] pocet cdrom
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-February/000737.html">[Tutor PyCZ] pocet cdrom
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-February/date.html#736">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-February/thread.html#736">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-February/subject.html#736">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-February/author.html#736">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-February/000736.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+</html>

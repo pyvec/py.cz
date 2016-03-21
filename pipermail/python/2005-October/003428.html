@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003428.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:29 GMT -->
+<HEAD>
+   <TITLE> [python] odstraneni radku v souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20odstraneni%20radku%20v%20souboru&In-Reply-To=002001c5ca58%2480aab0d0%242f00a8c0%40orangutan">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003427.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003431.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] odstraneni radku v souboru</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20odstraneni%20radku%20v%20souboru&In-Reply-To=002001c5ca58%2480aab0d0%242f00a8c0%40orangutan"
+       TITLE="[python] odstraneni radku v souboru">geon na post.cz
+       </A><BR>
+    <I>Čtvrtek Říjen  6 11:42:01 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003427.html">[python] odstraneni radku v souboru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003431.html">[python] odstraneni radku v souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3428">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3428">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3428">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3428">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Neodpovím detailně, ale obecně: Soubory jsou &quot;immutable&quot;, tedy nemůžeš 
+je na místě změnit. Takže se to &quot;obchází&quot; asi takhle:
+
+* načíst soubor do proměnné
+* proměnou upravit, změnit
+* smazat (zazálohovat) soubor
+* proměnnou uložit do souboru.
+
+Modifikace jsou možné, třebas u dlouhého souboru postupné načítání a 
+zpracovávání do řetězce, a pak to je již stejné.
+Nebo ti šlo koknrétně o to, jak nastavit if aby ti to vybíralo to co 
+chceš? Nebo snad tvorba názvů souborů?
+
+Jinak doporučuje také wiki, možná se ti bude hodit 
+<A HREF="http://www.py.cz/HledaniRetezce">http://www.py.cz/HledaniRetezce</A>
+Ahoj
+geon
+
+Martin Jedlička napsal(a):
+
+&gt;<i> Zdravim,
+</I>&gt;<i>  
+</I>&gt;<i>    mel bych takovy dotaz. Mam soubor, ktery obsahuje napr. toto:
+</I>&gt;<i>  
+</I>&gt;<i> *nazev souboru1*
+</I>&gt;<i>  * 1.2:
+</I>&gt;<i>      KOD-01-01-01-14
+</I>&gt;<i>  * 1.2:
+</I>&gt;<i>      KOD-01-01-01-13
+</I>&gt;<i>  * 1.1.1.1:
+</I>&gt;<i>      KOD-01-01-01-01
+</I>&gt;<i> *nazev souboru1*
+</I>&gt;<i>  * 1.1.1.1:
+</I>&gt;<i>      KOD-01-01-01-14
+</I>&gt;<i>  * 1.1.1.1:
+</I>&gt;<i>      KOD-01-01-01-13
+</I>&gt;<i>  * 1.1.1.1:
+</I>&gt;<i>      KOD-01-01-01-01
+</I>&gt;<i> a potreboval bych odstranit nadbytecne radky, ktere obsahuji stejna 
+</I>&gt;<i> cisla za hvezdickou (ktere se uz vyskytlo), tak aby se tam zustal vzdy 
+</I>&gt;<i> jen ten prvni radek s prvnim cislem. Toto by se melo provest vzdy pro 
+</I>&gt;<i> kazdy ten blok zacinajici *nazev souboru1-n*. Melo by to vypadat v 
+</I>&gt;<i> konecne verzi takto:
+</I>&gt;<i>  
+</I>&gt;<i> *nazev souboru1*
+</I>&gt;<i>  * 1.2:
+</I>&gt;<i>      KOD-01-01-01-14
+</I>&gt;<i>      KOD-01-01-01-13
+</I>&gt;<i>  * 1.1.1.1:
+</I>&gt;<i>      KOD-01-01-01-01
+</I>&gt;<i> *nazev souboru1*
+</I>&gt;<i>  * 1.1.1.1:
+</I>&gt;<i>      KOD-01-01-01-14
+</I>&gt;<i>      KOD-01-01-01-13
+</I>&gt;<i>      KOD-01-01-01-01
+</I>&gt;<i> jak to mam udelat?
+</I>&gt;<i>  
+</I>&gt;<i> diky moc za kazdou radu.
+</I>&gt;<i>  
+</I>&gt;<i> Martin
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;<i>------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003427.html">[python] odstraneni radku v souboru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003431.html">[python] odstraneni radku v souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3428">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3428">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3428">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3428">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003428.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:29 GMT -->
+</html>

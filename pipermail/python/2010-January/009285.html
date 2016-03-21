@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009285.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:11 GMT -->
+<HEAD>
+   <TITLE> [python] python subprocess vraci porad 1
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20python%20subprocess%20vraci%20porad%201&In-Reply-To=%3C77c3131a1001201244u5290defdrc5ef6121032cf31%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-January/009284.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-January/009286.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] python subprocess vraci porad 1</H1>
+    <B>Koumes21</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20python%20subprocess%20vraci%20porad%201&In-Reply-To=%3C77c3131a1001201244u5290defdrc5ef6121032cf31%40mail.gmail.com%3E"
+       TITLE="[python] python subprocess vraci porad 1">koumes21 na gmail.com
+       </A><BR>
+    <I>Středa Leden 20 21:44:01 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009284.html">[python] python subprocess vraci porad 1
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009286.html">[python] python subprocess vraci porad 1
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9285">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9285">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9285">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9285">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Nazdar,
+
+me napada akorat to, ze prvni parametr pro subprocess.Popen() by nemel
+vypadat jako [cmd, args], ale jako [cmd, arg1, arg2, ...], tedy ze
+jednotlive argumenty by nemely byt jen oddeleny mezerou, ale mely by
+byt samostatnymi prvky listu. Doufam, ze je to jasne a ze to pomuze
+(nezkousel jsem, jenom jsem si tohohle zrovna vsiml).
+
+K21
+
+2010/1/20 Tomas Pelka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">tompelka na gmail.com</A>&gt;:
+&gt;<i> Zdravim konferenci,
+</I>&gt;<i> temer cely den se peru se subprocess. Problem me dela naledujici
+</I>&gt;<i> jednoducha konstrukce:
+</I>&gt;<i>
+</I>&gt;<i> --------------------------------------------------
+</I>&gt;<i> import subprocess
+</I>&gt;<i>
+</I>&gt;<i> pattern = &quot;python&quot;
+</I>&gt;<i> cmd = &quot;/usr/bin/locate&quot;
+</I>&gt;<i> args = &quot; -i -d /var/www/books/mlocate.db %s&quot; % pattern
+</I>&gt;<i>
+</I>&gt;<i> p1 = subprocess.Popen([cmd,  args], shell=False, stdout=subprocess.PIPE,
+</I>&gt;<i> stderr=subprocess.PIPE)
+</I>&gt;<i> (stdoutdata, stderrdata) = p1.communicate()
+</I>&gt;<i>
+</I>&gt;<i> print p1.returncode
+</I>&gt;<i> print &quot;%s -- %s&quot; % (stdoutdata, stderrdata)
+</I>&gt;<i> --------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Takze cilem je spustit prikaz
+</I>&gt;<i> /usr/bin/locate -i -d /var/www/books/mlocate.db python
+</I>&gt;<i> v shellu tento prikaz vypise nenulovy vysledek a skonci s nulovym
+</I>&gt;<i> navratovym kodem. V pythonu konci s navratovym kodem &quot;1&quot; a &quot; -- &quot;.
+</I>&gt;<i>
+</I>&gt;<i> Netusim proc tomu tak je, ma nekdo nejaky napad.
+</I>&gt;<i> Dekuji.
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Tom
+</I>&gt;<i>
+</I>&gt;<i> Key fingerprint = 06C0 23C6 9EB7 0761 9807  65F4 7F6F 7EAB 496B 28AA
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009284.html">[python] python subprocess vraci porad 1
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009286.html">[python] python subprocess vraci porad 1
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9285">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9285">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9285">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9285">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009285.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:11 GMT -->
+</html>

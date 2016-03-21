@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000087.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Regularni vyrazy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Regularni%20vyrazy&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-September/000089.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-September/000090.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Regularni vyrazy</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Regularni%20vyrazy&In-Reply-To="
+       TITLE="[Tutor PyCZ] Regularni vyrazy">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Září 21 15:00:22 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000089.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000090.html">[Tutor PyCZ] Vyrez z posloupnosti (slice) -- bylo RE: Regularni
+	vyrazy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#87">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#87">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#87">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#87">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Sladecek Lukas
+&gt;<i> 
+</I>&gt;<i> [...]v pythonu jsem novacek a momentalne resim 
+</I>&gt;<i> problem jak dosadit za text ktery najdu 
+</I>&gt;<i> (pomoci regularniho vyrazu) jakykoliv svuj vlastni text. 
+</I>&gt;<i> [...]
+</I>&gt;<i> opensh = os.popen(shell)
+</I>&gt;<i> for lineout in opensh.readlines():
+</I>&gt;<i> 	mode = re.match('\w+\s+Link\s+encap:(?P&lt;MODE&gt;\w+)\s+HWaddr', lineout)
+</I>&gt;<i> 	print mode.group('MODE')
+</I>&gt;<i> 
+</I>&gt;<i> [...]
+</I>
+Doprostřed souboru nemohu zapsat jinak dlouhý text,
+než jaký tam byl. Přechroupat to mohu jen tak,
+že čtu ze zdroje, upravuji načtené a nakonec zapisuji
+do cílového souboru.
+
+U regulárních výrazů v normálním řetězcovém literálu
+se musí dávat pozor na to, aby se správně zdvojovala 
+zpětná lomítka. Lepší je použít literál s r na začátku
+(raw string), u kterého se při kompilaci neinterpretují
+zpětná lomítka.
+
+Pokud se regulární výraz používá v cyklu, je lepší ho
+předem zkompilovat. Příklad:
+
+=========================================================
+import re
+
+# Vygenerujeme vzorek dat.
+f = file('vstup.txt', 'w')
+for i in xrange(1000):
+    f.write('         %i               \n' % i)
+f.close()    
+
+# Zkompilujeme si regularni vyraz pro pozdejsi efektivni
+# praci s nim v cyklu.
+rex = re.compile(r'^\s*(?P&lt;xxx&gt;\d*[0123]\d*)\s*$')
+
+# Ze vstupniho souboru budeme prepisovat do vystupniho.
+fin = file('vstup.txt')
+fout = file('vystup.txt', 'w')
+for line in fin:
+    # Pokusime se o vyhledani vzorku.
+    m = rex.search(line)
+    
+    # Pokud se podarilo, mame k dispozici cast radku -- obalime ji. 
+    # V opacnem pripade opiseme puvodni radek
+    if m:
+        fout.write('opraveny radek ' + m.group('xxx') + ' konec radku.\n')
+    else:
+        fout.write(line)
+        
+fin.close()
+fout.close()
+=========================================================
+
+pepr
+
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000089.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000090.html">[Tutor PyCZ] Vyrez z posloupnosti (slice) -- bylo RE: Regularni
+	vyrazy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#87">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#87">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#87">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#87">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000087.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+</html>

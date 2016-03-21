@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003317.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:41 GMT -->
+<HEAD>
+   <TITLE> [python] plone
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20plone&In-Reply-To=de46119405091613412175dd26%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-September/003316.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-September/003318.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] plone</H1>
+    <B>EHP</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20plone&In-Reply-To=de46119405091613412175dd26%40mail.gmail.com"
+       TITLE="[python] plone">python na ehp2.hostinx.com
+       </A><BR>
+    <I>Sobota Září 17 20:13:53 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003316.html">[python] plone
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003318.html">[python] Instalace Python pod XP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3317">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3317">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3317">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3317">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Testovaci virtualhost:
+
+&lt;VirtualHost *:80&gt;
+ServerName test.cz
+RewriteEngine On
+RewriteRule ^[^/].* - [L,F]
+RewriteRule ^/(.*) <A HREF="http://127.0.0.1:8080/%{HTTP_HOST}/$1">http://127.0.0.1:8080/%{HTTP_HOST}/$1</A> [L,P]
+&lt;/VirtualHost&gt;
+
+Technicky by melo stacit udelat druhy virtualhost na na port 80 jak uz jsem 
+psal minule a zmenit RewriteRule podle toho co posilam ted (btw manual k 
+apache asi neni tvuj kamarad kdyz jsi tam tohle nenasel :)).
+Btw jsme silne OT, pokud by bylo potreba jeste pomoci tak primo do mailu, ne 
+do konfery.
+
+EHP
+
+Dne Fri 16. of September 2005 22:41 Google Mail napsal(a):
+&gt;<i> OK vdaka aj mna to napadlo, ale viete mi konkretne napisat ten virtualny
+</I>&gt;<i> server na 80 aku bude mat rewrite rules? To je ten problem/
+</I>&gt;<i>
+</I>&gt;<i> Vdaka
+</I>&gt;<i>
+</I>&gt;<i> On 9/16/05, EHP &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na ehp2.hostinx.com</A>&gt; wrote:
+</I>&gt;<i> &gt; V definici toho virtualhostu je port 443 (tj. https). Ja bych proste
+</I>&gt;<i> &gt; pridal
+</I>&gt;<i> &gt; jeste jeden virtualhost na port 80 a resil bych to v nem.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; EHP
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; 1. Mam spravne urobene rewrite na https:// koli bezpecnemu pristupu k
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Zope.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; Toto funguje OK.
+</I>&gt;<i> &gt; &gt; cat ssl_virtual.conf
+</I>&gt;<i> &gt; &gt; &lt;VirtualHost 195.5.5.5:443 &lt;<A HREF="http://195.5.5.5:443/">http://195.5.5.5:443</A>&gt; &lt;<A HREF="http://195.5.5.5:443/">http://195.5.5.5:443</A>
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt; ServerName www.test.sk &lt;<A HREF="http://www.test.sk/">http://www.test.sk</A>&gt; &lt;<A HREF="http://www.test.sk/">http://www.test.sk</A>&gt;
+</I>&gt;<i> &gt; &gt; SSLEngine On
+</I>&gt;<i> &gt; &gt; SSLCertificateFile /etc/apache2/ssl/apache.pem
+</I>&gt;<i> &gt; &gt; RewriteEngine On
+</I>&gt;<i> &gt; &gt; RewriteRule ^[^/].* - [L,F]
+</I>&gt;<i> &gt; &gt; RewriteRule ^/(.*)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; <A HREF="http://127.0.0.1:8080/VirtualHostBase/https/195.5.5.5:443/VirtualHostRoot">http://127.0.0.1:8080/VirtualHostBase/https/195.5.5.5:443/VirtualHostRoot</A>
+</I>&gt;<i> &gt;/$
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;1[L,P] &lt;/VirtualHost&gt;
+</I>&gt;<i> &gt; &gt; 2. teraz ak mam urobeny web v adresary Zope napr. /www.novy.sk/ tak k
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; nemu
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; sa da pristupit jedine cez <A HREF="https://195.5.5.5/www.novy.sk/.">https://195.5.5.5/www.novy.sk/.</A>
+</I>&gt;<i> &gt; &gt; 3. A potreboval by som aby bol tento adresar pristupny aj z obycajneho
+</I>&gt;<i> &gt; &gt; http, teda ako normalny virtualny host.
+</I>&gt;<i> &gt; &gt; Neviem ako spraven napisat pravidlo rewrite, a ani nik z okolia zatial
+</I>&gt;<i> &gt; &gt; nepomohol.
+</I>&gt;<i> &gt; &gt; Podarilo sa mi spravit len tolko, ze ked clovek ide na
+</I>&gt;<i> &gt; &gt; <A HREF="http://www.novy.sk/tak">http://www.novy.sk/tak</A> ho presmeruje na <A HREF="https://,/">https://,</A> ale to nie je dobre
+</I>&gt;<i> &gt; &gt; malo by to vsetko ist na
+</I>&gt;<i> &gt; &gt; http://
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003316.html">[python] plone
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003318.html">[python] Instalace Python pod XP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3317">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3317">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3317">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3317">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003317.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:41 GMT -->
+</html>

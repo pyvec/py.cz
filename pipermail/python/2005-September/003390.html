@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003390.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:46 GMT -->
+<HEAD>
+   <TITLE> RE: [python] soubor v jiné zankové sadě
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_soubor_v_jin%3DE9_zankov%3DE9_sad%3DEC%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-September/003389.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-September/003391.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] soubor v jiné zankové sadě</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_soubor_v_jin%3DE9_zankov%3DE9_sad%3DEC%3F%3D&In-Reply-To="
+       TITLE="RE: [python] soubor v jiné zankové sadě">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Září 29 11:11:36 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003389.html">[python] soubor v jiné zankové sadě
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003391.html">[python] soubor v jiné zankové sadě
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3390">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3390">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3390">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3390">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>geon...
+&gt;<i> pepr...
+</I>&gt;<i> 
+</I>&gt;<i> &gt;[...] ve Windows [...] Unicode jména souborů. 
+</I>&gt;<i> &gt;V souvislosti s načítáním
+</I>&gt;<i> &gt;argv jsem zahlédl nějakou poznámku, že to 
+</I>&gt;<i> &gt;s automatickým načítáním argv v Unicode není
+</I>&gt;<i> &gt;tak jednoduché a musí se to dělat nějak 
+</I>&gt;<i> &gt;explicitně. 
+</I>&gt;<i> &gt;
+</I>&gt;<i> já to nědělám přes arg ale přes os.walk()
+</I>
+Myslel jsem tím, že to může být podobný problém
+nedokonalé implementace. Nepředpokládal jsem,
+že by to nějak souviselo s argv.
+
+&gt;<i> &gt;[...] Ono stačí, když ten soubor vyrobí
+</I>&gt;<i> &gt;nějaký japonský virus, který to v Unicode
+</I>&gt;<i> &gt;vyrobí třeba korektně, ale v žádném &quot;normálním
+</I>&gt;<i> &gt;kódování&quot; to nedává smysl ;-)
+</I>&gt;<i> &gt;
+</I>&gt;<i> ano, názvy těch souborů byly čínsky, vietnamsky 
+</I>&gt;<i> nebo japonsky. už jsem to smazal tedy normálně 
+</I>&gt;<i> (tc), ale stejně mě to zajímá, jak na to v Pythonu...
+</I>&gt;<i>
+</I>&gt;<i> Ten můj zkušební script, který takový název vytvoří, ale je čistá 
+</I>&gt;<i> čeština, akorát pomotané kodovaní, a stejně se nemohu dobrat 
+</I>&gt;<i> výsledku...
+</I>
+Taková simulace názvu nemusí být korektní, protože
+pak asi nevznikne korektní unicode název souboru.
+
+Nevím, co jsi přesně dělal, ale os.walk() interně
+volá os.listdir(). Dokumentace k os.listdir() říká:
+
+    On Windows NT/2k/XP and Unix, if path is 
+    a Unicode object, the result will be a list 
+    of Unicode objects
+
+To znamená, že by se cesta předávaná walk() měla
+uvést jako unicode řetězec. Pak by to mohlo začít
+fungovat. Ale nemusí to začít fungovat na té tvé
+simulaci, protože ěščřžý převedené do &quot;nějakého&quot;
+kódování nebude tvořit korektní jméno v unicode.
+Zkus to spíš nasimulovat tak, že ěščřžý soubor
+vytvoříš jako unicode název souboru:
+
+# -*- coding: cp1250 -*-
+f=file(u'ěščřžýáíé','w')
+f.close()
+
+Nezkoušel jsem to, ale zajímalo by mě, jak to 
+dopadlo. Zkus tenhle soubor s unicode názvem
+smazat původním řešením a upraveným řešením 
+s unicode cestou. Možná bude lepší zkonstruovat
+přímo nějaký cizojazyčný název, protože na tomhle
+by se to nemuselo projevit.
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003389.html">[python] soubor v jiné zankové sadě
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003391.html">[python] soubor v jiné zankové sadě
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3390">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3390">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3390">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3390">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003390.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:46 GMT -->
+</html>

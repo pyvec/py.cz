@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010545.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:42 GMT -->
+<HEAD>
+   <TITLE> [python] PYTHONPATH
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3C4F142F88.2060109%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-January/010544.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-January/010546.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PYTHONPATH</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3C4F142F88.2060109%40firma.seznam.cz%3E"
+       TITLE="[python] PYTHONPATH">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Pondělí Leden 16 15:09:12 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010544.html">[python] PYTHONPATH
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010546.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10545">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10545">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10545">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10545">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Ano, přečetl jsem si to. Je to však zásah, který nepřežije reinstalaci čehokoliv.
+</I>&gt;<i> 
+</I>&gt;<i> Nakonec jsem se rozhodl pro tu nejtriviálnější cestu, jak zpřístupnit moje moduly:
+</I>&gt;<i> 
+</I>&gt;<i> 1) do pracovního adresáře jsem vložil modul mojemoduly.py s obsahem:
+</I>&gt;<i> 
+</I>&gt;<i> # Pridani vlastni cesty k mym modulum
+</I>&gt;<i> import sys
+</I>&gt;<i> _nova_cesta = &quot;/cesta_k_mym_modulum&quot;
+</I>&gt;<i> if not _nova_cesta in sys.path:
+</I>&gt;<i>     sys.path.insert( 1, _nova_cesta)
+</I>&gt;<i> 
+</I>&gt;<i> 2) na začátku KAŽDÉHO mého programu, který využívá mé moduly dám:
+</I>&gt;<i> import mojemoduly
+</I>&gt;<i> 
+</I>&gt;<i> A je poznámka pro vývojáře pythonu:
+</I>&gt;<i> 
+</I>&gt;<i> Nestálo by za úvahu přidat do systému jednoduchou funkci, například nějaký soubor python_path.pth,
+</I>&gt;<i> kde by se to dalo nastavit dodatečně a trvale kdykoliv po instalaci dodatečně ?
+</I>
+RTFM:
+The most convenient way is to add a path configuration file to a
+directory that&#8217;s already on Python&#8217;s path, usually to the
+.../site-packages/ directory. Path configuration files have an extension
+of .pth, and each line must contain a single path that will be appended
+to sys.path.
+
+(<A HREF="http://docs.python.org/install/index.html#modifying-python-s-search-path">http://docs.python.org/install/index.html#modifying-python-s-search-path</A>)
+
+Quidův stroj času zafungoval, i příponu to má stejnou jak jsi chtěl :-)
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010544.html">[python] PYTHONPATH
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010546.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10545">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10545">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10545">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10545">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010545.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:42 GMT -->
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005543.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:36 GMT -->
+<HEAD>
+   <TITLE> [python] sqllite - existuje záznam v DB?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fsqllite_-_existuje_z%3DC3%3DA1znam_v_DB%3D3F%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005542.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005544.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sqllite - existuje záznam v DB?</H1>
+    <B>Petr Vanek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fsqllite_-_existuje_z%3DC3%3DA1znam_v_DB%3D3F%3F%3D&In-Reply-To="
+       TITLE="[python] sqllite - existuje záznam v DB?">petr na scribus.info
+       </A><BR>
+    <I>Čtvrtek Únor  8 14:34:55 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005542.html">[python] sqllite - existuje záznam v DB?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005544.html">[python] Jak je to se slucovanim konferenci tutor a python?	(bylo RE: konfera ide dole?)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5543">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5543">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5543">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5543">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i> Přičemž sqlite dokáže mnohé poddotazy eliminovat a vykonat najednou.
+</I>&gt;<i> 
+</I>&gt;<i> select case exists(select * from person) when 1 then 1 else 0 end
+</I>
+ano, prechroustany execution plan je stejny (v tomto pripade):
+sqlite&gt; explain query plan select case exists(select * from foo where pk =1)
+when 1 then 1 else 0 end;
+orde  from            detail
+----  --------------  ----------
+0     0               TABLE foo
+sqlite&gt; explain query plan select count(1) from foo where pk = 1;
+orde  from            detail
+----  --------------  ----------
+0     0               TABLE foo
+
+
+ale porovnejme si opcodes:
+
+sqlite&gt; explain select count(1) from foo where pk=1;
+addr  opcode          p1          p2          p3
+----  --------------  ----------  ----------  --------------------
+0     MemNull         0           0
+1     Goto            0           20
+2     Integer         0           0
+3     OpenRead        1           3           keyinfo(1,BINARY)
+4     SetNumColumns   1           2
+5     Integer         1           0
+6     IsNull          -1          15
+7     MakeRecord      1           0           c
+8     MemStore        1           0
+9     MoveGe          1           15
+10    MemLoad         1           0
+11    IdxGE           1           15          +
+12    Integer         1           0
+13    AggStep         0           1           count(1)
+14    Next            1           10
+15    Close           1           0
+16    AggFinal        0           1           count(1)
+17    MemLoad         0           0
+18    Callback        1           0
+19    Halt            0           0
+20    Transaction     0           0
+21    VerifyCookie    0           3
+22    Goto            0           2
+23    Noop            0           0
+
+sqlite&gt; explain select case exists(select * from foo where pk =1) when 1
+then 1 else 0 end;
+addr  opcode          p1          p2          p3
+----  --------------  ----------  ---------- 
+---------------------------------
+0     Goto            0           49
+1     MemLoad         0           0
+2     If              0           38
+3     MemInt          1           0
+4     MemInt          0           1
+5     Integer         1           0
+6     MustBeInt       0           0
+7     MemStore        2           0
+8     IfMemZero       2           38
+9     IfMemPos        2           13
+10    Pop             1           0
+11    MemInt          -1          3
+12    Goto            0           14
+13    MemStore        3           1
+14    Integer         0           0
+15    OpenRead        0           2
+16    SetNumColumns   0           3
+17    Integer         0           0
+18    OpenRead        1           3           keyinfo(1,BINARY)
+19    Integer         1           0
+20    IsNull          -1          36
+21    MakeRecord      1           0           c
+22    MemStore        4           0
+23    MoveGe          1           36
+24    MemLoad         4           0
+25    IdxGE           1           36          +
+26    IdxRowid        1           0
+27    MoveGe          0           0
+28    Column          0           0
+29    Column          0           1
+30    Column          0           2
+31    MemInt          1           1
+32    Pop             3           0
+33    MemIncr         -1          2
+34    IfMemZero       2           36
+35    Next            1           24
+36    Close           0           0
+37    Close           1           0
+38    MemLoad         1           0
+39    Integer         1           0
+40    Dup             1           1
+41    Ne              354         45
+42    Pop             1           0
+43    Integer         1           0
+44    Goto            0           47
+45    Pop             1           0
+46    Integer         0           0
+47    Callback        1           0
+48    Halt            0           0
+49    Transaction     0           0
+50    VerifyCookie    0           3
+51    Goto            0           1
+52    Noop            0           0
+
+dale citelnost obou selectu... ale kazdopadne diky, ze sqlite umi case jsem
+netusil.
+
+Ale uz toho nechme. Je to uz (z me strany) puntickareni.
+
+p.
+
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005542.html">[python] sqllite - existuje záznam v DB?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005544.html">[python] Jak je to se slucovanim konferenci tutor a python?	(bylo RE: konfera ide dole?)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5543">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5543">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5543">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5543">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005543.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:36 GMT -->
+</html>

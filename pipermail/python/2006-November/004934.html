@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004934.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:13 GMT -->
+<HEAD>
+   <TITLE> [python] jak 'odekorovat' property?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20jak%20%27odekorovat%27%20property%3F&In-Reply-To=20061105183125.GB24815%40q.uh.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004933.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004936.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] jak 'odekorovat' property?</H1>
+    <B>david</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20jak%20%27odekorovat%27%20property%3F&In-Reply-To=20061105183125.GB24815%40q.uh.cz"
+       TITLE="[python] jak 'odekorovat' property?">servigo na seznam.cz
+       </A><BR>
+    <I>Neděle Listopad  5 21:13:52 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004933.html">[python] jak 'odekorovat' property?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004936.html">[python] jak 'odekorovat' property?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4934">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4934">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4934">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4934">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Pokud vim, tak dekoratory funguji jenom na funkce, takze vas dotaz je
+</I>&gt;<i> dost nejasny. To, ze narazite pri pokusu o predefinovani neceho, co je
+</I>&gt;<i> read-only, je celkem bezne, ikdyz ani to nemusi byt neresitelne.
+</I>&gt;<i> Co vlastne chcete udelat? 
+</I>
+Chtel jsem pouzit dekorator na funkci, ktera je pouzita pri definici property. A to samo o sobe probehne tak jak ma(aspon myslim ;-) ) Problem je potom to, ze property potom nepouziva tu novou funkci. Takze se omlouvam za nepresnou formulaci: asi vazne nezalezi na tom, jestli je property readonly nebo ne, problem je v tom, jak predefinovat/updatovat/opravit existujici property tak, aby vyuzivala zmenenou funkci. Nevim jestli jsem to napsal vystizne: nejlepsi bude asi priklad:
+
+def Decorator(old):
+    def novafunkce(*a,**kw):
+        print 'treba logovani:',
+        old_result=old(*a,**kw)
+        return old_result
+    return novafunkce
+class Example(object):
+    def __init__(self,desc):
+        self._description=desc
+    def hello(self):
+        print &quot;hello world&quot;
+    def getdescription(self):
+        print &quot;property funkce&quot;,
+        return self._description
+    description=property(getdescription)
+
+e=Example(&quot;POPIS&quot;)
+
+e.hello()
+print e.getdescription()
+print e.description
+
+e.hello=Decorator(e.hello)
+e.getdescription=Decorator(e.getdescription)
+
+e.hello()
+print e.getdescription()
+print e.description #nevola novou funkci!
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: demo.py
+Typ: text/x-c++
+Velikost: 686 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20061105/ca748369/attachment.bin">http://www.py.cz/pipermail/python/attachments/20061105/ca748369/attachment.bin</A> 
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004933.html">[python] jak 'odekorovat' property?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004936.html">[python] jak 'odekorovat' property?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4934">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4934">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4934">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4934">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004934.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:13 GMT -->
+</html>

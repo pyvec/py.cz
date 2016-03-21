@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009883.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:29 GMT -->
+<HEAD>
+   <TITLE> [python] Třída, která vytvoří instanci jen pokud tam už není instance se stejnými parametry
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FT%3DF8%3DEDda%3D2C_kter%3DE1_vytvo%3DF8%3DED_instanci%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_jen_pokud_tam_u%3DBE_nen%3DED_instance_se_stejn%3DFDmi_p%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Farametry%3F%3D&In-Reply-To=%3C913F77222E913C49A057FDD7BBDEAAA301C0E68F%40br-dc.uhul.wan%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009870.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009888.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Třída, která vytvoří instanci jen pokud tam už není instance se stejnými parametry</H1>
+    <B>MICHÁLEK Jan Mgr.</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FT%3DF8%3DEDda%3D2C_kter%3DE1_vytvo%3DF8%3DED_instanci%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_jen_pokud_tam_u%3DBE_nen%3DED_instance_se_stejn%3DFDmi_p%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Farametry%3F%3D&In-Reply-To=%3C913F77222E913C49A057FDD7BBDEAAA301C0E68F%40br-dc.uhul.wan%3E"
+       TITLE="[python] Třída, která vytvoří instanci jen pokud tam už není instance se stejnými parametry">Michalek.Jan na uhul.cz
+       </A><BR>
+    <I>Čtvrtek Červenec 22 16:31:26 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009870.html">[python] Třída, která vytvoří instanci jen pokud tam už není instance se stejnými parametry
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009888.html">[python] Třída, která vytvoří instanci jen pokud tam už není instance se stejnými parametry
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9883">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9883">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9883">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9883">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>To s new mi funguje, to s dekorátorem ne, hlásí mi to blbej syntax při použití na třídu, mam python 2.5, není to tím?? 
+
+-----Original Message-----
+From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of Petr Messner
+Sent: Thursday, July 22, 2010 3:17 PM
+To: Konference PyCZ
+Subject: Re: [python]Třída, která vytvoří instanci jen pokud tam už není instance se stejnými parametry
+
+Použil bych dekorátor, nějak takto:
+
+def unique(cls):
+    cache = dict()
+    def factory(*args, **kwargs):
+        key = args, tuple(sorted(kwargs.items()))
+        if key not in cache:
+            cache[key] = cls(*args, **kwargs)
+        return cache[key]
+    return factory
+
+
+@unique
+class Zvire:
+    def __init__(self, name):
+        ...
+
+
+Petr Messner
+
+
+2010/7/22 MICHÁLEK Jan Mgr. &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Michalek.Jan na uhul.cz</A>&gt;:
+&gt;<i> Ten slovník tam mám, já to umím zachytit, ale neumim udělat to, aby se 
+</I>&gt;<i> ta instance nevytvořila přes init, šlo by udělat
+</I>&gt;<i>
+</I>&gt;<i> z1= Zvire.pridejZvire('hroch') #a ta metoda bz se podivala do slovniku 
+</I>&gt;<i> a buď hotovýho hrocha vrátila, nebo udělala fungl novýho
+</I>&gt;<i>
+</I>&gt;<i> ale to já nechci, já to chci dělat
+</I>&gt;<i>
+</I>&gt;<i> z1 = Zvire('hroch')
+</I>&gt;<i>
+</I>&gt;<i> kdybych to narval do nový tridy tak si stejne nepomuzu, udela se tak 
+</I>&gt;<i> jako tak nova instance.
+</I>&gt;<i> ________________________________
+</I>&gt;<i> From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of 
+</I>&gt;<i> Juda Kaleta
+</I>&gt;<i> Sent: Thursday, July 22, 2010 2:59 PM
+</I>&gt;<i> To: Konference PyCZ
+</I>&gt;<i> Subject: Re: [python] Třída, která vytvoří instanci jen pokud tam už 
+</I>&gt;<i> není instance se stejnými parametry
+</I>&gt;<i>
+</I>&gt;<i> Vhodné by bylo mít na vytváření těchto objektů nějakou továrničku - ta 
+</I>&gt;<i> by obsahovala slovník s již vytvořeními instancemi ({'pes':..., 'hroch':...}).
+</I>&gt;<i> Při volání metody k vytvoření nového objektu by se kouklo do slovníku, 
+</I>&gt;<i> pokud by tam již objekt s tímto klíčem byl, vrátil by se ten, pokud 
+</I>&gt;<i> ne, vytvořil by se nový objekt.
+</I>&gt;<i>
+</I>&gt;<i> Juda Kaleta
+</I>&gt;<i>
+</I>&gt;<i> E-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">juda.kaleta na gmail.com</A>
+</I>&gt;<i> Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">yetty na jabber.cz</A>
+</I>&gt;<i>
+</I>&gt;<i> Dne 22.7.2010 14:50, MICHÁLEK Jan Mgr. napsal(a):
+</I>&gt;<i>
+</I>&gt;<i> Otázka:
+</I>&gt;<i>   je možné napsat třídu tak, aby vytvořila instanci, jen pokud ještě 
+</I>&gt;<i> instance se stejnými parametry ještě neexistuje.
+</I>&gt;<i>
+</I>&gt;<i> Např:
+</I>&gt;<i>   mám třídu zvíře a chtěl bych, aby se chovala následujícím způsobem
+</I>&gt;&gt;&gt;&gt;<i> z1 = zvire('hroch')
+</I>&gt;&gt;&gt;&gt;<i> z1
+</I>&gt;<i> &lt;__main__.zvire instance at 0x017C1EE0&gt;
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> z2 = zvire('pes')
+</I>&gt;&gt;&gt;&gt;<i> z2
+</I>&gt;<i> &lt;__main__.zvire instance at 0x017C1760&gt;
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> z3 = zvire('hroch')
+</I>&gt;&gt;&gt;&gt;<i> z3
+</I>&gt;<i> &lt;__main__.zvire instance at 0x017C1EE0&gt;
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Jde to nějak rozumně (a pochopitelně) udělat??
+</I>&gt;<i>
+</I>&gt;<i> Je.
+</I>&gt;<i>
+</I>&gt;<i> Mgr Jan Michálek
+</I>_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+ 
+
+__________ Informace od ESET NOD32 Antivirus, verze databaze 5300 (20100722) __________
+
+Tuto zpravu proveril ESET NOD32 Antivirus.
+
+<A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+ 
+
+__________ Informace od ESET NOD32 Antivirus, verze databaze 5301 (20100722) __________
+
+Tuto zpravu proveril ESET NOD32 Antivirus.
+
+<A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009870.html">[python] Třída, která vytvoří instanci jen pokud tam už není instance se stejnými parametry
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009888.html">[python] Třída, která vytvoří instanci jen pokud tam už není instance se stejnými parametry
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9883">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9883">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9883">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9883">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009883.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:29 GMT -->
+</html>

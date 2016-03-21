@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004991.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:19 GMT -->
+<HEAD>
+   <TITLE> [python] Statické metody v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA21F%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004990.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004993.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Statické metody v Pythonu</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA21F%40skil01.skil.mistni"
+       TITLE="[python] Statické metody v Pythonu">feed na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Listopad  9 10:45:26 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004990.html">[python] Statické metody v Pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004993.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4991">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4991">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4991">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4991">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Ano. Ale toto je otázka návrhu. Typicky se definuje operátor
+</I>&gt;<i> pro sčítání (operator+() nebo __add__()), který pracuje s
+</I>&gt;<i> argumentem stejné třídy, jako je sám objekt. V budoucnu si můžu
+</I>&gt;<i> vymyslet další konverze, ze kterých vypadne úhel. Z hlediska
+</I>&gt;<i> údržby je lepší, když se speciality dělají zvenku. Je tedy
+</I>&gt;<i> lepší venku převést string zeměpisné šířky na úhel a
+</I>&gt;<i> dosadit.
+</I>
+A proč tedy můžu v Pytonu psát:
+
+unicode_string + ansi_8_bit_string
+
+Proč v rámci tohoto pravdidla Python striktně netrvá na:
+
+unicode_string + uniocde(ansi_8_bit_string)
+
+Ono toto pravidlo, kdyby se mělo striktně dodržovat, pak bude každý 
+programovací jazyk včetně Pythonu ukecaný jako COBOL, nebo Ada.
+
+&gt;<i> Jedna věc je strojová efektivita a druhá věc je jak je to
+</I>&gt;<i> mentálně uchopitelné, tj. kolik to dá práce mozku
+</I>&gt;<i> programátora (pokud tedy neprogramuje srdcem ;)
+</I>&gt;<i> 
+</I>&gt;<i> The Zen of Python k tomu všemu může říci (výběr):
+</I>&gt;<i> 
+</I>&gt;<i> Explicit is better than implicit.
+</I>&gt;<i> Simple is better than complex.
+</I>
+A já bych dodal:
+
+Too much explicit is worse than little implicit.
+Too much simple is equal complex (basic rule of Zen: too much jin is jang)
+
+ &gt; Readability counts.
+ &gt; Special cases aren't special enough to break the rules.
+ &gt; In the face of ambiguity, refuse the temptation to guess.
+ &gt; If the implementation is hard to explain, it's a bad idea.
+ &gt; If the implementation is easy to explain, it may be a good idea.
+
+Pod to se podepisuji.
+
+&gt;<i> Obvykle se taky projevuje dualita mezi daty a kódem:
+</I>&gt;<i> Složitější kód, jednodušší datové struktury a naopak.
+</I>&gt;<i> Složitější kód může vést k úspoře paměti, ale obvykle také
+</I>&gt;<i> ke zvýšení časové náročnosti. Složitější datové struktury...
+</I>
+To je pravda.
+
+&gt;<i> Asi bych raději místo statické metody použil obyčejnou
+</I>&gt;<i> funkci ve stejném modulu. Pokud by potomek potřeboval něco
+</I>&gt;<i> jiného, předefinoval by si příslušnou metodu tak, aby volala
+</I>&gt;<i> jinou funkci. Zadarmo bych tím také získal přístup k oné
+</I>&gt;<i> funkci bez závislosti na používání tříd, které ji používají
+</I>&gt;<i> (tj. např převod z řetězce na radiány).
+</I>
+Jenže ta funkce prostě nemá smysl bez třídy. Protože každá třída, tedy 
+každý typ úhlu bere prostě string v jiných formátech. Jasně, že by to 
+bylo možné vyřešit tak, že by byla řada funkcí na každou formát jeden, 
+případně jedna funkce se dvěma parametry: string a číslo formátu. Ale 
+myslím si, že třídní metoda tu prostě sedne. Když bvude statická, mám 
+právě funkci pro převod bez závislosti na třídě, protože třída je tu jen 
+a pouze prostor jmen a funkci jde zavolat i bez jakékoli instance.
+
+Já jsem taky původně váhal, jestli namísto třídy Angle neudělat prostě 
+pár normálních funkcí a třídou se vůbec nezatěžovat. Na jednodušší věci 
+by to možná bylo lepší, prostě by zbytečně nevznikaly instance, všechno 
+by byl float. Ale nakonec jsem se rozhodl pro komplexní řešení včetně 
+operátorů, property a dalších.
+
+&gt;<i> Ony dekorátory taky nic moc nedělají. Je to jen takový
+</I>&gt;<i> &quot;syntactic sugar&quot; -- to tvrdí &quot;opravdoví programátoři&quot;
+</I>&gt;<i> opovržlivě. Na druhou stranu, právě takové věci dělají
+</I>&gt;<i> použití jazyka elegantním. Přetěžování operátorů je taky
+</I>&gt;<i> syntaktický cukřík, ale jak pěkně se s tím pak pracuje!
+</I>&gt;<i> (Tedy pokud se to nachystá správně.)
+</I>
+No on ten syntaktický cukr je přesně to, co mají vyšší jazyky dělat. V 
+opačném případě bychom mohli zůstat u strojáku. Já naprosto nesnáším 
+přístup Javy, která zůstala někde mezi strojákem a vyšším jazykem a 
+odmítá cokoli, co by mohlo zpřehlednit zdrojáky, protože se to dá opsat 
+jinak. Pravdou je, že ze svého pravdila v Javě 5 slevila, neboť v tváří 
+tvář .NET technologii už to začalo být neudržitelné i pro ten marketink 
+kolem Javy.
+
+Ale Python miluju právě pro ty syntatické cukry! Podpora seznamů, 
+slovníků a dalších na úrovni jazyka, to je skvělá věc. V C++, Javě, a 
+dalších je to jen knihovna, která dře. Skvělá podpora operátorů, o které 
+se Javě ani nesní. A to nemluvím o generátorech, atd.. A různé ty map, 
+filter a podobné (což prý v další verzi Pythonu nebude, ach jo). Python 
+je jazyk, který mi vyhovuje, pokud mě tedy nedorazí nějakými chybami, 
+což dělá poněkud častěji, než v jiných jazycích.
+
+
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004990.html">[python] Statické metody v Pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004993.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4991">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4991">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4991">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4991">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004991.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:19 GMT -->
+</html>

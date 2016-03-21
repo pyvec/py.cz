@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000531.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FPygame_-_zasahy_a_oto%3DE8ky_%3D28bylo%3D3A%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3FRe%3D3A__Fw%3D3A_HElP%3D29%3F%3D&In-Reply-To=OF2A5FE4E0.10D3D4B3-ONC1257203.002379E7-C1257203.0024B27C%40pds.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000530.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000540.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FPygame_-_zasahy_a_oto%3DE8ky_%3D28bylo%3D3A%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3FRe%3D3A__Fw%3D3A_HElP%3D29%3F%3D&In-Reply-To=OF2A5FE4E0.10D3D4B3-ONC1257203.002379E7-C1257203.0024B27C%40pds.sk"
+       TITLE="[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Říjen 10 08:57:56 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000530.html">[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000540.html">[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#531">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#531">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#531">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#531">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>V bode 3 sa mi to nejako vyposunulo, ma to byt takto
+
+if kurzor.trefa(opicka):
+  print &quot;Tu je Opicka&quot; 
+  zasahZvuk.play()
+  opicka.zasah()
+elif kurzor.trefa(kladivo):
+  print &quot;Tu je Kladivo&quot; 
+  zasahZvuk.play()
+  kladivo.zasah()
+else:
+  netrafilZvuk.play()
+
+
+
+
+Roman Miklos &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">RMiklos na pss.sk</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A>
+10.10.2006 08:39
+Please respond to
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+
+
+To
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+cc
+
+Subject
+Re: [Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+
+
+
+
+
+
+
+Pozrel som si ten program editor.py 
+Neviem ci som dobre rozumel, ale asi chces, aby kladivo zareagovalo na 
+kliknutie tak ako opicka. 
+Problem bol hlavne vo metode trefa(self, ciel) triedy Kurzor, ktora nemala 
+vzdy definovanu navratovu hodnotu, 
+ale len ked bol atribut self.pohladenie = 0 a ty si sa rozhodoval na 
+zaklade navratovej hodnoty tej funkcie. 
+Naco tam mas ten atribut self.pohladenie, je vobec k niecomu? 
+
+
+Takze urobil som toto: 
+
+1. upravil som metodu trefa() Kurzor-u takto: 
+
+    def trefa(self, ciel): 
+        &quot;vracia info,ak kurzor zasiahla ciel&quot; 
+        # Je tu problem s atributom self.pohladenie 
+        # (neviem na aky ucel ma sluzit), 
+        # ak self.pohladenie=1 funkcia nemala definovanu 
+        # navratovu hodnotu 
+        #- zakomentoval som doleuvedeny if 
+        #if not self.pohladenie: 
+        self.pohladenie = 1 
+        zasahObd = self.rect.inflate(-5, -5) 
+        return zasahObd.colliderect(ciel.rect) 
+
+2. Dodal triede Kladivo, tie iste metody ako ma trieda Opicka aby aj 
+kladivo mohlo vydavat zvuk a tocit sa. 
+
+3. Vo funcii main() som trochu upravil rozhodovaci blok takto: 
+
+                if kurzor.trefa(opicka): 
+                        print &quot;Tu je Opicka&quot;     
+                    zasahZvuk.play() 
+                    opicka.zasah() 
+                  elif kurzor.trefa(kladivo): 
+                            print &quot;Tu je Kladivo&quot;     
+                    zasahZvuk.play() 
+                    kladivo.zasah() 
+                else: 
+                    netrafilZvuk.play() 
+
+Tu je cely opraveny program 
+
+Skus to a napis, ci to malo byt tak, alebo nie. 
+
+
+
+&quot;petrik&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">petrik na extel.sk</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A> 
+09.10.2006 22:55 
+
+Please respond to
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+
+
+To
+&quot;Konference Tutor portalu PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt; 
+cc
+
+Subject
+Re: [Tutor PyCZ]        Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+
+
+
+
+
+
+
+
+
+Taže ... už ted chapu co přesne myslíš,snáď taky raz budu umět takhle 
+chapat tyhle veci . 
+
+
+umíš nadefinovat, vytvořit funkci, že když zavolám:
+
+mojeFunkce(&quot;hroch.txt&quot;, 12, 47)
+
+
+aby funkce vytiskla předané parametry ? To umíš? 
+Jestli ano, tak použij to samé schéma na metodu __init__(....).... Akorát 
+že tam to nebudeš tisknout, ale ukládat do různých proměnných self.neco 
+....
+
+
+-- 
+geon
+Pavel Kosina
+
+Mno jak jsem řikal ze tomu vicemene chapu ,tak uz ne :) 
+ale skusim na to jit pomalu . 
+class Opicka(pygame.sprite.Sprite):
+   def __init__(self, image ,pozicie):
+       pygame.sprite.Sprite.__init__(self) #
+       self.image, self.rect = nahrajObrazok(image)
+       obrazovka = pygame.display.get_surface()
+       self.oblast = obrazovka.get_rect()
+        
+Mno nevim jak vytisknout ty souradnice obrazku. :/
+_______________________________________________
+Tutor mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A> 
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 _______________________________________________
+Tutor mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061010/ff9a0bc5/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20061010/ff9a0bc5/attachment.htm</A> 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: Editor2.py
+Typ: application/octet-stream
+Velikost: 6679 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061010/ff9a0bc5/attachment.obj">http://www.py.cz/pipermail/tutor/attachments/20061010/ff9a0bc5/attachment.obj</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000530.html">[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000540.html">[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#531">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#531">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#531">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#531">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000531.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

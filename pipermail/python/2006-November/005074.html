@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005074.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+<HEAD>
+   <TITLE> [python] class a subclass
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=Mahogany-0.67.0-10556-20061111-101359.00%40kihnet.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005069.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005075.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] class a subclass</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=Mahogany-0.67.0-10556-20061111-101359.00%40kihnet.sk"
+       TITLE="[python] class a subclass">mtip na atlas.cz
+       </A><BR>
+    <I>Sobota Listopad 11 12:28:31 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005069.html">[python] class a subclass
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005075.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5074">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5074">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5074">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5074">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>RC&gt; Myslim, ze si treba este trochu ujasnit co si tu chcel vytvorit
+RC&gt; (trochu to napasovat do teorie OOP). Podla mna class table je nieco
+RC&gt; ako template, cize nejaka predloha ako maju vyzerat buduce zdedene
+RC&gt; classy. Pricom ponuka aj urcitu vseobecnu funkcionalitu. Odvodene
+RC&gt; classy uz pracuju s konkretnymi SQL vecami.
+
+RC&gt; Toto treba zohladnit aj v tej template. Cize nesmu sa mixovat
+RC&gt; vseobecne veci s konkretnymi SQL do jednej metody. Ked si teda
+RC&gt; povieme, ze table je template nesmieme urobit taku vec, ze create()
+RC&gt; bude v template pracovat s fields a tbl a odvodena bude pracovat
+RC&gt; s sqlText.
+
+&gt;&gt;<i> #kdyz to tedy shrnu trida table ma predem tusit, ze se na ni nekdo
+</I>&gt;&gt;<i> #v budoucnu muze prilepit
+</I>
+RC&gt; V podstate ano. Tym, ze sme povedali, ze table je template,
+RC&gt; predpokladame, ze bude od nej dedit.
+
+-------------------------------------------------------------------------------
+Ano tohle se mi zda byt spravna teorie dle OOP a presne pochopeni meho
+problemu, jenze ta rodicovska class table
+je uz sama o sobe funkcni a puvodne byla vyvinuta jako posledni
+potomek a ne template. Tj staci ji predat v metode create(table,seznamFields)
+a ona uz pracuje v pameti sama. Pridava zaznamy, meni je,
+odstranuje, umi undo, vraci jednotlive pole, edituje po presunu na
+jiny zaznam, posila udalosi BeforeUpdate, AfterUpdate, Current a atd
+atd.
+Takze bych ji rad zachoval i takto, pro pripad, ze jindy budu chtit
+pracovat pouze v pameti a navic nemusim opisovat vetsi casti kodu v
+pripadnych potomcich (treba v pripade, ze misto SQL pouziju ukladani
+do souboru).
+Pak se ale porad potvrzuje, ze kdybych ji navrhl, tak ze vsechny
+verejne metody budu volat class.method(self,param), udrzim si i lehce
+funkcnost pro pripadneho potomka. Tim udrzim izolacni odstup rodice od
+potomka ve zpetnem smeru. Rodic pak nikdy nepouzije metodu potomka a to se mi zda
+spravne, jedine v pripade, ze metoda v rodici je template je nutne ji
+volat self.method(). Zda se to byt spravny zaver ?
+
+
+-- 
+Mirek Nemecek
+
+--------------------------------------------------------------------------- --
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005069.html">[python] class a subclass
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005075.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5074">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5074">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5074">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5074">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005074.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+</html>

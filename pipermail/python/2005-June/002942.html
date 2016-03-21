@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002942.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:26 GMT -->
+<HEAD>
+   <TITLE> [python] načtení modulu v době běhu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fna%3DC4%3D8Dten%3DC3%3DAD_modulu_v_dob%3DC4%3D9B%3F%3D%0A%09%3D%3Futf-8%3Fq%3F_b%3DC4%3D9Bhu%3F%3D&In-Reply-To=42C291F5.1010705%40gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-June/002940.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-June/002941.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] načtení modulu v době běhu</H1>
+    <B>Jaroslav Pachola</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fna%3DC4%3D8Dten%3DC3%3DAD_modulu_v_dob%3DC4%3D9B%3F%3D%0A%09%3D%3Futf-8%3Fq%3F_b%3DC4%3D9Bhu%3F%3D&In-Reply-To=42C291F5.1010705%40gmail.com"
+       TITLE="[python] načtení modulu v době běhu">j_p_misc na centrum.cz
+       </A><BR>
+    <I>Středa Červen 29 14:51:21 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002940.html">[python] načtení modulu v době běhu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002941.html">[python] cteni souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2942">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2942">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2942">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2942">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne Wednesday 29 June 2005 14:20 Jan Pipek napsal(a):
+&gt;<i> Nejsem v Pythonu ještě příiš zběhlý, proto se možná ptám trochu z cesty
+</I>&gt;<i> (ale v referenční příručce jsem odpověď při nepříliš důkladném hledání
+</I>&gt;<i> nenašel). Nedá se nějakým způsobem načíst modul v době běhu programu?
+</I>&gt;<i>
+</I>Existuje funkce __import__, to je nejpruznejsi zpusob, jak nahrat modul. Obcas 
+se hodi. V danem pripade radeji viz predchozi odpoved I. Stolpy.
+
+&gt;<i> Potřebuji ve své aplikaci (jednoduchý mailový klient) rozlišit, jestli 
+</I>&gt;<i> se mají html zprávy zobrazovat pomocí gtkhtml2 (která není
+</I>&gt;<i> běžnou součástí pygtk) nebo jenom jako text.
+</I>&gt;<i> Případně pokud to nejde, jak byste podobnou situaci řešili?
+</I>
+Importovani modulu jeste neznamena, ze se musi modul pouzit. Pokud ale jde o 
+to, ze  import modulu muze selhat, da se udelat treba neco jako
+
+try:
+	import module1
+except ImportError:
+	import module2 as module1
+
+nebo
+
+try:
+	import module
+except ImportError:
+	module1 = None
+
+...
+
+if (module1 is None):
+	doSomething()
+else:
+	doSomethingElse()
+
+a podobne. V Pythonu se fantazii meze nekladou.
+
+JP
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002940.html">[python] načtení modulu v době běhu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002941.html">[python] cteni souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2942">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2942">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2942">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2942">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002942.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:26 GMT -->
+</html>

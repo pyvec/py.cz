@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010401.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+<HEAD>
+   <TITLE> [python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FTisk_unicode_%3DC5%3D99et%3DC4%3D9Bzce_a_tisk_seznamu_%3F%3D%0A%09%3D%3Futf-8%3Fb%3FdW5pY29kZSDFmWV0xJt6Y8Wv%3F%3D&In-Reply-To=%3C20110607132334.AE61DF6A%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010399.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010402.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Tisk unicode řetězce a tisk seznamu unicode řetězců</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FTisk_unicode_%3DC5%3D99et%3DC4%3D9Bzce_a_tisk_seznamu_%3F%3D%0A%09%3D%3Futf-8%3Fb%3FdW5pY29kZSDFmWV0xJt6Y8Wv%3F%3D&In-Reply-To=%3C20110607132334.AE61DF6A%40atlas.cz%3E"
+       TITLE="[python] Tisk unicode řetězce a tisk seznamu unicode řetězců">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Červen  7 13:23:34 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010399.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010402.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10401">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10401">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10401">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10401">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jak píše Tomáš. Jakmile si začneš s texty s diakritikou, vždycky je lepší
+používat Unicode řetězce (i když je otrava psát před literály u a dávat
+si na to pořád pozor. Z textových souborů v UTF-8 bys to měl načítat
+přes modul codecs (codecs.open(filename, 'r', 'utf-8') -- aspoň si zvykneš
+na to, že k textovému souboru vždycky patří i údaj o kódování.  V Pythonu 3
+už je to nutnost.
+
+K tomu prvnímu je to tak, jak píše Petr Messner. Funkce repr() (nebo metoda,
+kterou tato funkce volá) má za úkol vytvořit textovou reprezentaci, která (když
+se vloží do zrojového textu) zajistí vytvoření objektu se stejnou hodnotou. A protože
+řetězce nebo unicode řetězce mohou být v souborech uloženy v různém kódování
+a podle toho by to mělo vypadat pokaždé jinak, vygeneruje tvar, který používá
+jen ASCII znaky -- i za cenu, že to není čitelné.
+
+Doporučuju si přečíst Kapitolu 4. Řetězce v &quot;Ponořme se do Pythonu 3&quot;
+<A HREF="http://diveintopython3.py.cz/strings.html">http://diveintopython3.py.cz/strings.html</A>
+
+Problém posloupností bajtů vs. abstraktních řetězců je tam vysvětlen
+celkem stručně.
+
+Měj se fajn,
+    Petr
+ 
+ ______________________________________________________________
+ &gt; Od: &quot;Tomáš Drenčák&quot;
+ &gt; Komu: Konference PyCZ 
+ &gt; Datum: 07.06.2011 10:33
+ &gt; Předmět: Re: [python]Tisk unicode řetězce a tisk seznamu unicode řetězců
+ &gt;
+Neviem to teraz overit, no myslim ze pred unicode string ma ist u, teda takto:
+seznam = [ u&quot;žluťoučký kůň&quot;, u&quot;úpěl ďábelské ódy&quot; ]
+
+
+2011/6/7 David Rohlede
+
+Ahoj,
+ 
+ neví někdo, proč se následující příklad chová následovně?
+ 
+ #!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ seznam = [ &quot;žluťoučký kůň&quot;, &quot;úpěl ďábelské ódy&quot; ]
+ 
+ print seznam
+ 
+ for i in seznam:
+    print i
+ 
+ 
+ ['xc5xbeluxc5xa5ouxc4x8dkxc3xbd kxc5xafxc5x88', 'xc3xbap
+ xc4x9bl xc4x8fxc3xa1belskxc3xa9 xc3xb3dy']
+ žluťoučký kůň
+ úpěl ďábelské ódy
+ 
+ Tj. jednou to vytiskne dost nečitelně a podruhé správně čitelně (oboje
+ je asi správně)?
+ 
+ zkoušel jsem třeba i
+ 
+ print [i.encode(&quot;utf-8&quot;) for i in seznam]
+ 
+ ale taky nic.
+ 
+ Dík
+ 
+ David
+
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20110607/db1fdf80/attachment.html">http://www.py.cz/pipermail/python/attachments/20110607/db1fdf80/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010399.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010402.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10401">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10401">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10401">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10401">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010401.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+</html>

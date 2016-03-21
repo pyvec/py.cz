@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010873.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:17 GMT -->
+<HEAD>
+   <TITLE> [python] Pomoc s pythonním RE
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPomoc_s_pythonn%3DEDm_RE%3F%3D&In-Reply-To=%3CCAAKd7n3BZB4Z6N7AFd7dXbEF-VJpqWq%2BnPxNpar2%3DfEULH1YSA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010871.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010891.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Pomoc s pythonním RE</H1>
+    <B>rajcze</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPomoc_s_pythonn%3DEDm_RE%3F%3D&In-Reply-To=%3CCAAKd7n3BZB4Z6N7AFd7dXbEF-VJpqWq%2BnPxNpar2%3DfEULH1YSA%40mail.gmail.com%3E"
+       TITLE="[python] Pomoc s pythonním RE">rajcze na gmail.com
+       </A><BR>
+    <I>Sobota Leden 12 23:48:20 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010871.html">[python] Pomoc s pythonním RE
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010891.html">[python] Pomoc s pythonním RE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10873">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10873">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10873">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10873">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pokud &quot;jen&quot; potrebujes z dokumentu vzit vsecky &lt;script&gt; tagy, vypsat si to
+v tom formatu, jak mas v prikladu, a nutne na to chces pouzivat regexpy,
+tak idealne takto:
+
+import re
+re_scripts = re.compile(r'(&lt;script .*?&gt;)(.*?)&lt;/script&gt;')
+for results in re_scripts.findall(data):
+    print &quot;\n\n---%s\n---%s\n---&lt;/script&gt;&quot; % results
+
+Je ale nutny si uvedomit, ze je to docela dost narozny na cistotu vstupu
+(predpokladam, ze tim tahas scripty z nejake stazene html stranky) -
+napriklad je potreba osetrit mezery uvnitr tagu, case sensitivita (coz lze
+jednoduse resit i v regexpu, of course), atp. Takze pokud chces smysluplny
+reseni, bylo by lepsi napsat jakej problem skutecne resis ;)
+
+Na pokrocilejsi (vlastne, obecne na libovolny) zpracovani HTML/XML je
+smysluplnejsi pouzivat nektery z XML parseru resp. asi BeautifulSoup,
+vzhledem k tomu, ze se dokaze (narozdil od &quot;pure&quot; XML parseru) vyporadat i
+s nevadlidnim markupem.
+
+-- 
+Rules of Optimization:
+Rule 1: Don't do it.
+Rule 2 (for experts only): Don't do it yet.
+------------- dal?í ?ást ---------------
+HTML p?íloha byla odstran?na...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130112/272cffa0/attachment.html">http://www.py.cz/pipermail/python/attachments/20130112/272cffa0/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010871.html">[python] Pomoc s pythonním RE
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010891.html">[python] Pomoc s pythonním RE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10873">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10873">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10873">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10873">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010873.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:17 GMT -->
+</html>

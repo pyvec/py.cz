@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009758.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:36 GMT -->
+<HEAD>
+   <TITLE> [python] OT: překlad cache, hash
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FOT%3D3A_p%3DC5%3D99eklad_cache%3D2C_hash%3F%3D&In-Reply-To=%3C1273146975.817359.10604.nullmailer%40mail1001.cent%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-May/009757.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-May/009759.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] OT: překlad cache, hash</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FOT%3D3A_p%3DC5%3D99eklad_cache%3D2C_hash%3F%3D&In-Reply-To=%3C1273146975.817359.10604.nullmailer%40mail1001.cent%3E"
+       TITLE="[python] OT: překlad cache, hash">prikryl na atlas.cz
+       </A><BR>
+    <I>Čtvrtek Květen  6 13:56:15 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009757.html">[python] OT: překlad cache, hash
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009759.html">[python] OT: překlad cache, hash
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9758">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9758">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9758">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9758">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Galloth
+&gt;<i>Hash function se do cestiny preklada jako rozptylovaci funkce. Nedavno
+</I>&gt;<i>jsem si ale delal nejake experimenty na google a zjistil jsem, ze
+</I>&gt;<i>nejcasteji se proste pise hashovaci funkce, coz i mne prijde rozumne.
+</I>
+Ano. Ten pojem je OK, ale to, co potřebuju, je to trošku něco jiného.
+Pojem rozptylovací funkce se používá v souvislosti
+s vyhledávacími tabulkami (hash table), kde se snažíme
+o rovnoměrné rozptýlení hodnot do celočíselného intervalu.
+
+Tady jde spíš o to, že se z velkého vzorku dat vyrobí malý 
+příznakový vzorek, podle kterého se dá identifikovat ten velký.
+V tomto smyslu nemusí být (a nebývá) hash hodnota celočíselná.
+V takových souvislostech ale ztrácí smysl pojem rozptylovací funkce.
+
+Svůj pohled, který s pojmem &quot;rozptylovací funkce&quot; souvisí, jsem kdysi 
+vyjádřil tady <A HREF="http://www.skil.cz/python/cztuttrn.html#Pdata_hash">http://www.skil.cz/python/cztuttrn.html#Pdata_hash</A>
+Ale například u HTTP protokolu se &quot;hash&quot; dokumentu používá
+jako příznak konkrétního obsahu dokumentu. Je to trošku něco
+jiného. Nemusí to být hodnota &quot;kvalitně rozptýlená&quot;. Musí to být 
+hodnota, která je pokud možno 1 : 1 přiřaditelná k řetězci, 
+z kterého vznikla. Jsou na ni tedy jiné nároky. Na rozdíl od
+vyhledávacích tabulek nechceme vůbec připustit možnosti
+kolize (pokud možno žádná synonyma).
+
+Dá se to sice různě opsat, ale je to natolik frekventované
+a specifické slovo, že se pak stejně za opis musí napsat
+do závorky &quot;hash&quot;. 
+
+O &quot;cache&quot; to platí ještě víc (ještě frekventovanější) -- alespoň 
+v tom, co překládám.
+ 
+&gt;<i>U cache moc nevim, ale nevim proc by se u HTTP protokolu take nemohlo
+</I>&gt;<i>pouzit vyrovnavaci pamet, funguje to preci uplne stejne jako v tom HW.
+</I>&gt;<i>Kdyz mate v Hardware viceprocesorovy system, tak vyrovnavaci pamet
+</I>&gt;<i>musi zajistit , zda obsahuje aktualni data, coz je presne to same, co
+</I>&gt;<i>popisujete u HTTP, nebo ne?
+</I>&gt;<i>
+</I>&gt;<i>Princip vyrovnavaci pameti spociva v tom, ze je rychlejsi nez vlastni
+</I>&gt;<i>zdroj a pouzije se tedy vzdy, kdyz obsahuje platna data.
+</I>
+Ano. Asi je to úplně stejné (z abstraktního hlediska). Používání
+je trochu komplikovanější, než u hardware (složitější pravidla),
+ale principiálně to tak je.
+
+Problém je, jak rozumně překládat třeba caching (jako činnost),
+caching headers (jako relativně stručné označení něčeho
+konkrétního).
+
+Každopádně díky za příspěvek,
+     Petr
+ 
+
+
+Petr Přikryl
+&gt;&gt;<i>
+</I>&gt;&gt;<i> Co to je cache a hash ví (aspoň přibližně) každý, kdo
+</I>&gt;&gt;<i> trochu k počítačům čuchnul.  Není to problém chápat,
+</I>&gt;&gt;<i> není problém to používat v hovoru &quot;keš&quot;, &quot;heš&quot;. Problém
+</I>&gt;&gt;<i> je rozlišit folklór a slang od něčeho, co snese papír
+</I>&gt;&gt;<i> knížky.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> hash -- ve smyslu speciální hodnoty, která vzniká
+</I>&gt;&gt;<i>   jako &quot;příznak&quot; zpracovaného obsahu.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   (Příbuzné přejaté slovo &quot;hašé&quot; -- sekané maso...)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> cache -- vyrovnávací paměť (spíš u hardware),
+</I>&gt;&gt;<i>   ale také mechanismus použití obsahu (rozhodnutí,
+</I>&gt;&gt;<i>   kdy použít a kdy ne, kdy získat novou hodnotu
+</I>&gt;&gt;<i>   ze zdroje... ve smyslu funkce HTTP protokolu, např.)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Teď ta otázka...  Jak ty pojmy psát česky? Kde,
+</I>&gt;&gt;<i> při jakých příležitostech, ... jste nějaké české pokusy
+</I>&gt;&gt;<i> viděli?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Není to věc logiky. Chce to sebrané zkušenosti
+</I>&gt;&gt;<i> a braingstorming (tj. klidně i blbosti ;)
+</I></PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009757.html">[python] OT: překlad cache, hash
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009759.html">[python] OT: překlad cache, hash
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9758">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9758">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9758">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9758">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009758.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:36 GMT -->
+</html>

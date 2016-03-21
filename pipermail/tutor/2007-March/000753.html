@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000753.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] seznam jako globální proměnná
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fseznam_jako_glob%3DE1ln%3DED_prom%3DECnn%3DE1%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000752.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000754.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] seznam jako globální proměnná</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fseznam_jako_glob%3DE1ln%3DED_prom%3DECnn%3DE1%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] seznam jako globální proměnná">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Březen 27 07:57:09 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000752.html">[Tutor PyCZ] seznam jako globální proměnná
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000754.html">[Tutor PyCZ] ještě seznam jako globální proměnná
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#753">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#753">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#753">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#753">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Šimůnek se ptá
+&gt;<i>
+</I>&gt;<i> dá se seznam jako celek nastavit jako globální proměnná?
+</I>&gt;<i> [...]
+</I>&gt;<i> nebo to musím zase prohnat cyklem a každou položku 
+</I>&gt;<i> nastavit jako global (v proceduře, která bude příslušná 
+</I>&gt;<i> data zpracovávat). A pokud ano, jaká je korektní syntaxe?
+</I>
+Pojem &quot;globální proměnná&quot; souvisí s viditelností
+jména odevšad. Nesouvisí nijak s datovým typem
+objektu, který označuje. Proto i seznam může být
+globální. V Pythonu se jméno proměnné svazuje
+s objektem při zápisu přiřazení.
+
+Váš problém asi spočívá v tom, jak dát najevo
+uvnitř funkce, že chcete, aby se nevytvořila 
+nová proměnná, ale aby se pracovalo s již existující,
+definované na globální úrovni.
+
+Pokud potřebujete seznam jen číst, nemusíte dělat
+nic. Najde se na nejbližší vyšší úrovni. Takové
+proměnné se pak v Pythonu říká &quot;volná proměnná&quot;:
+
+seznam = [1, 2, 3]
+
+def funkce():
+    for polozka in seznam:
+        print polozka
+
+funkce()    # voláme
+
+Pokud do seznamu chcete přidávat, půjde to
+taky, protože se odkazujete na již existující
+objekt a voláte jeho metodu (funkce přidá
+položky, mimo funkci vytiskneme):
+
+seznam = [1, 2, 3]
+
+def funkce():
+    seznam.append(4)
+    seznam.append(5)
+    seznam.append(6)
+
+funkce()
+for polozka in seznam:
+    print polozka
+
+Problém nastává jen v případě, kdy se snažíte
+jméno &quot;seznam&quot; svázat s novou hodnotou příkazem
+přiřazení. V takové situaci se vždy vytvoří 
+lokální jméno a navenek nebude činnost těla
+funkce patrná:
+
+seznam = [1, 2, 3]
+
+def funkce():
+    seznam = [4, 5, 6]
+
+funkce()
+for polozka in seznam:
+    print polozka
+
+Dá se to vyřešit tím, že jméno seznam 
+se nemá vytvářet jako lokální, ale že 
+se má použít globální. K tomu slouží příkaz 
+global (je úplně jedno, objekt jakého typu
+je na jméno navázán):
+
+seznam = [1, 2, 3]
+
+def funkce():
+    global seznam
+    seznam = [4, 5, 6]
+
+funkce()
+for polozka in seznam:
+    print polozka
+
+Obecně je ale lepší, když se globálním
+proměnným budete velkým obloukem vyhýbat,
+protože jsou zdrojem problémů. Konkrétní
+objekt vždy funkci předávejte přes parametr
+a nové hodnoty vracejte jako hodnotu funkce.
+Umělý příklad by vypadal takto:
+
+seznam1 = [1, 2, 3]
+
+def funkce(seznam):
+    print seznam
+    return [4, 5, 6]
+
+seznam2 = funkce(seznam1)
+print seznam2
+
+V Pythonu vždy uvažujte tak, že jméno
+není důležité. Důležitý je objekt, se kterým
+je svázáno.
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000752.html">[Tutor PyCZ] seznam jako globální proměnná
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000754.html">[Tutor PyCZ] ještě seznam jako globální proměnná
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#753">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#753">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#753">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#753">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000753.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+</html>

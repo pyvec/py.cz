@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010178.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:09 GMT -->
+<HEAD>
+   <TITLE> [python] (ne)logičnost .join() ?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FKG5lKWxvZ2nEjW5vc3QgLmpvaW4oKSA/%3F%3D&In-Reply-To=%3C20110228143841.23E2A60006DB%40mail1012.cent%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-February/010172.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-February/010141.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] (ne)logičnost .join() ?</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FKG5lKWxvZ2nEjW5vc3QgLmpvaW4oKSA/%3F%3D&In-Reply-To=%3C20110228143841.23E2A60006DB%40mail1012.cent%3E"
+       TITLE="[python] (ne)logičnost .join() ?">prikryl na atlas.cz
+       </A><BR>
+    <I>Pondělí Únor 28 15:38:41 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010172.html">[python] (ne)logičnost .join() ?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010141.html">[python] Q&amp;A server zaměřený na Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10178">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10178">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10178">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10178">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Trochu popřehazuji pořadí...
+
+&quot;Radek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rad... na gmail.com</A>&gt; napsal...
+&gt;<i> On 23 ún, 08:08, &quot;Petr Přikryl&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prik... na atlas.cz</A>&gt; wrote:
+</I>&gt;&gt;<i> A co se týká &quot;volně rozhozených built-in funkcí&quot;,
+</I>&gt;&gt;<i> ono jich zase tak strašně moc není. Nezvyklé je
+</I>&gt;&gt;<i> to hlavně pro lidi, kteří pracovali v čistě OO
+</I>&gt;&gt;<i> jazyce, který funkce nepodporuje
+</I>&gt;<i> 
+</I>&gt;<i> jo, asi tak nějak. Teď by bodl dokument: &quot;Jak
+</I>&gt;<i> zobjektit Python v místech kde se tomu brání,
+</I>&gt;<i> resp. kde to ještě nikdo neudělal.&quot;
+</I>&gt;<i> 
+</I>&gt;<i> To je asi to nejtrefnější: Přesně v místech kdy
+</I>&gt;<i> Python nesleduje objektové principy to bolí, a
+</I>&gt;<i> strašně.
+</I>
+Ono je trošku problematické říci, že Python nesleduje
+objektové principy. V Pythonu je totiž objektem všechno.
+Podle mého názoru dogma čistě objektového přístupu, kdy je
+veškerá funkčnost realizována metodami objektů, neodpovídá
+realitě, která nás obklopuje. Neodpovídá ani matematickým
+abstrakcím, které nás obklopují od základní školy.
+
+Pokud vás tedy něco &quot;strašně bolí&quot;, pak je to porušení oněch
+dogmat, které byste si přál bezhlavě následovat.
+
+Metody tříd jsou formálním způsobem popisu chování objektů
+dané třídy. Vychází se z poznatku, že při formálním zápisu
+transformace vnitřního stavu objektu uděláme méně chyb, když
+popis spojíme s abstrakcí objektu dané třídy. Vychází to ze
+zkušenosti, že například v určitém kontextu se celé číslo 
+musí chápat jako letopočet a ne jako počet kusů něčeho nebo
+jako zcela abstraktní číslo. Až potud nelze nic namítat.
+
+Existují ale situace, kdy chceme s určitou hodnotou pracovat
+jako s velmi abstraktní hodnotou -- jaksi &quot;bez kontextu&quot; --,
+kdy jí chceme interpretaci přidělit až v okamžiku
+zpracování. Dám příklad. Mnohé reálné objekty lze v určitých
+situacích popsat vektorem v trojrozměrném prostoru. 
+Přirozeným způsobem můžeme dojít k
+nějakému dejme tomu geometrickému &quot;úhlu&quot;, který je prostě
+úhlem bez bližší vazby na konkrétní objekt. Dejme tomu, že
+na daný úhel potřebujeme aplikovat to, čemu od základní
+školy říkáme funkce sinus. V takové situaci je velmi obtížné
+považovat zápis
+
+  objekt.vektor.úhel.sin()
+  
+za přirozené vyjádření toho, co nás u onoho úhlu daného
+objektu zajímá. Mnohem přirozenější pro nás je zápis, kdy se
+úhel stane argumentem obecné funkce sin().
+
+&gt;&gt;<i> Každý má jiný pohled na věc a jiná očekávání.
+</I>&gt;&gt;<i> Podle mého názoru je přístup typu
+</I>&gt;&gt;<i> ','.join(kontejner) možná na první pohled
+</I>&gt;&gt;<i> nezvyklý, ale na druhý pohled je velmi logický.
+</I>&gt;&gt;<i> Jde o to, že dokáže spojit zadaným řetězcem prvky
+</I>&gt;&gt;<i> dodané jakýmkoliv kontejnerem, který podporuje
+</I>&gt;&gt;<i> iteraci a který vrací řetězcové prvky.
+</I>&gt;<i> 
+</I>&gt;<i> Zajisté, pro implemetátora má smysl to definovat
+</I>&gt;<i> na jednom místě. Takže by byl dobrý mixin nebo
+</I>&gt;<i> třída která implementuje metody nad iterabilními
+</I>&gt;<i> kontejnery, a ty iterabilní kontejnery podědí nebo
+</I>&gt;<i> si ty metody mixnou.
+</I>
+Tohle je jen technický detail, který umožní svázat nějakou 
+operaci s nějakou třídou objektu. Pořád bychom si měli
+uvědomovat, že tečková notace používaná u OO jazyků je pouze
+notací, která má usnadnit vnímání náležitosti metod k
+objektům. Taková notace je přínosná v situacích, kdy máme
+pocit, že je její přínos přirozený. Tím mám na mysli to, že
+zápis pokud možno snadno pochopí i ten (se stručným návodem),
+kdo takový zápis vidí poprvé.
+
+&gt;<i> Ale když pracujete tak chcete psat něco jako
+</I>&gt;<i> 
+</I>&gt;<i> neco.jeho_kolekce.transform.sort.jeste_transform.join
+</I>
+Tohle považuji za poměrně nešťastné v jakémkoliv OO jazyce.
+Přesněji, netýká se to jazyka, ale jeho používání. Nezávisle
+na tom, zda se jedná o reference nebo ukazatele... Pokud má
+transformace join probíhat na konci uvedeného řetězu, pak
+musí být zajištěno, že předchozí transformace nějak
+neselžou. To z hlediska robustnosti kódu nemusí být tak
+samozřejmé.
+
+&gt;<i> a nemáte chuť psát
+</I>&gt;<i> 
+</I>&gt;<i> join(neco.jeho_kolekce.transform.sort.jeste_transform)
+</I>
+Tady je potřeba si uvědomit, že metoda str.join(), o které
+se tady bavíme, je velmi specifická v tom smyslu, že jde o
+metodu, která má spojovat několik podřetězců do jednoho
+řetězce. Je tedy specifická v tom, že pracuje nad &quot;řetězci&quot;
+ve velmi abstraktní podobě a že výsledkem je zase čistý
+&quot;řetězec&quot;. V souvislosti s výše uvedeným příkladem úhlu a
+funkce sinus je to něco podobného.
+
+&gt;<i> obzvláště když ten řetězec chcete na tečce dále
+</I>&gt;<i> zpracovávat.
+</I>&gt;<i> 
+</I>&gt;<i> neco.jeho_kolekce.transform.sort.jeste_transform
+</I>&gt;<i> .join.strip.jiny_transform.split
+</I>
+Přehlédl jste ale jeden detail. Na začátku celé transformace
+vystupuje objekt nějakého typu, který se postupně
+transformuje do kolekce řetězců. Potom následuje změna velmi
+specifické kolekce řetězců na velmi abstraktní typ
+&quot;řetězec&quot;. Další operace probíhají nad abstraktním řetězcem.
+
+&gt;<i> když to pak přepíšete do závorkové notace, tak je
+</I>&gt;<i> to nečitelné, protože v závorkové notaci se píše
+</I>&gt;<i> doleva a v tečkové doprava. Pár takových závorek v
+</I>&gt;<i> tečkovaném výrazu a nevyzná se v tom ani zvíře
+</I>&gt;<i> které to má v popisu práce.
+</I>
+Tohle není věc tečkové/závorkové notace. To je věc
+přehledného zápisu programu.
+
+&gt;<i> A nebo jinak. Kolikrát v životě jste potřebovali
+</I>&gt;<i> aplikovat join na řetězec v tečce? Já si
+</I>&gt;<i> nepamatuju jediný případ.
+</I>
+Osobně mi kroutí mozkem vyjádření &quot;aplikovat join na řetězec
+v tečce&quot;. Ale přitom právě zápis
+
+    'separátor'.join(kolekce)
+    
+je velmi objektový. Velmi typicky se používá například pro
+vytvoření víceřádkového řetězce ze seznamu řádků, které
+neobsahují n:
+
+    'n'.join(lst)
+    
+nebo pro vytvoření &quot;čitelného&quot; řádku textových reprezentací 
+hodnot, které se mají oddělit čárkou a mezerou:
+
+    ', '.join(lst)
+    
+A dalších příkladů je celá řada.    
+
+Problém je taky v tom, co by měl obecný .join() pro kolekce
+vyjadřovat. Jakého typu má být výsledek?
+
+P.
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010172.html">[python] (ne)logičnost .join() ?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010141.html">[python] Q&amp;A server zaměřený na Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10178">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10178">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10178">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10178">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010178.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:09 GMT -->
+</html>

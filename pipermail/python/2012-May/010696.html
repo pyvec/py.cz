@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010696.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:32 GMT -->
+<HEAD>
+   <TITLE> [python] chyba kódování MySQL
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fchyba_k%3DF3dov%3DE1n%3DED_MySQL%3F%3D&In-Reply-To=%3CCAE1QKmRwu8K7cRUpVTyW0paAb%2BXBBdFYTo57DPKkz1QHJ%2Bqthw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-May/010695.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-May/010697.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] chyba kódování MySQL</H1>
+    <B>Petr Blahos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fchyba_k%3DF3dov%3DE1n%3DED_MySQL%3F%3D&In-Reply-To=%3CCAE1QKmRwu8K7cRUpVTyW0paAb%2BXBBdFYTo57DPKkz1QHJ%2Bqthw%40mail.gmail.com%3E"
+       TITLE="[python] chyba kódování MySQL">petrblahos na gmail.com
+       </A><BR>
+    <I>Středa Květen 23 13:17:03 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010695.html">[python] chyb?==?UTF-8?Q?a =?ISO-8859-2?Q?k=F3dov=E1n=ED_M?= =?ISO-8859-2?Q?ySQL?=
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010697.html">[python] Supervisord + python aplikace pracující s Gitem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10696">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10696">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10696">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10696">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> *'INSERT INTO zavodnici1 (id, prijmeni, jmeno, rok_narozeni, pohlavi)
+</I>&gt;<i> VALUES(Null, &quot;%s&quot;, &quot;%s&quot;, %d, &quot;%s&quot;)' % (PRIJMENI, Jmeno, rok_narozeni,
+</I>&gt;<i> pohlavi)*
+</I>&gt;<i>
+</I>&gt;<i>
+</I>Jenom doplnění, a vlastně off-topic, a něco co všichní vědí: tohle je MOC
+MOC ZLÉ!!!
+
+Pokud používáte MySQLdb, tak
+cursor.execute(*'INSERT INTO zavodnici1 (id, prijmeni, jmeno, rok_narozeni,
+pohlavi) VALUES(Null, %s, %s, %s, %s)' , (PRIJMENI, Jmeno, rok_narozeni,
+pohlavi))*
+
+--
+Petr
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20120523/99b67c6e/attachment.html">http://www.py.cz/pipermail/python/attachments/20120523/99b67c6e/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010695.html">[python] chyb?==?UTF-8?Q?a =?ISO-8859-2?Q?k=F3dov=E1n=ED_M?= =?ISO-8859-2?Q?ySQL?=
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010697.html">[python] Supervisord + python aplikace pracující s Gitem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10696">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10696">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10696">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10696">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010696.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:32 GMT -->
+</html>

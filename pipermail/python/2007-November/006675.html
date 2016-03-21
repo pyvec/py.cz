@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006675.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:01 GMT -->
+<HEAD>
+   <TITLE> [python] Elixir - problém se selectem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FElixir_-_probl%3DE9m_se_selectem%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006676.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006677.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Elixir - problém se selectem</H1>
+    <B>martin.stiborsky na gmail.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FElixir_-_probl%3DE9m_se_selectem%3F%3D&In-Reply-To="
+       TITLE="[python] Elixir - problém se selectem">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Středa Listopad  7 23:14:16 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006676.html">[python] Řešení Sudoku
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006677.html">[python] Elixir - problém se selectem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6675">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6675">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6675">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6675">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím Hraju si s nádstavbou nad SQLAlchemy, Elixirem ..
+Nadefinuju si tabulku v model.py :
+
+database_file = app_conf_file.database_file
+
+metadata.bind = &quot;<A HREF="sqlite:///%s&quot;">sqlite:///%s&quot;</A> % database_file
+metadata.bind.echo = True
+
+class Post(Entity):
+	name = Field(Unicode(50))
+	text = Field(Unicode)
+
+	def __repr__(self):
+		return '&lt;Post &quot;%s&quot;&gt;' % (self.name)
+
+ Umístění souboru s databází beru z konfiguráku ...
+Ve složce s model.py si otevřu ipython, naimportuju model, spustím
+setup_all() a create_all(), vytvoří se tabulka, přes Post(name='foo',
+text='bar') a session.flush() vložím záznam.
+
+V jiném souboru si naimportuju model, vytvořím instanci, post = Post()
+no ale od return post.query.all() dostanu error :(
+
+SQLError: (OperationalError) no such table: models_model_post u'SELECT
+models_model_post.text AS models_model_post_text, models_model_post.id
+AS models_model_post_id, models_model_post.name AS
+models_model_post_name \nFROM models_model_post ORDER BY
+models_model_post.oid' []
+
+Netuší někdo kde je chybička ? :)
+
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006676.html">[python] Řešení Sudoku
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006677.html">[python] Elixir - problém se selectem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6675">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6675">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6675">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6675">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006675.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:01 GMT -->
+</html>

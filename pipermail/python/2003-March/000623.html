@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-March/000623.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+<HEAD>
+   <TITLE> [python] Re: zamykani (Bylo: Oficialni oznameni)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20zamykani%20%28Bylo%3A%20Oficialni%20oznameni%29&In-Reply-To=3E760DEB.4010107%40vse.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-March/000621.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-March/000625.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Re: zamykani (Bylo: Oficialni oznameni)</H1>
+    <B>Jan Svec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20zamykani%20%28Bylo%3A%20Oficialni%20oznameni%29&In-Reply-To=3E760DEB.4010107%40vse.cz"
+       TITLE="[python] Re: zamykani (Bylo: Oficialni oznameni)">honza na py.cz
+       </A><BR>
+    <I>Úterý Březen 18 10:16:08 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000621.html">[python] Re: zamykani (Bylo: Oficialni oznameni)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000625.html">[python] Re: zamykani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-March/date.html#623">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/thread.html#623">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/subject.html#623">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/author.html#623">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, 17 Mar 2003, Martin Kavalec wrote:
+
+&gt;<i> Zdenek Pavlas wrote:
+</I>&gt;<i>  &gt; Jan Svec wrote:
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;&gt; A co Java? Moc ji neznam, jen vim ze threading je tam
+</I>&gt;<i>  &gt;&gt; implementovany. Je to obdoba C?
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; R(ekl bych z(e kombinace obou pr(ístupu*. Zamykání je hlavne
+</I>&gt;<i>  &gt; (explicitní,
+</I>&gt;<i>  &gt; na úrovni objektu*. Kaz(dá instance má skrytý mutex a programátor musí
+</I>&gt;<i>  &gt; kaz(dou metodu která mu*z(e být souc(asne( volána více vlánky oznac(it
+</I>&gt;<i>  &gt; keywordem 'synchronized', ona pak objekt lock/unlockuje. Ty zámky
+</I>&gt;<i>  &gt; jsou docela chytrý, nevadí jim násobné locknutí stejným threadem
+</I>&gt;<i>  &gt; a korektne( se uvoln(ují pr(i unwindování stacku po výjimkách.
+</I>&gt;<i>
+</I>&gt;<i> Spis nez skryty mutex bych ocekaval, ze se mutex vytvari, jen kdyz je
+</I>&gt;<i> nejaka metoda deklarovana jako synchronized. (resp. pro kazdy objekt a
+</I>&gt;<i> kazdou jeho synchronized metodu se vytvari mutex). Ale specifikaci jsem
+</I>&gt;<i> necetl, ruku do ohne za to nedam.
+</I>&gt;<i>
+</I>&gt;<i> Krom toho jde taky synchronizovat pristup k objektu jen v casti kodu
+</I>&gt;<i> syntaktickou konstrukci:
+</I>&gt;<i>
+</I>&gt;<i> synchronized (obj) {
+</I>&gt;<i>     obj.spam()
+</I>&gt;<i>     obj.frobnicate()
+</I>&gt;<i> }
+</I>
+Ano ano, to je pekne, ze :)
+
+&gt;<i>  &gt; Krom toho Java taky garantuje atomické operace nad základními
+</I>&gt;<i>  &gt; datovými typy které umí. Protoz(e je to docela low level jazyk
+</I>&gt;<i>  &gt; kde se skoro vs(echno vejde do int registru CPU tak to ve(ts(inou
+</I>&gt;<i>  &gt; jde bez globálního zamykání.
+</I>&gt;<i>
+</I>&gt;<i> Ale neni to vzdy automaticky, viz napr. dokumentace java.util.HashMap
+</I>&gt;<i> (obdoba dictionary v pythonu) -- pokud potrebujete synchronizovat
+</I>&gt;<i> pristup, musite si o to rict:
+</I>&gt;<i>
+</I>&gt;<i> HashMap m = Collections.synchronizedMap(new HashMap());
+</I>&gt;<i>
+</I>&gt;<i> K odstraneni globalniho zamku by tedy bylo nutne pridat programatorovi
+</I>&gt;<i> moznost rict si o synchronizaci (volanim nejake funkce, ktera by objektu
+</I>&gt;<i>   priradila zamek), nebo nejakou syntaktickou konstrukci (viz
+</I>&gt;<i> synchornized vyse; myslim ze je to opravdu uzitecna konstrukce, bohuzel
+</I>&gt;<i> zasahy do syntaxe by vyzadovaly nove klicove slovo...)
+</I>
+No mozna pekne by bylo to vyresit bud pomoci __future__ nebo
+proste nejaky specialni modul, ktery by mel zamykani na
+starosti a ktery by spravoval jednak globalni zamek a jednak
+bysme mu mohli rict, ktere objekty chceme zamykat my sami.
+Cili vsechno jako normalne, jen kdyz by bylo potreba neco
+rychleji, udelam si to sam :)
+
+--
+S pozdravem    .-------------------------.
+Jan Svec       | Znate jazyk Python? NE? |
+               | zkuste <A HREF="http://www.py.cz/">http://www.py.cz</A> |
+.--------------+-------------------------+
+|<i>            &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza na py.cz</A>&gt;               |
+</I>|<i>     <A HREF="http://www.py.cz/Members/honza">http://www.py.cz/Members/honza</A>     |
+</I>|<i>            <A HREF="http://www.py.cz/mailman/listinfo/python">honzas na jabber.cz</A>            |
+</I>`----------------------------------------'
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000621.html">[python] Re: zamykani (Bylo: Oficialni oznameni)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000625.html">[python] Re: zamykani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-March/date.html#623">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/thread.html#623">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/subject.html#623">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/author.html#623">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-March/000623.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+</html>

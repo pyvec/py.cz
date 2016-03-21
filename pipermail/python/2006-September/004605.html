@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004605.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:05 GMT -->
+<HEAD>
+   <TITLE> [python] kterak vhodne resit architekturu IMAP klienta
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kterak%20vhodne%20resit%20architekturu%20IMAP%20klienta&In-Reply-To=20060917195659.8340F2C352%40charon.hkfree.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-September/004604.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-September/004606.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] kterak vhodne resit architekturu IMAP klienta</H1>
+    <B>Jan Kundrát</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kterak%20vhodne%20resit%20architekturu%20IMAP%20klienta&In-Reply-To=20060917195659.8340F2C352%40charon.hkfree.org"
+       TITLE="[python] kterak vhodne resit architekturu IMAP klienta">jkt na gentoo.org
+       </A><BR>
+    <I>Neděle Září 17 22:59:48 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004604.html">[python] kterak vhodne resit architekturu IMAP klienta
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004606.html">[python] kterak vhodne resit architekturu IMAP klienta
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4605">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4605">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4605">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4605">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Matejka wrote:
+&gt;<i> Tak jak jsem se na to dival je mailbox z pohhledu UI modul ktery je schopen
+</I>&gt;<i> okamzite synchronne odpovidat na pozadavky UI.
+</I>
+Ok, ale co tahle situace:
+
+Mam zobrazene maily v mailboxu (&quot;slozce&quot;, ted nemluvim o
+komponente/modulu). Kliknu si na paty mail. UI rekne Mailboxu (velke M,
+takze komponente) &quot;chci strukturu pateho mailu&quot;. Jenomze chudak Mailbox
+to nema v cachi, a tak si musi povidat s IMAP serverem. Posle proto UI
+zpravu &quot;hele, sorry, zatim to nemam&quot;. Tohle mi moc synchronni neprijde.
+
+Cili shrnuti - synchronni komunikace nefunguje, protoze Mailbox
+*nezarucuje*, ze ma porad k dispozici vsechna data. Prefetch dat ze
+serveru musi byt volitelny a i pokud se povoli, tak je potreba nejaka
+logika, protoze je kravina bezmyslenkovite stahovat cely attachment,
+kdyz chce user videt jenom plaintextovou cast mailu a pak ho smazat,
+napriklad.
+
+Co ma teda delat UI? Muze zobrazit &quot;cekej&quot; misto obsahu mailu, ok. Jak
+ale pozna, ze uz ty data dorazily Mailboxu? Callback?
+
+Mozna ale mas pravdu. Pokud te dobre chapu, tak ty navrhujes neco jako
+&quot;pokud data nejsou hned, Mailbox postupem casu zavola callback&quot;. Je to
+tak? Tim padem Mailbox rekne &quot;zatim ten mail nemam&quot;, ale az dorazi,
+pusti callback, ktery rekne UI &quot;struktura mailu s UID 12345 je XYZ&quot;.
+(UID 12345 je nutne kvuli tomu, ze si user zatim moh odscrollovat na
+jinej mail. Mailbox ale stejne cte data. Mozna komplikace - je tohle
+nejlepsi postup? Co delat, kdyz user klika na jeden mail za druhym?
+Takhle by Mailbox dostal request na vsechny, coz je mozna trosku
+zbytecny...)
+
+Ty fronty, co jsem navrhoval ja, by IMHO nemusely znamenat, ze UI
+cachuje. Naopak, pokud UI dostane zpravu, na kterou nemusi reagovat
+(protoze IMAP definuje treba situace, kdy je nutne upozornit usera etc)
+a ktera se mu podle nej nehodi, muze ji smele ignorovat, protoze si o ni
+muze zazadat i jinak.
+
+Takze jak tak na to koukam, ono ty fronty asi ani neprinaseji zadnou
+vyhodu, mozna tak takove opticke oddeleni dvou slupek. Spis je ale
+horsi, ze muzou vnest nejakou tu latenci...
+
+Diky za postrehy, nekdy se nad tim budu muset poradne zamyslet,
+-jkt
+
+-- 
+cd /local/pub &amp;&amp; more beer &gt; /dev/mouth
+
+-- 
+cd /local/pub &amp;&amp; more beer &gt; /dev/mouth
+
+------------- další část ---------------
+NetextovĂĄ pĹĂ­loha byla odstranÄna...
+JmĂŠno: signature.asc
+Typ: application/pgp-signature
+Velikost: 252 bytes
+Popis: OpenPGP digital signature
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20060917/c7c638fa/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20060917/c7c638fa/attachment.pgp</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004604.html">[python] kterak vhodne resit architekturu IMAP klienta
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004606.html">[python] kterak vhodne resit architekturu IMAP klienta
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4605">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4605">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4605">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4605">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004605.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:05 GMT -->
+</html>

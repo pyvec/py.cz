@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011133.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:58 GMT -->
+<HEAD>
+   <TITLE> [python] Začiatočník programuje, alebo čo som zostrojil a prečo to nefunguje
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FZa%3DE8iato%3DE8n%3DEDk_programuje%3D2C_alebo_%3DE8%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fo_som_zostrojil_a_pre%3DE8o_to_nefunguje%3F%3D&In-Reply-To=%3C5255CF7B.6020707%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-October/011126.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-October/011137.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Začiatočník programuje, alebo čo som zostrojil a prečo to nefunguje</H1>
+    <B>Michal Molhanec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FZa%3DE8iato%3DE8n%3DEDk_programuje%3D2C_alebo_%3DE8%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fo_som_zostrojil_a_pre%3DE8o_to_nefunguje%3F%3D&In-Reply-To=%3C5255CF7B.6020707%40seznam.cz%3E"
+       TITLE="[python] Začiatočník programuje, alebo čo som zostrojil a prečo to nefunguje">mol-python na seznam.cz
+       </A><BR>
+    <I>Středa Říjen  9 23:49:47 CEST 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011126.html">[python] Začiatočník programuje, alebo čo som zostrojil a prečo to nefunguje
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011137.html">[python] Začiatočník programuje, alebo čo som zostrojil a nefunguje to
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11133">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11133">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11133">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11133">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+
+1) řádek
+   zadanie == zoznam
+   měl být předpokládám podmínka -- chybí zde if
+2) test na příslušnost v poli dělá operátor in
+3) není mi jasný smysl toho cyklu while True:
+4) neukončujte program pomocí os.abort(), to platí i pro váš první příklad,
+   pokud chcete ukončit předčasně program použijte sys.exit(), v tomto
+   případě je ale IMHO lepší případný další kód umístit do funkce a prostě
+   ji zavolat v případě úspěšné podmínky
+5) pište mezery minimálně mezi print a řetězcem, lépe i za čárkou ap.
+
+import time
+print &quot;loading please wait\n&quot;,&quot;nahravam aplikaciu prosim cakajte\n&quot;
+time.sleep(5)
+print &quot;dnes je&quot;, time.ctime()
+zadanie = raw_input(&quot;zadajte vase meno prosim&quot;)
+print &quot;volate sa&quot; + zadanie
+zoznam = [&quot;diana&quot;, &quot;martin&quot;, &quot;stefan&quot;, &quot;alena&quot;, &quot;pavol&quot;, &quot;miro&quot;]
+if zadanie in zoznam:
+    print &quot;vitajte v systeme matrix&quot;
+else:
+    print &quot; prepacte vase meno nieje v zozname&quot;,&quot;pristup zamietnuty!!!!&quot;
+
+Zdraví,
+Michal
+
+
+Dne 9.10.2013 17:47, xteam napsal(a):
+&gt;<i> Dobrý  deň!
+</I>&gt;<i> 
+</I>&gt;<i> Volám sa Martin a som úplný začiatočník. Kedže ukážky pythonu,  sa my zapáčili rozhodol som sa v ňom experimentovať
+</I>&gt;<i> 
+</I>&gt;<i> môj prví experiment ktorý aj funguje podla toho čo som od neho chcel  je falošný terminál.
+</I>&gt;<i> 
+</I>&gt;<i> priložím ho k tomu to textu v prilohe.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Lenže chcel som doň napísať aj prístup to znamená  na základe zadaného mena program rozhodne či spusti sa terminál (program pokračuje ďalej) alebo vypise sa hláška a program sa ukonci.
+</I>&gt;<i> 
+</I>&gt;<i> Naschvál som to písal ako ďalší program pretože ak by fungoval stačilo by ho len z kopírovať  pridať do prvého súboru lenže nefunguje
+</I>&gt;<i> 
+</I>&gt;<i> buď je chyba  v cykle while alebo v podmienke if  potrebujem radu alebo ešte lepšie ukážku aby to fungovalo a program by na základe vstupu rozhodoval o sebe.
+</I>&gt;<i> 
+</I></PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011126.html">[python] Začiatočník programuje, alebo čo som zostrojil a prečo to nefunguje
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011137.html">[python] Začiatočník programuje, alebo čo som zostrojil a nefunguje to
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11133">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11133">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11133">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11133">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011133.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:58 GMT -->
+</html>

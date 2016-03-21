@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006746.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=46e1f0de0711161037x6329feb1uc5838103c9c1cfe0%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006745.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006747.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Filip Štědrosnký</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=46e1f0de0711161037x6329feb1uc5838103c9c1cfe0%40mail.gmail.com"
+       TITLE="[python] sockety - problem s HTTP spojenim">regnarg na seznam.cz
+       </A><BR>
+    <I>Pátek Listopad 16 19:56:08 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006745.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006747.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6746">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6746">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6746">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6746">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+nejsem si jistý, ale mám takový dojem, že ten kód fungovat ani nemůže.
+První, co mě praštilo do očí, je řádek &quot;exit&quot;, který, i kdyby hypoteticky
+v aktuálním namespace existovala funkce exit, neudělá vůbec nic, jen na ni 
+získá referenci a zahodí ji. Doporučil bych importovat sys a použit 
+sys.exit(). Dále se mi zdá, že bez nonblocking IO není možné v jednom vlákně
+načítat a posílat vstup, protože se to snadno může někde zaseknout čekáním
+na vstup. Ohledně funkce recv() si nejsem jistý jak v tomhle ohledu funguje,
+většinou používám socket.makefile a potom s tím pracuji jako s klasickým
+soketem. Možná by také za zmínku stály moduly asyncore a asynchat, které
+tyto problémy řeší systémem událostí (uznávám, vlákna jsou jednodušší, ale
+řešit některé problémy s nimi je dosti netriviální).
+
+On Pá, lis 16, 2007 at 07:37:37 +0100, Tomy novella wrote:
+&gt;<i> Věroš: nooo ako tak citam o TCP/IP, zamotavam sa do toho hlbsie a
+</I>&gt;<i> hlbsie a nakoniec zistujem, ze neviem totalne nic ;-) nechapem naco
+</I>&gt;<i> vymysleli ten model ISO/OSI a naco rozlisuju tolko medzi tolkymi tymi
+</I>&gt;<i> vrstvami. kazdopadne to osvietenie tak skoro nepride :)
+</I>&gt;<i> 
+</I>&gt;<i> co som sa vsak chcel spytat, je, ze:
+</I>&gt;<i> 
+</I>&gt;<i> - skusam si spravit klienta na telnet, resp. chcem, aby ma to
+</I>&gt;<i> pripojilo na atlantis.talker.sk problemom vsak je, ze
+</I>&gt;<i> nefunguje(nedokaze komunikovat) ;( what`s wrong?
+</I>&gt;<i> -----------------------
+</I>&gt;<i> import socket, string
+</I>&gt;<i> clisock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</I>&gt;<i> clisock.connect(('atlantis.talker.sk', 23))
+</I>&gt;<i> 
+</I>&gt;<i> while 1:
+</I>&gt;<i>     data = clisock.recv(65536) # nechce sa mi to bufferovat ;)
+</I>&gt;<i>     for riadok in data.split('\r\n'):
+</I>&gt;<i>         print riadok
+</I>&gt;<i>     a = raw_input('napis text: ')
+</I>&gt;<i>     if(a == 'qq'):
+</I>&gt;<i>         print &quot;ukoncujem spojenie&quot;
+</I>&gt;<i>         clisock.close()
+</I>&gt;<i>         exit # ak napisem  'qq' skonci sa mi program
+</I>&gt;<i>     clisock.send(a)
+</I>&gt;<i> -----------------------------
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006745.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006747.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6746">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6746">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6746">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6746">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006746.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+</html>

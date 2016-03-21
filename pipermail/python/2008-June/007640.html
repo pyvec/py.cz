@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007640.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:47 GMT -->
+<HEAD>
+   <TITLE> [python] Brainstorm request: Vyuka programovani na gymplu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Brainstorm%20request%3A%20Vyuka%20programovani%20na%20gymplu&In-Reply-To=48492C23.6010202%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007638.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007643.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Brainstorm request: Vyuka programovani na gymplu</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Brainstorm%20request%3A%20Vyuka%20programovani%20na%20gymplu&In-Reply-To=48492C23.6010202%40centrum.cz"
+       TITLE="[python] Brainstorm request: Vyuka programovani na gymplu">slush na centrum.cz
+       </A><BR>
+    <I>Pátek Červen  6 19:09:35 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007638.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007643.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7640">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7640">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7640">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7640">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>
+</I>&gt;<i> Myslím, že začínající programátor by se měl učit na programovacím
+</I>&gt;<i> jazyce, který přímo dělá to co potřebuje. Kde slovo X je prostě X, a
+</I>&gt;<i> není to emulation by class.
+</I>
+
+treba tohle?
+<A HREF="http://www.py.cz/mailman/listinfo/python">marekp na omicron</A>:~$ python
+&gt;&gt;&gt;<i> &quot;ahoj&quot;.__class__
+</I>&lt;type 'str'&gt;
+
+python jen &quot;dela&quot;, ze string je class
+
+&gt;&gt;&gt;<i> dir(&quot;&quot;)
+</I>['__add__', '__class__', '__contains__', '__delattr__', '__doc__', '__eq__',
+'__ge__', '__getattribute__', '__getitem__', '__getnewargs__',
+'__getslice__', '__gt__', '__hash__', '__init__', '__le__', '__len__',
+'__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__',
+'__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__',
+'__str__', 'capitalize', 'center', 'count', 'decode', 'encode', 'endswith',
+'expandtabs', 'find', 'index', 'isalnum', 'isalpha', 'isdigit', 'islower',
+'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip',
+'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit',
+'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title',
+'translate', 'upper', 'zfill']
+
+ale pritom ta implementace trochu pokulhava:
+
+ &gt;&gt;&gt; class str(str):
+...     def zzzmojefce(self):
+...             return &quot;blabla&quot;
+...
+&gt;&gt;&gt;<i> str().zzzmojefce()
+</I>'blabla'
+&gt;&gt;&gt;<i> &quot;xxx&quot;.zzzmojefce()
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+AttributeError: 'str' object has no attribute 'zzzmojefce'
+
+Protoze standardni chovani by samozrejme bylo:
+
+&gt;&gt;&gt;<i> class nakatrida():
+</I>...     def fce1(self):
+...             return &quot;nazdar1&quot;
+...
+&gt;&gt;&gt;<i> class nakatrida(nakatrida):
+</I>...     def fce2(self):
+...             return &quot;nazdar2&quot;
+...
+&gt;&gt;&gt;<i> nakatrida().fce1()
+</I>'nazdar1'
+&gt;&gt;&gt;<i> nakatrida().fce2()
+</I>'nazdar2'
+
+Nebylo by tedy lepsi, aby vsechno byla class a programator alespon mohl
+predpokladat, ze se vsechno chova stejne? ;)
+
+ &gt;Vzhledem k tomu, ze se bavime o uceni, tak souhlasim, ze Javu ne. Ale
+&gt;<i> co treba Groovy, zejo? :-)
+</I>&gt;<i>
+</I>&gt;<i> A proč?
+</I>&gt;<i>
+</I>
+Argumenty pro Groovy (python-like jazyk v enterprise prostredi) jsem uz psal
+v jednom z prvnich mailu, tady jsem si jen chtel rypnout :).
+
+
+&gt;<i> Globální proměnné nejsou prasení v rozumném počtu. Stejně tak jako
+</I>&gt;<i> leccos dalšího.
+</I>
+
+V tomhle si dovolim nesouhlasit. Pokud programator potrebuje pouzit globalni
+promennou, udelal v navrhu datovych struktur chybu.
+
+
+
+
+Chapu vsechny Vase argumenty, jen se snazim delat opozici. Kazdopadne to
+zacina byt OT, takze pokud nebude nejaka podnetna myslenka, hlasuji pro
+ukonceni flamu o jazycich. Minimalne do te doby, nez po zkouskovem poradne
+nastuduju Groovy + JBoss Seam :-).
+
+Marek
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080606/315e7d60/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080606/315e7d60/attachment.htm</A> 
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007638.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007643.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7640">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7640">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7640">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7640">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007640.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:47 GMT -->
+</html>

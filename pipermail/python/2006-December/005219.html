@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005219.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:03 GMT -->
+<HEAD>
+   <TITLE> [python] os.listdir
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20os.listdir&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-December/005220.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] os.listdir</H1>
+    <B>Novák Jan - Topinfo s.r.o.</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20os.listdir&In-Reply-To="
+       TITLE="[python] os.listdir">jan.novak na topinfo.cz
+       </A><BR>
+    <I>Pátek Prosinec  1 10:19:28 CET 2006</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005220.html">[python] os.listdir
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5219">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5219">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5219">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5219">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Narazil jsem na zajímavé chování os.listdir, pokud máte v souborech
+diakritiku.
+Co myslíte, je to chyba, není to chyba? Minimálně by to mělo být uvedeno v
+dokumentaci!
+
+Je-li na Linuxu kódování utf-8, chyba se projevila pouze v běhu scriptu přes
+CGI? (tak na to přišel kolega který pracoval na Fedoře s utf-8), pokud ne
+projeví se to vždy. Ve 2.5 nevím jak se to chová?
+
+os.listdir Python documentace
+Changed in version 2.3: On Windows NT/2k/XP and Unix, if path is a Unicode
+object, the result will be a list of Unicode objects.. 
+
+<A HREF="http://kofoto.rosdahl.net/trac/wiki/UnicodeInPython">http://kofoto.rosdahl.net/trac/wiki/UnicodeInPython</A>
+os.listdir(u&quot;path&quot;) returns Unicode strings for names that can be decoded
+with sys.getfilesystemencoding() but silently returns byte strings for names
+that can't be decoded. That is, the return value of os.listdir(u&quot;path&quot;) is
+potentially a mixed list of Unicode and byte strings.
+
+Python/2.4.2 (WXP)
+&gt;&gt;&gt;<i> import os, sys
+</I>&gt;&gt;&gt;<i> sys.getfilesystemencoding()
+</I>'mbcs'
+&gt;&gt;&gt;<i> os.listdir(u'path')
+</I>['aaa.txt', 'bbb.txt', '\xe8e\x9atina.txt', 'ccc.txt']
+&gt;&gt;&gt;<i> os.listdir(u'path')
+</I>[u'aaa.txt', u'bbb.txt', u'\u010de\u0161tina.txt', u'ccc.txt']
+&gt;&gt;&gt;<i> ...OK 3. je unicode
+</I>
+Python/2.4.4 (Debian)
+&gt;&gt;&gt;<i> import os, sys
+</I>&gt;&gt;&gt;<i> sys.getfilesystemencoding()
+</I>'ANSI_X3.4-1968'
+&gt;&gt;&gt;<i> os.listdir('path')
+</I>['aaa.txt', 'bbb.txt', '\xe8e\xb9tina.txt', 'ccc.txt']
+&gt;&gt;&gt;<i> os.listdir(u'path')
+</I>[u'aaa.txt', u'bbb.txt', '\xe8e\xb9tina.txt', u'ccc.txt']
+&gt;&gt;&gt;<i> ...? 3. není unicode
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005220.html">[python] os.listdir
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5219">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5219">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5219">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5219">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005219.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:03 GMT -->
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/007057.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:52 GMT -->
+<HEAD>
+   <TITLE> [python] [:lower:] apod.?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5B%3Alower%3A%5D%20apod.%3F&In-Reply-To=20080127015221.fb6ce308.propanbutan%40gmx.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-January/007056.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-January/007058.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] [:lower:] apod.?</H1>
+    <B>Alexandr Rosen</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5B%3Alower%3A%5D%20apod.%3F&In-Reply-To=20080127015221.fb6ce308.propanbutan%40gmx.net"
+       TITLE="[python] [:lower:] apod.?">alexandr.rosen na ff.cuni.cz
+       </A><BR>
+    <I>Neděle Leden 27 13:18:24 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007056.html">[python] [:lower:] apod.?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007058.html">[python] [:lower:] apod.?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#7057">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#7057">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#7057">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#7057">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Diky! Ja to mam ve Windows XP, Python 2.5.1 trochu jinak a zda se, ze to funguje:
+
+&gt;&gt;&gt;<i> import string, locale, re
+</I>&gt;&gt;&gt;<i> locale.setlocale(locale.LC_CTYPE, '')
+</I>'Czech_Czech Republic.1250'
+&gt;&gt;&gt;<i> string.lowercase
+</I>'abcdefghijklmnopqrstuvwxyz\x9a\x9c\x9d\x9e\x9f\xb3\xb5\xb9\xba\xbe\xbf\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf8\xf9\xfa\xfb\xfc\xfd\xfe'
+&gt;&gt;&gt;<i> re_lower = r'[%s]' % string.lowercase
+</I>&gt;&gt;&gt;<i> re.findall(re_lower, s)
+</I>['a', '\xe1', 'b', 'c', '\xe8', 'd', '\xef', 'e', '\xec', '\xe9', 'f', 'g', 'h', 'i', '\xed', 'j',
+'k', 'l', 'm', 'n', '\xf2', 'o', '\xf3', 'p', 'q', 'r', '\xf8', 's', '\x9a', 't', '\x9d', 'u',
+'\xfa', '\xf9', 'v']
+
+Bylo by fajn, kdyby to takhle slo i v utf-8.
+
+
+&gt;<i> &quot;Alexandr Rosen&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">alexandr.rosen na ff.cuni.cz</A>&gt; wrote:
+</I>&gt;&gt;<i> Diky moc, ale jak se s tim pracuje? Daji se ty znakove konstanty
+</I>&gt;&gt;<i> pouzit v regularnich vyrazech? Jak?
+</I>&gt;<i>
+</I>&gt;<i> import string
+</I>&gt;<i> re_upper = ur'[%s]+' % string.uppercase
+</I>&gt;<i> re_lower = ur'[%s]+' % string.lowercase
+</I>&gt;<i>
+</I>&gt;<i> ale
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> import string, locale
+</I>&gt;&gt;&gt;&gt;<i> locale.setlocale(locale.LC_CTYPE, 'cs_CZ')
+</I>&gt;<i> 'cs_CZ'
+</I>&gt;&gt;&gt;&gt;<i> string.lowercase
+</I>&gt;<i> 'abcdefghijklmnopqrstuvwxyz'
+</I>&gt;&gt;&gt;&gt;<i> locale.setlocale(locale.LC_CTYPE, 'de_DE')
+</I>&gt;<i> 'de_DE'
+</I>&gt;&gt;&gt;&gt;<i> string.lowercase
+</I>&gt;<i> 'abcdefghijklmnopqrstuvwxyz\xb5\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8
+</I>&gt;<i> \xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf8\xf9\xfa\xfb
+</I>&gt;<i> \xfc\xfd\xfe\xff'
+</I>&gt;<i>
+</I>&gt;<i> python 2.5.1 ymmv
+</I>&gt;<i> jde to nahradit dalsi prasarnou
+</I>&gt;<i>
+</I>&gt;<i> import sys
+</I>&gt;<i> uppercase = u''.join(unichr(i) for i in range(sys.maxunicode)
+</I>&gt;<i>   if unichr(i).isupper())
+</I>&gt;<i> lowercase = u''.join(unichr(i) for i in range(sys.maxunicode)
+</I>&gt;<i>   if unichr(i).islower() )
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007056.html">[python] [:lower:] apod.?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007058.html">[python] [:lower:] apod.?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#7057">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#7057">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#7057">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#7057">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/007057.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:52 GMT -->
+</html>

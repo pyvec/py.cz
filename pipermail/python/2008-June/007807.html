@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007807.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:02 GMT -->
+<HEAD>
+   <TITLE> [python] Ziskani vystupu ze spousteneho programu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Ziskani%20vystupu%20ze%20spousteneho%20programu&In-Reply-To=200806221633.27969%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007806.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007811.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Ziskani vystupu ze spousteneho programu</H1>
+    <B>Michal Vyskocil</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Ziskani%20vystupu%20ze%20spousteneho%20programu&In-Reply-To=200806221633.27969%40centrum.cz"
+       TITLE="[python] Ziskani vystupu ze spousteneho programu">michal.vyskocil na gmail.com
+       </A><BR>
+    <I>Neděle Červen 22 19:19:14 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007806.html">[python] Ziskani vystupu ze spousteneho programu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007811.html">[python] Ziskani vystupu ze spousteneho programu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7807">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7807">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7807">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7807">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Doporucenou cestou je modul subprocess
+
+from subprocess import *
+
+pipe = Popen('ls -lh', shell=True, stdout=PIPE).stdout
+type(pipe)
+&lt;type 'file'&gt;
+for line in pipe: print line
+...
+total 56K
+
+drwx------  7 misak users 4,0K 2008-06-18 08:23 Desktop
+
+drwxr-xr-x 11 misak users 4,0K 2008-05-18 20:45 Documents
+
+...
+
+Dne Sunday 22 of June 2008 16:33:29 302302 napsal(a):
+&gt;<i> Zdravím,
+</I>&gt;<i> potřeboval bych spouštět pythonovský program z pythonu a hlavně spouštěnému
+</I>&gt;<i> programu předat parametry a naopak po jeho skončení číst výsledek. Našel
+</I>&gt;<i> jsem funkci os.execvp(), takže dokážu spustit program s danými parametry,
+</I>&gt;<i> ale nevím jak získat výsledek zpátky do prvního programu.
+</I>&gt;<i>
+</I>&gt;<i> tedy potřebuji něco jako
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i> program1.py
+</I>&gt;<i> ...
+</I>&gt;<i> os.execvp('python', [program2.py, param])  #spustit program
+</I>&gt;<i> print vysledek                             #pouzit vysledek ze spusteneho
+</I>&gt;<i> programu ...
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> program2.py:
+</I>&gt;<i> ...
+</I>&gt;<i> algoritmus()
+</I>&gt;<i> vysledek=5                    #ziskam vysledek, ktery chci pouzit v
+</I>&gt;<i> program1.py ...
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> nenašel jsem zatím žádné řešení, budu vděčný za každou pomoc.
+</I>&gt;<i> Díky Czenek
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+
+-- 
+best regards
+Michal Vyskocil
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007806.html">[python] Ziskani vystupu ze spousteneho programu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007811.html">[python] Ziskani vystupu ze spousteneho programu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7807">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7807">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7807">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7807">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007807.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:02 GMT -->
+</html>

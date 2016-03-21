@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010430.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:51 GMT -->
+<HEAD>
+   <TITLE> [python] hash objektu, kontrola aktuálnosti dat v databázi
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3Fhash_objektu%3D2C_kontrola_aktu%3DC3%3DA1lnosti_dat_%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fv_datab%3DC3%3DA1zi%3F%3D&In-Reply-To=%3CBANLkTi%3DEZfjLkq7n6ScW-nj%2BdEGU3UWZhw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010429.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010431.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] hash objektu, kontrola aktuálnosti dat v databázi</H1>
+    <B>Jakub Zíka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3Fhash_objektu%3D2C_kontrola_aktu%3DC3%3DA1lnosti_dat_%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fv_datab%3DC3%3DA1zi%3F%3D&In-Reply-To=%3CBANLkTi%3DEZfjLkq7n6ScW-nj%2BdEGU3UWZhw%40mail.gmail.com%3E"
+       TITLE="[python] hash objektu, kontrola aktuálnosti dat v databázi">jakub.zika.21 na gmail.com
+       </A><BR>
+    <I>Neděle Červen 19 13:59:33 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010429.html">[python] hash objektu, kontrola aktuálnosti dat v databázi
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010431.html">[python] hash objektu, kontrola aktuálnosti dat v databázi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10430">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10430">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10430">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10430">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Naopak, muze se stat, ze se neupdatuje neco, co by se updatovat melo,
+pokud budou mit dvoje ruzna data stejny hash. Tomu se kryptograficke
+hashe snazi predejit, ale neni to cilem jednoduchych hashovacich
+funkci. Obecne se doporucuje po kontrole hashe jeste zkontrolovat,
+jestli jsou data opravdu stejna - porovnani hashe nam tedy rekne bud
+to, ze retezece urcite nejsou stejne (potom usetrime), nebo to, ze
+retezce mozna jsou stejne, ale jeste je treba je zkontrolovat.
+
+Myslim si, ze v diskutovanem pripade se pouziti hashu nehodi -
+vzhledem k tomu, ze je k vytvoreni hashe treba vzdy projit vsechna
+data, bylo by pravdepodobneji vyhodnejsi porovnavat stara a nova data
+primo bez vytvareni hashu.
+
+k21
+
+2011/6/19 azurIt &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>&gt;:
+&gt;<i>
+</I>&gt;<i> Myslim, ze na dane ucely je uplne jedno, aku hashovaciu funkciu pouzije. Skor by som odporucal co najjednoduchsiu (tzn. najnenarocnejsiu), ved prinajhorsom sa stane, ze sa updatuje nieco, co sa updatovat nemuselo.
+</I>&gt;<i>
+</I>&gt;<i> azur
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ______________________________________________________________
+</I>&gt;&gt;<i> Od: &quot;Jirka Vejrazka&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jirka.vejrazka na gmail.com</A>&gt;
+</I>&gt;&gt;<i> Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;<i> Dátum: 19.06.2011 12:11
+</I>&gt;&gt;<i> Predmet: Re: [python]hash objektu, kontrola aktuálnosti dat v databázi
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Ahoj,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  interni funkce hash() moc vhodna neni, mrkni se na funkce sha1()
+</I>&gt;&gt;<i>nebo md5() z modulu hashlib.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  Jirka
+</I>&gt;&gt;<i>_______________________________________________
+</I>&gt;&gt;<i>Python mailing list
+</I>&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010429.html">[python] hash objektu, kontrola aktuálnosti dat v databázi
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010431.html">[python] hash objektu, kontrola aktuálnosti dat v databázi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10430">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10430">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10430">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10430">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010430.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:51 GMT -->
+</html>

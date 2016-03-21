@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005370.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:52 GMT -->
+<HEAD>
+   <TITLE> [python] nazev metody
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20nazev%20metody&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005369.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005371.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] nazev metody</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20nazev%20metody&In-Reply-To="
+       TITLE="[python] nazev metody">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Leden 11 13:41:12 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005369.html">[python] nazev metody
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005371.html">[python] nazev metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5370">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5370">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5370">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5370">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Radek Kanovsky
+&gt;<i> mtip wrote:
+</I>&gt;<i> &gt; potreboval bych zjistit nazev metody uvnitr tridy.
+</I>&gt;<i> &gt; [...]
+</I>&gt;<i>     import sys
+</I>&gt;<i>     class a:
+</I>&gt;<i>         def aa(self):
+</I>&gt;<i>             print &quot;ja jsem metoda:&quot;, sys._getframe(0).f_code.co_name
+</I>&gt;<i> 
+</I>&gt;<i>         bb = aa
+</I>&gt;<i>     x=a()
+</I>&gt;<i>     x.aa()
+</I>&gt;<i>     x.bb()
+</I>&gt;<i> 
+</I>&gt;<i> Neni to ale stoprocentne spolehlive, jak lze videt pri volani x.bb().
+</I>
+Aha, frame lze získat i takhle,... Paráda. 
+Takže navrhuji kombinaci:
+
+import sys
+
+def MojeJmeno():
+    '''Vraci jmeno volajiciho.'''
+    return sys._getframe(1).f_code.co_name
+
+class a:
+    def aa(self):
+        print 'Jsem metoda', MojeJmeno()
+
+x = a()
+x.aa()
+
+S tím x.bb() je to asi pochopitelné a nic se s tím nedá dělat.
+Stejně tak bych mohl definovat:
+
+bb = x.aa
+bb()
+
+a taky to ukáže, že se volá metoda aa. Ta informace je tam
+uložená z doby kompilace. bb je reference na objekt metody
+a ta patří k třídě. Nesmí záležet na tom, jakým způsobem 
+se k němu dostanu.
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005369.html">[python] nazev metody
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005371.html">[python] nazev metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5370">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5370">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5370">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5370">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005370.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:52 GMT -->
+</html>

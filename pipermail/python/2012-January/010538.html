@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010538.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:43 GMT -->
+<HEAD>
+   <TITLE> [python] PYTHONPATH
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3C1556502.DIROFtOFAa%40xenon%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-January/010537.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-January/010539.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PYTHONPATH</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3C1556502.DIROFtOFAa%40xenon%3E"
+       TITLE="[python] PYTHONPATH">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Pátek Leden 13 19:57:45 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010537.html">[python] PYTHONPATH
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010539.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10538">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10538">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10538">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10538">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Co je alepro mě nepochopitelné, proč programy spouštěné z crontabu s
+</I>&gt;<i> uživatelem root havarují, že nenašly cestu k &quot;mojemoduly&quot;.
+</I>&gt;<i> 
+</I>&gt;<i> Viz řádek z crontabu: * * * * *    root    program.py
+</I>&gt;<i> kde program.py má import modulu z &quot;mojemoduly&quot;
+</I>S cronem je ten problém, že je to systémový démon a podědí od initu jen to 
+nejmenší nastavení prostředí.  Procesy z něj spouštěné tedy neuvidí ani čárku 
+ze systémového ani uživatelského profilu (/etc/profile a $HOME/.profile plus 
+bashizmy). Nejsem si jistý jestli se provede .bashrc (záleží jestli cron 
+spouští podprocesy voláním system nebo exec* ale to z hlavy nevím).
+Jediná jistota je všechno si nastavit ručně v crontabu. PATH, PYTHONPATH a 
+LC_ALL nastavuji běžně:
+
+PYTHONPATH=/usr/local/share/mojemaximegapajtniknihovna/
+* * * * *    root    program.py
+
+ 
+&gt;<i> Vaší radě na přidání řádku do ~/.bashrc nerozumím. Co je to normální
+</I>&gt;<i> uživatel, když jsem přihlášený jako root a jako root jsou programy i
+</I>&gt;<i> spouštěné.
+</I>Tak je normální uživatel root :-) Matěj asi chtěl říci, že root to může 
+připsat i do systémových konfiguráků v /etc a pak to platí pro každého 
+uživatele automaticky. I root má ale vlastní .profile a .bashrc ve svém 
+domovském adresáři.
+
+BTW slovo varování: neboj se vlka nic a klidně si s tím hraj, jen na jednu věc 
+si dej pozor - z bashrc nikdy nic nevypisuj na výstup. Spouští se totiž i z 
+různých neinteraktivních sezení které s tím mohou mít problém. Třeba ssh panel 
+v  midnightu to velmi nemá rád a taková chyba se pak blbě hledá.
+S profilem problém není.
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010537.html">[python] PYTHONPATH
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010539.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10538">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10538">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10538">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10538">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010538.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:43 GMT -->
+</html>

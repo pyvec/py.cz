@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008056.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:40 GMT -->
+<HEAD>
+   <TITLE> [python] Tipy na návrh třídy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Tipy%20na%20n%E1vrh%20t%F8%EDdy&In-Reply-To=48917FE3.9010701%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/008061.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/008058.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Tipy na návrh třídy</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Tipy%20na%20n%E1vrh%20t%F8%EDdy&In-Reply-To=48917FE3.9010701%40centrum.cz"
+       TITLE="[python] Tipy na návrh třídy">devel na atlas.sk
+       </A><BR>
+    <I>Čtvrtek Červenec 31 17:01:17 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008061.html">[python] Tipy na návrh třídy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008058.html">[python] Tipy na návrh třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8056">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8056">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8056">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8056">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+osobne na taketo veci vyuzivam dekoratory. Napr. v tomto pripade by som 
+spravil nieco taketo:
+
+def command(name):
+     def tmp(fnc):
+         fnc.name = name
+         return fnc
+     return tmp
+
+Hodnota name je potom pristupna ako atribut metody.
+
+superman wrote:
+&gt;<i> Dobrý den,
+</I>&gt;<i> 
+</I>&gt;<i> přímo se nabízí každé třídě vyhradit speciální metodu, například 
+</I>&gt;<i> getCommandText, která vrátí text, na který se reaguje. Případně to může 
+</I>&gt;<i> být i property CommandText.
+</I>&gt;<i> 
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i> 
+</I>&gt;<i> Martin Stiborský napsal(a):
+</I>&gt;&gt;<i> Zdravím, opět bych vás rád poprosil o vaše rady a zkušenosti.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jde o to, že bych rád elegantně vyřešil jednu část mého programu. Píšu
+</I>&gt;&gt;<i> si jabber bota, který bude bydlet na mém routeru a hlídat některé
+</I>&gt;&gt;<i> věci, torrenty, datové přenosy, připojené uživatele, pro srandu jsem
+</I>&gt;&gt;<i> ho naučil i típnout aktuální dění kolem routeru z připojené kamerky,
+</I>&gt;&gt;<i> prostě taková hračka ..
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Problém je, že příkazů na které bot reaguje se už nahromadila celkem
+</I>&gt;&gt;<i> hromada. Ve slovníku si udržuji jako klíč slovo, nebo slova na které
+</I>&gt;&gt;<i> bot zareaguje a jako hodnota je odkaz na příslušnou  metodu. Pokaždé
+</I>&gt;&gt;<i> když chci novou funkci bota, musím napsat metodu a přidat ji do
+</I>&gt;&gt;<i> slovníku + text na který bot reaguje. Toto bych chtěl automatizovat.
+</I>&gt;&gt;<i> Jenže hned první věc je, že nevím kam nacpat string který vyvolá
+</I>&gt;&gt;<i> funkci, zkusil jsem do šoupnout do __doc__ metody, při inicializaci
+</I>&gt;&gt;<i> třídy se projde jmenný prostor, vypreparuje se všechno co je metoda
+</I>&gt;&gt;<i> přes ismethod() z modulu inspect, koukne se na __doc__ metody a
+</I>&gt;&gt;<i> vytvoří slovník naplněný daty. To by snad i šlo, ale nelíbí se mi to
+</I>&gt;&gt;<i> ..
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Za vaše rady a tipy bych byl velmi vděčný ...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+
+-- 
+
+____________________________
+Ing. Jan Janech
+Katedra softverovych technologii
+Fakulta riadenia a informatiky
+Zilinska Univerzita
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008061.html">[python] Tipy na návrh třídy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008058.html">[python] Tipy na návrh třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8056">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8056">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8056">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8056">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008056.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:40 GMT -->
+</html>

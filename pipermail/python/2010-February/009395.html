@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009395.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:04 GMT -->
+<HEAD>
+   <TITLE> [python] Deferred output
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Deferred%20output&In-Reply-To=%3C201002111540.24853.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-February/009394.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-February/009398.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Deferred output</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Deferred%20output&In-Reply-To=%3C201002111540.24853.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] Deferred output">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Čtvrtek Únor 11 15:40:24 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009394.html">[python] Deferred output
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009398.html">[python] Deferred output
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9395">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9395">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9395">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9395">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+matesfila (čtvrtek 11 Únor 2010 14:47:31):
+&gt;<i> Funkcia f, ktorá využíva premennú x, môže byť definovaná ešte predtým, ako
+</I>Zapomen na definovani a zjistis ze to tak slozite neni. U podobne 
+komplikovanych konstrukci muze byt obtizne domyslet dusledky, ale vsechno to 
+vyplyva z jednoduchych pravidel. Nejsou zadne deklarace - krome hrube kontroly 
+syntaxe se vsechno provadi v jedine sekvenci (proto v pythonu nejsou zadna 
+makra). Kdyz program dojde ke konstrukci def, class nebo =, strci vysledek do 
+patricneho jmenneho prostoru. To je cele, jediny co je na tom slozity je 
+zbavit se memu 'deklarace' a s tim spojene predstavy kompileru ktery predem 
+'zna' strukturu programu. Viz nasledujici primitivni uzavera:
+def foo():
+    def bar():
+        pass
+    return bar
+
+Ve staticky kompilovanem jazyku je bar() jedina metoda ve vlastnim oboru 
+platnosti. V pythonu neni zadna funkce bar() dokud nezavolam foo(), a pak si 
+ji musim predat pomoci return ven ze jmenneho prostoru foo() pokud ji chci 
+videt i jinde.
+A naopak, kdyz foo() zavolam dvakrat tak interpret dvakrat narazi na 
+konstrukci &quot;def bar():&#8230;&quot; a vytvori dve ruzne (!) funkce
+a = foo()
+b = foo()
+a is b	# False
+
+
+&gt;<i> Pre aké jazyky je vlastné takéto chovanie typické? Súvisí to s
+</I>&gt;<i> beztypovosťou jazyka, alebo s tým, že je jazyk skriptovací, alebo s čím
+</I>&gt;<i> vlastne?
+</I>afaik se tomu rika pozdni vazba (late binding) a je to celkem bezna vlastnost 
+skriptovacich jazyku (krome Javy ktera si hraje na kompilaci)
+U kompilovanych jazyku se to moc nevyskytuje, protoze kdyz kompiler nevi typ 
+toho co kompiluje, tak toho moc nenakompiluje :-) ale neni to podminka - treba 
+virtualni metody v C++ jsou castecne pozdni vazba (za cenu toho ze nejsou tak 
+uplne staticky kompilovane).
+
+uff to jsem se rozpesul, holt javisticky predsudky je potreba potirat :-)
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009394.html">[python] Deferred output
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009398.html">[python] Deferred output
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9395">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9395">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9395">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9395">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009395.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:04 GMT -->
+</html>

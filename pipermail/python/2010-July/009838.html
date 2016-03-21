@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009838.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:26 GMT -->
+<HEAD>
+   <TITLE> [python] Použití Entry (TkInter widget) místo raw_inputu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPou%3DBEit%3DED_Entry_%3D28TkInter_widget%3D29_m%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DEDsto_raw%3D5Finputu%3F%3D&In-Reply-To=%3Cce99cb7c-0622-4028-a7c4-136e954d1185%40z8g2000yqz.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009837.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009843.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Použití Entry (TkInter widget) místo raw_inputu</H1>
+    <B>petrofF</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPou%3DBEit%3DED_Entry_%3D28TkInter_widget%3D29_m%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DEDsto_raw%3D5Finputu%3F%3D&In-Reply-To=%3Cce99cb7c-0622-4028-a7c4-136e954d1185%40z8g2000yqz.googlegroups.com%3E"
+       TITLE="[python] Použití Entry (TkInter widget) místo raw_inputu">petr0ff na seznam.cz
+       </A><BR>
+    <I>Sobota Červenec  3 07:51:31 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009837.html">[python] Dekorovana funkce
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009843.html">[python] Použití Entry (TkInter widget) místo raw_inputu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9838">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9838">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9838">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9838">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Potřebuji v cyklu zpracovat seznam:
+
+-konzolovému řešení odpovídá zhruba kód:
+(rozdělení dlouhé SMSky:  &quot;part_No.1&quot; + &quot;part_No.2&quot; + &quot;part_No.3....)
+msgList  = [&quot;part_No.1&quot;, &quot;part_No.2&quot;, &quot;part_No.3&quot;, ...atd...]
+
+def send():
+    for msg in msgList:           # &lt;&lt;&lt; CYKL
+        processMSG(msg)
+
+def processMSG(message):
+    while 1:
+        urlForm.load()                                  #
+httplib2.Http().request =&gt;sync.
+        showImage(urlForm.pictogramURL)   #
+urllib.urlretrieve(URL,&quot;file&quot;) =&gt;sync.
+        kod = raw_input(&quot;Opsat kod&quot;)
+        resp = urlForm.send(message,kod)   # httplib2.Http().request
+=&gt;sync.
+        if urlForm.responseOK(resp):
+               break
+
+-v TkInteru (callbacky):
+Spuštění dávky (Button/command): self.send()
+Zadání kontrolního kódu (Entry/bind keyevent=Enter): self.getCode()
+
+class App(Tk):
+    def __init__(self, master)
+        Tk.__init__(self, master)
+        ...
+        Button(self.fSTAT,text=&quot;Odeslat
+zprávu&quot;,command=self.send).pack()
+        ...
+        entry=Entry(frame2,  width=10)
+        entry.pack(side=LEFT)
+        entry.bind('&lt;Return&gt;', self.getCode)
+        ...
+    #CYKL S self.processMSG(msg)
+    def send(self):                              ??????
+    def processMSG(self,message):    ??????
+
+    def getCode(self,event):
+        entry = event.widget
+        self.kod = entry.get() # uložení kódu
+        ?????
+
+Pro stručnost jsem vynechal ošetření chyb (při http connection errors)
+Úvahy: iterator/generator? threads?
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009837.html">[python] Dekorovana funkce
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009843.html">[python] Použití Entry (TkInter widget) místo raw_inputu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9838">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9838">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9838">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9838">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009838.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:26 GMT -->
+</html>

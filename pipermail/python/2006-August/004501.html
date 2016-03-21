@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004501.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:20 GMT -->
+<HEAD>
+   <TITLE> [python] najdi, nahrad, uloz v ascii subore
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20najdi%2C%20nahrad%2C%20uloz%20v%20ascii%20subore&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004500.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004503.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] najdi, nahrad, uloz v ascii subore</H1>
+    <B>peter</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20najdi%2C%20nahrad%2C%20uloz%20v%20ascii%20subore&In-Reply-To="
+       TITLE="[python] najdi, nahrad, uloz v ascii subore">borique na gmail.com
+       </A><BR>
+    <I>Středa Srpen 23 14:23:53 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004500.html">[python] hugo up and running
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004503.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4501">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4501">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4501">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4501">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+potreboval by som poradit.
+
+Priklad (jeden blok v subore):
+$------------------------
+NAME='ALFA'
+CODE='x'
+$------------------------
+
+Takychto blokov je v subore vela s roznymi menami a kodmi. Potrebujem
+naprogramovat skript ktory prehlada cely subor a najde vyrazy s menami
+ALFA a podla toho co za kazdou ALFOU bude nasledovat (napr. x,y,z)
+zmeni meno ALFA na BETAx,BETAy, BETAz a zemeneny subor ulozi.
+
+Dostal som sa k tomu ze najdem vsetky vyrazy ktore potrebujem, podla
+kodu zmenim meno na BETAx,y alebo z ale uz neviem ako zapisat nove
+nazvy na rovnake miesto ako bola dana ALFA. Vzdy mi to zapise na koniec
+suboru. Tu je moj kod.
+Dakujem vopred za akukolvek pomoc.
+
+Moj kod:
+
+ import shutil
+
+NamFile=&quot;test2.nam&quot;
+BackupNamFile = 1
+if BackupNamFile == 1:
+     shutil.copyfile(NamFile,NamFile.replace(&quot;.nam&quot;,&quot;.nam.bak&quot;))
+LineNum=1
+LineNumQuantity=0
+ArrayCount=0
+LineNumArray=[]
+ReqArray=[]
+ReqName=&quot;&quot;
+NamFileOpen=file(NamFile,&quot;r+&quot;)
+for line in NamFileOpen:
+     LineTextFound1 = line.find(&quot;bk&quot;)
+     LineTextFound2 = line.find(&quot;_results&quot;)
+     if LineTextFound1 != -1 and LineTextFound2 != -1:
+          ReqName=line.split(&quot;'&quot;)[1]
+          print &quot;Line: \t\t\t&quot;+ str(LineNum)
+          print &quot;Request Name: \t\t&quot;+ ReqName
+          LineNumQuantity = LineNum + 2
+          ReqArray=[LineNum-2,ReqName]
+     if LineNum == LineNumQuantity:
+          QuantityName=line.split(&quot;'&quot;)[1]
+          print &quot;Quantity Type: \t\t&quot;+QuantityName
+          if QuantityName == &quot;dx&quot;:
+               Suffix = &quot;_disp&quot;
+          elif QuantityName == &quot;vx&quot;:
+              Suffix = &quot;_velo&quot;
+          elif QuantityName == &quot;fx&quot;:
+               Suffix = &quot;_force&quot;
+          else:
+               Suffix = &quot;_results&quot;
+          print &quot;Suffix: \t\t&quot;+Suffix
+          NewReqName=ReqName.replace(&quot;_results&quot;,Suffix,1)
+          ReqArray.append(NewReqName)
+          LineNumArray.insert(ArrayCount,ReqArray)
+          ArrayCount+=1
+          print &quot;New Request Name: \t&quot;+NewReqName
+          print &quot;-----------------------&quot;
+     LineNum = LineNum+1
+print LineNumArray
+print len(LineNumArray)
+NamFileOpen.close()
+
+NamFileOpen2=file(NamFile,&quot;r+&quot;)
+LineNum=1
+for i in LineNumArray:
+     print i
+     for line in NamFileOpen2:
+          print line
+          print LineNum
+          print i[1]
+          if i[0]== LineNum:
+               print i[0]
+               print LineNum
+               print line
+               Temp=line.replace(line.split(&quot;'&quot;)[1],i[2],1)
+               print Temp
+               NamFileOpen2.write(Temp)
+          LineNum=LineNum+1
+NamFileOpen2.close()
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004500.html">[python] hugo up and running
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004503.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4501">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4501">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4501">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4501">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004501.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:20 GMT -->
+</html>

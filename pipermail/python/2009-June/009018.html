@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009018.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:31 GMT -->
+<HEAD>
+   <TITLE> [python] PIL: open BMP s RLE kompresí
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPIL%3D3A_open_BMP_s_RLE_kompres%3DED%3F%3D&In-Reply-To=%3Cfcba3d560906110238vf73273brb46be09a45a17d12%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-June/009017.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-June/009019.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PIL: open BMP s RLE kompresí</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPIL%3D3A_open_BMP_s_RLE_kompres%3DED%3F%3D&In-Reply-To=%3Cfcba3d560906110238vf73273brb46be09a45a17d12%40mail.gmail.com%3E"
+       TITLE="[python] PIL: open BMP s RLE kompresí">rainbof na gmail.com
+       </A><BR>
+    <I>Čtvrtek Červen 11 11:38:07 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009017.html">[python] PIL: open BMP s RLE kompresí
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009019.html">[python] PIL: open BMP s RLE kompresí
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9018">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9018">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9018">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9018">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2009/6/11 zu1234 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zu1234 na seznam.cz</A>&gt;
+
+&gt;<i>
+</I>&gt;<i> Ondrej Beranek napsal(a):
+</I>&gt;<i>
+</I>&gt;&gt;<i> no to fakt nevim co tim mysli.
+</I>&gt;&gt;<i> kraasnej popis RLE komprese je tady:
+</I>&gt;&gt;<i> <A HREF="http://int21h.ic.cz/?id=2">http://int21h.ic.cz/?id=2</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Tu RLE dekompresi bych asi musel implementovat do PIL - image open.
+</I>&gt;<i> To je mimo mé možnosti.
+</I>&gt;<i>
+</I>&gt;<i> Chtěl jsem jen pochopit tu poznámku o &quot;bmp_rle&quot;
+</I>&gt;<i> Musím to nějak obejít
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> zrejme to 1 bude znamenat ze prostor dat je 8bit (16ti barevne obrazky kde
+</I>&gt;&gt;<i> ve skutecnosti 1 byte obsahuje barvy dve)
+</I>&gt;&gt;<i> L bude 16bit a P bude 32bit.
+</I>&gt;&gt;<i>
+</I>&gt;<i> To je hloubka barev, to je něco jiného.
+</I>&gt;<i>
+</I>mozna ze mne promluvi moje dosacke alter ego (dost mi tohle pripomelo dobu
+kdy jsem mel naslapanou 386ku dx a psal v pascalu)
+ale asi jde o to ze rle komprese je komprese v datech obrazku. tedy jde o
+zpusob interpretace obrazku samotneho. Rle funguje ve zkratce tak ze misto
+popisu 30 bilych pixelu za sebou reknes 30x bilej pixel. takze se bude
+jednat vlastne o metodu cteni dat ktera je jina u kazdeho z 4, 8, 16, 32
+bit. tak jsem to myslel.
+
+
+&gt;<i> Děkuji
+</I>&gt;<i> ZU
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> mozna
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2009/6/11 zu1234 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zu1234 na seznam.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">zu1234 na seznam.cz</A>&gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Nechápu následující:
+</I>&gt;&gt;<i>    PIL reads and writes Windows and OS/2 BMP files containing &quot;1&quot;, &quot;L&quot;,
+</I>&gt;&gt;<i>    &quot;P&quot;, or &quot;RGB&quot; data.
+</I>&gt;&gt;<i>    16-colour images are read as &quot;P&quot; images. Run-length encoding is not
+</I>&gt;&gt;<i>    supported.
+</I>&gt;&gt;<i>    The open method sets the following info properties:
+</I>&gt;&gt;<i>    compression. Set to &quot;bmp_rle&quot; if the file is run-length encoded.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Lze (a jak?), nebo nelze otevřít BMP soubor s RLE kompresí?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Když jsem použil:
+</I>&gt;&gt;<i>    im_obr = Image.open(FI_OBR_IN, compression=&quot;bmp_rle&quot;).convert('RGB')
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Tak jsem dostal jsem chybu:
+</I>&gt;&gt;<i>    TypeError: open() got an unexpected keyword argument 'compression'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Nebo to lze dekomprimovat předem a jinak?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    ZU
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090611/fe4e3321/attachment.htm">http://www.py.cz/pipermail/python/attachments/20090611/fe4e3321/attachment.htm</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009017.html">[python] PIL: open BMP s RLE kompresí
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009019.html">[python] PIL: open BMP s RLE kompresí
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9018">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9018">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9018">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9018">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009018.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:31 GMT -->
+</html>

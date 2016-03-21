@@ -1,0 +1,318 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-March/004159.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:44 GMT -->
+<HEAD>
+   <TITLE> [python] Prepis videa -- druha cast (bylo Guido video)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Prepis%20videa%20--%20druha%20cast%20%28bylo%20Guido%20video%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-March/004160.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-March/004161.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Prepis videa -- druha cast (bylo Guido video)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Prepis%20videa%20--%20druha%20cast%20%28bylo%20Guido%20video%29&In-Reply-To="
+       TITLE="[python] Prepis videa -- druha cast (bylo Guido video)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Březen 10 14:09:48 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004160.html">[python] Prepis videa -- druha cast (bylo Guido video)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004161.html">[python] pyserial
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-March/date.html#4159">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/thread.html#4159">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/subject.html#4159">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/author.html#4159">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>...narychlo druhá část (tady už to dělám trochu pečlivěji,
+než první část). Základní informace jsem slepil z obsahu
+prezentovaných slajdů. Zkoušel jsem to opsat přesně, ale
+slajdy přes video nejsou nejlépe čitelné, takže tam můžou
+být chyby například v číslech PEP. Do hranatých závorek
+dávám vlastní poznámky.
+
+Zdroj (10.3.2006): &quot;Google New York's Technical Speaker Series.&quot;
+
+Guido van Rossum přednáší v prostorách firmy Google ve
+středu 22. února 2006.
+
+<A HREF="http://video.google.com/videoplay?docid=60331183357868340">http://video.google.com/videoplay?docid=60331183357868340</A>
+
+
+Python 2.5
+==========
+- alfa verze v květnu, release v září
+  * alfa 1: 6. května 2006
+  * alfa 2: 3. června 2006
+  * alfa 3: 1. července 2006
+  * beta 1: 29. července 2006
+  * beta 2: 26. srpna 2006
+  * rc 1:   16. září 2006
+  * finální verze: 30. září 2006
+  Může se to dokonce ještě urychlit.
+
+- větev 2.4 taky není zatím mrtvá
+  * 2.4.3 bude uvolněna před 2.5a1
+  * 2.4.4 zhruba jako finální 2.5
+
+Co tam bude nového
+==================
+- Jazyk
+  * absolutní/relativní import (PEP 328)
+  * podmíněné výrazy (*PEP 308)
+  * try/except/finally znovu spojenci (PEP 341)
+  * výrazy s yield a vylepšení generátorů (PEP 342)
+  * příkaz with (*PEP 343)
+  * revidované výjimky (*PEP 352)
+  * __index__ (*PEP 357)
+
+- Implementace
+  * AST překladač [Abstract Syntax Tree]
+  * velikost objektů bude vyjádřena typem ssize_t
+    místo int (PEP 353)
+  * vylepšení volby -m (*PEP 338)
+
+(*) [nečitelná poznámka]
+
+- Knihovna
+  * any()/all()
+  * ElementTree
+  * a další
+
+
+Absolutní/relativní import
+==========================
+    
+Někdy nastanou situace, kdy jméno interního modulu (uvnitř
+balíčku, tedy podadresáře) koliduje s jménem standardního
+modulu. Podle pravidel se nejdříve hledá interní modul, což
+ale brání možnosti použití standardního modulu.
+
+Řešení spočívá v oddělení syntaxe pro absolutní a relativní
+import. Nová syntaxe vede k zpětné nekompatibilitě, takže se
+bude povolovat explicitně přes __future__. Příklady:
+
+ import foo            # hledá se JEN v sys.path
+ from . import foo     # hledá se JEN v aktuálním balíku
+ from .. import foo    # hledá se v rodičovském balíku
+ from .bar import foo  # hledá se v balíku bar
+ from ..bar import foo # hledá se v sourozenci balíku bar [tomu moc nerozumím]
+
+ atd. Povolen je libovolný počet úvodních teček.
+
+
+Podmíněné výrazy
+================
+- Debatovalo se o tom před pár lety. Problematika znovu
+  otevřena. Používání obratu &quot;PODMÍNKA and VÝRAZ1 or VÝRAZ2&quot;
+  vede k chybám při VÝRAZ1 vyhodnocený jako False.
+- GvR navrhuje &quot;VÝRAZ1 if PODMÍNKA else VÝRAZ2&quot;
+- Odmítnuta celá řada alternativ. (C styl je považován za
+  příliš kryptický, přidávání dalších klíčových slov se také
+  nezvažuje.)
+- Doporučuje se používat zřídka. Používání klasické
+  konstrukce if/else je často lepší. 
+
+try/except/finally znovu spojenci
+=================================
+
+Momentálně nelze používat finally a except dohromady. GvR
+měl kdysi potíže s implementací a současné použití se mu
+jevilo v některých případech nejednoznačné. Java ukázala, že
+tam žádná nejednoznačnost není.
+
+Kdysi dříve Python konstrukci
+
+  try:
+      BLOK1
+  except:
+      BLOK2
+  finally:
+      BLOK3
+
+... umožňoval, ale tato možnost byla u novějších verzí
+odstraněna. Po revizi bude tento syntaktický zápis znovu
+povolen.
+
+
+Vylepšení generátorů
+====================
+
+Inspirace případy použití generátorů pro vstup/výstupní
+operace. Inspirace jazykem Ruby.
+
+- yield může být použit jako výraz
+- yield bez argumentu je totéž jako &quot;yield None&quot;
+- g.send(hodnota) zašle generátoru hodnotu
+- g.throw(výjimka) vyvolá výjimku [v kontextu použití yield]
+- g.close() vyvolá GeneratorExit (a odchytí si ji)
+- když se generátor dostane do pařátů garbage collectoru, 
+  provede se close()
+- yield [zatím] nelze použít uvnitř try/finally
+
+
+with
+====
+
+Netriviální záležitost, trocha magie; with jako blok,
+správce kontextu (@contextmanager), zpracování výjimek.
+
+Mutex jako inspirace i jako první kandidát pro využití with.
+
+
+Revidované výjimky
+==================
+
+- Standardní výjimky se stanou třídami nového typu.
+- Nová kořenová třída: BaseException
+  * Stane se bázovou třídou pro KeyboardInterrupt a SystemExit.
+    (Existují dobré důvody, proč tyto dvě výjimky nemají mít
+    bázovou třídu Exception, ale právě BaseException.)
+  * Stane se bázobou třídou také pro Exception a vše pod
+    touto třídou.
+- Ve verzích po 2.5
+  * budou zakázány výjimky používající řetězce
+  * všechny výjimky musí dědit z BaseException
+  * Možná bude odstraněna holá forma příkazu &quot;except:&quot;
+  * Cíle bude možné dosáhnout až během několika meziverzí.
+
+__index__
+=========
+
+Nový protokol: &quot;Pokud objekt reprezentuje index v
+nestandardní reprezentaci, pak __index__() převádí tuto
+nestandardní reprezentaci na standardní integer&quot;. Motivace
+pochází s oblasti numerických výpočtů.
+
+
+Překladač založený na abstraktních syntaktických stromech
+=========================================================
+
+Týká se vlastností implementace, nikoliv vlastností jazyka. 
+
+Téměř se ho podařilo vypustit už v souvislosti s 2.4, ale
+nebyl doladěný a blížil se naplánovaný termín vypuštění
+verze. 
+
+* Co to je?
+  - zcela nový překladač bajtkódu
+  - používá ABSTRAKTNÍ syntaktické stromy místo KONKRÉTNÍCH
+  
+* Proč?  
+  - nový překladač se snadněji upravuje
+    (užitečnost se již prokázala při úpravách try/except/finally)
+  - ke strukturám AST lze přistupovat i s pythonovského kódu
+    To znamená, že lze přímo prostřednicvím pythonovského
+    kódu experimentovat z modifikacemi bajtkódu, pokusně
+    vytvářet nové varianty jazyka a podobně. 
+    
+    
+ssize_t
+=======
+
+Opět záležitost implementace. ssize_t odpovídá celočíselnému
+znaménkovému typu, který zabírá stejný počet bajtů jako
+ukazatel v jazyce C. To znamená, že například u 64bitového
+kódu reprezentuje větší čísla, než typ long v jazyce C.
+
+
+-m &lt;package&gt;.&lt;module&gt;
+=====================
+
+Přímé spuštění modulu v balíku. Využije se například při
+spouštění regresních testů Pythonu, které jsou součástí jeho
+zdrojových textů.
+
+
+Novinky v knihovně 2.5
+======================
+
+* Nové zabudované funkce: any(), all()
+  * if any(x &gt; 0 for x in S):  ...
+  * if all(P(x) for x in S): ...
+  * Umožňují používat generátorové výrazy
+    - ale pracují s libovolnými iterátory a iterable
+  * Sémantika zkrácených výrazů (jako u and/or operátorů)
+    - Zastaví při prvním nevyhovujícím případu,
+    - ale nevyhovující případ není zpřístupněn, [protože]
+    - vedlo by to k mnoha podivnostem...
+      * all() by muselo vracet True nebo případ, který vede
+        k false.
+        
+* Nové moduly:
+  - funkcional: partial()
+  - hashlib: MD-5, SHA-1, -224, -256, -384, -512
+  - cProfile: lepší profiler, rychlejší, menší režie
+  - [c]ElementTree: lepší XML API 
+    * Fredrik Lundh, třetí strana
+    * ElementTree implementován v Pythonu
+    * cElementTree je rychlejší
+    * from xmlcore.etree import ElementTree
+  
+* Doufejme, že také:
+  - ctypes: volání libovolného C kódu z DLL nebo sdílené
+            knihovny (sharelib)
+  - wstiref [?]: infrastruktura pro standardní web framework
+  - setuptools: snadná správa balíků
+  - bdist_msi, bdist_deb?, bdist_egg???: pro distutils
+  
+(konec)
+
+pepr
+
+Jan Suchý
+&gt;<i> Ahoj, tady je Guido naživo z konference Python in New York 
+</I>&gt;<i> konané 22.2.2006.
+</I>&gt;<i> V prvním videu mluví o vzniku jazyka a cílech návrhu, v 
+</I>&gt;<i> druhém podrobně 
+</I>&gt;<i> o změnách, které budou ve verzi Pythonu 2.5 a 3.0, včetně 
+</I>&gt;<i> předpokládaného data uvedení nové verze 2.5.
+</I>&gt;<i> tak si o užijte :-)
+</I>&gt;<i> 
+</I>&gt;<i> <A HREF="http://video.google.com/videoplay?docid=-7758421725489622662">http://video.google.com/videoplay?docid=-7758421725489622662</A>
+</I>&gt;<i> <A HREF="http://video.google.com/videoplay?docid=60331183357868340">http://video.google.com/videoplay?docid=60331183357868340</A>
+</I>
+Jan Suchý
+&gt;<i> Ahoj, tady je Guido naživo z konference Python in New York 
+</I>&gt;<i> konané 22.2.2006.
+</I>&gt;<i> V prvním videu mluví o vzniku jazyka a cílech návrhu, v 
+</I>&gt;<i> druhém podrobně 
+</I>&gt;<i> o změnách, které budou ve verzi Pythonu 2.5 a 3.0, včetně 
+</I>&gt;<i> předpokládaného data uvedení nové verze 2.5.
+</I>&gt;<i> tak si o užijte :-)
+</I>&gt;<i> 
+</I>&gt;<i> <A HREF="http://video.google.com/videoplay?docid=-7758421725489622662">http://video.google.com/videoplay?docid=-7758421725489622662</A>
+</I>&gt;<i> <A HREF="http://video.google.com/videoplay?docid=60331183357868340">http://video.google.com/videoplay?docid=60331183357868340</A>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004160.html">[python] Prepis videa -- druha cast (bylo Guido video)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004161.html">[python] pyserial
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-March/date.html#4159">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/thread.html#4159">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/subject.html#4159">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/author.html#4159">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-March/004159.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:44 GMT -->
+</html>

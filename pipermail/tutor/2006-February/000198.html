@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000198.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Dalsi problem s Livewires
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Dalsi%20problem%20s%20Livewires&In-Reply-To=440450F6.7040809%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000197.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000199.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Dalsi problem s Livewires</H1>
+    <B>Tomáš Bělonožník</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Dalsi%20problem%20s%20Livewires&In-Reply-To=440450F6.7040809%40post.cz"
+       TITLE="[Tutor PyCZ] Dalsi problem s Livewires">rebelme na gmail.com
+       </A><BR>
+    <I>Úterý Únor 28 15:50:29 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000197.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000199.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#198">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#198">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#198">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#198">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Díky, to mě nenapadlo. Napisu dve posledni dnesni otazky. Program ted
+vypada takto:
+
+import random
+from livewires import *
+begin_graphics()
+allow_moveables()
+def vyrobHrace():
+   xh=random.randint(0, 639)
+   yh=random.randint(0, 479)
+   Hrac_telo = circle(xh, yh, 5, filled=1, colour=Colour.red)
+   return xh, yh, Hrac_telo
+def posunHrace():
+    move_to(Hrac_telo, xh, yh)
+def zmena_XY(xh, yh):
+    if &quot;2&quot; in klavesy:
+        xh = xh + 0
+        yh = yh - 10
+        sleep(0.2)
+        return xh, yh
+xh, yh, Hrac_telo = vyrobHrace()
+
+while 1:
+   klavesy = keys_pressed()
+   xh, yh = zmena_XY(xh, yh)
+   posunHrace()
+   if &quot;q&quot; in klavesy:
+       break
+
+end_graphics()
+
+Přesto nefunguje a při spuštění háže pořád  &quot;TypeError: unpack
+non-sequence&quot; u řádku &quot;xh, yh = zmena_XY(xh, yh)&quot;. Neviděl jsem chybu,
+a tak jsem se snažil program trochu zjednodušit, vysekat z něj
+Livewires a ponechal pouze:
+
+import random
+
+def vyrobHrace():
+   xh=random.randint(0, 639)
+   yh=random.randint(0, 479)
+   return xh, yh
+def zmena_XY(xh, yh):
+        xh = xh + 0
+        yh = yh - 10
+        print xh,yh
+        return xh, yh
+xh, yh = vyrobHrace()
+while 1:
+   xh, yh = zmena_XY(xh, yh)
+   if yh &lt; 1:
+       break
+
+To už kupodivu fungovalo, přitom řádek o který se chybě jednalo zůstal
+stejný. Ovšem není všem strastím konec, zkusil jsem z funkce zmena_XY
+kompletne vyjmout xh, nechal jsem na vsech mistech pouze yh. Program
+se dostal dále, ale stejně hlásí chybu, tentokrát přímo od Livewires -
+&quot;File &quot;E:\Python24\Lib\site-packages\livewires\beginners.py&quot;, line
+880, in move_to
+    except: raise ExBadParameters('incomprehensible coordinates')
+ExBadParameters: incomprehensible coordinates&quot;
+
+Vypadá to, jakoby po manipulaci s yh Livewires odmítl chápat tuto
+proměnnou jako číslo...Díky za případnou pomoc, už se snad chytím, v
+těch předchozích pracovních listech jsem se přitom zaseknul jenom
+jednou, a to navíc jenom na chvíli.
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000197.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000199.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#198">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#198">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#198">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#198">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000198.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

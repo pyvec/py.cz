@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005351.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+<HEAD>
+   <TITLE> [python] vnitřní implementace python listu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fvnit%3DF8n%3DED_implementace_python_listu%3F%3D&In-Reply-To=20070108123452.E045E2D2D9%40charon.hkfree.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005350.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005354.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vnitřní implementace python listu</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fvnit%3DF8n%3DED_implementace_python_listu%3F%3D&In-Reply-To=20070108123452.E045E2D2D9%40charon.hkfree.org"
+       TITLE="[python] vnitřní implementace python listu">feed na centrum.cz
+       </A><BR>
+    <I>Pondělí Leden  8 13:53:02 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005350.html">[python] vnitřní implementace python listu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005354.html">[python] vnitřní implementace python listu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5351">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5351">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5351">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5351">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> OK, asi jsem ovlivněn C++ terminologií z STL. Tam je list struktura, 
+</I>&gt;<i> která umožňuje rychlé vkládání a přidávání prvků a jako doplněk má možnost
+</I>&gt;<i> adresace indexem.
+</I>&gt;<i> Jako pole mi přijde spíš tuple.
+</I>
+Jenže Python je takové zmatení jazyků. Cyklus for v Pythonu je cyklus 
+foreach, list je vlastně pole, atd..
+
+&gt;<i> Aby vkládání do prostředka seznamu nebylo pomalé (nemusely se přesouvat
+</I>&gt;<i> velké bloky dat)
+</I>&gt;<i> asi bych to řešil jako seznam nebo strom polí. V případě potřeby vkládání
+</I>&gt;<i> doprostřed 
+</I>&gt;<i> pole se pole rozpadne na dvě části. Naopak při velké fragmentaci se spustí 
+</I>&gt;<i> defragmentační proces, který malá sousedící pole sloučí.
+</I>
+Vzhledem k tomu, že to pole udržuje jenom pointery na prvky, tak je i 
+vkládání do pole extrémně rychlé. Rozhodně je to rychlejší operace, než 
+udržování x fragmentovaných bloků a udržovat operace nad nimi.
+
+Ono jde o to, že si můžete vybrat - některé operace pomalejší a některé 
+rychlejší. Souvislý seznam má extrémně rychlé append, přístup přes 
+indexy, čtení a zápis prvku. Zase pomalejší vkládání doprostřed seznamu.
+
+Pokud by pole bylo na více bloků, pak je pomalý přístup přes indexy, 
+pomalý zápis, pomalé čtení, rychlé vkládání doprostřed seznamu.
+
+Vzhledme k frekvenci operací bych asi dal přednost prvnímu.
+
+&gt;<i> byla řeč o enumeraci (přístup k následujícímu prvku)
+</I>
+oproti indexaci
+
+&gt;<i> V mých progremech se indexu vyhýbám mj. proto, že se mi nelíbí.
+</I>&gt;<i> V C a C++ raději pro iterace seznamů používám iterátory nebo ukazatelovou
+</I>&gt;<i> aritmetiku 
+</I>&gt;<i> přijde mi to čitelnější i když se často fakticky jedná o totéž.
+</I>
+Iterátory v C++ je něco jiného, než v Pythonu. Iterátor je prostě objekt 
+s nejrychlejším možným přístupem, často je to jenom pointer, ale díky 
+šablonám to může být naprosto cokoli a dá se dosáhnout nejvyšší efektivita.
+
+Ing. Miloslav Ponkrác
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005350.html">[python] vnitřní implementace python listu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005354.html">[python] vnitřní implementace python listu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5351">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5351">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5351">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5351">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005351.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+</html>

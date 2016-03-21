@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005326.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:47 GMT -->
+<HEAD>
+   <TITLE> [python] SQLite - forma selectovaných dat
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FSQLite_-_forma_selectovan%3DFDch_dat%3F%3D&In-Reply-To=78823f240701061332v5560f07eue8cc277d4a733d47%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005325.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005327.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] SQLite - forma selectovaných dat</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FSQLite_-_forma_selectovan%3DFDch_dat%3F%3D&In-Reply-To=78823f240701061332v5560f07eue8cc277d4a733d47%40mail.gmail.com"
+       TITLE="[python] SQLite - forma selectovaných dat">feed na centrum.cz
+       </A><BR>
+    <I>Sobota Leden  6 23:22:37 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005325.html">[python] SQLite - forma selectovaných dat
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005327.html">[python] SQLite - forma selectovaných dat
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5326">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5326">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5326">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5326">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> JInak, proc pouzivate for i in range(len(a)): ? Uz jsem si toho
+</I>&gt;<i> vsimnul driv, u jinych prispevku. Preci, kdyz chci iterovat pres
+</I>&gt;<i> prvky, tak musi staci for item in a:
+</I>
+Protože:
+
+1) Zvyk z jiných jazyků.
+
+2) Protože taková iterace je read only. Já můžu dát for item in a, ale 
+už nezměním ten konkrétní prvek přímo v poli. Třeba jako v tomto případě 
+výsledné pole má stejný počet prvků, jen tuple se má změnit na seznam. 
+Vycházím z toho (možná mylně), že cokoli jiného, než iterace přes indexy 
+lze zařídit jedině tak, že budu mít v paměti dvě pole, první budu číst 
+iterací, do druhé budu vytvářet výsledek. Zatímco při iteraci přes 
+indexy mám jen jedno pole, nad kterým se čte i zapisuje - je to paměťově 
+efektivnější.
+
+&gt;<i> Indexace je zvyk z C, PHP, Pascalu apod., kde to byla nutnost.
+</I>
+V PHP existuje stejná iterace, dokonce si tam můžete udělat i vlastní 
+iterátor, čehož jsem hojně využíval ve svých třídách a objektech. Ale v 
+PHP je iterátor dvojí, jeden read only jako v Pythonu a druhý s možností 
+změnit prvek pole, a ten mi v Pythonu chybí (a nebo o něm nevím):
+
+Následující kód v PHP docela elegantně iterací přičte ke každému prvku 
+pole trojku, aniž by se musela vytvářet kopie pole:
+
+$a = array(1,2,3,4,5);
+foreach ($a as &amp;$value)
+   $value += 3;
+
+V C++ také existuje iterace, dokonce s možností projet jen část prvků 
+daných iterátorem:
+
+std::for_each(objekt.begin(), objekt.end(), do_for_every_item);
+
+Ing. Miloslav Ponkrác
+
+
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005325.html">[python] SQLite - forma selectovaných dat
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005327.html">[python] SQLite - forma selectovaných dat
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5326">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5326">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5326">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5326">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005326.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:47 GMT -->
+</html>

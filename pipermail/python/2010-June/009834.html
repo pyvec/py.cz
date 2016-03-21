@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009834.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:33 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorovana funkce
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Dekorovana%20funkce&In-Reply-To=%3C7793793a-3ca4-4c5b-8162-8e2c9d44cafb%40g19g2000yqc.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-June/009833.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-June/009831.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorovana funkce</H1>
+    <B>mykhal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Dekorovana%20funkce&In-Reply-To=%3C7793793a-3ca4-4c5b-8162-8e2c9d44cafb%40g19g2000yqc.googlegroups.com%3E"
+       TITLE="[python] Dekorovana funkce">michal.bozon na gmail.com
+       </A><BR>
+    <I>Středa Červen 23 19:55:07 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009833.html">[python] Dekorovana funkce
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009831.html">[python] Dekorovana funkce
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9834">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9834">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9834">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9834">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>.. ještě takhle, pokud chceme dekorovat jen pro dekorování, můžeme si
+vytvořit jediný dekorátor, který bude brát argument.
+tento dekorátor bude funkci udělovat dekorace to &quot;tajného&quot; atributu
+třeba _mydecor
+
+def decorate(decoration):
+    def do_decor(func):
+        if hasattr(func, '_mydecor'):
+            func._mydecor.add(decoration)
+        else:
+            func._mydecor = set([decoration])
+        return func
+    return do_decor
+
+def isDecorated(func, decoration):
+    return (decoration in getattr(func, '_mydecor', set()))
+
+@decorate('red')
+@decorate('green')
+def orangefunc(): pass
+
+print isDecorated(orangefunc, 'green') # -&gt; True
+print isDecorated(orangefunc, 'blue')  # -&gt; False
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009833.html">[python] Dekorovana funkce
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009831.html">[python] Dekorovana funkce
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9834">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9834">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9834">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9834">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009834.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:33 GMT -->
+</html>

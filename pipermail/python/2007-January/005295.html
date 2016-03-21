@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005295.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:47 GMT -->
+<HEAD>
+   <TITLE> [python] Práce s delším textem v konzoli
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPr%3DE1ce_s_del%3DB9%3DEDm_textem_v_konzoli%3F%3D&In-Reply-To=1167505778.011792.305580%40n51g2000cwc.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005300.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005296.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Práce s delším textem v konzoli</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPr%3DE1ce_s_del%3DB9%3DEDm_textem_v_konzoli%3F%3D&In-Reply-To=1167505778.011792.305580%40n51g2000cwc.googlegroups.com"
+       TITLE="[python] Práce s delším textem v konzoli">devel na atlas.sk
+       </A><BR>
+    <I>Úterý Leden  2 09:25:36 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005300.html">[python] mod_python Templating System
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005296.html">[python] Práce s delším textem v konzoli
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5295">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5295">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5295">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5295">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> No, fajn .. ale jak využiju less na úrovni kódu, tedy, skript.py |
+</I>&gt;<i> less nestačí, skript totiž vypíše text a čeká na další vstup
+</I>&gt;<i> od uživatele, tedy by to chtělo něco jako print text.less()
+</I>
+hehe... nic jednoduchsie :D
+
+import os
+
+def print_less(s):
+    x = os.popen('less', 'w')
+    x.write(s)
+    x.close()
+
+
+print_less('''Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Vestibulum blandit, metus quis imperdiet tempor, justo quam auctor quam,
+eget molestie purus leo a enim. Sed nisi magna, consequat at,
+sollicitudin id, ultrices at, lacus. Praesent ultrices nonummy quam. Sed
+justo urna, suscipit eget, fringilla a, viverra non, diam. Curabitur eu
+leo. Aliquam odio. Fusce iaculis leo eget pede pulvinar venenatis.
+Aenean diam nibh, gravida a, porta vel, aliquam et, augue. In posuere
+ornare justo. Vestibulum ante ipsum primis in faucibus orci luctus et
+ultrices posuere cubilia Curae; Praesent venenatis, diam vel euismod
+egestas, diam sapien iaculis lectus, ut lacinia dui turpis sit amet
+nisl. Mauris mi ligula, aliquam eu, tristique a, tincidunt quis, arcu.
+In eget elit et nisi dapibus tincidunt. Proin a justo. Ut venenatis
+elementum purus. Integer et enim quis metus consectetuer faucibus.
+Vivamus velit. Praesent rhoncus, massa nec auctor iaculis, quam sapien
+tempor orci, eget sodales neque justo at tortor. Cras eu tellus
+venenatis augue fringilla imperdiet. Donec vel nibh luctus mi imperdiet
+convallis.
+
+Nunc dictum nisl vel mauris. Mauris eu lectus. Donec mauris. Aenean at
+velit. Nullam rhoncus metus vel orci. Sed enim. Vestibulum turpis dui,
+euismod et, porta ut, lacinia ac, pede. Mauris blandit, arcu ultrices
+porttitor porta, urna velit porttitor arcu, ac tempus neque urna quis
+mauris. Suspendisse at mi. Phasellus imperdiet. Vestibulum lacus. Nullam
+suscipit. Integer scelerisque nibh blandit metus.
+
+Fusce tortor neque, ultrices et, lacinia eget, mattis sit amet, ligula.
+Integer non orci. Class aptent taciti sociosqu ad litora torquent per
+conubia nostra, per inceptos hymenaeos. Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Morbi rutrum ante a purus imperdiet
+mattis. Integer ut libero. Maecenas tincidunt, dui ac mollis adipiscing,
+magna ipsum pulvinar purus, vel fermentum felis justo non risus.
+Phasellus et tellus. Vestibulum quis pede. Vestibulum est mi, pretium
+in, auctor at, venenatis ac, est.
+
+Mauris ullamcorper consequat eros. Aenean in mauris. Nam pellentesque.
+Nulla dapibus. Curabitur metus elit, fringilla sit amet, feugiat vitae,
+adipiscing sit amet, nisl. Quisque leo arcu, vehicula nec, tincidunt
+quis, dapibus id, lacus. Sed consequat, diam quis pulvinar lobortis,
+risus erat eleifend eros, sit amet posuere lectus nisl eu dolor.
+Suspendisse potenti. Cras quis nulla. Pellentesque sit amet sapien.
+
+Praesent mattis. Morbi a velit. Pellentesque pretium nunc at ipsum.
+Pellentesque hendrerit, turpis sed aliquam sodales, turpis pede sagittis
+lacus, vel viverra urna magna in risus. Sed magna. Vestibulum dictum
+risus et diam. Curabitur hendrerit, magna eget volutpat varius, felis
+massa convallis nisi, tempus suscipit lorem lectus nec nulla. Aenean
+nonummy enim eu ligula. Integer id nunc consequat urna vulputate
+imperdiet. Duis congue justo at sapien. Nullam enim. Pellentesque risus
+risus, imperdiet at, varius id, interdum quis, felis. Vivamus euismod.
+Cras venenatis. Morbi lacinia. Nullam elit est, suscipit nec, feugiat
+vel, pellentesque vitae, dui. Mauris vel orci.
+''')
+
+print &quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; less ended&quot;
+
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005300.html">[python] mod_python Templating System
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005296.html">[python] Práce s delším textem v konzoli
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5295">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5295">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5295">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5295">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005295.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:47 GMT -->
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004969.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:17 GMT -->
+<HEAD>
+   <TITLE> [python] Statické metody v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA1FA%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004960.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004970.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Statické metody v Pythonu</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA1FA%40skil01.skil.mistni"
+       TITLE="[python] Statické metody v Pythonu">feed na centrum.cz
+       </A><BR>
+    <I>Středa Listopad  8 13:48:56 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004960.html">[python] Statické metody v Pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004970.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4969">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4969">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4969">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4969">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;&gt;&gt;<i>class uhel:
+</I>&gt;&gt;&gt;<i>   @staticmethod
+</I>&gt;&gt;&gt;<i>   def static_str_na_radiany(s):
+</I>&gt;&gt;&gt;<i>     return blablabla;
+</I>&gt;&gt;&gt;<i>[...]    
+</I>&gt;&gt;&gt;<i>class zemepisny_uhel(uhel):
+</I>&gt;&gt;&gt;<i>   def static_str_na_radiany(s):
+</I>&gt;&gt;&gt;<i>     return blablabla;
+</I>&gt;&gt;&gt;<i>[...]
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Nikdy jsem to nepoužil a nechce se mi to zkoušet.
+</I>&gt;&gt;<i>Bude ta metoda v potomkovi automaticky taky 
+</I>&gt;&gt;<i>statická? 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Nebude, že? Není tam self, takže by Python řval.
+</I>
+
+Teď jsem to otestoval. Nejenže nebude statická, ale začnou se dít i jiné 
+chyby. Protože v předkovi uhel se počítá s tím, že v metodě __add__ se 
+přes self předává jen jeden argument, najednou si v potomku začne 
+stěžovat na dva. Python má v tomhle asi nepořádek a asi nesnáší takové 
+šťoury jako jsem já. Takže závěr nikdy nezkoušejte předefinovat 
+statickou metodu nestatickou, protože Python si s tím neví rady a začne 
+hlásit chyby i tam, kde by to v jiných jazycích bylo v pořádku. Never is 
+perfect :-)))
+
+class uhel:
+
+     @staticmethod
+     def static(a):
+         print &quot;trida1.static(): &quot;, a
+
+     def method(self):
+         self.static(1)
+
+class zemepisny_uhel(uhel):
+
+     #@staticmethod
+     def static(a):
+         print &quot;trida2.static(): &quot;, a
+
+a = uhel()
+a.method()
+
+b = zemepisny_uhel()
+b.method()
+
+trida1.static():  1
+Traceback (most recent call last):
+   File &quot;C:\home\astrol\test.py&quot;, line 25, in ?
+     b.method()
+   File &quot;C:\home\astrol\test.py&quot;, line 10, in method
+     self.static(1)
+TypeError: static() takes exactly 1 argument (2 given)
+
+Závěr: Python se chová tak, jako kdyby definici třídy znovu překládal do 
+definice potomka. Zápis self.static přeloží v uhel.method jako volání 
+statické metody s jedním parametrem, zatímco v zemepisny_uhel jako 
+volání normální metody se dvěma parametry. Řekl bych, že tato feature je 
+dost error prone, a že vlastnost &quot;zapouzdření&quot; dostává pěkně na zadek.
+
+Miloslav Ponkrác
+
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004960.html">[python] Statické metody v Pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004970.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4969">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4969">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4969">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4969">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004969.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:17 GMT -->
+</html>

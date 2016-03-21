@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005735.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:24 GMT -->
+<HEAD>
+   <TITLE> [python] Jak udelat wait u popen.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20udelat%20wait%20u%20popen.&In-Reply-To=46002161.5060804%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005723.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005737.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak udelat wait u popen.</H1>
+    <B>radek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20udelat%20wait%20u%20popen.&In-Reply-To=46002161.5060804%40post.cz"
+       TITLE="[python] Jak udelat wait u popen.">py.cz na svarz.cz
+       </A><BR>
+    <I>Středa Březen 21 08:58:53 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005723.html">[python] Jak udelat wait u popen.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005737.html">[python] Jak udelat wait u popen.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5735">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5735">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5735">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5735">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Nevím proč, ale pod Windows je třeba vždy mít shell=True. Nebo jsem něco
+</I>&gt;<i> přehlédl?
+</I>
+Je to kvuli danemu prikazu dir. Ten je totiz vykonavany pomoci cmd,
+resp. command.com.
+
+Jinymi slovy, pokud chci pouzit WIN &quot;shellove&quot; prikazy, musim dat shell=True.
+
+Radek
+
+
+On 3/20/07, Pavel Kosina &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A>&gt; wrote:
+&gt;<i> Jan Martinek napsal(a):
+</I>&gt;<i> &gt; import subprocess
+</I>&gt;<i> &gt; command = ['echo', 'ahoj']
+</I>&gt;<i> &gt; echo = subprocess.Popen(command, stdout = subprocess.PIPE)
+</I>&gt;<i> &gt; print echo.stdout.readlines()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Nevím proč, ale pod Windows je třeba vždy mít shell=True. Nebo jsem něco
+</I>&gt;<i> přehlédl?
+</I>&gt;<i>
+</I>&gt;<i> import subprocess
+</I>&gt;<i> proces=subprocess.Popen('dir', stdout=subprocess.PIPE, shell=True)
+</I>&gt;<i> proces.wait()  # pocka na dokonceni
+</I>&gt;<i> print proces.stdout.read()
+</I>&gt;<i>
+</I>&gt;<i> Jinak hází chybu:
+</I>&gt;<i>
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;I:\W9725806.py&quot;, line 2, in &lt;module&gt;
+</I>&gt;<i>     proces=subprocess.Popen('dir', stdout=subprocess.PIPE)
+</I>&gt;<i>   File &quot;C:\prg\Python25\lib\subprocess.py&quot;, line 593, in __init__
+</I>&gt;<i>     errread, errwrite)
+</I>&gt;<i>   File &quot;C:\prg\Python25\lib\subprocess.py&quot;, line 793, in _execute_child
+</I>&gt;<i>     startupinfo)
+</I>&gt;<i> WindowsError: [Error 2] SystÚm nem¨×e nalÚzt uvedenř soubor
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> geon
+</I>&gt;<i> Pavel Kosina
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005723.html">[python] Jak udelat wait u popen.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005737.html">[python] Jak udelat wait u popen.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5735">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5735">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5735">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5735">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005735.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:24 GMT -->
+</html>

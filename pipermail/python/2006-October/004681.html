@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004681.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:43 GMT -->
+<HEAD>
+   <TITLE> [python] web v Pythonu; relativni pristup k adresarum a souborum
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20web%20v%20Pythonu%3B%20relativni%20pristup%20k%20adresarum%20a%20souborum&In-Reply-To=4523D370.9050805%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004680.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004687.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] web v Pythonu; relativni pristup k adresarum a souborum</H1>
+    <B>radek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20web%20v%20Pythonu%3B%20relativni%20pristup%20k%20adresarum%20a%20souborum&In-Reply-To=4523D370.9050805%40centrum.cz"
+       TITLE="[python] web v Pythonu; relativni pristup k adresarum a souborum">py.cz na svarz.cz
+       </A><BR>
+    <I>Středa Říjen  4 19:21:50 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004680.html">[python] web v Pythonu; relativni pristup k adresarum a souborum
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004687.html">[python] web v Pythonu; relativni pristup k adresarum a souborum
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4681">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4681">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4681">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4681">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Na to muzu dat rychlou odpoved: Django [www.djangoproject.com]
+(jo, vim, ze mame jeste dalsi web frameworky, nechci delat flame, ale
+prave Django dost pomaha pri prechodu z PHP, treba diky podpore
+formatovani datetime funkci).
+
+Detailne v pripade Djanga:
+ - pro jednotliva URL je vytvoreny soubor (muze byt vice souboru),
+ktery v sobe ma danou mapu URL.
+ - i18n je vyrazne vyreseno uz v ramci frameworku, neni potreba mit
+separatni URL (ale je mozne)
+ - Django ma vlastni template jazyk, nicmene template jazyk lze pouzit
+libovoly, treba PSP
+ - v ramci templates lze udelat &quot;base&quot; template s definovanymi
+prostory pro napr. &quot;content&quot;, pricemz v konkretni template pro dane
+URL (konkretne view, ktere je namapovane pro dane URL) je mozne se
+odkazat a &quot;podedit&quot; z base template
+ - v Djangu lze pouzit automaticky realtime generovane Admin rozhrani,
+at uz primo pro &quot;staff&quot; uzivatele, nebo alespon jako zaklad pro
+vlastni Admin, ktery se pak jednodusse rozsiri o dalsi funkcionalitu.
+
+Radek
+
+On 10/4/06, Marek Olšavský &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">orsm na centrum.cz</A>&gt; wrote:
+&gt;<i>         Dobry den,
+</I>&gt;<i> trochu tu valcim s Pythonem a vidim, ze do konfery tutor tento dotaz
+</I>&gt;<i> nepatril :-).
+</I>&gt;<i> Zacnu druhym tematem:
+</I>&gt;<i> Moje obvykla adresarova struktura pro web je:
+</I>&gt;<i>
+</I>&gt;<i> &lt;URL&gt;
+</I>&gt;<i> |- lib
+</I>&gt;<i> |- img
+</I>&gt;<i> |- i18n
+</I>&gt;<i>     |- sprava
+</I>&gt;<i>     |  |- cs
+</I>&gt;<i>     |  |- en
+</I>&gt;<i>     |- www
+</I>&gt;<i>        |- cs
+</I>&gt;<i>        |- en
+</I>&gt;<i> |- sprava
+</I>&gt;<i> |- www
+</I>&gt;<i> |- templates
+</I>&gt;<i>     |- sprava
+</I>&gt;<i>     |- web
+</I>&gt;<i>
+</I>&gt;<i> Pokud potrebuji delat administraci jdu na URL/sprava, pokud chce nekdo
+</I>&gt;<i> na web, je z ULR presmerovan na URL/www (mozna zbytecnost, ale nemam
+</I>&gt;<i> bordel k korenovem adresari.)
+</I>&gt;<i> Tak a jadro pudla je v tom, ze nevim, jak si brat soubory z adresaru
+</I>&gt;<i> lib, init, i18n (to jsou jen definice jazykovych konstantnich retezcu) a
+</I>&gt;<i> templates, mam-li spusteny script v adresari sprava, nebo www.
+</I>&gt;<i> tj. pujdu-li na adresu URL/sprava/articles.py , tak se mi musi natahnout
+</I>&gt;<i> nejake knihovny z lib, lokalizace z ./../i18n/sprava/cs/articles.i18n.py
+</I>&gt;<i> a sablona z ./../templates/sprava/articles.psp (ano psp je idealni stav).
+</I>&gt;<i> O kapitole (
+</I>&gt;<i> <A HREF="http://docs.python.org/tut/node8.html#SECTION008400000000000000000">http://docs.python.org/tut/node8.html#SECTION008400000000000000000</A> ),
+</I>&gt;<i> Moduly, vim, ale moc moudry z toho zatim nejsem. Co ma obsahovat soubor
+</I>&gt;<i> __init__.py? Jak script z adresare sprava pozna, kam ma pro nej sahnout?
+</I>&gt;<i> Proste potrebuji zpusob, jak se dostanu k relativni adresaci, jako byla
+</I>&gt;<i> v PHP.
+</I>&gt;<i>
+</I>&gt;<i> A druhy problem je asi pro radu lidi jednoduchy. Kdyz mam naplnene
+</I>&gt;<i> veskere potrebne promenne a pole, chci nacist sablonu PSP, kterou pak
+</I>&gt;<i> poslu na vystup (do prohlizece), jak se k ni dostanu zatim nevim.
+</I>&gt;<i> Dokonce bych potreboval, aby jedna sablona delala layout cele stranky a
+</I>&gt;<i> dalsi sablony by byly jen castecne, ve kterych by byl jen ten &quot;frame&quot; s
+</I>&gt;<i> potrebnym obsahem.
+</I>&gt;<i>
+</I>&gt;<i>         Doufam, ze se mi podarilo vse zformulovat rozumne a dekuji za
+</I>&gt;<i> eventualni radu.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> -- MO
+</I>&gt;<i>
+</I>&gt;<i> - --
+</I>&gt;<i>
+</I>&gt;<i> MaReK &quot;Penguin&quot; Olšavský
+</I>&gt;<i> PHP Voodoo
+</I>&gt;<i> private mail: <A HREF="http://www.py.cz/mailman/listinfo/python">orsm na centrum.cz</A>
+</I>&gt;<i> private web: <A HREF="http://orsm.wz.cz/">http://orsm.wz.cz</A>
+</I>&gt;<i> ICQ#: 160 178 925; MSN: <A HREF="http://www.py.cz/mailman/listinfo/python">orsm na centrum.cz</A>; Skype: Penguin_007
+</I>&gt;<i> tel.: +420-603-519-650; +420-775-154-689 (775-1-LINUX)
+</I>&gt;<i>
+</I>&gt;<i> Na stránce bylo napsáno: &quot;Optimalizováno pro Explorer 5, nebo lepší&quot;.
+</I>&gt;<i>    Tak jsem přešel na Mozilla Firefox  --&gt; <A HREF="http://firefox.czilla.cz/">http://firefox.czilla.cz/</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004680.html">[python] web v Pythonu; relativni pristup k adresarum a souborum
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004687.html">[python] web v Pythonu; relativni pristup k adresarum a souborum
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4681">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4681">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4681">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4681">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004681.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:43 GMT -->
+</html>

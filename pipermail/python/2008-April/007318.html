@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007318.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+<HEAD>
+   <TITLE> [python] Ukončení zaneprázdněného threadu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FUkon%3DE8en%3DED_zanepr%3DE1zdn%3DECn%3DE9ho_thread%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fu%3F%3D&In-Reply-To=1244.2027-26881-610711104-1209132816%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007317.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007315.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Ukončení zaneprázdněného threadu</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FUkon%3DE8en%3DED_zanepr%3DE1zdn%3DECn%3DE9ho_thread%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fu%3F%3D&In-Reply-To=1244.2027-26881-610711104-1209132816%40seznam.cz"
+       TITLE="[python] Ukončení zaneprázdněného threadu">feed na centrum.cz
+       </A><BR>
+    <I>Pátek Duben 25 17:28:28 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007317.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007315.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7318">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7318">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7318">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7318">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Proč by to mělo být bezpečnostní riziko? Je na Vás, jakožto tvůrci 
+programu, zda vůbec dovolíte externímu programu sestřelit thread, nebo 
+ne. Uvědomte si, že existují něco jako přístupová práva v každém 
+operačním systému, a není nutné dovolit sestřelení threadu nikým jiným, 
+než si sám přejete. A kromě toho se tu bavíme o sestřelení threadu jiným 
+threadem v rámci jednoho procesu.
+
+Neuvolněná paměť v rámci procesu je něco co vzniká naprosto běžně. Staší 
+neuvolnit kus paměti. Pokud k paměti nepřistupujete, systém jí brzy 
+odswapuje na disk a z fyzické paměti RAM neubírá. Akorát ubírá místo v 
+adresovém prostoru procesu (a nikde jinde). Po skončení procesu 
+samozřejmě systém uklidí naprosto vše.
+
+Ale je to bezpečnostní chyba, nebo raději řekněme problém pro programy 
+co se neumějí vypořádat s nedostatkem paměti - ale je to chyba samotného 
+programu. Problém mívají obecně jazyky jako typu Python, Java, C#, Perl, 
+a další, které prostě neumí nedostatek paměti nijak rozumně vyřešit, a v 
+zásadě pouze krachnou. V jazycích jako je asm, C, C++, Ada, Fortran, a 
+další je možné bez problémů situaci, kdy dojde paměť, nebo adresovatelný 
+prostor procesu zvládnout a pokračovat v běhu - ba se dokonce zotavit a 
+bezpečně jet. Ovšem programátor ten program tak musí napsat.
+
+Nedávno jsem takto prolomil &quot;neprůstřelný&quot; firewall Kerio Personal 
+Firewall. Stačilo k tomu zabrat veškerou paměť a počkat několik sekund. 
+Uvnitř Kerio firewallu psaném v C++ došlo k pokusu o alokaci bloku 
+paměti při další síťovém spojení - alokace se nezdařila, vyhodila 
+vnitřní výjimku typu bad_alloc, kterou programátoři Keria neošetřili a 
+celý firewall jako program se ukončil, spadl na ústa a připojení k 
+internetu najednou byla zcela nachráněné. Jak jednoduché, jak účinné. Už 
+vím, jak bych napsal virus, který se dostane na síť při puštěném Kerio 
+firewallu (pro objektivitu musím napsat, že by to nejspíš neustála 
+naprostá většina firewallů.).
+
+Miloslav Ponkrác
+
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">Bystrousak na seznam.cz</A> napsal(a):
+&gt;<i> Moc tomu nerozumím, takže se omlouvám, jestli budu plácat nesmysly;
+</I>&gt;<i> Není to bezpečnostní chyba? Pokud si něco vezme paměť a OS jí po sestřelení neuvolní, zdá se mi to jako potenciální riziko, které by mohlo být zneužito nějakým škodlivým virem..
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007317.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007315.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7318">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7318">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7318">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7318">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007318.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+</html>

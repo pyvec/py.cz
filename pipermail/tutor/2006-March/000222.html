@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000222.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Livewires V - seznam a proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3FLivewires_V_-_seznam_a_prom%3DECnn%3DE9%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000218.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000223.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Livewires V - seznam a proměnné</H1>
+    <B>Tomáš Bělonožník</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3FLivewires_V_-_seznam_a_prom%3DECnn%3DE9%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] Livewires V - seznam a proměnné">rebelme na gmail.com
+       </A><BR>
+    <I>Neděle Březen  5 21:04:25 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000218.html">[Tutor PyCZ] zjisteni pismen disku ve windows
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000223.html">[Tutor PyCZ] Livewires V - seznam a proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#222">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#222">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#222">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#222">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+opět jsem se zasekl a potřeboval bych pomoct. Ke konci tutoriálu už
+totiž potřebných a nových věcí přibývá a nápověd rapidně ubývá. Sice
+se mi podařilo program napsat tak, aby jakž takž celý fungoval, ale je
+tam spousta malých chybiček, je to rozvleklý a úplně jiný než to mělo
+být. Vrátím se k počátku problému. Mám program, kde hráče posunovaného
+stisky kláves honí &quot;robot&quot; a když ho dožene, hráč prohrál. Měl bych
+přidělat další roboty. Autor tutoriálu dává rady:
+    *   Vytvořte prázdný list robots.
+    * Opakujte pro každého robota, kterého chceme:
+          o Přidejte robota do seznamu robotů.
+          o Vytvořte náhodně souřadnice místa, kde by se měl robot
+narodit. Nezapomeňte nastavit atribut srot na 0.
+          o Opakujte while &quot;pokud se tento robot srazil s jiným&quot;:
+                + Zkuste jiné místo.
+          o Vytvořte tělo robota a uložte ho do jeho atributu telo.
+Když jsem se to snažil dělat takto, třeba se mi i podařilo vyrobit pět
+robotích těl, ale pohybovalo se pouze jedno a ostatní nereagovaly ani
+na kontakt. Dejme tomu tedy, že mám tuto funkci pro tvorbu robotů:
+def vyrobRobota(pocet_opakovani, seznam):
+    robot = Robot()
+    while pocet_opakovani &lt; 5:
+	# Budoucí souřadnice robota
+        robot.x=random.randint(8, 631)
+        robot.y=random.randint(8, 471)
+
+        # Část funkce zajišťující, že hráč a robot nezačnou na sobě.
+        robot_x_round = robot.x / 10
+        hrac_x_round = hrac.x / 10
+        robot_y_round = robot.y / 10
+        hrac_y_round = hrac.y / 10
+        while robot_x_round == hrac_x_round and robot_y_round == hrac_y_round:
+            robot.x=random.randint(8, 631)
+            robot.y=random.randint(8, 471)
+            hrac.x=random.randint(8, 631)
+            hrac.y=random.randint(8, 471)
+
+        seznam.append(robot)
+        robot.telo = box(robot.x-5,robot.y-5,robot.x+5,robot.y+5,
+filled=1, colour=Colour.dark_blue)    # Popis těla robota
+
+Toto mi vytvoří seznam s pěti instancemi robot třídy Robot. Jak ale
+udělat, aby se v této funkci všichni hýbali?
+def posunRobota(hrac):
+    for robot in seznam:     #tahle řádka je tu navíc, tak jsem to zkoušel
+        if robot.x &lt; hrac.x:
+            robot.x = robot.x + 5
+        elif robot.x &gt; hrac.x:
+            robot.x = robot.x - 5
+        if robot.y &lt; hrac.y:
+            robot.y = robot.y + 5
+        elif robot.y &gt; hrac.y:
+            robot.y = robot.y - 5
+        move_to(robot.telo, robot.x, robot.y)
+        sleep(0.2)
+
+Přijde mi, jako by si ti roboti v seznamu nedokázali pamatovat svoje
+.x a .y nebo spíš za toho robota, kterým se má hýbat, byl pokládán
+pořád jeden a ten samý, protože se hýbe mnohem rychleji než hráč. Tomu
+by nasvědčovalo i to, že jsem kdesi četl, že jména v Pythonu jsou
+prakticky jen odkazy na objekty.
+
+
+Nakonec jsem to vyřešil metodami třídy Robot:
+    #Metoda na výrobu robotů
+	def vyrobRoboty(self):
+        self.x = random.randint(8, 631)
+        self.y = random.randint(8, 471)
+        self.srot = 0
+        hrac.xround = hrac.x / 10
+        hrac.yround = hrac.y / 10
+        self.telo = box(self.x-5, self.y-5, self.x+5, self.y+5,
+filled=1, colour=Colour.dark_blue)
+    # Metoda na posun roboty
+    def posunRobota(self):
+        if self.srot == 0:
+            if self.x &lt; hrac.x:
+                self.x = self.x + 5
+            elif self.x &gt; hrac.x:
+                self.x = self.x - 5
+            if self.y &lt; hrac.y:
+                self.y = self.y + 5
+            elif self.y &gt; hrac.y:
+                self.y = self.y - 5
+            sleep(0.02)
+            move_to(self.telo, self.x, self.y)
+
+robot.vyrobRoboty()
+robot2.vyrobRoboty()
+robot3.vyrobRoboty()
+robot4.vyrobRoboty()
+robot5.vyrobRoboty()
+robot.posunRobota()
+robot2.posunRobota()
+robot3.posunRobota()
+robot4.posunRobota()
+robot5.posunRobota()
+
+Ale jak vidíte, už tohle je příšerně zdlouhavé a ještě  při běhu musím
+volat další tři metody a funkce, která má zajišťovat, aby při narození
+neskončil jeden robot na druhém je dlouhá pomalu jako epos o
+Gilgamešovi. Ukázka:
+        elif self == robot3:
+            while self.xround == robot.xround and self.xround == robot.yround:
+                self.x = random.randint(8, 631)
+                self.y = random.randint(8, 471)
+            while self.xround == robot2.xround and self.xround == robot2.yround:
+                self.x = random.randint(8, 631)
+                self.y = random.randint(8, 471)
+
+V tutoriálech které jsem četl se při psaní o seznamech věnují spíše
+textovým řetězcům. Věřím, že kdyby se dal v tomto případě použít
+seznam, o něco by se to zkrátilo a navíc by to zjednodušilo přidávání
+dalších robotů v dalších levelech atd. atd. Asi bych mohl ten program
+sice dodělat tímto stylem, ale s výsledkem bych nemohl být spokojen.
+
+Díky za jakékoliv rady.
+Tomáš Bělonožník
+
+--
+&quot;Any fool who would die for honor is better off dead.&quot; - Cabal Patriarch
+&quot;I don't know what the next World War will be fought with, but the
+World War after that will be fought with sticks and stones.&quot; - Albert
+Einstein
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000218.html">[Tutor PyCZ] zjisteni pismen disku ve windows
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000223.html">[Tutor PyCZ] Livewires V - seznam a proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#222">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#222">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#222">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#222">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000222.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

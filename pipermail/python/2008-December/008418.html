@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008418.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s forkujicim serverem a SIGTERM signalem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20forkujicim%20serverem%20a%20SIGTERM%20signalem&In-Reply-To=%3C4949141D.3070500%40vsb.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008422.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008419.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s forkujicim serverem a SIGTERM signalem</H1>
+    <B>Lumír Jasiok</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20forkujicim%20serverem%20a%20SIGTERM%20signalem&In-Reply-To=%3C4949141D.3070500%40vsb.cz%3E"
+       TITLE="[python] Problem s forkujicim serverem a SIGTERM signalem">lumir.jasiok na vsb.cz
+       </A><BR>
+    <I>Středa Prosinec 17 16:00:45 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008422.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008419.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8418">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8418">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8418">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8418">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>David Michal wrote:
+&gt;<i> Ja teda neumim vysvetlit proc nejde exit ale co to zkusit takhle:
+</I>&gt;<i>
+</I>&gt;<i> sysexit = False
+</I>&gt;<i>
+</I>&gt;<i> def cleanup(signal, frame):
+</I>&gt;<i>      &quot;&quot;&quot;Clean up the server before shutdown.
+</I>&gt;<i>      &quot;&quot;&quot;
+</I>&gt;<i>      # SIGTERM signal
+</I>&gt;<i>      if signal == 15:
+</I>&gt;<i>          print &quot;Received SIGTERM signal, waiting for clients
+</I>&gt;<i>  termination&quot;
+</I>&gt;<i>          while True:
+</I>&gt;<i>              # In case that there isn't any active clients
+</I>&gt;<i>              if not clients:
+</I>&gt;<i>                  break
+</I>&gt;<i>          sysexit = True
+</I>&gt;<i>
+</I>&gt;<i>  # Nadrazena smycka:
+</I>&gt;<i>   while not sysexit:
+</I>&gt;<i>          # Handle the child temination
+</I>&gt;<i>          signal.signal(signal.SIGCHLD,reap)
+</I>&gt;<i>  
+</I>&gt;<i>          # Catch the SIGTERM signal
+</I>&gt;<i>          signal.signal(signal.SIGTERM, cleanup)
+</I>&gt;<i>          #signal.pause()
+</I>&gt;<i>          try:
+</I>&gt;<i>              connection,address = sock.accept()
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Genialne jednoduche, jednoduse genialni. Funguje.
+
+Diky moc.
+
+Lumir
+
+-- 
+ Lumír Jasiok
+ VSB-TU Ostrava - Computer centre
+ Tel: +420 59 732 3189
+ E-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">lumir.jasiok na vsb.cz</A>
+ <A HREF="http://www.vsb.cz/">http://www.vsb.cz</A>
+															
+
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008422.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008419.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8418">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8418">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8418">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8418">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008418.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+</html>

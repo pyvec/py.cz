@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-March/001599.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:43 GMT -->
+<HEAD>
+   <TITLE> [python] dialogy a glade
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20dialogy%20a%20glade&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-March/001598.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-March/001600.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dialogy a glade</H1>
+    <B>Petr Mach</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20dialogy%20a%20glade&In-Reply-To="
+       TITLE="[python] dialogy a glade">gsl na seznam.cz
+       </A><BR>
+    <I>Neděle Březen  7 16:39:40 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001598.html">[python] c/python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001600.html">[python] dialogy a glade
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-March/date.html#1599">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/thread.html#1599">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/subject.html#1599">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/author.html#1599">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+prosim vas, jak se pouzivaji dialogy, jako treba vyber souboru pomoci 
+glade? Mam programek/okno vytvoreny v glade a na nem mam tlacitko
+a kdyz ho stisknu, chci otevrit dialog pro vyber souboru. Ted to
+delam takto:
+
+   def onButVyberSoubor(self, widget):
+     print &quot;butVyberSoubor clicked&quot;
+     wFS=gtk.FileSelection(&quot;Výběr Souboru&quot;)
+     wFS.ok_button.connect(&quot;clicked&quot;, self.onFileSel, wFS)
+     wFS.cancel_button.connect(&quot;clicked&quot;, lambda w: wFS.destroy())
+     wFS.show()
+
+   def onFileSel(self, widget, wFS):
+       self.entVybranySoubor.set_text(wFS.get_filename())
+       wFS.destroy()
+
+onButVyberSoubor je handler, ktery se vola po stisknuti toho tlacitka.
+Dialog pro vyber souboru vytvarim primo pomoci gtk. Chtel bych misto
+toho pouzit dialog definovany a nastaveny v glade.
+
+Dekuji, Petr Mach
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001598.html">[python] c/python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001600.html">[python] dialogy a glade
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-March/date.html#1599">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/thread.html#1599">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/subject.html#1599">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/author.html#1599">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-March/001599.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:43 GMT -->
+</html>

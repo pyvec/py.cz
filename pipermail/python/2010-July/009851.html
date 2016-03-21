@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009851.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:27 GMT -->
+<HEAD>
+   <TITLE> [python] Buffer overflow na Win7?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Buffer%20overflow%20na%20Win7%3F&In-Reply-To=%3CAANLkTimiHcBI5xJBToXX-zWJ57tgYE1e3K3kLFbmkxbb%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009850.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009853.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Buffer overflow na Win7?</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Buffer%20overflow%20na%20Win7%3F&In-Reply-To=%3CAANLkTimiHcBI5xJBToXX-zWJ57tgYE1e3K3kLFbmkxbb%40mail.gmail.com%3E"
+       TITLE="[python] Buffer overflow na Win7?">slush na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Červenec 15 11:35:04 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009850.html">[python] Buffer overflow na Win7?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009853.html">[python] Buffer overflow na Win7?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9851">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9851">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9851">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9851">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> On to ale asi není &quot;obyčejný příklad&quot;.  Problém je asi v tom a+
+</I>&gt;<i> režimu (stejně se to chová i při w+) a v současném použití .read().
+</I>&gt;<i> Dokumentace říká:
+</I>&gt;<i>
+</I>&gt;<i>    Note: This function is simply a wrapper for the underlying fread()
+</I>&gt;<i>   C function, and will behave the same in corner cases, such as
+</I>&gt;<i>   whether the EOF value is cached.
+</I>&gt;<i>
+</I>&gt;<i> To znamená, že to může mít co do činění s použitím vyrovnávacího
+</I>&gt;<i> bufferu, který může být v Linuxu a pod Windows obsluhován jinak
+</I>
+Takze to znamena, ze Windowsi fread() &quot;obsahuje&quot; buffer overflow? OK,
+chapu, nemusi to byt chyba pythonu, ale v takovem pripade to je snad
+jeste horsi.
+
+Co se tyka toho 'a+', zkousel jsem to i s jinymi R/W mody, ale
+vysledek stejny. Znamena to, ze Windows ma z nejakeho duvodu problem s
+&quot;obousmerne&quot; otevrenym souborem? Bavil jsem se o tom s kolegou
+javistou, ktery tvrdi, ze treba v Jave vubec koncept R/W souboru neni
+(udajne jsou jen R nebo W streamy). Tak me napadlo, ze to je proste
+jejich &quot;workaround&quot; pro platformove specificke problemy s praci se
+soubory.
+
+&gt;<i> a díky fread() a zmíněným hraničním případům se to tedy může
+</I>&gt;<i> jinak chovat. Zkus tohle:
+</I>&gt;<i>
+</I>&gt;<i> t = open('blabla.txt', 'a+', buffering=0)
+</I>&gt;<i> t.write(&quot;Lorem ipsum dolor sit amet&quot;)
+</I>&gt;<i> ## t.seek(0)
+</I>&gt;<i> print t.read()
+</I>&gt;<i> t.close()
+</I>
+Funguje. Musim rict &quot;bohuzel&quot;, protoze duvodu, proc by melo zapnute
+bufferovani preskakovat EOF nerozumim. Taky nevidim souvislost, proc
+problem resi preseekovani na aktualni pozici. Budu muset jeste
+popremyslet, ktery hack je mensi zlo.
+
+Moc diky za info.
+Marek
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009850.html">[python] Buffer overflow na Win7?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009853.html">[python] Buffer overflow na Win7?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9851">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9851">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9851">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9851">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009851.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:27 GMT -->
+</html>

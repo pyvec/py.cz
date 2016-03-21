@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004828.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:58 GMT -->
+<HEAD>
+   <TITLE> [python] Fw:  IronPython &amp; ADO.NET
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Fw%3A%20%20IronPython%20%26%20ADO.NET&In-Reply-To=eh5rqb%243d3%241%40news.vol.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004820.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004829.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Fw:  IronPython &amp; ADO.NET</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Fw%3A%20%20IronPython%20%26%20ADO.NET&In-Reply-To=eh5rqb%243d3%241%40news.vol.cz"
+       TITLE="[python] Fw:  IronPython &amp; ADO.NET">RMiklos na pss.sk
+       </A><BR>
+    <I>Pátek Říjen 20 09:44:36 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004820.html">[python] Fw:  IronPython &amp; ADO.NET
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004829.html">[python] Fw: IronPython &amp; ADO.NET
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4828">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4828">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4828">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4828">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ano presne tak to bolo, mal som tam chybu a spravne riesenie je tu
+
+<A HREF="http://www.py.cz/pipermail/python/2006-September/004666.html">http://www.py.cz/pipermail/python/2006-September/004666.html</A>
+
+
+
+
+Pavel Reznicek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">pavel.jindrich na tiscali.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+18.10.2006 20:34
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+cc
+
+Subject
+Re: [python] Fw:  IronPython &amp; ADO.NET
+
+
+
+
+
+
+Roman Miklos napsal(a):
+&gt;<i> 
+</I>&gt;<i> Dobry den,
+</I>&gt;<i> 
+</I>&gt;<i> Skusal ste niekto pristup do databazy cez ADO.NET a IronPython?
+</I>&gt;<i> 
+</I>&gt;<i> Napr. toto citanie pomocou Readeru mi funguje:
+</I>&gt;<i> 
+</I>&gt;<i> ----- priklad -----
+</I>&gt;<i> ...
+</I>&gt;<i> ### Pouzitie ADO.NET
+</I>&gt;<i> import clr
+</I>&gt;<i> import System
+</I>&gt;<i> clr.AddReference(&quot;System.Data&quot;)
+</I>&gt;<i> import System.Data
+</I>&gt;<i> from System.Data.OleDb import OleDbConnection as dbconnection
+</I>&gt;<i> 
+</I>&gt;<i> # Connection String
+</I>&gt;<i> connectstr='PROVIDER=IBMDA400.DataSource.1;DATA SOURCE='+csebk+'; USER 
+</I>&gt;<i> ID='+userid+'; PASSWORD='+pwd
+</I>&gt;<i> 
+</I>&gt;<i> # Vytvorit spojenie
+</I>&gt;<i> dbcon=dbconnection(connectstr)
+</I>&gt;<i> dbcon.Open()
+</I>&gt;<i> 
+</I>&gt;<i> # Vytvorit SQL Command
+</I>&gt;<i> dbcmd = dbcon.CreateCommand()
+</I>&gt;<i> dbcmd.CommandText = &quot;SELECT * FROM r000100T.r000270V&quot;
+</I>&gt;<i> 
+</I>&gt;<i> # Citat data
+</I>&gt;<i> reader = dbcmd.ExecuteReader()
+</I>&gt;<i> 
+</I>&gt;<i> count=0
+</I>&gt;<i> while reader.Read():
+</I>&gt;<i>  count +=1 
+</I>&gt;<i>  print &quot;%10s %10s %10s %10s&quot; % (reader[0], reader[1], reader[2], 
+</I>&gt;<i> reader[3]) 
+</I>&gt;<i> 
+</I>&gt;<i> print &quot;pocet viet v tabulke je: %d&quot; % count
+</I>&gt;<i> 
+</I>&gt;<i> # zavret reader
+</I>&gt;<i> reader.Close()
+</I>&gt;<i> 
+</I>&gt;<i> # Ukoncit spojenie
+</I>&gt;<i> dbcon.Close()
+</I>&gt;<i> ----- koniec prikladu -----
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Ked ale skusim pouzit dataadapter a dataset, t.j. zhruba takto 
+</I>&gt;<i> 
+</I>&gt;<i> ----- priklad -----
+</I>&gt;<i> 
+</I>&gt;<i> ...
+</I>&gt;<i> from System.Data.OleDb import OleDbConnection as dbconnection
+</I>&gt;<i> from System.Data.OleDb import OleDbDataAdapter as dbdataadapter
+</I>&gt;<i> from System.Data import DataSet as dataset
+</I>&gt;<i> 
+</I>&gt;<i> # Connection String
+</I>&gt;<i> DSN='PROVIDER=IBMDA400.DataSource.1;DATA SOURCE='+csebk+'; USER 
+</I>&gt;<i> ID='+userid+'; PASSWORD='+pwd
+</I>&gt;<i> print DSN
+</I>&gt;<i> conn=dbconnection(DSN)
+</I>&gt;<i> conn.Open()
+</I>&gt;<i> 
+</I>&gt;<i> dataadapter = dbdataadapter(&quot;SELECT * FROM r000100T.r000270V&quot;, conn)
+</I>&gt;<i> #rs = System.Data.DataSet(&quot;MyDataSet&quot;)
+</I>&gt;<i> rs=dataset(&quot;MyDataSet&quot;)
+</I>&gt;<i> dataadapter.Fill(rs,&quot;MyTable&quot;)
+</I>&gt;<i> #print rs
+</I>&gt;<i> row= rs.Tables(0).Rows(0)
+</I>&gt;<i> ...
+</I>&gt;<i> ----- koniec prikladu -----
+</I>&gt;<i> 
+</I>&gt;<i> dostanem na poslednom uvedenom riadku chybu
+</I>&gt;<i> &quot;DataTableCollection object is not callable&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Mate niekto funkcny priklad jak pouzit DataSet v IronPythone?
+</I>&gt;<i> 
+</I>&gt;<i> Mgr. Ing. Roman MIKLÓŠ
+</I>
+Nemám funkční příklad, ale mám tip. Nikdy jsem nepracoval s 
+IronPythonem, ale s .NETem a Pythonem ano. rs.Tables v posledním řádku 
+je podle chybové hlášky typu DataTableCollection, což je kollekce 
+tabulek. Vy se pokoušíte získat první tabulku z této kolekce. Čili je 
+možné, že jste si jen popletl typ závorek. Pokud autoři IronPythonu dali 
+typu DataTableCollection rozhraní standardní pythonové sekvence, měl by 
+fungovat tento zápis:
+
+row = rs.Tables[0].Rows[0]
+
+Pavel Řezníček
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20061020/2fb5dc8a/attachment.htm">http://www.py.cz/pipermail/python/attachments/20061020/2fb5dc8a/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004820.html">[python] Fw:  IronPython &amp; ADO.NET
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004829.html">[python] Fw: IronPython &amp; ADO.NET
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4828">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4828">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4828">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4828">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004828.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:58 GMT -->
+</html>

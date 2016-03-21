@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000370.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] vytvoření serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=389.789-20862-514283842-1155622640%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000369.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000371.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] vytvoření serveru</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=389.789-20862-514283842-1155622640%40seznam.cz"
+       TITLE="[Tutor PyCZ] vytvoření serveru">geon na post.cz
+       </A><BR>
+    <I>Úterý Srpen 15 08:52:07 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000369.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000371.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#370">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#370">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#370">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#370">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jakub Vojáček napsal(a):
+&gt;<i> Já vím, ale těch posluchačů bude tolik jako klientů
+</I>&gt;<i>   
+</I>jeden server a 10 posluchačů. Když jeden něco napíše, pošle to na server 
+a ten to rozešle všem. Tak to asi je, že jo?
+
+Ty to ted máš, že se pokaždé vytvoří nové spojení. Tak to ale fungovat 
+ne,ůže, protože clineti musí na server napojeni furt. Tedy přichází do 
+úvahu dvě řešení (ani jedno jsem nezkoušel, budeš muset hodně laborovat 
+nebo ti někdo zkušenější poradí - mě by to taky zajímalo):
+
+1/ pro každého klienta udělat speciální PORT a ten udržovat v chodu 
+(tedy žádné xxx.close() ). A mít je nějak v seznamu a když jeden něco 
+pošlě, tak server všem ze seznamu odešle co dostal
+
+2/ Snad je možné : 
+<A HREF="http://heather.cs.ucdavis.edu/~matloff/Python/PyNet.pdf">http://heather.cs.ucdavis.edu/~matloff/Python/PyNet.pdf</A>  udělat 
+Non-blocking socket, což znamená, že by ti na jeden PORT se přihlásilo 
+jich víc klientů (ti ostaní by již nepsaly, že to nejde, že je to 
+obsazené). No a když by jeden něco poslat, tak by to server poslal zpět 
+a dostaly by to všichni.
+
+Zkus si projít zmíněné funkce v dokumentaci Python. Nejlepší přehled 
+tutoriálů o síťovém programování jsem našel tady: 
+<A HREF="http://www.awaretek.com/tutorials.html#int">http://www.awaretek.com/tutorials.html#int</A> .
+
+
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000369.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000371.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#370">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#370">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#370">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#370">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000370.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

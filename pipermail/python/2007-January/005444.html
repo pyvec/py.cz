@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005444.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:01 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s kodovanim PyDev - pokracovani
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20kodovanim%20PyDev%20-%20pokracovani&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005441.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005445.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s kodovanim PyDev - pokracovani</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20kodovanim%20PyDev%20-%20pokracovani&In-Reply-To="
+       TITLE="[python] Problem s kodovanim PyDev - pokracovani">rainbof na gmail.com
+       </A><BR>
+    <I>Středa Leden 31 07:00:52 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005441.html">[python] KID - serializace dat z pole
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005445.html">[python] Problem s kodovanim PyDev - pokracovani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5444">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5444">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5444">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5444">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>OB&gt; # -*- coding: cp1250 -*-
+OB&gt; jmeno = raw_input(u #39;Zadejte jméno (nic =&gt; konec):  #39;)
+OB&gt; print jmeno
+
+OB&gt; Me v eclipse serve:
+OB&gt; Traceback (most recent call last):
+OB&gt; File &quot;C:\Documents and
+OB&gt; Settings\Administrator\workspace\prvni\src\temp.py&quot;, line 2, in
+OB&gt; &lt;module&gt;
+OB&gt; jmeno = raw_input(u #39;Zadejte jméno (nic =&gt; konec):  #39;)
+OB&gt; UnicodeEncodeError:  #39;ascii #39; codec can #39;t encode
+OB&gt; character u #39;\xe9 #39; in position 10: ordinal not in range(128)
+OB&gt; Zkusim jeste EasyEclipse zda to bude delat take.
+
+OB&gt; Ja nutne netrvam na eclipse, ale potrebuju neco co pujde
+OB&gt; pouzivat jak na jednom monitoru 1024x768 tak na dvou, neco co
+OB&gt; obsahuje Debugger, aspon zakladni spravu projektu a funguje jak v
+OB&gt; linuxu tak ve windows. Eclipse se mi libi hlavne proto ze v ni jde
+OB&gt; kodovat kdeco (C a PHP) s pomoci pluginu.
+
+
+---------------------------------------------------------------------------
+
+mtip&gt;Tak s timhle Eclipse nema nic spolecneho, ale je to chyba parseru.
+mtip&gt;Jestlize zvolim string typu unicode, tak do nej podle me nelze zapsat
+mtip&gt;é. ja bych v tomto pripade pouzil.
+mtip&gt;# -*- coding: cp1250 -*-
+mtip&gt;jmeno = raw_input('Zadejte jméno (nic =&gt; konec): ')
+mtip&gt;print jmeno
+
+---------------------------------------------------------------------------
+
+No jenze asi s tim neco spolecneho mit bude protoze podle mne zapis
+jmeno = raw_input(u'Zadejte jméno (nic =&gt; konec):')
+znamena jen tolik ze se string 'Zadejte jméno (nic =&gt; konec):' prevede ve
+vysledku na unicode.
+takze ta chyba je neco jineho.
+Neprosel ani zapis
+
+jmeno = raw_input(unicode('Zadejte jméno (nic =&gt; konec): ','cp1250'))
+
+ktery by asi projit mel. V idle skutecne projde, a vse bezi korektne. v
+PyDev ne.
+tohle uz asi s pouzitym kodovanim eclipse nijak nesouvisi.
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20070131/fbd2bae6/attachment.htm">http://www.py.cz/pipermail/python/attachments/20070131/fbd2bae6/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005441.html">[python] KID - serializace dat z pole
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005445.html">[python] Problem s kodovanim PyDev - pokracovani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5444">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5444">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5444">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5444">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005444.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:01 GMT -->
+</html>

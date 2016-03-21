@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-November/011197.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:55 GMT -->
+<HEAD>
+   <TITLE> [python] Zacatecnik prosi o nalezeni a vysvetleni chyby
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Zacatecnik%20prosi%20o%20nalezeni%20a%20vysvetleni%20chyby&In-Reply-To=%3CB087963E42B445B9841D7C275DBD7588%40PCo%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-November/011196.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zacatecnik prosi o nalezeni a vysvetleni chyby</H1>
+    <B>pythoncaha</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Zacatecnik%20prosi%20o%20nalezeni%20a%20vysvetleni%20chyby&In-Reply-To=%3CB087963E42B445B9841D7C275DBD7588%40PCo%3E"
+       TITLE="[python] Zacatecnik prosi o nalezeni a vysvetleni chyby">pythoncaha na gmail.com
+       </A><BR>
+    <I>Pátek Listopad 29 23:25:25 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011196.html">[python] Zacatecnik prosi o nalezeni a vysvetleni chyby
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-November/date.html#11197">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/thread.html#11197">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/subject.html#11197">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/author.html#11197">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Diky za nakopnuti, raw_input  to vyresil.
+Ten zbytek takto vyresit nesel, ten vstupni soubor je tvoren jako pole v 
+Delphi, zadne oddeleni bunek se tam nekona.
+
+
+----- Original Message ----- 
+From: &quot;Michal Molhanec&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mol-python na seznam.cz</A>&gt;
+To: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+Sent: Friday, November 29, 2013 8:41 PM
+Subject: Re: [python] Zacatecnik prosi o nalezeni a vysvetleni chyby
+
+
+Dne 29.11.2013 20:07, pythoncaha napsal(a):
+&gt;<i> Dobry den vsem v konferenci, jsem zde novy a dovolil bych si obcas
+</I>&gt;<i> nejaky zacatecnicky dotaz.
+</I>&gt;<i> Doufam, ze nikoho neurazim opravdu zakladnimi otazkami, ale verte, ze
+</I>&gt;<i> nez se zeptam, tak ztratim nekolik hodin pokusy...
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> V souboru seznam.txt je kombinace cisel a jmen. Cislo je v souboru vzdy
+</I>&gt;<i> unikatni. Chtel jsem programem najit pozici cisla a pak si nacist
+</I>&gt;<i> nasledujici jmeno, ale hledani se mi nedari. Dale je asi problem pokud
+</I>&gt;<i> cislo zacina nulou, je pak povazovano za HEX hodnotu?
+</I>
+Pouzivej raw_input, ne input v Pythonu 2 (v Pythonu 3 se raw_input
+prejmenoval na input).
+
+V pripade, ze soubor obsahuje dvojice cislo a slovo oddelene napr.
+mezerou a navzajem napr. koncem radku:
+
+cislo = raw_input(&quot;Zadej hledane cislo: &quot;)
+print cislo
+
+# bylo zadano cislo?
+if cislo.isdigit():
+    # nacti soubor a rozdel ho do pole po jednotlivych slovech
+    with open('seznam.txt', 'rt') as soubor:
+        seznam = soubor.read().split()
+    # v i bude index prvku v poli seznam
+    for i, prvek in enumerate(seznam):
+        if prvek == cislo:
+            print seznam[i + 1]
+            break
+    # else u for se vykona v pripade, ze se v cyklu for nevykonalo break
+    else:
+        print 'Nenalezeno'
+else:
+    print 'Neni zadano cislo'
+
+
+Zdraví,
+Michal Molhanec
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A> 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011196.html">[python] Zacatecnik prosi o nalezeni a vysvetleni chyby
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-November/date.html#11197">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/thread.html#11197">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/subject.html#11197">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/author.html#11197">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-November/011197.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:55 GMT -->
+</html>

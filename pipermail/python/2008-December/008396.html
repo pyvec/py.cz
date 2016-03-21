@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008396.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:09 GMT -->
+<HEAD>
+   <TITLE> [python] Faktorizace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Faktorizace&In-Reply-To=%3C5405.12402-3815-1138551229-1229096058%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008398.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008397.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Faktorizace</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Faktorizace&In-Reply-To=%3C5405.12402-3815-1138551229-1229096058%40seznam.cz%3E"
+       TITLE="[python] Faktorizace">Jakohv na seznam.cz
+       </A><BR>
+    <I>Pátek Prosinec 12 16:34:18 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008398.html">[python] vymena serveru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008397.html">[python] Faktorizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8396">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8396">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8396">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8396">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+
+Vyvýjím jednu aplikaci a potřebuji, aby daná aplikace uměla rozložit číslo na součin prvočísel (prvočíselný rozklad). Naprogramovat nějaký základní algoritmus není problém, ale problém nastane, pokud do algoritmu zadám nějaké větší číslo (např. 4848484848484841178813). 
+Mému algoritmu toto číslo trvá dost dlouho, ale například na této stránce dostanu výsledek takřtka okamžitě: <A HREF="http://www.numberempire.com/primenumbers.php">http://www.numberempire.com/primenumbers.php</A>
+
+Jaký algoritmus byste mi doporučili používat? Na menší čísla se dá použít faktorizace dělením:
+
+def faktorizace_delenim(i):
+    prvocisla = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+    seznam=[]
+    cislo = 0
+    while len(prvocisla) != cislo:
+        if i%prvocisla[cislo] == 0:
+            seznam.append(prvocisla[cislo])
+            i = i/prvocisla[cislo]
+        else:
+            cislo = cislo +1     
+        if i == 1: break
+    seznam.append(i)
+    return seznam
+
+ale tenhle algoritmus má tu nevýhodu, že bych ten seznam prvočísel (o velikost od 0 do sqrt(i)) musel vygenerovat, což trvá dost dlouho.
+
+Další algoritmus co znám je Eulerova metoda, ale ta je použitelná pouze v některých speciálních případech:
+
+#-*- coding: utf-8 -*-
+from math import*
+import random
+def nejvetsi_spolecny_delitel(cislo1,cislo2):
+    while cislo2 != 0:
+        r=cislo1%cislo2
+        cislo1=cislo2
+        cislo2=r
+    return cislo1
+def ctverec(x, cislo = 2):
+    while 1:
+        r=x-cislo**2
+        if r &lt; 0:
+            return -1, -1
+        if int(sqrt(r)) == sqrt(r):
+            return cislo, sqrt(r)
+        cislo = cislo+1
+
+def euler(x):
+    a, b = ctverec(x)
+    if a == -1:
+        return u&quot;Toto číslo nelze pomocí tohoto algoritmu rozložit. &quot;
+    c, d = ctverec(x, min([a, b])+1)
+    if (a == c or a == d):
+        return u&quot;Toto číslo nelze pomocí tohoto algoritmu rozložit. &quot;
+    k=abs(nejvetsi_spolecny_delitel(a-c, d-b))
+    n=abs(nejvetsi_spolecny_delitel(a+c, d+b))
+    m=(a+c)/n
+    l=(d+b)/n
+    return str((k/2)**2+(n/2)**2)+&quot; * &quot;+str(m**2+l**2)+&quot; = &quot;+str(x)
+print euler(1000009)
+
+Poslední algoritmus, který znám je Pollardův rho algoritmus. Pracuje na podobném principu jako faktorizace dělením, ale s tím rozdílem, že se nesnaží najít všechny členy prvočíselného rozkladu, ale pouze jeden (a ani ten nemusí být prvočíslo, proto musíme na výstup z toho algoritmu aplikovat ještě nějaký jiný faktorizační algoritmus). Nicméně zvládně celkem úspěšně najít dělitele i ohromných čísel:
+
+from math import*
+import random
+def nejvetsi_spolecny_delitel(cislo1,cislo2):
+    while cislo2 != 0:
+        r=cislo1%cislo2
+        cislo1=cislo2
+        cislo2=r
+    return cislo1
+def f(x, n):      
+    return (x**2+random.randint(1, n-1))%n
+def pollard(n):
+    a = random.randint(2, n-3)
+    b = random.randint(1, n-1)
+    g = 1
+    while g == 1:
+        a = f(a, n)
+        b = f(b, n)
+        b = f(b, n)
+        g = nejvetsi_spolecny_delitel(abs(a-b), n)
+    if g == n:
+        return -1
+    return g
+print pollard(618131841351864132181230010152)
+
+
+Znáte někdo nějaké efektivní řešení?
+
+Děkuji
+
+S pozdravem
+
+Jakub Vojáček
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008398.html">[python] vymena serveru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008397.html">[python] Faktorizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8396">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8396">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8396">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8396">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008396.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:09 GMT -->
+</html>

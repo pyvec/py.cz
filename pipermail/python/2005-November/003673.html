@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-November/003673.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:22 GMT -->
+<HEAD>
+   <TITLE> [python] test eof
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20test%20eof&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-November/003672.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-November/003674.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] test eof</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20test%20eof&In-Reply-To="
+       TITLE="[python] test eof">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Listopad 18 08:32:59 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003672.html">[python] test eof
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003674.html">[python] Bezpecne prostredi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-November/date.html#3673">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/thread.html#3673">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/subject.html#3673">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/author.html#3673">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jiri Vit napsal...
+&gt;<i> Nevite nekdo jak efektivne zjistit posledni radek v souboru, 
+</I>&gt;<i> cili obdoba eof() z perlu?
+</I>&gt;<i> 
+</I>&gt;<i> Nekde jsem nasel postup v modulu fileinput to kontrolovat takto: 
+</I>&gt;<i> &quot;fileinput.isfirstline() and fileinput.lineno() != 1&quot; 
+</I>&gt;<i> 
+</I>&gt;<i> Existuje jeste nejaky elegantnejsi zpusob?
+</I>
+K tomu, co napsali ostatní, přidávám...
+Pokud se čte po jednotlivých řádcích, pak
+se při čtení řádku po konci souboru
+vrací prázdný řetězec. V opačném případě
+se vrací vždy neprázdný řetězec, protože
+i u prázdných řádků pocházejících ze souboru
+se vrací &quot;\n&quot;. Příklad:
+
+f = file('a.txt')
+radek = 'xxx'
+while radek != '':
+    radek = f.readline()
+    print radek,
+
+Tento příklad je zjednodušený, takže
+se jakoby tiskne i ten prázdný řádek, 
+který nepochází ze souboru. Ale u print
+je potlačen automatický přechod na nový 
+řádek, takže se navíc objeví asi jen 
+mezera (oddělovač argumentů u print), 
+možná ani to ne (nezkoušel jsem).
+
+pepr
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003672.html">[python] test eof
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003674.html">[python] Bezpecne prostredi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-November/date.html#3673">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/thread.html#3673">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/subject.html#3673">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/author.html#3673">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-November/003673.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:22 GMT -->
+</html>

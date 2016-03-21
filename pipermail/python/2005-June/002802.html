@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002802.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:17 GMT -->
+<HEAD>
+   <TITLE> [python] re: hlavolam
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20re%3A%20hlavolam&In-Reply-To=d8of8v%2424iv%241%40ns.felk.cvut.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-June/002799.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-June/002801.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] re: hlavolam</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20re%3A%20hlavolam&In-Reply-To=d8of8v%2424iv%241%40ns.felk.cvut.cz"
+       TITLE="[python] re: hlavolam">rk na dat.cz
+       </A><BR>
+    <I>Středa Červen 15 10:39:56 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002799.html">[python] re: hlavolam
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002801.html">[python] hlavolam
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2802">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2802">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2802">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2802">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, Jun 15, 2005 at 07:45:44AM +0200, pavel.kosina wrote:
+
+&gt;<i> &gt;Někdo tady psal, že spoléhat se nato, že se slovník sám srovná, je
+</I>&gt;<i> &gt;spoléhání na náhodu,
+</I>&gt;<i> &gt;ale ono to fakt vypadá, že se srovná vždycky, takže je to spíš výhoda
+</I>&gt;<i> &gt;použití slovníku.
+</I>&gt;<i> 
+</I>&gt;<i> nejsem super teoretik, ale fakt si jen tak matně vpomínám, že v obyčejném 
+</I>&gt;<i> výpise slovníku se může lišit pořadí jednotlivých položek v závislosti na 
+</I>&gt;<i> systému. Na jednom stroji to bude asi porad stejne, to je fakt, ale na 
+</I>&gt;<i> jinych strojich, jinych op. systemech, to je nezarucitelne.
+</I>
+V tomto velmi konkretnim pripade to bude podle me fungovat vzdy, ale
+jako reseni bych to neprijal :-)
+
+Funguje to proto, ze hash prirozeneho cisla, je samo prirozene cislo
+(hash(33) == 33), proto se jednotlive polozky ukladaji ve vnitrnim poli
+slovniku &quot;ma_table&quot; za sebou (jako v normalnim poli). Napr.:
+    
+    d = {1:'C', 2:'X'}
+
+    ma_table   item
+    ------------------
+    0          NULL
+    1          (1,'C')
+    2          (2,'X')
+    3          NULL
+
+    d.items() == [(1,'C'), (2,'X')] # OK
+
+Pokud by byl pridan do slovniku klic, ktery je vetsi nez velikost
+ma_table, cele se to rozhodi, protoze hash se prepocitava dalsimi
+algoritmy tak, aby vysledek byl mensi nez velikost interni struktury
+slovniku a aby ukazoval na prazdne misto. Napr.:
+
+    d = {1:'C', 2:'X', 8:'A'}
+
+    ma_table   item
+    ------------------
+    0          (8,'A')
+    1          (1,'C')
+    2          (2,'X')
+    3          NULL
+
+    d.items() == [(8,'A'), (1,'C'), (2,'X')] # Spatne
+
+Cili musi platit, ze klice jsou integery, a hodnota zadneho klice
+nesmi presahnout (+/- urcita tolerance) pocet klicu, coz v pripade
+hlavolamu vzdy plati. Tolerance je zde proto, ze velikost ma_table
+se meni skokove, ne po pridani jedne polozky do slovniku.
+
+Zdravi,
+
+Radek Kaňovský
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002799.html">[python] re: hlavolam
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002801.html">[python] hlavolam
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2802">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2802">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2802">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2802">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002802.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:17 GMT -->
+</html>

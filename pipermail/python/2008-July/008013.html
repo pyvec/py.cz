@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008013.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:38 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátor a přístup do jmenného prostoru třídy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDekor%3DE1tor_a_p%3DF8%3DEDstup_do_jmenn%3DE9ho_p%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Frostoru_t%3DF8%3DEDdy%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/008012.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/008014.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátor a přístup do jmenného prostoru třídy</H1>
+    <B>Martin Stiborský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDekor%3DE1tor_a_p%3DF8%3DEDstup_do_jmenn%3DE9ho_p%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Frostoru_t%3DF8%3DEDdy%3F%3D&In-Reply-To="
+       TITLE="[python] Dekorátor a přístup do jmenného prostoru třídy">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Středa Červenec 23 19:13:54 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008012.html">[python] pysql_premenna
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008014.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8013">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8013">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8013">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8013">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím, potřeboval bych pomoct s problémem, rovnou sem šoupnu kousek
+kódu a pak to popíšu.
+
+#!/usr/bin/python
+
+def dekorator():
+  def decorate(fce):
+    def wrapper(*args, **kwargs):
+      print &quot;ook&quot;
+    return wrapper
+  return decorate
+
+class Foo:
+  def __init__(self):
+    self.bar = &quot;promenna&quot;
+
+  @dekorator()
+  def metoda(self):
+    print &quot;ja jsem metoda&quot;
+
+app = Foo()
+app.metoda()
+
+
+Potřeboval bych, aby dekorátor měl přístup k self.bar, aby mohl číst
+co je zrovna v té proměnné, na aktuální funkčnost nekoukejte, jenom
+jsem chtěl nastínit jak to vypadá. Nevím jak to napsat tak, aby se ten
+dekorátor k tomu dostal :( Potřeboval bych totiž uvnitř dekorátoru s
+onou self.bar pracovat ..
+
+Díky za pomoc.
+
+-- 
+S pozdravem
+Martin Stiborský
+
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+ICQ: 224-065-849
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008012.html">[python] pysql_premenna
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008014.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8013">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8013">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8013">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8013">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008013.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:38 GMT -->
+</html>

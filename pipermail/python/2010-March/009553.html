@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009553.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:54 GMT -->
+<HEAD>
+   <TITLE> [python] generatorovy vyraz (bylo Re: nevznik objektu)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20generatorovy%20vyraz%20%28bylo%20Re%3A%20nevznik%20objektu%29&In-Reply-To=%3C8ae862014e164059bbb6df004b669b1e%40c2dff675d98246fa87ccc314459ebefa%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009556.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009554.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] generatorovy vyraz (bylo Re: nevznik objektu)</H1>
+    <B>Přikryl Petr</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20generatorovy%20vyraz%20%28bylo%20Re%3A%20nevznik%20objektu%29&In-Reply-To=%3C8ae862014e164059bbb6df004b669b1e%40c2dff675d98246fa87ccc314459ebefa%3E"
+       TITLE="[python] generatorovy vyraz (bylo Re: nevznik objektu)">prikryl na atlas.cz
+       </A><BR>
+    <I>Středa Březen 24 14:33:55 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009556.html">[python] Trida pro IP adresu, 	vyjimky (bylo RE: Re:  nevznik objektu)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009554.html">[python] generatorovy vyraz (bylo Re: nevznik objektu)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9553">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9553">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9553">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9553">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+&gt;<i>Od: David Rohleder
+</I>&gt;<i>[...] si snažím o
+</I>&gt;<i>objasnit některé věci. Imho jsou
+</I>&gt;<i>napřiklad některé z těch syntaktických 
+</I>&gt;<i>cukrů špatně - např. odstranění
+</I>&gt;<i>závorek z generátorů (i*i for i in range(4)).
+</I>&gt;<i>Ne, že by se na to nedalo
+</I>&gt;<i>zvyknout, akorát to tady trochu přehnali.
+</I>
+Ty závorky nejsou odstraněné. Ty závorky
+nebyly nikdy potřeba... až na některé výjimky,
+jako 
+
+  g = (i*i for i in range(4))
+
+Jde jen o specialitu, aby překladač poznal,
+že to je generátorový výraz. Je to jako numerický
+výraz -- taky se může zapsat do závorek.
+
+&gt;&gt;&gt;<i> g = i*i for i in range(4)
+</I>  File &quot;&lt;stdin&gt;&quot;, line 1
+    g = i*i for i in range(4)
+              ^
+SyntaxError: invalid syntax
+&gt;&gt;&gt;<i> g = (i*i for i in range(4))
+</I>&gt;&gt;&gt;<i> g
+</I>&lt;generator object &lt;genexpr&gt; at 0x0282A580&gt;
+
+A určitě to není generátor n-tice. Tu si 
+ale můžu jednoduše z generátorového výrazu
+vytvořit. V níže uvedeném příkladu už ta syntaktická
+specialita není nutná, takže je to tuple() s holým
+generátorovým výrazem uvnitř:
+
+&gt;&gt;&gt;<i> t = tuple(i*i for i in range(4))
+</I>&gt;&gt;&gt;<i> t
+</I>(0, 1, 4, 9)
+
+Jde taky o to, že generátorový výraz lze napsat
+na víc řádků. Tady je jiný výraz a je to pitomost,
+ale pro ilustraci:
+
+&gt;&gt;&gt;<i> g = (i*i
+</I>...        for i in range(4)
+...        if i &gt; 2)
+&gt;&gt;&gt;<i> g
+</I>&lt;generator object &lt;genexpr&gt; at 0x0282A648&gt;
+&gt;&gt;&gt;<i> tuple(g)
+</I>(9,)
+
+Kdyby tam nebyly (u toho výrazu) ty závorky,
+vypadal by for jako špatně odsazený... a vůbec 
+by to překladači mohlo hodně zamotat hlavu.
+Nehledě na to, že by se to for mohlo odsadit 
+stejně jako g a pak už by to bylo úplně divné.
+
+pepr
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009556.html">[python] Trida pro IP adresu, 	vyjimky (bylo RE: Re:  nevznik objektu)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009554.html">[python] generatorovy vyraz (bylo Re: nevznik objektu)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9553">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9553">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9553">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9553">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009553.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:54 GMT -->
+</html>

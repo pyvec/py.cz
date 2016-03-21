@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-October/001469.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:55 GMT -->
+<HEAD>
+   <TITLE> [python] rozsirovani pythonu - C a Python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20rozsirovani%20pythonu%20-%20C%20a%20Python&In-Reply-To=20031017172546.GB1596%40home">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-October/001461.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-October/001471.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] rozsirovani pythonu - C a Python</H1>
+    <B>Jan Svec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20rozsirovani%20pythonu%20-%20C%20a%20Python&In-Reply-To=20031017172546.GB1596%40home"
+       TITLE="[python] rozsirovani pythonu - C a Python">honza na py.cz
+       </A><BR>
+    <I>Úterý Říjen 21 09:00:24 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-October/001461.html">[python] rozsirovani pythonu - C a Python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-October/001471.html">[python] rozsirovani pythonu - C a Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-October/date.html#1469">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/thread.html#1469">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/subject.html#1469">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/author.html#1469">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, 17 Oct 2003, Radim Kolar wrote:
+
+&gt;<i> Muze mne nekdo odkazat na priklad, jak se mixuji native python metody
+</I>&gt;<i> a C methody v objektu? V Jave se napise  .java soubor a oznaci se
+</I>&gt;<i> v nem jako native. Jelikoz Python nema .py pro import C modulu ale jen
+</I>&gt;<i> .so, musi se to zjevne nejak udelat v C kodu.
+</I>&gt;<i>
+</I>&gt;<i> udelal jsem si novy objekt (class) a naimplementoval jsem si 2 metody v
+</I>&gt;<i> jazyku C (interface do libfftw2), pricemz zbytek metod bych rad udelal
+</I>&gt;<i> v Pythonu, pricemz opravdu nechci mit pythonsky kod natvrdo v C kodu.
+</I>&gt;<i> Nemuzu v dokumentaci najit, jak to udelat.
+</I>
+Kdyz jsem neco podobneho resil, tak jsem prisel na jednu moznost.
+Vytvorit si C modul s C tridou a pak Python tridu, ktera podedi od te v
+C. V ni doimplementuju vsechny Pythoni metody. Do C tridy a jejich metod
+pak dodelam volani tech pythonovskych. Pointery na ne ziskam pomoci
+PyObject_GetAttrString() na object self. Ponevadz ten je instanci
+podedene tridy (musi se vzdy vytvaret instance podedene tridy), obsahuje
+jeji metody a proto to projde.
+
+Doufam, ze to bylo z meho popisu srozumitelne
+
+--
+S pozdravem    .-------------------------.
+Jan Svec       | Znate jazyk Python? NE? |
+               | zkuste <A HREF="http://www.py.cz/">http://www.py.cz</A> |
+.--------------+-------------------------+
+|<i>            &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza na py.cz</A>&gt;               |
+</I>|<i>     <A HREF="http://www.py.cz/Members/honza">http://www.py.cz/Members/honza</A>     |
+</I>|<i>            <A HREF="http://www.py.cz/mailman/listinfo/python">honzas na jabber.cz</A>            |
+</I>`----------------------------------------'
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-October/001461.html">[python] rozsirovani pythonu - C a Python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-October/001471.html">[python] rozsirovani pythonu - C a Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-October/date.html#1469">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/thread.html#1469">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/subject.html#1469">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/author.html#1469">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-October/001469.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:55 GMT -->
+</html>

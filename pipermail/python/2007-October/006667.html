@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006667.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:19 GMT -->
+<HEAD>
+   <TITLE> [python] django
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20django&In-Reply-To=fcba3d560710300417j722a9510nda459b960e11a461%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-October/006665.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-October/006668.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] django</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20django&In-Reply-To=fcba3d560710300417j722a9510nda459b960e11a461%40mail.gmail.com"
+       TITLE="[python] django">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Středa Říjen 31 20:43:08 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006665.html">[python] django
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006668.html">[python] Autorestart pylons serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6667">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6667">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6667">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6667">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Je to sice uz s krizkem po funuse, ale tady mam postup (pro Debian) z
+nasi interni knowledgebase, kdyz jsem to instaloval pred par mesici.
+Dneska uz to muze byt trochu jinak. Ale treba to nekomu pomuze...
+
+
+# apt-get install python-django
+
+&gt;<i>From this point, commands are exact:
+</I>
+# su - www-data
+$ cd /data/django
+$ django-admin startproject sandbox
+
+edit: /data/django/sandbox/settings.py
+
+DATABASE_ENGINE = 'postgresql'           # 'postgresql', 'mysql',
+'sqlite3' or 'ado_mssql'.
+DATABASE_NAME = 'sandbox'             # Or path to database file if
+using sqlite3.
+DATABASE_USER = 'apache'             # Not used with sqlite3.
+DATABASE_PASSWORD = 'some_password'         # Not used with sqlite3.
+DATABASE_HOST = ''             # Set to empty string for localhost.
+Not used with sqlite3.
+DATABASE_PORT = ''             # Set to empty string for default. Not
+used with sqlite3.
+
+# Local time zone for this installation. All choices can be found here:
+# <A HREF="http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE">http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE</A>
+TIME_ZONE = 'Europe/London'
+
+# Language code for this installation. All choices can be found here:
+# <A HREF="http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes">http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes</A>
+# <A HREF="http://blogs.law.harvard.edu/tech/stories/storyReader$15">http://blogs.law.harvard.edu/tech/stories/storyReader$15</A>
+LANGUAGE_CODE = 'en-uk'
+
+
+# apt-get install python-psycopg (django failed without it)
+
+
+As root, edit /etc/apache2/sites-available/default. In section related
+to virtualhost listening on localhost port 81, add the following:
+
+# Django stuff
+
+
+SetHandler python-program
+PythonHandler django.core.handlers.modpython
+PythonPath &quot;['/data/django'] + sys.path&quot;
+SetEnv DJANGO_SETTINGS_MODULE sandbox.settings
+PythonDebug On
+
+
+as www-data user:
+$ cd /var/www
+$ ln -s /usr/share/python-support/python-django/django/contrib/admin/media media
+
+As root, restart Apache:
+/etc/init.d/apache2 reload
+
+
+Vcera jsem se nedostal k mailu  :-(
+
+  Jirka
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006665.html">[python] django
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006668.html">[python] Autorestart pylons serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6667">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6667">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6667">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6667">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006667.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:19 GMT -->
+</html>

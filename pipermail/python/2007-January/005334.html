@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005334.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+<HEAD>
+   <TITLE> [python] ftp passive
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20ftp%20passive&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005342.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005335.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ftp passive</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20ftp%20passive&In-Reply-To="
+       TITLE="[python] ftp passive">geon na post.cz
+       </A><BR>
+    <I>Pondělí Leden  8 08:52:10 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005342.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005335.html">[python] ftp passive
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5334">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5334">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5334">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5334">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mám problém s připojováním na ftp server s pasivním režimem. V TC mi vše 
+funguje, v pythonu následující kod havaruje:
+
+    ftp = ftplib.FTP(&quot;...&quot;)
+    ftp.login(&quot;.....&quot;)
+    ftp.transfercmd(&quot;PASV&quot;)
+
+Traceback (most recent call last):
+  File &quot;I:\Informatika\HodnocenÝ\body.py&quot;, line 47, in &lt;module&gt;
+    if stazeni(tridaFTP):
+  File &quot;I:\Informatika\HodnocenÝ\body.py&quot;, line 18, in stazeni
+    ftp = ftp.transfercmd(&quot;PASV&quot;)
+  File &quot;C:\prg\Python25\lib\ftplib.py&quot;, line 345, in transfercmd
+    return self.ntransfercmd(cmd, rest)[0]
+  File &quot;C:\prg\Python25\lib\ftplib.py&quot;, line 329, in ntransfercmd
+    raise error_reply, resp
+ftplib.error_reply: 227 Entering Passive Mode (217,117,215,1,182,183).
+
+Zkoušel jsem i ftp.set_pasv(1), ale nic.
+
+Díky jestli někdo bude vědět. Do nového roku to šlo (server byl 
+aktivní), ale pak to předělali na pasivní ....
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005342.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005335.html">[python] ftp passive
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5334">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5334">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5334">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5334">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005334.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:50 GMT -->
+</html>

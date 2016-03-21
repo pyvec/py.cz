@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/006090.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:52 GMT -->
+<HEAD>
+   <TITLE> [python] append child v xml...
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20append%20child%20v%20xml...&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-June/006089.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-June/006094.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] append child v xml...</H1>
+    <B>Luc@sh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20append%20child%20v%20xml...&In-Reply-To="
+       TITLE="[python] append child v xml...">lukas na pleva.cz
+       </A><BR>
+    <I>Středa Červen 20 22:37:26 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006089.html">[python] re.findall - hledat hvezdicky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006094.html">[python] nahražení znaků
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#6090">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#6090">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#6090">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#6090">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Nejdriv vsem diky za rady...a mam dalsi otazku:
+
+reseni: mam xml soubor a chci do nej pridat element(additionalData)...tak  
+aby byl pridan do kazdeho &quot;data&quot;
+
+Kdyz mam xml soubor, ktery obsahuje(zkraceno)(vzor1.xml):
+&lt;neco&gt;
+	&lt;tagA&gt;Ahoj Svete&lt;/tagA&gt;
+&lt;/neco&gt;
+&lt;data&gt;
+	&lt;host&gt;localhost&lt;/host&gt;
+	&lt;user&gt;root&lt;/user&gt;
+&lt;/data&gt;
+
+potom mam program:
+
+ from xml.dom import minidom
+def findTextNodes(nodeList, tagname, new):
+	for subnode in nodeList:
+		if subnode.nodeType == subnode.ELEMENT_NODE:
+			if (subnode.nodeType == subnode.ELEMENT_NODE and subnode.tagName ==  
+tagname):
+				new = doc.createElement(new)
+				subnode.appendChild(new)
+				new.appendChild(doc.createTextNode(&quot;tento text doplnen&quot;))
+			findTextNodes(subnode.childNodes, tagname, new)
+
+doc = minidom.parse('vzor1.xml')
+findTextNodes(doc.childNodes, &quot;data&quot;, &quot;AdditionalData&quot;)
+print doc.toxml()
+
+
+A vsechno funguje bez problemu... sice mi to tam prida podivne(ze neudela  
+ten tabulator a na konci prechod na dalsi radek)
+vysledek:
+&lt;neco&gt;
+	&lt;tagA&gt;Ahoj Svete&lt;/tagA&gt;
+&lt;/neco&gt;
+&lt;data&gt;
+	&lt;host&gt;localhost&lt;/host&gt;
+	&lt;user&gt;root&lt;/user&gt;
+&lt;AdditionalData&gt;tento text doplnen&lt;/AdditionalData&gt;&lt;/data&gt;
+
+
+
+ALE kdyz zmenim XML na:
+&lt;neco&gt;
+	&lt;tagA&gt;Ahoj Svete&lt;/tagA&gt;
+&lt;/neco&gt;
+&lt;data&gt;
+	&lt;host&gt;localhost&lt;/host&gt;
+	&lt;user&gt;root&lt;/user&gt;
+&lt;/data&gt;
+&lt;data&gt;
+	&lt;host&gt;local&lt;/host&gt;
+	&lt;user&gt;toor&lt;/user&gt;
+&lt;/data&gt;
+
+tak uz pridavani nefunguje a hodi to opravdu zvlastni chybu:
+
+Traceback (most recent call last):
+   File &quot;together1.py&quot;, line 26, in ?
+     print doc.toxml()
+   File &quot;/home/pleva/lib/_xmlplus/dom/minidom.py&quot;, line 47, in toxml
+     return self.toprettyxml(&quot;&quot;, &quot;&quot;, encoding)
+   File &quot;/home/pleva/lib/_xmlplus/dom/minidom.py&quot;, line 59, in toprettyxml
+     self.writexml(writer, &quot;&quot;, indent, newl, encoding)
+   File &quot;/home/pleva/lib/_xmlplus/dom/minidom.py&quot;, line 1746, in writexml
+     node.writexml(writer, indent, addindent, newl)
+   File &quot;/home/pleva/lib/_xmlplus/dom/minidom.py&quot;, line 821, in writexml
+     node.writexml(writer,indent+addindent,addindent,newl)
+   File &quot;/home/pleva/lib/_xmlplus/dom/minidom.py&quot;, line 821, in writexml
+     node.writexml(writer,indent+addindent,addindent,newl)
+   File &quot;/home/pleva/lib/_xmlplus/dom/minidom.py&quot;, line 808, in writexml
+     writer.write(indent+&quot;&lt;&quot; + self.tagName)
+TypeError: cannot concatenate 'str' and 'instance' objects
+
+-z cehoz jsem pochopil, ze nemuze spojit tag, ale vubec nevim kvuli cemu...
+
+Tak predem moc dik za rady, uz to vidim, ze to bude zas naka banalita :))
+
+Lukas
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006089.html">[python] re.findall - hledat hvezdicky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/006094.html">[python] nahražení znaků
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#6090">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#6090">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#6090">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#6090">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/006090.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:52 GMT -->
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/002991.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:57 GMT -->
+<HEAD>
+   <TITLE> [python] Hledani v retezci
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Hledani%20v%20retezci&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-July/002989.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-July/002992.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Hledani v retezci</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Hledani%20v%20retezci&In-Reply-To="
+       TITLE="[python] Hledani v retezci">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Červenec  7 10:55:36 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002989.html">[python] Hledani v retezci
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002992.html">[python] Slovniky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#2991">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#2991">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#2991">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#2991">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Martin Jedlička...
+&gt;<i> [...] Mam ulozenou v promenne cestu napr. 
+</I>&gt;<i> /mnt/data/cvs/test/projekt a potreboval bych v teto promenne 
+</I>&gt;<i> najit retezece, ktere jsou obsazeny mezi lomitky. 
+</I>&gt;<i> Tedy projit ten retezec a vsechny retezce mezi lomitky 
+</I>&gt;<i> ukladat do nejakeho pole i s poslednim retezcem. Jde mi 
+</I>&gt;<i> zejmena o posledni retezec (napr. projekt) a predposledni
+</I>&gt;<i> (napr.test)
+</I>
+Zjevně jde o použití v unixovském systému. Pak lze použít
+jinými doporučovanou metodu s.split('/'), kde s je reference
+na uložený řetězec.
+
+Doporučoval bych ale spíše využít funkcí pro práci s cestou,
+které nejsou závislé na operačním systému, tedy modulu os.path. 
+Pak nebude záviset na tom, zda se v konkrétním systému používají
+lomítka normální či obrácená. Doporučuji prostudovat následující 
+funkce z os.path:
+
+  abspath, normpath,
+  commonprefix,
+  split, dirname, basename,
+  join
+
+Lze například psát
+
+  import os
+
+  s = '/mnt/data/cvs/test/projekt'
+ 
+a pak
+
+  adr1 = os.path.basename(s)                   # projekt
+  adr2 = os.path.basename(os.path.dirname(s))  # test
+  
+nebo
+
+  t = os.path.split(s)    # ('/mnt/data/cvs/test', 'projekt')
+
+  adr1 = t[1]
+  adr2 = os.path.basename(t[0])
+
+Použití os.path se může ze začátku zdát těžkopádné,
+ale často se to později vyplácí.
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002989.html">[python] Hledani v retezci
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002992.html">[python] Slovniky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#2991">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#2991">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#2991">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#2991">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/002991.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:57 GMT -->
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005009.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:22 GMT -->
+<HEAD>
+   <TITLE> [python] Buducnost Pythonu: lambda, map, filter
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%20filter&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005008.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005021.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Buducnost Pythonu: lambda, map, filter</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%20filter&In-Reply-To="
+       TITLE="[python] Buducnost Pythonu: lambda, map, filter">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Listopad 10 13:46:54 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005008.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005021.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5009">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5009">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5009">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5009">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman
+&gt;<i> [...] Osobně lambda především omezuje zbytečné definice 
+</I>&gt;<i> krátkých funkcí, které se použijí jednorázově. To může 
+</I>&gt;<i> zpřehlednit maximálním způsobem zdrojový kód. Přepsat 
+</I>&gt;<i> se samozřejmě dá všechno, protože je matematicky dokázáno, 
+</I>&gt;<i> že jakýkoli algoritmus se dá napsat pouze s podmíněným skokem.
+</I>
+Jde o to, že Python může k reduce a lambda nabídnout 
+alternativy, které nelze srovnávat s primitivností 
+podmíněného skoku. Ty alternativy mi připadají lepší
+než reduce/lambda.
+
+&gt;<i> &gt; Přiřazení jako výraz působí komplikace protože se 
+</I>&gt;<i> &gt; v boolovských výrazech může poplést == s =.
+</I>&gt;<i> 
+</I>&gt;<i> To je bohužel problém Pythonu, že umožňuje do logických 
+</I>&gt;<i> operátorů zavést i jiné, než logické typy. Tohle v jazycích
+</I>&gt;<i> nesnáším, tahle vlastnost je &quot;error prone&quot; a bohužel jí hodně
+</I>&gt;<i> tvůrců jazyka z nějakého, pro mě sadistického důvodu zavádí.
+</I>
+Ten sadistický důvod se jmenuje zpětná kompatibilita. Začíná
+to u strojových instrukcí, přes C, C++ a vše, co se je snaží
+napodobovat. Strojové instrukce neznají typy ve smyslu
+vyššího programovacího jazyka. Nula je false, cokoliv jiného
+je true. Python kdysi boolovské hodnoty vůbec neznal.
+
+&gt;<i> Tohle bohužel dobře ošetřila Java, nebo Pascal, že logické 
+</I>&gt;<i> operátory musejí mít jako operandy pouze logické typy. 
+</I>&gt;<i> Pak rozhodně není žádný problém s = a ==. Takže problém, který 
+</I>&gt;<i> popisujete je sekundární.
+</I>
+... ale ne v Pythonu. V něm můžu jakémukoliv jménu přiřadit 
+cokoliv (referenci na libovolný objekt). Pascal a Java dělají
+typovou kontrolu v době kompilace a identifikátor je svázán
+s typem. V Pythonu by tedy docházelo k výrazně zapeklitějším 
+chybám.
+
+&gt;<i> Díky té blbosti, že logické výrazy pracují i s nelogickými typy je 
+</I>&gt;<i> Python závislý na kontextu. Tentýž výraz znamená něco jiného 
+</I>&gt;<i> v podmínce a něco jiného mimo podmínku. Nechápu proč prostě dovolovat 
+</I>&gt;<i> podmínky typu:
+</I>&gt;<i> 
+</I>&gt;<i> a = 2
+</I>&gt;<i> if a:
+</I>&gt;<i>    print &quot;je to tam&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Já bych si přál jazyk, který striktně přikazuje napsat:
+</I>&gt;<i> 
+</I>&gt;<i> a = 2
+</I>&gt;<i> if a != 0:
+</I>&gt;<i>    print &quot;je to tam&quot;
+</I>
+Říká se tomu interpretace v boolovském kontextu. Je to věc
+dohody. Taky píšu raději 
+  if len(lst) &gt; 0:
+     ...
+než jen
+  if lst:
+     ...
+
+Ale hodně lidí dává přednost stručnosti... ;o)
+a taky vyhození této vlastností by v porovnání s vyhozením
+lambda bylo mnohem výraznější...
+
+&gt;<i> [...] hrubé PORUŠENÍ ZPĚTNÉ KOMPATIBILITY jazyka, a pokud 
+</I>&gt;<i> vím, zatím žádný jazyk tohle nepřežil ve zdraví.
+</I>
+&gt;<i> [...]Já se nechci hádat o alternativním zápisu. Mě jsou 
+</I>&gt;<i> takovéto hádky ukradené. Prostě lambda, map, filter, 
+</I>&gt;<i> reduce tam v Pythonu již jsou a z toho vyplývá, že tam 
+</I>&gt;<i> mají zůstat. A nebo tam neměly nikdy být. Tyhle hádky 
+</I>&gt;<i> měly skutečný smysl v době návrhu jazyka, teď už jsou pasé.
+</I>
+Trochu mi to připomíná &quot;Nic mi neříkejte! Já na to přijdu sám.&quot;.
+Debata kolem návrhu odstranit lambda a spol byla tuhá. Pokud si
+dobře pamatuji, implementace lambda je v jádře jazyka udělána
+nějak nečistě a některé věci komplikuje. Asi komplikuje i další
+vývoj. V novějších verzích Pythonu se objevily generátory 
+a generátorové výrazy, které zpětně vyjasňují i konstrukce
+s tak krkolomným názvem, jako je &quot;list comprehension&quot;
+(generátor seznamu).
+
+Odhaduji, že i po uvedení verze Python 3(000) bude 
+Python 2.x dlouho podporován a opravován. Nic Vám nebrání 
+zůstat u něj. Disky budou tak veliké, že souběžná instalace
+obou verzí interpretu bude chápána jako nulový problém.
+Nedivil bych se, kdyby Python 3000 vyřešil věc pragmaticky
+tím, že Python 2.x by byl součástí instalace Python 3000
+jen kvůli zaručení zpětné kompatibility.
+
+&gt;<i> Teď to tam je, a pak by tam podle Zen of Miloslav Ponkrác:
+</I>&gt;<i> 
+</I>&gt;<i> 1) Budeš v maximální možné míře dodržovat zpětnou kompatibilitu
+</I>
+Spousta odborníků používajících C++ říká, že jednou z největších
+chyb byla asi snaha být důsledně zpětně kompatibilní s C.
+
+&gt;<i> 2) Jazyk, který kdy v historii hrubě porušil zpětnou 
+</I>&gt;<i> kompatibilitu vymřel.
+</I>
+Příklad?
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005008.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005021.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5009">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5009">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5009">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5009">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005009.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:22 GMT -->
+</html>

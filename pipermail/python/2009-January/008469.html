@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008469.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:58 GMT -->
+<HEAD>
+   <TITLE> [python] vypis adresare a podadresaru podle masky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20vypis%20adresare%20a%20podadresaru%20podle%20masky&In-Reply-To=%3COF1FDE425C.3F29C00A-ONC1257537.004DB169-C1257537.004DB17D%40ext.pss.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008474.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008475.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vypis adresare a podadresaru podle masky</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20vypis%20adresare%20a%20podadresaru%20podle%20masky&In-Reply-To=%3COF1FDE425C.3F29C00A-ONC1257537.004DB169-C1257537.004DB17D%40ext.pss.sk%3E"
+       TITLE="[python] vypis adresare a podadresaru podle masky">RMiklos na pss.sk
+       </A><BR>
+    <I>Středa Leden  7 15:08:37 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008474.html">[python] vypis adresare a podadresaru podle masky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008475.html">[python] xml parove a neparove tagy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8469">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8469">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8469">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8469">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>glob.glob() som pouzival, tu je priklad:
+-------------------- glob_example.py -----------------------------
+import glob
+masks =[&quot;*.py&quot;, &quot;*.lsp&quot;, &quot;*.tcl&quot;, &quot;C:\Users\Roman\Work\Rexx\*.rex&quot;]
+files = [file for mask in masks for file in glob.glob(mask)]
+#print files
+for file in files:
+  # process file
+  print file
+
+------------------------------------------------------------------
+ 
+Vystup napriklad u mna
+ 
+C:\Users\Roman\Work&gt;glob_example.py
+Client.py
+fortran_proc.py
+glob_example.py
+pok.py
+pok2.py
+select.py
+Server.py
+input.lsp
+input_.lsp
+files.tcl
+pok.tcl
+pok_01.tcl
+pok_02.tcl
+pok_03.tcl
+regexp.tcl
+regexp2.tcl
+C:\Users\Roman\Work\Rexx\aktsalddat.rex
+C:\Users\Roman\Work\Rexx\aktsalddat01.rex
+C:\Users\Roman\Work\Rexx\aktsalddat02.rex
+C:\Users\Roman\Work\Rexx\aktsalddat_.rex
+C:\Users\Roman\Work\Rexx\deinstall_rxapi.rex
+C:\Users\Roman\Work\Rexx\password.rex
+C:\Users\Roman\Work\Rexx\rexx_getpass.rex
+C:\Users\Roman\Work\Rexx\rexx_getpass_.rex
+
+S pozdravom
+
+Roman
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">-----python-bounces na py.cz</A> wrote: -----
+
+
+To: &quot;Konference PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+From: &quot;Ondrej Beranek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+Date: 07.01.2009 13:53
+Subject: Re: [python] vypis adresare a podadresaru podle masky
+
+ten os.walk byl dobrý tip, teď jak s tou maskou nějak &quot;fikaně&quot; a chytře. zatim jsem vyplodil toto: 
+
+import os 
+
+directory = {} 
+
+for root, dirs, files in os.walk('C:/devel/test'): 
+    directory[root]=files 
+
+print directory 
+
+což vytvoří zhruba to co potřebuji (potrebuju relativni cesty ale to je kosmeticka vec). No ale regularni vyraz aby umel &quot;pozrat&quot; hvezdickovou konvenci je na mne vysoka. Jde to udelat jinak nez modulem re ? 
+
+
+
+Dne 7. leden 2009 13:28 Tomas Brabenec &lt; <A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A> &gt; napsal(a): 
+
+Ahoj, 
+
+ja na neco podobneho pouzivam rekurzivne volanou funkci os.listdir() 
+Ze by nejaka funkce umela filtrovat to nevim. Pokud ale pouzijes os.listdir() s naslednym pouzitim regularniho vyrazu na vysledek, melo by to byt to co hledas. 
+
+Tomas 
+
+
+Dne 7.1.2009 13:00, Ondrej Beranek napsal(a): 
+
+Ahoj, 
+
+opet jsem tu s otravnou otazkou. 
+nevite nekdo o nejake sikovne funkci ktera by podle zadane masky a adresare vratila seznam vsech souboru podle masky ? neco jako 
+
+dir *.txt /b /w /s 
+
+(nebo find ./ | grep &quot;.txt&quot;) 
+
+Zkousel jsem dircache ale zda se ze je na to naprosto nevhodny navic byl ve 2.6 pythonu zastaran a ve 3 uz neni vubec. 
+
+
+------------------------------------------------------------------------ 
+
+
+_______________________________________________ 
+Python mailing list 
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> 
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> 
+
+_______________________________________________ 
+Python mailing list 
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> 
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> 
+
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090107/70a2c342/attachment.htm">http://www.py.cz/pipermail/python/attachments/20090107/70a2c342/attachment.htm</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008474.html">[python] vypis adresare a podadresaru podle masky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008475.html">[python] xml parove a neparove tagy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8469">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8469">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8469">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8469">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008469.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:58 GMT -->
+</html>

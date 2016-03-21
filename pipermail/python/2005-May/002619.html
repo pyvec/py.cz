@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-May/002619.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:28 GMT -->
+<HEAD>
+   <TITLE> RE: [python] Přetížení třídní metody
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FB%3FUkU6IFtweXRob25dIFD4ZXTtvmVu7SB0%2BO1kbu0gbWV0b2R5%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-May/002618.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-May/002621.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] Přetížení třídní metody</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FB%3FUkU6IFtweXRob25dIFD4ZXTtvmVu7SB0%2BO1kbu0gbWV0b2R5%3F%3D&In-Reply-To="
+       TITLE="RE: [python] Přetížení třídní metody">Prikryl na skil.cz
+       </A><BR>
+    <I>Čtvrtek Květen  5 08:41:54 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002618.html">[python] python challenge
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002621.html">[python] Přetížení třídní metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-May/date.html#2619">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/thread.html#2619">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/subject.html#2619">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/author.html#2619">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jaroslav Aster napsal...
+&gt;<i> 
+</I>&gt;<i> [...] chtěl bych se zeptat, zda jde v Pythonu nějak
+</I>&gt;<i> přetížit třídní metoda. Tj. něco takovédleho (což nefunguje):
+</I>&gt;<i> 
+</I>&gt;<i> def xmlToNative(self, xmlFileName):
+</I>&gt;<i>     print &quot;objectmethod&quot;
+</I>&gt;<i> 
+</I>&gt;<i> @classmethod
+</I>&gt;<i> def xmlToNative(cls, profile, xmlFileName):
+</I>&gt;<i>     print &quot;classmethod&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Změna názvu metody je jasná, ale to právě nechci. 
+</I>&gt;<i> Za případnou radu děkuji.
+</I>
+Předpokládám, že nežádoucí je jiné jméno metody 
+při jejím volání. Při definici nepokládám jiné
+jméno metody za závadu. Pak lze psát:
+
+class C:
+
+    def __init__(self):
+        self.method = self.objectmethod    
+
+    def objectmethod(self, fname):
+        print &quot;objectmethod:&quot;, fname
+
+    @classmethod
+    def method(cls, profile, fname):
+        print &quot;classmethod:&quot;, profile, fname
+
+
+C.method(&quot;profil&quot;, &quot;soubor&quot;)
+C().method(&quot;soubor&quot;)
+
+Pro případ, že byste byl student Masarykovy university 
+a tohle byla domácí úloha, ponechávám vysvětlení na Vás.
+
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002618.html">[python] python challenge
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-May/002621.html">[python] Přetížení třídní metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-May/date.html#2619">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/thread.html#2619">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/subject.html#2619">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-May/author.html#2619">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-May/002619.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:28 GMT -->
+</html>

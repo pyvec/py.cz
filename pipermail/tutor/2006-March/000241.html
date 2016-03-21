@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000241.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] razeni polozek ve slovniku
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20razeni%20polozek%20ve%20slovniku&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000240.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000242.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] razeni polozek ve slovniku</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20razeni%20polozek%20ve%20slovniku&In-Reply-To="
+       TITLE="[Tutor PyCZ] razeni polozek ve slovniku">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Březen 21 15:31:54 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000240.html">[Tutor PyCZ] razeni polozek ve slovniku
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000242.html">[Tutor PyCZ] Roboti Přicházejí - Final(?)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#241">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#241">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#241">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#241">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> &gt; [...] Pokud mám ve slovníku N položek, pak se
+</I>&gt;<i> &gt; konkrétní položka vyhledá na výrazně méně, než N
+</I>&gt;<i> &gt; kroků. U seznamu potřebuji v nejhorším případě
+</I>&gt;<i> &gt; právě N kroků a průměrně (statisticky) N/2 kroků.
+</I>&gt;<i>
+</I>&gt;<i> mohu tomu rozumet tak, ze pri vyzadani si
+</I>&gt;<i> padesate polozky ze seznamu jsou projety vsechny
+</I>&gt;<i> polozky od 0 do 50 a ta padesata je vracena
+</I>
+Pokud nevím, kde ta položka v seznamu leží, musím
+ji vyhledávat. Pokud je úplně na konci (nebo pokud
+tam vůbec není) a vyhledávám od začátku, pak musím
+prohledat všech 50 položek. Pak je odpověď ano.
+Pythonovský seznam se ale také chová jako pole.
+Pokud znám index položky, můžu na ni skočit přímo.
+Memusím nic vyhledávat.
+
+&gt;<i> kdezto vyzadam li si polozku s klicem 'pepa' a
+</I>&gt;<i> hodnotou 'zdepa' (jez je take padesata) je pouzit
+</I>&gt;<i> nejaky efektivnejsi algoritmus nez je proste
+</I>&gt;<i> projeti celeho slovniku od prvni do padesate
+</I>&gt;<i> polozky a tento algoritmus vyzaduje nejake
+</I>&gt;<i> informace (neco jako index u mysql) ktere
+</I>&gt;<i> vznikaji pri plneni slovniku pricemz pri jeho ev
+</I>&gt;<i> sortovani by se musely znova
+</I>&gt;<i> vytvaret...preindexovat?
+</I>
+Přibližně ano. U slovníku musím vyhledávat i v
+případě, když vím, že tam ta položka je. Nedá se
+na ni skočit přímo, jako v poli (seznamu). Ale
+vyhledávání je výrazně výkonnější. Používají se
+techniky, které nás velmi rychle dostrkají k
+samotné položce a případné dohledávání synonym je
+velmi rychlé. Podrobnější vysvětlení lze nalézt v
+<A HREF="http://www.skil.cz/python/cztuttrn.html#Pdata_hash">http://www.skil.cz/python/cztuttrn.html#Pdata_hash</A>
+
+&gt;<i> &gt; Můžu ale vytvořit (nebo si u speciálních variant
+</I>&gt;<i> &gt; slovníků vnitřně udržovat) pomocné datové
+</I>&gt;<i> &gt; struktury, které budou zachycovat pořadí položek
+</I>&gt;<i> &gt; podle mých představ.
+</I>&gt;<i> 
+</I>&gt;<i> jak by mohla vypadatat takova pomocna datova
+</I>&gt;<i> struktura?
+</I>
+Různě. Podle požadavků. Může to být například
+seznam klíčů v určitém pořadí nebo to může být
+přímo seznam odkazů na hodnotové objekty, které
+jsou zařazené do slovníku. Když už potřebuji
+takovou specialitu, je lepší to ušít na míru a
+nesnažit se to řešit příliš obecně. Nebo je lepší
+použít něco hotového. Nebo přehodnotit svůj
+postoj, zda to vůbec potřebuji. Optimalizovat by
+se mělo až v případě, kdy je neoptimalizovaná
+varianta moc pomalá.
+
+Za pomocnou strukturu vždy nějak zaplatím.
+Například při udržování nějakého pořadí položek ve
+slovníku bude operace vkládání vždy složitější,
+než když žádné dodatečné pořadí nepotřebuji.
+
+&gt;<i> &gt; Průchod slovníkem seřazený podle hodnot prakticky
+</I>&gt;<i> &gt; spočívá v tom, že vytvoříme seznam položek a ten
+</I>&gt;<i> &gt; seřadíme podle hodnotové části. (V příkladu neuvedeno.)
+</I>&gt;<i> 
+</I>&gt;<i> cili pri predpokladu ze bych se slovnikem
+</I>&gt;<i> pracoval pouze timto zpusobem je lepsi pouzit
+</I>&gt;<i> rovnou pole?
+</I>
+To nelze takhle říct. Záleží to na řešeném
+problému.
+
+&gt;<i> s assoc. polema rad pracuji v php ale shledavam
+</I>&gt;<i> ze se od slovniku v pythonu dost lisi. assoc.
+</I>&gt;<i> pole jsem pouzival predevsim proto, ze bylo mozne
+</I>&gt;<i> aby jeden zaznam nesl dve uzitecne informace
+</I>&gt;<i> (typu string), zatimco v pripade bezneho pole je
+</I>&gt;<i> nutne pouzit kvuli dvoum informacim vnorene pole.
+</I>
+Pole nepatří mezi zabudované struktury Pythonu.
+Vícerozměrné už vůbec ne. 
+
+Slovník je něco podobného, jako asociativní pole.
+V Pythonu mi nic nebrání, aby na místě hodnotové
+části byl jakýkoliv objekt. Můžu tam tedy vložit
+dvojici, seznam, jiný slovník, funkci, libovolný
+objekt, atd. Příklad:
+
+soubor b.py
+=================================================
+# -*- coding: cp1250 -*-
+
+def funkce(x):
+    print x
+    
+class C(object):
+    def __init__(self, identifikace):
+        self.identifikace = identifikace
+    def metoda(self, argument):
+        print self.identifikace, argument
+        
+# telo skriptu
+c1 = C('objekt1')
+c2 = C(888)
+d = { 'klic1': c1, 
+      'k2':    c2,
+      333:     c1.metoda,
+      'dvojice': (c1, 15),
+      'seznam': [1, 2, 3, 'xxx', ('aaa', 'bbb')],
+    }  
+      
+lst = [1, 'abc', (5, 6), d]
+d['lst'] = lst
+
+print '-' * 70
+print u'slovník'
+print type(d)
+print d
+
+print '-' * 70
+print u'seznam'
+print type(lst)
+print lst
+
+print '-' * 70
+print u'klíče slovníku'
+for k in d:
+    print k 
+
+print '-' * 70
+print u'hodnoty slovníku'
+for k in d:
+    print d[k]
+ 
+print '-' * 70
+print u'Ze slovníku získáme uložený seznam a z něj dvojici uloženou na konci.'
+L = d['seznam']
+print L
+dvojice = L[-1]
+print dvojice
+print dvojice[0], dvojice[1]
+print L[-1][0], L[-1][1]
+print d['seznam'][-1][0], d['seznam'][-1][1]
+
+print '-' * 70
+print u'Ze slovníku si zpřístupníme uložený objekt a zavoláme jeho metodu.'
+cx = d['klic1']
+cx.metoda(u'můj argument')
+d['klic1'].metoda(u'můj argument 2')
+d['k2'].metoda(u'můj argument 3')
+
+print '-' * 70
+print u'Pod klíčem 333 máme dokonce uložen odkaz na metodu konkrétního objektu.'
+d[333](u'můj argument 333')
+=================================================
+
+Když spustíme python b.py &gt;b.out, najdeme v
+souboru b.out následující. Ponechávám bez
+komentáře. Ptejte se na nejasnosti.
+
+----------------------------------------------------------------------
+slovník
+&lt;type 'dict'&gt;
+{'seznam': [1, 2, 3, 'xxx', ('aaa', 'bbb')], 333: &lt;bound method C.metoda of &lt;__main__.C object at 0x00922D90&gt;&gt;, 'klic1': &lt;__main__.C object at 0x00922D90&gt;, 'k2': &lt;__main__.C object at 0x00922E50&gt;, 'lst': [1, 'abc', (5, 6), {...}], 'dvojice': (&lt;__main__.C object at 0x00922D90&gt;, 15)}
+----------------------------------------------------------------------
+seznam
+&lt;type 'list'&gt;
+[1, 'abc', (5, 6), {'seznam': [1, 2, 3, 'xxx', ('aaa', 'bbb')], 333: &lt;bound method C.metoda of &lt;__main__.C object at 0x00922D90&gt;&gt;, 'klic1': &lt;__main__.C object at 0x00922D90&gt;, 'k2': &lt;__main__.C object at 0x00922E50&gt;, 'lst': [...], 'dvojice': (&lt;__main__.C object at 0x00922D90&gt;, 15)}]
+----------------------------------------------------------------------
+klíče slovníku
+seznam
+333
+klic1
+k2
+lst
+dvojice
+----------------------------------------------------------------------
+hodnoty slovníku
+[1, 2, 3, 'xxx', ('aaa', 'bbb')]
+&lt;bound method C.metoda of &lt;__main__.C object at 0x00922D90&gt;&gt;
+&lt;__main__.C object at 0x00922D90&gt;
+&lt;__main__.C object at 0x00922E50&gt;
+[1, 'abc', (5, 6), {'seznam': [1, 2, 3, 'xxx', ('aaa', 'bbb')], 333: &lt;bound method C.metoda of &lt;__main__.C object at 0x00922D90&gt;&gt;, 'klic1': &lt;__main__.C object at 0x00922D90&gt;, 'k2': &lt;__main__.C object at 0x00922E50&gt;, 'lst': [...], 'dvojice': (&lt;__main__.C object at 0x00922D90&gt;, 15)}]
+(&lt;__main__.C object at 0x00922D90&gt;, 15)
+----------------------------------------------------------------------
+Ze slovníku získáme uložený seznam a z něj dvojici uloženou na konci.
+[1, 2, 3, 'xxx', ('aaa', 'bbb')]
+('aaa', 'bbb')
+aaa bbb
+aaa bbb
+aaa bbb
+----------------------------------------------------------------------
+Ze slovníku si zpřístupníme uložený objekt a zavoláme jeho metodu.
+objekt1 můj argument
+objekt1 můj argument 2
+888 můj argument 3
+----------------------------------------------------------------------
+Pod klíčem 333 máme dokonce uložen odkaz na metodu konkrétního objektu.
+objekt1 můj argument 333
+
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000240.html">[Tutor PyCZ] razeni polozek ve slovniku
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000242.html">[Tutor PyCZ] Roboti Přicházejí - Final(?)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#241">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#241">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#241">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#241">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000241.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

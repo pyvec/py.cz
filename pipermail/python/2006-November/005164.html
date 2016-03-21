@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005164.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:37 GMT -->
+<HEAD>
+   <TITLE> [python] split() vrací podivné znaky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fsplit%3D28%3D29_vrac%3DED_podivn%3DE9_znaky%3F%3D&In-Reply-To=d2219e620611211016g7a386e62gc4b73519e41aff4f%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005163.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005173.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] split() vrací podivné znaky</H1>
+    <B>Jan Matejka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fsplit%3D28%3D29_vrac%3DED_podivn%3DE9_znaky%3F%3D&In-Reply-To=d2219e620611211016g7a386e62gc4b73519e41aff4f%40mail.gmail.com"
+       TITLE="[python] split() vrací podivné znaky">matejka na cat.cz
+       </A><BR>
+    <I>Úterý Listopad 21 20:09:10 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005163.html">[python] split() vrací podivné znaky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005173.html">[python] srandicky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5164">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5164">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5164">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5164">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>Když nepoužiju split, je vše v pořádku ...
+</I>&gt;<i>To budu muset dělat kejkle s encode, recode, když chci použít split() ?
+</I>
+Problém není ve split ale v odlišném způsobu jakým python tiskne seznamy a
+řetězce.
+
+
+# -*- coding: windows-1250 -*-
+class SplitExmaple:
+  pole = ['jedna | dvě,tři | foo','Dobrý den | kuk | čau','úterý | středa |
+čtvrtek']
+  print pole  
+  for x in pole: 
+    split = x.split('|')
+    for y in split:
+        print y
+
+vypíše:
+['jedna | dv\xec,t\xf8i | foo', 'Dobr\xfd den | kuk | \xe8au', '\xfater\xfd
+|<i> st\xf8eda | \xe8tvrtek']
+</I>jedna 
+ dvě,tři 
+ foo
+Dobrý den 
+ kuk 
+ čau
+úterý 
+ středa 
+ čtvrtek	
+
+Jan Matějka
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005163.html">[python] split() vrací podivné znaky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005173.html">[python] srandicky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5164">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5164">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5164">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5164">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005164.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:37 GMT -->
+</html>

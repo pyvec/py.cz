@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005808.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:11 GMT -->
+<HEAD>
+   <TITLE> [python] XML PARSER
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML%20PARSER&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005812.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005810.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] XML PARSER</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML%20PARSER&In-Reply-To="
+       TITLE="[python] XML PARSER">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Duben 10 09:32:42 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005812.html">[python] Jakého typu je iterátor?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005810.html">[python] python evangelist
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5808">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5808">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5808">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5808">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+hexim&gt; Sent: Friday, April 06, 2007 7:13 PM
+&gt;<i> [...] Jedna se mi o rozparsovani XML
+</I>&gt;<i> dokumentu do promenne , nejlepe slovniku , 
+</I>&gt;<i> napr x = {} aby bylo mozne
+</I>&gt;<i> cist hodnoty nasledovne:
+</I>&gt;<i> 
+</I>&gt;<i>  hodnotaA = x['tagA']
+</I>&gt;<i>  hodnotaB = x['user']
+</I>&gt;<i> 
+</I>&gt;<i> Vzorovy XML:
+</I>&gt;<i> 
+</I>&gt;<i> &lt;?xml version='1.0' encoding='UTF-8'?&gt;
+</I>&gt;<i> &lt;myxml&gt;
+</I>&gt;<i>   &lt;neco&gt;
+</I>&gt;<i>                  &lt;tagA&gt;Ahoj Světe&lt;/tagA&gt;
+</I>&gt;<i>   &lt;/neco&gt;
+</I>&gt;<i>   &lt;mysql&gt;
+</I>&gt;<i>   	&lt;host&gt;localhost&lt;/host&gt;
+</I>&gt;<i> 	&lt;user&gt;root&lt;/user&gt;
+</I>&gt;<i> 	&lt;password&gt;heslo&lt;/password&gt;
+</I>&gt;<i> 	&lt;db&gt;databaze&lt;/db&gt;
+</I>&gt;<i>   &lt;/mysql&gt;
+</I>&gt;<i> &lt;/myxml&gt;
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Poradi mi nekdo, nejlepe malym vzorovym prikladem.
+</I>
+Záleží na tom, co všechno může být v xml souboru
+uloženo a jak s tím budu chtít pracovat. Příklad
+jsem uložil do xml souboru v daném kódování s BOM
+na začátku a fungovalo mi bez problému tohle:
+-----------------------------------------------
+import xml.etree.ElementTree as et
+
+tree = et.parse('a.xml')
+d = dict( (e.tag, e.text) for e in tree.getiterator() )
+print d
+
+print d['user']
+print d['password']
+
+print d['tagA']
+print type(d['tagA'])  # unicode
+-----------------------------------------------
+
+Výsledek vypadal takto:
+-----------------------------------------------
+C:\tmp&gt;python a.py
+{'neco': '\n                 ', 'myxml': '\n  ', 'db': 'databaze', 'host': 'localhost', 'user': 'roo
+t', 'mysql': '\n  \t', 'password': 'heslo', 'tagA': u'Ahoj Sv\u011bte'}
+root
+heslo
+Ahoj Světe
+&lt;type 'unicode'&gt;
+-----------------------------------------------
+
+Pozor! Je to nasrknuté do slovníku d, ve kterém
+se ztratí duplicity. Pokud by tam bylo například
+víc elementů user a password, bude ve slovníku
+jen poslední z nich. To je aplikační věc -- možná
+se to z toho stromu bude muset posbírat jinak.
+
+Obecně, pro zpracování XML se používá buď SAX.
+kdy průběžně zpracovávám části dokumentu, který
+může být i extrémně velký -- nevytváří se jeho
+obraz v paměti. Druhý přístup představuje DOM,
+kdy se v paměti vytvoří model dokumentu, který 
+se pak různě prochází. DOM byl ale napsán původně
+v jiném programovacím jazyce a do Pythonu byl
+tak trochu otrocky přepsán. Nevyužívá se zde 
+výhod Pythonu ve smyslu vyjadřovacích schopností
+a práce s pythonovskými základními datovými 
+strukturami. ElementTree je vlastně obdoba
+DOM, která přebírá základní myšlenku, ale 
+implementuje ji čistě pythonovskými prostředky.
+
+
+pepr
+
+P.S. pro další šťourání nechť poslouží 
+     následující příklad:
+
+import xml.etree.ElementTree as et
+
+tree = et.parse('a.xml')
+print dir(tree)
+et.dump(tree)
+
+for e in tree.getiterator():
+    print e
+    print e.tag, e.text, e.attrib
+
+
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005812.html">[python] Jakého typu je iterátor?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005810.html">[python] python evangelist
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5808">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5808">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5808">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5808">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005808.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:11 GMT -->
+</html>

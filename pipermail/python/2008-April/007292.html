@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007292.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:30 GMT -->
+<HEAD>
+   <TITLE> [python] Test vložení diskety pod windows-y
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FTest_vlo%3DBEen%3DED_diskety_pod_windows-y%3F%3D&In-Reply-To=480E42ED.1060905%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007291.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007293.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Test vložení diskety pod windows-y</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FTest_vlo%3DBEen%3DED_diskety_pod_windows-y%3F%3D&In-Reply-To=480E42ED.1060905%40seznam.cz"
+       TITLE="[python] Test vložení diskety pod windows-y">feed na centrum.cz
+       </A><BR>
+    <I>Středa Duben 23 00:45:33 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007291.html">[python] Test vložení diskety pod windows-y
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007293.html">[python] Test vložení diskety pod windows-y
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7292">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7292">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7292">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7292">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> &gt;A mimochodem, jak byste to řešil Vy?
+
+Uvědomil bych si, že přenositelně to napsat nejde a obalil bych si pár 
+Win API funkcí buď sám pomocí Python C API, nebo bych použil modul win32.
+
+Pomocí Win API funkce SetErrorMode(unsigned int mode) bych nastavil 
+režim chyb, který bych chtěl pro svůj program.
+
+Pomocí Win API funkce GetLogicalDrives(), nebo GetLogicalDriveStrings() 
+bych zjistil, jaká písmena disků jsou k dispozici.
+
+Win API funkce GetDriveType(string* adresar) mi umožní zjistit typ disku 
+- zda je disk výměnný, nebo ne.
+
+A konečně pomocí funkce GetDiskFreeSpace(...), nebo 
+GetDiskFreeSpaceEx(...) bych se pokusil na daný výměnný disk sáhnout a 
+tato funkce vrací informaci o chybě, ze které jde vyčíst zda se 
+podařilo, případně proč ne (nejsou práva, disk není v mechanice, apod.). 
+(Detailnější informace jsou přístupné pomocí GetLastError()).
+
+Miloslav Ponkrác
+
+ &gt;Chudák pan Kosina, který byl ochotný to vyzkoušet, má evidentně ve 
+svém xpsp2 zničeno veškeré upozorňování na vážné chyby&quot;.
+
+Vzhledem k tomu, že takto snadno může přehlédnou upozornění na vážnou hw 
+chybu například, takže může snadno přijít o data, aniž by dostal 
+jakékoli varování. Stejně mu můžou náhle mizet programy (které by 
+předtím normálně hlásily proč spadly), a další. A může klidně měsíc 
+hledat problém, na který by byl dávno předtím upozorněn.
+
+Miloslav Ponkrác
+
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007291.html">[python] Test vložení diskety pod windows-y
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007293.html">[python] Test vložení diskety pod windows-y
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7292">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7292">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7292">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7292">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007292.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:30 GMT -->
+</html>

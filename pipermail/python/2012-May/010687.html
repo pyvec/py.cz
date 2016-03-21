@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010687.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:32 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3FRGVrb3LDoXRvciAtIHByb3PDrW0gcMSba27EmyBvIGtv%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fnzultaci_a_vysv%3DC4%3D9Btlen%3DC3%3DAD%3F%3D&In-Reply-To=%3C4FA9100B.2050105%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-May/010686.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-May/010692.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení</H1>
+    <B>Michal Molhanec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3FRGVrb3LDoXRvciAtIHByb3PDrW0gcMSba27EmyBvIGtv%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fnzultaci_a_vysv%3DC4%3D9Btlen%3DC3%3DAD%3F%3D&In-Reply-To=%3C4FA9100B.2050105%40seznam.cz%3E"
+       TITLE="[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení">mol-python na seznam.cz
+       </A><BR>
+    <I>Úterý Květen  8 14:22:35 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010686.html">[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010692.html">[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10687">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10687">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10687">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10687">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne 7.5.2012 23:09, Martin Stiborský napsal(a):
+&gt;<i> Ahoj,
+</I>&gt;<i> řekl jsem si, že pro jednu situaci by se mi docela hodil dekorátor, že
+</I>&gt;<i> by to bylo hezké a vůbec mi to přišlo jako dobrý nápad.
+</I>&gt;<i> Je to asi poprvé co tenhle syntactic sugar někde vážně používám, takže
+</I>&gt;<i> jsem s tím trochu bojoval.
+</I>&gt;<i> Můj dekorátor funguje uvnitř třídy, může si šáhnout na self a bere
+</I>&gt;<i> argumenty, tak&#382;e p&#345;esn&#283;&#8201;to, co jsem po n&#283;m cht&#283;l.
+</I>&gt;<i> 
+</I>&gt;<i> Akorát mi pořád hlava nebere to dvojité zanoření metod (dvojité aby
+</I>&gt;<i> fungoval ten parametr, došel jsem k tomu víceméně přes pokus-omyl).
+</I>&gt;<i> Chtěl bych vás poprosit o vysvětlení, co a jak se tam děje, koukám na
+</I>&gt;<i> to, ale nevím.
+</I>
+Pokud nema dekorat parametry, pak
+
+@d
+def f(...):
+  ...
+
+je ekvivalent
+
+def f(...):
+f = d(f)
+
+Pokud ale muze mit parametry, pak
+
+@d(p)
+def f(...):
+
+je ekvivalent
+
+def f(...):
+_d = d(p)
+f = _d(f)
+
+tj. d neni v podstate primo dekorator, ale tovarna, ktera dekorator vytvori (1. vnoreni) a ten pak vetsinou obsahuje wrapper puvodni funkce (2. vnoreni)
+
+def d(parametr): # tovarna
+  def vlastni_dekorator(puvodni_funkce):
+    def obalka():
+      puvodni_funkce()
+    return obalka
+  return vlastni_dekorator
+
+
+-- 
+Zdraví,
+Michal Molhanec
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010686.html">[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010692.html">[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10687">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10687">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10687">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10687">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010687.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:32 GMT -->
+</html>

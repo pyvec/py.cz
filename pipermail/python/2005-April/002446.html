@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002446.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:33 GMT -->
+<HEAD>
+   <TITLE> Re: [python] db a thready
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fus-ascii%3FQ%3FRe%3D3A%3D20%3D5Bpython%3D5D%3D20db%3D20a%3D20thready%3F%3D&In-Reply-To=424D0070.5070201%40matfyz.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-April/002443.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-April/002460.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>Re: [python] db a thready</H1>
+    <B>gsl na seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fus-ascii%3FQ%3FRe%3D3A%3D20%3D5Bpython%3D5D%3D20db%3D20a%3D20thready%3F%3D&In-Reply-To=424D0070.5070201%40matfyz.cz"
+       TITLE="Re: [python] db a thready">gsl na seznam.cz
+       </A><BR>
+    <I>Pátek Duben  1 18:14:38 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002443.html">[python] db a thready
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002460.html">[python] db a thready
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2446">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2446">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2446">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2446">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dekuji za odpoved, problem jsem uz sice vyresil, viz. predchozi 
+prispevek, ale ciste teoreticky k vecem co mi nejsou jasne.
+
+&lt; Pokud to chapu zpravne, bude ta DB lokalni tomu ip serveru. Mozna 
+&lt; dokonce i v tom samem address space. Potom mi prijde nejjednodussi 
+&lt; napsat tridu, vyhradne pres kterou se bude pristupovat k DB a tu tridu 
+&lt; udelat singelton. Threadsafe zarucite na urovni tohoto singeltona. Bude 
+&lt; to asi pomalejsi, nez kdyby to delala sama DB, teda pokud ten sigelton 
+&lt; nejak sofistikovane nepoladite.
+
+Neni mi jasne, jak by tohle melo fungovat, protoze i kdyz k databazi budu
+pristupovat vyhradne pomoci jednoho objektu, tak, kdyz jeho metody budou
+volany z ruznych threadu, a pobezi v jejich kontextu. A mel-li jsem
+podminku, ze spojeni nesmi byt sdileno mezi thready, tak to imho muj
+problem neresi. A nebo neco hrube nechapu.
+ 
+&lt; Jine reseni je, ze pokud pri zapisu nemuze vzniknout nejaky zasadni 
+&lt; problem, muze server pracovat davkove, tj. prevzit pozadavek od klienta 
+&lt; a pak data v klidu ulozit do DB, az bude mit cas. Cteni bude stejne asi 
+&lt; blokovaci (jen se muzete rozhodnout, zda bude vyrizeno prednostne pred 
+&lt; cekajicimi zapisy nebo pocka, az se zapisou vsechny cekajici data).
+
+Ano, o necem takovem jsem uvazoval, server by mel frontu, do ktere by 
+komunikacni thready ukladaly pozadavky a jeden thread obsluhujici databazi
+by je vyrizoval. Pro ukladani dat by to bylo skvele, ale ri cteni dat bych
+musel resit, jak nactena data predat prislusnemu threadu, ktery by je pak
+vratil klientovi a to uz se mi zdalo moc komplikovane, skvela prilezitost
+k rade nahodnych tezko detekovatelnych chyb a tak se mi do toho nechtelo.
+ 
+&lt; Nicmene nez bych se do neceho takoveho poustel, zkusil bych, jak 
+&lt; skutecne klienty zpomaluje, ze server muze obslouzit jen jednoho klienta.
+
+Ona je skutecnost trochu slozitejsi, klientu bude vic druhu, nektere 
+vylozene zadavaci, ty data budou prevazne zadavat, pak monitorovaci, ty
+je zas budou prevazne cist, pak ridici jednotka pro nastaveni a vladani
+systemu, vkladani prvoznich dat a podobne, dale bych mel data predavat do 
+jakehosi jiz existujiciho vizualizacniho systemu, o cemz zatim sam moc nevim, 
+jednani o komunikaci s jeho tvurci me teprve ceka, a tak. Tedy klasicky zber,
+zpracovani, ukladani a opetovna distribuce dat. Pouziti threadu se mi zda 
+jednodussi, kdyz vyresim ukladani a to uz jsem vyresil.
+
+
+&lt; Co se tyce vice vlaken v DB, nepropadal bych zbytecnemu optimizmu. 
+&lt; Nevim, jak zamyka MySQL, ale docela casto DB zamykaji na urovni tabulek. 
+&lt; Specialne pokud mate castejsi zapis nez cteni, budou thready cekat, az 
+&lt; to ten slimak pred nima dodela a tabulku jim uvolni. Navic ono ani 
+&lt; takovy zamykani neni uplne zadarmo, takze pokud zapisujete mala data, 
+&lt; muze rezie vice vlaken delat bez problemu i 90% casu.
+
+Jak jsem psal, nevadi mi, kdyz k databazi bude moci pristupovat v jednu 
+chvili jen jeden thread, takze ani zamykani tabulek by me netrapilo, neni 
+to hlavni napln toho serveru. Odhaduji, ze zapisy budou provadeny radove
+ve vterinovem intervalu, v kratkodobe spicce cca 5 zapisu za vterinu,
+SQLite jich zvladne nekolik tisic za vterinu.
+
+Petr Mach
+____________________________________________________________
+<A HREF="http://www.bezpecnyinternet.cz/">http://www.bezpecnyinternet.cz</A>
+<A HREF="http://ad.seznam.cz/clickthru?spotId=94734">http://ad.seznam.cz/clickthru?spotId=94734</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002443.html">[python] db a thready
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002460.html">[python] db a thready
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2446">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2446">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2446">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2446">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002446.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:33 GMT -->
+</html>

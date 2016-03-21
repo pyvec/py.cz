@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010287.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:58 GMT -->
+<HEAD>
+   <TITLE> [python] pymssql a collation
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pymssql%20a%20collation&In-Reply-To=%3C4D9B2F5B.4050501%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-April/010285.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-April/010288.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pymssql a collation</H1>
+    <B>zu1234</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pymssql%20a%20collation&In-Reply-To=%3C4D9B2F5B.4050501%40seznam.cz%3E"
+       TITLE="[python] pymssql a collation">zu1234 na seznam.cz
+       </A><BR>
+    <I>Úterý Duben  5 17:03:55 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010285.html">[python] Jaky zpusobem ukladat data do pole
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010288.html">[python] Pro volný čas - Algebrogram
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10287">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10287">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10287">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10287">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Kdysi jsem tady psal o problémech s pymssql.
+Nyní nastalo další dějství tohoto 'dramatu' :-)
+
+Připomenu že se mi to na mojem PC chovalo tak, že ať jsem uvedl či 
+neuvedl charset v pymssql.connect, vracela se mi char hodnota v kódování 
+'cp852'.
+Pokud jsem uvedl charset='cp1250' vracela se v typu unicode, ale 
+nesmyslném v kódování 'cp852'.
+
+Použil jsem dotyčný python program na stroji a hle, všechno je jinak a 
+funguje jak má: pokud se v pymssql.connect nastaví charset='cp1250', 
+char hodnoty jsou typu unicode a kódování je v pořádku.
+Pokud se charset neuvede jsou char hodnoty typu str a v kódováni 'cp1250'.
+
+Provedl jsem testy na jiných dvou PC s W-XP. Na jednom v pořádku na 
+druhém 'cp852'.
+Porovnal jsem seznam použitých dll a jejich verze: žádný rozdíl.
+
+Napadá mne jediný závěr: prostě windows :-(
+
+Ale nepovažuji se za žádného guru, tak třeba vás něco napadne.
+
+Řešením asi bude &quot;select CHAR(154)&quot;, otestovat co vlastně přišlo a 
+zachovat se podle toho:
+
+if ord(TXT[0]) == 231:
+	print &quot;cp852&quot;
+
+elif ord(TXT[0]) == 154:
+	print &quot;cp1250&quot;
+
+elif ord(TXT[0]) == 353:
+	print &quot;unicode&quot;
+
+
+ZU
+
+Dne 8.9.2009 21:34, zu1234 napsal(a):
+&gt;<i> Chlapi,
+</I>&gt;<i> děkuji za reakce a kód-y !
+</I>&gt;<i> Ale prostě mne zarazily dvě věci: jednak proč cp852 a jednak proč to
+</I>&gt;<i> nemohu změnit když fce pymssql.connect na to má dokonce parametr charset.
+</I>&gt;<i> Ale zatím to funguje a já holt nemusím fšemu rozumět :-)))
+</I>&gt;<i> ZU
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Jan Bednařík napsal(a):
+</I>&gt;&gt;<i> Sorry, četl jsem tam MY-SQL ;-)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Pokud máš skript v UTF-8, pak stačí na stringy z MS SQL použít
+</I>&gt;&gt;<i> unicode(), asi takto:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def unicode_string(s, enc):
+</I>&gt;&gt;<i> return unicode(s, enc) if type(s) == type(&quot;&quot;) else s
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def unicode_tuple(t, enc):
+</I>&gt;&gt;<i> return tuple([unicode_string(i, enc) for i in t])
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ...
+</I>&gt;&gt;<i> for row in cursor.fetchall():
+</I>&gt;&gt;<i> row = unicode_tuple(row, &quot;windows-1250&quot;)
+</I>&gt;&gt;<i> ...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Honza
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010285.html">[python] Jaky zpusobem ukladat data do pole
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010288.html">[python] Pro volný čas - Algebrogram
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10287">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10287">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10287">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10287">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010287.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:58 GMT -->
+</html>

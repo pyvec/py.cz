@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007543.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:23 GMT -->
+<HEAD>
+   <TITLE> [python] Uvolnění paměti
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FUvoln%3DECn%3DED_pam%3DECti%3F%3D&In-Reply-To=483E974C.3040707%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-May/007537.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-May/007544.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Uvolnění paměti</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FUvoln%3DECn%3DED_pam%3DECti%3F%3D&In-Reply-To=483E974C.3040707%40centrum.cz"
+       TITLE="[python] Uvolnění paměti">slush na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Květen 29 21:02:11 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007537.html">[python] Uvolnění paměti
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007544.html">[python] Uvolnění paměti
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7543">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7543">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7543">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7543">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dovolil jsem si pred chvili udelat sadu testu garbage collectoru v pythonu.
+Zarazilo me totiz, ze by se python choval nejak vyrazne hur nez PHP, kde
+jsem sveho casu psal pametove hodne narocne operace (take miliony iteraci).
+A stalo se jak jsem ocekaval, tedy python drzi jako skala a nezaznamenal
+jsem zadny narust spotreby pameti (nad ramec stovek MB, ktere jsem postupne
+alokoval a odalokovaval apod).
+
+Takze pokud nejaky vypocet uzira pamet a zadne cisteni objektu nepomaha,
+hledal bych vinika jinde. Predpokladam, ze vypocty ve SciPy jsou kvuli
+optimalizaci psany v Ccku a jak se vsichni shodneme, napsat pametove
+neprustrelny C kod vyzaduje zkuseneho programatora. Takze bych spis ocistil
+python a hodil to na vrub memory leakum daneho modulu....
+
+Marek
+
+2008/5/29 superman &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">feed na centrum.cz</A>&gt;:
+
+&gt;<i> Obávám se, že jste narazil na limit programovacích jazyků, které dělají
+</I>&gt;<i> věci automaticky. Prakticky v žádném jazyku, který striktně paměť řídí
+</I>&gt;<i> garbage collectorem není 100%ní kontrola uvolňování objektů.
+</I>&gt;<i>
+</I>&gt;<i> Můžete zkusit modul gc a metodu collect, případně nastavit meze
+</I>&gt;<i> (thresholds) pro všechny generace. Python používá 3 generaci, přičemž v
+</I>&gt;<i> generaci 0 jsou nejčerstvější a nejmladší objekty, a gc jí uklízí
+</I>&gt;<i> nejčastěji. V generaci 1 jsou stálejší objekty, které v Pythonu jsou
+</I>&gt;<i> delší dobu a v generaci 2 jsou &quot;usádlené&quot; objekty, které jsou v kódu
+</I>&gt;<i> Pythonu dlouhodobě potřeba.
+</I>&gt;<i>
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 302302 napsal(a):
+</I>&gt;<i> &gt; Používám knihovnu OpenOpt ze SciPy a výpočty mnohokrát opakuji (&gt;100000).
+</I>&gt;<i> Použiji tedy klasicky
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; for i in xrange(0,100000):
+</I>&gt;<i> &gt;     vypocet()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; při vypočtu vznikají objekty, iterace, atp. a hromadí se v paměti i
+</I>&gt;<i> přesto, že je už dále nepotřebuji. Po chvíli mám zaplněnou celou paměť, čímž
+</I>&gt;<i> samozřejmě značně snížím rychlost výpočtů. Otázka tedy je jak lze donutit
+</I>&gt;<i> python, aby uvolňoval nepoužívanou paměť.
+</I>&gt;<i> &gt; Funkce del maže jen reference a bohužel neuvolňuje samotnou paměť. Lze
+</I>&gt;<i> tedy nějak nastavit Garbage Collector, nebo nějak ručně mazat proměnné?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Díky
+</I>&gt;<i> &gt; Czenek
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Python 2.5.1.
+</I>&gt;<i> &gt; Ubuntu 7.10.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080529/123f2052/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080529/123f2052/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007537.html">[python] Uvolnění paměti
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007544.html">[python] Uvolnění paměti
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7543">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7543">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7543">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7543">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007543.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:23 GMT -->
+</html>

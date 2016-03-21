@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005464.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:00 GMT -->
+<HEAD>
+   <TITLE> [python] Presmerovanie stdout do okna v Tkinteri
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Presmerovanie%20stdout%20do%20okna%20v%20Tkinteri&In-Reply-To=OF1701149D.32821258-ONC1257274.003BB2AF-C1257274.003E640E%40pds.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005463.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005465.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Presmerovanie stdout do okna v Tkinteri</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Presmerovanie%20stdout%20do%20okna%20v%20Tkinteri&In-Reply-To=OF1701149D.32821258-ONC1257274.003BB2AF-C1257274.003E640E%40pds.sk"
+       TITLE="[python] Presmerovanie stdout do okna v Tkinteri">geon na post.cz
+       </A><BR>
+    <I>Středa Leden 31 13:42:13 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005463.html">[python] Presmerovanie stdout do okna v Tkinteri
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005465.html">[python] Presmerovanie stdout do okna v Tkinteri
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5464">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5464">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5464">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5464">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE><A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A> napsal(a):
+&gt;<i> Takze presmerovanie print-ov konzoloveho programu do okna (sys.stdout = 
+</I>&gt;<i> text_window) 
+</I>&gt;<i> bude fungovat i s konzolovym programom ktory pouziva sys.exit()  /diky 
+</I>&gt;<i> Leovi/ asi takto:
+</I>&gt;<i>   
+</I>trochu jsem to vylepšil ;-)
+
+from Tkinter import *
+from ScrolledText import ScrolledText
+import sys
+
+class py_message_box:
+
+  def __init__(self, parent):
+
+    self.frame = Frame(parent)
+    self.frame.pack()
+
+    self.text = ScrolledText(self.frame, 
+background='black',foreground='green', font=(&quot;Courier&quot;, 9))
+    self.text.pack()
+   
+    self.mybutton = Button(self.frame, text=&quot;Quit&quot;, 
+command=self.mybuttonClick)
+    self.mybutton.pack(fill=BOTH) #roztažení
+
+  def mybuttonClick(self):
+     self.frame.destroy()   # mě nikdy quit() nefungovalo...
+
+  def write(self, s):
+    self.text.insert(END, s)
+    self.text.see(END)  # aby bylo poslední vždy vidět
+
+root=Tk()
+text_window = py_message_box(root)
+sys.stdout = text_window
+
+print &quot;Toto je pokus o presmerovanie printu do okna\n&quot;*100  # 100x
+root.mainloop()
+
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005463.html">[python] Presmerovanie stdout do okna v Tkinteri
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005465.html">[python] Presmerovanie stdout do okna v Tkinteri
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5464">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5464">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5464">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5464">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005464.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:00 GMT -->
+</html>

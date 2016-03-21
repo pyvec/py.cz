@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005958.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:05 GMT -->
+<HEAD>
+   <TITLE> [python] Vykreslování grafů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVykreslov%3DE1n%3DED_graf%3DF9%3F%3D&In-Reply-To=mailman.216.1180017947.4700.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005955.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005959.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vykreslování grafů</H1>
+    <B>Karel Šrot</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVykreslov%3DE1n%3DED_graf%3DF9%3F%3D&In-Reply-To=mailman.216.1180017947.4700.python%40py.cz"
+       TITLE="[python] Vykreslování grafů">karel.do.pekla.zajel na seznam.cz
+       </A><BR>
+    <I>Pátek Květen 25 08:55:27 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005955.html">[python] Vykreslování grafů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005959.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5958">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5958">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5958">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5958">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+pocitat funkcni hodnoty a pak je spojit (lomenou) carou je naprosto 
+bezny zpusob. Treba Maple (progrma pro symbolicke vypocty) pocita 
+defaultne jen sto referencnich bodu. Pokud je v nejakem bode hodnota 
+nedefinovana (deleni nulou), Maple ji ignoruje (tedy bodu je pak min a 
+cara lomenejsi). Pomoci parametru lze specifikovat, zda se maji hledat 
+body nespojitosti. V tom pripade se pomoci &quot;sofistikovanych&quot; algoritmu 
+tyto body hledaji. Vcelku jednoduchou metodu Jan Jakubuv, ikdyz trochu 
+nepresne. To, ze je funkce nespojita jeste neznamena, ze ma limitu v 
+tomto bode rovnu nekonecnu.
+
+Ja osobne bych tu moznost hledani bodu nespojitosti pouzil, tedy pokud 
+by uzivatel nic nezaskrtl, tak by se nehledaly a kresleni by bylo 
+rychlejsi.
+V opacnem pripade bych se smiril s pomalosti a pouzil bych pro hledani 
+bodu nespojitosti toto:
+Nejdrive si rozdelim cely interval na nekolik mensich, treba pomoci 200 
+(ci vice) referencnich bodu. Budu mit treba seznam [[0,1], [1,2], [2,3],...]
+
+Neni-li funkce v nejakem bode X definovana, je to bod nespojitosti. Do 
+seznamu ulozim hodnoty dva intervaly, pricemz pravy krajni bod prvniho 
+je X-E, a levy krajni bod druheho X+E, kde E je dostatecne mala hodnota, 
+ktera na grafu odpovida treba mene nez jednomu pixelu v grafu (to aby to 
+nebylo poznat).
+
+Prochazim jednotlive intervaly a urcim tangens lomene cary, tedy 
+(f(a)-f(b))/(b-a). Pokud by byl tangens v absolutni hodnote vetsi nez 
+nejaka krajova zvolena hodnota (pro zacatek treba 5), bude interval 
+podezrely. Ulozim interval do seznamu podezrelych intervalu. Az mam 
+hotovo, prochazim kazdy podezrely interval.
+Rozdelim jej tedy napul a misto nej puvodniho mam ted dva intervaly. 
+Pocitam totez pro oba a ten, ktery je stale podezrely (hodnota tangens 
+bude v abs. hodnote jeste vetsi, nez byla predtim), budu zkoumat dal. 
+Ten, co uz podezrely neni, tak dam ze seznamu podezrelych pryc. Kdyz by 
+nahodou v polovine intervalu nebyla funkce spojita, pouziji to rozdeleni 
+na dva intervaly s tim S-E, S+E a ani jeden z intervalu neberu za 
+podezrely, protoze bod nespojitosti je mezi (tedy dam tyto intervaly 
+mezi nepodezrele a koncim). Podezrele intervaly muzu okrajovat znova a 
+znova, dokud hodnota tangens neprekroci nejakou danou mez. Pak 
+prohlasim, ze na intervalu je funkce nespojita a tento interval kreslit 
+nebudu. Protoze je strasne malej, tak to ani nebude vadit.
+
+Az mi to bude stacit, tak pospojuji vsechny nepodezrele intervaly. Takze 
+seznam intervalu setridim, aby lezely za sebou. Pak je projdu odleva a 
+kdyz dva sousedni maji spolecny krajni bod, tak je nahradim jednim 
+velkym. Takze uplne nakonec budu mit seznam intervalu, kde je funkce 
+spojita. V mezerach mezi temito intervaly jsou body nespojitosti, ale 
+tyto mezery jsou male. Takze nakonec vykreslim gram funkce na kazdem z 
+techto intervalu.
+
+Avsak kresneni nespojitych funkci je vzdy problem. Kdyz je funkce hodne 
+divoka (jde rychle do nekonecna), tak se muze stat, ze vam pretece 
+rozsah datoveho typu. Ale co se da delat.
+
+Snad to bylo trochu jasne, zkus si to kdyztak projit s tuzkou, papirem a 
+grafem. Mnou uvedeny algoritmus bude potrebovat optimalizovat, protoze 
+se tam zbytecne moc manipuluje se seznamy a tak. Lze ho navrhnout lip, 
+ale ja zvolil tuto formu kvuli srozumitelnosti. Az ho pochopis, tak 
+jiste prijdes na to, ze se obejdes bez nadbytecneho vytvareni seznamu 
+itervalu.
+
+No snad ti to pomuze, preci jen me to stalo trictvrte hodiny zivota. :-)
+
+Karel
+
+
+&gt;<i> 2) Nevím jak vy byste vypočítávali body pro vykreslení grafu, ale já na 
+</I>&gt;<i> to mám takovoutu metodu:
+</I>&gt;<i>  
+</I>&gt;<i> cislo=spodni_hranice
+</I>&gt;<i> while cislo &lt; horni_hranice:
+</I>&gt;<i>        x=cislo
+</I>&gt;<i>        y=eval(funkce.replace('x',cislo))
+</I>&gt;<i>        body.append([x,y])
+</I>&gt;<i>        cislo=cislo+preciznost
+</I>&gt;<i>  
+</I>&gt;<i> Ale výpočet se mi zdá poměrně dlouhý a tak se ptám jesetli vás nenapadá 
+</I>&gt;<i> něco efektivnějšího. Dále jakou hodnotu by měla mít proměnná preciznost 
+</I>&gt;<i> (nebo jestli by měl mít uživatel možnost ji nastavit).
+</I>&gt;<i> 3) Nyní program dostává body jako souřadnice x,y a vykresluje jednotlivé 
+</I>&gt;<i> pixely. Pochopitelně je to způsob relativně nepřehledný, protože pak 
+</I>&gt;<i> může být na plátně jenom několik nic neříkajicích teček a proto by je 
+</I>&gt;<i> chtělo nějak spojit. Napadlo mě spojit každé dva vedlejší body čárou ale 
+</I>&gt;<i> pak mi došlo že to je nemožné, například kvůli grafu 1/cos(x).  Nevíte 
+</I>&gt;<i> jaký způsob používají jiné programy?
+</I>&gt;<i>  
+</I>&gt;<i>  
+</I>&gt;<i> Děkuji za případné odpovědi.
+</I>&gt;<i>  
+</I>&gt;<i> Jakub Vojáček.
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005955.html">[python] Vykreslování grafů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005959.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5958">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5958">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5958">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5958">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005958.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:05 GMT -->
+</html>

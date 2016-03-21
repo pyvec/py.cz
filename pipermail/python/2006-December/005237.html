@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005237.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:05 GMT -->
+<HEAD>
+   <TITLE> [python] předávání dat mezi framy ve wxPython
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fp%3DF8ed%3DE1v%3DE1n%3DED_dat_mezi_framy_ve_wxPyt%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fhon%3F%3D&In-Reply-To=200612080916.10691%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-December/005236.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-December/005238.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] předávání dat mezi framy ve wxPython</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fp%3DF8ed%3DE1v%3DE1n%3DED_dat_mezi_framy_ve_wxPyt%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fhon%3F%3D&In-Reply-To=200612080916.10691%40centrum.cz"
+       TITLE="[python] předávání dat mezi framy ve wxPython">leos na radiante-corp.com
+       </A><BR>
+    <I>Pátek Prosinec  8 10:12:41 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005236.html">[python]  předávání dat mezi framy ve wxPython
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005238.html">[python] Zope a  TAL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5237">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5237">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5237">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5237">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE><A HREF="http://www.py.cz/mailman/listinfo/python">yoko na centrum.cz</A> wrote:
+&gt;<i> Zdravím všechny, chtěl bych Vás požádat o pomoc se zřejmě začátečnickým problémem, taky jsem začátečník :-)
+</I>&gt;<i> Situace(zjednodušeno): po spuštění programu se vytvoří frame1(wx.Frame) a načte data ze souboru. Po stisku tlačítka se otevře nový frame2(wx.Frame) ve kterém potřebuji tato data používat a modifikovat a po uzavření frame2 opět již modifikovaná data používat ve frame1. Mohli byste mi prosím poradit, jak si data mezi framy předávat? Napadá mě ve framu2 modifikovaná data uložit do souboru a po jeho uzavření je ve framu1 opět načíst ze souboru, ale to se mi jednak moc nelíbí a jednak stejně nevím, jak framu1 říct, aby po uzavření frame2 načetl soubor. Používám Python 2.5, wxPython 2.7 na WinXP. Za pomoc předem moc děkuju. Petr
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Ahoj,
+nejprve bych chtel podotknout, ze wxPython-2.7 je development branch, 
+takze doporucuji pouzivat verzi 2.6.
+K tvemu problemu. Myslim si, ze je spousty zpusobu, jak toto provest a 
+zalezi take trosku na tom, jak vse resis. Pravdepodobne mas ve fci 
+obsluhujici udalost EVT_BUTTON vytvoreni frame2 a jeho zobrazeni. Pak 
+pred tim, nez zavolas frame2.ShowModal() nebo jen frame2.Show() vytvor 
+novou promennou ve frame2, ktera bude obsahovat data z frame1. Cele by 
+to mohlo vypadat asi takhle:
+
+    def OnButtonClick(self, evt):
+        frame2 = Frame2(None, -1)
+        frame2.data = self.data     # self je v tomto pripade instance
+    of tridy Frame1 a data jsou data, ktere frame1 nacetl
+        frame2.ShowModal()
+
+Mozna jeste snazsi zpusob je ten, ze definujes frame1 jako parent pro 
+frame2. Nasledne pak budes mit instanci tridy Frame1 v konstruktoru 
+Frame2. V kodu pak asi takhle:
+
+    def OnButtonClick(self, evt):
+        frame2 = Frame2(self, -1)
+        frame2.ShowModal()
+
+    class Frame2(wx.Frame):
+        def __init__(self, parent):
+           wx.Frame.__init__(self, id = -1, parent = parent)
+           self.data = parent.data     # nebo take self.parent = parent,
+    pak jsou data v self.parent.data
+
+Doufam, ze jsem trosku pomohl.
+Leo            
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005236.html">[python]  předávání dat mezi framy ve wxPython
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005238.html">[python] Zope a  TAL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5237">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5237">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5237">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5237">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005237.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:05 GMT -->
+</html>

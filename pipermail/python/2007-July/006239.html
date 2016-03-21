@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006239.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:39 GMT -->
+<HEAD>
+   <TITLE> [python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Nesrozumitelne%20prirazovaci%20prikazy%20zamichane%0A%09mezidefinice%20standalone%20funkci%20v%20modulu&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006234.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006240.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Nesrozumitelne%20prirazovaci%20prikazy%20zamichane%0A%09mezidefinice%20standalone%20funkci%20v%20modulu&In-Reply-To="
+       TITLE="[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pondělí Červenec  9 10:35:05 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006234.html">[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006240.html">[python] Nesrozumitelne prirazovaci prikazy	zamichanemezidefinice standalone funkci v modulu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6239">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6239">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6239">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6239">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Petra Javornicka
+&gt;<i> 
+</I>&gt;<i> [...] To je jasny, ale porad nevim, odkud bere interpretr 
+</I>&gt;<i> odlisit informaci, aby mohl
+</I>&gt;<i> g=D   # pointer
+</I>&gt;<i> d=D(f) # taky pointer :-O
+</I>&gt;<i> d=D(n) # dereference - call
+</I>&gt;<i> 
+</I>&gt;<i> U syntaxe dekoratoru s prefixem '@' se to zda byt jasny. 
+</I>&gt;<i> Ale u funkce utrousene nekde mezi definicemi?
+</I>
+Za klíčové považuji pochopit, jak funguje dekorování funkce
+bez použití @. Je to historicky starší, funguje to úplně 
+stejně, jen se to líp zapisuje a čte (což je důležité).
+
+To &quot;u funkce utroušené mezi definicemi&quot; je taky důležité
+pro pochopení. Při zápisu bez @ lze dekorování provést
+až za koncem definice funkce. Pythonovský zdroják se 
+zpracovává sekvenčně shora dolů a ihned se provádí. 
+Když se narazí na definici funkce, vytváří se vnitřní
+objekt funkce (ekvivalent kompilace) a vytvoří se reference
+pojmenovaná předepsaným identifikátorem funkce. Ten 
+identifikátor ale od té doby není nijak výsadní
+(snad jen, že je v objektu funkce textově zachycen
+pro účely ladění nebo pro jiné introspektivní použití).
+
+Pokud mám například
+
+def mojeFunkce(n):
+    return n * 5
+
+Pak si ji můžu kdykoliv přejmenovat:
+
+f = mojeFunkce
+
+... protože identifikátor mojeFunkce je jen pojmenovaná
+reference na vnitřní objekt funkce (objekt v technickém
+smyslu, tj. podoba, do které je definice funkce zpracována).
+
+Můžu si pak ověřit, že příkazy vypíšou stejnou identifikaci
+
+print id(mojeFunkce)
+print id(f)
+
+... která je v momentální implementaci Pythonu totožná
+s adresou (objektu) funkce.
+
+Za předpokladu, že reference odkazuje na &quot;callable&quot;
+objekt, chápe se za volání zápis, kdy za referenci
+uvedu kulaté závorky (s argumenty nebo bez).
+
+Když se následující příklad uloží do souboru d.py
+----------------------------------------------------
+def mojeFunkce(n):
+    return n * 5
+    
+f = mojeFunkce
+
+print id(mojeFunkce)
+print id(f)
+print mojeFunkce(3)
+print f(3)
+
+def trivialniDekorator(fce):
+    return fce
+    
+f = trivialniDekorator(mojeFunkce)
+
+print id(mojeFunkce)
+print id(f)
+print mojeFunkce(3)
+print f(3)
+
+def prazdnyDekorator(fce):
+    def obalujici_funkce(n):
+        return fce(n)
+    return obalujici_funkce    
+
+f = prazdnyDekorator(mojeFunkce)
+
+print id(mojeFunkce)
+print id(f)
+print mojeFunkce(3)
+print f(3)
+
+def plusJedna(fce):
+    def plusOne(n):
+        return fce(n) + 1
+    return plusOne
+        
+# Znovu pouziju identifikator mojeFunkce. Od teto chvile se
+# zahodi reference na puvodni objekt funkce, coz ale neznamena,
+# ze by objekt puvodni funkce zanikl.
+
+mojeFunkce = plusJedna(mojeFunkce)         
+print id(mojeFunkce)
+print mojeFunkce(3)
+
+# Pri selhani volane funkce se vypise trasovaci zprava, ktera mimo 
+# jine uvadi originalni identifikace funkce, ktera je sice stejna, jako 
+# pojmenovana reference, ale novy identifikator jiz odkazuje na funkci 
+# na jine adrese.
+
+print id(mojeFunkce)
+mojeFunkce(None)
+----------------------------------------------------
+
+Pak se po zavolání programu vypíše následující
+
+C:\tmp&gt;python d.py
+17722800
+17722800
+15
+15
+17722800
+17722800
+15
+15
+17722800
+17722992
+15
+15
+17723120
+16
+17723120
+Traceback (most recent call last):
+  File &quot;d.py&quot;, line 52, in &lt;module&gt;
+    mojeFunkce(None)
+  File &quot;d.py&quot;, line 35, in plusOne
+    return fce(n) + 1
+  File &quot;d.py&quot;, line 2, in mojeFunkce
+    return n * 5
+TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'
+
+
+pepr
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006234.html">[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006240.html">[python] Nesrozumitelne prirazovaci prikazy	zamichanemezidefinice standalone funkci v modulu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6239">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6239">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6239">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6239">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006239.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:39 GMT -->
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005632.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:45 GMT -->
+<HEAD>
+   <TITLE> [python] dynamicka dostupnost nejakych casti objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20dynamicka%20dostupnost%20nejakych%20casti%20objektu&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005631.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005633.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dynamicka dostupnost nejakych casti objektu</H1>
+    <B>Jan Kundrát</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20dynamicka%20dostupnost%20nejakych%20casti%20objektu&In-Reply-To="
+       TITLE="[python] dynamicka dostupnost nejakych casti objektu">jkt na gentoo.org
+       </A><BR>
+    <I>Úterý Únor 27 00:50:30 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005631.html">[python] Čtení hodnot metod, Tkinter
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005633.html">[python] Chyba na stranke www.py.cz
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5632">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5632">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5632">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5632">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+mame nejakou tridu Mailbox, ktera umi zpristupnit mimo jine jednotlive 
+zpravy ulozene v nejakem mailboxu na IMAP serveru. IMAP je tak trochu 
+unikatni tim, ze umi zpravy prenaset po castech, takze pokud Vam nekdo 
+posle 10MB prilohu a k tomu tri 5kB textaky, muzete si je precist, aniz 
+byste se zabyvali velkou obludou.
+
+V Pythonu existuje trida email.Message, ktera je jakz takz standardnim 
+objektem pro pristup k nejake zprave, a ja myslim, ze by bylo dobre, aby 
+Mailbox.get_message() vracel nejaky objekt, ktery se bude chovat 
+podobne, avsak jednotlive casti bude ze serveru stahovat az &quot;na 
+vyzadani&quot;, cili kazda instance Message by si udrzovala v patrnosti, z 
+jakeho Mailboxu pochazi:
+
+mbox = Mailbox()
+zpravy = Mailbox.find_messages(search_criteria) # vrati list instanci
+(...)
+for mail in zpravy:
+	# nejpozdeji ted se nactou hlavicky
+	print mail[&quot;From&quot;]
+	for cast in mail.walk():
+		# nejpozdeji ted se zjisti struktura zpravy
+		print cast.get_content_type()
+		if cast.get_content_type().startswith(&quot;text/&quot;):
+			print cast.payload[:100] + &quot;...&quot;
+			# ted se nacte samotny obsah teto casti zpravy
+
+	
+Jenomze jak osetrit pripad, kdy uz chudak Mailbox jaksi o nasi zprave 
+nevi? (K tomu muze dojit ze spousty duvodu -- nekdo smazal zpravu, 
+kterou jsme jeste nemeli nacachovanou, na serveru se zmenilo 
+UIDVALIDITY,... Je zajimave, ze muze nastat situace, kdy napr. muzeme 
+zjistit &quot;kostru&quot; mailu, ale uz nejde pristupovat k priloham,...)
+
+Je podobna architektura rozumna a &quot;pythonic&quot;?
+
+Diky,
+-jkt
+
+-- 
+cd /local/pub &amp;&amp; more beer &gt; /dev/mouth
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005631.html">[python] Čtení hodnot metod, Tkinter
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005633.html">[python] Chyba na stranke www.py.cz
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5632">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5632">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5632">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5632">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005632.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:45 GMT -->
+</html>

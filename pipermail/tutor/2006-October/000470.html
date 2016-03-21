@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000470.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Html
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Html&In-Reply-To=200610031215.49813.xdlabacekM%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000463.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000474.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Html</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Html&In-Reply-To=200610031215.49813.xdlabacekM%40seznam.cz"
+       TITLE="[Tutor PyCZ] Html">geon na post.cz
+       </A><BR>
+    <I>Úterý Říjen  3 14:58:36 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000463.html">[Tutor PyCZ] Html
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000474.html">[Tutor PyCZ] Html
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#470">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#470">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#470">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#470">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Marek napsal(a):
+&gt;<i> Zdravim,asi to bude dost trapna otazka, ale prece-mam stranku, kde je textovy 
+</I>&gt;<i> pol a tlacitko odeslani(treba jmena a heslo a odeslat) a chtel bych, aby mi 
+</I>&gt;<i> to doplnilo ty pole. zkratka prihlaseni treba na mail pres python(potom treba 
+</I>&gt;<i> i neco vic). Zkousel jsem neco z prikladu na python.org ,ale moje anglictina 
+</I>&gt;<i> a znalosti na tohle tezce nestaci. Diky za cokoli
+</I>&gt;<i>   
+</I>Taky možná budu trapný - začnu hodně od začátku, kdyžtak to přeskoč ;-)
+
+Když něco napíšeš do pole a zmáčkneš tlačítko, tak se to na server může 
+předat dvěma způsoby - POST a GET. To je důležité zjistit, jak se zrovna 
+tvoje tlačíko chová. Já používám 2 způsoby:
+1/ FF + WebDeveloper - Forms -Display Form details
+2/ něco do pole napíši, odliknu, a když můj dotaz vidím v adrese url, 
+tak je to GET, jinak je &quot;schovaný&quot; a jë to POST
+
+Asi používáš modul urllib. Je důležité si uvědomit, že budeš volat 
+scriptem tu stránku, která se ti objeví *po* stisku tlačítka, ne tu, kde 
+zadáváš do vyhledávacího pole. Každý způsob (GET nebo POST) má 
+specifické použití funkcí v urllib, ale to je vidět pěkně v Helpu v 
+Příkladech.
+
+Je třeba pečlivě odečíst všechny parametry, které se předávají. U GET to 
+můžeš zjistit z adresní řádky, u POST pak pomocí WebDeveloper.
+
+Malá ukázka:
+
+import urllib, os
+params = urllib.urlencode({'query': 'python'})
+url= &quot;<A HREF="http://www.abclinuxu.cz/Search?%s%22">http://www.abclinuxu.cz/Search?%s&quot;</A> % params
+print url
+f = urllib.urlopen(url)
+
+html=file(&quot;html.html&quot;,&quot;w&quot;)
+html.write(f.read())
+html.close()
+os.startfile(&quot;html.html&quot;)
+
+P.S. Mě osobně by zajímalo, jak v tomto příkladě dosáhnout, aby se 
+stáhlo i CSS a stránka se zobrazila jak má....., pokud by někdo věděl. 
+Jinak ale to snad není potřeba, pokud ti jde jen o data .....
+
+Kdyžtak se ptej dál, pokud to nepůjde ....
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000463.html">[Tutor PyCZ] Html
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000474.html">[Tutor PyCZ] Html
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#470">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#470">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#470">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#470">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000470.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

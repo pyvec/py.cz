@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000181.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Help
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Help&In-Reply-To=04d216ada849409c8891e9a1f0207fda%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000180.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000182.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Help</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Help&In-Reply-To=04d216ada849409c8891e9a1f0207fda%40atlas.cz"
+       TITLE="[Tutor PyCZ] Help">geon na post.cz
+       </A><BR>
+    <I>Úterý Únor 21 20:15:04 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000180.html">[Tutor PyCZ] Help
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000182.html">[Tutor PyCZ] Help
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#181">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#181">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#181">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#181">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE><A HREF="http://www.py.cz/mailman/listinfo/tutor">jak.petr na atlas.cz</A> napsal(a):
+&gt;<i> Mam problem v pythonu 2.4.2 a to ze mi to v jednom (jeste sice nedokoncenem ale mel by byt funkcni) programu hazi chybu kterou nechapu? Kod onoho programu je zde take. Prosim napiste mi co ta chyba znamena a jak se da opravit.
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Příště prosím pošli i tu chybku, ten její výpis....
+
+Asi to nebyl dobrý nápad, když jsem překládal kurz livewires 
+<A HREF="http://www.geon.wz.cz/livewires/5-robots.html">http://www.geon.wz.cz/livewires/5-robots.html</A> , abych se přesně držel 
+jejich podání. Zneužívání global vede právě k takovým chybám, které tu 
+teď uvádíš.
+
+No ale když už jsi takhle jednou začal, tak bys to mohl i tak dokončit. 
+Musíš zglobalizovat     global xh, yh, Hrac_telo  -  proměnné ve všech 
+(dvou ) funkcích.     klavesy = keys_pressed() tohle přeci patří do 
+hlavní smyčky a smaž sleep(1) a už to bude frčet jako dráha....
+
+move_to(Hrac_telo, xh, yh) - tohle nemusíš mít snad v každém if... to 
+stačí dát na konec funkce - bude to přehlednější a kratší.
+
+Taky bych zkusil naznačit jak se zbavit toho &quot;proklatého&quot; ;-) global v 
+první funkci:
+
+
+def vyrobHrace():
+    xh=random.randint(0, 630)
+    yh=random.randint(0, 479)
+    Hrac_telo = circle( xh, yh, 5, filled=1)
+    return xh, yh, Hrac_telo
+
+
+xh, yh, Hrac_telo= vyrobHrace()
+
+while 1:
+    klavesy = keys_pressed()
+    xh, yh = posunHrace(xh, yh)
+    if &quot;q&quot; in klavesy:
+        break
+
+Musí se to ale podobně dotvořit i v té druhé funkci. Do toho bych se ale 
+pustil, až se ti rozpohybuje ta černá tečka ;-)
+
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000180.html">[Tutor PyCZ] Help
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000182.html">[Tutor PyCZ] Help
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#181">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#181">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#181">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#181">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000181.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005872.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:16 GMT -->
+<HEAD>
+   <TITLE> [python] cherrypy + autorizace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cherrypy%20%2B%20autorizace&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005867.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005875.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cherrypy + autorizace</H1>
+    <B>radek na smidl.info</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cherrypy%20%2B%20autorizace&In-Reply-To="
+       TITLE="[python] cherrypy + autorizace">radek na smidl.info
+       </A><BR>
+    <I>Pátek Duben 20 11:40:27 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005867.html">[python] Jakého typu je iterátor?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005875.html">[python] subprocess - komunikace s interaktivnim programem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5872">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5872">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5872">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5872">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+ja pouzivam toto: 
+<A HREF="http://tools.cherrypy.org/attachment/wiki/PasswordProtectedPages/check.py">http://tools.cherrypy.org/attachment/wiki/PasswordProtectedPages/check.py</A>
+
+Samozrejme je to treba prizpusobit verzi CherryPy (toto je navod pro 
+2.0), ale to je docela snadne.
+
+Radek
+
+-------- Original Message  --------
+Subject: [python] cherrypy + autorizace
+From: Vladislav Ludík &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;
+To: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+Date: Wed Apr 18 2007 13:00:55 GMT+0200 (CEST)
+&gt;<i> Hledám jednoduchou monost oveného pístupu na mnou vytváený web. 
+</I>&gt;<i> Pístup me být souasn více. Nael jsem napíklad:
+</I>&gt;<i>
+</I>&gt;<i> /import userauth
+</I>&gt;<i> from userauth import authorize, UserAuth
+</I>&gt;<i> import cherrypy
+</I>&gt;<i> import os
+</I>&gt;<i>
+</I>&gt;<i> class Root:
+</I>&gt;<i>     @cherrypy.expose
+</I>&gt;<i>     def index(self):
+</I>&gt;<i>         return &quot;This is always accessible by anyone.&quot;
+</I>&gt;<i>
+</I>&gt;<i> class Members(UserAuth):
+</I>&gt;<i>     &quot;&quot;&quot; Unless otherwise stated (secret()), no pages under this
+</I>&gt;<i>         module will be viewable by any member outside of the
+</I>&gt;<i>         members and admins groups.
+</I>&gt;<i>     &quot;&quot;&quot;
+</I>&gt;<i> _db = 'sqlite:' + os.path.abspath('filename.db')
+</I>&gt;<i> _authorized = ['members', 'admins']
+</I>&gt;<i> _unauthorized = '/login'
+</I>&gt;<i> @cherrypy.expose
+</I>&gt;<i> def index(self):
+</I>&gt;<i>     return &quot;You're only here if you are a member!&quot;
+</I>&gt;<i> @authorize(['secret'], '/nowhere')
+</I>&gt;<i> @cherrypy.expose
+</I>&gt;<i> def secret(self):
+</I>&gt;<i>     # It would work to just make this another section all-together, but
+</I>&gt;<i>     # it could be useful...
+</I>&gt;<i>     return &quot;Only members of secret can access this...&quot;
+</I>&gt;<i> cherrypy.root = Root()
+</I>&gt;<i> cherrypy.root.members = Members()
+</I>&gt;<i>
+</I>&gt;<i> /Nenael jsem vak modul userauth. Pome mi nkdo s tímto problémem?
+</I>&gt;<i>
+</I>&gt;<i> Pouívám Linux s právy root + Appache + mysql
+</I>&gt;<i>
+</I>&gt;<i> Díky
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>   
+</I>
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+AdmID:64A48D2733E7D8C6D856DBFC192BAF02
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005867.html">[python] Jakého typu je iterátor?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005875.html">[python] subprocess - komunikace s interaktivnim programem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5872">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5872">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5872">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5872">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005872.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:16 GMT -->
+</html>

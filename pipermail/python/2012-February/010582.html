@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010582.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+<HEAD>
+   <TITLE> [python] socket + udp + vytváření paketů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C1329896934.6097.59.camel%40amandil.ics.muni.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-February/010580.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-February/010591.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] socket + udp + vytváření paketů</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C1329896934.6097.59.camel%40amandil.ics.muni.cz%3E"
+       TITLE="[python] socket + udp + vytváření paketů">davro na ics.muni.cz
+       </A><BR>
+    <I>Středa Únor 22 08:48:54 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010580.html">[python] socket + udp + vytváření paketů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010591.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10582">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10582">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10582">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10582">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>David Rohleder píše v St 22. 02. 2012 v 00:30 +0100:
+&gt;<i> Jakub Vojáček píše v Út 21. 02. 2012 v 23:56 +0100:
+</I>&gt;<i> &gt; Dne 21.2.2012 23:34, David Rohleder napsal(a):
+</I>&gt;<i> &gt; &gt; azu je dle specifikace 01h, což do 1byte myslím nenarvu. 
+</I>&gt;<i> &gt; &gt; ^^^^ chybu máš tady. 01h do 1byte narveš. Když jsem to upravil na
+</I>&gt;<i> &gt; &gt; data = struct.pack(&quot;!IHHBB&quot;, 0, 0, 0, 1, 1)
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; tak mi ten baryk bez problémů odpověděl.
+</I>&gt;<i> &gt; Děkuji. Podle specifikace modulu struct B odpovídá unsigned char.
+</I>&gt;<i> &gt; Takže pokud budu chtít posílat serveru inicializační zprávu, tak pošlu
+</I>&gt;<i> &gt; B, pokud mu později budu chtít poslat nějaká data, tak to musím narvat
+</I>&gt;<i> &gt; do stringu (takže do s), chápu to správně?
+</I>&gt;<i> 
+</I>&gt;<i> Ne. Protože &quot;1&quot; je ASCII hodnota 49. Samozřejmě by to šlo, pokud bys
+</I>&gt;<i> dokázal do řetězce dát ta binární data. Tj. třeba jako data = data +
+</I>&gt;<i> chr(1)
+</I>&gt;<i> 
+</I>&gt;<i> Problém je spíš v tom struct, protože nepřijímá parametr typu pole,
+</I>&gt;<i> takže nejde napsat data = struct.pack(&quot;B&quot;*10 , [ 1, 1, 1, 10...] )
+</I>&gt;<i> 
+</I>&gt;<i> V tomto případě bych použil modul array následovně:
+</I>&gt;<i> 
+</I>&gt;<i> import array
+</I>&gt;<i> 
+</I>&gt;<i> data = array('B' , [ seznam s hodnotami ] )
+</I>&gt;<i> 
+</I>&gt;<i> s.sendto(data.tostring(), (host,port))
+</I>&gt;<i>  
+</I>
+
+Když se na to teď trošku dívám, tak se to bude muset udělat spíš tak, že
+se spojí ten struct s array asi následovně:
+
+strukturovana_data = struct.pack(...)
+nestrukturovana_data = array('B', list).tostring()
+data_k_odeslani = strukturovana_data + nestrukturovana_data
+
+s.sendto(data_k_odeslani,...)
+
+To proto, abychom mohli použít ty funkce na převod do network byte
+order, ikdyž k tomu se určitě dají použít i funkce typu hton().
+
+David
+
+
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010580.html">[python] socket + udp + vytváření paketů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010591.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10582">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10582">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10582">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10582">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010582.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+</html>

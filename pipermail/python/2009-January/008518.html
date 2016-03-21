@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008518.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:59 GMT -->
+<HEAD>
+   <TITLE> [python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fmod%3D5Fpython_-_probl%3DE9m_s_v%3DEDcen%3DE1sobn%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DFDm_spu%3DB9t%3DECn%3DEDm_jednoho_skriptu%3F%3D&In-Reply-To=%3C608758703.20090113094517%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008517.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008525.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fmod%3D5Fpython_-_probl%3DE9m_s_v%3DEDcen%3DE1sobn%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DFDm_spu%3DB9t%3DECn%3DEDm_jednoho_skriptu%3F%3D&In-Reply-To=%3C608758703.20090113094517%40atlas.cz%3E"
+       TITLE="[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu">mtip na atlas.cz
+       </A><BR>
+    <I>Úterý Leden 13 09:45:17 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008517.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008525.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8518">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8518">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8518">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8518">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>JB&gt; No zkusil bych ten script napsat podle manuálu. V publisher handleru
+JB&gt; se nepoužívá req.write(), ale na konci každé funkce použiješ return
+JB&gt; kterým předáš celou stránku. Viz. mauál
+To je sice v manuálu, ale podle mě návrat z funkce udělá to samé -
+zapíše do req.write(). Nehledě na to, že je občas potřeba tam
+zapisovat průběžně, což by takto nešlo.
+
+&gt;&gt;<i> Doufám, že se najde někdo, kdo něco takového již řešil. Ještě přidám
+</I>&gt;&gt;<i> kód, který je potřeba k simulaci problému:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def index(req):
+</I>&gt;&gt;<i>    import time
+</I>&gt;&gt;<i>    req.content_type=&quot;text/plain&quot;
+</I>&gt;&gt;<i>    req.write(&quot;working...&quot;)
+</I>&gt;&gt;<i>    time.sleep(10)
+</I>&gt;&gt;<i>    req.write(&quot;\ndone&quot;)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Předem děkuji za každou odpověď, která mi pomůže hnout se z místa.
+</I>Sázel bych na problém prohlížeče ne mod_python a apache, ale možná se pletu.
+V tom případě ale hodně frameworků staví na chybném základě a nikdo to
+nezjistil ?
+
+-- 
+Mirek N.
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008517.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008525.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8518">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8518">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8518">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8518">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008518.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:59 GMT -->
+</html>

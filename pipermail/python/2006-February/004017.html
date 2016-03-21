@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004017.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:49 GMT -->
+<HEAD>
+   <TITLE> [python] Referencia
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Referencia&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-February/004016.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-February/004018.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Referencia</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Referencia&In-Reply-To="
+       TITLE="[python] Referencia">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Únor  3 10:40:31 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004016.html">[python] (no subject)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004018.html">[python] Referencia
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4017">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4017">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4017">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4017">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zkusím to celé shrnout a vysvětlit po svém...
+
+balky napsal:
+&gt;<i> [...] pokial viem, tak ak do premennej priradim nieco,
+</I>&gt;<i> nepriradil som vlastne obsah tej premennej, ale iba
+</I>&gt;<i> odkaz (pointer) na ten objekt.
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt;&gt; a = [1,2,3]
+</I>&gt;<i> &gt;&gt;&gt; b = a
+</I>&gt;<i> &gt;&gt;&gt; print b
+</I>&gt;<i> [1,2,3]
+</I>&gt;<i> &gt;&gt;&gt; a = [3,3,3]
+</I>&gt;<i> &gt;&gt;&gt; print a
+</I>&gt;<i> [3,3,3]
+</I>&gt;<i> &gt;&gt;&gt; print b
+</I>&gt;<i> [1,2,3]
+</I>&gt;<i>
+</I>&gt;<i> Ako zabezpecim, aby sa pri zmene hodnoty a zmenila aj
+</I>&gt;<i> hodnota v b? Nie je b iba odkaz na a? Alebo je to
+</I>&gt;<i> odkaz na ine a?
+</I>
+JP reagoval:
+&gt;<i> zapomen na to, co znas z Pascalu, C apod. Neexistuji
+</I>&gt;<i> zadne promenne 'a' a 'b'. Jsou to jenom dve jmena,
+</I>&gt;<i> kterym je prirazeny objekt. Kdyz napises b = a, tak
+</I>&gt;<i> obe dve jmena ukazuji na stejny objekt a jakmile
+</I>&gt;<i> napises a = [3,3,3], tak uz a neodkazuje na puvodni
+</I>&gt;<i> objekt, zatimco b ano.
+</I>
+Je to tak trochu napůl. V Pascalu i v C++ (a myslím, že
+i v novější normě C) existuje něco, čemu se říká
+reference. V Pascalu ji najdeme jen v podobě parametru
+procedury/funkce předávaného odkazem (var). V C++ jde o
+jeden ze základních typů a při použití se chová podobně
+jako v Pythonu. Reference se od ukazatele (pointeru)
+liší tím, že se při použití jména provádí automatická
+dereference. Referenci se kromě toho nedá přiřadit něco
+jako prázdný odkaz (nelze simulovat NULL pointer).
+Použití jména proměnné typu reference se tedy jeví jako
+kdybychom přejmenovali původní objekt.
+
+V Pascalu, C/C++ a v jiných kompilovaných jazycích ale
+jméno původního objektu může vystupovat i jinak, než v
+Pythonu a podobných jazycích. Může být při překladu
+nahrazeno přímou adresou umístění objektu. Narozdíl od
+reference (a od ukazatele) takové jméno není spojeno s
+přidělením dalšího paměťového prostoru za běhu
+aplikace.
+
+V Pythonu se v podstatě pracuje jen s referencemi.
+Paměťový prostor, který za běhu programu zabírají, se
+nachází v systémovém slovníku v podobě zachycení vztahu
+'jméno': 'odkaz na objekt').
+
+
+Yeti poznamenal:
+&gt;<i> [...] Kdyby se přiřazení v Pythonu říkalo pojmenování,
+</I>&gt;<i> asi by se mnohé vyjasnilo.
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt;&gt; a = [1,2,3]
+</I>&gt;<i> &gt;&gt;&gt; b = a
+</I>&gt;<i> &gt;&gt;&gt; print b
+</I>&gt;<i> [1,2,3]
+</I>&gt;<i> &gt;&gt;&gt; a = [3,3,3]
+</I>&gt;<i>
+</I>&gt;<i> Tento řádek vytvoří nový objekt [3,3,3] a pojmenuje ho
+</I>&gt;<i> a. Na objekt [1,2,3] už pak existuje jen odkaz jménem
+</I>&gt;<i> b. [...] b není odkaz na žádné a; jména a a b jsou dvě
+</I>&gt;<i> jména téhož objektu (resp. byla, než jsi jménem a
+</I>&gt;<i> pojmenoval jiný objekt).
+</I>&gt;<i>
+</I>&gt;<i> Nevím, čeho se přesně snažíš dosáhnout, ale zkus se
+</I>&gt;<i> prostě podívat na přiřazení jako na pojmenování.
+</I>
+Python vazbě mezi jménem a objektem skutečně říká
+&quot;vazba&quot; (binding). O přiřazení objektu jménu říká, že
+jde o vytvoření vazby mezi jménem a objektem. V
+kompilovaných jazycích se tomu říká reference, ale
+Python je speciální v tom, že všechny reference
+uchovává v systémových slovnících (globálním a
+lokálních), kde jméno vystupuje jako klíč k hodnotě
+reference.
+
+Pro příchozí ze světa staticky kompilovaných jazyků by
+se mnohé vyjasnilo spíš tím, kdyby ony jazyky běžně
+pracovaly s pojmem reference (jako C++). Yetiho další
+poznámku bych pak mohl pro ekvivalent v kompilovaných
+jazycích přeformulovat takto:
+
+   Tento řádek vytvoří nový objekt [3,3,3] a referenci
+   přiřadí do proměnné a. Tím se původní reference na
+   objekt [1,2,3] přepíše novou hodnotou. Na původní
+   objekt [1,2,3] se pak dostaneme jen přes referenci
+   b. [...] b není reference na (refernci) a; a i b
+   jsou zpočátku dvě reference na tentýž objekt
+   seznamu.
+
+
+Jirka Vít šikovně navedl na použití zabudované funkce
+id(), která v současných implementacích Pythonu vrací
+adresu skutečného umístění objektu:
+
+&gt;<i> &gt;&gt;&gt; a=[1,2,3]
+</I>&gt;<i> &gt;&gt;&gt; b = a
+</I>&gt;<i> &gt;&gt;&gt; id(a)
+</I>&gt;<i> 9596640
+</I>&gt;<i> &gt;&gt;&gt; id(b)
+</I>&gt;<i> 9596640
+</I>
+Snad by pro pochopení pomohlo, kdyby se přiřazení
+objektu [3, 3, 3] provedlo na dva kroky. Nejdříve jej
+pojmenujeme c (pythonovský ekvivalent přiřazení
+reference) a pak hodnotě b přiřadíme hodnotu c. Můžeme
+uvažovat, že jména jsou &quot;proměnné v Pascalovském
+smyslu&quot;, kterým přiřazujeme hodnoty identifikací 
+skutečných objektů a při použití jmen se provádí
+automatické zpřístupnění těchto objektů:
+
+&gt;&gt;&gt;<i> a = [1, 2, 3]
+</I>&gt;&gt;&gt;<i> id(a)
+</I>9592464
+&gt;&gt;&gt;<i> b = a
+</I>&gt;&gt;&gt;<i> id(b)
+</I>9592464
+&gt;&gt;&gt;<i> c = [3, 3, 3]
+</I>&gt;&gt;&gt;<i> id(c)
+</I>9591744
+&gt;&gt;&gt;<i> b = c
+</I>&gt;&gt;&gt;<i> id(b)
+</I>9591744
+
+Tomáš Fujtalar správně poznamenal, že
+
+&gt;<i> Ve Vasem pripade jste ale do a priradil novy objekt,
+</I>&gt;<i> o cemz zakonite objekt b &quot;nema paru&quot;.
+</I>
+a přidal...
+&gt;<i> nebo muzete obsah celeho seznamu a prepsat novym:
+</I>&gt;<i> &gt;&gt;&gt; a[:] = [4,5,6,7]
+</I>&gt;<i> &gt;&gt;&gt;print b
+</I>&gt;<i> [4,5,6,7]
+</I>
+Stejný obrat použil i Jan Martínek a píše:
+&gt;<i> a nadále platí, že id(a) == id(b)
+</I> 
+Tenhle obrat je trochu &quot;na bednu&quot;, protože jeho
+fungování je v referenční příručce (6.3 Assignment
+statements) popsán trochu komplikovaně (ono to asi
+jednodušeji popsat nejde):
+
+    If the target is a slicing: The primary expression
+    in the reference is evaluated. It should yield a
+    mutable sequence object (such as a list). The
+    assigned object should be a sequence object of the
+    same type. Next, the lower and upper bound
+    expressions are evaluated, insofar they are
+    present; defaults are zero and the sequence's
+    length. The bounds should evaluate to (small)
+    integers. If either bound is negative, the
+    sequence's length is added to it. The resulting
+    bounds are clipped to lie between zero and the
+    sequence's length, inclusive. Finally, the sequence
+    object is asked to replace the slice with the items
+    of the assigned sequence. The length of the slice
+    may be different from the length of the assigned
+    sequence, thus changing the length of the target
+    sequence, if the object allows it.
+    
+V našem příkladu jde o speciální případ, kdy
+mechanismem slice vymezíme všechny prvky seznamu a na
+základě výše popsaného chování se nahradí všemi prvky z
+pravé strany přiřazení. Modifikuje se tedy původní
+seznam. Lépe se to možná dá pochopit na méně speciálním
+případu, kdy slice použijeme jen na část seznamu:
+
+&gt;&gt;&gt;<i> a = [1, 2, 3, 4]
+</I>&gt;&gt;&gt;<i> a[1:3]
+</I>[2, 3]
+&gt;&gt;&gt;<i> a[1:3] = [8, 9, 10]
+</I>&gt;&gt;&gt;<i> a
+</I>[1, 8, 9, 10, 4]
+
+Ten popis chování by se dal pro tento konkrétní případ
+přeložit takto:
+
+   Na levé straně přiřazení je zápisem a[1:3] vymezen
+   podseznam s prvky 2 a 3. Tato část je odstraněna a
+   nahrazena prvky seznamu z pravé strany přiřazení. 
+    
+Snad je to teď (i mně ;) trochu jasnější...
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004016.html">[python] (no subject)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004018.html">[python] Referencia
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4017">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4017">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4017">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4017">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004017.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:49 GMT -->
+</html>

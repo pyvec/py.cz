@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006575.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:24 GMT -->
+<HEAD>
+   <TITLE> [python] Postgresql
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Postgresql&In-Reply-To=46F81E82.9070507%40lejmr.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-September/006574.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-September/006576.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Postgresql</H1>
+    <B>Martin Stiborský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Postgresql&In-Reply-To=46F81E82.9070507%40lejmr.com"
+       TITLE="[python] Postgresql">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Pondělí Září 24 22:47:01 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006574.html">[python] Postgresql
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006576.html">[python] Postgresql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6575">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6575">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6575">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6575">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hoj, tvůj program se vlastně k DB nepřipojil ... jak ti taky napovídá error
+...
+Z dokumentace (k SQLAlchemy 0.4):
+
+engine = create_engine('<A HREF="postgres://scott:tiger@localhost:5432/mydatabase'">postgres://scott:tiger@localhost:5432/mydatabase'</A>)
+connection = engine.connect()
+result = connection.execute(&quot;select username from users&quot;)
+for row in result:
+    print &quot;username:&quot;, row['username']
+connection.close()
+
+Podle tohoto si uprav svůj kód a mělo by vše fungovat.
+
+
+
+-----Original Message-----
+From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of Miloš
+Kozák
+Sent: Monday, September 24, 2007 10:31 PM
+To: Konference PyCZ
+Subject: Re: [python] Postgresql
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Dík, to mi celkem bodlo..
+Když zadávám příkaz ručně, tak vše funguje, jak má.. ale jinak, když
+zkouším to ?ORM?, tak to hází chybu.. mám program:
+
+#!/usr/bin/python
+from sqlalchemy import *
+
+db = create_engine('<A HREF="postgres://milos:heslo@barak.lan:5433/test'">postgres://milos:heslo@barak.lan:5433/test'</A>)
+
+metadata = MetaData( db )
+tabulka = Table('names', metadata, autoload=True)
+
+
+tabulka = Table('names', metadata, autoload=True)
+  File &quot;/usr/lib/python2.5/site-packages/sqlalchemy/schema.py&quot;, line 43,
+in __call__
+    metadata.get_engine().reflecttable(table)
+  File &quot;/usr/lib/python2.5/site-packages/sqlalchemy/schema.py&quot;, line 51,
+in get_engine
+    raise exceptions.InvalidRequestError(&quot;This SchemaItem is not
+connected to any Engine&quot;)
+sqlalchemy.exceptions.InvalidRequestError: This SchemaItem is not
+connected to any Engine
+
+Nevíte náhodou co s tím? byl bych Vám moc vděčný..
+miloš
+
+Na tu postgres DB se normoš připojím.
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006574.html">[python] Postgresql
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006576.html">[python] Postgresql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6575">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6575">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6575">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6575">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006575.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:24 GMT -->
+</html>

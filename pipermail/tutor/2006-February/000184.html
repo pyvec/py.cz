@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000184.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Help
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Help&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000183.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000185.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Help</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Help&In-Reply-To="
+       TITLE="[Tutor PyCZ] Help">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Únor 22 08:46:05 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000183.html">[Tutor PyCZ] Help
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000185.html">[Tutor PyCZ] Help me
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#184">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#184">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#184">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#184">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Úvodem, neznám Livewires, takže se na to dívám
+jako externista.
+
+geon napsal...
+&gt;<i> [...] Taky bych zkusil naznačit jak se zbavit 
+</I>&gt;<i> toho &quot;proklatého&quot; ;-) global v první funkci:
+</I>&gt;<i> 
+</I>&gt;<i> def vyrobHrace():
+</I>&gt;<i>     xh=random.randint(0, 630)
+</I>&gt;<i>     yh=random.randint(0, 479)
+</I>&gt;<i>     Hrac_telo = circle( xh, yh, 5, filled=1)
+</I>&gt;<i>     return xh, yh, Hrac_telo
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> xh, yh, Hrac_telo= vyrobHrace()
+</I>&gt;<i> 
+</I>&gt;<i> while 1:
+</I>&gt;<i>     klavesy = keys_pressed()
+</I>&gt;<i>     xh, yh = posunHrace(xh, yh)
+</I>&gt;<i>     if &quot;q&quot; in klavesy:
+</I>&gt;<i>         break
+</I>&gt;<i> [...]
+</I>
+A pak už je to jen krůček k používání tříd.
+Kdykoliv se dá něco personifikovat, je to 
+dobrý kandidát pro instanci nějaké třídy...
+
+class Hrac(object):
+    &quot;&quot;&quot;Třída pro objekt hráče.&quot;&quot;&quot;
+
+    def __init__(self, x, y):
+        &quot;&quot;&quot;Při vytváření hráče se zadává počáteční pozice.&quot;&quot;&quot;
+        self.x = x
+        self.y = y
+        self.telo = circle(self.x, self.y, 5, filled=1)
+
+    def posunRel(dx, dy):
+        &quot;&quot;&quot;Relativní posun v souřadnicích.&quot;&quot;&quot;
+        self.moveAbs(self.x + dx, self.y + dy)
+
+    def posunAbs(x, y):
+        &quot;&quot;&quot;Posun na absolutní souřadnice.&quot;&quot;&quot;
+        self.x = x
+        self.y = y
+        # Tady nevím, jak je v původním příkladu
+        # realizována funkce move_to(), ale mohlo
+        # by to být použito nějak takto:
+        move_to(self.telo, self.x, self.y)
+
+Hráč by se pak vyrobil nějak takto:
+
+    hrac = Hrac(random.randint(0, 630),
+                random.randint(0, 479))
+
+A posunoval by se takto:
+
+    hrac.posunRel(+1, 0)
+
+Další problém, který vidím v původním zdrojovém textu
+spočívá v tom, že se testuje moc kláves najednou a 
+po testu každé klávesy se počká...
+
+    if &quot;8&quot; in klavesy:
+        yh=yh+1
+        move_to(Hrac_telo, xh, yh)
+        sleep(1)
+    if &quot;9&quot; in klavesy:
+        xh=xh+1
+        yh=yh+1
+        move_to(Hrac_telo, xh, yh)
+        sleep(1)
+[...]
+
+    if &quot;3&quot; in klavesy:
+        yh=yh-1
+        xh=xh+1
+        move_to(Hrac_telo, xh, yh)
+        sleep(1)
+
+Správně by se v ostatních větvích mělo použít elif,
+to znamená, že po úspěšném testu by se měly provést
+příslušné příkazy a dál už nic (jen ten sleep jedenkrát).
+
+Protože vždycky testujeme jednu z osmi kláves
+a výsledkem je zjištění, o kolik se máme posunout
+ve směru x a o kolik ve směru y (tj. o +1, 0 nebo -1).
+Pokud vím přesně, kterou klávesu chci obsloužit
+(tedy ne množinu kláves, ale jen jednu), pak může 
+být výhodné předem nadefinovat a potom využívat
+takovouto tabulku:
+
+    delta = { &quot;1&quot;: (-1, -1),
+              &quot;2&quot;: ( 0, -1),
+              &quot;3&quot;: (+1, -1),
+              &quot;4&quot;: (-1,  0),
+              &quot;5&quot;: ( 0,  0),  # viz dále
+              &quot;6&quot;: ( 0, +1),
+              &quot;7&quot;: (-1, +1),
+              &quot;8&quot;: ( 0, +1),
+              &quot;9&quot;: (+1, +1),
+            }
+
+A cyklus by pak vypadal nějak takto:
+
+    klavesy = keys_pressed()  # nebo jiná inicializace
+    while &quot;q&quot; not in klavesy:
+        for k in klavesy:
+            dx, dy = delta[k]
+            hrac.moveRel(dx, dy)
+
+            # Šlo by taky napsat...
+            # d = delta[k]
+            # hrac.moveRel(d)
+
+            # ... nebo jednoduše
+            # hrac.moveRel(delta[k])
+
+        sleep(1)
+        klavesy = keys_pressed()
+
+S tím for je to ještě zbytečně zamotané. Dalo by se to
+dále vylepšit. Kdyby například existovala funkce, která 
+by vracela buď číselnou klávesu nebo &quot;q&quot;, mohla by v případě
+nestisknutí žádné klávesy vracet například &quot;5&quot; (žádný 
+posun). Výsledný cyklus by pak vypadal takto:
+
+    k = &quot;5&quot;
+    while k != &quot;q&quot;:
+        hrac.moveRel(delta[k])
+        sleep(1)
+        k = stiknutaKlavesa()
+
+Pro testování kolizí se dají přímo testovat vnitřní
+proměnné objektu hrac.x a hrac.y, které nahrazují
+původní xh a yh. Případně se dá nadefinovat metoda
+třídy Hrac takto:
+
+         def kolize(self, x, y):
+             return (self.x == x) and (self.y == y)
+
+a pak někde použít...
+
+    if hrac.kolize(x, y):
+        akce(&quot;Byl jsi sežrán robotem.&quot;)
+
+pepr
+
+P.S. Nezkoušel jsem to. Budou tam asi chyby.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000183.html">[Tutor PyCZ] Help
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000185.html">[Tutor PyCZ] Help me
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#184">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#184">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#184">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#184">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000184.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

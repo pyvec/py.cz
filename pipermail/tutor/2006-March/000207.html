@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000207.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] gui aplikace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20gui%20aplikace&In-Reply-To=20060301082643.B4421334B2%40mail.local">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000209.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000203.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] gui aplikace</H1>
+    <B>Jiri Vit</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20gui%20aplikace&In-Reply-To=20060301082643.B4421334B2%40mail.local"
+       TITLE="[Tutor PyCZ] gui aplikace">jirivit na jirivit.com
+       </A><BR>
+    <I>Středa Březen  1 10:06:10 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000209.html">[Tutor PyCZ] gui aplikace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000203.html">[Tutor PyCZ] Globalni,
+	lokalni a volne promenno (bylo Dalsi problem s Livewires)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#207">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#207">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#207">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#207">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+XRCCTRL sice nepouzivam, ale odkaz na aplikaci jsem nasel:
+<A HREF="http://wiki.wxpython.org/index.cgi/UsingXmlResources">http://wiki.wxpython.org/index.cgi/UsingXmlResources</A>
+
+Jirka
+
+&gt;<i> setup(console=[&quot;1.py&quot;],
+</I>&gt;<i>       options = {&quot;py2exe&quot;: {&quot;packages&quot;: [&quot;encodings&quot;]}},
+</I>
+On Wed, 1 Mar 2006 09:26:35 +0100, Lukáš Vondruška wrote
+&gt;<i> zkousel jsem vytvorit nejakou primitivni aplikaci a zase to bylo spatny...
+</I>&gt;<i> spis bych chtel poprosit, jestli by me nekdo mohl poslat opravdu funkcni
+</I>&gt;<i> maly prikladecek, vyuzivajici xrc...
+</I>&gt;<i> 
+</I>&gt;<i> zkousel jsem spoustu prikladu z internetu, napr.
+</I>&gt;<i> ************************************************ py soubor
+</I>&gt;<i> from wxPython.wx  import * 
+</I>&gt;<i> from wxPython.xrc import *
+</I>&gt;<i> 
+</I>&gt;<i> GUI_FILENAME       = &quot;2.xrc&quot; 
+</I>&gt;<i> GUI_MAINFRAME_NAME = &quot;FRAME1&quot;
+</I>&gt;<i> 
+</I>&gt;<i> class MyApp( wxApp ):
+</I>&gt;<i> 
+</I>&gt;<i>     def OnInit( self ): 
+</I>&gt;<i>         self.res   = wxXmlResource( GUI_FILENAME ) 
+</I>&gt;<i>         self.frame = self.res.LoadFrame( None, GUI_MAINFRAME_NAME ) 
+</I>&gt;<i>         self.frame.Show(1) 
+</I>&gt;<i>         self.showControls = XRCCTRL(self.frame, 'showControls') 
+</I>&gt;<i>         self.controlPanel = XRCCTRL(self.frame, 'controlPanel') 
+</I>&gt;<i>         self.Bind( EVT_TOGGLEBUTTON, self.OnChange,
+</I>&gt;<i>  self.showControls)         return 1
+</I>&gt;<i> 
+</I>&gt;<i>     def OnChange(self, event): 
+</I>&gt;<i>         sizer = self.frame.GetSizer() 
+</I>&gt;<i>         sizer.Show( self.controlPanel, 
+</I>&gt;<i> show=self.showControls.GetValue(), recursive=true)         
+</I>&gt;<i> size=sizer.GetMinSize()         self.frame.SetMinSize(size)        
+</I>&gt;<i>  self.frame.Fit()
+</I>&gt;<i> 
+</I>&gt;<i> if __name__ == '__main__': 
+</I>&gt;<i>     app = MyApp(0) 
+</I>&gt;<i>     app.MainLoop()
+</I>&gt;<i> 
+</I>&gt;<i> *************************************************** xrc soubor
+</I>&gt;<i> 
+</I>&gt;<i> &lt;?xml version=&quot;1.0&quot; encoding=&quot;cp1252&quot;?&gt; 
+</I>&gt;<i> &lt;resource&gt; 
+</I>&gt;<i>   &lt;object class=&quot;wxFrame&quot; name=&quot;FRAME1&quot;&gt; 
+</I>&gt;<i>     &lt;title&gt;Test&lt;/title&gt; 
+</I>&gt;<i>     &lt;centered&gt;1&lt;/centered&gt; 
+</I>&gt;<i>     &lt;object class=&quot;wxBoxSizer&quot;&gt; 
+</I>&gt;<i>       &lt;orient&gt;wxVERTICAL&lt;/orient&gt; 
+</I>&gt;<i>       &lt;object class=&quot;sizeritem&quot;&gt; 
+</I>&gt;<i>         &lt;object class=&quot;wxToggleButton&quot; name=&quot;showControls&quot;&gt; 
+</I>&gt;<i>           &lt;label&gt;Show Controls&lt;/label&gt; 
+</I>&gt;<i>           &lt;checked&gt;1&lt;/checked&gt; 
+</I>&gt;<i>         &lt;/object&gt; 
+</I>&gt;<i>       &lt;/object&gt; 
+</I>&gt;<i>       &lt;object class=&quot;sizeritem&quot;&gt; 
+</I>&gt;<i>         &lt;object class=&quot;wxPanel&quot; name=&quot;controlPanel&quot;&gt; 
+</I>&gt;<i>           &lt;object class=&quot;wxBoxSizer&quot;&gt; 
+</I>&gt;<i>             &lt;orient&gt;wxHORIZONTAL&lt;/orient&gt; 
+</I>&gt;<i>             &lt;object class=&quot;sizeritem&quot;&gt; 
+</I>&gt;<i>               &lt;object class=&quot;wxStaticText&quot; name=&quot;theLabel&quot;&gt; 
+</I>&gt;<i>                 &lt;label&gt;Label:&lt;/label&gt; 
+</I>&gt;<i>               &lt;/object&gt; 
+</I>&gt;<i>             &lt;/object&gt; 
+</I>&gt;<i>             &lt;object class=&quot;sizeritem&quot;&gt; 
+</I>&gt;<i>               &lt;object class=&quot;wxTextCtrl&quot; name=&quot;theTextControl&quot;/&gt; 
+</I>&gt;<i>               &lt;option&gt;1&lt;/option&gt; 
+</I>&gt;<i>             &lt;/object&gt; 
+</I>&gt;<i>           &lt;/object&gt; 
+</I>&gt;<i>         &lt;/object&gt; 
+</I>&gt;<i>       &lt;/object&gt; 
+</I>&gt;<i>     &lt;/object&gt; 
+</I>&gt;<i>   &lt;/object&gt; 
+</I>&gt;<i> &lt;/resource&gt;
+</I>&gt;<i> 
+</I>&gt;<i> ************************************************ chyby
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;1.py&quot;, line 28, in ?
+</I>&gt;<i>   File &quot;wx\_core.pyc&quot;, line 7668, in __init__
+</I>&gt;<i>   File &quot;wx\_core.pyc&quot;, line 7320, in _BootstrapA
+</I>&gt;<i>   File &quot;1.py&quot;, line 14, in OnInit
+</I>&gt;<i> AttributeError: 'NoneType' object has no attribu
+</I>&gt;<i> 
+</I>&gt;<i> ************************************************* setup.py
+</I>&gt;<i> from distutils.core import setup
+</I>&gt;<i> import py2exe
+</I>&gt;<i> 
+</I>&gt;<i> setup(console=[&quot;1.py&quot;],
+</I>&gt;<i>       options = {&quot;py2exe&quot;: {&quot;packages&quot;: [&quot;encodings&quot;]}},
+</I>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000209.html">[Tutor PyCZ] gui aplikace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000203.html">[Tutor PyCZ] Globalni,
+	lokalni a volne promenno (bylo Dalsi problem s Livewires)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#207">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#207">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#207">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#207">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000207.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

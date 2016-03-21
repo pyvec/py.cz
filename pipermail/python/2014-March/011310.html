@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011310.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:45 GMT -->
+<HEAD>
+   <TITLE> [python] Gtk LED on/off (začiatočník)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FR3RrIExFRCBvbi9vZmYgKHphxI1pYXRvxI1uw61rKQ%3D%3D%3F%3D&In-Reply-To=%3CCA%2BvQZ8ryXmT6ePjxUkfNzwO27U49RxMVpANLLvNobkPf9yJwwA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-March/011309.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-March/011312.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Gtk LED on/off (začiatočník)</H1>
+    <B>Ales Zoulek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FR3RrIExFRCBvbi9vZmYgKHphxI1pYXRvxI1uw61rKQ%3D%3D%3F%3D&In-Reply-To=%3CCA%2BvQZ8ryXmT6ePjxUkfNzwO27U49RxMVpANLLvNobkPf9yJwwA%40mail.gmail.com%3E"
+       TITLE="[python] Gtk LED on/off (začiatočník)">ales.zoulek na gmail.com
+       </A><BR>
+    <I>Úterý Březen 25 23:50:27 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011309.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011312.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11310">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11310">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11310">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11310">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mne by se to rozhodne libilo (public). A jestli to neni prace navic...
+
+A.
+
+------------------------------------------------------
+Ales Zoulek
++420 604 332 515
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">ales.zoulek na gmail.com</A>
+------------------------------------------------------
+
+
+2014-03-25 21:40 GMT+01:00 Jakub Vysoky &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakub na borka.cz</A>&gt;:
+
+&gt;<i> ad neco noveho&gt; udelejte to tady pres konferenci, nebo kdekoliv jinde,
+</I>&gt;<i> ale public - myslim, ze by to mohlo byt zajimave pro spoustu lidi to
+</I>&gt;<i> alespon sledovat (nebo se i pripojit?) a treba na to pak i vselijak
+</I>&gt;<i> navazat.. co vy a to?
+</I>&gt;<i>
+</I>&gt;<i> 2014-03-25 20:32 GMT+01:00 Petr Blahos &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petrblahos na gmail.com</A>&gt;:
+</I>&gt;<i> &gt;&gt; trochu som sa &quot;hral s LEDkami&quot; a chcel by som tam dorobiť funkciu
+</I>&gt;<i> blikania
+</I>&gt;<i> &gt;&gt; lediek.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; [...]
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;     def cyklus_bliknutia (self, button, name):
+</I>&gt;<i> &gt;&gt;         for name in range(4):
+</I>&gt;<i> &gt;&gt;             if button.get_active():
+</I>&gt;<i> &gt;&gt;                 self.leds[int(name)].set_from_file(&quot;LED_off.png&quot;)   # ak
+</I>&gt;<i> &gt;&gt; je aktívne zhasne LEDku
+</I>&gt;<i> &gt;&gt;             else:
+</I>&gt;<i> &gt;&gt;                 self.leds[int(name)].set_from_file(&quot;LED_on.png&quot;)    # ak
+</I>&gt;<i> &gt;&gt; nie je aktívne, zapne LEDku
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Viem, že je to blobosť hneď z niekoľkých dôvodov:
+</I>&gt;<i> &gt;&gt; 1, vo funckii 'blikanie' nevolám funkciu 'cyklus_bliknutia' pretože
+</I>&gt;<i> &gt;&gt; netuším, ako ju zavolať :)
+</I>&gt;<i> &gt;&gt; 2, vo funckii 'cyklus_bliknutia' mám síce for, ale zasa neviem, ako
+</I>&gt;<i> &gt;&gt; otestovať postupne všetky tlačítka, keďže to ide cez 'name'.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt; Jde o to, co jsme psali u té předchozí otázky: Je tam Gtk.main(), což je
+</I>&gt;<i> &gt; Event loop, která se stará
+</I>&gt;<i> &gt; o to, aby poslala event tam, kam patří. Takže když máš
+</I>&gt;<i> &gt;   button.connect(&quot;toggled&quot;, handler, ...)
+</I>&gt;<i> &gt; tak ta event loop, musí v okamžiku, kdy se s tlačítkem stane toggle
+</I>&gt;<i> zavolat
+</I>&gt;<i> &gt; handler. Ty potřebuješ,
+</I>&gt;<i> &gt; aby v době, kdy chceš blikat, Ti event loop v pravidelných intervalech
+</I>&gt;<i> &gt; říkala: Teď blikni.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   <A HREF="https://gist.github.com/petrblahos/9769152">https://gist.github.com/petrblahos/9769152</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; To je ten GLib.timeout_add. Všimni si, že já nechám to &quot;blikni&quot; zavolat
+</I>&gt;<i> &gt; ikdyž je tlačítko vypnuté, a
+</I>&gt;<i> &gt; v handleru blink_timer se dívám, jestli je to tlačítko sepnuté. Tím pádem
+</I>&gt;<i> &gt; ale nebliknu hned jak někdo
+</I>&gt;<i> &gt; zmáčkne tlačítko, ale bliknu to 1/2 sekundy. Navíc to blikání je
+</I>&gt;<i> konstantní,
+</I>&gt;<i> &gt; a nedívá se, co bylo na
+</I>&gt;<i> &gt; obrázku, když se začalo blikat, takže celkově nic moc. No, takhle musí
+</I>&gt;<i> &gt; programátor přemýšlet. Hmm.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; [...]
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; A teraz otázky:
+</I>&gt;<i> &gt;&gt; Je nejaké presné poradie, podľa ktorého je potrebné uvádzať tieto
+</I>&gt;<i> premenné
+</I>&gt;<i> &gt;&gt; v zátvorke?
+</I>&gt;<i> &gt;&gt; Môžem s nimi pracovať lubovoľne? Mám na mysli tak, že keby som napr.
+</I>&gt;<i> chcel
+</I>&gt;<i> &gt;&gt; moje dve pseudofunckie zlučiť do jednej, môžem použiť niečo ako (self,
+</I>&gt;<i> &gt;&gt; btn_blikanie, button, name)? A ak áno, v akom poradí?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; [...]
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Já bych se moc nechtěl pouštět do vysvětlování těchto konceptů přes
+</I>&gt;<i> mail, a
+</I>&gt;<i> &gt; navíc na
+</I>&gt;<i> &gt; tak pokročilém tématu, jako je tvorba UI. Bohužel Ti nedokážu poradit
+</I>&gt;<i> &gt; vhodnou literaturu
+</I>&gt;<i> &gt; na začátek, ale zkus si pročíst python.cz, protože v nějakém uceleném
+</I>&gt;<i> &gt; tutoriálu, nebo
+</I>&gt;<i> &gt; knize, to bude popsané konzistentněji, než to dokážeme my, tady na listu.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Tak mě napadlo, jak říkal Moss v IT Crowdu, díle Moss a Němec, občas je
+</I>&gt;<i> &gt; potřeba zkusit
+</I>&gt;<i> &gt; něco nového. Takže jestli chceš, udělám Ti korespondenční kurz tím
+</I>&gt;<i> způsobem,
+</I>&gt;<i> &gt; že dostaneš
+</I>&gt;<i> &gt; úkol, ten vyřešíš (nebo ne), já Ti to opravím, a pošlu další úkol. Teda s
+</I>&gt;<i> &gt; tím, že nemám
+</I>&gt;<i> &gt; rozmyšleno, jestli dokážu udělat ty správné úkoly :-)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt; Petr
+</I>&gt;<i> &gt; ____________________
+</I>&gt;<i> &gt; <A HREF="http://pysk.blog.root.cz/">http://pysk.blog.root.cz/</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Jakub Vysoky
+</I>&gt;<i>
+</I>&gt;<i> mob: +420 605 852 377
+</I>&gt;<i> jab: <A HREF="http://www.py.cz/mailman/listinfo/python">jakub.vysoky na gmail.com</A>
+</I>&gt;<i> twit: <A HREF="https://twitter.com/kvbik">https://twitter.com/kvbik</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20140325/a06bae13/attachment.html">http://www.py.cz/pipermail/python/attachments/20140325/a06bae13/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011309.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011312.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11310">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11310">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11310">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11310">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011310.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:45 GMT -->
+</html>

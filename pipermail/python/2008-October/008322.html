@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-October/008322.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:19 GMT -->
+<HEAD>
+   <TITLE> [python] SQLObject - úprava parametr? p?i vytvá?ení t?ídy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-1%3Fq%3FSQLObject_-_%3DFAprava_parametr%3D3F_p%3D3Fi_vy%3F%3D%0A%09%3D%3Fiso-8859-1%3Fq%3Ftv%3DE1%3D3Fen%3DED_t%3D3F%3DEDdy%3F%3D&In-Reply-To=%3C1224839093.16109.4.camel%40penmat%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-October/008321.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-October/008323.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] SQLObject - úprava parametr? p?i vytvá?ení t?ídy</H1>
+    <B>Jaroslav Aster</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-1%3Fq%3FSQLObject_-_%3DFAprava_parametr%3D3F_p%3D3Fi_vy%3F%3D%0A%09%3D%3Fiso-8859-1%3Fq%3Ftv%3DE1%3D3Fen%3DED_t%3D3F%3DEDdy%3F%3D&In-Reply-To=%3C1224839093.16109.4.camel%40penmat%3E"
+       TITLE="[python] SQLObject - úprava parametr? p?i vytvá?ení t?ídy">orm na humlak.cz
+       </A><BR>
+    <I>Pátek Říjen 24 11:04:53 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008321.html">[python] SQLObject - úprava parametr? p?i vytvá?ení t?ídy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008323.html">[python] SQLObject - úprava parametr? p?i vytvá?ení t?ídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-October/date.html#8322">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/thread.html#8322">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/subject.html#8322">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/author.html#8322">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+rajcze píše v Pá 24. 10. 2008 v 09:05 +0200:
+&gt;<i> class MojeTrida(SQLObject):
+</I>&gt;<i>     def __init__(self, x):
+</I>&gt;<i>        #tady muzes delat co chces pred inicializaci SQLObjectu
+</I>&gt;<i>        SQLObject.__init__(self)
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> snad jsem dobre pochopil, co potrebujes
+</I>
+děkuji za odpověď, ale jak jsem psal definování vlastní metody __init__ nepomůže,
+protože SQLObject používá funkci __init__ jen při prvotním vytvoření objektu. Pokud
+je objekt načten z databáze, tak se metoda __init__ nepoužívá.
+
+
+&gt;<i> 2008/10/23 Jaroslav Aster &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">orm na humlak.cz</A>&gt;:
+</I>&gt;<i> &gt; Ahoj,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; narazil jsem na takový, spíše estetický problém, který se mi prozatím
+</I>&gt;<i> &gt; nepodařilo vyřešit. Pokud definuji nějakou třídu a dědím od třídy
+</I>&gt;<i> &gt; SQLObject, tak při vytváření objektu z mnou definované třídy nemohu
+</I>&gt;<i> &gt; použít poziční parametry. Uvedu na příkladu.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; class MojeTrida(SQLObject):
+</I>&gt;<i> &gt;        x = IntCol()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; # spravne
+</I>&gt;<i> &gt; MojeTrida(x=1)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; # spatne
+</I>&gt;<i> &gt; MojeTrida(1)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Definování medoty __init__ u třídy MojeTrida nepomůže, protože
+</I>&gt;<i> &gt; SQLObject, protože SQLObject tam dělá nějakou &quot;magii&quot;. Potřeboval bych
+</I>&gt;<i> &gt; paramety upravit ještě před zavoláním __init__. Neměl by někdo nějaký
+</I>&gt;<i> &gt; nápad?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt; Jaroslav Aster &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">orm na humlak.cz</A>&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>-- 
+Jaroslav Aster &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">orm na humlak.cz</A>&gt;
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008321.html">[python] SQLObject - úprava parametr? p?i vytvá?ení t?ídy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008323.html">[python] SQLObject - úprava parametr? p?i vytvá?ení t?ídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-October/date.html#8322">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/thread.html#8322">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/subject.html#8322">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/author.html#8322">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-October/008322.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:19 GMT -->
+</html>

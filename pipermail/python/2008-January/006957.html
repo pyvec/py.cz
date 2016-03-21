@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/006957.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:46 GMT -->
+<HEAD>
+   <TITLE> [python] Konfigurace httpd pro PSP.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Konfigurace%20httpd%20pro%20PSP.&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-January/006956.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-January/006958.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Konfigurace httpd pro PSP.</H1>
+    <B>David Michal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Konfigurace%20httpd%20pro%20PSP.&In-Reply-To="
+       TITLE="[python] Konfigurace httpd pro PSP.">dmichal na altien.com
+       </A><BR>
+    <I>Úterý Leden  8 17:44:31 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006956.html">[python] New Year discount on w4tches t7in
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006958.html">[python] New Year discount on w4tches zA2l
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#6957">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#6957">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#6957">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#6957">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+Hraju si s mod_python a psp a nejde mi vnutit apache aby jako default
+stranku bral index.php
+
+Mam config:
+
+ 
+
+Alias /psp /var/www/psp_testing
+
+ 
+
+&lt;Directory /var/www/psp_testing&gt;
+
+        #AddHandler mod_python .py
+
+        AddHandler mod_python .psp .psp_
+
+        SetHandler mod_python
+
+        #PythonHandler mod_python.publisher
+
+        PythonHandler mod_python.psp
+
+        PythonDebug On
+
+        Options Indexes MultiViews
+
+        AllowOverride None
+
+        Order allow,deny
+
+        Allow from all
+
+        DirectoryIndex index.psp
+
+&lt;/Directory&gt;
+
+ 
+
+Kdy dam <A HREF="http://localhost/psp/index.psp">http://localhost/psp/index.psp</A> tak je vse ok, ale kdyz v adrese
+vynecham index.psp dostanu hlasku:
+
+Mod_python error: &quot;PythonHandler mod_python.psp&quot;
+
+ 
+
+Traceback (most recent call last):
+
+ 
+
+  File &quot;/usr/lib/python2.3/site-packages/mod_python/apache.py&quot;, line
+299, in HandlerDispatch
+
+    result = object(req)
+
+ 
+
+  File &quot;/usr/lib/python2.3/site-packages/mod_python/psp.py&quot;, line 296,
+in handler
+
+    p = PSP(req)
+
+ 
+
+  File &quot;/usr/lib/python2.3/site-packages/mod_python/psp.py&quot;, line 111,
+in __init__
+
+    self.load_from_file()
+
+ 
+
+  File &quot;/usr/lib/python2.3/site-packages/mod_python/psp.py&quot;, line 162,
+in load_from_file
+
+    raise ValueError, &quot;%s is not a file&quot; % filename
+
+ 
+
+ValueError: /var/www/vpn/ is not a file
+
+ 
+
+ 
+
+Poradte pls nekdo kde delam chybu.
+
+ 
+
+ 
+
+Diky,
+
+David
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080108/70a0dc21/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080108/70a0dc21/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006956.html">[python] New Year discount on w4tches t7in
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006958.html">[python] New Year discount on w4tches zA2l
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#6957">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#6957">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#6957">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#6957">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/006957.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:46 GMT -->
+</html>

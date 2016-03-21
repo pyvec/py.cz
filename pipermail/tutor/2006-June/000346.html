@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-June/000346.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] zřetězení stringů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DF8et%3DECzen%3DED_string%3DF9%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-June/000347.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] zřetězení stringů</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DF8et%3DECzen%3DED_string%3DF9%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] zřetězení stringů">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Červen 21 10:17:45 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000347.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/date.html#346">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/thread.html#346">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/subject.html#346">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/author.html#346">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>B. Douša
+&gt;<i> 
+</I>&gt;<i> začínám s pythonem a právě jsem si v jedné knize přečetl, že
+</I>&gt;<i> se nemá pro zřetězení používat znaménko &quot;+&quot;, protože prý
+</I>&gt;<i> vytváří při každém použití nový objekt a že je lépe použít
+</I>&gt;<i> funkci z modulu string &quot;string.join&quot;.
+</I>&gt;<i> 
+</I>&gt;<i> Jako příklad použití &quot;+&quot; je uvedeno(toto prý vytvoří dva
+</I>&gt;<i> objekty): x = &quot;ahoj &quot; + &quot;svete&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Mohl bych poprosit o nastínění toho, že &quot;+&quot; vytváří nový
+</I>&gt;<i> objekt - jak mám toto chápat?
+</I>
+Immutable znamená něco jako později neměnný. A to je právě
+vlastnost objektů zabudovaného typu string. 
+
+Doporučuji pokud možno zapomenout na *modul* string. Pochází
+z doby, kdy neexistoval zabudovaný typ string. Pořád sice
+funguje, ale je v něm jen pár věcí, které zabudovaný typ
+nemá -- většinou se dají snadno napsat.
+
+Místo funkce string.join() se dá stejným způsobem používat
+metoda join() zabudovaného řetězce. Ten řetězec uvádí co se
+má mezi spojené řetězce vložit, parametrem je sekvence
+(seznam, tuple) nebo cokoliv, přes co se dá postupně
+procházet.
+
+Takže pokud například načítám velké množství řádků souboru,
+je lepší uvažovat o nich jako o samostatných řádcích a
+načíst je do seznamu řádků místo do jednoho řetězce. Místo
+kódu...
+
+f = file('a.txt')
+s = f.read()
+f.close()
+
+doporučuji (když už potřebuji obsah celého souboru najednou)
+
+
+f = file('a.txt')
+seznam = f.readlines()
+f.close()
+
+Z načteného seznamu pak totožný obsah, jako v s dostanu
+takto
+
+Uložit do souboru a.py
+=======================================================
+s = ''.join(seznam)
+
+radkyJakoJedenRetezec = &quot;&quot;&quot;\
+Prvni radek.
+Druhy radek.
+Treti radek.
+&quot;&quot;&quot;
+
+f = file('a.txt', 'w')
+f.write(radkyJakoJedenRetezec)
+f.close()
+
+f = file('a.txt')
+s = f.read()
+f.close()
+
+print '-' * 60
+print s
+
+f = file('a.txt')
+seznam = f.readlines()
+f.close()
+
+s = ''.join(seznam)
+
+print '-' * 60
+print s
+
+print '-' * 60
+print repr(seznam)
+print '-' * 60
+=======================================================
+
+Po spuštění to bude vypadat nějak takto:
+
+C:\tmp&gt;python a.py
+------------------------------------------------------------
+Prvni radek.
+Druhy radek.
+Treti radek.
+
+------------------------------------------------------------
+Prvni radek.
+Druhy radek.
+Treti radek.
+
+------------------------------------------------------------
+['Prvni radek.\n', 'Druhy radek.\n', 'Treti radek.\n']
+------------------------------------------------------------
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000347.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/date.html#346">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/thread.html#346">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/subject.html#346">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/author.html#346">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-June/000346.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010681.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:31 GMT -->
+<HEAD>
+   <TITLE> [python] file.close
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20file.close&In-Reply-To=%3C4FA13798.1070506%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-May/010684.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-May/010682.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] file.close</H1>
+    <B>zu1234</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20file.close&In-Reply-To=%3C4FA13798.1070506%40seznam.cz%3E"
+       TITLE="[python] file.close">zu1234 na seznam.cz
+       </A><BR>
+    <I>Středa Květen  2 15:33:12 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010684.html">[python] Unicode/ne-unicode problem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010682.html">[python] file.close
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10681">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10681">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10681">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10681">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Děkuji za konstruktivní odpověď.
+
+1) Opravdu mi na jednom místě u close chyběly závorky :-)
+
+2) Postup pomocí atexit jsem použil podle zvyku z bash-e.
+Ale python nezavírá soubory před atexit funkcí, jak jsem se mylně domníval.
+
+3) Přepsal jsem to na 'with open(...) as ...'
+	nebo 'try ... finally ...' pro zipfile.ZipFile
+
+4) Knihovnu tempfile používám, ale ta sama nic nemaže. A právě při 
+rušení dočasného adresáře jsem se dostal do problémů.
+
+5) Nakonec jsem musel před rušením dočasného adresáře ponechat
+time.sleep(1). Jinak nastávala chyba: adresář není prázdný
+
+Díky,
+ZU
+
+Dne 27.4.2012 16:51, Hynek Fabian napsal(a):
+&gt;<i> IMO python sám pozavírá otevřené soubory když garbage collector dělá
+</I>&gt;<i> úklid a zavolá destruktory osiřelým file instancím.
+</I>&gt;<i> Se zámky ti neporadím, to je wydláčtina :-) ale pokud chceš mít 100%
+</I>&gt;<i> jistotu že nic nezůstane, můžeš aplikovat &quot;NKVD algoritmus&quot; neboli
+</I>&gt;<i> zavřít pro jistotu všechny bez rozdílu:
+</I>&gt;<i>
+</I>&gt;<i> for fd in range(0, os.sysconf_names.get(&quot;SC_OPEN_MAX&quot;, 1024)):
+</I>&gt;<i>      try:
+</I>&gt;<i>          os.close(fd)
+</I>&gt;<i>      except OSError, ex:
+</I>&gt;<i>          pass
+</I>&gt;<i>
+</I>&gt;<i> Ovšem to bych použil jen v krajním případě, protože přijdeš i o stdout.
+</I>&gt;<i> V každém případě bych se vyhnul hackům jako je atexit,
+</I>&gt;<i> uklidit po sobě můžeš už v handleru výjimky, resp. ve finally bloku.
+</I>&gt;<i> Pokud se chceš vyhnout opisování stále stejného bloku výjimky,
+</I>&gt;<i> použij context manager. Jednoduchá varianta je ve file objektu už
+</I>&gt;<i> zabudovaná:
+</I>&gt;<i>
+</I>&gt;<i> with open(&quot;spam&quot;, &quot;w&quot;) as f:
+</I>&gt;<i>      f.write(&quot;ham&quot;)
+</I>&gt;<i>      ...
+</I>&gt;<i>
+</I>&gt;<i> Zavření je takto automatické, i když vystřelí výjimka.
+</I>&gt;<i> Napsat si vlastní kontext který soubor i smaže je trivka,
+</I>&gt;<i> viz r.t.f.m. :-)
+</I>&gt;<i>
+</I>&gt;<i> btw na dočasné soubory máme krásnou knihovnu tempfile.
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010684.html">[python] Unicode/ne-unicode problem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010682.html">[python] file.close
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10681">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10681">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10681">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10681">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010681.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:31 GMT -->
+</html>

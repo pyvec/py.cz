@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006799.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:10 GMT -->
+<HEAD>
+   <TITLE> [python] cherrypy&amp;databázová data, cachování
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fcherrypy%3D26datab%3DE1zov%3DE1_data%3D2C_cachov%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DE1n%3DED%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006804.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006801.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cherrypy&amp;databázová data, cachování</H1>
+    <B>martin.stiborsky na gmail.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fcherrypy%3D26datab%3DE1zov%3DE1_data%3D2C_cachov%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DE1n%3DED%3F%3D&In-Reply-To="
+       TITLE="[python] cherrypy&amp;databázová data, cachování">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Neděle Listopad 25 13:07:11 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006804.html">[python] tkinter zaviran&#65533; a odmazav&#65533;n&#65533; ud&#65533;l&#65533;tek
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006801.html">[python] cherrypy&amp;databázová data, cachování
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6799">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6799">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6799">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6799">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hezkou neděli přeji.
+v mém minulém dotazu tady v konferenci jsem se ptal, jak je
+nejvýhodnější ukládat datum do databáze. Zkusil jsem tedy timestamp.
+Databázi se takové číslo sice líbí, ale pro uživateli moc ne. Takže
+jej převádím do lidsky čitelného formátu. Modul datetime má hezkou
+metodu na vytvoření datetime objektu z timestampu a pak už není
+problém ho zformátovat pomocí strftime() jak je libo.
+Tedy, selectnu data z databáze a u každého vyselectovaného řádku je
+potřeba timestamp nahradit novým, hezkým datem to pak šoupnout
+databázi. Není problém, for cyclem to projedu a je to.
+Vše krásně funguje, když otevřu stránku, je tam nové, hezké datum,
+když reloadnu. dostanu error.
+
+ValueError: invalid literal for float(): 24/11/2007 14:06:05
+
+Místo timestamu z databáze, dostane program data která má dostat od
+programu šablona, někde se to nejspíš cachuje, nebo já nevím, v
+cherrypy jsem cachování vypnul, sqlalchemy to myslím nedělá, genshi
+šablony, snad taky ne, nic takového jsem teda nenašel, netuší někdo,
+kde se děje chyba ? Vím že tohle bude dost těžké říct, když tady není
+kompletní kód, ale cokoli mi pomůže ..
+
+Tímhle dělám hezké datum:
+def public_date(timestamp):
+	timestamp = float(timestamp)
+	date = datetime.fromtimestamp(timestamp)
+	return date.strftime(&quot;%d/%m/%Y %H:%M:%S&quot;)
+
+smyčka pro nahrazování:
+for post in posts_data:
+              post.create_date = public_date(post.create_date)
+....
+return posts_data
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006804.html">[python] tkinter zaviran&#65533; a odmazav&#65533;n&#65533; ud&#65533;l&#65533;tek
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006801.html">[python] cherrypy&amp;databázová data, cachování
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6799">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6799">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6799">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6799">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006799.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:10 GMT -->
+</html>

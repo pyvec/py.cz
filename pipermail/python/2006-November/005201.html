@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005201.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:38 GMT -->
+<HEAD>
+   <TITLE> [python] zjištění umístění ikony
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fzji%3DB9t%3DECn%3DED_um%3DEDst%3DECn%3DED_ikony%3F%3D&In-Reply-To=456AC5EF.1020101%40radiante-corp.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005179.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005180.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zjištění umístění ikony</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fzji%3DB9t%3DECn%3DED_um%3DEDst%3DECn%3DED_ikony%3F%3D&In-Reply-To=456AC5EF.1020101%40radiante-corp.com"
+       TITLE="[python] zjištění umístění ikony">Jakohv na seznam.cz
+       </A><BR>
+    <I>Úterý Listopad 28 19:00:08 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005179.html">[python] zjištění umístění ikony
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005180.html">[python] zaporny systemovy cas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5201">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5201">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5201">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5201">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+&gt;<i> Konkretne python icona lze nalezt timhle:
+</I>&gt;<i> 
+</I>&gt;<i>      &gt;&gt;&gt; import win32api
+</I>&gt;<i>      &gt;&gt;&gt; import win32con
+</I>&gt;<i>      &gt;&gt;&gt; key = win32api.RegQueryValue(win32con.HKEY_CLASSES_ROOT, '.py')
+</I>&gt;<i>      &gt;&gt;&gt; win32api.RegQueryValue(win32con.HKEY_CLASSES_ROOT,
+</I>&gt;<i>     '%s\DefaultIcon' % key)
+</I>&gt;<i>     'C:\\Python25\\DLLs\\py.ico'
+</I>&gt;<i> 
+</I>&gt;<i> U ostatni souboru by melo jit postupovat analogicky.
+</I>&gt;<i> Leo
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> ----
+</I>&gt;<i> Leos Pol
+</I>
+
+
+Dík!
+to funguje bezvadně...
+ale narazil sem na menší problém::
+&gt;&gt;&gt;<i> key = win32api.RegQueryValue(win32con.HKEY_CLASSES_ROOT, '.jpg')
+</I>&gt;&gt;&gt;<i> win32api.RegQueryValue(win32con.HKEY_CLASSES_ROOT, '%s\DefaultIcon' % key)
+</I>'shimgvw.dll,3'
+
+
+kde mám hledat to shimgvw.dll???
+a ještě bych potřeboval poradit jak zjistit umístění ikony nějakého souboru., např když mám ikonu: counter strike.lnl tak abych získal umístění ty ikony... 
+
+
+děkuji a  ještě jednou dík..
+
+
+Blujacker
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005179.html">[python] zjištění umístění ikony
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005180.html">[python] zaporny systemovy cas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5201">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5201">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5201">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5201">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005201.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:38 GMT -->
+</html>

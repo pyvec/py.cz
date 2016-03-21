@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003013.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:59 GMT -->
+<HEAD>
+   <TITLE> [python] [TALK] vyvoj Pythonu, jimavy pribeh
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5BTALK%5D%20vyvoj%20Pythonu%2C%20jimavy%20pribeh&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-July/003011.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-July/003015.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] [TALK] vyvoj Pythonu, jimavy pribeh</H1>
+    <B>&quot;VANĚK Petr&quot;</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5BTALK%5D%20vyvoj%20Pythonu%2C%20jimavy%20pribeh&In-Reply-To="
+       TITLE="[python] [TALK] vyvoj Pythonu, jimavy pribeh">Petr.VANEK na spordat.cz
+       </A><BR>
+    <I>Úterý Červenec 12 09:12:05 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003011.html">[python] modul zipfile
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003015.html">[python] [TALK] vyvoj Pythonu, jimavy pribeh
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3013">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3013">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3013">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3013">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>zdar vsici.
+
+Dnes jsem se probudil pekne rozohneny, takze se nejdriv zkusim uklidnit
+v teto konferenci, nez se budu prezentovat mezinarodne.
+
+V programu, ktery tak trochu vytvarim, mame vestaveny Python interpreter,
+takze se tam muze ruzne kouzlit. Jeden z uzivatelu mi vystavil bugreport,
+s tim, ze nefunguje toto:
+fileDialog(caption=&quot;Popis&quot;, isdir=True)
+
+Nic zvlastniho, chyb vytvarim hromadu. Jenze pote, co jsem do jednoducheho
+C kodu cumel tri dny, nekolikrat jej prepsal (protoze chyba prece nemuze
+byt v pythonu - coz je tisici lidi pouzivany SW) a vselijak slozite debugoval,
+vyslo najevo, ze je problem opravdu v Pythonovske knihovne.
+
+Pokracoval jsem tedy - prekompiloval P. s --enable-debug flagy. A opravdu
+peclive proniknul do gdb (jedine pozitivni z cele anabaze). Tam jsem
+zjistil, ze je dodrbana C PyArg_ParseTupleAndKeywords, resp. skipitem() funkce.
+Dodrbana... Vlastne spis uz na ni nikdo nesahnul staleti, pricem se protokol
+parametru PyArg_ParseTupleAndKeywords stale rozsiroval.
+
+Vyborne, rekl jsem si, slava mne nemine, nahlasim zasadni chybu a navrhnu patch.
+Zacal jsem tedy prohlizet bugtracker. Oho, vzdyt je to uz davno reportovane!
+Z 2004-02-09 09:30. Coz je, jestli se nepletu, asi tak rok a pul. Navic k tomu
+uz existuje patch. V podstate je cely bugtracker plny vyhnivajicich mrtvol. Ergo
+kladivko - nekolik hodin prace v pytli, protoze opravu, ktera mohla jit uz do 
+2.2.x, stejne jeste nikdo nezaradil ani do 2.4...
+
+Otazka k diskuzi je tedy nasnade.
+Jak vidite vyvoj Pythonu? Je tento stav vubec udrzitelny? A co Jan Tleskac?
+
+zdar a silu
+petr vanek
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003011.html">[python] modul zipfile
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003015.html">[python] [TALK] vyvoj Pythonu, jimavy pribeh
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3013">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3013">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3013">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3013">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003013.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:59 GMT -->
+</html>

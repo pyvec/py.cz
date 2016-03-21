@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000177.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Prace s binarnimi daty.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Prace%20s%20binarnimi%20daty.&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000176.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000178.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Prace s binarnimi daty.</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Prace%20s%20binarnimi%20daty.&In-Reply-To="
+       TITLE="[Tutor PyCZ] Prace s binarnimi daty.">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Únor 21 11:31:57 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000176.html">[Tutor PyCZ] Prace s binarnimi daty.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000178.html">[Tutor PyCZ] Prace s binarnimi daty.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#177">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#177">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#177">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#177">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>linuxik...
+&gt;<i> Ahoj, potreboval by jsem nacist binarni soubor,  zmenit par  bitu a 
+</I>&gt;<i> potom ho zase ulozit. Problem je v tom ze kdyz pouziji os.read() tak 
+</I>&gt;<i> dostanu rovnou string,  Takhle i kdyz udelam data = 
+</I>&gt;<i> os.read(f1, 100) a 
+</I>&gt;<i> potom os.write(f2,data) tak ty soubory nejsou stejny. Da se v Pythonu 
+</I>&gt;<i> pracovat primo s binarnimy daty?
+</I>
+První problém spočívá v tom, že soubory musíme otevřít
+v binárním režimu. To znamená, že konstruktoru file() nebo 
+funkci open() musíme v druhém parametru zadat 'rb' (pro binární
+čtení) nebo 'wb' (pro binární zápis).
+
+Druhá část problému je daná tím, že string (pokud není
+unicodový) je interpretován jako posloupnost bajtů.
+Souborové metody read() a write() pracují s řetězci.
+Pokud je soubor otevřen binárně, interpretují je jako
+posloupnosti bajtů.
+
+Komplikace &quot;bajt/znak řetězce&quot; spočívá v tom, že 
+si číselnou podobu bajtu musíme sami konvertovat 
+na znak a zpět.
+
+Poslední část problému spočívá v tom, že string
+se nedá modifikovat na místě (při modifikaci se 
+vytváří modifikovaná kopie). Proto může být 
+NĚKDY výhodnější převést si to na seznam (nebo
+použít modul array, pokud by seznam nestačil
+vzhledem k efektivnosti). Prvky seznamu můžeme 
+měnit a výsledný seznam můžeme spojit do řetězce,
+který zapíšeme binárně do výstupního souboru.
+Příklad:
+
+
+soubor pokus.py
+-------------------------
+import sys
+
+def zpracujSoubor(fnameIn, fnameOut):
+    fin = file(fnameIn, 'rb')
+    lst = list(fin.read())
+    fin.close()
+
+    # Cvicne zmenime prvni dva bajty.
+    lst[0] = chr(13)
+    lst[1] = chr(10)
+
+    fout = file(fnameOut, 'wb')
+    fout.write(''.join(lst))
+    fout.close()
+
+
+def main():
+    
+    # Pripravime si testovaci binarni soubor.
+    fout = file('input.bin', 'wb')
+    for n in xrange(256):
+        fout.write(chr(n))
+    fout.close()
+
+    # Zpracujeme binarni soubor.
+    zpracujSoubor('input.bin', 'output.bin')
+
+
+if __name__ == '__main__':
+    main()
+-------------------------
+
+Poslední dva řádky spustí funci main().
+Ve funkci main() se vygeneruje testovací
+binární soubor input.bin (256 bajtů s kódy
+0 až 255) a zavolá se funkce pro modifikaci 
+tohoto souboru zpracujSoubor(). Ta binárně 
+načte celý obsah vstupního souboru (řetězec) a
+převede jej na seznam. Modifikovaný seznam
+se spojí do řetězce a zapíše do výstupního
+binárního souboru.
+
+pepr
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000176.html">[Tutor PyCZ] Prace s binarnimi daty.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000178.html">[Tutor PyCZ] Prace s binarnimi daty.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#177">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#177">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#177">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#177">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000177.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007723.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:47 GMT -->
+<HEAD>
+   <TITLE> [python] Brainstorm request: Vyuka programovani na gymplu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Brainstorm%20request%3A%20Vyuka%20programovani%20na%20gymplu&In-Reply-To=bd9056300806131539jab6c386v572126238fc16de%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007719.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007725.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Brainstorm request: Vyuka programovani na gymplu</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Brainstorm%20request%3A%20Vyuka%20programovani%20na%20gymplu&In-Reply-To=bd9056300806131539jab6c386v572126238fc16de%40mail.gmail.com"
+       TITLE="[python] Brainstorm request: Vyuka programovani na gymplu">feed na centrum.cz
+       </A><BR>
+    <I>Sobota Červen 14 01:10:04 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007719.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007725.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7723">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7723">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7723">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7723">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i>
+</I>&gt;<i> Dispatcher (server), ktery spousti nekolik tisic vlaken si vytvori 
+</I>&gt;<i> vlastni registracni strukturu metadat o kazdem z pustenych vlaken, 
+</I>&gt;<i> kteremu pri startu (pokud je to nutne) preda referenci na jeho zaznam. 
+</I>&gt;<i> Zde muze byt napriklad struktura semaforu, pripadne jineho 
+</I>&gt;<i> synchronizacniho &quot;nastroje&quot;, ktery dane vlakno bude kontrolovat/ridit. 
+</I>&gt;<i> Takova konstrukce je plne zapouzdrena (objekt dispatcheru si managuje 
+</I>&gt;<i> sve ovecky, plus poskytuje interface k vlaknum pro sve okoli) a je 
+</I>&gt;<i> umoznena absolutni prenositelnost / zapouzdreni do slozitejsich 
+</I>&gt;<i> struktur aplikace. Nevidim zadnou potrebu, a uz vubec ne oduvodnenou, 
+</I>&gt;<i> pro existenci globalni promenne.
+</I>
+To je jedno z řešení, nicméně ne vždy šikovné. Proč by třeba bylo nutné 
+vytvářet něco, co musí vědět o každém z vláken? Je opravdu nutné, aby 
+synchronizační objekt vedl seznam všech vláken? A proč?
+
+Globální proměnné mají jednu obrovskou výhodu (tedy v Javě ne, ale v 
+řadě jiných programovacích jazyků ano) - nemůže selhat jejich vytvoření. 
+V řadě jazycích se mohu spolehnout na to, že globální proměnná zaručeně 
+bude existovat a  její vytvoření neskončí chybou. To mi dynamicky 
+vytvořené objekty zajistit nemohou - vždy je tam riziko selhání typu 
+&quot;není dostatek paměti na alokaci&quot;, či &quot;není dost místa na zásobníku&quot;. 
+Pokud chci udělat nezbořitelnou aplikaci, kde opravdu hodně záleží na 
+spolehlivosti - tahle vlastnost globálních proměnných není k zahození. A 
+založit modul třeba obsluhy chyb na nezbořitelných globálních proměnných 
+vůbec není od věci.
+
+Další obrovskou a neoddiskuvatelnou výhodou globálních proměnných je 
+jejich efektivita. Neexistuje efektivnější a rychlejší přístup a práce s 
+proměnnou, než je globální proměnná (a statická samozřejmě) - a v 
+případě, kde rychlost je klíčová to nemusí být k zahození. Ona celá 
+režie zapouzdření taky něco stojí - a mimo jiné i tu rychlost e 
+efektivitu běhu celého programu.
+
+Není v programování nic horšího, než předsudky.
+
+Miloslav Ponkrác
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007719.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007725.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7723">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7723">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7723">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7723">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007723.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:47 GMT -->
+</html>

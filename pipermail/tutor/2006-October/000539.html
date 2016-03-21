@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000539.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Email s přílohou
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3FEmail_s_p%3DF8%3DEDlohou%3F%3D&In-Reply-To=200610100926.15742.xdlabacekM%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000538.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000546.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Email s přílohou</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3FEmail_s_p%3DF8%3DEDlohou%3F%3D&In-Reply-To=200610100926.15742.xdlabacekM%40seznam.cz"
+       TITLE="[Tutor PyCZ] Email s přílohou">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Říjen 10 10:48:09 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000538.html">[Tutor PyCZ] Email s přílohou
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000546.html">[Tutor PyCZ] spousteni externich programu a vstupu a vystupy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#539">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#539">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#539">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#539">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tu je kratky priklad s ktorym mozes experimentovat:
+
+----------------------------------------------------------------------
+import sys, smtplib, MimeWriter, base64, StringIO
+
+message = StringIO.StringIO()
+writer = MimeWriter.MimeWriter(message)
+writer.addheader('Subject', 'Pokusná správa s prílohou')
+writer.startmultipartbody('mixed')
+
+# start off with a text/plain part
+part = writer.nextpart()
+body = part.startbody('text/plain')
+body.write('Čau,\n\nPosielam Ti pokusný email s prílohou\n\nRoman 
+:<i>-)\n\n')
+</I>
+# now add an image part
+part = writer.nextpart()
+part.addheader('Content-Transfer-Encoding', 'base64')
+body = part.startbody('application/pdf')
+base64.encode(open('email-py.pdf', 'rb'), body)
+
+# finish off
+writer.lastpart()
+
+# send the mail
+smtp = smtplib.SMTP('csebk01.pss.sk')
+smtp.sendmail('<A HREF="http://www.py.cz/mailman/listinfo/tutor">from na from.address</A>', '<A HREF="http://www.py.cz/mailman/listinfo/tutor">rmiklos na pss.sk</A>', message.getvalue())
+smtp.quit()
+
+-------------------------------------------------------------------------------------------
+
+Poznamky:
+~~~~~~~
+Nezabudni si zmenit svoj smtp-server namiesto
+   smtp = smtplib.SMTP('csebk01.pss.sk')
+adresy 
+   <A HREF="http://www.py.cz/mailman/listinfo/tutor">from na from.address</A>, <A HREF="http://www.py.cz/mailman/listinfo/tutor">rmiklos na pss.sk</A>
+a takisto nejaku inu prilohu, napr. PDF namiesto email-py.pdf
+
+
+
+
+
+Marek &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">xdlabacekM na seznam.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A>
+10.10.2006 09:26
+Please respond to
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>
+cc
+
+Subject
+[Tutor PyCZ] Email s přílohou
+
+
+
+
+
+
+zdravim,
+poslední dobou zkoumám internetový protokoly a tak podobně, a zajímá mě 
+možnost poslat email s přílohou. Možná už to tu někde bylo, ale nejsem si 
+jistej. A hlavně, šlo by poslat tu přílohu, kdyby byla někde na 
+internetu?Jako že bych to nevkládal přímo, ale zadal tomu adresu, asi 
+takhle 
+třeba <A HREF="http://www.nekdekdesi.cz/souborkposlani.doc">http://www.nekdekdesi.cz/souborkposlani.doc</A>
+_______________________________________________
+Tutor mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061010/e22b36dd/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20061010/e22b36dd/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000538.html">[Tutor PyCZ] Email s přílohou
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000546.html">[Tutor PyCZ] spousteni externich programu a vstupu a vystupy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#539">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#539">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#539">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#539">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000539.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005954.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:04 GMT -->
+<HEAD>
+   <TITLE> [python] Vykreslování grafů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVykreslov%3DE1n%3DED_graf%3DF9%3F%3D&In-Reply-To=001b01c79e12%242714c120%246e7ba8c0%40python00sz8iw8">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005953.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005956.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vykreslování grafů</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVykreslov%3DE1n%3DED_graf%3DF9%3F%3D&In-Reply-To=001b01c79e12%242714c120%246e7ba8c0%40python00sz8iw8"
+       TITLE="[python] Vykreslování grafů">geon na post.cz
+       </A><BR>
+    <I>Čtvrtek Květen 24 17:40:46 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005953.html">[python] Vykreslování grafů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005956.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5954">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5954">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5954">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5954">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jakub Vojacek napsal(a):
+&gt;<i> 1) Momentálně je pracovní plocha na výkres grafů velká 1000 x 1000 
+</I>&gt;<i> jednotek (pixelů). Akorát výpočet trvá celkem dlouhou dobu a 
+</I>&gt;<i> uživatel by mohl potřebovat menší či větší plochu, takže se ptám 
+</I>&gt;<i> jestli je dobré nabízet možnost jak velkou pracovní plochu mít.
+</I>
+1000x1000? To by se alespon mě ani nevešlo na obrazovku ;-)
+&gt;<i> 2) Nevím jak vy byste vypočítávali body pro vykreslení grafu, ale já 
+</I>&gt;<i> na to mám takovoutu metodu:
+</I>&gt;<i>  
+</I>&gt;<i> cislo=spodni_hranice
+</I>&gt;<i> while cislo &lt; horni_hranice:
+</I>&gt;<i>        x=cislo
+</I>&gt;<i>        y=eval(funkce.replace('x',cislo))
+</I>&gt;<i>        body.append([x,y])
+</I>&gt;<i>        cislo=cislo+preciznost
+</I>&gt;<i>  
+</I>&gt;<i> Ale výpočet se mi zdá poměrně dlouhý a tak se ptám jesetli vás 
+</I>&gt;<i> nenapadá něco efektivnějšího. Dále jakou hodnotu by měla mít proměnná 
+</I>&gt;<i> preciznost (nebo jestli by měl mít uživatel možnost ji nastavit).
+</I>
+Myslím, že by to takto mohlo být. Preciznost by mohla být cca setina až 
+tisícina rozdílu horni hranice minus spodní hranice. Pak budeš mít 
+všechny grafy víceméně stejně kvalitní. Vyzkoušej kvalitu/rychlost 
+nechej uživatele nastavit 2-3 hodnoty - rychlé  - normal - kvalita
+
+&gt;<i> 3) Nyní program dostává body jako souřadnice x,y a vykresluje 
+</I>&gt;<i> jednotlivé pixely. Pochopitelně je to způsob relativně nepřehledný, 
+</I>&gt;<i> protože pak může být na plátně jenom několik nic neříkajicích teček a 
+</I>&gt;<i> proto by je chtělo nějak spojit. Napadlo mě spojit každé dva vedlejší 
+</I>&gt;<i> body čárou ale pak mi došlo že to je nemožné, například kvůli grafu 
+</I>&gt;<i> 1/cos(x).  Nevíte jaký způsob používají jiné programy?
+</I>
+No, myslím, že pokud zvolíš preciznost dostatečně precizní, nikdo usečky 
+neuvidí ;-) Určitě existují lepší algoritmy (spojnice), ale kde je jim v 
+mé hlavě konec?
+
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005953.html">[python] Vykreslování grafů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005956.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5954">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5954">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5954">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5954">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005954.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:04 GMT -->
+</html>

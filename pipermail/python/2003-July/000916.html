@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-July/000916.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:34 GMT -->
+<HEAD>
+   <TITLE> [python] zope - text z cp1250 do iso8859-2
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zope%20-%20text%20z%20cp1250%20do%20iso8859-2&In-Reply-To=200307161244.48520.petr.vanek%40ika.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-July/000915.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-July/000917.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zope - text z cp1250 do iso8859-2</H1>
+    <B>Jan Matejka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zope%20-%20text%20z%20cp1250%20do%20iso8859-2&In-Reply-To=200307161244.48520.petr.vanek%40ika.cz"
+       TITLE="[python] zope - text z cp1250 do iso8859-2">matejka na datasys.cz
+       </A><BR>
+    <I>Středa Červenec 16 13:43:37 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-July/000915.html">[python] zope - text z cp1250 do iso8859-2
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-July/000917.html">[python] zope - text z cp1250 do iso8859-2
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-July/date.html#916">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/thread.html#916">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/subject.html#916">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/author.html#916">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No, měl jsem podobný problém, že nebyl znám kodek windows-1250 (python
+2.2.2 na win) kodek cp1250 však ano.
+
+Řešení bylo:
+
+def search_function(encoding):
+	if encoding[:8].lower()=='windows-':
+		codec=codecs.lookup('cp' + encoding[8:])
+		if codec:
+			def factoryReader(stream, errors='strict'):
+				return codec[2].__class__(stream,
+errors)
+			def factoryWriter(stream, errors='strict'):
+				return codec[3].__class__(stream,
+errors)
+			return (codec[0], codec[1], factoryReader,
+factoryWriter)
+	
+codecs.register(search_function) 
+
+
+########################
+Je něco jednodužšího? 
+Jinak kodek cp1250 by snad měl jít vzít z jiné verze pythonu pokud chybí
+v zope distribuci.
+
+Jan Matejka
+
+-----Original Message-----
+From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of
+Petr Vaněk
+Sent: Wednesday, July 16, 2003 12:45 PM
+To: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+Subject: [python] zope - text z cp1250 do iso8859-2
+
+
+tak jeste jedna vec mi vrta hlavou - jak v zope/pythonu *jednoduse*
+prevest 
+vyse zminene stringy.
+hraju si (opet) s 
+
+isostr = unicode(winstr, 'cp1250').encode('iso8859-2')
+
+coz v mem zope (tusim 2.5 z SuSE8.0) hazi chyby na tema &quot;cannot find
+codec&quot;. snad by to slo nejakym regularnim vyrazem, jenze kdo je ma davat
+dohromady :-/
+
+-- 
+Petr Vanek --------------
+petr.vanek [at] ika [dot] cz
+www.yarpen.cz ----------------
+Kuolema Kaikille (Paitsi Meille)
+
+Today is good day to end it all
+
+_______________________________________________
+python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-July/000915.html">[python] zope - text z cp1250 do iso8859-2
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-July/000917.html">[python] zope - text z cp1250 do iso8859-2
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-July/date.html#916">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/thread.html#916">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/subject.html#916">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-July/author.html#916">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-July/000916.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:34 GMT -->
+</html>

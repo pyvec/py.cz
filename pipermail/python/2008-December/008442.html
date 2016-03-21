@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008442.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:12 GMT -->
+<HEAD>
+   <TITLE> [python] Alokace pameti
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Alokace%20pameti&In-Reply-To=%3C49542D76.7080401%40sandbox.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008441.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008443.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Alokace pameti</H1>
+    <B>Vlada Macek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Alokace%20pameti&In-Reply-To=%3C49542D76.7080401%40sandbox.cz%3E"
+       TITLE="[python] Alokace pameti">tuttle na sandbox.cz
+       </A><BR>
+    <I>Pátek Prosinec 26 02:03:50 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008441.html">[python] odpověď Alokace pameti
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008443.html">[python] TakVámNevím
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8442">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8442">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8442">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8442">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>slush wrote:
+&gt;<i> Problem 1) Python si pro 10 mil. číselných záznamů naalokoval cca 160 MB.
+</I>
+    * Pro zmenseni naroku na kapacitu pouzijte tuple, generator nebo
+      jiny prostredek (knihovnu) nebo jiny navrh vaseho programu.
+
+    * Pro zrychleni s totoznym vysledkem pouzijte range(1e7).
+
+
+&gt;<i> Problem 2) Po odalokovani klesla spotreba pameti na 120MB
+</I>Filosofie za tim je tato:
+
+    * Programator chce hodne pameti? Dam mu ji, on asi vi, co dela.
+
+    * Programator tu pamet uz nechce? Oznacim si ji tak.
+
+    * Ale vracet ji OS by bylo neprozirave -- programator ji
+      pravdepodobne bude znovu potrebovat a zadat OS o pamet je pomale.
+
+    * Python podle vseho uprednostnuje rychlost pred pametovou
+      efektivitou. V dnesni dobe si to IMHO muze dovolit.
+
+Jestli se pamet uvolnena prikazem Pythonu vrati az OS, zalezi na rade
+parametru. Viz napriklad:
+
+<A HREF="http://effbot.org/pyfaq/why-doesnt-python-release-the-memory-when-i-delete-a-large-object.htm">http://effbot.org/pyfaq/why-doesnt-python-release-the-memory-when-i-delete-a-large-object.htm</A>
+
+
+-- 
+\//\/\
+<A HREF="http://macek.sandbox.cz/">http://macek.sandbox.cz</A>
+<A HREF="http://www.easis.cz/">http://www.easis.cz</A>
+
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: tuttle.vcf
+Type: text/x-vcard
+Size: 341 bytes
+Desc: [žádný popis není k dispozici]
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20081226/0ac4b535/attachment.vcf">http://www.py.cz/pipermail/python/attachments/20081226/0ac4b535/attachment.vcf</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008441.html">[python] odpověď Alokace pameti
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008443.html">[python] TakVámNevím
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8442">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8442">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8442">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8442">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008442.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:12 GMT -->
+</html>

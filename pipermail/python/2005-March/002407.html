@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002407.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:49 GMT -->
+<HEAD>
+   <TITLE> [python] Import
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Import&In-Reply-To=42405730.40607%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-March/002405.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-March/002408.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Import</H1>
+    <B>Jaroslav Pachola</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Import&In-Reply-To=42405730.40607%40centrum.cz"
+       TITLE="[python] Import">j_p_misc na centrum.cz
+       </A><BR>
+    <I>Středa Březen 23 00:29:23 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002405.html">[python] Import
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002408.html">[python] Import
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2407">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2407">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2407">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2407">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry vecer,
+
+trosku si ted zastrilim od boku.
+
+&gt;<i> 1) Pokud ted chci pouzit knihovnu, tak musim rucne vypsat vsechny
+</I>&gt;<i> pouzite moduly:
+</I>&gt;<i>   	from GeneticLab.Engine import *
+</I>&gt;<i> 	from GeneticLab.Population import *
+</I>&gt;<i>
+</I>&gt;<i> Co mam upravit, abych mohl pouzit:
+</I>&gt;<i> 	import GeneticLab
+</I>&gt;<i> (Nyni se vyvola vyjimka TypeError: 'module' object is not callable)
+</I>&gt;<i>
+</I>
+Primo na tom 'import GeneticLab'? To je divne. Skoro bych rekl, ze chybka bude 
+nekde jinde.
+
+&gt;<i> 2) Jak muzu importovat modul, ktery je ulozen o adresar vise. Takze
+</I>&gt;<i> napr. jak ma kkk.py importovat Engine.py. Vyzkousel jsem snad vsechny
+</I>&gt;<i> zapisy ../, ale bez uspechu.
+</I>
+Primo nevim, ale asi by slo zkusit neco jako
+
+import os
+import os.path
+import sys
+sys.path.append(os.path.split(os.get.getcwd())[0])
+import Engine
+
+Nebo treba
+
+import os
+import sys
+os.chdir('..')
+sys.path.append('.')
+import Engine
+
+Osobne si myslim, ze neni zadny zvlastni duvod volat modul v nadrazenem 
+adresari, zkusil bych najit jine reseni. Treba si knihovnu nainstalovat do 
+site-packages nebo si dat pro testovaci ucely koren adresarove hierarchie do 
+PYTHONPATH.
+
+&gt;<i>
+</I>&gt;<i> 3) Da se donutit Eclipse s modulem pydev, aby zobrazoval Code
+</I>&gt;<i> completion/Intellisense i pro moje zdrojaky?
+</I>&gt;<i>
+</I>
+To netusim, Eclipse nepouzivam...
+
+JP
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002405.html">[python] Import
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002408.html">[python] Import
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2407">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2407">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2407">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2407">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002407.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:49 GMT -->
+</html>

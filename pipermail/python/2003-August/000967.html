@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-August/000967.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:27 GMT -->
+<HEAD>
+   <TITLE> [python] konstanty
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20konstanty&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-August/000968.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-August/000969.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] konstanty</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20konstanty&In-Reply-To="
+       TITLE="[python] konstanty">Prikryl na skil.cz
+       </A><BR>
+    <I>Čtvrtek Srpen 21 13:04:29 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/000968.html">[python] konstanty
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/000969.html">[python] Jak na www.py.cz uploadovat vetsi mnozstvi malychsouboru?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-August/date.html#967">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/thread.html#967">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/subject.html#967">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/author.html#967">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>michal napsal...
+&gt;<i> [...] konstanty, ve kterych jsem mel vsechny hlasky, 
+</I>&gt;<i> co program v pripade problemu chrlil na uzivatele. Pokud
+</I>&gt;<i> jsem pak nejakou chtel zmenit, upravil jsem jen obsah 
+</I>&gt;<i> urciteho makra nebo konstanty na JEDNOM miste a hotovo.
+</I>&gt;<i> Jde mi o to, abych nemusel delat pripadne opravy na ruznych mistech
+</I>&gt;<i> zdrojaku, ale pouze na jednom miste, kde budou akumulovany vsechny
+</I>&gt;<i> hlasky...
+</I>
+V C(++) bych asi volil zápis hlášek do textového souboru spolu
+s vhodnými identifikátory hlášek. Pokud bych to chtěl mít
+natvrdo zakompilované do programu, pak bych použil asi zmíněné
+řetězcové konstanty.
+
+V Pythonu se nabízí totéž. Což takhle vytvořit svůj 
+modul hlášek nazvaný například msg.py:
+==============================================
+# -*- coding: cp1250 -*-
+
+msg = {
+
+'id1': u'Moje první hláška',
+'id2': u'Moje druhá hláška',
+
+'id3': u'''Moje třetí
+víceřádková
+ssss
+xxxx
+hláška''',
+
+'fileNotExists': u'Soubor %s neexistuje.'  
+
+}
+==============================================
+
+Ten pak můžu používat třeba takto:
+
+C:\tmp&gt;python
+Python 2.3 (#46, Jul 29 2003, 18:54:32) [MSC v.1200 32 bit (Intel)] on win32
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt;<i> import msg
+</I>&gt;&gt;&gt;<i> print msg.msg['id1']
+</I>Moje první hláška
+&gt;&gt;&gt;<i> m = msg.msg
+</I>&gt;&gt;&gt;<i> print m['id1']
+</I>Moje první hláška
+&gt;&gt;&gt;<i> print m['fileNotExists'] % 'xxx'
+</I>Soubor xxx neexistuje.
+
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/000968.html">[python] konstanty
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/000969.html">[python] Jak na www.py.cz uploadovat vetsi mnozstvi malychsouboru?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-August/date.html#967">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/thread.html#967">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/subject.html#967">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/author.html#967">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-August/000967.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:27 GMT -->
+</html>

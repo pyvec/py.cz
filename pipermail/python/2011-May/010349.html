@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010349.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:54 GMT -->
+<HEAD>
+   <TITLE> [python] vykonávanie príkazu každých 5 sekún a práca s aplikáciou
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fvykon%3DE1vanie_pr%3DEDkazu_ka%3DBEd%3DFDch_5_sek%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DFAn_a_pr%3DE1ca_s_aplik%3DE1ciou%3F%3D&In-Reply-To=%3C139d83f8-a06b-4ffb-b25c-e798091dc0a0%40y4g2000yqm.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-May/010331.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-May/010332.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vykonávanie príkazu každých 5 sekún a práca s aplikáciou</H1>
+    <B>miamia</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fvykon%3DE1vanie_pr%3DEDkazu_ka%3DBEd%3DFDch_5_sek%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DFAn_a_pr%3DE1ca_s_aplik%3DE1ciou%3F%3D&In-Reply-To=%3C139d83f8-a06b-4ffb-b25c-e798091dc0a0%40y4g2000yqm.googlegroups.com%3E"
+       TITLE="[python] vykonávanie príkazu každých 5 sekún a práca s aplikáciou">peterirbizon na gmail.com
+       </A><BR>
+    <I>Středa Květen 18 02:38:05 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010331.html">[python] vykonávanie príkazu každých 5 sekún a práca s aplikáciou
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010332.html">[python] Jak voval externi prikaz a ziskat jeho ouptut
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10349">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10349">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10349">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10349">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 11 kvě, 23:29, Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.mess... na gmail.com</A>&gt; wrote:
+&gt;<i> Ahoj, co je to to s, na kterém voláš s.enter?
+</I>&gt;<i>
+</I>&gt;<i> Předpokládám, že děláš nějakou GUI aplikaci. Máš asi dvě možnosti: 1) vytvořit vlákno a v něm v nekonečné smyčce volat sleep(5) a tvůj příkaz, nebo 2) využít možností GUI knihovny, kterou používáš - typicky umožňují načasovat nějakou událost, která se pak provede v rámci event loop.
+</I>&gt;<i>
+</I>&gt;<i> Jak přesně myslíš, že by to mělo běžet na pozadí? Je součástí toho, co chceš periodicky spouštět, něco náročného, kvůli čemu by GUI mohlo nepříjemně &quot;zamrznout&quot;?
+</I>&gt;<i>
+</I>&gt;<i> Petr Messner
+</I>&gt;<i>
+</I>&gt;<i> 11.5.2011 v 23:03, miamia &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">peterirbi... na gmail.com</A>&gt;:
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> &gt; zdravím vospolok,
+</I>&gt;<i>
+</I>&gt;<i> &gt; prosím o radu skúsenejších, používam na vykonanie príkazu každých 5
+</I>&gt;<i> &gt; sekúnd toto:
+</I>&gt;<i> &gt; def do_event():
+</I>&gt;<i> &gt;  print &quot;5 seconds, hurray!&quot;
+</I>&gt;<i> &gt;  s.enter(5, 1, do_event, ())
+</I>&gt;<i>
+</I>&gt;<i> &gt; s.enter(1, 1, do_event, ())
+</I>&gt;<i> &gt; s.run()
+</I>&gt;<i>
+</I>&gt;<i> &gt; avšak potreboval by som niečo také, ako je vo Visual Basicku Timer,
+</I>&gt;<i> &gt; teda, že časovač bude bežať na pozadí (a v stanovenej dobe vykonávať
+</I>&gt;<i> &gt; príkazy), ale zároveň sa bude dať pracovať s aplikáciou (klikať na
+</I>&gt;<i> &gt; tlačidlá atď).  sorry za blbý dotaz, ale fakt len začínam s
+</I>&gt;<i> &gt; pythonom... diky moc
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Pyt... na py.cz</A>
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python-">http://www.py.cz/mailman/listinfo/python-</A> Skrýt citovaný text -
+</I>&gt;<i>
+</I>&gt;<i> - Zobrazit citovaný text -
+</I>
+áno, je to GUI aplikácia, ale nemyslím si, že by kvôli tomu zmrzla.
+vdaka za odpoved, skusam to vyriesit takto:
+        global timer_id
+        timer_id = gobject.timeout_add(5000, self.kazdych_5_sekund)
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010331.html">[python] vykonávanie príkazu každých 5 sekún a práca s aplikáciou
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010332.html">[python] Jak voval externi prikaz a ziskat jeho ouptut
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10349">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10349">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10349">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10349">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010349.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:54 GMT -->
+</html>

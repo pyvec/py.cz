@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010886.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:17 GMT -->
+<HEAD>
+   <TITLE> [python] Pomoc s pythonním RE
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FPomoc_s_pythonn%3DC3%3DADm_RE%3F%3D&In-Reply-To=%3CCAPAmg-dDa2dcXvur1Nyy1H7vhvbX9QUtbPkxDbEBAb6W0dsf3A%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010881.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010890.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Pomoc s pythonním RE</H1>
+    <B>Honza Javorek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FPomoc_s_pythonn%3DC3%3DADm_RE%3F%3D&In-Reply-To=%3CCAPAmg-dDa2dcXvur1Nyy1H7vhvbX9QUtbPkxDbEBAb6W0dsf3A%40mail.gmail.com%3E"
+       TITLE="[python] Pomoc s pythonním RE">jan.javorek na gmail.com
+       </A><BR>
+    <I>Neděle Leden 13 13:01:06 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010881.html">[python] Pomoc s pythonním RE
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010890.html">[python] Pomoc s pythonním RE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10886">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10886">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10886">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10886">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zrovna BeautifulSoup, aspoň ten starý (tzn. ne bs4) má implementaci
+založenou na regulárních výrazech, AFAIK. Teď si lze dokonce vybrat backend.
+
+Já taky přešel na lxml, má API stejné/podobné jako ElementTree a v mnoha
+benchmarcích vyšlo jako nejrychlejší knihovna na XML/HTML pro Python (je
+ovšem Cčková, takže na PyPy to nepojede). Jeho HTML parser se taky vyrovná
+s lecčím, byť v diskusích jsou hlasy, které kritizují tu způsob lxml jak se
+vypořádává s nevalidním markupem, tu způsob BS, takže výstupy jsou odlišné,
+ale který je lepší, to je asi záležitost osobní preference. Já nikdy neměl
+tak tragické HTML na parsování, abych to poznal.
+
+Jinak souhlas s Petrem. Taky mám vybudovaný reflex, kdy vidím regexpy a
+HTML vedle sebe jako rudý praporek a okamžitě jdu hledat tu odpověď ze
+StackOverflow :-)
+
+H
+
+
+2013/1/13 rajcze &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rajcze na gmail.com</A>&gt;
+
+&gt;<i> Jojo, ja s tim samozrejme souhlasim, a diky zes to rozepsal do detailu (ja
+</I>&gt;<i> uz na to v noci po navratu z piva nemel moral :)
+</I>&gt;<i> I proto jsem se ptal, co konkretne chce Bystroushaak delat, jak moc si
+</I>&gt;<i> muze zarucit, ze vi jak bude vypadat vstup, atp. Tedy jestli ma vubec smysl
+</I>&gt;<i> se zabyvat cimkoli jinym bez DOM parserem + xpath (pravda, ze z
+</I>&gt;<i> didaktickeho hlediska by bylo lepsi to neresit, a presvedcit ho ze je
+</I>&gt;<i> blbost to regexpem resit.
+</I>&gt;<i>
+</I>&gt;<i> Na lxml se kouknu, diky za tip.
+</I>&gt;<i>
+</I>&gt;<i> Joza
+</I>&gt;<i>
+</I>&gt;<i> 2013/1/13 Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.messner na gmail.com</A>&gt;
+</I>&gt;<i>
+</I>&gt;&gt;<i> Dne 12. ledna 2013 23:51 rajcze &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rajcze na gmail.com</A>&gt; napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> OT: ja sice chapu, ze na XML/HTML je potreba pouzivat zasobnikovy
+</I>&gt;&gt;&gt;<i> automat, ale IMHO existuje trivialni subset uloh, na ktery staci i
+</I>&gt;&gt;&gt;<i> regexpy... Samozrejme je potreba vedet co chci, a jaky to ma pripadne
+</I>&gt;&gt;&gt;<i> limity, ale nutne bych netvrdil, ze dostat subset dat z validniho XML/HTML
+</I>&gt;&gt;&gt;<i> umi jen nas vsemocny oblibenec :D
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> Jenže nestačí triviální úloha, ale je nutné i trivální HTML. A ani
+</I>&gt;&gt;<i> validní HTML neznamená triviální...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Myslím si, že regulární výrazy by se na parsování čekoholiv z XML/HTML
+</I>&gt;&gt;<i> neměly používat skoro nikdy. Sepsal jsem pár důvodů:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 1. &lt;/script&gt; nemusí znamenat konec Javascriptu. Může to být obsah řetězce
+</I>&gt;&gt;<i> v Javascriptu, kdy je celý kód uzavřen v &lt;![CDATA[ ... ]]&gt; a proto HTML
+</I>&gt;&gt;<i> tagy v něm nemusí být dále ošetřeny. Vzhledem k tomu, že občas je v
+</I>&gt;&gt;<i> Javascriptu třeba dynamicky načíst další Javascriptové soubory přidáním
+</I>&gt;&gt;<i> nových &lt;script&gt; elementů HTML, není nemožné, aby se toto objevilo i v
+</I>&gt;&gt;<i> normální stránce.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2. V HTML kódu je pár věcí, které jsou před předáním Javascriptovému
+</I>&gt;&gt;<i> enginu odstraněny/zpracovány, např. již zmíněné CDATA nebo HTML entity.
+</I>&gt;&gt;<i> Použitím HTML parseru se tohoto jednoduše zbavíte - zpracuje to za vás.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 3. Podle mé zkušenosti to u jednoduchých úloh nekončí, člověk pak bude
+</I>&gt;&gt;<i> chtít vyparsovat z HTML i něco trochu složitějšího, a pokud se stále bude
+</I>&gt;&gt;<i> snažit použít regulární výrazy, nedopadne to dobře. Proč tedy nezačít
+</I>&gt;&gt;<i> používat HTML parser rovnou?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 4. Regulární výraz (popř. soustava regulárních výrazů), obzvláště po
+</I>&gt;&gt;<i> zavedení korekcí velkých písmen, nadbytečných mezer a výše uvedených věcí,
+</I>&gt;&gt;<i> přestává být čitelný, kdežto operace nad DOMem získaným z HTML parseru jsou
+</I>&gt;&gt;<i> celkem snadno čitelné. V mém předchozím e-mailu jsem uvedl příklad s XPath,
+</I>&gt;&gt;<i> to je podle mě vhodná obdoba regulárních výrazů pro XML/HTML - můžete si
+</I>&gt;&gt;<i> tam vybírat elementy podle zanoření, podle atributů, podle CSS tříd, můžete
+</I>&gt;&gt;<i> tam psát i trochu složitější výrazy (je to jazyk sám o sobě)... Ten XPath
+</I>&gt;&gt;<i> výraz se pak automaticky zkompiluje podobně, jako se kompilují regulární
+</I>&gt;&gt;<i> výrazy.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Na druhou stranu, abych byl spravedlivý :) Velkou výhodou regulárních
+</I>&gt;&gt;<i> výrazů je, že samy o sobě jsou jednoduché a existuje jen jedna syntaxe a
+</I>&gt;&gt;<i> jedna rozšířená implementace. Pro zpracování XML a HTML těch nástrojů
+</I>&gt;&gt;<i> existuje více, liší se svou rychlostí, benevolencí k chybám v HTML,
+</I>&gt;&gt;<i> kvalitou dokumentace, tím, zda jsou ve standardní knihovně Pythonu a od
+</I>&gt;&gt;<i> jaké verze... Navíc lze tyto nástroje kombinovat - třeba použít parser
+</I>&gt;&gt;<i> BeautifulSoup nebo html5lib s výstupem do ElementTree a tím zkombinovat
+</I>&gt;&gt;<i> robustnost parseru s rychlostí.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> BeautifulSoup mohu také doporučit, několikrát jsem ho použil. Před časem
+</I>&gt;&gt;<i> jsem přešel na lxml, které toho umí hodně a je rychlé - důvodem k přechodu
+</I>&gt;&gt;<i> bylo to, že se budoucnost BeautifulSoup zdála nejistá, ale teď vypadá OK
+</I>&gt;&gt;<i> (nová verze, podpora Pythonu 3).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> PM
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Rules of Optimization:
+</I>&gt;<i> Rule 1: Don't do it.
+</I>&gt;<i> Rule 2 (for experts only): Don't do it yet.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130113/b5c85a51/attachment.html">http://www.py.cz/pipermail/python/attachments/20130113/b5c85a51/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010881.html">[python] Pomoc s pythonním RE
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010890.html">[python] Pomoc s pythonním RE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10886">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10886">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10886">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10886">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010886.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:17 GMT -->
+</html>

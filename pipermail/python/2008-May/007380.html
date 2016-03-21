@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007380.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:13 GMT -->
+<HEAD>
+   <TITLE> [python] chameleon v pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20chameleon%20v%20pythonu&In-Reply-To=d4a7b1730805081354m7006ceb1va76e0def331493bf%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-May/007370.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-May/007382.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] chameleon v pythonu</H1>
+    <B>Robert Helešic</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20chameleon%20v%20pythonu&In-Reply-To=d4a7b1730805081354m7006ceb1va76e0def331493bf%40mail.gmail.com"
+       TITLE="[python] chameleon v pythonu">helerob na gmail.com
+       </A><BR>
+    <I>Pondělí Květen 12 13:53:41 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007370.html">[python] chameleon v pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007382.html">[python] chameleon v pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7380">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7380">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7380">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7380">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dekuji za odpoved,
+
+umoznilo mi to programovat dale co jsem potreboval. Jednalo se
+vycitani sesti sloupcu z SQL dumpu, z techto sloupcu nasledne vybrany
+shodne skupinky, mezi kterymi byly hledany ruzne vazby, potreboval
+jsem tridit dle casu, mista, klienta, identifikace a namerenych
+hodnot, proto jsem se snazil o vytvareni seznamu ze seznamu a jejich
+nasledne prohledavani. Tato implementace je velmi nevhodna, ale
+netusil jsem jak jinak pracovat s danymi daty, jelikoz pristup k
+databazi postgresql je dosti problematicky, pokousel jsem se o
+instalaci PyGreSQL, ale neprobehla spravne, ted zkousim dalsi
+nastavby, pokud mate nejaky oblibeny a lehce pouzitelny mexizicht,
+poslete mi jej treba soukrome na email, diky!
+
+2008/5/8 Jan Jakubuv &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakubuv na gmail.com</A>&gt;:
+&gt;<i> Dobry den,
+</I>&gt;<i>
+</I>&gt;<i>  take si myslim ze to neni nejvhodnejsi reseni, nicmene ve for cyklu
+</I>&gt;<i>  muzete k tomu seznamu pristopovat napr. jako:
+</I>&gt;<i>
+</I>&gt;<i>   globals()[i].append('neco')
+</I>&gt;<i>
+</I>&gt;<i>  Pripadne lze jeste pouzit eval, napr:
+</I>&gt;<i>
+</I>&gt;<i>   eval(&quot;%s.append('neco')&quot; % i)
+</I>&gt;<i>
+</I>&gt;<i>  Nicmene daleko cistsi by bylo tohle vse obejit a napr. si definovat
+</I>&gt;<i>  vlastni slovnik &quot;promenne&quot; a do nej si ukladat vase hodnoty namisto do
+</I>&gt;<i>  'globals()', napr:
+</I>&gt;<i>
+</I>&gt;<i>  promenne = {}
+</I>&gt;<i>  for i in seznam:
+</I>&gt;<i>   ...
+</I>&gt;<i>   promenne[i] = []
+</I>&gt;<i>   ...
+</I>&gt;<i>   premenne[i].append('neco')
+</I>&gt;<i>
+</I>&gt;<i>  honza.
+</I>&gt;<i>
+</I>&gt;<i>  Dne 8. květen 2008 20:24 Robert Helešic &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">helerob na gmail.com</A>&gt; napsal(a):
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> &gt; Dobry den,
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; je mozne pokud mam vygenerovany seznam jmen - ktery se pokazde meni -
+</I>&gt;<i>  &gt; vytvorit z jednotlivych polozek dalsi seznamy?
+</I>&gt;<i>  &gt; Ano je - to se mi jiz povedlo diky vasim radam:
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; seznam = ['aaa', 'bbb']  # normalne se tento seznam generouje z
+</I>&gt;<i>  &gt; ruznych souboru, takze jej berte pouze jako ilustraci
+</I>&gt;<i>  &gt; for i in seznam:
+</I>&gt;<i>  &gt;    globals()[&quot;i&quot;]= []
+</I>&gt;<i>  &gt;    globals()[i]=[]
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; aaa.append('neco') # projde v pohode
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; Timto jsem si vytvoril dva globalni seznamy aaa a bbb, kdyz k nim
+</I>&gt;<i>  &gt; pristupuju pod temito jmeny, tak je to v poradku, ale ja bych k nim
+</I>&gt;<i>  &gt; potreboval pristupovat bez toho aniz bych znal jejich nazev - snazil
+</I>&gt;<i>  &gt; jsem se nejak k nim pristupovat v tom foru, pres promennou i, ale ta
+</I>&gt;<i>  &gt; je pochopitelne retezec a nehodla se se mnou vubec bavit, nevite jak
+</I>&gt;<i>  &gt; se toto chovani da zmenit?
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; Diky moc!
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i>  &gt; Python mailing list
+</I>&gt;<i>  &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  _______________________________________________
+</I>&gt;<i>  Python mailing list
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007370.html">[python] chameleon v pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007382.html">[python] chameleon v pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7380">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7380">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7380">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7380">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007380.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:13 GMT -->
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009772.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:34 GMT -->
+<HEAD>
+   <TITLE> [python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3Fprinty_v_%3DC4%3D8De%3DC5%3DA1tin%3DC4%3D9B_na_WINDOWS/cmd%3F%3D%0A%09%3D%3Futf-8%3Fq%3F_konzoli_ne%3DC4%3D8Diteln%3DC3%3DA9%3F%3D&In-Reply-To=%3C1273502148.489496.14914.nullmailer%40mail1009.cent%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-May/009771.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-May/009732.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] printy v češtině na WINDOWS/cmd konzoli nečitelné</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3Fprinty_v_%3DC4%3D8De%3DC5%3DA1tin%3DC4%3D9B_na_WINDOWS/cmd%3F%3D%0A%09%3D%3Futf-8%3Fq%3F_konzoli_ne%3DC4%3D8Diteln%3DC3%3DA9%3F%3D&In-Reply-To=%3C1273502148.489496.14914.nullmailer%40mail1009.cent%3E"
+       TITLE="[python] printy v češtině na WINDOWS/cmd konzoli nečitelné">prikryl na atlas.cz
+       </A><BR>
+    <I>Pondělí Květen 10 16:35:48 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009771.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009732.html">[python] parsing souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9772">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9772">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9772">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9772">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>petrofF
+&gt;<i> Problém s Unicode v IDLE:
+</I>...
+&gt;<i> print u&quot;české_unicode&quot;
+</I>&gt;<i> se zobrazí správně jen pokud je vykonán spuštěním modulu (kde se
+</I>&gt;<i> vyskytuje)
+</I>&gt;<i>Pokud zadám přímo v IDLE-příkazovém interpretu např.:
+</I>&gt;<i>   uDia = u'ěščřžýáíéóúůďťňĚŠČŘŽÝÁÍÉÓÚŮĎŤŇ'
+</I>&gt;<i>   print uDia
+</I>&gt;<i>výsledek je:
+</I>&gt;<i>&#160;&#160;&#160;&#236;&#154;&#232;&#248;&#158;&#253;&#225;&#237;&#233;&#243;&#250;&#249;&#239;&#157;&#242;&#204;&#138;&#200;&#216;&#142;&#221;&#193;&#205;&#201;&#211;&#218;&#217;&#207;&#141;&#210;
+</I>&gt;<i>Nevím proč tomu tak je:
+</I>&gt;<i>   getdefaultencoding()    ascii
+</I>&gt;<i>   sys.stdin.encoding      cp1250
+</I>&gt;<i>   sys.stdout.encoding     cp1250
+</I>&gt;<i>(platí jak v interaktivním režimu tak i při Run Module)
+</I>&gt;<i>[IDLE version 1.2 Python version 2.5]
+</I>&gt;<i>A zda se s tím nedá něco udělat - konfigurace, nová verze...
+</I>
+Můžu potvrdit i pro Python 2.6.5.  Odhaduji, že chyba
+je přímo v konzolovém okně IDLE.  Řetězec naklofaný
+v okně to chybně převádí do Unicode -- pravděpodobně 
+vnitřně používá nějaké jiné kódování. 
+
+Stálo by za to nahlásit to jako chybu (pokud už to není 
+nahlášené).
+
+Přikládám obrázky se sejmutými IDLE konzolemi z 2.6.5  a 3.1.2
+
+P.
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: py26.png
+Type: image/png
+Size: 23552 bytes
+Desc: [žádný popis není k dispozici]
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20100510/633dd849/attachment.png">http://www.py.cz/pipermail/python/attachments/20100510/633dd849/attachment.png</A>&gt;
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: py31.png
+Type: image/png
+Size: 15453 bytes
+Desc: [žádný popis není k dispozici]
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20100510/633dd849/attachment-0001.png">http://www.py.cz/pipermail/python/attachments/20100510/633dd849/attachment-0001.png</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009771.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009732.html">[python] parsing souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9772">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9772">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9772">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9772">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009772.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:34 GMT -->
+</html>

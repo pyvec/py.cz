@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002478.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:33 GMT -->
+<HEAD>
+   <TITLE> Re: [python] db a thready
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fus-ascii%3FQ%3FRe%3D3A%3D20%3D5Bpython%3D5D%3D20db%3D20a%3D20thready%3F%3D&In-Reply-To=4250FDE9.3080700%40matfyz.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-April/002464.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-April/002445.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>Re: [python] db a thready</H1>
+    <B>gsl na seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fus-ascii%3FQ%3FRe%3D3A%3D20%3D5Bpython%3D5D%3D20db%3D20a%3D20thready%3F%3D&In-Reply-To=4250FDE9.3080700%40matfyz.cz"
+       TITLE="Re: [python] db a thready">gsl na seznam.cz
+       </A><BR>
+    <I>Úterý Duben  5 09:13:32 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002464.html">[python] tlac z pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002445.html">[python] db a thready
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2478">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2478">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2478">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2478">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&lt; &gt; Neni mi jasne, jak by tohle melo fungovat, protoze i kdyz k databazi budu
+&lt; &gt; pristupovat vyhradne pomoci jednoho objektu, tak, kdyz jeho metody budou
+&lt; &gt; volany z ruznych threadu, a pobezi v jejich kontextu. A mel-li jsem
+&lt; &gt; podminku, ze spojeni nesmi byt sdileno mezi thready, tak to imho muj
+&lt; &gt; problem neresi. A nebo neco hrube nechapu.
+&lt; 
+&lt; Myslim, ze si nerozumime, ale presne nevim v cem :). Pokusim se to tedy 
+&lt; rict jinak: Pokud k jednem datum pristupuje vic klientu (z hlediska tech 
+&lt; dat je dost jedno, jestli jsou to ruzne thready nebo ruzne procesy na 
+&lt; ruchnych pocitacich) musi byt nekde mezi daty a klientem neco, co 
+&lt; zajistuje, ze pristup k datum bude atomicky (teda za predpokladu, ze 
+&lt; atomicitu potrebujete). Jedina otazka je, kde ten &quot;serializator&quot; bude. 
+&lt; Obecne nema smysl zajistovat atomicitu vice nez jednou, protoze vetsina 
+&lt; metod s sebou nese jistou rezii. Pokud tedy mate DB, ktera umi zajistit 
+&lt; atomicitu, nemusite ji resit ve svych programech (teda skoro, protoze 
+&lt; pak obcas musite resit limit na pocet soucasnych spojeni). Pak jsou DB, 
+&lt; ktere umoznuji vice spojeni soucasne, ale neposkytuji atomicitu -- co to 
+&lt; presne znamena, zavisi na konkretni DB. Pak je nutne vyvarovat se 
+&lt; urcitem typu soubehu pozadavku (napr. ze vic vlaken nemuze soucasne 
+&lt; zapisovat). To se nejcasteji resi tak, ze si do DB otevrete pouze jedno 
+&lt; spojeni a to obsluhuje nejaky objekt, ktery zaruci atomicitu. Obecne 
+&lt; neni nutne aby to bylo pouze jedno spojeni, jen je dulezite, aby se 
+&lt; nejvyse v jednom spojeni dela ta &quot;kriticka operace&quot;, coz je stejne nutne 
+&lt; nekde centralne zajistit.
+&lt; (Omlouvam se, pokud vysvetluju prilisne triviality).
+
+Nerozumime v tom, ze jsem si myslel, ze u SQLite nemohu mezi thready sdilet 
+jedno spojeni a ze dve spojeni nemohou vest na jednu databazi. Po te jsem 
+zjistil, ze mohou dve spojeni vest na jednu databazi, cimz se muj problem
+vyresil. To ostatni je uz akademicka debata, jak by to bylo, kdyby platil
+muj puvodni predpoklad. Domnivam se totiz, ze objekt resici atomicitu
+pristupu k databazi neresi problem nemoznosti sdileni spojeni mezi thready.
+
+Jinak si rozumime.
+ 
+&lt; Domnivam se, ze pokud pouzijete DB, ktera muze mit vic spojeni, ale 
+&lt; nesmi se zapisovat ve vice najednou, budete muset tuhle podminku nejak 
+&lt; zajistit vy sam. (Obecne lze zkusit pustit X klientu soucasne a podivat 
+&lt; se, co to s DB dela. Nicmene to, ze to pri tomhle testovani projde, nic 
+&lt; neznamena. Soubeh (race condition) je typ chyby, ktery se rad objevuje 
+&lt; az v ostrem provozu a blbe se ladi).
+&lt; 
+&lt; Takze pokud to DB nezarucuje a vy chcete mit jistotu, ze k race 
+&lt; condition nedojde, nezbyde vam, nez pouzit jedno spojeni.
+
+Ano, presne takovou databazi pouziji. SQLite umoznuje jeden zapis, v pripade
+pokusu o druhy soucasny tento selze. Lze to osetrit tak, ze po nejakem
+timeoutu se o ten zapis pokusim znovu nebo ze pristup k databazi budu zamykat.
+Vybral jsem si druhy zpusob, zda se mi efektivnejsi a mam jiz i prakticky
+overeno na modelu, ze plne funkcni i pod stress zatezi.
+ 
+&lt; &gt; Ano, o necem takovem jsem uvazoval, server by mel frontu, do ktere by 
+&lt; &gt; komunikacni thready ukladaly pozadavky a jeden thread obsluhujici databazi
+&lt; &gt; by je vyrizoval. Pro ukladani dat by to bylo skvele, ale ri cteni dat bych
+&lt; &gt; musel resit, jak nactena data predat prislusnemu threadu, ktery by je pak
+&lt; &gt; vratil klientovi a to uz se mi zdalo moc komplikovane, skvela prilezitost
+&lt; &gt; k rade nahodnych tezko detekovatelnych chyb a tak se mi do toho nechtelo.
+&lt; 
+&lt; No moje prvni myslenka byla, ze by zapis byl asynchrnoni, zatimco cteni 
+&lt; synchrnonni. Tedy asi takhle:
+&lt; 
+&lt; dataQueue = []
+&lt; 
+&lt; def save(data):
+&lt; 	&quot;&quot;&quot;Data ulozi do bufferu a vraci se. Nepristupuje do DB.&quot;&quot;&quot;	
+&lt; 	dataQueue.append(data)
+&lt; 	return
+&lt; 
+&lt; 
+&lt; def load(condition):
+&lt; 	&quot;&quot;&quot;Blokujici. Nacte data z DB a vati je.&quot;&quot;&quot;
+&lt; 	dataSet = dbConnection.command(&quot;SELECT firstField FROM mytable WHERE 
+&lt; &quot; + condition)	#cteni z DB
+&lt; 
+&lt; 	data = gainDataFrom(dataSet) #nejak dostane data z recodSetu, co vratila DB
+&lt; 	return data;
+&lt; 
+&lt; 
+&lt; Pak musi jeste existovat thread, ktery bude posilat data z dataQueue:
+&lt; 
+&lt; # ...
+&lt; 
+&lt; serverIsRunning = true;
+&lt; 
+&lt; def run():
+&lt; 	while(serverIsRunning):
+&lt; 		while(len(dataQueue) &gt; 0): sleep(200)
+&lt; 		data = dataQueue.popo(0)
+&lt; 		dbConnection.command(&quot;INSERT \&quot;%s\&quot; INTO mytable&quot; , data) #zapis do DB
+&lt; 		
+&lt; (omlouvam se za przneni Jazyka, ale v P. jsem uz dlouho nic nepsal, tak 
+&lt; jsem trochu pozapomnel)
+
+No, ten load je prave kamen urazu, protoze ten bych volal z ruznych threadu 
+a on by bezel v jejich kontextu a sdilel tak mezi nimi spojeni, coz odporuje 
+zadani nesdilet spojeni mezi thready.
+
+&lt; Takze zapis (casta operace) se provede rychle a klienta nezdrzuje, 
+&lt; zatimco cteni musi pockat na precteni dat z DB (a je tedy pomalejsi).
+&lt; 
+&lt; K tomu kodu jeste tri poznamky:
+&lt; 
+&lt; 1) obecne je lepsi pouzivat nejake synchronizacni primitivum na 
+&lt; komunikaci mezi thready. Idealni jsou condition variables. Ve fci save 
+&lt; by se provadelo neco jako
+&lt; dataQueue.notify()	#dava najevo, ze v bufferu cekaji data
+&lt; 
+&lt; a run by cekal na data :
+&lt; 
+&lt; dataQueue.wait() 	# misto sleep. Pokud nejsou data usne, a probudi ho 
+&lt; dataQueue.notify()
+
+&lt; Syntaxe condition variables asi neodpovida Jazyku. Nikdy jsem v P. cv 
+&lt; nepouzival a jsme linej to hledat, tak jen odhaduju.
+
+Jasne, jde o princip. Ja tomu rozumim, thready mi nejsou cizi.
+ 
+&lt; 2) Muze se stat, ze load uvidi nejaky starsi stav DB, protoze data, 
+&lt; ktera prisla jeste pred volanim load jsou v dataQueue a nejsou zapsana v 
+&lt; DB. To se da vyresit tak, ze load pocka, nez se vsechna doposud dosla 
+&lt; data zapisou a az pak cte z DB.
+
+To je take pravda a byl by to problem. Protoze ja budu potrebovat nacitat
+aktualni stav, nemohu pripustit, aby si thready (resp. datove terminaly)
+meli nesynchronizovana data popr. si prepisovali zaznamy starymi daty.
+A zdrzovani loadu si take nemohu dovolit, protoze bych tim zpomaloval
+odezvu terminalu, nemohu davat prednost ani cteni ani zapisu, pozadavky
+musim vyrizovat tak jak chodi.
+ 
+&lt; Jeste vlastne 4 poznamka. Pokud bude komunikace probihat na urovni TCP a 
+&lt; ne treba pomoci RPC, je to jeste jednodussi. Zapis do soketu je 
+&lt; neblokujici (pokud se nezaplni buffery u prijemce), takze neni potreba 
+&lt; psat zadnou metodu save (jsme uz tak z toho middleware tak zblblej, ze 
+&lt; me tohle ocividny reseni ani nenapadlo). Predpokkladam, ze kazdej klient 
+&lt; bude mit svy otevreni TCP spojeni na serveru, takze pak staci akorat dat 
+&lt; neco jako select/poll na tahle spojeni, a ty co obsahuji nejaka data 
+&lt; postupne zpracovat (fce bude velmi podobna fci run()). Load se bude 
+&lt; delat bud zvlastnim spojenim, ktery navaze klient se serverem nebo 
+&lt; pomoci toho jiz existujiciho predanim nejakeho priznaku, ze jde o 
+&lt; operaci load.
+
+Pouziti selectu je vlastne pouziti nethreadoveho reseni obsluhy vice 
+pripojeni. Nad tim jsem take uvazoval a pouzil bych ho, kdybych nevyresil
+problem sdileni spojeni mezi thready. Davam ale prednost threadovemu reseni,
+vyhodnotil jsem si ho jako lepsi pro me potreby. Nektere pozadavky z
+terminalu budou casove narocnejsi na zpracovani a behem neho bych blokoval
+ostatni spojeni a tim zhorsoval jejich odezvu vic nez u threadoveho reseni.
+
+Dekuji za prinosnou reakci.
+
+Petr Mach
+____________________________________________________________
+<A HREF="http://www.bezpecnyinternet.cz/">http://www.bezpecnyinternet.cz</A>
+<A HREF="http://ad.seznam.cz/clickthru?spotId=94734">http://ad.seznam.cz/clickthru?spotId=94734</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002464.html">[python] tlac z pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002445.html">[python] db a thready
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2478">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2478">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2478">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2478">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002478.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:33 GMT -->
+</html>

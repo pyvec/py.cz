@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006577.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:24 GMT -->
+<HEAD>
+   <TITLE> [python] Postgresql
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Postgresql&In-Reply-To=46F8C3C2.3010101%40lejmr.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-September/006576.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Postgresql</H1>
+    <B>Miloš Kozák</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Postgresql&In-Reply-To=46F8C3C2.3010101%40lejmr.com"
+       TITLE="[python] Postgresql">milos.kozak na lejmr.com
+       </A><BR>
+    <I>Úterý Září 25 14:15:45 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006576.html">[python] Postgresql
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6577">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6577">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6577">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6577">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím všechny, tak po nějakém to elaborování jsem přišel, že stačí použít
+
+metadata = BoundMetaData( db )
+
+a pak už to jede..
+
+miloš
+
+Miloš Kozák napsal(a):
+&gt;<i> Ahoj,
+</I>&gt;<i> já vim, že se nepřipojil, ale nevim, jak ho připojit... ten příklad co
+</I>&gt;<i> jsi napsal jsem taky zkoušel, na začátku a vidím, to jako možnost, ale
+</I>&gt;<i> chtěl bych to udělat právě pomocí tech metadat, že nebudu muset psát
+</I>&gt;<i> přímo SQL..
+</I>&gt;<i> To co jsem napsal je z
+</I>&gt;<i> <A HREF="http://www.sqlalchemy.org/docs/03/tutorial.html#tutorial_schemasql">http://www.sqlalchemy.org/docs/03/tutorial.html#tutorial_schemasql</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Možná jsem něco přehlédl..
+</I>&gt;<i> dik
+</I>&gt;<i> 
+</I>&gt;<i> Martin Stiborský napsal(a):
+</I>&gt;&gt;<i> Hoj, tvůj program se vlastně k DB nepřipojil ... jak ti taky napovídá error
+</I>&gt;&gt;<i> ...
+</I>&gt;&gt;<i> Z dokumentace (k SQLAlchemy 0.4):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> engine = create_engine('<A HREF="postgres://scott:tiger@localhost:5432/mydatabase'">postgres://scott:tiger@localhost:5432/mydatabase'</A>)
+</I>&gt;&gt;<i> connection = engine.connect()
+</I>&gt;&gt;<i> result = connection.execute(&quot;select username from users&quot;)
+</I>&gt;&gt;<i> for row in result:
+</I>&gt;&gt;<i>     print &quot;username:&quot;, row['username']
+</I>&gt;&gt;<i> connection.close()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Podle tohoto si uprav svůj kód a mělo by vše fungovat.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> -----Original Message-----
+</I>&gt;&gt;<i> From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of Miloš
+</I>&gt;&gt;<i> Kozák
+</I>&gt;&gt;<i> Sent: Monday, September 24, 2007 10:31 PM
+</I>&gt;&gt;<i> To: Konference PyCZ
+</I>&gt;&gt;<i> Subject: Re: [python] Postgresql
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> -----BEGIN PGP SIGNED MESSAGE-----
+</I>&gt;&gt;<i> Hash: SHA1
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dík, to mi celkem bodlo..
+</I>&gt;&gt;<i> Když zadávám příkaz ručně, tak vše funguje, jak má.. ale jinak, když
+</I>&gt;&gt;<i> zkouším to ?ORM?, tak to hází chybu.. mám program:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> #!/usr/bin/python
+</I>&gt;&gt;<i> from sqlalchemy import *
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> db = create_engine('<A HREF="postgres://milos:heslo@barak.lan:5433/test'">postgres://milos:heslo@barak.lan:5433/test'</A>)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> metadata = MetaData( db )
+</I>&gt;&gt;<i> tabulka = Table('names', metadata, autoload=True)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> tabulka = Table('names', metadata, autoload=True)
+</I>&gt;&gt;<i>   File &quot;/usr/lib/python2.5/site-packages/sqlalchemy/schema.py&quot;, line 43,
+</I>&gt;&gt;<i> in __call__
+</I>&gt;&gt;<i>     metadata.get_engine().reflecttable(table)
+</I>&gt;&gt;<i>   File &quot;/usr/lib/python2.5/site-packages/sqlalchemy/schema.py&quot;, line 51,
+</I>&gt;&gt;<i> in get_engine
+</I>&gt;&gt;<i>     raise exceptions.InvalidRequestError(&quot;This SchemaItem is not
+</I>&gt;&gt;<i> connected to any Engine&quot;)
+</I>&gt;&gt;<i> sqlalchemy.exceptions.InvalidRequestError: This SchemaItem is not
+</I>&gt;&gt;<i> connected to any Engine
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Nevíte náhodou co s tím? byl bych Vám moc vděčný..
+</I>&gt;&gt;<i> miloš
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Na tu postgres DB se normoš připojím.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006576.html">[python] Postgresql
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6577">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6577">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6577">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6577">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006577.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:24 GMT -->
+</html>

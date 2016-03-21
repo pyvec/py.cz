@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008456.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:57 GMT -->
+<HEAD>
+   <TITLE> [python] cal2you - kalendář v curses
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fcal2you_-_kalend%3DC3%3DA1%3DC5%3D99_v_curses%3F%3D&In-Reply-To=%3C20090104204936.GA23992%40godie%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008459.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008457.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cal2you - kalendář v curses</H1>
+    <B>Adam Štrauch</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fcal2you_-_kalend%3DC3%3DA1%3DC5%3D99_v_curses%3F%3D&In-Reply-To=%3C20090104204936.GA23992%40godie%3E"
+       TITLE="[python] cal2you - kalendář v curses">cx na initd.cz
+       </A><BR>
+    <I>Neděle Leden  4 21:49:36 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008459.html">[python] PDOM
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008457.html">[python] cal2you - kalendář v curses
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8456">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8456">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8456">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8456">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj všem,
+
+tak se mi podařilo vytvořit kalendář, který jsem dlouho postrádal. Kdo
+někdy četl můj blog, jako že asi nikdo :), tak ví, že co mám Eeečko se
+snažím co nejvíce akcí dělat v shellu, případně s pomocí curses aplikací.
+Mám tedy email přes mutt, kontakty přes abook a z toho co potřebuju
+zbývá kalendář. Ten tedy nezbývalo jinak než udělat. Abych řek pravdu,
+tak jsem ho psal něco přes měsíc po večerech mezi prací, přítelkyní a
+dalšími povinnostmi. Teď ale můžu říct, že se mi povedlo ho dostat do
+fáze, kdy může jít pod GPL ven aspoň jako taková trochu alpha.
+
+Program se jmenuje cal2you (calendar-todo-you). Momentálně umí spravovat
+kalendář a ToDo list velmi základní formou. Poslední dva dny jsem
+hodně upravoval kód a přidal podporu pro locale. Taky jsem se postaral o
+to, aby to jelo na většině distribucí s minimálními zásahy do kódu nebo
+nastavení. Teď by to mělo stačit stáhnout a jet.
+
+Zdroják obsahuje skript install.sh, který vytvoří adresářovou strukturu
+pro balíčkáře. Dále tu je skript, který vygeneruje nová/doplněná locale.
+Oba by se měly spouštět z root adresáře projektu přičemž install.sh bere
+parametr s cílovým adresářem pro vytvořenou adresářovou strukturu. Možná
+by tu bylo na místě použít nějaký instalační nástroje pro Python.
+
+Co bych rád vylepšil je ukládání dat. Momentálně serializuju pole
+slovníků a rád bych aby to tak zůstalo. Pokud bych sáhnul po sqlite,
+mohla by dělat problémy úprava tabulky. Takhle jen otestuju chybějící
+položku a při ukládání doplním.
+
+Co bych rád dodělal v příštích týdnech zkouškového:
+
+	* Export do txt/html
+
+To abych mohl vždy jen poslat &quot;Si děláš srandu ne, tohle musím všechno
+udělat:&quot; a nezdržoval se sepisováním.
+
+	* Upload na server a zpět
+
+To abych měl jeden kalendář k dispozici jak na Eee, tak na desktopu.
+Také mě napadlo jen dát seznam serverů, na které by se pokoušel data
+uploadovat. Nebyl by pak problém s centralizací,
+
+	* Vylepšit jak ToDo tak kalendář
+	* Dodělat možnost pluginů
+
+Tady by se mi hodilo pár rad jak na to, na co si dát pozor, co se k tomu
+v Pythonu používá.
+
+	* Použít linuxové nástroje pro synchronizaci s mobilem (msynctool)
+
+Tohle by mi hodně pomohlo. Mám zapnuté pořád bluetooth a jedna správná
+klávesová zkratka synchronizující mobil s kalendářem by byla killer
+feature pro mě.
+
+	* Plugin pro geocaching
+
+Geocaching je hra, která mě prostě chytla. Absence nástrojů z Windows
+jako geoget mi sice úplně nechybí, ale bylo by fajn pracovat s cachema v
+shellu. Hledání optimální skupiny cachí pro odlov by bylo hned rychlejší.
+
+	* Notifikační daemon
+
+Používám vodafone a u něj na různé zprávy mobilní email. Dostávám tak
+hned info o výpadcích routerů na naší síti, takže bych to rád využil i u
+tohohle programu. Notifikoval bych rád i na jabber.
+
+Proč tohle všechno píšu. Byl bych rád, kdybyste mi trochu pomohli s tím,
+co tomu programu chybí, kterým směrem by se měl vést vývoj, rád uvítám i
+patche :), ale bude mi stačit odezva od uživatelů.
+
+Zdroják spravuju v gitu a jelikož jsem nevydal ještě žádný release a
+chvilku to tak ještě zůstane, tak můžete sosat rovnou z repa:
+
+	git clone <A HREF="http://cal-git.initd.cz/">http://cal-git.initd.cz/</A>
+
+Adam
+
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008459.html">[python] PDOM
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008457.html">[python] cal2you - kalendář v curses
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8456">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8456">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8456">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8456">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008456.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:57 GMT -->
+</html>

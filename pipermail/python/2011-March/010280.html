@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-March/010280.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:07 GMT -->
+<HEAD>
+   <TITLE> [python] Jaky zpusobem ukladat data do pole
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Jaky%20zpusobem%20ukladat%20data%20do%20pole&In-Reply-To=%3C20110331101449.F2D66D0A%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-March/010279.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-March/010281.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jaky zpusobem ukladat data do pole</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Jaky%20zpusobem%20ukladat%20data%20do%20pole&In-Reply-To=%3C20110331101449.F2D66D0A%40atlas.cz%3E"
+       TITLE="[python] Jaky zpusobem ukladat data do pole">prikryl na atlas.cz
+       </A><BR>
+    <I>Čtvrtek Březen 31 10:14:49 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010279.html">[python] Jaky zpusobem ukladat data do pole
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010281.html">[python] Jaky zpusobem ukladat data do pole
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-March/date.html#10280">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/thread.html#10280">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/subject.html#10280">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/author.html#10280">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Zkus tohle
+
+--------------------------------------------------------------------------------
+pole1 = {}    # prázdný slovník (ekvivalent perlovského hash)
+pole2 = {}
+
+f = open('trace.data')
+for line in f:
+    k, v = line.rstrip().split('=', 1)  # .rstrip() odstraní n
+    print repr(k), repr(v)
+    pole1[k] = v
+f.close()
+
+
+f = open('trace.cfg')
+for line in f:
+    k, v = line.rstrip().split('=', 1)
+    print repr(k), repr(v)
+    pole2[k] = v
+f.close()
+
+print pole1
+print pole2
+
+print pole1['AAA']
+print pole2['AAA']
+print repr(pole2['AAA'])
+-----------------------------------------------------------------------------------
+
+Když jsem do uvedených souborů uložil ty udané řádky, vypisuje to tohle:
+
+C:tmp___pythonStonepy.cz&gt;python a.py
+'AAA' 'BBB=CCC=DDD=EEE'
+'AAA' 'FFF=GGG=HHH'
+{'AAA': 'BBB=CCC=DDD=EEE'}
+{'AAA': 'FFF=GGG=HHH'}
+BBB=CCC=DDD=EEE
+FFF=GGG=HHH
+'FFF=GGG=HHH'
+
+
+Petr
+
+______________________________________________________________
+&gt;<i> Od: &quot;Stone&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">phracek2 na gmail.com</A>&gt;
+</I>&gt;<i> Komu: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> Datum: 31.03.2011 09:35
+</I>&gt;<i> Předmět: [python] Jaky zpusobem ukladat data do pole
+</I>&gt;<i>
+</I>&gt;<i>Ahoj vsichni,
+</I>&gt;<i>
+</I>&gt;<i>jsem zacatecnik v Pythonu. Delam v nem asi 4 mesice.
+</I>&gt;<i>Mam jeden dotaz.
+</I>&gt;<i>V konfiguracnim souboru trace.data mam nasledujici radky:
+</I>&gt;<i>AAA=BBB=CCC=DDD=EEE
+</I>&gt;<i>v dalsim kofiguracnim souboru jako trace.cfg man tyto radky:
+</I>&gt;<i>AAA=FFF=GGG=HHH
+</I>&gt;<i>
+</I>&gt;<i>V perlu jsem to delal pomoci Hashe.
+</I>&gt;<i>Existuje neco podobneho v Python? Perl se mi uz prestal libit.
+</I>&gt;<i>Jak by se dala testovat jestli dotycna hodnota existuje?
+</I>&gt;<i>Predpokladal bych neco jako:
+</I>&gt;<i>pole1{&quot;AAA&quot;}=&quot;BBB=CCC=DDD=EEE&quot;
+</I>&gt;<i>pole2{&quot;AAA&quot;}=&quot;FFF=GGG=HHH&quot;
+</I>&gt;<i>
+</I>&gt;<i>Diky predem
+</I>&gt;<i>Petr
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010279.html">[python] Jaky zpusobem ukladat data do pole
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010281.html">[python] Jaky zpusobem ukladat data do pole
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-March/date.html#10280">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/thread.html#10280">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/subject.html#10280">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/author.html#10280">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-March/010280.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:07 GMT -->
+</html>

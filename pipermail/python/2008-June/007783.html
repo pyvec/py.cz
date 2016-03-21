@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007783.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+<HEAD>
+   <TITLE> [python] Hratky s optparse.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Hratky%20s%20optparse.&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007773.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007786.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Hratky s optparse.</H1>
+    <B>David Michal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Hratky%20s%20optparse.&In-Reply-To="
+       TITLE="[python] Hratky s optparse.">dmichal na altien.com
+       </A><BR>
+    <I>Pátek Červen 20 17:55:21 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007773.html">[python] uložení programu vyřešeno
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007786.html">[python] Hratky s optparse.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7783">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7783">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7783">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7783">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+Pisu si scriptik, ktery muze byt spusten jak s argumenty na prikazove
+radce tak v interaktivnim rezimu. S tim, ze v obou rezimech bude
+pouzivat ten samy set prikazu.
+
+Nevite nekdo jak z optparser dostat set vsech moznych argumentu, jak
+tech co mu zadavam (viz nize), tak I napriklad argumentu -version. Chci
+I v interaktivnim rezimu pouzit set prikazu nadefnovany v optparseru.
+
+ 
+
+ 
+
+Cele to definuju nejak takhle:
+
+ 
+
+from optparse import OptionParser
+
+from optparse import OptionGroup
+
+ 
+
+class Options(object):
+
+    usage = &quot;usage: %prog [options] [arg]&quot;
+
+    parser = OptionParser(usage, version = programVersion)
+
+    group = OptionGroup(parser, 'To manage local database')
+
+    group.add_option(&quot;--db&quot;, dest=&quot;DB_filename&quot;,
+
+                        help=&quot;path to DB filename&quot;)
+
+    group.add_option(&quot;--db-refresh&quot;, dest=&quot;db_refresh&quot;,
+action=&quot;store_true&quot;,
+
+                        help=&quot;gather info from servers and refresh
+records in DB&quot;)
+
+    group.add_option(&quot;--db-create&quot;, dest=&quot;DB_filename&quot;,
+
+                        help=&quot;create new DB&quot;)
+
+    group.add_option(&quot;--db-commit&quot;, dest=&quot;db_commit&quot;,
+action=&quot;store_true&quot;,
+
+                        help=&quot;commit info from DB to servers&quot;)
+
+    parser.add_option_group(group)
+
+ 
+
+....pak pridavam jeste nejake dalsi groupy
+
+ 
+
+ 
+
+A ted jak z OptionParser dostanu seznam vsech options? 
+
+Kdyz zavolam (options, args) = parser.parse_args() tak dostanu pouze
+seznam destinations.
+
+ 
+
+Dik,
+
+David
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080620/77ef0039/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080620/77ef0039/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007773.html">[python] uložení programu vyřešeno
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007786.html">[python] Hratky s optparse.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7783">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7783">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7783">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7783">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007783.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+</html>

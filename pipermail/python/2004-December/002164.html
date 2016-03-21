@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-December/002164.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:05 GMT -->
+<HEAD>
+   <TITLE> RE: [python] globální proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_glob%3DE1ln%3DED_prom%3DECnn%3DE9%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-December/002163.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-December/002165.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] globální proměnné</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_glob%3DE1ln%3DED_prom%3DECnn%3DE9%3F%3D&In-Reply-To="
+       TITLE="RE: [python] globální proměnné">Prikryl na skil.cz
+       </A><BR>
+    <I>Pondělí Prosinec 20 10:18:33 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002163.html">[python] globální proměnné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002165.html">[python] volba editoru/IDE pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-December/date.html#2164">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/thread.html#2164">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/subject.html#2164">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/author.html#2164">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>p.kosina napsal...
+&gt;<i> Připadá mi to nespravedlivé :-), že u OO se globální
+</I>&gt;<i> proměnné vytváří naprosto transparentně self.x=10 v
+</I>&gt;<i> kterékoliv metodě a platnost (včetně změn) je napříč celou
+</I>&gt;<i> třídou a ještě je to vydáváno za velké plus.
+</I>
+V tomto případě nejde ani o globální proměnnou, ani o
+proměnnou platnou v kterékoliv metodě třídy. Vytváří se v
+rámci objektu a je platná pouze v rámci objektu (instanci
+třídy). Na self.x není nic globálního ani magického. Můžu si
+to do češtiny přeložit jako &quot;moje vlastní x&quot;, kdy &quot;moje
+vlastní&quot; uvažujeme z pohledu objektu samotného.
+
+&gt;<i> Naproti tomu u nás, u proceduráků, u nás je global, které se
+</I>&gt;<i> však musí objevovat jednak v každé funkci zvlášť, což je
+</I>&gt;<i> velmi netransparentní a ještě je to zavrženíhodné. Dá se to
+</I>&gt;<i> samozřejmě obcházet, ale transparentnost je vždy přednost.
+</I>&gt;<i> Funkce se dají samozřejmě volat s parametry a také vracet
+</I>&gt;<i> výsledky, ale pokud je argumentů více, program se stává
+</I>&gt;<i> zbytečně nepřehledným.
+</I>
+Pokud bych chtěl, aby všechny proměnné byly globální, dostal
+bych se do počítačového pravěku. Programy pouze s globálními
+proměnnými by byly při současném rozsahu kódu nečitelné a
+neudržovatelné. Proto se ve funkcích vždy vytváří nové
+lokální proměnné. U jazyků, kde se proměnná musí povinně
+deklarovat (například Pascal) něco takového jako klíčové
+slovo &quot;global&quot; nepotřebuji -- lokální proměnná stejného
+jména má vždy přednost. Pokud není definována, bere se
+automaticky proměnná &quot;globálnější&quot;.
+
+Používání globálních proměnných u složitějších programů vede
+k vytváření závislostí, kdy jeden úsek kódu může nečekaným
+způsobem ovlivnit jinak naprosto nesouvisející jiný úsek
+kódu.
+
+Souhlasím s tím, že špatný objektový návrh může být
+nepřehlednější, než dobrý procedurální návrh. Ale dobrý
+objektový návrh bude vždy udržovatelnější a přehlednější,
+než procedurální návrh. Jedinou nevýhodou může být vytváření
+více oddělených částí s kódem a daty (objektů), které se
+propojují vzájemnými odkazy (tj. zvýšení stupně nepřímosti
+odkazů). Na druhou stranu právě tento rys vynucuje čistší
+rozhraní, snižuje vzájemné závislosti a usnadňuje budoucí
+údržbu. I když, všechno se dá sprasit ;-)
+
+&gt;<i> Chci uvést jednu z transparentnější metod (možná jsem
+</I>&gt;<i> objevil objevené, ale já jsem dosud používal seznamy nebo to
+</I>&gt;<i> hrozné global):
+</I>&gt;<i> 
+</I>&gt;<i> class globalniTrida:
+</I>&gt;<i>    pass
+</I>&gt;<i> 
+</I>&gt;<i> def r():
+</I>&gt;<i>    Global.delka=10
+</I>&gt;<i> 
+</I>&gt;<i> Global=globalniTrida()
+</I>&gt;<i> r()
+</I>&gt;<i> Global.delka=Global.delka+20
+</I>&gt;<i> print Global.delka
+</I>&gt;<i>  &gt;&gt;&gt; 30
+</I>
+Následující příklad je významově naprosto shodný:
+
+globalni_promenna = 10
+globalni_promenna = globalni_promenna + 20
+print globalni_promenna
+
+Výše uvedenou třídou globalniTrida a vytvořením její
+instance Global se pouze zavede něco jako prostor jmen.
+Pokud si zavedu svůj modul -- soubor Global.py takto...
+
+Global.py
+------------------------------------------------------
+delka = 10
+------------------------------------------------------
+
+... pak můžu ve svém programu psát:
+
+import Global
+
+Global.delka = Global.delka + 20
+print Global.delka
+
+Definice a použití funkce r() a použití třídy do toho nic
+nového nevnáší. Je to jen krkolomě zapsané vytvoření
+inicializace proměnné uvnitř existujícího objektu.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002163.html">[python] globální proměnné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002165.html">[python] volba editoru/IDE pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-December/date.html#2164">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/thread.html#2164">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/subject.html#2164">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/author.html#2164">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-December/002164.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:05 GMT -->
+</html>

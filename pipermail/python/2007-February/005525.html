@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005525.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:33 GMT -->
+<HEAD>
+   <TITLE> [python] MySQLdb a 8-bit
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20MySQLdb%20a%208-bit&In-Reply-To=45C8F32D.6090005%40ludik.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005524.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005526.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] MySQLdb a 8-bit</H1>
+    <B>Petr Nesládek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20MySQLdb%20a%208-bit&In-Reply-To=45C8F32D.6090005%40ludik.cz"
+       TITLE="[python] MySQLdb a 8-bit">petr.nesladek na seznam.cz
+       </A><BR>
+    <I>Středa Únor  7 00:02:07 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005524.html">[python] MySQLdb a 8-bit
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005526.html">[python] MySQLdb a 8-bit
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5525">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5525">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5525">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5525">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Vladislav Ludík &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] MySQLdb a 8-bit
+</I>&gt;<i> Datum: 06.2.2007 22:35:17
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> mtip napsal(a):
+</I>&gt;<i> &gt; Jeste se vratim jednou k podobne otazce:
+</I>&gt;<i> &gt; Pouziva nekdo na cteni a zapis dat do MySQL verze &gt; 4.1 modul MySQLdb ?
+</I>&gt;<i> &gt; Pokud ano, jak jste kdo specifikovali charset, aby to fungovalo ?
+</I>&gt;<i> &gt; Me se zatim vraci pouze Latin-1, i kdyz nastavim kodovani jine.
+</I>&gt;<i> &gt; Nebo snad existuje jiny lepsi modul pro tento ucel ?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> Obešel jsem to natvrdo přepsáním v modulu cursors na třech místech:
+</I>&gt;<i> 
+</I>&gt;<i>         #charset = db.character_set_name()
+</I>&gt;<i>         charset = 'cp1250'
+</I>&gt;<i>         #query = query.encode(charset)
+</I>&gt;<i> 
+</I>&gt;<i>         #charset = db.character_set_name()
+</I>&gt;<i>         charset = 'cp1250'
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Kupodivu to funguje. Akorát jsem musel překódovat š a ž při čtení i zápise.
+</I>&gt;<i> 
+</I>&gt;<i> Ale zajímalo by mě správné řešení také.
+</I>&gt;<i> 
+</I>&gt;<i> VL
+</I>&gt;<i> _______________________________________________
+</I>
+Tento porblém jsem řešil také - a nechodilo vůbec nic,
+takže jako konečné řešení mám jak charset v MySQL tak i použité kodovaní na výstupu query do MySQLdb nastavené na utf-8.
+
+To funguje bez nejmenšího zadrhnutí (pokud jsem stejně nastavil na obou stranách cp1250 tak se to nedohodlo na znacích mimo latin1)
+používám MySQL 5.0. a od této úpravy je to bez problémů  včetně použití wrapperu PyTable nad MySQLdb (mimochodem moc mne nepresvědčil)
+
+Petr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005524.html">[python] MySQLdb a 8-bit
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005526.html">[python] MySQLdb a 8-bit
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5525">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5525">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5525">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5525">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005525.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:33 GMT -->
+</html>

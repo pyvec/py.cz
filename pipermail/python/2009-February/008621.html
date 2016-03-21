@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-February/008621.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:52 GMT -->
+<HEAD>
+   <TITLE> [python] round v python 3.0
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20round%20v%20python%203.0&In-Reply-To=%3C000301c9851c%2443663500%24ca329f00%24%40com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-February/008620.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-February/008622.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] round v python 3.0</H1>
+    <B>Tovim</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20round%20v%20python%203.0&In-Reply-To=%3C000301c9851c%2443663500%24ca329f00%24%40com%3E"
+       TITLE="[python] round v python 3.0">jaakubi na gmail.com
+       </A><BR>
+    <I>Pondělí Únor  2 10:54:35 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008620.html">[python] round v python 3.0
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008622.html">[python] round v python 3.0
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-February/date.html#8621">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/thread.html#8621">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/subject.html#8621">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/author.html#8621">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Olé, round(2.5) již dává 3; jenom 2 maličké poznámky:
+V Python30 je round v hlavním modulu (nevolá se math).
+Navržená úprava platí jen pro aktuální seanci.
+
+Myslím si, že to je Pythonu bota, i když se o tom někde bla bla bla píše.
+Tovim
+
+
+
+
+
+import math
+math.round = lambda num: math.floor(num+0.5)
+
+round sa bude stale spravat ako sa ma, a pribudne math.round na klasicke 
+aritmeticke zaokruhlovanie.
+
+Jan Janech
+
+azurIt wrote:
+&gt;<i> taktiez si myslim, ze je to velmi nestastne riesenie, mala sa pre toto
+</I>vytvorit nova funkcia. existuje tam aj nieco pre 'klasicke' zaokruhlovanie ?
+&gt;<i> 
+</I>&gt;<i> azur
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;&gt;<i> -----Pôvodná správa-----
+</I>&gt;&gt;<i> Od: Pavel Kosina [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A>]
+</I>&gt;&gt;<i> Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;<i> Predmet: Re: [python] round v python 3.0
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Děkuji, ale stejně je to zvláštní. Nevím, nakolik se Python používá více
+</I>&gt;&gt;<i> k vědeckým a statistickým výpočtům než na běžnou matematiku. A i kdyby
+</I>&gt;&gt;<i> -  tento způsob zaokrouhlování mohl zůstat někde v modulu math nebo
+</I>&gt;&gt;<i> scientific (kdyby existoval). Pokud budeme mít extrémní případ ze samých
+</I>&gt;&gt;<i> čísel 0,5 - 1,5 - 2,5- 3,5- apod tak se chyba horší, protože např. nikdy
+</I>&gt;&gt;<i> nedosáhneme na zaokrouhlení 1 -3 - 5  apod.-.-..... To s Vámi
+</I>&gt;&gt;<i> nepolemizuji, jen přemýšlím nahlas.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> geon
+</I>&gt;&gt;<i> Pavel Kosina
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Stepan Wagner napsal(a), dne 1.2.2009 16:28:
+</I>&gt;&gt;&gt;<i> citace ze stranky
+</I><A HREF="http://en.wikipedia.org/wiki/Rounding#Round-to-even_method">http://en.wikipedia.org/wiki/Rounding#Round-to-even_method</A>
+&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> &quot;&quot;&quot;When dealing with large sets of scientific or statistical data,
+</I>&gt;&gt;&gt;<i> where trends are important, traditional rounding on average biases the
+</I>&gt;&gt;&gt;<i> data upwards slightly. Over a large set of data, or when many
+</I>&gt;&gt;&gt;<i> subsequent rounding operations are performed as in digital signal
+</I>&gt;&gt;&gt;<i> processing, the round-to-even rule tends to reduce the total rounding
+</I>&gt;&gt;&gt;<i> error, with (on average) an equal portion of numbers rounding up as
+</I>&gt;&gt;&gt;<i> rounding down. This generally reduces upwards skewing of the
+</I>&gt;&gt;&gt;<i> result.&quot;&quot;&quot;
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Stepan
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 2009/2/1 Pavel Kosina &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A>&gt;:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Nevíte někdo, *proč* v Python 3.0 platí:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> round(0.5)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> 0
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> round (1.5)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> 2
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> round (2.5)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> 2
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i> round (3.5)
+</I>&gt;&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> 4
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Jo, máme to napsané v manuálu, že to takhle je
+</I>&gt;&gt;&gt;&gt;<i> <A HREF="http://docs.python.org/3.0/library/functions.html#round,">http://docs.python.org/3.0/library/functions.html#round,</A> ale mě zajímá
+</I>proč
+&gt;&gt;&gt;&gt;<i> to je takto, a ne podle toho, jak se to učí v 5. třídě, tedy že od
+</I>pětky
+&gt;&gt;&gt;&gt;<i> včetně nahoru se zaokrouhluje nahoru vždy, a ne jen někdy .....
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Díky
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> --
+</I>&gt;&gt;&gt;&gt;<i> geon
+</I>&gt;&gt;&gt;&gt;<i> Pavel Kosina
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+
+-- 
+
+____________________________
+Ing. Jan Janech
+Katedra softverovych technologii
+Fakulta riadenia a informatiky
+Zilinska Univerzita
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008620.html">[python] round v python 3.0
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008622.html">[python] round v python 3.0
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-February/date.html#8621">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/thread.html#8621">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/subject.html#8621">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/author.html#8621">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-February/008621.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:52 GMT -->
+</html>

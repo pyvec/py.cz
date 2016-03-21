@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007889.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:03 GMT -->
+<HEAD>
+   <TITLE> [python] Guido o funkcich reduce(), filter() a map() v Python 3000
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=a9a7f5c80806250955q91468ebic574b16f6b789b20%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007887.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007892.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Guido o funkcich reduce(), filter() a map() v Python 3000</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=a9a7f5c80806250955q91468ebic574b16f6b789b20%40mail.gmail.com"
+       TITLE="[python] Guido o funkcich reduce(), filter() a map() v Python 3000">feed na centrum.cz
+       </A><BR>
+    <I>Středa Červen 25 19:12:08 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007887.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007892.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7889">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7889">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7889">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7889">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Bednařík napsal(a):
+&gt;<i> Dne 25. červen 2008 18:22 superman &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">feed na centrum.cz</A>&gt; napsal(a):
+</I>&gt;<i>   
+</I>&gt;&gt;&gt;<i> Ale hlavně nechápu, že vám nevadí, že se nekompatibilně změní
+</I>&gt;&gt;&gt;<i> databáze, internetové protokoly, atd., ale že se vyvyne a změní taky
+</I>&gt;&gt;&gt;<i> Pathon je problém.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>       
+</I>&gt;&gt;<i> Ano? Já tedy nevím o databázi, která by nekompatibilně změnila API, nebo
+</I>&gt;&gt;<i> SQL. Stejně tak nevím o tom, že by se TCP/IP protokoly nějak bouřlivě
+</I>&gt;&gt;<i> měnily.
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> Všechno se mění a zpětná kompatibilita se neudržuje donekonečna nikde.
+</I>&gt;<i>   
+</I>Znovu se tedy ptám na konkrétní případ nekompatiblity v databázích, a pod..
+
+
+
+&gt;<i> Vývoj Pythonu může působit jako příliš rychlý, ale ve skutečnosti to
+</I>&gt;<i> bude nějaký ten rok trvat a každý bude mít dost času se přizpůsobit.
+</I>&gt;<i>   
+</I>
+
+Prosím Vás, proč je nazýváno vývojem syntaktická změna, která nic 
+jiného, než estetický pocit pana Rossuma neznamená? Já chápu vývojem 
+třeba rychlejší rozhraní, vyšší funkčnost třeba internetových protokolů, 
+rychlejší práci s daty, atd. atd. atd.. Ale dohadování se o tom, jestli 
+tam bude reduce, nebude reduce - to není vývoj, to je puntičkářství. 
+Navíc puntičkářství, které v praxi kromě problémů nikomu nic moc nepřinese.
+
+
+&gt;<i> Na druhou stranu věci které se dostatečně nevyvýjí a nepřizpůsobují
+</I>&gt;<i> časem narazí, jako třeba ten TCP/IP protokol. Přechod na IPv6 pro
+</I>&gt;<i> vývojáře rozhodně nebude taková sranda, jako kosmetické změny v
+</I>&gt;<i> Pythonu.
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+Ale znovu říkám, IPv6 má alespoň cíl něco zlepšit - konkrétně hlavně 
+řešit malý počet IP adres v IPv4. Tudíž není dělám jen proto, že by si 
+někdo hrál a maskoval to bohulibými důvody, ale je tu skutečný praktický 
+důvod této změny. A jak vidíte, tato změna se snaží prosadit už 
+obrovskou spoustu let a nic moc.
+
+Ale co prudce praktického, výhodného třeba přinese vyhození reduce a 
+změny syntaxe? Myslím nějaký přínos, kterým je možné zdůvodnit náklady 
+na komplikace, které tím vzniknou?
+
+
+&gt;&gt;<i> To, že se změní Python je problém - protože k tomu není vůbec žádný
+</I>&gt;&gt;<i> důvod. Nic to nepřinese, kromě &quot;estetického&quot; pocitu pana Rossuma. Zato
+</I>&gt;&gt;<i> starosti a náklady na změnu nejsou vyváženy mohutnými přínosy.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Miloslav Ponkrác
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> Mě nepřipadá že by ty změny byly zas tak zásadní, aby se jim nedalo
+</I>&gt;<i> poměrně jednoduše přizpůsobit bez nějakých extra nákladů.
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+Nejde o zásadnost změn. První otázka je, proč tam jsou? Proč dělat 
+změny, které nic nepřinesou?
+
+
+Miloslav Ponkrác
+
+
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007887.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007892.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7889">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7889">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7889">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7889">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007889.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:03 GMT -->
+</html>

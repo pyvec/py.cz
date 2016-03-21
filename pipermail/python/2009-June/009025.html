@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009025.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:31 GMT -->
+<HEAD>
+   <TITLE> [python] XMLRPC a unicode
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20XMLRPC%20a%20unicode&In-Reply-To=%3Cbd9056300906111739u692fdedbt2347ee513a7fac6e%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-June/009024.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-June/009027.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] XMLRPC a unicode</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20XMLRPC%20a%20unicode&In-Reply-To=%3Cbd9056300906111739u692fdedbt2347ee513a7fac6e%40mail.gmail.com%3E"
+       TITLE="[python] XMLRPC a unicode">slush na slush.cz
+       </A><BR>
+    <I>Pátek Červen 12 02:39:29 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009024.html">[python] XMLRPC a unicode
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009027.html">[python] XMLRPC a unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9025">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9025">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9025">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9025">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pokud by to nekoho zajimalo, problem jsem (docasne nafurt) vyresil
+timto zpusobem:
+
+#!/usr/bin/python
+from SimpleXMLRPCServer import SimpleXMLRPCServer
+from SimpleXMLRPCServer import SimpleXMLRPCRequestHandler
+import serial
+import base64
+
+device = '/dev/arduino'
+baud = 57600
+timeout = 1
+
+server_listen = 'localhost'
+server_port = 8000
+
+class NetSerial(serial.Serial):
+    # Original function returns bool sometimes...
+    def inWaiting_int(self):
+        return int(self.inWaiting())
+
+    # Beware UTF-8 :-)
+    def write_base64(self, s):
+        self.write(base64.b64decode(s))
+
+class RequestHandler(SimpleXMLRPCRequestHandler):
+    rpc_paths = ('/RPC2',)
+
+server = SimpleXMLRPCServer((server_listen, server_port),
+                            requestHandler=RequestHandler,
+                            allow_none=True, encoding='ascii')
+
+server.register_introspection_functions()
+server.register_instance(NetSerial(device, baud, timeout=timeout))
+server.serve_forever()
+
+pyserial jsem tedy rozsiril o funkci write_base64, ktera uz tedy
+nemusi resit UTF-8 ;-). Predpokladam, ze stejny hack bude fungovat i
+na read, az to budu potrebovat. Reseni bohuzel neni transparentni a
+trida nema s pyserial kompatibilni rozhrani, ale co se da delat. Kdyby
+nekdo vedel, jak presvedcit XMLRPC s UTF, rad to upravim.
+
+Ostatne v reseni bylo zapotrebi udelat jeste hack s inWaiting(). Moc
+jsem to nestudoval, ale zda se, ze takhle to funguje...
+
+Marek
+
+2009/6/12 slush &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">slush na slush.cz</A>&gt;:
+&gt;<i> Zdravim,
+</I>&gt;<i>
+</I>&gt;<i> potrebuji pristupovat k seriovemu portu pocitace A z pocittace B na
+</I>&gt;<i> lokalni siti. Napadlo me pouzit XML-RPC jako transparentni mezivrstvu
+</I>&gt;<i> k pyserial tak, ze se klientska aplikace (puvodne bezici na A, nyni
+</I>&gt;<i> nove na B) temer nemusi upravovat - pouze misto lokalni instance
+</I>&gt;<i> pyserial vytvorim klienta XMLRPC.
+</I>&gt;<i>
+</I>&gt;<i> Zda se, ze by to i mohlo fungovat, bohuzel na port potrebuji posilat
+</I>&gt;<i> binarni data. A zde jsem narazil na problem s kodovanim znaku u
+</I>&gt;<i> knihovny xmlrpclib. Pri snaze zapsat binarni data mi to vrati tento
+</I>&gt;<i> traceback:
+</I>&gt;<i>
+</I>&gt;<i>  File &quot;/usr/lib/python2.6/encodings/utf_8.py&quot;, line 16, in decode
+</I>&gt;<i>    return codecs.utf_8_decode(input, errors, True)
+</I>&gt;<i> UnicodeDecodeError: 'utf8' codec can't decode byte 0xff in position 0:
+</I>&gt;<i> unexpected code byte
+</I>&gt;<i>
+</I>&gt;<i> Data skladam nasledujicim zpusobem:
+</I>&gt;<i>  data = chr(255)+'a'+chr(e.axis)+chr(mapped)
+</I>&gt;<i> kde e.axis i mapped jsou 1B cisla. Jedna se tedy o obycejne ASCII.
+</I>&gt;<i>
+</I>&gt;<i> S tim si bohuzel nevim rady, UTF jsem se v pythonu vzdy vyhybal, jako
+</I>&gt;<i> cert krizi. Nedokaze nekdo poradit, prosim?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> S pozdravem
+</I>&gt;<i> Marek
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009024.html">[python] XMLRPC a unicode
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009027.html">[python] XMLRPC a unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9025">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9025">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9025">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9025">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009025.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:31 GMT -->
+</html>

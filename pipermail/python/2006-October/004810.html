@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004810.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:53 GMT -->
+<HEAD>
+   <TITLE> [python] Mobilni python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Mobilni%20python&In-Reply-To=4533AE88.1070405%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004809.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004794.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Mobilni python</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Mobilni%20python&In-Reply-To=4533AE88.1070405%40centrum.cz"
+       TITLE="[python] Mobilni python">rk na dat.cz
+       </A><BR>
+    <I>Pondělí Říjen 16 19:09:00 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004809.html">[python] Mobilni python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004794.html">[python] Mobilni python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4810">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4810">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4810">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4810">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, Oct 16, 2006 at 06:08:40PM +0200, superman wrote:
+
+&gt;<i> Jenže python interpretr to v mém pokusu dělal takto:
+</I>&gt;<i> 
+</I>&gt;<i> open(cesta_z_registru + modul)
+</I>&gt;<i> open(cesta_ze_systemoveho_adresare_windows + modul)
+</I>&gt;<i> open(cesta_z_PYTHONPATH + modul)
+</I>&gt;<i> if (se nepodarilo otevrit soubor z cesty z PYTHONPATH):
+</I>&gt;<i>    open(cesta_z_registru + modul)
+</I>&gt;<i>    if (se nepodarilo otevrit soubor z cesty z registru):
+</I>&gt;<i>       open(cesta_ze_systemoveho_adresare_windows + modul)
+</I>&gt;<i>       if (se nepodarilo otevrit soubor z cesty ze systemu win):
+</I>&gt;<i>           vyhod vyjimku importu
+</I>&gt;<i> 
+</I>&gt;<i> Coz je prakticky doslovny prepis jeho cinnosti pri hledani modulu a to 
+</I>&gt;<i> uz mi normalni fakt neprijde. Možná detaily byly malinko jinak, ale 
+</I>&gt;<i> pochopil jsem, že Python postupuje stylem nejdřív otevírej soubor a až 
+</I>&gt;<i> pak se zeptej, jestli ho vlastně vůbec chceš otevírat.
+</I>
+To je mozna odtrasovane volani open, ale urcite to neni doslovny prepis
+toho, co Python vevnitr dela. Myslim, ze neni vubec problem nastavit
+Python tak, aby delal to, co chcete. Jelikoz i na windows se bere
+v uvahu hodnota PYTHONHOME, nemusel by to byt takovy problem.
+Pro zacatek bych se zkusil podivat na tohle:
+
+/* ----------------------------------------------------------------
+   PATH RULES FOR WINDOWS:
+   This describes how sys.path is formed on Windows.  It describes the 
+   functionality, not the implementation (ie, the order in which these 
+   are actually fetched is different)
+
+   * Python always adds an empty entry at the start, which corresponds
+     to the current directory.
+
+   * If the PYTHONPATH env. var. exists, its entries are added next.
+
+   * We look in the registry for &quot;application paths&quot; - that is, sub-keys
+     under the main PythonPath registry key.  These are added next (the
+     order of sub-key processing is undefined).
+     HKEY_CURRENT_USER is searched and added first.
+     HKEY_LOCAL_MACHINE is searched and added next.
+     (Note that all known installers only use HKLM, so HKCU is typically
+     empty)
+
+   * We attempt to locate the &quot;Python Home&quot; - if the PYTHONHOME env var
+     is set, we believe it.  Otherwise, we use the path of our host .EXE's
+     to try and locate our &quot;landmark&quot; (lib\\os.py) and deduce our home.
+     - If we DO have a Python Home: The relevant sub-directories (Lib, 
+       plat-win, lib-tk, etc) are based on the Python Home
+     - If we DO NOT have a Python Home, the core Python Path is
+       loaded from the registry.  This is the main PythonPath key, 
+       and both HKLM and HKCU are combined to form the path)
+
+   * Iff - we can not locate the Python Home, have not had a PYTHONPATH
+     specified, and can't locate any Registry entries (ie, we have _nothing_
+     we can assume is a good path), a default path with relative entries is 
+     used (eg. .\Lib;.\plat-win, etc)
+
+
+  The end result of all this is:
+  * When running python.exe, or any other .exe in the main Python directory
+    (either an installed version, or directly from the PCbuild directory),
+    the core path is deduced, and the core paths in the registry are
+    ignored.  Other &quot;application paths&quot; in the registry are always read.
+
+  * When Python is hosted in another exe (different directory, embedded via 
+    COM, etc), the Python Home will not be deduced, so the core path from
+    the registry is used.  Other &quot;application paths&quot; in the registry are 
+    always read.
+
+  * If Python can't find its home and there is no registry (eg, frozen
+    exe, some very strange installation setup) you get a path with
+    some default, but relative, paths.
+
+   ---------------------------------------------------------------- */
+
+Radek Kaňovský
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004809.html">[python] Mobilni python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004794.html">[python] Mobilni python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4810">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4810">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4810">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4810">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004810.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:53 GMT -->
+</html>

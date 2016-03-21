@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004322.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+<HEAD>
+   <TITLE> [python] ukončení interpretu, zničení objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4483541C.4080004%40atlas.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004321.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004323.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ukončení interpretu, zničení objektu</H1>
+    <B>Radek Kaňovský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4483541C.4080004%40atlas.sk"
+       TITLE="[python] ukončení interpretu, zničení objektu">rk na dat.cz
+       </A><BR>
+    <I>Úterý Červen  6 06:25:43 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004321.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004323.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4322">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4322">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4322">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4322">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Sun, Jun 04, 2006 at 11:43:56PM +0200, Jan Janech wrote:
+
+&gt;<i> Objekt triedy este nieje odstraneny, ale iba symbol M je nastaveny na
+</I>&gt;<i> hodnotu None...
+</I>&gt;<i> Dost zaujimave spravanie, po tom ako som si po dvoch rokoch zvykol, ze v
+</I>&gt;<i> pythone vsetko ide ako ma :)
+</I>&gt;<i> 
+</I>&gt;<i> class M:
+</I>&gt;<i> 
+</I>&gt;<i>     b = 0
+</I>&gt;<i> 
+</I>&gt;<i>     def __del__(self):
+</I>&gt;<i> 
+</I>&gt;<i>         print &quot;self.class =&quot;, self.__class__
+</I>&gt;<i> 
+</I>&gt;<i>         print &quot;M =&quot;, M
+</I>&gt;<i> 
+</I>&gt;<i>         print &quot;M2 =&quot;, M2
+</I>&gt;<i> 
+</I>&gt;<i> a2 = M()
+</I>&gt;<i> M2 = M
+</I>
+Ja myslim, ze tohle chovani je v poradku. Metoda __del__ se muze
+spolehnout v podstate jenom na jmeno `self'. Globalni objekty uz mohou
+byt odalokovane. Pokud potrebuju nejaky externi objekt v metode __del__,
+je potreba pouzit nejaky trik a objekt si &quot;pribalit&quot; k funkci:
+
+    import sys
+
+    class M:
+        
+        def __del__():
+            _sys = sys # _sys je cellvar
+            def __del__(self):
+                print 'SYS', _sys
+        __del__ = __del__()
+
+Radek Kaňovský
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004321.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004323.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4322">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4322">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4322">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4322">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004322.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+</html>

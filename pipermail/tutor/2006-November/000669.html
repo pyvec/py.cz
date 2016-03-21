@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-November/000669.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:07 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] aplikace typu daemon
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20aplikace%20typu%20daemon&In-Reply-To=4552EE0B.8030304%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-November/000668.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-November/000670.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] aplikace typu daemon</H1>
+    <B>superman</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20aplikace%20typu%20daemon&In-Reply-To=4552EE0B.8030304%40seznam.cz"
+       TITLE="[Tutor PyCZ] aplikace typu daemon">feed na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Listopad  9 12:08:34 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-November/000668.html">[Tutor PyCZ] aplikace typu daemon
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-November/000670.html">[Tutor PyCZ] aplikace typu daemon
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/date.html#669">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/thread.html#669">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/subject.html#669">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/author.html#669">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Dobry den,
+</I>&gt;<i> uz jsem ten dotaz jednou pokladal, ale nikdo mi neporadil, mozna jsem se 
+</I>&gt;<i> jen nespravne vyjadril. Muzete mi doporucit vhodny zpusob, jak 
+</I>&gt;<i> komunikovat s aplikaci typu daemon (resp. server apliace bezici na 
+</I>&gt;<i> pozadi). Budu ji jiste potrebovat nejaky pokyn k ukonceni apod., 
+</I>&gt;<i> prozatim jsem to delal pres sit (pokynem z klienta), ale to jiste neni 
+</I>&gt;<i> nejlepsi zpusob, co kdyz sit nepujde. Myslim, ze na UNIX platforme se 
+</I>&gt;<i> pouziva napriklad zapis nejakeho retezce do specialniho souboru. Mozna 
+</I>&gt;<i> by toto byl zpusob, ale nevim, jak hlidat zmenu nejakeho souboru na 
+</I>&gt;<i> disku. Nebo znate nejaky lepsi zpusob?
+</I>&gt;<i> Dekuji za odpoved
+</I>&gt;<i> Karel
+</I>
+Podle mě neexistuje lepší způsob, než to udělat přes nějaký způsob 
+meziprocesové komunikace. Podle mě naprosto nejlepším způsobem je, 
+prostě to poslal jako povel po socketu, pokud samotný daemon po síti již 
+komunikuje. Prostě si vymyslíte speciální povel, nebo datový balík, 
+který vyslaný jako požadavek na server způsobí ukončení naslouchání 
+novým příkazům, dokončí zpracování právě prováděných věcí a pak se ukončí.
+
+Jako sokety si nesmíte představovat jenom TCP/IP protokol, sokety jsou 
+obecný mechanismus pro komunikaci mezi procesy, záleží jaký typ soketu 
+si otevřete. Některé typy soketů pak nepotřebují ani komunikaci po síti.
+
+Jinak síť půjde vždycky, protože pokud máte nainstalovány ovladače pro 
+sí%tové rozhraní, pak síť jde i na jednom počítači. Tedy můžete mít 
+klienta i server na jednom počítači a pak nepůjde komunikace vůbec přes 
+síťovou kartu a ani není potřeba žádný síťový hw. I jeden počítač je de 
+facto síť o jednom počítači. Co Vám brání spustit si klienta na stejném 
+počítači jako je server a poslat požadavek takto? Pak nepotřebujete 
+žádný síťový hw ani ovladač, veškerá síťová komunikace proběhne pouze 
+jako &quot;emulace v kernelu operačního systému&quot;.
+
+Nevím co máte proti soketům, já to považuji za dobré řešení. Hlídat 
+změnu souboru na disku samozřejmě také jde, třeba ve Windows dokonce 
+můžete požádat systém, aby Vás automaticky upozornil, kdykoli se na 
+souborovém systému stane nějaká Vámi zadaná událost, jako je třeba 
+smazání souboru, nebo změna souboru atd., takže to nemusíte programovat, 
+pouze chytnete zprávu od jádra Windows. Na Linuxu v posledních jádrech 
+kernelu byla podobná funkce na hlídání změn v souborovém systému také 
+přidána, ale je to zatím dost čerstvé. Ale já tohle řešení považuji za 
+&quot;dirty&quot;.
+
+Jinak na Windows je, pokud chcete zůstat v rámci jednoho počítače dobré 
+řešení nastavit nějaký mutex, nebo event, nebo jiný prostředek sloužící 
+původně pro synchronizaci procesů a threadů. Jednoduché, rychlé, 
+elegantní, spolehlivé. Snad to dokonce lze i po síti, ale nezkoušel 
+jsem. Na Linuxu samozřejmě lze mutext, condition variables a další 
+používat také, ale Linux je na tyto věci hůře vybaven, i když to funguje.
+
+Lze vymyslet řadu dalších řešení, ale nemá to smysl. Řešení se souborem 
+se mi nelíbí, neboť narážíte a vyrábíte si zbytečné problémy s právy. CO 
+když nebudete mít právo zapsat tam, nebo onde. Já vím, není to až takový 
+problém, ale proč si lámat hlavu s problémy, které nemusíte řešit?
+
+Miloslav Ponkrác
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-November/000668.html">[Tutor PyCZ] aplikace typu daemon
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-November/000670.html">[Tutor PyCZ] aplikace typu daemon
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/date.html#669">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/thread.html#669">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/subject.html#669">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-November/author.html#669">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-November/000669.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:07 GMT -->
+</html>

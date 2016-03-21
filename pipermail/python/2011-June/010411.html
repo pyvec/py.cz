@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010411.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+<HEAD>
+   <TITLE> [python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FTisk_unicode_%3DC5%3D99et%3DC4%3D9Bzce_a_tisk_seznamu_%3F%3D%0A%09%3D%3Futf-8%3Fb%3FdW5pY29kZSDFmWV0xJt6Y8Wv%3F%3D&In-Reply-To=%3C20110608092458.E407B7DE%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010408.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010412.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Tisk unicode řetězce a tisk seznamu unicode řetězců</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FTisk_unicode_%3DC5%3D99et%3DC4%3D9Bzce_a_tisk_seznamu_%3F%3D%0A%09%3D%3Futf-8%3Fb%3FdW5pY29kZSDFmWV0xJt6Y8Wv%3F%3D&In-Reply-To=%3C20110608092458.E407B7DE%40atlas.cz%3E"
+       TITLE="[python] Tisk unicode řetězce a tisk seznamu unicode řetězců">prikryl na atlas.cz
+       </A><BR>
+    <I>Středa Červen  8 09:24:58 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010408.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010412.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10411">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10411">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10411">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10411">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> &quot;David Rohleder&quot; píše 
+</I>[...]
+&gt;<i> Když už jsme u těch řetězců: jak se udělá raw unicode řetězec, tj.
+</I> &gt; interpret neinterpretuje uvnitř? Generuju si latexový dokument a on se
+ &gt; přirozeně vzteká na:
+ &gt; 
+ &gt; hlavicka = ur&quot;&quot;&quot;
+ &gt; documentclass[a4,landscape]{article}
+ &gt; usepackage{graphicx}
+ &gt; usepackage[czech]{babel}
+ &gt; usepackage[utf8]{inputenc}
+ &gt; begin{document}
+ &gt; thispagestyle{empty}
+ &gt; &quot;&quot;&quot;
+ &gt; 
+ &gt; print hlavicka
+ &gt; 
+ &gt; SyntaxError: (unicode error) 'rawunicodeescape' codec can't decode bytes
+ &gt; in position 39-40: truncated uXXXX
+ 
+To je jedno z těch temných zákoutí. Ono se to vzteká už při
+
+hlavicka = ur'usepackage'
+print hlavicka
+ 
+Problém je v tom, že raw-unicode-escape s předponou ur není tak úplně 'raw'.
+Interpretují se posloupnosti uXXXX -- viz 
+<A HREF="http://docs.python.org/tutorial/introduction.html#unicode-strings:">http://docs.python.org/tutorial/introduction.html#unicode-strings:</A>
+
+    &quot;For experts, there is also a raw mode just like the one 
+     for normal strings. You have to prefix the opening quote 
+&#160;&#160;&#160;&#160; with &#8216;ur&#8217; to have Python use the Raw-Unicode-Escape encoding. 
+     It will only apply the above uXXXX conversion if there is an uneven 
+&#160;&#160;&#160;&#160; number of backslashes in front of the small &#8216;u&#8217;.&quot;
+
+V tomto případě mě napadá jen ta možnost, že se napřed vyrobí 
+raw string (starý, neunicode) a převede se druhým krokem
+na unicode:
+
+==============================
+ # -*- coding: utf-8 -*-
+
+hlav = r&quot;&quot;&quot;
+documentclass[a4,landscape]{article}
+usepackage{graphicx}
+usepackage[czech]{babel}
+usepackage[utf8]{inputenc}
+begin{document}
+thispagestyle{empty}
+&quot;&quot;&quot;
+print type(hlav)
+hlavicka = unicode(hlav, 'utf-8')
+print type(hlavicka)
+print hlavicka
+==============================
+ 
+Dá se to trochu vylepšit tím, že si nadefinuješ funkci u(), aby se 
+to hezčeji zapislovalo:
+
+==============================
+ # -*- coding: utf-8 -*-
+
+def u(raw_string, encoding='utf-8'):
+    return unicode(raw_string, encoding)
+
+
+hlavicka = u(r&quot;&quot;&quot;
+documentclass[a4,landscape]{article}
+usepackage{graphicx}
+usepackage[czech]{babel}
+usepackage[utf8]{inputenc}
+begin{document}
+thispagestyle{empty}
+&quot;&quot;&quot;)
+
+print type(hlavicka)
+print hlavicka
+==============================
+ 
+V případě chroupání LaTeXových textů bych ale vážně uvažoval
+o použití Python 3 -- i kdyby jen pro tento účel. Tam se z toho
+stane jen raw string, který bude automaticky unicode (nový str
+se rovná starému typu unicode):
+
+==============================
+ # -*- coding: utf-8 -*-
+
+hlavicka = r&quot;&quot;&quot;
+documentclass[a4,landscape]{article}
+usepackage{graphicx}
+usepackage[czech]{babel}
+usepackage[utf8]{inputenc}
+begin{document}
+thispagestyle{empty}
+&quot;&quot;&quot;
+
+print(type(hlavicka))
+print(hlavicka)
+==============================
+ 
+Pokud toho chroustacího kódu máš víc, pomůže pythonovská
+utilitka 2to3 -- viz <A HREF="http://diveintopython3.py.cz/case-study-porting-chardet-to-python-3.html#running2to3">http://diveintopython3.py.cz/case-study-porting-chardet-to-python-3.html#running2to3</A>
+
+P.
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20110608/8ae63fd2/attachment.html">http://www.py.cz/pipermail/python/attachments/20110608/8ae63fd2/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010408.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010412.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10411">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10411">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10411">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10411">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010411.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+</html>

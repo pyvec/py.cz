@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000239.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] razeni polozek ve slovniku
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20razeni%20polozek%20ve%20slovniku&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000235.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000240.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] razeni polozek ve slovniku</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20razeni%20polozek%20ve%20slovniku&In-Reply-To="
+       TITLE="[Tutor PyCZ] razeni polozek ve slovniku">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Březen 17 09:58:57 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000235.html">[Tutor PyCZ] razeni polozek ve slovniku
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000240.html">[Tutor PyCZ] razeni polozek ve slovniku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#239">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#239">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#239">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#239">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Lukas Lisa napsal...
+&gt;<i> daji se slovniky (dict) nejak radit jako seznamy (list)?
+</I>&gt;<i> ..podle klice nebo hodnoty popr. existuje nejaky 
+</I>&gt;<i> rozsirujici modul ktery by umoznoval nejakou
+</I>&gt;<i> pohodlnou praci se slovniky?
+</I>
+Seznam je datová struktura, ve které existuje jednoznačné
+fyzické uspořádání položek. Pokud mám dvě položky, vždycky
+můžu říct, která je v seznamu dříve a která později.
+
+Slovník (vyhledávací tabulka) je určen k tomu, abych
+na základě klíče co nejrychleji zpřístupnil související
+hodnotu. Výstavba takových struktur prakticky nikdy 
+nedefinuje nějaké pořadí. Pořadí položek může být různé,
+podle toho jak o problému přemýšlím. Můžu ale vytvořit
+(nebo si u speciálních variant slovníků vnitřně udržovat)
+pomocné datové struktury, které budou zachycovat pořadí
+položek podle mých představ.
+
+Následující příklad uvádí možnosti získání položek
+slovníků seřazených abecedně podle klíčů:
+
+
+soubor a.py
+=================================================================
+d = { 'a1': 1, 
+      'a2': 5, 
+      'b1': 11, 
+      'b7': 7, 
+      'aa': 15, 
+      'z': 333, 
+      'aaa': 555 }
+
+for k in d:
+   print k, d[k]
+
+
+print '-' * 70
+
+for k in d.keys():
+   print k, d[k]
+
+print '-' * 70
+
+for k in sorted(d.keys()):
+   print k, d[k]
+
+
+print '-' * 70
+
+for k in sorted(d):
+   print k, d[k]
+
+
+print '-' * 70
+
+klice = d.keys()
+klice.sort()
+for k in klice:
+   print k, d[k]
+
+=================================================================
+Předpokládám verzi Pythonu 2.4 a vyšší. V nižších verzích nefunguje
+sorted().
+
+Při zápisu &quot;for k in d:&quot; se prochází přes všechny klíče, ale 
+pořadí je určeno vnitřními vlastnostmi slovníku (nedá se o něm
+říci nic bližšího). 
+
+Zápis &quot;d.keys()&quot; vrací seznam všech klíčů slovníku ve stejném
+pořadí, jako v předchozím případě. Zápis &quot;for k in d.keys():&quot;
+funguje na první pohled stejně, jako předchozí, ale nejdříve
+se fyzicky vytvoří seznam klíčů. První případ je tedy efektivnější.
+Rozepsat se dá také jako &quot;for k in d.iterkeys():&quot; (to už je pro
+začátečníky vyšší pilotáž ;).
+
+Zabudovaná funkce sorted() vrací seřazenou kopii seznamu. 
+Takže zápisy &quot;for k in sorted(d.keys()):&quot; nebo &quot;for k in sorted(d):&quot;
+způsobí průchod všemi klíči slovníku v abecedním pořadí
+(zde pracujeme s řetězci, takže abecedně).
+
+Poslední případ ukazuje, jak se to muselo řešit v době
+před Python 2.4, kdy neexistovala funkce sorted().
+
+Průchod slovníkem seřazený podle hodnot prakticky
+spočívá v tom, že vytvoříme seznam položek a ten
+seřadíme podle hodnotové části. (V příkladu neuvedeno.)
+
+Slovníky jsou dobré na to, aby se do nich něco vkládalo
+podle klíče a velmi rychle podle klíče vyhledávalo. Pokud
+mám ve slovníku N položek, pak se konkrétní položka vyhledá
+na výrazně méně, než N kroků. U seznamu potřebuji v nejhorším
+případě právě N kroků a průměrně (statisticky) N/2 kroků.
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000235.html">[Tutor PyCZ] razeni polozek ve slovniku
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000240.html">[Tutor PyCZ] razeni polozek ve slovniku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#239">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#239">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#239">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#239">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000239.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002483.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:36 GMT -->
+<HEAD>
+   <TITLE> range() vs. xrange() (bylo RE: [python] dotaz-mřížka )
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=range%28%29%20vs.%20xrange%28%29%20%28bylo%20RE%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fdotaz-m%3DF8%3DED%3DBEka%3F%3D%29&In-Reply-To=425406DE.2060902%40pussa.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-April/002481.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-April/002484.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>range() vs. xrange() (bylo RE: [python] dotaz-mřížka )</H1>
+    <B>Jaroslav Pachola</B> 
+    <A HREF="mailto:python%40py.cz?Subject=range%28%29%20vs.%20xrange%28%29%20%28bylo%20RE%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fdotaz-m%3DF8%3DED%3DBEka%3F%3D%29&In-Reply-To=425406DE.2060902%40pussa.cz"
+       TITLE="range() vs. xrange() (bylo RE: [python] dotaz-mřížka )">j_p_misc na centrum.cz
+       </A><BR>
+    <I>Středa Duben  6 18:10:07 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002481.html">Re: range() vs. xrange() (bylo RE: [python] dotaz-mřížka) 
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002484.html">Re: range() vs. xrange() (bylo RE: [python] dotaz-mřížka)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2483">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2483">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2483">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2483">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+Dne Wednesday 06 April 2005 17:57 Ivo Štolpa napsal(a):
+&gt;<i> &gt;
+</I>&gt;<i> &gt; hello
+</I>&gt;<i> &gt; Ted sem nasel v knize Zaciname programovat v jazyce Python vydane CP ze
+</I>&gt;<i> &gt; rozdil xrange a range je .... range tvori seznam a xrange ne ale pri
+</I>&gt;<i> &gt; tom je xrange silne pomalejsi ...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; ahoj
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Ano, já tu knížku mám taky a taky jsem to zrovna četl. Z toho ovšem
+</I>&gt;<i> vyplývá, že pokud v hypotetické verzi Python 3.0 by chtěli udělat tu
+</I>&gt;<i> šarádu, tedy zrušit range a xrange přejmenovat na range, tak by do toho
+</I>&gt;<i> mohli jít jedině v tom případě, že by současnou xrange výrazně
+</I>&gt;<i> zrychlili. No a také z toho plyne, že pro seznamy, o kterých vím, jak
+</I>&gt;<i> jsou velké a o kterých vím, že nebudou nikdy mít miliony prvků, nemá
+</I>&gt;<i> smysl xrange používat. Nutno ale také podotknout, že já to ve své
+</I>&gt;<i> aplikaci zkoušel přehodit tam i zpět a žádné výkonostní výkyvy ani na
+</I>&gt;<i> jednu stranu jsem pouhým okem nezpozoroval. Takže ono asi také záleží na
+</I>&gt;<i> tom, co programuji a jestli je pro mne ten výkonostní rozdíl tak důležitý.
+</I>&gt;<i>
+</I>&gt;<i> Ivo
+</I>
+zkus si udelat benchmark a uvidis. Pouziti range() muze byt rychlejsi leda v 
+pripade, ze si vysledek toho range() ulozis do nejake promenne a pak tuto 
+promennou pouzivas nekde ve vnitrnim cyklu, coz dela asi malokdo. Cela ta 
+sarada ma IMO jasny vyznam - krome toho castecneho zrychleni se odstrani v 
+praxi nesmyslne vytvareni seznamu jenom za ucelem pouziti pro inkrementaci v 
+cyklu for.
+
+JP
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002481.html">Re: range() vs. xrange() (bylo RE: [python] dotaz-mřížka) 
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002484.html">Re: range() vs. xrange() (bylo RE: [python] dotaz-mřížka)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2483">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2483">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2483">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2483">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002483.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:36 GMT -->
+</html>

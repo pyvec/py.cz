@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011546.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:20 GMT -->
+<HEAD>
+   <TITLE> [python] Lock
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3CCAK9Q5BSNv%3DF3bVF810-d8RyhZ34abFw0%3D1K4xiE6EOo%2B%3DMTqCQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011545.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011547.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Lock</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3CCAK9Q5BSNv%3DF3bVF810-d8RyhZ34abFw0%3D1K4xiE6EOo%2B%3DMTqCQ%40mail.gmail.com%3E"
+       TITLE="[python] Lock">petr.messner na gmail.com
+       </A><BR>
+    <I>Úterý Únor 10 14:45:31 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011545.html">[python] Lock
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011547.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11546">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11546">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11546">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11546">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Už to asi vidím, každý klient má své vlákno (leda že by se samotný klient
+používal vícevláknově). Příště si dám větší pauzu před odesláním :)
+
+
+PM
+
+
+Dne 10. února 2015 14:39 Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.messner na gmail.com</A>&gt; napsal(a):
+
+&gt;<i> Jak jsou jednotlivé zprávy od sebe odděleny? Vidím tam v klientovi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>     def communicate(self, data):
+</I>&gt;<i>         self._socket.send('%s %s' % (self.name, data))
+</I>&gt;<i>         self._socket.recv(self.buffer_size)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> A server to čte takto:
+</I>&gt;<i>
+</I>&gt;<i>         while True:
+</I>&gt;<i>             data = self._socket.recv(self.buffer_size)
+</I>&gt;<i>
+</I>&gt;<i>             if data in ('', '\n', '\r\n'):
+</I>&gt;<i>                 return
+</I>&gt;<i>
+</I>&gt;<i>             try:
+</I>&gt;<i>                 who, op, name = data.split()
+</I>&gt;<i>             except ValueError:
+</I>&gt;<i>                 raise ValueError('Invalid data')
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Co když se zprávy pošlou náhodou tak, že self._socket.recv(self.
+</I>&gt;<i> buffer_size) přijme dvě zprávy najednou? To mu pak přijde něco jako &quot;client1
+</I>&gt;<i> mklock lock1client2 mklock lock2&quot; a nebude to fungovat - server spadne.
+</I>&gt;<i>
+</I>&gt;<i> PM
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Dne 10. února 2015 14:15 Pavel S &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">pavel na schon.cz</A>&gt; napsal(a):
+</I>&gt;<i>
+</I>&gt;<i> Jeste existuje tzv. DLM (Distributed Lock Manager). Zjednodusene receno,
+</I>&gt;&gt;<i> je to mutex, ktery je pristupny po siti.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jeden takovy jednoduchy distributed lock manager jsem napsal v pythonu a
+</I>&gt;&gt;<i> umistil na activestate zde:
+</I>&gt;&gt;<i> <A HREF="http://code.activestate.com/recipes/578194-distributed-lock-manager-for-python/">http://code.activestate.com/recipes/578194-distributed-lock-manager-for-python/</A>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150210/de021227/attachment.html">http://www.py.cz/pipermail/python/attachments/20150210/de021227/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011545.html">[python] Lock
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011547.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11546">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11546">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11546">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11546">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011546.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:20 GMT -->
+</html>

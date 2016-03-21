@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005945.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:03 GMT -->
+<HEAD>
+   <TITLE> [python] cteni odpovedi programu ze stdin
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cteni%20odpovedi%20programu%20ze%20stdin&In-Reply-To=f2sdvm%242gfe%241%40ns.felk.cvut.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005944.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005946.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cteni odpovedi programu ze stdin</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cteni%20odpovedi%20programu%20ze%20stdin&In-Reply-To=f2sdvm%242gfe%241%40ns.felk.cvut.cz"
+       TITLE="[python] cteni odpovedi programu ze stdin">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Pondělí Květen 21 18:09:14 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005944.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005946.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5945">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5945">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5945">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5945">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Karel Šrot wrote:
+&gt;<i> Co se tyce modulu subprocess a select.select(), nikde jsem nenasel 
+</I>&gt;<i> priklad, ktery by ukazoval/vysvetloval to, co potrebuji. Muzete nekdo 
+</I>&gt;<i> znaly napsat kratky skript, ktery treba zavola &quot;cat&quot;, bude na vstupu 
+</I>&gt;<i> nacte radek (raw_input), nahradi mezery novymi radky (to proto, aby tech 
+</I>&gt;<i> radku bylo vic, tj. nemeli jsme predstavu o jejich poctu), poslal to do 
+</I>&gt;<i> vstupu &quot;catu&quot;, precetl odpoved z vystupu a vypsal ji na obrazovku. Atd., 
+</I>&gt;<i> porad dokola. 
+</I>
+Myslel jsi to takhle?
+
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
+import subprocess, sys
+
+while True:
+     line = sys.stdin.readline()
+     if not line: break
+     lines = line.replace(' ', '\n')
+     process = subprocess.Popen('cat', stdin = subprocess.PIPE,
+                                       stdout = subprocess.PIPE)
+     process.stdin.write(lines)
+     process.stdin.close()
+     for line in process.stdout:
+         sys.stdout.write(line) #Vypiš na terminál
+
+
+&gt;<i> Jan Fuchs napsal(a):
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i> již mnohokrát zde proběhlo:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   <A HREF="http://www.py.cz/pipermail/python/2007-March/005717.html">http://www.py.cz/pipermail/python/2007-March/005717.html</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   &lt;cite &quot;Jan Martinek&quot;&gt;
+</I>&gt;&gt;<i>   Tři z pěti pythonistů doporučují navždy zapomenout na
+</I>&gt;&gt;<i>   
+</I>&gt;&gt;<i>   os.system
+</I>&gt;&gt;<i>   os.spawn*
+</I>&gt;&gt;<i>   os.popen*
+</I>&gt;&gt;<i>   popen2.*
+</I>&gt;&gt;<i>   commands.*
+</I>&gt;&gt;<i>   
+</I>&gt;&gt;<i>   a použít raději modul subprocess, který nahrazuje (a doplňuje) všechny 
+</I>&gt;&gt;<i>   výše uvedené metody.
+</I>&gt;&gt;<i>   &lt;/cite&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>          S pozdravem Jan Fuchs
+</I>&gt;&gt;<i>
+</I>
+Díky za citaci :-)
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005944.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005946.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5945">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5945">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5945">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5945">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005945.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:03 GMT -->
+</html>

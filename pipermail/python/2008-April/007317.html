@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007317.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+<HEAD>
+   <TITLE> [python] Ukončení zaneprázdněného threadu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FUkon%3DE8en%3DED_zanepr%3DE1zdn%3DECn%3DE9ho_thread%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fu%3F%3D&In-Reply-To=4810E121.3090601%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007314.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007318.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Ukončení zaneprázdněného threadu</H1>
+    <B>Bystrousak na seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FUkon%3DE8en%3DED_zanepr%3DE1zdn%3DECn%3DE9ho_thread%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fu%3F%3D&In-Reply-To=4810E121.3090601%40centrum.cz"
+       TITLE="[python] Ukončení zaneprázdněného threadu">Bystrousak na seznam.cz
+       </A><BR>
+    <I>Pátek Duben 25 16:13:36 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007314.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007318.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7317">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7317">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7317">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7317">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Moc tomu nerozumím, takže se omlouvám, jestli budu plácat nesmysly;
+Není to bezpečnostní chyba? Pokud si něco vezme paměť a OS jí po sestřelení neuvolní, zdá se mi to jako potenciální riziko, které by mohlo být zneužito nějakým škodlivým virem..
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: superman &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">feed na centrum.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] Ukončení zaneprázdněného threadu
+</I>&gt;<i> Datum: 24.4.2008 21:43:38
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Odstřelení threadu se obecně lidi brání, protože to je dost drastická 
+</I>&gt;<i> věc, která mimo jiné může uvést i Váš program do neschopnosti dál 
+</I>&gt;<i> pokračovat. Uvědomte si, že každý thread má svůj zásobník, a při 
+</I>&gt;<i> násilném odstřelení threadu operační systém většinou zásobník neuklízí, 
+</I>&gt;<i> ale nechá ho jakožto blok paměti v adresovém prostoru procesu být a 
+</I>&gt;<i> nikdy ho neuvolní. Je to proto, že na zásobníku mohou být proměnné a 
+</I>&gt;<i> data, které používají jiné thready, a pokud thread odstřelíte násilně, 
+</I>&gt;<i> operační systém se domnívá, že je to nouzová akce, a že ostatní thready 
+</I>&gt;<i> netuší o tom nic. A proto jim nechá zásobník s daty k dispozici, pokud 
+</I>&gt;<i> by je náhodou jiné thready používaly.
+</I>&gt;<i> 
+</I>&gt;<i> Zatímco při slušném způsoby ukončení, kdy se thread sám ukončí, operační 
+</I>&gt;<i> systém po něm uklidí vše i zásobník.
+</I>&gt;<i> 
+</I>&gt;<i> V praktickém programu pak zejména ve 32 bitovém systému máte omezený 
+</I>&gt;<i> adresový prostor obvykle kolem 2 GB, a po určitém poměrně malém počtu 
+</I>&gt;<i> takto násilně odstřelených threadu (kolem tisícovky) zaplníte celý 
+</I>&gt;<i> adresový prostor procesu neuklizenými zásobníky, které nemáte jak 
+</I>&gt;<i> uvolnit a můžete se dostat do stavu, kdy prostě program nebude schopen 
+</I>&gt;<i> pokračovat v běhu, neboť nebude mít kam namapovat paměť.
+</I>&gt;<i> 
+</I>&gt;<i> Proto se thready opravdy násilně neodstřelují, ale pouze se threadu 
+</I>&gt;<i> nastaví příznak &quot;hele threade, ukonči se prosím&quot;. A běžící thread 
+</I>&gt;<i> příznak dostatečně často čte, řekněme třeba stokrát za sekundu, a 
+</I>&gt;<i> jakmile zjistí, že by se měl ukončit, tak prostě se sám ukončí, čím se 
+</I>&gt;<i> předejde výžše uvedenému zlu.
+</I>&gt;<i> 
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Jakub Lužný napsal(a):
+</I>&gt;<i> &gt; Zdarec :-)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Vytvořím vedlejší thread pomocí modulu threading a dám mu za úkol čekat. 
+</I>&gt;<i> &gt; Spustím ho, a v hlavním threadu dám pořád dokola něco vypisovat. Když potom 
+</I>&gt;<i> &gt; ale dám KeyboardInterrupt, tak se hlavní thread ukončí, ale vedlejší zůstane 
+</I>&gt;<i> &gt; viset na tom čekání. Je nějakej způsob, jak thread ukončit i s tím čekáním?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; #!/usr/bin/env python
+</I>&gt;<i> &gt; import threading
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; def thread1():
+</I>&gt;<i> &gt; 	while(1):
+</I>&gt;<i> &gt; 		čekej_do_nekonečna()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; t1 = threading.Thread(target = thread1)
+</I>&gt;<i> &gt; t1.start()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; while(1):
+</I>&gt;<i> &gt; 	print &quot;blbnu :)&quot;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007314.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007318.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7317">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7317">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7317">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7317">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007317.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+</html>

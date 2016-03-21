@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010608.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:36 GMT -->
+<HEAD>
+   <TITLE> [python] Jak získat název procesu když znám PID procesu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FJak_z%3DEDskat_n%3DE1zev_procesu_kdy%3DBE_zn%3DE1%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fm_PID_procesu%3F%3D&In-Reply-To=%3CCAEO8NYwzCkSwKCkEW9%2BKzfNw8%3DAahbBrHgznNApEbH4PBPmPXA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-March/010607.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-March/010609.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak získat název procesu když znám PID procesu</H1>
+    <B>Jakub Vysoky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FJak_z%3DEDskat_n%3DE1zev_procesu_kdy%3DBE_zn%3DE1%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fm_PID_procesu%3F%3D&In-Reply-To=%3CCAEO8NYwzCkSwKCkEW9%2BKzfNw8%3DAahbBrHgznNApEbH4PBPmPXA%40mail.gmail.com%3E"
+       TITLE="[python] Jak získat název procesu když znám PID procesu">jakub na borka.cz
+       </A><BR>
+    <I>Sobota Březen 10 22:19:04 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010607.html">[python] Jak získat název procesu když znám PID procesu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010609.html">[python] Parsování PNG
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10608">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10608">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10608">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10608">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>jenom pridam odkaz na dalsi nastroj, at mate z ceho vybirat - pokud je
+tedy spravna domneka, ze se snazite vytvorit demona. jedna se o zase
+jiny spoustec skriptu, ktery je celkem popularni ve dnesni python web
+devel scene. jedna se o python balicek ``supervisor`` [1]
+
+[1] <A HREF="http://supervisord.org/">http://supervisord.org/</A>
+
+jinak drzim palce, at delate cokoliv.
+
+2012/3/10 Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.messner na gmail.com</A>&gt;:
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;&gt;<i> Mimochodem linuxovský příkaz ps -d | grep program.py, který by vyfiltroval
+</I>&gt;&gt;<i> jen to co hledám, funguje pod linuxem, ale přes subprocess ne.
+</I>&gt;&gt;<i> Hlásí:  ERROR: Garbage option.
+</I>&gt;<i>
+</I>&gt;<i> Funguje i přes subprocess, jenže se to musí spustit pomocí shellu -
+</I>&gt;<i> jedná se totiž o dva programy propojené &quot;rourou&quot;, ne o jeden program s
+</I>&gt;<i> parametry &quot;-d&quot;, &quot;|&quot;, &quot;grep&quot; a &quot;program.py&quot;. Takže v Pythonu se Popen
+</I>&gt;<i> musí vytvořit s parametrem shell=True, nějak takto:
+</I>&gt;<i>
+</I>&gt;<i> subprocess.Popen(&quot;ps -d | grep program.py&quot;, shell=True,
+</I>&gt;<i> stdout=subprocess.PIPE).communicate()
+</I>&gt;<i>
+</I>&gt;<i> Ještě lepší bude odfiltrovat řádek se sebou samým, na to se používá
+</I>&gt;<i> třeba tento trik:
+</I>&gt;<i>
+</I>&gt;<i> subprocess.Popen(&quot;ps -d | grep [p]rogram.py&quot;, shell=True,
+</I>&gt;<i> stdout=subprocess.PIPE).communicate()
+</I>&gt;<i>
+</I>&gt;<i> Pokud vím, tak ps (alespoň v Linuxu) jen zpracovává obsah adresáře
+</I>&gt;<i> /proc/, takže jeho činnost lze implementovat i v Pythonu. Viz man 5
+</I>&gt;<i> proc.
+</I>&gt;<i>
+</I>&gt;<i> Teď k vašemu problému. Azurit navrhl řešení pomocí flock. To je dobré,
+</I>&gt;<i> aby se jeden program nespustil vícekrát současně, nebo aby skripty v
+</I>&gt;<i> /etc/init.d mohly poznat, zda program běží, případně zjistit PID pro
+</I>&gt;<i> poslání signálu.
+</I>&gt;<i>
+</I>&gt;<i> Navrhuji ještě jiný způsob (nejlépe zkombinovat s tím flock), a to aby
+</I>&gt;<i> váš &quot;hlídací skript&quot; check.py sám přímo spouštěl ten program.py. Pokud
+</I>&gt;<i> je totiž child proces ukončen, rodičovský proces se o tom dozví pomocí
+</I>&gt;<i> signálu nebo zavoláním wait (v Pythonu os.wait; pomocí os.WNOHANG se
+</I>&gt;<i> dá zařídit, aby volání os.wait nebylo blokující). Pokud check.py takto
+</I>&gt;<i> zjistí, že program.py byl ukončen, spustí ho znovu. Případně se může
+</I>&gt;<i> přidat další logika, třeba když nebyl ukončen, ale neodpovídá do
+</I>&gt;<i> časového limitu, bude ukončen násilně a spuštěn znovu nebo něco
+</I>&gt;<i> takového.
+</I>&gt;<i>
+</I>&gt;<i> Úplně stejně fungují supervizory v daemontools a runit. Zkuste se na
+</I>&gt;<i> to podívat, možná to dělá přesně to, co potřebujete. Tento článek na
+</I>&gt;<i> Root.cz vypadá celkem dobře:
+</I>&gt;<i> <A HREF="http://www.root.cz/clanky/inicializace-aneb-od-initu-k-runitu-2/">http://www.root.cz/clanky/inicializace-aneb-od-initu-k-runitu-2/</A> Není
+</I>&gt;<i> třeba hned runitem nebo daemontools nahrazovat standardní init, lze to
+</I>&gt;<i> použít jen pro hlídání několika konkrétních služeb, v Debianu je to
+</I>&gt;<i> použito třeba v balíčku git-daemon-run.
+</I>&gt;<i>
+</I>&gt;<i> Možná ale stojí za úvahu, proč ten program.py takto vůbec
+</I>&gt;<i> kontrolujete, zda běží nebo neběží. To vám jen tak čas od času spadne,
+</I>&gt;<i> ukončí se? Pokud se snažíte o vytvoření daemona, děláte to správně?
+</I>&gt;<i> Není to úplně intuitivní, viz např.
+</I>&gt;<i> <A HREF="http://stackoverflow.com/a/688448/196206">http://stackoverflow.com/a/688448/196206</A> Naštěstí i toto vyřeší výše
+</I>&gt;<i> zmíněný runit nebo daemontools.
+</I>&gt;<i>
+</I>&gt;<i> PM
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+
+-- 
+Jakub Vysoky
+
+mob: +420 605 852 377
+jab: <A HREF="http://www.py.cz/mailman/listinfo/python">jakub.vysoky na gmail.com</A>
+twit: <A HREF="https://twitter.com/kvbik">https://twitter.com/kvbik</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010607.html">[python] Jak získat název procesu když znám PID procesu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010609.html">[python] Parsování PNG
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10608">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10608">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10608">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10608">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010608.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:36 GMT -->
+</html>

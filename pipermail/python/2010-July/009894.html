@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009894.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+<HEAD>
+   <TITLE> [python] pomoc v pythone
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pomoc%20v%20pythone&In-Reply-To=%3C1280122630.808744.19518.nullmailer%40mail1006.cent%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009893.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009892.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pomoc v pythone</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pomoc%20v%20pythone&In-Reply-To=%3C1280122630.808744.19518.nullmailer%40mail1006.cent%3E"
+       TITLE="[python] pomoc v pythone">prikryl na atlas.cz
+       </A><BR>
+    <I>Pondělí Červenec 26 07:37:10 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009893.html">[python] pomoc v pythone
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009892.html">[python] pomoc v pythone
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9894">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9894">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9894">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9894">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Ten mailer (mail.atlas.cz) z toho vyházel zpětná lomítka. Před 'n' jako koncem
+řádku má být zpětné lomítko. (Možná když to při psaní zdvojím? '\n')
+
+______________________________________________________________
+&gt;<i> Od: &quot;Petr Přikryl&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prikryl na atlas.cz</A>&gt;
+</I>&gt;<i> Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> Datum: 26.07.2010 07:32
+</I>&gt;<i> Předmět: Re: [python] pomoc v pythone
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i>Musíš si to odřádkovat :-)
+</I>&gt;<i>
+</I>&gt;<i>Pro doplnění, příkaz print si přidává konec řádku sám a dá se
+</I>&gt;<i>přesměrovat i do souboru. Přesto bych ale dal přednost tomu
+</I>&gt;<i>subor.write(...)
+</I>&gt;<i>
+</I>&gt;&gt;<i>Před &quot;subor.close()&quot; napiš &quot;subor.write('rn')&quot; nebo, což je
+</I>&gt;&gt;<i>korektnější, &quot;subor.write(os.linesep)&quot;, nezapomeň někde nad tím uvést
+</I>&gt;&gt;<i>&quot;import os&quot;.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>os.linesep obsahuje oddělovač řádků - na Windows tam bude &quot;rn&quot;, na
+</I>&gt;&gt;<i>Unix-like systémech (tj. skoro všude jinde) &quot;n&quot;. Mimochodem, existuje
+</I>&gt;&gt;<i>ještě jedna možnost - otevřít souboru v režimu  &quot;universal newline
+</I>&gt;&gt;<i>support&quot; a jako oddělovač řádku psát jen &quot;n&quot;, ono by se to pak mělo
+</I>&gt;&gt;<i>na Windows na &quot;rn&quot; převést samo. (To, že jedeš na Windows, odvozuji
+</I>&gt;&gt;<i>ze sleepu na konci.)
+</I>&gt;<i>
+</I>&gt;<i>Toto není přesné. Pokud je soubor otevřen pro zápis v textovém
+</I>&gt;<i>režimu (což platí vždy, když se to mode neuvede 'b'), pak se 'n'
+</I>&gt;<i>automaticky převádí na posloupnost pro konec řádku používaný
+</I>&gt;<i>v daném operačním systému. Hraní si s os.linesep má smysl
+</I>&gt;<i>jen v případě, kdy si soubor záměrně otevřeme pro ČTENÍ 
+</I>&gt;<i>v BINÁRNÍM režimu.
+</I>&gt;<i>
+</I>&gt;<i>Universal Newline Support se používá jen při otvírání textových
+</I>&gt;<i>souborů pro čtení (režim 'rU). Pak je jedno, v jakém OS byl
+</I>&gt;<i>soubor vytvořen.
+</I>&gt;<i>
+</I>&gt;&gt;&gt;<i> subor=file(nazov,'a')
+</I>&gt;<i>
+</I>&gt;<i>Pro otvírání souboru používej open(). Volání jakoby konstruktoru
+</I>&gt;<i>objektu typu file() již například v Python 3 není možné.  Takže pokud
+</I>&gt;<i>byly file() a open() v Pythonu 2 synonyma (vždy se ale doporučovalo
+</I>&gt;<i>používat open()), v Pythnonu už file() způsobí chybu.
+</I>&gt;<i>
+</I>&gt;<i>Měj se fajn,
+</I>&gt;<i>   Petr
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009893.html">[python] pomoc v pythone
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009892.html">[python] pomoc v pythone
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9894">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9894">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9894">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9894">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009894.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007347.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:11 GMT -->
+<HEAD>
+   <TITLE> [python] Parsování emailu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To=033301c8aeee%24a4f8d700%246e7ba8c0%40kubuvpocitac">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-May/007346.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-May/007348.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Parsování emailu</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To=033301c8aeee%24a4f8d700%246e7ba8c0%40kubuvpocitac"
+       TITLE="[python] Parsování emailu">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Úterý Květen  6 00:14:56 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007346.html">[python] Parsování emailu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007348.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7347">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7347">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7347">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7347">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Promin, ale vzdavam to. Cteni toho kodu jsem proste nezvladnul :-(
+Zlate pravidlo rika, ze na precteni (ne nutne pochopeni) jedne funkce
+by melo stacit 30 vterin a to tady rozhodne neplati. Samozrejme kazde
+pravidlo ma vyjimky, ale tohle jako kandidat na vyjimku nevypada.
+
+Nekolik tipu:
+ - zbav se zbytecnych promennych, k cemu je treba:
+       if html:
+           zprava=html
+    -- proc nepriradit rovnou:
+       zprava = self.decode(html)
+
+ - nepouzivej pro prvotni inicializaci promenne &quot;False&quot; tam, kde v
+budoucnu budes prirazovat jiny datovy typ (treba string). Pouzij None
+ - misto &quot;if type(r) != str&quot; pouzivej &quot;if not isinstance(r, str)&quot;.
+Tady v tom neni zasadni rozdil, ale az budes vic pracovat s dedicnosti
+tak se ti to hodi.
+ - v tvem pouziti promenne &quot;r&quot; jsem se uplne ztratil. Po chvili jsem
+prestal zvladat co tam ve kterem okamziku ma byt ulozeno :(
+ - re.search vraci NoneType, pokud nic nenajde. Test na NoneType by
+mel byt explicitni, takze za re.search bys mel mit &quot;if search is not
+None&quot; misto soucasneho &quot;if search&quot;
+ - neni mi uplne jasne, co bezne byva v &quot;prvek&quot;. Muzes to trochu popsat?
+ - misto posilani takhle dlouhych kusu kodu do konference pouzij
+<A HREF="http://dpaste.com/">http://dpaste.com/</A> a pak posli odkaz
+
+ Jirka
+
+P.S. Porad jeste nechapu, proc pises mailoveho klienta. Neni to moje
+vec, jenom upozornuju ze ho budes psat zbytecne dlouho a stejne
+nakonec narazis na spoustu meznich pripadu a chybne formatovanych
+mailu, ktere proste nezvladne :) Ale jestli te to bavi, uzij si to :)
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007346.html">[python] Parsování emailu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007348.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7347">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7347">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7347">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7347">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007347.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:11 GMT -->
+</html>

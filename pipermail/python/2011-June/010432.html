@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010432.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:51 GMT -->
+<HEAD>
+   <TITLE> [python] hash objektu, kontrola aktuálnosti dat v databázi
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3Fhash_objektu%3D2C_kontrola_aktu%3DC3%3DA1lnosti_dat_%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fv_datab%3DC3%3DA1zi%3F%3D&In-Reply-To=%3C20110620103645.4309F366%40pobox.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010431.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010433.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] hash objektu, kontrola aktuálnosti dat v databázi</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3Fhash_objektu%3D2C_kontrola_aktu%3DC3%3DA1lnosti_dat_%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fv_datab%3DC3%3DA1zi%3F%3D&In-Reply-To=%3C20110620103645.4309F366%40pobox.sk%3E"
+       TITLE="[python] hash objektu, kontrola aktuálnosti dat v databázi">azurit na pobox.sk
+       </A><BR>
+    <I>Pondělí Červen 20 10:36:45 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010431.html">[python] hash objektu, kontrola aktuálnosti dat v databázi
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010433.html">[python] hash objektu, kontrola aktuálnosti dat v databázi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10432">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10432">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10432">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10432">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i>Pokud budu mít nový potenciální objekt databáze (obalený záznam), který má stejný
+</I>&gt;<i>hash jako existující objekt databáze, nedělám nic. Pokud má jiný hash, 
+</I>&gt;<i>musím ho stejně vložit. Proč bych měl pracně zjišťovat, jestli tam takový
+</I>&gt;<i>objekt zatím není a teprve pak ho vkládat? Jednodušší je ho tam prostě 
+</I>&gt;<i>vložit (nahradit případně už existující). Nebo mi nějaká část myšlenky utekla?
+</I>
+
+Naco ale dookola prepisovat uz existujuce zaznamy ? Nemyslim si, ze jedalne listky sa menia nejako extra casto, skor sa raz vytvoria a mozno raz za pol roka sa v nich nieco upravi.
+
+Mimochodom, vytvaranie hashov by som zrejme naviazal ako trigger pri insert/update:
+<A HREF="http://dev.mysql.com/doc/refman/5.5/en/encryption-functions.html#function_md5">http://dev.mysql.com/doc/refman/5.5/en/encryption-functions.html#function_md5</A>
+
+
+&gt;<i>
+</I>&gt;<i>Mrkni na možnost zjistit položku HTTP hlavičky Last-Modified
+</I>&gt;<i><A HREF="http://diveintopython3.py.cz/http-web-services.html#last-modified">http://diveintopython3.py.cz/http-web-services.html#last-modified</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Petr
+</I>&gt;<i>
+</I>&gt;<i>______________________________________________________________
+</I>&gt;&gt;<i> Od: &quot;<A HREF="http://www.py.cz/mailman/listinfo/python">martin... na ...il.com</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Stačilo se na to trochu vyspat a už asi vím, jak to provedu.
+</I>&gt;&gt;<i>Ale i tak, budu opravdu vděčný za každou připomínku.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Aby byl jasný kontext, jedná se o parsování obědových meniček z
+</I>&gt;&gt;<i>různých restaurací, sbírám tyhle data, abych k nim pak měl přístup z
+</I>&gt;&gt;<i>aplikace na Androidu.
+</I>&gt;&gt;<i>Každé jedno jídlo je uloženo v databázi ve vlastním záznamu, je u něj
+</I>&gt;&gt;<i>odkaz na restauraci ke které patří, pro jaký den, cena, případně
+</I>&gt;&gt;<i>gramáž, atd. Z těchto jednotlivých dat můžu jednoduše udělat jeden
+</I>&gt;&gt;<i>string a z něho udělat hash a poznačit rovnou do záznamu toho
+</I>&gt;&gt;<i>konkrétního jídla.
+</I>&gt;&gt;<i>Když příjde &quot;kontrola dat&quot;, znovu se každé jídlo zparsuje, vyrobí se
+</I>&gt;&gt;<i>objekt databázového modelu a když je hotovo, tak si k nim vytáhnu už
+</I>&gt;&gt;<i>existující data z databáze a porovnám hashe, ty které se změnili
+</I>&gt;&gt;<i>nechám být, změněné updatuju, ty co jsou tam navíc vymažu. Nic lepšího
+</I>&gt;&gt;<i>mě nenapadlo :)
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010431.html">[python] hash objektu, kontrola aktuálnosti dat v databázi
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010433.html">[python] hash objektu, kontrola aktuálnosti dat v databázi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10432">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10432">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10432">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10432">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010432.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:51 GMT -->
+</html>

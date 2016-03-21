@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003866.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:58 GMT -->
+<HEAD>
+   <TITLE> [python] vytovoreni komprimovaneho souboru z adresare
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vytovoreni%20komprimovaneho%20souboru%20z%20adresare&In-Reply-To=63b313040601031215l33cf9f21sfa7e1696a4623d66%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-January/003865.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-January/003868.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vytovoreni komprimovaneho souboru z adresare</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vytovoreni%20komprimovaneho%20souboru%20z%20adresare&In-Reply-To=63b313040601031215l33cf9f21sfa7e1696a4623d66%40mail.gmail.com"
+       TITLE="[python] vytovoreni komprimovaneho souboru z adresare">geon na post.cz
+       </A><BR>
+    <I>Úterý Leden  3 21:57:38 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003865.html">[python] vytovoreni komprimovaneho souboru z adresare
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003868.html">[python] vytovoreni komprimovaneho souboru z adresare
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3866">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3866">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3866">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3866">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>rajcze napsal(a):
+&gt;<i> ahojte,
+</I>&gt;<i> ani po usilovnem googleni se mi nepodarilo prijit na zpusob, jak
+</I>&gt;<i> zkomprimovat adresar. nasel jsem nekolik tutorialu, ktere popisuji
+</I>&gt;<i> vytvoreni kompromovaneho souboru pomoci mofulu gzip, ale vsude jde jen
+</I>&gt;<i> o zapsani neceho do gzip.GzipFile
+</I>&gt;<i> jak se da zkoprimovat adresar?
+</I>&gt;<i>   
+</I>gzip není zip. Zip umí zkomprivat více souborů do jednoho, to gzip 
+neumí. Ten umí jen jeden soubor do jednoho balíku. No a pak musíš ty 
+balíky nějak zarchivovat - buď tar nebo zipfile.
+
+Malá ukázka čistého gzip (tar či zip doplň sám nebo někdo jiný přispěje 
+...): zbalení (gzip) všech souborů v aktuálním adresáři
+
+import gzip, os
+
+seznam=[s for s in os.listdir('.') if os.path.isfile(s)]
+
+for s in seznam:
+    g=gzip.GzipFile(s+'.gz','w')
+    x=file(s,'rb').read()  # 'rb' je důležité nejen pro binárky, ale i 
+pro .doc, .xls, apod...
+    g.write(x)
+    g.close()
+   
+
+
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003865.html">[python] vytovoreni komprimovaneho souboru z adresare
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003868.html">[python] vytovoreni komprimovaneho souboru z adresare
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3866">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3866">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3866">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3866">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003866.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:58 GMT -->
+</html>

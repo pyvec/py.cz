@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005113.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:32 GMT -->
+<HEAD>
+   <TITLE> [python] List comprehention
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20List%20comprehention&In-Reply-To=45599EF0.3020701%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005110.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005115.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] List comprehention</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20List%20comprehention&In-Reply-To=45599EF0.3020701%40centrum.cz"
+       TITLE="[python] List comprehention">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Listopad 14 12:21:38 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005110.html">[python] List comprehention
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005115.html">[python] file.next() (bylo Buducnost Pythonu: lambda, map, filter)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5113">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5113">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5113">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5113">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No ako si tu cital lambda je obsolete a teda zbytocne aby si to v tejto 
+faze vyvoja Pythonu este studoval.
+Lambda je v podstate (jak uz mnohi pisali) hracka z FP, ktora nema valny 
+vyznam
+
+Ale ak ta to zaujima tu je nieco
+<A HREF="http://www.diveintopython.org/power_of_introspection/lambda_functions.html">http://www.diveintopython.org/power_of_introspection/lambda_functions.html</A>
+<A HREF="http://www.secnetix.de/~olli/Python/lambda_functions.hawk">http://www.secnetix.de/~olli/Python/lambda_functions.hawk</A>
+
+Kedysi som sa s tym trochu hral a tu ti posielam zdrojak s mojimi 
+poznamkami:
+
+#################
+# Lambda funkcie
+#################
+
+# definicia Lambda funkcie
+lambda x: x * x
+print lambda x: x * x
+# definicia Lambda funkcie a jej naviazanie (pomenovanie) na f
+f = lambda x: x * x
+print f
+# vyhodnotenie pomenovanej Lambda funkcie
+print f(2)
+# vyhodnotenie nepomenovanej Lambda funkcie hned na mieste jej definicie
+print (lambda x: x*x + 2*x - 3) (4)
+
+
+###########
+# Currying
+###########
+
+# Namiesto Lambda funkcie 2 argumentov
+print lambda x,y: x + y
+print (lambda x,y: x + y) (3, 4)
+# mozno vytvorit generujucu funkciu s jednym argumentom, 
+print lambda x: (lambda y: x + y)
+# ktora pre kazdy argument generuje funkciu jednej premennej
+print lambda x: (lambda y: x + y) (3) # vysledok je  lambda y: 3 + y
+# ak sa tato vygenerovana funkcia vyhodnoti s nejakym argumentom, da 
+vysledok
+print (lambda x: (lambda y: x + y) (3)) (4) # t.j. (lambda y: 3 + y) (4)
+
+# t.j prehladnejsie zapisane cez pomenovane Lambda funkcie:
+# namiesto funkcie 2 argumentov
+h = lambda x,y: x + y
+print h(3,4)
+# mozeme vytvorit generujucu funkciu s jednym argumentom, 
+g = lambda x: (lambda y: x + y)
+# ktora pre kazdy argument generuje funkciu jednej premennej
+print g(3) # vysledok je g(3) = lambda y: 3 + y
+# ak sa tato vygenerovana funkcia vyhodnoti s nejakym argumentom, da 
+vysledok
+print g(3)(4) # t.j. g(3)(4) = (lambda y: 3 + y) (4)
+
+
+
+
+
+&quot;MaReK Olšavský&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">orsm na centrum.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+14.11.2006 11:48
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+Re: [python] List comprehention
+
+
+
+
+
+
+Kdyz uz jste u toho, je nekde *rozumny* tutor na ty lambda vyrazy? Lisp 
+se mi kvuli tomu studovat nece...
+
+- --
+
+MaReK &quot;Penguin&quot; Olšavský
+PHP Voodoo
+private mail: <A HREF="http://www.py.cz/mailman/listinfo/python">orsm na centrum.cz</A>
+private web: <A HREF="http://orsm.wz.cz/">http://orsm.wz.cz</A>
+ICQ#: 160 178 925; MSN: <A HREF="http://www.py.cz/mailman/listinfo/python">orsm na centrum.cz</A>; Skype: Penguin_007
+tel.: +420-603-519-650; +420-775-154-689 (775-1-LINUX)
+
+Na stránce bylo napsáno: &quot;Optimalizováno pro Explorer 5, nebo lepší&quot;.
+   Tak jsem přešel na Mozilla Firefox  --&gt; <A HREF="http://firefox.czilla.cz/">http://firefox.czilla.cz/</A>
+
+
+Roman Miklos napsal(a):
+&gt;<i> List comprehention som doteraz okrem trivialnych prikladov nikdy 
+</I>nepouzil. 
+&gt;<i> Kedze to vsak ma v buducnosti v Pythone nahradit ine konstrukcie zacinam 
+</I>
+&gt;<i> sa o to zaujimat.
+</I>&gt;<i> 
+</I>&gt;<i> Zaujalo, ma ze 
+</I>&gt;<i> filez = reduce(lambda x,y: x+y, map(glob.glob, arguments))
+</I>&gt;<i> 
+</I>&gt;<i> alebo
+</I>&gt;<i> 
+</I>&gt;<i> filez=[]
+</I>&gt;<i> for arg in arguments:
+</I>&gt;<i>   arg_list=glob.glob(arg)
+</I>&gt;<i>   filez += arg_list
+</I>&gt;<i> 
+</I>&gt;<i> sa da napisat cez generator zoznamu napisat takto:
+</I>&gt;<i> 
+</I>&gt;<i> [f for a in arguments for f in glob.glob(a)]
+</I>&gt;<i> 
+</I>&gt;<i> Nemozem vsak pochopit ako sa ten zapis skonstruuje:-) Uff, je to pre mna 
+</I>
+&gt;<i> intuitivne asi tak ako teoria relativity. 
+</I>&gt;<i> Da sa to nejako rozobrat na casti, alebo prezatvorkovat, aby bolo vidiet 
+</I>
+&gt;<i> co k comu patri? Moze mi to niekto vysvetlit?
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Mgr. Ing. Roman MIKLÓŠ 
+</I>&gt;<i> Prvá stavebná sporiteľňa a.s. 
+</I>&gt;<i> Bajkalská 30, P. O. Box 48 
+</I>&gt;<i> 829 48  Bratislava 25 
+</I>&gt;<i> Tel.: +421/ 2 / 582 31 174 
+</I>&gt;<i> Fax: +421/ 2 / 582 31 109 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005110.html">[python] List comprehention
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005115.html">[python] file.next() (bylo Buducnost Pythonu: lambda, map, filter)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5113">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5113">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5113">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5113">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005113.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:32 GMT -->
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003982.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:06 GMT -->
+<HEAD>
+   <TITLE> [python] Re: Zdrojový kód z databáze a identifikace chyby
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FRe%3D3A_Zdrojov%3DFD_k%3DF3d_z_datab%3DE1ze_a_id%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fentifikace_chyby%3F%3D&In-Reply-To=mailman.1.1138005487.6947.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-January/003981.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-January/003983.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Re: Zdrojový kód z databáze a identifikace chyby</H1>
+    <B>Xeleos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FRe%3D3A_Zdrojov%3DFD_k%3DF3d_z_datab%3DE1ze_a_id%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fentifikace_chyby%3F%3D&In-Reply-To=mailman.1.1138005487.6947.python%40py.cz"
+       TITLE="[python] Re: Zdrojový kód z databáze a identifikace chyby">xeleos na gmail.com
+       </A><BR>
+    <I>Pondělí Leden 23 10:25:39 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003981.html">[python] Zdrojový kód z databáze a identifikace chyby
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003983.html">[python] Plone: Ako pomocou ArchGenXML nastavit security?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3982">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3982">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3982">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3982">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Díky moc! Přesně to jsem potřeboval.
+Radek Kaňovský wrote:
+&gt;<i> On Sun, Jan 22, 2006 at 12:59:30PM -0800, Xeleos wrote:
+</I>&gt;<i>
+</I>&gt;<i> &gt; Ahoj,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; potřebuji uchovávat zdrojový kód v databázi.  Pouštím ho funkcí
+</I>&gt;<i> &gt; exec. Když ale dojde k chybě během kódu, tak ve výpisu chyby je:
+</I>&gt;<i> &gt; File &quot;&quot;, line 39, in  ?
+</I>&gt;<i> &gt; Zajímalo by mě, zda jde zdrojový kód nějak identifikovat, abych si
+</I>&gt;<i> &gt; mohl nastavit vlastní název (číslo řádky v tabulce), který bych
+</I>&gt;<i> &gt; pak mohl při odchytávání chyby zpracovat?
+</I>&gt;<i> &gt; Moc děkuji za pomoc
+</I>&gt;<i>
+</I>&gt;<i> Tohle jde celkem snadno, pouze se musi zdroj zkompilovat:
+</I>&gt;<i>
+</I>&gt;<i>     &gt;&gt;&gt; src = '''print 1
+</I>&gt;<i>     ... 1/0
+</I>&gt;<i>     ... print 2
+</I>&gt;<i>     ... '''
+</I>&gt;<i>     &gt;&gt;&gt; code = compile(src, '&lt;tabulka:klic&gt;', 'exec')
+</I>&gt;<i>     &gt;&gt;&gt; exec code
+</I>&gt;<i>     1
+</I>&gt;<i>     Traceback (most recent call last):
+</I>&gt;<i>       File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+</I>&gt;<i>       File &quot;&lt;tabulka:klic&gt;&quot;, line 2, in ?
+</I>&gt;<i>     ZeroDivisionError: integer division or modulo by zero
+</I>&gt;<i>
+</I>&gt;<i> Zde je videt, ze se neco stalo v zaznamu s primarnim klicem &quot;klic&quot; v
+</I>&gt;<i> tabulce &quot;tabulka&quot;. Pokud byste chtel vypsat i ten konkretni radek
+</I>&gt;<i> databazoveho zaznamu, na kterem se chyba vyskytla (tj. &quot;1/0&quot;),
+</I>&gt;<i> tak to pujde mozna nejak pres vlastni funkci nastavenou do sys.excepthook.
+</I>&gt;<i> Ted se misto &quot;1/0&quot; zobrazuje otaznik, protoze standardni exception
+</I>&gt;<i> handler umi hledat zdrojove kody pouze v souborech.
+</I>&gt;<i> 
+</I>&gt;<i> Zdravi
+</I>&gt;<i> 
+</I>&gt;<i> Radek Kaňovský
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003981.html">[python] Zdrojový kód z databáze a identifikace chyby
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003983.html">[python] Plone: Ako pomocou ArchGenXML nastavit security?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3982">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3982">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3982">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3982">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003982.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:06 GMT -->
+</html>

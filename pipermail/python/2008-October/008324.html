@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-October/008324.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:19 GMT -->
+<HEAD>
+   <TITLE> [python] Twitter klient- návrh aplikace - diskuze k teoretickému řešení.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FTwitter_klient-_n%3DE1vrh_aplikace_-_diskuz%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fe_k_teoretick%3DE9mu_%3DF8e%3DB9en%3DED%3D2E%3F%3D&In-Reply-To=%3Cd2219e620810240621x2bd192f4s75500af133cf6b52%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-October/008329.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-October/008325.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Twitter klient- návrh aplikace - diskuze k teoretickému řešení.</H1>
+    <B>Martin Stiborský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FTwitter_klient-_n%3DE1vrh_aplikace_-_diskuz%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fe_k_teoretick%3DE9mu_%3DF8e%3DB9en%3DED%3D2E%3F%3D&In-Reply-To=%3Cd2219e620810240621x2bd192f4s75500af133cf6b52%40mail.gmail.com%3E"
+       TITLE="[python] Twitter klient- návrh aplikace - diskuze k teoretickému řešení.">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Pátek Říjen 24 15:21:34 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008329.html">[python] SQLObject - úprava parametr? p?i vytvá?ení t?ídy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008325.html">[python]  Překreslení os v matplotlib
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-October/date.html#8324">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/thread.html#8324">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/subject.html#8324">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/author.html#8324">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím, nevím pokud někdo používáte Twitter, pokud ne, nejspíš tušítě
+na co to je (vlastně na nic, ale to je jedno :))
+Vadí mi na něm jedna věc, když navštívím svůj účet třeba po půl dni
+kdy jsem na něj nekoukl, tak dostanu jenom 20 posledních zpráviček a
+kvůli těm starším se musím složitě vracet. Můj klient by mi ukázal
+jenom ty nové od poslední návštěvy a starší pouze na vyžádní. Málokdy
+se potřebuji kouknout na staré tweety, zajímají mě aktuální a ty,
+které jsem ještě nečetl. Sepsal jsem trochu teorie, jak to realizovat.
+Byl bych moc rád za vaše připomnky,
+
+Aplikace se skládá ze dvou částí.
+Démon slouží k sbírání dat z twitteru pro jednotlivé registrované účty.
+Klient nasbíraná data zobrazuje a cachuje.
+
+Démon se spouští každou celou hodinu, to je nejmenší možný interval,
+kdy se účty automaticky zaktualizují = dojde k načtení nových tweetů a
+jejich uložení.
+
+Twitter API uvádí, že pro jeden dotaz, by počet načtených tweetů neměl
+překročit 200 kousků, pokud nějaký účet má za hodinu více než 200
+zpráv, je to nemilé a asi bude mít smůlu a v jeho timeline kterou mu
+má aplikace zobrazí bude mít díru.
+
+Při spuštění démona se připraví dva seznamy.
+V prvním bude seznam účtů, které se zaktualizují v tomto cyklu, v tom
+druhém ty, které až další celou hodinu. Při dalším spuštění démona už
+bude k dispozici seznam pro aktuální refresh, jenom se připraví seznam
+pro další cyklus.
+Výběr závisí na několika kritériích.
+Po registraci mají všechny účty defaultně automaticky refresh každou
+celou hodinu, ale podle toho, kolik tweetů se u účtu za hodinu
+průměrně načte, se může interval prodlužit. Například pokud průměr
+počtu nových tweetů za hodinu počítaný z 10 automatických refreshů
+bude menší než 30, tak se interval prodlouží na automatický refresh
+každou druhou hodinu. Těch 30 jsem jenom střelil, určit hranici budu
+muset za provozu.
+Další věc, která může posunout refresh na další hodinu, je aktualizace
+kterou provedl uživatel například návštěvou svého profilu, tom případě
+se načtou nové tweety hned, nové se filtrují pomocí parametru &quot;since&quot;
+(z Twitter API) který očekává datum a čas a vybere všechny tweety
+starší než zadaný parametr, tento parametr získám z databáze, u
+každého účtu uchovávám datum poslední návštěvy, které se ale bude
+upravovat taky kvůli automatickým refreshům. Při uživatelově refreshi,
+se taky účet vykopne ze seznamu pro aktualizaci v dalším cyklu, pokud
+v něm je.
+
+Při načtení tweetů ze serverů Twitteru, se každý tweet uloží do
+databáze, označí se svým id, jak tím twitterovským, tak databázovým.
+Budu muset vyřešit jak je třídit mezi timeline jednotlivých
+uživatelů... Posledních řekněme 300 tweetů, se bude cachovat do XML,
+samostaný soubor pro každý účet, tím budu co nejmíň otravovat svou
+databázi a taky to bude příjemnější pro AJAX manipulaci s tweety ve
+frontendu aplikace. Pokud by uživatel chtěl kouknout na své tweety
+starší než je těch 300 v XML, dostane je z databáze.
+
+Realizace pomocí python-twitter, sqlite, pylons.
+Chci co nejmíň otravovat servery twitteru, koukal jsem že tam jsou
+nějaká omezení na počet připojení a další věci, to budu muset ještě
+prozkoumat, pokud to opravdu dám do kupy, je mi jedno jestli to někdo
+bude používat, mohl bych to udělat jen pro sebe, ale je zajímavější
+řešit jak to zpřístupnit i dalším lidem.
+
+-- 
+S pozdravem
+Martin Stiborský
+
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+ICQ: 224-065-849
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008329.html">[python] SQLObject - úprava parametr? p?i vytvá?ení t?ídy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008325.html">[python]  Překreslení os v matplotlib
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-October/date.html#8324">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/thread.html#8324">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/subject.html#8324">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/author.html#8324">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-October/008324.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:19 GMT -->
+</html>

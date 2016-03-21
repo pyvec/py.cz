@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008102.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:27 GMT -->
+<HEAD>
+   <TITLE> [python] Prosím, poraďte mi, jak vytvořit exe soubor
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FPros%3DEDm%3D2C_pora%3DEFte_mi%3D2C_jak_vytvo%3DF8i%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Ft_exe_soubor%3F%3D&In-Reply-To=35.505-4181-1039664745-1218192080%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008099.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008117.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Prosím, poraďte mi, jak vytvořit exe soubor</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FPros%3DEDm%3D2C_pora%3DEFte_mi%3D2C_jak_vytvo%3DF8i%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Ft_exe_soubor%3F%3D&In-Reply-To=35.505-4181-1039664745-1218192080%40seznam.cz"
+       TITLE="[python] Prosím, poraďte mi, jak vytvořit exe soubor">feed na centrum.cz
+       </A><BR>
+    <I>Pátek Srpen  8 13:27:53 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008099.html">[python] Prosím, poraďte mi, jak vytvořit exe soubor
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008117.html">[python] Prosím, poraďte mi, jak vytvořit exe soubor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8102">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8102">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8102">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8102">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Daleko důležitější FAQ: py2exe je prasečina, která prostě jen natvrdo 
+prohledává řádky s import a vkládá je do souboru.
+
+Důsledek 1: Pokud někdo importuje dynamicky, pak py2exe to nezjistí a 
+modul do exe nepřidá a je třeba mu to ručně říct, že tam patří.
+
+Důsledek 2: Pokud je někdy v podmínkách importuj modul A, a když není, 
+tak modul B, tak je py2exe téměř v koncích. Ani nevíte, jaké problémy 
+jsou třeba někdy problémy s mysqldb modulem, který importuje jeden ze 
+dvou modulů pro práci s datumem, podle toho který je k dispozici. Občas 
+py2exe se pak chová v takovém případě jako diktátor, fašista, sadista, atd..
+
+Důsledek 3 (aneb zákeřnější důsledek důsledku 1): Je třeba váš exe 
+vyzkoušet na počítači, kde není instalován Python!!! Protože pokud 
+py2exe zapomenete některé moduly přidat do exe, pak to nemusíte zjistit, 
+protože on je najde ve Vaší instalaci pythonu, a chyba se přikryje a vy 
+žijete v blahé navědomosti.
+
+Důsledek 4 (aneb koincidence s instalací Pythonu): Bohužel Python 
+interpretr není zcela dobře dělán a je dost obtížné ho zbavit všech 
+závislostí na instalaci Pythonu. A protože interpretr Pythonu bohužel je 
+součástí i vytvořeného exe, tak se může stát, že na počítači s jinak 
+nastavenou instalací Pythonu začnou kolidovat různě cesty, a třeba 
+namísto vnitřního modulu v exe třeba volá instalovaný modul v instalaci 
+Pythonu. Je tedy třeba ještě vyzkoušet exe na počítači s jinak 
+nastavenými cestami Pythonu a nejlépe s jinou nekompatibilní verzí 
+Pythonu. Toto je bohužel zákeřnost, která je těžko zlepšitelná.
+
+Důležité FAQ pro puntičkáře: Pokud přejmenujete název exe souboru, 
+program přestane chodit! Řada lidí to přejmenovává a pak se nestačí 
+divit a považuje to za chybu programátora. Je třeba do manuálu jasně 
+napsat, že název exe se nesmí přejmenovat jinak program nefachá!
+
+Miloslav Ponkrác
+
+&gt;<i> ----FAQ----
+</I>&gt;<i> FAQ1: Chyba?!
+</I>&gt;<i> -Zkontroluj jestli máš Python v PATH...
+</I>&gt;<i>   
+</I>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008099.html">[python] Prosím, poraďte mi, jak vytvořit exe soubor
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008117.html">[python] Prosím, poraďte mi, jak vytvořit exe soubor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8102">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8102">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8102">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8102">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008102.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:27 GMT -->
+</html>

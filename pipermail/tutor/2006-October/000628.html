@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000628.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Otaceni obrazkem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Otaceni%20obrazkem&In-Reply-To=003401c6f5c8%24c211ab40%2453b8a8c0%40wracker">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000624.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000629.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Otaceni obrazkem</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Otaceni%20obrazkem&In-Reply-To=003401c6f5c8%24c211ab40%2453b8a8c0%40wracker"
+       TITLE="[Tutor PyCZ] Otaceni obrazkem">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Říjen 24 08:45:23 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000624.html">[Tutor PyCZ] Udalosti (po kliknuti)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000629.html">[Tutor PyCZ] Otaceni obrazkem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#628">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#628">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#628">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#628">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Podival som sa ti zas na to kladivo/opicku.:
+
+Myslim, ze tvoje usilie opakobane stroskotava na tom, ze nevies jak 
+postupovat hladani chyby v py-programe, 
+resp vysetrovat beh programu. 
+
+Kedze som sa este neskamaratil s pythonovskym debuggerom zvyknem pouzivat 
+taky jednoduchy postup, 
+ze do programu na miesta ktore chcem vysetrovat domontujem par kontrolnych 
+vypisov, 
+spustim program spustit a sledujem co sa deje. 
+
+Kedze tvoj program je graficky, treba pracovat na command line konzole.
+
+Takze zapnes si konzolu  vo Windows Start/Run prikazom 
+cmd.
+nastavis sa do adresara kde mas svoj program 
+cd d:\moj_adresar
+a spustis program, napriklad vo Windows kde je Python asociovany s *.py 
+napises na command line
+Editor3.py. 
+Teraz sa ti program spusti vo vlastnom okne a na konzole uvidis pri akcii 
+vypisy. 
+
+Takze podme k prikladu:
+
+Bez toho aby som studoval manual pygame som postupoval takto:
+
+1. Zo zdrojaku som zistil, ze udalosti sa ziskavaju z pygame.event.get()
+takze som domontoval do cyklu udalosti vypis udalosti
+print &quot;udalost = %s&quot; % udalost;
+Takto som zistil, ze ked kliknem na button opicka vznikne udalost
+udalost = &lt;Event(5-MouseButtonDown {'button': 1, 'pos': (42, 83)})&gt;
+ked uvolnim tlacitko mysi 
+udalost = &lt;Event(6-MouseButtonUp {'button': 1, 'pos': (42, 83)})&gt;
+a ked iba nabehnem na dany button mysi tak mi vznikne
+nieco taketo
+udalost = &lt;Event(4-MouseMotion {'buttons': (0, 0, 0), 'pos': (53, 33), 
+'rel': (7, -28)})&gt;
+Toto posledne je to co chcem. 
+
+2. Kedze k prvym 2 udalostiam pouzivas definovane typy
+udalost.type == MOUSEBUTTONDOWN
+udalost.type == MOUSEBUTTONUP
+predpokladal som, ze bude existovat aj typ pre udalost MouseMotion 
+udalost.type == MOUSEMOTION
+takze skusil som zakomentovat t
+            elif udalost.type == MOUSEBUTTONDOWN:
+a nahradit to s
+            elif udalost.type == MOUSEMOTION:
+
+Teraz pri kazdej udalosti MOUSEMOTION sa ti zavola funkcia kurzor.trefa(), 
+ktora ti cez colliderect() vrati True ak je kurzor na danom objekte
+Opicka/Kladivo  vsetko funguje jak si chcel.
+
+Tu ti pripajam upraveny zdrojak
+
+
+Na zaver poznamka: Uprava tvojho programu mi zabrala len asi 10 minut, ale 
+mnohonasobne viac minut mi zabralo napisanie tohoto mailu.
+Dufam teda, ze horeuvedeny postup ti pomoze samostatne riesit daslie 
+problemy s Opickou a Kladivom :-)).
+
+
+
+
+&quot;petrik&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">petrik na extel.sk</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A>
+22.10.2006 12:56
+Please respond to
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+
+
+To
+&quot;Konference Tutor portalu PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+cc
+
+Subject
+[Tutor PyCZ] Otaceni obrazkem
+
+
+
+
+
+
+Zdravim ja bych se chtel zeptat na to ,jak udelat událost která delá 
+tohle:
+ 
+-- Kdiž najedu na obrázek s kurzorem , obrázek se začne točit.
+-- Kdiž kurzor posunu vedle(mimo obrázek) tak se prestane točit.
+ 
+V mém přikladu mám u class Kurzor()
+nadefinovanú funkci trefa ..
+.
+def trefa(self, ciel):
+        &quot;vracia info,ak kurzor zasiahla ciel&quot;
+        self.pohladenie = 1
+        zasahObd = self.rect.inflate(-45, -1)
+        return zasahObd.colliderect(ciel.rect)
+ 
+vím že zasahObd.colliderect(ciel.rect) sleduje zda se nejaký Rect 
+nepřekríva.
+ 
+jenže tahle funkce se využiva jen kdiž na nejaky objekt kliknu tlačítkem 
+myši .A ja bych chtel vědet jak udelat ze 
+by se udalost začala delat už tehdy kdiž je kurzor na objektu ,bez toho 
+abych musel na objekt kliknout..
+Priložil sem taky cely prográmek v kterém to chci udelat...
+Diky moc za HELP...
+ _______________________________________________
+Tutor mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061024/31ed830a/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20061024/31ed830a/attachment.htm</A> 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: Editor WR.rar
+Typ: application/octet-stream
+Velikost: 38565 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061024/31ed830a/attachment.obj">http://www.py.cz/pipermail/tutor/attachments/20061024/31ed830a/attachment.obj</A> 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: Editor3.py
+Typ: application/octet-stream
+Velikost: 6765 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061024/31ed830a/attachment-0001.obj">http://www.py.cz/pipermail/tutor/attachments/20061024/31ed830a/attachment-0001.obj</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000624.html">[Tutor PyCZ] Udalosti (po kliknuti)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000629.html">[Tutor PyCZ] Otaceni obrazkem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#628">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#628">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#628">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#628">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000628.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

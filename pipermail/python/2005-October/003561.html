@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003561.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:37 GMT -->
+<HEAD>
+   <TITLE> [python] unicode
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To=1130719722.9237.18.camel%40echelon.zagamma.vpn">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003559.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003563.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] unicode</H1>
+    <B>Martin Blazik</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To=1130719722.9237.18.camel%40echelon.zagamma.vpn"
+       TITLE="[python] unicode">martin.blazik na premiumsms.cz
+       </A><BR>
+    <I>Pondělí Říjen 31 08:01:15 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003559.html">[python] unicode
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003563.html">[python] unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3561">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3561">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3561">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3561">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>To neni tak uplne pravda s nepouzitim honkongske abecedy ;-) System, kde
+unicode potrebuji pouzivat v budoucnu bude muset umet arabsky a rusky,
+tak proc casem ne treba i cinsky ;-) Jinak pevna delka znaku je dobra
+napriklad k tomu, ze bez parsovani celeho textu mohu skocit na konkretni
+pozici znaku treba i v souboru. Moje data konkretne nejsou nikterak
+velika a prehlednost vitezi nad rychlosti a usporou mista.
+Prozkoumal jsem znovu celou situaci a jako nejvhodnejsi se mi jevi
+kodovani UCS-2. Dopsal jsem do pythonu pomoci modulu codecs potrebne
+konvertory a je to presne to co jsem potreboval.
+Ovsem rad bych se opet zeptal na to, k cemu je dobre ukladat unicode do
+vice jak 2 byte  a proc by se unicode do UCS-2 nemel vejit? Mel jsem za
+to, ze kazdy unicode znak je ulozen jako WORD (tedy 2 BYTE) a proto by
+na ulozeni 2 byte meli presne stacit ne?
+Ja jsem se naopak docetl, ze python uklada unicode znak interne na 2
+byte. Jak by tedy mohla existovat vetsi hodnota nez U+FFFF ?
+
+&gt;&gt;&gt;<i> len(u'\u1234')
+</I>1
+&gt;&gt;&gt;<i> len(u'\u123456')
+</I>3
+
+
+lachtan
+
+
+ViNiL napsal(a):
+
+&gt;<i>Pavel Reznicek píše v Ne 30. 10. 2005 v 15:42 +0100:
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>Také existují 32-bitová kódování, ale s těmi zatím nemám zkušenosti. 
+</I>&gt;&gt;<i>Také zabírají zase dvakrát tolik místa a existují hlavně kvůli nové 
+</I>&gt;&gt;<i>indexové oblasti Unikódu nad 0xffff.
+</I>&gt;&gt;<i>Takové znaky však nejspíše
+</I>&gt;&gt;<i>nikdo z nás každý den nepíše.
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>I kdyz je to versovane, nelibi se mi tak docela takova uvaha. Pokud uz
+</I>&gt;<i>bych potreboval kodovani s pevnou delkou znaku -- ackoliv ted me opravdu
+</I>&gt;<i>nenapada k cemu :-) -- pouzil bych rozhodne UCS-4. Proste proto, ze do
+</I>&gt;<i>UCS-2 se aktualni unikod nevejde a uvaha o tom, jestli budu pouzivat
+</I>&gt;<i>honk-kongskou abecedu, ci nikoliv, neni IMHO relevantni.
+</I>&gt;<i>
+</I>&gt;<i>Jo, jina vec je ta, ze se mi ted behem 15 minut nepodarilo prijit na to,
+</I>&gt;<i>jak z pythonu to UCS-4 vytriskat -- ackoliv je s ctyrbajtovou
+</I>&gt;<i>reprezentaci unikodu zkompilovany. Nejaka napoveda od nekoho?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;<i>------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003559.html">[python] unicode
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003563.html">[python] unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3561">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3561">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3561">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3561">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003561.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:37 GMT -->
+</html>

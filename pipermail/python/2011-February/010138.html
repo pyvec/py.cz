@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010138.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:07 GMT -->
+<HEAD>
+   <TITLE> [python] http basic auth
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20http%20basic%20auth&In-Reply-To=%3CAANLkTin3-OXEVnc8%2BGqhqiP0CXDCWd7C9j8%3DbPCy150z%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-February/010137.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-February/010139.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] http basic auth</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20http%20basic%20auth&In-Reply-To=%3CAANLkTin3-OXEVnc8%2BGqhqiP0CXDCWd7C9j8%3DbPCy150z%40mail.gmail.com%3E"
+       TITLE="[python] http basic auth">slush na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Únor  3 18:26:53 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010137.html">[python] Bezpečnsost kódu - funkce exec
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010139.html">[python] http basic auth
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10138">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10138">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10138">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10138">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+uz druhy den resim problem HTTP Basic autentizace s urllib2 a protoze se
+nedari, zkusim se zeptat tady.
+
+Mam webovou aplikaci, ktera vyzaduje prihlaseneho uzivatele. Bez prihlaseni
+vrati HTTP 401, coz je OK. Bohuzel urllib2 neumi takovou zakladni vec, jako
+je zapouzdreny login a heslo primo v URL a cele to resi na objektove urovni.
+Nechapu to, stve me to, ale musim s tim zit.
+
+Nakonec jsem vygooglil (opravdu neexistuje poradna dokumentace k tak
+zakladni knihovne?) tuto konstrukci, ktera sice obcas funguje, ale velice
+divne:
+
+mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+mgr.add_password(None, url, username, password)
+opener = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(mgr))
+opener.open(...)
+
+Zrejme v tom je jeste nejaky zadrhel, protoze uspesnost autentizace je nekde
+kolem 20% - zbytek requestu skonci s vyjimkou HTTP 401. Kazdopadne to
+vypada, ze knihovna funguje stylem, ze nejdrive posle pozadavek a teprve
+pote, co stranka vrati 401, zkusi poslat take prihlasovaci udaje. Vzhledem k
+tomu, ze planovany traffic celeho systemu je kolem 100 requestu za sekundu,
+tudy cesta nevede...
+
+Knihovna urllib funguje v tomto ohledu mnohem lepe, akceptuje jmeno/heslo
+primo v URL, kazdopadne zase ji chybi nektere featury, ktere urllib2 ma
+(napriklad fakt, ze je i v Python3).
+
+Prosim o kazdou radu, jak toto vyresit. Zaseknul jsem se na veci, kterou
+jsem puvodne mel mit vyresenou za deset minut...
+
+Diky,
+Marek
+------------- dal?í ?ást ---------------
+HTML p?íloha byla odstran?na...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20110203/58eaa89f/attachment.html">http://www.py.cz/pipermail/python/attachments/20110203/58eaa89f/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010137.html">[python] Bezpečnsost kódu - funkce exec
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010139.html">[python] http basic auth
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10138">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10138">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10138">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10138">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010138.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:07 GMT -->
+</html>

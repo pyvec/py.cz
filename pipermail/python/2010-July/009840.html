@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009840.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:26 GMT -->
+<HEAD>
+   <TITLE> [python] scapy a serializace paketu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20scapy%20a%20serializace%20paketu&In-Reply-To=%3C4C31D062.8090602%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009839.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009841.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] scapy a serializace paketu</H1>
+    <B>Tomas Pelka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20scapy%20a%20serializace%20paketu&In-Reply-To=%3C4C31D062.8090602%40gmail.com%3E"
+       TITLE="[python] scapy a serializace paketu">tompelka na gmail.com
+       </A><BR>
+    <I>Pondělí Červenec  5 14:30:26 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009839.html">[python] The Angele&#241;o Ledger Observing - World News Today
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009841.html">[python] scapy a serializace paketu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9840">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9840">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9840">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9840">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim vsechny,
+
+mam maly problem s ukladanim scapy paketu do fronty (multiprocess). Priklad:
+
+from multiprocessing import Process
+from multiprocessing.managers import BaseManager
+from scapy.all import sniff
+
+class Worker(Process):
+         '''
+         Class for sniffing packets, runnig as root
+         '''
+         def __init__(self):
+                 super(Worker, self).__init__()
+                 self.iface = ''
+                 self.expr = ''
+                 # key for queue daemon, remotely on localhost:5000
+                 self._keyQ = '10b222970537b97919db36ec757370d2'
+                 class QueueManager(BaseManager): pass
+                 QueueManager.register('get_dataQueue')
+                 self._m = QueueManager(address=('127.0.0.1', 5000), 
+authkey=self._keyQ)
+                 self._m.connect()
+                 self.dataQueue = self._m.get_dataQueue()
+         def go(self, iface, expr):
+                 print &quot;Starting sniffer&quot;
+                 self.iface = iface
+                 self.expr = expr
+                 super(Worker, self).start()
+         def run(self):
+                 print &quot;sniffing ...&quot;
+                 print self.iface
+                 print self.expr
+                 print self.dataQueue
+                 packets = sniff(filter=self.expr, count=10, timeout=10, 
+iface=self.iface)
+                 print packets
+                 self.dataQueue.put(packets)
+                 print &quot;... done&quot;
+
+
+But always getting:
+Traceback (most recent call last):
+   File &quot;/usr/lib/python2.6/multiprocessing/process.py&quot;, line 232, in 
+_bootstrap
+     self.run()
+   File &quot;/home/tom/web2py/applications/NetSim/DAEMON/Worker.py&quot;, line 
+32, in run
+     self.dataQueue.put(packets)
+   File &quot;&lt;string&gt;&quot;, line 2, in put
+   File &quot;/usr/lib/python2.6/multiprocessing/managers.py&quot;, line 725, in 
+_callmethod
+     conn.send((self._id, methodname, args, kwds))
+PicklingError: Can't pickle &lt;type 'function'&gt;: attribute lookup 
+__builtin__.function failed
+
+
+PAkety nejsou snad serializovatelne? Nesetkal se s touto chybou uz nekdo 
+drive?
+
+Diky za rady
+
+-- 
+Tomas Pelka
+
+------------- dal?í ?ást ---------------
+HTML p?íloha byla odstran?na...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20100705/ae5b379b/attachment.html">http://www.py.cz/pipermail/python/attachments/20100705/ae5b379b/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009839.html">[python] The Angele&#241;o Ledger Observing - World News Today
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009841.html">[python] scapy a serializace paketu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9840">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9840">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9840">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9840">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009840.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:26 GMT -->
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008541.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:03 GMT -->
+<HEAD>
+   <TITLE> [python] mod_python postupne zobrazeni stranky...
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20mod_python%20postupne%20zobrazeni%20stranky...&In-Reply-To=%3C200901141147.11747.vantomas%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008540.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008542.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] mod_python postupne zobrazeni stranky...</H1>
+    <B>Tomáš Holý</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20mod_python%20postupne%20zobrazeni%20stranky...&In-Reply-To=%3C200901141147.11747.vantomas%40gmail.com%3E"
+       TITLE="[python] mod_python postupne zobrazeni stranky...">vantomas na gmail.com
+       </A><BR>
+    <I>Středa Leden 14 11:47:11 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008540.html">[python] mod_python postupne zobrazeni stranky...
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008542.html">[python] mod_python postupne zobrazeni stranky...
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8541">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8541">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8541">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8541">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Koukam, ze na strance je tabulka, nevim jak dnes IE7, ale IE6 tabulku 
+zobrazilo, az kdyz byla cela nactena, kdezto jine prohlizece tabulku ukazuji 
+postupne, jak data nacitaji.
+
+Dne středa 14 Leden 2009 11:34:44 David Michal napsal(a):
+&gt;<i> Zdravim,
+</I>&gt;<i> Myslim ze tady byla pred par dny nejaka diskuze jak dosahnout postupneho
+</I>&gt;<i> nacitani stranky. Zrovna jsem zjistil, ze jeden z mejch skriptu  to dela. 
+</I>&gt;<i> Ale dela to jen ve Firefoxu 3.x, IE7 to neumi.
+</I>&gt;<i>
+</I>&gt;<i> V configu apache mam tohle:
+</I>&gt;<i>
+</I>&gt;<i> &lt;Directory /var/www/vpn&gt;
+</I>&gt;<i>         DirectoryIndex index.psp
+</I>&gt;<i>         AddHandler mod_python .psp .psp_
+</I>&gt;<i>         SetHandler mod_python
+</I>&gt;<i>         PythonHandler mod_python.psp
+</I>&gt;<i>         PythonDebug On
+</I>&gt;<i> &lt;/Directory&gt;
+</I>&gt;<i>
+</I>&gt;<i> Ta psp stranka pak obahuje neco takoveho:
+</I>&gt;<i>
+</I>&gt;<i> def getRows(table):
+</I>&gt;<i>     out = ''
+</I>&gt;<i>     for row in table:
+</I>&gt;<i>         historyAddUser(row)
+</I>&gt;<i>         out = out + '&lt;tr&gt;'
+</I>&gt;<i>         for cell in row:
+</I>&gt;<i>             out = out + '&lt;td&gt;' + cell + '&lt;/td&gt;'
+</I>&gt;<i>         out = out + '&lt;/tr&gt;'
+</I>&gt;<i>     return out
+</I>&gt;<i>
+</I>&gt;<i> &lt;!-- content--&gt;
+</I>&gt;<i>     &lt;div class=&quot;content-area&quot;&gt;
+</I>&gt;<i>         &lt;div class=&quot;content&quot;&gt;
+</I>&gt;<i>             &lt;h2&gt;PPTP VPN - history&lt;/h2&gt;
+</I>&gt;<i>             &lt;table&gt;
+</I>&gt;<i>                 &lt;tr&gt;
+</I>&gt;<i>                     &lt;th&gt;VPN type&lt;/th&gt;&lt;th&gt;User&lt;/th&gt;&lt;th&gt;Connected
+</I>&gt;<i> since&lt;/th&gt;&lt;th&gt;Duration&lt;/th&gt;&lt;th&gt;IP address&lt;/th&gt; &lt;/tr&gt;
+</I>&gt;<i>                 &lt;%=getRows(vpn.getPPTPHistory())%&gt;
+</I>&gt;<i>             &lt;/table&gt;
+</I>&gt;<i>         &lt;/div&gt;
+</I>&gt;<i>         &lt;div class=&quot;content&quot;&gt;
+</I>&gt;<i>             &lt;h2&gt;OpenVPN - history&lt;/h2&gt;
+</I>&gt;<i>             &lt;table&gt;
+</I>&gt;<i>                 &lt;tr&gt;
+</I>&gt;<i>                     &lt;th&gt;VPN type&lt;/th&gt;&lt;th&gt;User&lt;/th&gt;&lt;th&gt;Connected
+</I>&gt;<i> since&lt;/th&gt;&lt;th&gt;Duration&lt;/th&gt;&lt;th&gt;IP address&lt;/th&gt; &lt;/tr&gt;
+</I>&gt;<i>                 &lt;%=getRows(vpn.getOpenVPNHistory())%&gt;
+</I>&gt;<i>             &lt;/table&gt;
+</I>&gt;<i>
+</I>&gt;<i>         &lt;/div&gt;
+</I>&gt;<i>   &lt;/div&gt;
+</I>&gt;<i>
+</I>&gt;<i> Takze nic zvlastniho. Podle me je to tedy doopravdy zalezitosti brosweru.
+</I>&gt;<i> Vypada to ze server postupne posila stranku tak jak ji script stiha
+</I>&gt;<i> generovat a zatimco Firfox ji hned zkousi renderovat IE7 ceka az je stranka
+</I>&gt;<i> natazena cela a pak teprve zobrazuje. Ale asi by to chtelo vic testu.
+</I>&gt;<i>
+</I>&gt;<i> David
+</I>
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008540.html">[python] mod_python postupne zobrazeni stranky...
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008542.html">[python] mod_python postupne zobrazeni stranky...
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8541">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8541">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8541">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8541">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008541.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:03 GMT -->
+</html>

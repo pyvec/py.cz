@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005606.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:41 GMT -->
+<HEAD>
+   <TITLE> [python] wxSizers
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20wxSizers&In-Reply-To=1986.3471-6427-711394970-1171987539%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005605.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005607.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] wxSizers</H1>
+    <B>Petr Hlávka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20wxSizers&In-Reply-To=1986.3471-6427-711394970-1171987539%40seznam.cz"
+       TITLE="[python] wxSizers">petrhlavka na gmail.com
+       </A><BR>
+    <I>Úterý Únor 20 21:02:04 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005605.html">[python] wxSizers
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005607.html">[python] wxSizers
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5606">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5606">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5606">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5606">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+v zasade by to slo udelat treba takto
+
+import wx
+import wx.lib.plot as plot
+
+class MyApp(wx.App):
+   def OnInit(self):
+       data = [(1,2), (2,3), (3,5), (4,6), (5,8), (6,8), (10,10)]
+       #
+       okno=wx.Frame(None)
+       radic=wx.BoxSizer(wx.VERTICAL)
+       #
+       client = plot.PlotCanvas(okno)
+       line = plot.PolyLine(data, legend='', colour='pink', width=1)
+       gc = plot.PlotGraphics([line], 'Line Graph', 'X Axis', 'Y Axis')
+       client.Draw(gc, xAxis= (0,15), yAxis= (0,15))
+       #
+       radic.Add(client,1,wx.EXPAND)
+       radic.Layout()
+       okno.SetSizer(radic)
+       okno.Show(True)
+
+       return True
+
+
+if __name__ == &quot;__main__&quot;:
+   app = MyApp()
+   app.MainLoop()
+
+
+zmena je v inicializaci aplikace, trochu zmatek byl ve framech a
+parametrech metody Add sizeru. Nejjednodussi je asi opravdu zacit demy
+k wxpythonu nebo na <A HREF="http://wiki.wxpython.org/">http://wiki.wxpython.org</A> - ziskat zakladni prehled
+o tom, jak wxpython funuguje.
+
+  S pozdravem Petr Hlavka.
+
+
+On 2/20/07, Jakub Vojáček &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Jakohv na seznam.cz</A>&gt; wrote:
+&gt;<i> &gt; Od: Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos na radiante-corp.com</A>&gt;
+</I>&gt;<i> &gt; Předmět: Re: [python] wxSizers
+</I>&gt;<i> &gt; Datum: 20.2.2007 08:04:59
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Zda se mi to, nebo se snazite nacpat child frame (ram) do sizeru parenta
+</I>&gt;<i> &gt; (self.okno)? Nemyslim si, ze tohle opravdu chcete.
+</I>&gt;<i> &gt; Leo
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt; ----
+</I>&gt;<i> &gt; Leos Pol
+</I>&gt;<i> &gt; SW Engineer
+</I>&gt;<i> &gt; Radiante Corp.
+</I>&gt;<i>
+</I>&gt;<i> Já jsem ve Wx úplný začátečník, věnuju se mu asi 5 dní;) Umím celkem kvalitně Tkinter, ale tam je geometry manager úplně jiný, takže sem trochu zmatený z Wx. Chci aby se mi otevřelo okno, vněm musí bejt sizer a v tom sizeru ram co se vratí z funkce ukazka. Stejný příklad je toto:
+</I>&gt;<i>
+</I>&gt;<i> import wx
+</I>&gt;<i> import wx.lib.plot as plot
+</I>&gt;<i> class Okno:
+</I>&gt;<i>     def __init__(self,parent):
+</I>&gt;<i>         self.cary=[]
+</I>&gt;<i>         self.data = [(1,2), (2,3), (3,5), (4,6), (5,8), (6,8), (10,10)]
+</I>&gt;<i>         self.strana=&quot;L&quot;
+</I>&gt;<i>         self.seznam_rovnic=[]
+</I>&gt;<i>         self.jmena_rovnic=[]
+</I>&gt;<i>         #
+</I>&gt;<i>         self.okno=wx.Frame(None)
+</I>&gt;<i>         self.radic=wx.BoxSizer(wx.VERTICAL)
+</I>&gt;<i>         #
+</I>&gt;<i>         obal = wx.Frame(self.okno)
+</I>&gt;<i>         obal.SetBackgroundColour(&quot;#FCFCFE&quot;)
+</I>&gt;<i>         client = plot.PlotCanvas(obal)
+</I>&gt;<i>         line = plot.PolyLine(self.data, legend='', colour='pink', width=1)
+</I>&gt;<i>         gc = plot.PlotGraphics([line], 'Line Graph', 'X Axis', 'Y Axis')
+</I>&gt;<i>         client.Draw(gc,  xAxis= (0,15000), yAxis= (0,15))
+</I>&gt;<i>         #
+</I>&gt;<i>         self.radic.Add(obal,1,0,wx.ALL)
+</I>&gt;<i>         self.radic.Layout()
+</I>&gt;<i>         self.okno.SetSizer(self.radic)
+</I>&gt;<i>         self.okno.Show(True)
+</I>&gt;<i>
+</I>&gt;<i> if __name__ == &quot;__main__&quot;:
+</I>&gt;<i>     okno = wx.App(0)
+</I>&gt;<i>     Okno(okno)
+</I>&gt;<i>     okno.MainLoop()
+</I>&gt;<i>
+</I>&gt;<i> Taky mi to nefunguje tak jak má:(:(
+</I>&gt;<i>
+</I>&gt;<i> Blujacker
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005605.html">[python] wxSizers
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005607.html">[python] wxSizers
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5606">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5606">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5606">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5606">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005606.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:41 GMT -->
+</html>

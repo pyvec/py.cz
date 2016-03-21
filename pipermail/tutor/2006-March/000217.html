@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000217.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] zjisteni pismen disku ve windows
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20zjisteni%20pismen%20disku%20ve%20windows&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000216.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000218.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] zjisteni pismen disku ve windows</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20zjisteni%20pismen%20disku%20ve%20windows&In-Reply-To="
+       TITLE="[Tutor PyCZ] zjisteni pismen disku ve windows">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Březen  3 11:04:30 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000216.html">[Tutor PyCZ] zjisteni pismen disku ve windows
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000218.html">[Tutor PyCZ] zjisteni pismen disku ve windows
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#217">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#217">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#217">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#217">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>linuxik
+&gt;<i> Jak zjistim kolik disku a pod jakym 
+</I>&gt;<i> pismenem jsou pripojeny ?
+</I>
+Jména disků jsou specialitou Windows. Proto
+se musí použít modul win32api. K tomu, co
+napsal geon... Lze použít i následující:
+
+a.py
+==========================================
+import win32api
+
+s = win32api.GetLogicalDriveStrings()
+print s
+
+
+import os
+lst = s.split('\0')
+for d in lst:
+    disk, zbytek = os.path.splitdrive(d)
+    print disk
+==========================================
+
+Vypíše to něco takového:
+
+C:\tmp&gt;python a.py
+A:\C:\D:\E:\F:\G:\H:\I:\J:\K:\L:\M:\N:\O:\R:\
+A:
+C:
+D:
+E:
+F:
+G:
+H:
+I:
+J:
+K:
+L:
+M:
+N:
+O:
+R:
+
+První řetězec je výsledek volání 
+win32api.GetLogicalDriveStrings(). Vrací
+se kořenové adresáře na jednotlivých 
+logických discích. V řetězci jsou odděleny
+znakem s kódem 0 (nula).
+
+V dalším kódu se řetězec všech kořenových 
+adresářů rozkládá na seznam řetězců jednotlivých
+kořenových adresářů. 
+
+V následujícím cyklu se jméno disku odděluje
+od zbytku cesty voláním os.path.splitdrive().
+
+pepr
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000216.html">[Tutor PyCZ] zjisteni pismen disku ve windows
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000218.html">[Tutor PyCZ] zjisteni pismen disku ve windows
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#217">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#217">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#217">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#217">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000217.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

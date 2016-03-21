@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-March/000670.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+<HEAD>
+   <TITLE> [python] Re: igui2
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20igui2&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-March/000665.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-March/000673.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Re: igui2</H1>
+    <B>Zdenek Pavlas</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20igui2&In-Reply-To="
+       TITLE="[python] Re: igui2">zdenek.pavlas na nextra.cz
+       </A><BR>
+    <I>Čtvrtek Březen 27 14:27:18 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000665.html">[python] Re: igui2
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000673.html">[python] Re: igui2
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-March/date.html#670">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/thread.html#670">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/subject.html#670">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/author.html#670">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ludek Smid wrote:
+
+&gt;<i> A proc tedy existuje Anygui [<A HREF="http://anygui.sourceforge.net/]?">http://anygui.sourceforge.net/]?</A>
+</I>
+Vypada zajimave.. diky za link.
+
+&gt;&gt;<i> Aplikace bude volat IGUI2. IGUI2 wrapuje gtk+. gtk+ wrapuje gdk.
+</I>&gt;&gt;<i> gdk wrapuje xlib. teprve xlib konecne pohne prstem. Pritom je
+</I>&gt;&gt;<i> to vsechno slinkovany dohromady do jednoho mamuta a kazda vrstva
+</I>&gt;&gt;<i> se snazi aby to segfaultlo nebo aspon bezelo co nejpomaleji.
+</I>&gt;<i> 
+</I>&gt;<i> Taky pristup. Bohudik nepatri mezi mainstreamovy. Kdyby kazdy vsechno 
+</I>&gt;<i> programoval na co nejnizsi urovni aby to bylo rychle, tak by nemohl 
+</I>&gt;<i> pouzit jiz existujici kod (nebo by jej mohl pouzit s velkymi obtizemi) a 
+</I>&gt;<i> byli bychom stale v DOSu (nemyslim tim MS DOS). Nebo ty snad pouzivas 
+</I>&gt;<i> pro zapis na disk komunikaci s /dev/hd..? Vzdyt je to rychlejsi nez 
+</I>&gt;<i> pouzit funkci open nebo fopen a spriznene funkce, ne?
+</I>
+Srovnavate rozdilne veci. Implementace filesystemu je:
+1) s desitky let ustalenym koncovym API
+2) neobsahuje zbytecna interni zapouzdreni (vfs je uzitecny)
+3) velmi efektivni (dusledek predchoziho)
+
+&gt;<i> Navic -- lidska prace je draha a HW je levny. Vim, ze timto 
+</I>&gt;<i> konstatovanim si koleduju o flamewar, ale je to proste tak.
+</I>
+Mate plnou pravdu, kdybych nesouhlasil nebudu pouzivat Python.
+
+&gt;&gt;<i> Nebylo by lepsi owrapovat do pythonu jen samotnej xlib a nad tim
+</I>&gt;&gt;<i> napsat widgety ciste v pythonu?
+</I>
+&gt;<i> Myslim, ze by vysledek byl pomalejsi a mene portovatelny nez GTK 
+</I>
+xlib nema nekompatibilni zmeny API kazdych par mesicu jako gtk+.
+
+&gt;<i> wrapper. Uvedom si, ze volani funkce v Pythonu je relativne draha 
+</I>&gt;<i> operace a pro vykresleni jednoho tlacitka na nejnizsi urovni potrebujes 
+</I>&gt;<i> takovych operaci desitky nebo stovky, pokud chces dosahnout stejneho 
+</I>&gt;<i> vysledku jako pri pouziti GTK.
+</I>
+Zkousel jsem pyGtk i wxWindows na notebooku s 16MB RAM. Podle doby
+na vykresleni trivialniho dialogu by behem setupu jednoho tlacitka
+Python v pohode zavolal desitky tisic funkci.
+
+Cisty python je podle mych zkusenosti cca 30x pomalejsi nez Ceckovy
+kod ktery pouziva specializovane datove struktury pokud jde o brutalne
+low level kod (treba parsovani binarnich dat, lookupy do hash tabulek
+udelanych na miru atd).
+
+Pokud se ale logika prehoupne na uroven dynamickych seznamu a prace
+s vzajemne propojenym grafem objektu, je to uz tak 1:3-1:5. Mam zkusenost
+ze python je prekvapive rychly, pomale je pouze:
+
+1) vygenerovani a nasledne zpracovani vyjimky.
+2) volani metod na objektech
+
+To prvni mne prekvapilo, ale neni to problem pokud se vyjimky pouzivaji
+pouze pro zpracovani skutecne necekanych chyb, nikoliv jako pouze dalsi
+mechanismus pro vraceni vysledku z funkce.
+
+To druhe se dalo cekat- dynamicky jazyk, nasobna dedicnost, a hlavne zadne
+cachovani uz nalezench metod v objektech. Pokud by ale graficky toolkit
+data &quot;obalil&quot; do objektu az na nejvyssi urovni tak to bude furt v pohode.
+
+Napsal jsem treba SNMP modul ciste v Pythonu (s vyjimkou asn.1 parseru
+/formatteru kterym je 200-radkovy extension v C), a bezi velmi vyrazne
+rychleji nez snmpy ktery wrapuje velkou komplet ceckovou knihovnu net-snmp.
+
+Volba programovaciho jazyka je podruzna. U soucasnych CPU je bottleneckem
+pristup do pameti se spatnou lokalitou a temer nic jineho. Prave tohle 
+je na
+volbe programovaiho jazyka temer nezavisle. Pocet &quot;hot&quot; mist ktere je treba
+drzet v cache zato roste umerne s poctem vsemoznych indirekci a &quot;api 
+wrapperu&quot;!
+
+Muj zaver je: minimum zbytecnych rozhrani a dobra volba tech potrebnych
+=&gt; efektivni kod.
+
+-- 
+Zdenek Pavlas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000665.html">[python] Re: igui2
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000673.html">[python] Re: igui2
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-March/date.html#670">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/thread.html#670">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/subject.html#670">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/author.html#670">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-March/000670.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010770.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+<HEAD>
+   <TITLE> [python] pygame
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pygame&In-Reply-To=%3C22611.4900.11158-13073-600348915-1346841371%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-September/010769.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-September/010771.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pygame</H1>
+    <B>Ctibor.Plasek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pygame&In-Reply-To=%3C22611.4900.11158-13073-600348915-1346841371%40seznam.cz%3E"
+       TITLE="[python] pygame">Ctibor.Plasek na seznam.cz
+       </A><BR>
+    <I>Středa Září  5 12:36:11 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010769.html">[python] pygame
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010771.html">[python] pygame
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10770">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10770">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10770">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10770">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj.
+To jsem taky vyzkoušel akorát mi to přišlo takové kostrbaté řešení (permanentně kontrolovat, že je klávesa stisknutá a pak zas že je puštěná).
+Ale asi to asi jinak nepůjde :-(
+
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: azurIt &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] pygame
+</I>&gt;<i> Datum: 05.9.2012 12:18:39
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Ahoj,
+</I>&gt;<i> 
+</I>&gt;<i> priamo skusenosti s tym nemam avsak co tak pri stlaceni nastavit nejaky priznak
+</I>&gt;<i> (nejaku premennu na True), ze klavesa je stlacena a nasledne pri pusteni ten
+</I>&gt;<i> priznak vynulovat? Dany priznak mozes niekde inde kontrolovat a ak je True, tak
+</I>&gt;<i> sa panacik bude pohybovat.
+</I>&gt;<i> 
+</I>&gt;<i> azur
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ______________________________________________________________
+</I>&gt;<i> &gt; Od: &quot;Ctibor.Plasek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Ctibor.Plasek na seznam.cz</A>&gt;
+</I>&gt;<i> &gt; Komu: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> &gt; Dátum: 05.09.2012 12:12
+</I>&gt;<i> &gt; Predmet: [python] pygame
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Ahoj.
+</I>&gt;<i> &gt;Nemáte někdo zkušenosti s Pygame?
+</I>&gt;<i> &gt;Mám takový problém : při stisku klávesy chci, aby 'panáček' šel tak dlouho,
+</I>&gt;<i> dokud klávesu nepustím ( což je zdá se logické).
+</I>&gt;<i> &gt;Jenže když použiji :
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;stisk = pygame.key.get_pressed()
+</I>&gt;<i> &gt;    if stisk[K_UP]:
+</I>&gt;<i> &gt;        print(&quot;ahoj UP&quot;)
+</I>&gt;<i> &gt;    elif stisk[pygame.K_DOWN]:
+</I>&gt;<i> &gt;        print(&quot;ahoj DOWN&quot;)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;anebo :
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;for event in pygame.event.get(): 
+</I>&gt;<i> &gt;       
+</I>&gt;<i> &gt;        if event.type == QUIT or (event.type == KEYUP and event.key ==
+</I>&gt;<i> K_ESCAPE):
+</I>&gt;<i> &gt;            pygame.quit()
+</I>&gt;<i> &gt;            sys.exit()
+</I>&gt;<i> &gt;        
+</I>&gt;<i> &gt;        if event.type == KEYUP and event.key == K_RIGHT :
+</I>&gt;<i> &gt;            klavesa = 1
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;        if event.type == KEYUP and event.key == K_LEFT :
+</I>&gt;<i> &gt;            klavesa = -1
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Tak to vždy bere akorát jedno stisknutí. Nemůžete mi někdo poradit, jak to
+</I>&gt;<i> jednoduše vyřešit ?
+</I>&gt;<i> &gt;Děkuji Ctibor
+</I>&gt;<i> &gt;_______________________________________________
+</I>&gt;<i> &gt;Python mailing list
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010769.html">[python] pygame
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010771.html">[python] pygame
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10770">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10770">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10770">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10770">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010770.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007221.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:27 GMT -->
+<HEAD>
+   <TITLE> [python]  Problem s unicode.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20Problem%20s%20unicode.&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007214.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007222.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python]  Problem s unicode.</H1>
+    <B>Stepan Wagner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20Problem%20s%20unicode.&In-Reply-To="
+       TITLE="[python]  Problem s unicode.">stepan.wagner na gmail.com
+       </A><BR>
+    <I>Čtvrtek Duben 10 15:48:51 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007214.html">[python] Problem s unicode.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007222.html">[python] Problem s unicode.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7221">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7221">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7221">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7221">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+resim Unicode tez, me postrehy:
+Unicode je ideal pro prezentaci vsech znaku, ktery se musi nakonec prekodovat
+do bytoveho retezce (taky nazyvan plainstring, bytestring...).
+
+vstup ---&gt; decoding (e.g. ANSI) ---&gt; Unicode ---&gt; encoding (e.g. UTF8)
+---&gt; vystup
+
+Plati:
+
+unicodestring = u&quot;Žlutý kůň.&quot;
+utf8string = unicodestring.encode (&quot;utf-8&quot;)
+
+
+Jak dostat zvolene kodovani do vystupu, ktery pouziva napr. UTF-8:
+
+import codecs, sys
+sys.stdout = codecs.lookup ('utf-8')[1](sys.stdout)
+
+Ty si ve svem prikladu prevedl plainstring na Unicode pomoci UTF-8,
+ale pak je treba
+Unicode prekodovat znovu na plainstring podle zvoleneho kodovani.
+
+Stepan
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007214.html">[python] Problem s unicode.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007222.html">[python] Problem s unicode.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7221">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7221">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7221">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7221">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007221.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:27 GMT -->
+</html>

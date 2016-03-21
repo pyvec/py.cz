@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-November/000104.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] nacteni ze souboru (asi ansi), prevod na unicode
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20nacteni%20ze%20souboru%20%28asi%20ansi%29%2C%20prevod%20na%20unicode&In-Reply-To=436BB45E.2040208%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-November/000103.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-November/000105.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] nacteni ze souboru (asi ansi), prevod na unicode</H1>
+    <B>rajcze</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20nacteni%20ze%20souboru%20%28asi%20ansi%29%2C%20prevod%20na%20unicode&In-Reply-To=436BB45E.2040208%40post.cz"
+       TITLE="[Tutor PyCZ] nacteni ze souboru (asi ansi), prevod na unicode">rajcze na gmail.com
+       </A><BR>
+    <I>Pátek Listopad  4 21:19:52 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-November/000103.html">[Tutor PyCZ] nacteni ze souboru (asi ansi), prevod na unicode
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-November/000105.html">[Tutor PyCZ] nacteni ze souboru (asi ansi), prevod na unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/date.html#104">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/thread.html#104">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/subject.html#104">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/author.html#104">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hmm... tak to asi nebude uplne ok... chjo...
+myslel jsem, ze kdyz to prozenu fci unicode, vypadne z toho neco takovyho:
+
+&gt;&gt;&gt;<i> for acr in ucitele:
+</I>...     acronym=unicode(acr,'cp1250')
+...     name=unicode(ucitele[acr],'cp1250')
+...     acronym
+...     name
+...
+u'Mik'
+u'Mikyskov\xe1'
+u'Men'
+u'Men\u0161\xedkov\xe1'
+...
+
+jenze kdyz chci provest mysql dotaz, zas to rve o encode erroru :(
+
+&gt;&gt;&gt;<i> acronym
+</I>u'Bra'
+&gt;&gt;&gt;<i> name
+</I>u'Brad\xe1\u010dov\xe1'
+&gt;&gt;&gt;<i> query=u&quot;insert into profesori(acronym,name) values('&quot;+acronym+&quot;','&quot;+name+&quot;')
+</I>&quot;
+&gt;&gt;&gt;<i> query
+</I>u&quot;insert into profesori(acronym,name) values('Bra','Brad\xe1\u010dov\xe1')&quot;
+&gt;&gt;&gt;<i> mysql.execute(query)
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  File &quot;I:\PYTHON23\Lib\site-packages\MySQLdb\cursors.py&quot;, line 137, in execute
+    self.errorhandler(self, exc, value)
+  File &quot;I:\PYTHON23\Lib\site-packages\MySQLdb\connections.py&quot;, line
+33, in defaulterrorhandler
+    raise errorclass, errorvalue
+UnicodeEncodeError: 'ascii' codec can't encode characters in position
+54-55: ordinal not in range(128)
+
+nevim.. asi su fakt tupej....
+zkusil sem asi 6 postupu podle googlu (dokonce i nacitani souboru pres
+codecs.open(filename,encoding='cp1250',mode='r') ), ale stejne nic :(
+netusite nekdo ?
+diky rajcze
+btw: nemam to poslat do ne-novackovskyho mailing listu ?
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-November/000103.html">[Tutor PyCZ] nacteni ze souboru (asi ansi), prevod na unicode
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-November/000105.html">[Tutor PyCZ] nacteni ze souboru (asi ansi), prevod na unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/date.html#104">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/thread.html#104">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/subject.html#104">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/author.html#104">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-November/000104.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+</html>

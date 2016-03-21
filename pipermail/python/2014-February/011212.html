@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011212.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:46 GMT -->
+<HEAD>
+   <TITLE> [python] Zjištění dne v týdnu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZji%3DB9t%3DECn%3DED_dne_v_t%3DFDdnu%3F%3D&In-Reply-To=%3CCAN0O9Rt6%3D76QSXCnWwzg0p6YAD1kS4o6GHRfUPG%3D1q0HhuXsgg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-February/011211.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-February/011213.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zjištění dne v týdnu</H1>
+    <B>Vrána, Jan</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZji%3DB9t%3DECn%3DED_dne_v_t%3DFDdnu%3F%3D&In-Reply-To=%3CCAN0O9Rt6%3D76QSXCnWwzg0p6YAD1kS4o6GHRfUPG%3D1q0HhuXsgg%40mail.gmail.com%3E"
+       TITLE="[python] Zjištění dne v týdnu">jvrana na vranovi.info
+       </A><BR>
+    <I>Úterý Únor  4 08:48:23 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011211.html">[python] Zjištění dne v týdnu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011213.html">[python] Zjištění dne v týdnu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11212">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11212">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11212">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11212">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Krasny den,
+
+
+a jaka data potrebujete zkoumat ? standartni knihova datetime jde ochodtne
+do roku 1 ?
+
+Python 2.7.3
+&gt;&gt;&gt;<i> from datetime import date
+</I>&gt;&gt;&gt;<i> a = date(1582, 10, 13)
+</I>&gt;&gt;&gt;<i> a.timetuple()
+</I>time.struct_time(tm_year=1582, tm_mon=10, tm_mday=13, tm_hour=0, tm_min=0,
+tm_sec=0, tm_wday=2, tm_yday=286, tm_isdst=-1)
+
+Jinak bych ulohu resil převodem data na julianske datum (napr:
+<A HREF="http://oneau.wordpress.com/2011/08/30/jdcal/">http://oneau.wordpress.com/2011/08/30/jdcal/</A>) a pak je zjisteni dne v týdnu
+otazka delení sedmi.
+
+jinak prozkoumejte astronomicke ci astrologicke programy napsane v pythonu,
+ty musi mít praci s datem vyřešenou.
+
+S pozdravem Honza Vrana
+
+
+
+
+
+
+
+Dne 3. února 2014 22:58 Visgean Skeloru &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">visgean na gmail.com</A>&gt; napsal(a):
+
+&gt;<i> Nevím co myslíš tím &quot;jak to využít pro zjištění dalších dnů&quot;, ale asi
+</I>&gt;<i> chces ziskat neco jako seznam roku podle weekday nebo tak neco, nevim
+</I>&gt;<i> jestli ti tohle pomuze ale koukni na nasledujici gist
+</I>&gt;<i> <A HREF="https://gist.github.com/Visgean/8793232">https://gist.github.com/Visgean/8793232</A>
+</I>&gt;<i> asi nejužitečnější tam bude tenhle oneliner:
+</I>&gt;<i>
+</I>&gt;<i> years_by_weekday = lambda weekday: [datetime.date(day=1, month=1, year = year).year for year in range(1582,2014) if datetime.date(day=1, month=1, year = year).isoweekday() == weekday]
+</I>&gt;<i>
+</I>&gt;<i> btw tenhle kus dokumentace se hodí:
+</I>&gt;<i> date.weekday()
+</I>&gt;<i>
+</I>&gt;<i> Return the day of the week as an integer, where *Monday is 0 and Sunday
+</I>&gt;<i> is 6.* For example, date(2002, 12, 4).weekday() == 2, a Wednesday. See
+</I>&gt;<i> also isoweekday()&lt;<A HREF="http://docs.python.org/2/library/datetime.html#datetime.date.isoweekday">http://docs.python.org/2/library/datetime.html#datetime.date.isoweekday</A>&gt;
+</I>&gt;<i> .
+</I>&gt;<i>  date.isoweekday()
+</I>&gt;<i>
+</I>&gt;<i> Return the day of the week as an integer, where *Monday is 1 and Sunday
+</I>&gt;<i> is 7*. For example, date(2002, 12, 4).isoweekday() == 3, a Wednesday. See
+</I>&gt;<i> also weekday()&lt;<A HREF="http://docs.python.org/2/library/datetime.html#datetime.date.weekday">http://docs.python.org/2/library/datetime.html#datetime.date.weekday</A>&gt;,
+</I>&gt;<i> isocalendar()&lt;<A HREF="http://docs.python.org/2/library/datetime.html#datetime.date.isocalendar">http://docs.python.org/2/library/datetime.html#datetime.date.isocalendar</A>&gt;
+</I>&gt;<i> .
+</I>&gt;<i>
+</I>&gt;<i> :)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2014-02-03 Marcus Scalpere &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">xdlabacekm na seznam.cz</A>&gt;:
+</I>&gt;<i>
+</I>&gt;<i> Zdravím pánové,
+</I>&gt;&gt;<i> mám dotaz ohledně zjištění dne v týdnu. Řekněme, že vím ve který den v
+</I>&gt;&gt;<i> týdnu začíná nový rok (1. 1.), jak to využít pro zjištění dalších dnů? A
+</I>&gt;&gt;<i> ano, vím, že už jsou hotové funkce, ale zatím jsem nenašel žádnou, který by
+</I>&gt;&gt;<i> byla bez časového omezení. A o to mi právě jde, aby to bylo použitelný pro
+</I>&gt;&gt;<i> greg. kalendář od 1582, pro jul. kalendář...ještě dál do minulosti.
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> github/visgean &lt;<A HREF="http://github.com/Visgean">http://github.com/Visgean</A>&gt;
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+*Jan Vrána*
+Dělnicka 26
+779 00 Olomouc
+tel: 777-808-339
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20140204/0fdb08fd/attachment.html">http://www.py.cz/pipermail/python/attachments/20140204/0fdb08fd/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011211.html">[python] Zjištění dne v týdnu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011213.html">[python] Zjištění dne v týdnu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11212">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11212">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11212">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11212">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011212.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:46 GMT -->
+</html>

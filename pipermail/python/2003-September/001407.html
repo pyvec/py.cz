@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-September/001407.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:01 GMT -->
+<HEAD>
+   <TITLE> [python] Vykon Pythonu v praxi = psyco
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vykon%20Pythonu%20v%20praxi%20%3D%20psyco&In-Reply-To=000701c3838c%242e53f4a0%24010aa8c0%40devmatejka.syscae.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-September/001404.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-September/001410.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vykon Pythonu v praxi = psyco</H1>
+    <B>Radim Kolar</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vykon%20Pythonu%20v%20praxi%20%3D%20psyco&In-Reply-To=000701c3838c%242e53f4a0%24010aa8c0%40devmatejka.syscae.cz"
+       TITLE="[python] Vykon Pythonu v praxi = psyco">hsn na cybermail.net
+       </A><BR>
+    <I>Čtvrtek Září 25 23:24:24 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001404.html">[python] Vykon Pythonu v praxi
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001410.html">[python] Vykon Pythonu v praxi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-September/date.html#1407">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/thread.html#1407">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/subject.html#1407">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/author.html#1407">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>aby se projevil vetsi vliv pythonu importoval jsem jiz importovana
+data. V tomto pripade dela sql server jen readonly dotazy a hlavne
+nemusi updatovat indexy coz mu zabira nejvice casu, bez indexu nad
+tabulkama a nasledne kontroly referencni integrity importuje asi tak 10x
+rychleji v extremnich pripadech az 60x. Kdyz jsem uz utech databazi tak
+Oracle ma strasne pomale DELETE, coz vede v praxi k ukazum ze lepsi
+je koupit vice diskspace nez odmazavat stara data. 
+
+Dopadlo to takto (1xCPU masina):
+
+bez psyco  
+./load  72.48s user 2.12s system 40% cpu 3:02.84 total
+s psyco
+./load  47.24s user 1.99s system 33% cpu 2:25.55 total
+
+tedy 30% zrychleni. Jak je videt inzerovane zrychleni 2-4x se nekonalo,
+ani jsem ho necekal. 30% delaji JIT kompilatory v Jave na podobnych
+ulohach. Podstatnejsi otazka nez tech 30 procent je nakolik je psyco bug
+free aby se mohlo bez obav pouzivat; nikdo netouzi nainsertovat do sve
+database spatna data.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001404.html">[python] Vykon Pythonu v praxi
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001410.html">[python] Vykon Pythonu v praxi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-September/date.html#1407">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/thread.html#1407">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/subject.html#1407">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/author.html#1407">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-September/001407.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:01 GMT -->
+</html>

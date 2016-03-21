@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006772.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:08 GMT -->
+<HEAD>
+   <TITLE> [python] Problém s diakritikou, cherrypy, genshi
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FProbl%3DE9m_s_diakritikou%3D2C_cherrypy%3D2C_ge%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fnshi%3F%3D&In-Reply-To=88b92486-dc1d-4d08-95cd-6766f58c4ad7%40p69g2000hsa.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006771.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006773.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problém s diakritikou, cherrypy, genshi</H1>
+    <B>Petr Nesládek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FProbl%3DE9m_s_diakritikou%3D2C_cherrypy%3D2C_ge%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fnshi%3F%3D&In-Reply-To=88b92486-dc1d-4d08-95cd-6766f58c4ad7%40p69g2000hsa.googlegroups.com"
+       TITLE="[python] Problém s diakritikou, cherrypy, genshi">petr.nesladek na seznam.cz
+       </A><BR>
+    <I>Středa Listopad 21 10:29:24 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006771.html">[python] Problém s diakritikou, cherrypy, genshi
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006773.html">[python] Problém s diakritikou, cherrypy, genshi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6772">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6772">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6772">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6772">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Takže si myslím, že problém je v diakritice která se posílá pomocí
+</I>&gt;<i> POST, protože šabloně nedělá problém data normálně zobrazit selectem z
+</I>&gt;<i> databáze.
+</I>&gt;<i> Takže, nemá někdo nějaký nápad ? Jinak ten error:
+</I>&gt;<i> UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position
+</I>&gt;<i> 1: ordinal not in range(128)
+</I>Zdaravím,
+bylo by dobré vědět v kterém momentu přesně nastává tento problém, ale jinak je to pouze fakt, že v tomto momentě došlo k pokusu převést řetězec obsahující nějaké zanaky s diakritikou, ale proběhl pokus o standartní převod (z ASCII)
+
+Nedělal jsem s Cherry,takže neznám úlplné pozadí, ale před místem , kde dochází k této chbě by bylo pradběpodobně nejlepší provést konverzi řetězce ze 'str' do 'unicode'  např.:
+
+retezec = retezec.decode(&quot;cp1250&quot;)
+
+
+protože někde v procesu v Cherry je určitě použita konverze    unicode(retezec) a ta akceptuje samozžejmě pouze znaky v rozsahu ACSII, nebo přímo unicode řetězec.
+
+je třeba jen zjistit v jakém kodování přijde ten řetězec
+
+Petr
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006771.html">[python] Problém s diakritikou, cherrypy, genshi
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006773.html">[python] Problém s diakritikou, cherrypy, genshi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6772">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6772">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6772">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6772">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006772.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:08 GMT -->
+</html>

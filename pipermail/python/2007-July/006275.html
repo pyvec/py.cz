@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006275.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:42 GMT -->
+<HEAD>
+   <TITLE> [python] problém s modulem wave
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fprobl%3DE9m_s_modulem_wave%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006282.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006288.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] problém s modulem wave</H1>
+    <B>jiri.zahradil na gmail.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fprobl%3DE9m_s_modulem_wave%3F%3D&In-Reply-To="
+       TITLE="[python] problém s modulem wave">jiri.zahradil na gmail.com
+       </A><BR>
+    <I>Pondělí Červenec 16 14:58:21 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006282.html">[python] reportlab a cherrypy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006288.html">[python] problém s modulem wave
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6275">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6275">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6275">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6275">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+mám problém s modulem wave. Mám PCM data v paměti a potřebuji je
+korektně uložit do .wav souboru. Vytvořil jsem si na to funkci pomocí
+modulu wave (je u Pythonu - 2.5, pod Windows). Bohužel, vytvořený
+soubor je zhruba správně velký, ovšem dat - PCM vzorků - je v něm jen
+půlka (= přehraje se jen půlka, zkoušel jsem různé programy). Pokud
+uložím jen PCM data pomocí open(&quot;soubor.pcm&quot;,&quot;wb&quot;).write(data) a pak
+data otevřu v editoru jako &quot;raw&quot; formát tak jsou tam všechna. Nevíte
+kde může být chyba?
+
+Funkce kterou používám:
+
+import wave
+def SavePCMasWAV(filename, data):
+  &quot;&quot;&quot;
+  Function that takes a filename and PCM data in mono, 16bit, 16000 Hz
+format
+  and saves them as standard .WAV file
+  &quot;&quot;&quot;
+
+  if type(data) is type(list()):
+    # need to transform &quot;list&quot; data to binary array format
+    a = array.array(&quot;h&quot;) # short type
+    a.extend(data)
+    data = a
+
+  w = wave.open(filename,&quot;wb&quot;)
+  w.setnchannels(1)
+  w.setsampwidth(2)
+  w.setframerate(16000)
+  w.setnframes(len(data))
+  w.writeframesraw(data)
+  w.close()
+
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006282.html">[python] reportlab a cherrypy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006288.html">[python] problém s modulem wave
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6275">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6275">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6275">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6275">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006275.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:42 GMT -->
+</html>

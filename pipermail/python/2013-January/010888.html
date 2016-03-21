@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010888.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:16 GMT -->
+<HEAD>
+   <TITLE> [python] otázka ohladom mojho štýlu písania v OOP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fot%3DE1zka_ohladom_mojho_%3DB9t%3DFDlu_p%3DEDsani%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fa_v_OOP%3F%3D&In-Reply-To=%3CCABfjP1%2BXH%2Bf3Cm-OXDgMWu9RZL0nLkhv-U8CMA0vjxrFB7ki-g%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010887.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010889.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] otázka ohladom mojho štýlu písania v OOP</H1>
+    <B>Roman Beno</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fot%3DE1zka_ohladom_mojho_%3DB9t%3DFDlu_p%3DEDsani%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fa_v_OOP%3F%3D&In-Reply-To=%3CCABfjP1%2BXH%2Bf3Cm-OXDgMWu9RZL0nLkhv-U8CMA0vjxrFB7ki-g%40mail.gmail.com%3E"
+       TITLE="[python] otázka ohladom mojho štýlu písania v OOP">romanbeno273 na gmail.com
+       </A><BR>
+    <I>Neděle Leden 13 15:53:07 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010887.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010889.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10888">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10888">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10888">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10888">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Chyba bude skôr na mojej strane.
+Už som spomínal, že s OOP len začínam, takže v tých princípoch ešte nie som
+celkom doma.
+
+
+2013/1/13 rajcze &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rajcze na gmail.com</A>&gt;
+
+&gt;<i> Asi jsem nepochopil zamer, s jakym je tahle konstrukce vymyslena.... Na co
+</I>&gt;<i> je dobry vytvorit &quot;ukazatel&quot; na metodu jedne konkretni instance pri importu
+</I>&gt;<i> modulu? A kdyz rikas &quot;importovat metody z PrikazovehoRadka&quot; tak tim myslis
+</I>&gt;<i> co? Jakoze, bud mas tridu, tu si importuj, v programu vyrob instanci, a tu
+</I>&gt;<i> pak pouzivej, nebo to holt napis jen jako knihovnu s metodou &quot;proces&quot;.
+</I>&gt;<i> Mozna to mas jako pozustatek z Javy, nebo co ja vim, ale v Pythonu neni
+</I>&gt;<i> potreba kazdou kravinu &quot;balit&quot; do objektu, jen aby to bylo kchul
+</I>&gt;<i> objektove.... Me proste prijde, ze zamer s jakym to pouzivas (coz tak jak
+</I>&gt;<i> to mas je s prominutim hloupost), se uplne nekreje s tim, proc programovat
+</I>&gt;<i> objektove.
+</I>&gt;<i> Ale je mozne, yze jde jen o nepochopeni ejakeho vyssiho principu na me
+</I>&gt;<i> strane.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Sunday, January 13, 2013, Roman Beno wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i> ten problém s if __name__ ... co si opisoval som vyriešil takto:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> if __name__==&quot;__main__&quot;:
+</I>&gt;&gt;<i>     instancia=PrikazovyRiadok()
+</I>&gt;&gt;<i>     instancia.proces()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> elif __name__!=&quot;__main__&quot;:
+</I>&gt;&gt;<i>     instancia=PrikazovyRiadok()
+</I>&gt;&gt;<i>     proces=instancia.proces
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Neviem či je to dobré, ale osvedčilo, ked som chcel importovat metody z
+</I>&gt;&gt;<i> PrikazovehoRiadka,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Roman
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dňa 13. január 2013 10:45, rajcze &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rajcze na gmail.com</A>&gt; napísal(-a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Co se dodrzovani PEP8 tyka: Use pyling, Luke! &lt;
+</I>&gt;&gt;<i> <A HREF="http://pypi.python.org/pypi/pylint">http://pypi.python.org/pypi/pylint</A>&gt;
+</I>&gt;&gt;<i> Na druhou stranu, je potreba si uvedomit, ze pylint je nacek, a prebrat
+</I>&gt;&gt;<i> si co ktera chybova hlaska znamena (samozrejme to jde nastavit tak, aby se
+</I>&gt;&gt;<i> urcity typ chyb nehlasil, atd.)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _Vzdy_ prosim pouzivej new-style classes, tj. PrikazovyRiadok(object).
+</I>&gt;&gt;<i> Nema to zadne nevyhody, a prinasi to spoustu vyhod (ty sice zatim mozna
+</I>&gt;&gt;<i> neocenis, ale jednou se ti budou jiste hodit) &lt;
+</I>&gt;&gt;<i> <A HREF="http://realmike.org/blog/2010/07/18/introduction-to-new-style-classes-in-python/">http://realmike.org/blog/2010/07/18/introduction-to-new-style-classes-in-python/</A>
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ad if __name__ == &quot;__main__&quot;: z praktickeho hlediska je _temer vzdy_
+</I>&gt;&gt;<i> nespravne mit  vykonny kod mimo tenhle blok, a v tomhle pripade to plati
+</I>&gt;&gt;<i> obzvlast. Duvod je jednoduchy - predstav si, ze tam ten __main__ blok
+</I>&gt;&gt;<i> nemas, a rozhodnes se tenhle soubor importovat jako knihovnu (protoze z
+</I>&gt;&gt;<i> nejakeho duvodu chces pouzivat tridu PrikazovyRiadok. Pri importovani
+</I>&gt;&gt;<i> modulu pak Python &quot;vykona&quot; celou tu knihovnu, a pak ti zpristupni symboly.
+</I>&gt;&gt;<i> Tedy v tomhle pripade (pokud bys nemel volani te metody proces v __main__
+</I>&gt;&gt;<i> bloku) by se ti pri importu spustila metoda proces a zacala poskytovat
+</I>&gt;&gt;<i> &quot;prikazovy radek&quot;. Coz asi neni to co by clovek pri importu cekal.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Joza
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2013/1/13 Roman Beno &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">romanbeno273 na gmail.com</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dobrý den,
+</I>&gt;&gt;<i> tento štýl by mohol vyhovovat?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> #! /usr/bin/python3
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> from os import getcwd,system
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class PrikazovyRiadok:
+</I>&gt;&gt;<i>     &quot;&quot;&quot;Trieda pracujúca ako príkazový riadok.&quot;&quot;&quot;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     def proces(self):
+</I>&gt;&gt;<i>         &quot;&quot;&quot;&quot;Metóda umožňujúca zadávanie príkazov cez os.system a
+</I>&gt;&gt;<i> os.getcwd&quot;&quot;&quot;
+</I>&gt;&gt;<i>         while True:
+</I>&gt;&gt;<i>             self.prikaz=str(input(&quot;Zadajte príkaz alebo 0 pre ukončenie:
+</I>&gt;&gt;<i> &quot;))
+</I>&gt;&gt;<i>             # Zadaj lubovolný príkaz. Ten sa vo forme výstupu z input()
+</I>&gt;&gt;<i>             # neskor stane argumentom os.system alebo os.getcwd
+</I>&gt;&gt;<i>             if self.prikaz==&quot;0&quot;:
+</I>&gt;&gt;<i>                 break
+</I>&gt;&gt;<i>             # ak však napíšete 0, zoberie si program, že chcete skončit
+</I>&gt;&gt;<i>             if self.prikaz.startswith(&quot;cd&quot;):
+</I>&gt;&gt;<i>                 getcwd(self.prikaz)
+</I>&gt;&gt;<i>                 continue
+</I>&gt;&gt;<i>             # mám dojem, že os.system() sa nevztahuje napríkaz cd. Preto
+</I>&gt;&gt;<i> dostal
+</I>&gt;&gt;<i>             # priestor príkaz os.getcwd() v prípade, že sa self.prikaz
+</I>&gt;&gt;<i> začina
+</I>&gt;&gt;<i>             # na cd
+</I>&gt;&gt;<i>             system(self.prikaz)
+</I>&gt;&gt;<i>             # ked sme ešte cyklus nezačali znova, alebo neskončili, spln
+</I>&gt;&gt;<i>             # konečne ten príkaz
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ##############################################################################
+</I>&gt;&gt;<i> if __name__==&quot;__main__&quot;:
+</I>&gt;&gt;<i>     instancia=PrikazovyRiadok()
+</I>&gt;&gt;<i>     instancia.proces()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Nie som si istý, či je dobré dať vytvorenie instancie a volanie metódy do
+</I>&gt;&gt;<i> if__name__...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ďakujem za odpoveď
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dňa 12. január 2013 21:51, Jan Bednařík &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jan.bednarik na gmail.com</A>&gt;napísal(-a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  Rád bych ti poradil konkrétněji, ale tím že nedodržuješ PEP8 a
+</I>&gt;&gt;<i> nestandardně mícháš různé způsoby zápisu kódu dohromady (CamelCase v
+</I>&gt;&gt;<i> zázvech proměnných apod.), je ten tvůj kód na první pohled nepřehledný,
+</I>&gt;&gt;<i> alespoň já to tak vnímám. A těžko se to luští.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Nicméně rozhodně by ses měl vyvarovat importování hvězdiček (from tkinter
+</I>&gt;&gt;<i> import *). Měl bys mít přehled o tom co importuješ - měl bys konkrétně
+</I>&gt;&gt;<i> importovat jen třídy, funkce, atd., které používáš.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Definování funkcí uvnitř metod je myslím taky na pováženou - měl by si
+</I>&gt;&gt;<i> spíše využít pomocné metody. Jak si sám napsal, rozkouskování pro
+</I>&gt;&gt;<i> zpřehlednění programu určitě neuškodí - přehlednost a srozumitelnost by
+</I>&gt;&gt;<i> měla být na prvním místě, protože až se k tomu kódu budeš někdy vracet,
+</I>&gt;&gt;<i> oceníš, když se v něm snadno zorientuješ.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ono to rozkouskování na metody a funkce je hlavně otázka citu a
+</I>&gt;&gt;<i> zkušeností, které nabereš časem. Případně se zkus přiučit čtením zdrojových
+</I>&gt;&gt;<i> kódů nějakých větších open-source projektů.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2013/1/12 Roman Beno &lt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Rules of Optimization:
+</I>&gt;<i> Rule 1: Don't do it.
+</I>&gt;<i> Rule 2 (for experts only): Don't do it yet.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130113/1cf7c606/attachment.html">http://www.py.cz/pipermail/python/attachments/20130113/1cf7c606/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010887.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010889.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10888">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10888">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10888">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10888">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010888.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:16 GMT -->
+</html>

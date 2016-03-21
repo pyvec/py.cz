@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000211.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3FMilovan%3DE9_Livewires_-_A_najednou_ta%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fm_lezou_t%3DF8%3DEDdy%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000210.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000212.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy</H1>
+    <B>Tomáš Bělonožník</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3FMilovan%3DE9_Livewires_-_A_najednou_ta%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fm_lezou_t%3DF8%3DEDdy%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy">rebelme na gmail.com
+       </A><BR>
+    <I>Pátek Březen  3 00:00:32 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000210.html">[Tutor PyCZ] Globalni,
+	lokalni a volne promenno (bylo Dalsi problem s Livewires)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000212.html">RE: [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#211">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#211">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#211">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#211">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+tak jsem dále pokročil v tvorbě oné robotí hry a dostal jsem se do
+části, kde by to chtělo přidat další roboty aby jich hráče honilo víc.
+Autor tutoriálu se jal používat třídy a k úpravě programu poskytl
+instrukce:
+#  Na úplném začátku vyrobHrace zadejte hrac = Hrac().
+# Na úplném začátku vyrobRobota zadejte robot = Robot().
+# Změňte příkazy global tak, že nyní stačí globalisovat pouze objekt
+player (namísto hrac_x apod.) nebo robot (namísto robot_x apod.).
+# Změňte všechny reference na hrac_x, hrac_y a hrac_telo na hrac.x,
+hrac.y a hrac.telo.
+
+Problém je v tom, že já v celém programu nemám jedinkrát global a je
+to všechno dělané přes return a funkce, kterým předávám určité
+hodnoty. Ty teď po zaměnění těch referencí nefungují, hlásí syntax
+error když vidí tu tečku třeba v &quot;hrac.x&quot;, ale je mi jasné, že problém
+je hlubší. Kód programu bude kdyžtak na konci mailu, už je to totiž
+celkem dlouhý. Má otázka je tedy - Chápu to dobře, že budu muset
+předělat velmi podstatnou část programu? Přepsat definice funkcí do
+definic tříd? Přečetl jsem si o třídách nějakou teorii, něco jsem si z
+toho vzal, ale chvílemi jsem měl pocit, že mi povídají o koze a já
+chci slyšet o voze. Kdyžtak díky za odpověď.
+
+A tady je ten kód.
+--
+import random
+from livewires import *
+begin_graphics()
+allow_moveables()
+class Hrac:
+    pass
+
+konec = 1
+konec_sub = 0
+teleportace = 0
+
+
+def vyrobHrace():
+    xh=random.randint(8, 631)
+    yh=random.randint(8, 471)                   # Omezení, aby se
+Hrac_telo vesel na obrazovku celou plochou.
+    Hrac_telo = circle(xh, yh, 5, filled=1, colour=Colour.red)
+    return xh, yh, Hrac_telo
+
+
+def vyrobRobota():
+    xr=random.randint(8, 631)
+    yr=random.randint(8, 471)
+
+    xr_round = xr / 10
+    xh_round = xh / 10
+    yr_round = yr / 10
+    yh_round = yh / 10
+    while xr_round == xh_round:
+        while yr_round == yh_round:
+            xr=random.randint(8, 631)
+            yr=random.randint(8, 471)
+
+    Robot_telo = box(xr-5,yr-5,xr+5,yr+5, filled=1, colour=Colour.dark_blue)
+    return xr, yr, Robot_telo
+
+        if &quot;2&quot; in klavesy:
+            xh = xh + 0
+            yh = yh - 10
+            sleep(0.2)
+            teleportace = teleportace + 0
+            return xh, yh, teleportace
+        elif &quot;8&quot; in klavesy:
+            xh = xh + 0
+            yh = yh + 10
+            sleep(0.2)
+            teleportace = teleportace + 0
+            return xh, yh, teleportace
+        elif &quot;4&quot; in klavesy:
+            xh = xh - 10
+            yh = yh + 0
+            sleep(0.2)
+            teleportace = teleportace + 0
+            return xh, yh, teleportace
+        elif &quot;6&quot; in klavesy:
+            xh = xh + 10
+            yh = yh + 0
+            sleep(0.2)
+            teleportace = teleportace + 0
+            return xh, yh, teleportace
+        elif &quot;1&quot; in klavesy:
+            xh = xh - 10
+            yh = yh - 10
+            sleep(0.2)
+            teleportace = teleportace + 0
+            return xh, yh, teleportace
+        elif &quot;3&quot; in klavesy:
+            xh = xh + 10
+            yh = yh - 10
+            sleep(0.2)
+            teleportace = teleportace + 0
+            return xh, yh, teleportace
+        elif &quot;7&quot; in klavesy:
+            xh = xh - 10
+            yh = yh + 10
+            sleep(0.2)
+            teleportace = teleportace + 0
+            return xh, yh, teleportace
+        elif &quot;9&quot; in klavesy:
+            xh = xh + 10
+            yh = yh + 10
+            sleep(0.2)
+            teleportace = teleportace + 0
+            return xh, yh, teleportace
+        elif teleportace &lt; 5:
+            if &quot;t&quot; in klavesy:
+                xh = random.randint(8, 631)
+                yh = random.randint(8, 471)
+                teleportace = teleportace + 1
+                sleep(0.1)
+                return xh, yh, teleportace
+            else:
+                xh = xh + 0
+                yh = yh + 0
+                teleportace = teleportace + 0
+                return xh, yh, teleportace
+        else:
+            xh = xh + 0
+            yh = yh + 0
+            teleportace = teleportace + 0
+            return xh, yh, teleportace
+
+def posunRobota(xr, xh, yr, yh, Robot_telo):
+    if xr &lt; xh:
+        if yr == yh:
+            xr = xr+5
+            yr = yr+0
+            move_to(Robot_telo, xr, yr)
+            sleep(0.2)
+            return xr, yr
+        elif yr &lt; yh:
+            xr = xr+5
+            yr = yr+5
+            move_to(Robot_telo, xr, yr)
+            sleep(0.2)
+            return xr, yr
+        elif yr &gt; yh:
+            xr = xr+5
+            yr = yr-5
+            move_to(Robot_telo, xr, yr)
+            sleep(0.2)
+            return xr, yr
+        else:
+            return xr, yr
+    elif xr &gt; xh:
+        if yr == yh:
+            xr = xr-5
+            yr = yr+0
+            move_to(Robot_telo, xr, yr)
+            sleep(0.2)
+            return xr, yr
+        if yr &lt; yh:
+            xr = xr-5
+            yr = yr+5
+            move_to(Robot_telo, xr, yr)
+            sleep(0.2)
+            return xr, yr
+        if yr &gt; yh:
+            xr = xr-5
+            yr = yr-5
+            move_to(Robot_telo, xr, yr)
+            sleep(0.2)
+            return xr, yr
+        else:
+            return xr, yr
+    elif yr &lt; yh:
+        yr = yr+5
+        xr = xr+0
+        move_to(Robot_telo, xr, yr)
+        sleep(0.2)
+        return xr, yr
+    elif yr &gt; yh:
+        yr = yr-5
+        xr = xr+0
+        move_to(Robot_telo, xr, yr)
+        sleep(0.2)
+        return xr, yr
+    else:
+        xr = xr+0
+        yr = yr+0
+        return xr, yr
+
+
+def posunHrace():
+    move_to(Hrac_telo, xh, yh)
+
+# Funkce znemožňující hráčův pohyb za okraj hrací plochy
+def kontrola_plochy(xh, yh, Hrac_telo):
+    if xh &lt; 8:
+       xh = 8
+       yh = yh+0
+       move_to(Hrac_telo, xh, yh)
+       return xh, yh
+    elif xh &gt; 631:
+       xh = 631
+       yh = yh+0
+       move_to(Hrac_telo, xh, yh)
+       return xh, yh
+    elif yh &lt; 8:
+       yh = 8
+       xh = xh+0
+       move_to(Hrac_telo, xh, yh)
+       return xh, yh
+    elif yh &gt; 471:
+       yh = 471
+       xh = xh+0
+       move_to(Hrac_telo, xh, yh)
+       return xh, yh
+    else:
+       return xh, yh
+
+# Kontrola srážky s robotem
+def kontrola_srazky(xr, xh, yr, yh, konec_sub):
+    xr_round = xr / 10
+    xh_round = xh / 10
+    yr_round = yr / 10
+    yh_round = yh / 10
+    if xr_round == xh_round:
+        if yr_round == yh_round:
+            print &quot;Prohrál jsi!&quot;
+            konec_sub = 1
+            return konec_sub
+        else:
+            pass
+    else:
+        pass
+
+box(3,3,636,476)                        # Vytváří okraj hrací plochy
+
+xh, yh, Hrac_telo = vyrobHrace()
+xr, yr, Robot_telo = vyrobRobota()
+
+while konec != 2:
+    while 1:
+        klavesy = keys_pressed()
+
+        xh, yh, teleportace = zmena_XY_hr(xh, yh, teleportace)
+        posunHrace()
+
+        xh, yh = kontrola_plochy(xh, yh, Hrac_telo)
+        xr, yr = posunRobota(xr, xh, yr, yh, Robot_telo)
+        konec_sub = kontrola_srazky(xr, xh, yr, yh, konec_sub)
+        # Ukončení hry v případě kolize
+        if konec_sub == 1:
+            konec = 2
+            break
+        # Přerušení hry ze strany uživatele
+        if &quot;q&quot; in klavesy:
+            konec = 2
+            break
+
+end_graphics()
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000210.html">[Tutor PyCZ] Globalni,
+	lokalni a volne promenno (bylo Dalsi problem s Livewires)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000212.html">RE: [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#211">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#211">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#211">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#211">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000211.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

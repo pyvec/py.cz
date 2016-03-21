@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008818.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:39 GMT -->
+<HEAD>
+   <TITLE> [python] Destruktor v GTK
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Destruktor%20v%20GTK&In-Reply-To=%3C366.557-3928-837738902-1238679435%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-April/008816.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-April/008817.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Destruktor v GTK</H1>
+    <B>Calis.martin na seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Destruktor%20v%20GTK&In-Reply-To=%3C366.557-3928-837738902-1238679435%40seznam.cz%3E"
+       TITLE="[python] Destruktor v GTK">Calis.martin na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Duben  2 15:37:15 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008816.html">[python] Destruktor v GTK
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008817.html">[python] Prosba
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8818">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8818">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8818">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8818">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hmm, je to strašně zmatený, chápu to dobře že chceš aby se z jedné třídy zavolala metoda druhé třídy která ukončí okno? Nedělám sice v GTK ale myslím že nestačí pouze smazat tu proměnou... Budeš muset najít metodu která ukončí okno..
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: pEtR Skarka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.skarka na centrum.cz</A>&gt;
+</I>&gt;<i> Předmět: [python] Destruktor v GTK
+</I>&gt;<i> Datum: 01.4.2009 23:13:15
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Zdravim,
+</I>&gt;<i> 
+</I>&gt;<i> Mam tento problem:
+</I>&gt;<i> Potrebuji aby se z instance ze tridy ovce zavolal destruktor po kliknuti na
+</I>&gt;<i> tlacitko &quot;Konec ovce&quot;. Jiste reseni mam ale nezdasemi prilis koser. 
+</I>&gt;<i> 
+</I>&gt;<i> Budu vdecny za jakekoliv rady a pripominky.
+</I>&gt;<i> Dekuji
+</I>&gt;<i> 
+</I>&gt;<i> Petr Skarka
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">p.skarka na centrum.cz</A>
+</I>&gt;<i> 
+</I>&gt;<i> Program:
+</I>&gt;<i> 
+</I>&gt;<i> import gtk
+</I>&gt;<i> 
+</I>&gt;<i> class panter:
+</I>&gt;<i>     def __init__(self):
+</I>&gt;<i>         okno = gtk.Window()
+</I>&gt;<i>         tlac = gtk.Button('Tuk Tuk')
+</I>&gt;<i>         tlac.connect(&quot;clicked&quot;, self.CallOvci)
+</I>&gt;<i>         okno.add(tlac)
+</I>&gt;<i>         okno.show_all()
+</I>&gt;<i>         
+</I>&gt;<i> 
+</I>&gt;<i>     def CallOvci(self, widget):
+</I>&gt;<i>         self.C_ovce = ovce(self)
+</I>&gt;<i> 
+</I>&gt;<i>     def ZabijOvci(self):
+</I>&gt;<i>         del self.C_ovce
+</I>&gt;<i>         print 'Volam zniceni'
+</I>&gt;<i>     
+</I>&gt;<i>     def Launch(self):
+</I>&gt;<i> 
+</I>&gt;<i>         gtk.main()
+</I>&gt;<i>         
+</I>&gt;<i> 
+</I>&gt;<i> class ovce:
+</I>&gt;<i>     def __init__(self, x):
+</I>&gt;<i>         self.x = x
+</I>&gt;<i>         okno = gtk.Window()
+</I>&gt;<i>         tlac = gtk.Button('Konce ovce')
+</I>&gt;<i>         tlac.connect(&quot;clicked&quot;, self.Konec)
+</I>&gt;<i>         okno.add(tlac)
+</I>&gt;<i>         okno.show_all()
+</I>&gt;<i>         
+</I>&gt;<i>     def Konec(self, widget):
+</I>&gt;<i>         self.x.ZabijOvci()
+</I>&gt;<i> 
+</I>&gt;<i>     def __del__(self):
+</I>&gt;<i>         print 'oce konci'
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> zvire = panter()
+</I>&gt;<i> zvire.Launch()
+</I>&gt;<i>  
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008816.html">[python] Destruktor v GTK
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008817.html">[python] Prosba
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8818">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8818">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8818">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8818">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008818.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:39 GMT -->
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-September/001386.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:00 GMT -->
+<HEAD>
+   <TITLE> [python] Berkeley DB XML
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Berkeley%20DB%20XML&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-September/001382.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-September/001387.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Berkeley DB XML</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Berkeley%20DB%20XML&In-Reply-To="
+       TITLE="[python] Berkeley DB XML">Prikryl na skil.cz
+       </A><BR>
+    <I>Pondělí Září 15 14:04:48 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001382.html">[python] Berkeley DB XML
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001387.html">[python] Berkeley DB XML
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-September/date.html#1386">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/thread.html#1386">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/subject.html#1386">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/author.html#1386">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jarda Pachola napsal...
+&gt;<i> Petr Prikryl napsal:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Berkeley DB XML jsem sice nepouzival, ale je to relativne
+</I>&gt;<i> &gt; novy produkt (pro Windows 2000 a XP) a ocekaval bych, ze
+</I>&gt;<i> &gt; Dll knihovny budou potrebovat zaregistrovat. [...]
+</I>&gt;<i> 
+</I>&gt;<i> Rozumim tomu dobre, ze predpokladate, ze pod Windows se
+</I>&gt;<i> Berkeley DB XML ovlada pomoci COM? Windows pouzivam tak
+</I>&gt;<i> malo, ze to asi zkouset nebudu, ale moc se mi to nezda.
+</I>&gt;<i> [...]
+</I>
+Pokud se dnes vytvari nejaka nejaka dll knihovna pro Windows
+(tedy dynamicky linkovana knihovna v protikladu ke staticky
+linkovanym knihovnam), pak se s velkou pravdepodobnosti
+vyuziva rozhrani COM -- principialne uz od doby Windows 95.
+
+Windows Registry vznikly podle mne predevsim proto, aby bylo
+mozne implementovat podporu COM. Jeji vyuziti pro nahradu 
+puvodnich ini souboru povazuji az za druhoradou a neprilis
+stastnou. (Osobne preferuji textove konfiguracni soubory.)
+Vetsina veci, ktere najdete v registry, se nejak vztahuje k
+COM.
+
+Databazovy server napriklad potrebujete spoustet a
+potrebujete se na nej navazovat ze svych aplikaci.
+Implementace v podobe COM komponenty tuto vec velmi
+zjednodusuje. Pokud komponenta navic definuje takzvane
+Dispatch rozhrani, pak se na ni lze napojit i ze
+skriptovacich jazyku (za behu se daji zjistit podporovana
+rozhrani a volane funkce se daji specifikovat textove). To
+je taky jeden z duvodu, proc by se mohli autori Berkeley DB
+XML u varianty pro Windows snazit o implementaci COM rozhrani
+a to dokonce i jeho Dispatch varianty.
+
+COM umoznuje lepe realizovat objektovou vystavbu aplikace.
+&quot;Klasicke&quot; dll knihovny (pouze s funkcemi) odpovidaji starsi
+historicky starsimu obdobi strukturovaneho programovani.
+
+Petr
+
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001382.html">[python] Berkeley DB XML
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001387.html">[python] Berkeley DB XML
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-September/date.html#1386">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/thread.html#1386">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/subject.html#1386">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/author.html#1386">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-September/001386.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:00 GMT -->
+</html>

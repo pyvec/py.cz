@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-August/001299.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:30 GMT -->
+<HEAD>
+   <TITLE> [python] Re: igui2
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20igui2&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-August/001304.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-August/001298.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Re: igui2</H1>
+    <B>Jan Svec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20igui2&In-Reply-To="
+       TITLE="[python] Re: igui2">honza na py.cz
+       </A><BR>
+    <I>Pátek Srpen 22 11:05:45 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/001304.html">[python] wm.nextra.cz mailing list memberships reminder
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/001298.html">[python] SEE THIS 19 Years old NICE KATERINA SHOW ALL FOR
+	FREE!!!!@@@!!!!
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-August/date.html#1299">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/thread.html#1299">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/subject.html#1299">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/author.html#1299">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Thu, 27 Mar 2003, Zdenek Pavlas wrote:
+
+&gt;<i> &gt;&gt; Aplikace bude volat IGUI2. IGUI2 wrapuje gtk+. gtk+ wrapuje gdk.
+</I>&gt;<i> &gt;&gt; gdk wrapuje xlib. teprve xlib konecne pohne prstem. Pritom je
+</I>&gt;<i> &gt;&gt; to vsechno slinkovany dohromady do jednoho mamuta a kazda vrstva
+</I>&gt;<i> &gt;&gt; se snazi aby to segfaultlo nebo aspon bezelo co nejpomaleji.
+</I>
+Nedalo mi to a premyslel jsem nad tim, jak onen &quot;obludny&quot;
+pocet vrstev minimalizovat. A vysledek prekvapivy - moc to
+nejde.
+
+Pokud si vezmeme UNIX, (temer) vzdy budeme potrebovat xlib a
+na sto procent jeste vrstvu v Pythonu, to uz tedy mame dve.
+A ted co nacpeme mezi to:
+1) GTK+
+Jak bylo receno vyse, GTK+ pro kresleni pouziva GDK, cili
+dve vrstvy a jsme na vysledku ctyri vrstvy.
+2) QT
+Zdanlive jde o jedinou vrstvu, nicmene rozdeleni tu opet
+naleznete. Ovsem jiz ne tak transparentni, jako u GTK+ (to
+se mimochodem existenci GDK primo chlubi). Pro kresleni
+totiz pouzivame QCanvas, coz je totez co GDK. Opet ctyri
+vrstvy.
+3) Cokoli jineho
+At se budem snazit jakkoli, vzdy nam vypadnou minimalne tri
+vrstvy, casteji ovsem ctyri (od nejnizsi: xlib,
+nejaky_canvas, neco_co_pouziva_canvas, python_binding).
+
+Ted jakym zpusobem se to dotkne IGUI. V prvni fazi jsem
+backend vyvijel na PyGTK, doslo ovsem opravdu k one
+obludnosti, ze se to temer &quot;zadrelo&quot;, cili rychlost se
+blizila nule :)
+
+Proto jsem jednu vrstvu skrtnul. Volba padla na PyGTK, cili
+backend prepsan do C a cele mi to subjektivne prijde
+rychlejsi nez PyGTK.
+
+Kazdy si samozrejme muze zvolit svuj vlastni pristup a
+vyhodit jinou vrstvu :) Klidne i IGUI, cimz ovsem prijde o
+jeho vyhody, ale vysledek je opet stejny, ctyri vrstvy nad
+GUI. Takze opravdu IGUI dela &quot;jen&quot; to co ostatni bindingy
+jako PyGTK, PyQT a dalsi.
+
+Dalsi minimalizaci provedeme nasledujicim postupem:
+Nas drahoceny hroznysi vyplod (Python zdrojak) prepiseme do
+C. Pokud tuto operaci prezijeme, zbavili jsme se jedne
+vrstvy. Ovsem prisli jsme o moznost dalsiho jednoducheho
+vyvoje a o &quot;ctivost&quot; programu.
+
+V dalsi fazi vyhodime GTK+ nebo QT a program prepiseme pro
+xlib. Mezitim jsme zesediveli, nas program zasel ma
+nedostatek uzivatelu a prehrsel chyb, takze co z toho
+vyplyva?
+
+Pouzivejte Python, lidicky, a nebojte se dalsich vrstev,
+urcite nejsou zbytecne.
+
+&gt;<i> &gt;&gt; Nebylo by lepsi owrapovat do pythonu jen samotnej xlib a nad tim
+</I>&gt;<i> &gt;&gt; napsat widgety ciste v pythonu?
+</I>&gt;<i>
+</I>&gt;<i> &gt; Myslim, ze by vysledek byl pomalejsi a mene portovatelny nez GTK
+</I>&gt;<i>
+</I>&gt;<i> xlib nema nekompatibilni zmeny API kazdych par mesicu jako gtk+.
+</I>&gt;<i>
+</I>&gt;<i> &gt; wrapper. Uvedom si, ze volani funkce v Pythonu je relativne draha
+</I>&gt;<i> &gt; operace a pro vykresleni jednoho tlacitka na nejnizsi urovni potrebujes
+</I>&gt;<i> &gt; takovych operaci desitky nebo stovky, pokud chces dosahnout stejneho
+</I>&gt;<i> &gt; vysledku jako pri pouziti GTK.
+</I>&gt;<i>
+</I>&gt;<i> Zkousel jsem pyGtk i wxWindows na notebooku s 16MB RAM. Podle doby
+</I>&gt;<i> na vykresleni trivialniho dialogu by behem setupu jednoho tlacitka
+</I>&gt;<i> Python v pohode zavolal desitky tisic funkci.
+</I>&gt;<i>
+</I>&gt;<i> Volba programovaciho jazyka je podruzna. U soucasnych CPU je bottleneckem
+</I>&gt;<i> pristup do pameti se spatnou lokalitou a temer nic jineho. Prave tohle
+</I>&gt;<i> je na
+</I>&gt;<i> volbe programovaiho jazyka temer nezavisle. Pocet &quot;hot&quot; mist ktere je treba
+</I>&gt;<i> drzet v cache zato roste umerne s poctem vsemoznych indirekci a &quot;api
+</I>&gt;<i> wrapperu&quot;!
+</I>&gt;<i>
+</I>&gt;<i> Muj zaver je: minimum zbytecnych rozhrani a dobra volba tech potrebnych
+</I>&gt;<i> =&gt; efektivni kod.
+</I>
+Muj nazor: Cely GUI program 90% casu ceka v event-loopu na
+nejakou udalost, celou tuto dobu nic nedela a nam muze byt
+jedno, kolik vrstev nad sebou mame. A zbyvajicich 10% casu
+provadi nejakou akci, kde uz samozrejme pocet vrstev
+rozhoduje. Z vyse uvedenych duvodu se vsak v Pythonu pod
+ctyri vrstvy prakticky nedostanete.
+
+Plyne z toho, ze pokud chcete efektivni kod, zapomente na
+GUI a pouzivejte pouze stdin a stdout, propojte programy
+rourou a ridte je parametry prik. radku...
+
+Mohli byste se k tomu vyjadrit? Mozna jsem neco zavazneho
+prehledl, ale muj uhel pohledu je timto smerem.
+
+--
+S pozdravem    .-------------------------.
+Jan Svec       | Znate jazyk Python? NE? |
+               | zkuste <A HREF="http://www.py.cz/">http://www.py.cz</A> |
+.--------------+-------------------------+
+|<i>            &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza na py.cz</A>&gt;               |
+</I>|<i>     <A HREF="http://www.py.cz/Members/honza">http://www.py.cz/Members/honza</A>     |
+</I>|<i>            <A HREF="http://www.py.cz/mailman/listinfo/python">honzas na jabber.cz</A>            |
+</I>`----------------------------------------'
+
+------------- další část ---------------
+_______________________________________________
+python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/001304.html">[python] wm.nextra.cz mailing list memberships reminder
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/001298.html">[python] SEE THIS 19 Years old NICE KATERINA SHOW ALL FOR
+	FREE!!!!@@@!!!!
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-August/date.html#1299">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/thread.html#1299">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/subject.html#1299">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/author.html#1299">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-August/001299.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:30 GMT -->
+</html>

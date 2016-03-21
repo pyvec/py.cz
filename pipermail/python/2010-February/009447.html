@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009447.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:07 GMT -->
+<HEAD>
+   <TITLE> [python] Greedy regexp
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Greedy%20regexp&In-Reply-To=%3C1267202327.17906.68.camel%40amandil.ics.muni.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-February/009448.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Greedy regexp</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Greedy%20regexp&In-Reply-To=%3C1267202327.17906.68.camel%40amandil.ics.muni.cz%3E"
+       TITLE="[python] Greedy regexp">davro na ics.muni.cz
+       </A><BR>
+    <I>Pátek Únor 26 17:38:47 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009448.html">[python] Greedy regexp
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9447">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9447">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9447">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9447">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Vasco píše v Čt 25. 02. 2010 v 21:38 +0100:
+&gt;<i> Zdravím,
+</I>&gt;<i> 
+</I>&gt;<i> zrovna se hraju v Pythonu s regexp a narazil jsem na menší zádrhel. Mám
+</I>&gt;<i> následující řetězec:
+</I>&gt;<i> 
+</I>&gt;<i> &quot;&lt;a&gt;One &lt;a&gt;Two&lt;/a&gt; Three&lt;/a&gt; &lt;a&gt;Four&lt;/a&gt;&quot;
+</I>&gt;<i> 
+</I>&gt;<i> A následující regexp:
+</I>&gt;<i> 
+</I>&gt;<i> &quot;&lt;(?P&lt;name&gt;\w+)&gt;(?P&lt;text&gt;.*?)&lt;/(?P=name)&gt;&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Když to proženu přes 'search', dostanu pro první nalezený výraz tohle:
+</I>&gt;<i> 
+</I>&gt;<i> &quot;One &lt;a&gt;Two&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Ale očekával bych spíše:
+</I>&gt;<i> 
+</I>&gt;<i> &quot;One &lt;a&gt;Two&lt;/a&gt; Three&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Naopak, pokud upravím regexp na:
+</I>&gt;<i> 
+</I>&gt;<i> &quot;&lt;(?P&lt;name&gt;\w+)&gt;(?P&lt;text&gt;.*)&lt;/(?P=name)&gt;&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Tedy vynechám otazník. Výraz .* pak bere vše, co mu přijde do cesty,
+</I>&gt;<i> takže výsledek metody 'search' je:
+</I>&gt;<i> 
+</I>&gt;<i> &quot;One &lt;a&gt;Two&lt;/a&gt; Three&lt;/a&gt; &lt;a&gt;Four&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Takže to také není to pravé ořechové. Rád bych to vyřešil nějak
+</I>&gt;<i> elegantně, nejlépe pomocí regexp (když už se je teda učím :) ), ale
+</I>&gt;<i> zatím jsem nenarazil na nic funkčního. Dá se podobný problém vůbec řešit
+</I>&gt;<i> čistě pomocí regularnich výrazů, nebo ne?
+</I>&gt;<i> 
+</I>&gt;<i> Btw. k testování reg. výrazů používám prográmek
+</I>&gt;<i> <A HREF="http://kodos.sourceforge.net/">http://kodos.sourceforge.net</A> Rozhodně můžu doporučit.
+</I>&gt;<i> 
+</I>
+
+<A HREF="http://docs.python.org/library/re.html#re-syntax">http://docs.python.org/library/re.html#re-syntax</A>
+
+*?, +?, ??
+        The '*', '+', and '?' qualifiers are all greedy; they match as
+        much text as possible. Sometimes this behaviour isn&#8217;t desired;
+        if the RE &lt;.*&gt; is matched against '&lt;H1&gt;title&lt;/H1&gt;', it will
+        match the entire string, and not just '&lt;H1&gt;'. Adding '?' after
+        the qualifier makes it perform the match in non-greedy or
+        minimal fashion; as few characters as possible will be matched.
+        Using .*? in the previous expression will match only '&lt;H1&gt;'.
+
+
+&gt;<i> S pozdravem,
+</I>&gt;<i> Vlastimil S.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009448.html">[python] Greedy regexp
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9447">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9447">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9447">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9447">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009447.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:07 GMT -->
+</html>

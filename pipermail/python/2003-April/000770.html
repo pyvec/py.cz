@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-April/000770.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+<HEAD>
+   <TITLE> [python] jak napsat sikovny index_html v Plone
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20jak%20napsat%20sikovny%20index_html%20v%20Plone&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-April/000768.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-April/000771.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] jak napsat sikovny index_html v Plone</H1>
+    <B>Jaroslav Lukesh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20jak%20napsat%20sikovny%20index_html%20v%20Plone&In-Reply-To="
+       TITLE="[python] jak napsat sikovny index_html v Plone">lukesh na seznam.cz
+       </A><BR>
+    <I>Úterý Duben 29 17:56:53 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000768.html">[python] xml a utf8
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000771.html">[python] 
+	Submit your site - Agregar tu web - URL anmelden - Ajouter un site
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-April/date.html#770">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/thread.html#770">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/subject.html#770">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/author.html#770">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zkuste ze zacatku udlat tohle:
+
+&lt;dtml-in expr=&quot;objectValues()&quot; sort=&quot;bobobase_modification_time&quot; reverse&gt;
+
+Pak si zjistete co za objectValues jsou tam vsechny k dispozici a dejte
+zpocatku vsechny do [], kde je jednoduse oddelite carkou, tedy asi takto: 
+
+&lt;dtml-in 
+	expr=&quot;objectValues(['DTML Document', 'File', 'Folder', 'article'])&quot; 
+sort=&quot;bobobase_modification_time&quot; 
+	reverse
+&gt;<i>
+</I>
+no a potom budete ubirat az uvidite to co vam vyhovuje. Plone jsem jenom
+nainstaloval aby si ho mohl sef prohlidnout, jinak jsem v nem nedelal (mame
+vlastni jednoduche CMS na zopu). (zaroven jsem vam ukazal figl pro
+prehledne psani DTML kodu - pokud ho jeste neznate)
+
+Ja bych si ale udelal jednu dlouuuuhou stranku, kde by se mi najednou
+vynorily vsechny moznosti a z nich si pak vybral. Zjistite pak najednou,
+kolik veci neni nikde zdokumentovanych.
+
+JL.
+
+
+----------
+Odesílatel: Ondrej Sury &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">sury.ondrej na globe.cz</A>&gt;
+
+&quot;Jaroslav Lukesh&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lukesh na seznam.cz</A>&gt; writes:
+
+Ne, ja si vlastni datovy typ nevytvoril...  DTML dokument, ktery vypise
+obsah slozky v Zope taky zvladnu vytvorit, ale jak to udelat v Plone, tak
+aby to zapadlo do celeho portalu...
+
+Proste neco takoveho, ale pro Plone:
+
+&lt;dtml-var standard_html_header&gt;
+&lt;h2&gt;&lt;dtml-var title_or_id&gt;&lt;/h2&gt;
+&lt;p&gt;
+&lt;table&gt;
+&lt;dtml-in expr=&quot;articles.objectValues()&quot; sort=&quot;bobobase_modification_time&quot;
+reverse&gt;
+&lt;tr&gt;&lt;td nowrap=&quot;true&quot; valign=&quot;top&quot;&gt;
+&lt;big&gt;&lt;b&gt;&lt;dtml-var title&gt;&lt;/b&gt;&lt;/big&gt;&lt;br&gt;
+&lt;small&gt;&lt;dtml-var bobobase_modification_time&gt;&lt;/small&gt;
+&lt;/td&gt;
+&lt;td&gt;&lt;dtml-var sequence-item&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/dtml-in&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;dtml-var standard_html_footer&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000768.html">[python] xml a utf8
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000771.html">[python] 
+	Submit your site - Agregar tu web - URL anmelden - Ajouter un site
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-April/date.html#770">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/thread.html#770">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/subject.html#770">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/author.html#770">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-April/000770.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+</html>

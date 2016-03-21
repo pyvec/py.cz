@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004062.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:52 GMT -->
+<HEAD>
+   <TITLE> [python] Chyba v modulu struct
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Chyba%20v%20modulu%20struct&In-Reply-To=mailman.90.1133881135.8106.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-February/004063.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-February/004064.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Chyba v modulu struct</H1>
+    <B>Zdenek Pavlas</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Chyba%20v%20modulu%20struct&In-Reply-To=mailman.90.1133881135.8106.python%40py.cz"
+       TITLE="[python] Chyba v modulu struct">pavlas na nextra.cz
+       </A><BR>
+    <I>Čtvrtek Únor  9 17:54:08 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004063.html">[python] Breadth First Search
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004064.html">[python] pyqt - online kniha
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4062">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4062">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4062">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4062">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Troler wrote:
+&gt;<i> Ahoj Vsem,
+</I>&gt;<i> narazil jsem na nasledujici chovani modulu struct:
+</I>&gt;<i> 
+</I>&gt;<i> In [12]: struct.pack('HI',8,1), struct.calcsize('HI')
+</I>&gt;<i> Out[12]: ('\x08\x00\x00\x00\x01\x00\x00\x00', 8)
+</I>
+Je to standardni chovani, struct.pack dela defaultne alignment:
+
+The optional first format char indicates byte order, size and alignment:
+  @: native order, size &amp; alignment (default)
+  =: native order, std. size &amp; alignment
+  &lt;: little-endian, std. size &amp; alignment
+  &gt;: big-endian, std. size &amp; alignment
+  !: same as &gt;
+
+Davej jednoduse vsude na zacatek fmt vykricnik a vse bude
+v network endianu a bez alignmentu.
+
+ &gt;&gt;&gt; struct.pack ('HI', 8, 1)
+'\x08\x00\x00\x00\x01\x00\x00\x00'
+ &gt;&gt;&gt; struct.pack ('!HI', 8, 1)
+'\x00\x08\x00\x00\x00\x01'
+
+--
+Zdenek
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004063.html">[python] Breadth First Search
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004064.html">[python] pyqt - online kniha
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4062">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4062">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4062">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4062">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004062.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:52 GMT -->
+</html>

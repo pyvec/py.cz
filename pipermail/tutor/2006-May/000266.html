@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-May/000266.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Had - jeste jednou
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Had%20-%20jeste%20jednou&In-Reply-To=op.s7fc4lxnixoxh5%40notes">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-May/000267.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Had - jeste jednou</H1>
+    <B>Jiri Vit</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Had%20-%20jeste%20jednou&In-Reply-To=op.s7fc4lxnixoxh5%40notes"
+       TITLE="[Tutor PyCZ] Had - jeste jednou">jirivit na jirivit.com
+       </A><BR>
+    <I>Úterý Květen  2 21:44:24 CEST 2006</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000267.html">[Tutor PyCZ] Had - jeste jednou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/date.html#266">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/thread.html#266">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/subject.html#266">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/author.html#266">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim Python-tutor,
+
+protoze jsem se tu nedavno rozplyval nad OOP vzorama bez konkretnich
+prikladu, udelal jsem pro inspiraci vlastni verzi hada, ktery se tu  
+nedavno objevil,
+pricemz jsem pouzil OOP vzor Mediator (prostrednik).
+
+Vyhody tohoto modelu v hadovi:
+- trida mediator (ve hre Direktor) zprostredkovava komunikaci mezi hernimi  
+objekty
+- tridy hernich objektu reprezentuji samostatne datove entity o mohou se  
+ladit samostatne i v interpretu
+- tridy hernich objektu se navzajem neznaji, znaji jen sveho mediatora
+- eventy z klavesnice obsluhuje take az mediator, tridy hernich objektu o  
+nich nic nevi
+- trida s instanci Console je jen dalsim hernim objektem, ktery mediator  
+ridi - lze tak program
+     lehce predelat do jineho GUI, aniz by se muselo cokoliv menit v  
+tridach hernich objektu.	
+- mediator reaguje ve chvili, kdy se nejaky herni objekt zmeni vyvola zmenu
+
+Mozne nevyhody, ktere mohou casem vyplynout z tohoto modelu:
+- s rostoucim poctem hernich objektu se trida mediator zvetsuje a je stale  
+slozitejsi
+- v teto konkretni implementaci mediator vytvari objekty &quot;natvrdo&quot;. To by  
+slo
+obejit lepsim komunikacnim modelem mezi mediatorem a jeho podrizenym  
+stadem :)
+a vytvorenim seznamu tak, aby se ovecky mohly dynamicky prihlasovat ke  
+svemu mediatorovi
+(pro zajemce doporucuji prostudovat OOP vzor Observer)
+
+hada si muzete vyzkouset odsud:
+<A HREF="http://jirivit.com/download/python/had/had.py">http://jirivit.com/download/python/had/had.py</A>
+
+PS: dekuji Martinovi Petrovi za inspiraci ;-)
+
+Jirka Vit
+
+------- Forwarded message -------
+From: &quot;Jiri Vit&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">jirivit na jirivit.com</A>&gt;
+To: &quot;Konference Tutor portalu PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+Cc:
+Subject: Re: [Tutor PyCZ] Zachytavani udalosti v cyklu
+Date: Mon, 03 Apr 2006 11:10:59 +0200
+
+Mas pravdu, Geone ;-)
+
+Ovsem i tak si stojim za MVC modelem, ty objekty v aplikaci jsou na
+sobe prilis zavisle.
+
+Jirka
+
+On Mon, 03 Apr 2006 07:50:25 +0200, geon &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">geon na post.cz</A>&gt; wrote:
+
+&gt;<i> Martin Petr napsal(a):
+</I>&gt;&gt;<i> vysledku se to projevuje tak, ze pokud rychle stisknu napr. sipku nahoru
+</I>&gt;&gt;<i> a vpravo, had
+</I>&gt;&gt;<i> pri vodorovnem pohybu vlevo neudela obrat o 180°, ale udelat takovej
+</I>&gt;&gt;<i> zvlastni pohyb :o)
+</I>&gt;&gt;<i>
+</I>&gt;<i> Zkusil jsem si tu hru zpomalit a ten zvláštní pohyb je, že prostě had
+</I>&gt;<i> udělal krok navíc. Koukal jsem na ten hlavní cyklus a tam je vše OK -
+</I>&gt;<i> při každém cyklu se přečte vstup a pohne hadem. To by mělo být přeci v
+</I>&gt;<i> pořádku! A taky že je. Pak mne napadlo, že může být chyba v modulu
+</I>&gt;<i> Console. Nechal jsem si vypisovat události v getKeyPress a ejhle co jsme
+</I>&gt;<i> dostal:
+</I>&gt;<i>
+</I>&gt;<i> &lt;KeyPress Event at 9c49e0&gt;  *
+</I>&gt;<i> &lt;KeyRelease Event at 9c49e0&gt;*
+</I>&gt;<i> &lt;KeyPress Event at 9c49e0&gt;  *         @
+</I>&gt;<i> &lt;KeyRelease Event at 9c49e0&gt;*
+</I>&gt;<i>                             *
+</I>&gt;<i>
+</I>&gt;<i> (ty tečky to je můj had ;-) ). Každá klávesa vrací dvě události: stisk a
+</I>&gt;<i> uvolnění. Takže řešení je nasnadě. Musíš z fronty událostí klávesy
+</I>&gt;<i> odebrat vždy 2 události a vrátit tu první, tu druhou zahodit.
+</I>&gt;<i>
+</I>&gt;<i> Python forever!
+</I>&gt;<i>
+</I>
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000267.html">[Tutor PyCZ] Had - jeste jednou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/date.html#266">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/thread.html#266">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/subject.html#266">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/author.html#266">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-May/000266.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000196.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Dalsi problem s Livewires
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Dalsi%20problem%20s%20Livewires&In-Reply-To=44040704.60000%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000192.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000197.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Dalsi problem s Livewires</H1>
+    <B>Tomáš Bělonožník</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Dalsi%20problem%20s%20Livewires&In-Reply-To=44040704.60000%40post.cz"
+       TITLE="[Tutor PyCZ] Dalsi problem s Livewires">rebelme na gmail.com
+       </A><BR>
+    <I>Úterý Únor 28 14:09:16 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000192.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000197.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#196">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#196">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#196">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#196">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Moc díky za rady, konečně už jsem pochopil to &quot;xh, yh, Hrac_telo =
+vyrobHrace()&quot;.  Narazil jsem ale na další problém, který souvisí s
+prvním. Snažil jsem se funkci posunHrace napsat takhle:
+
+def posunHrace():
+    stisky = keys_pressed()
+    if &quot;2&quot; in stisky:
+        yh = yh - 10
+        move_to(Hrac_telo, xh, yh)
+        return yh
+
+Mělo to fungovat tak, abych změnil yh, pak posunul hráče podle na
+novou hodnotu, a pak si nechal vrátit yh v nové formě. Hází mi to ale
+chybu &quot;local variable 'yh' referenced before assignment&quot;. Chápu to
+tak, že jsem proměnnou yh zmínil ještě předtím, než jsem jí přiřadil
+nějakou hodnotu. Ale proč si tu hodnotu nevezme sám z vyšších pater
+programu, jako to udělal, když řádek move_to vypadal
+&quot;move_to(Hrac_telo, xh, yh-10)&quot;. To totiž hráčem opravdu posunul o 10
+pixelů. Potřeboval bych tedy prosím vědět, jak říci funkci, aby si
+vzala potřebné hodnoty &quot;zeshora&quot;
+
+BTW, nějak jsem to přeci jen sesmolil, ale bez return, tudíž je to
+takové neohrabané, když ty operace s koordinaty nejsou soucasti zadne
+funkce...:
+
+def posunHrace():
+   move_to(Hrac_telo, xh, yh)
+while 1:
+   klavesy = keys_pressed()
+   if &quot;2&quot; in klavesy:
+       yh = yh - 10
+       sleep(0.2)   # sleep je tu proto, že při zkoušení v Shellu se
+hráč pohyboval příliš rychle
+   elif &quot;8&quot; in klavesy:
+       yh = yh + 10
+       sleep(0.2)
+   posunHrace()
+   if &quot;q&quot; in klavesy:
+       break
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000192.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000197.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#196">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#196">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#196">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#196">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000196.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

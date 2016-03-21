@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008829.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:40 GMT -->
+<HEAD>
+   <TITLE> [python] [gtk] znovupouziti dialogu v glade
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%5Bgtk%5D%20znovupouziti%20dialogu%20v%20glade&In-Reply-To=%3Cfabfe6e10904080421i1eaa80ecob5246e8c17584dac%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-April/008826.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-April/008830.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] [gtk] znovupouziti dialogu v glade</H1>
+    <B>David Hrachovy</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%5Bgtk%5D%20znovupouziti%20dialogu%20v%20glade&In-Reply-To=%3Cfabfe6e10904080421i1eaa80ecob5246e8c17584dac%40mail.gmail.com%3E"
+       TITLE="[python] [gtk] znovupouziti dialogu v glade">david.hrachovy na gmail.com
+       </A><BR>
+    <I>Středa Duben  8 13:21:48 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008826.html">[python] dateutil.relativedelta a posunuti casu.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008830.html">[python] [gtk] znovupouziti dialogu v glade
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8829">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8829">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8829">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8829">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>zdravim vsechny:)
+
+Problem: kdyz vyberu z 'glade ui' souboru konkretni dialog a zavolam
+jeho metodu destroy, tak uz ho podruhe nemuzu pouzit.
+
+Vice: V glade 3 jsem si vytvoril jednoduchy dialog se dvema tlacitky.
+Chtel jsem si nechat prostor pro validaci formularovych policek, takze
+jsem to vyresil takto:
+
+def new_category_click_cb(self,event): #po stisku tlacitka 'Nova kategorie'
+   dlg = self.tree.get_widget(&quot;category_dlg&quot;) #vybereme dialog z glade ui
+   self.tree.get_widget(&quot;category_storno&quot;).connect('clicked',self.category_cancel_clicked,dlg)
+
+def category_cancel_clicked(self,event,dlg):
+   dlg.response(gtk.RESPONSE_OK)
+   dlg.destroy() #tim se mi bohuzel dialog odstrani z glade ui a pri
+dalsim volani get_widget(&quot;category_dlg&quot;) se vrati None.
+
+Chtel bych ten dialog zobrazovat pokazde kdyz uzivatel klikne na 'Nova
+kategorie', popripade 'Editovat kategorii'.
+Diky za pomoc
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008826.html">[python] dateutil.relativedelta a posunuti casu.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008830.html">[python] [gtk] znovupouziti dialogu v glade
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8829">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8829">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8829">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8829">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008829.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:40 GMT -->
+</html>

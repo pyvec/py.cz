@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010158.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:09 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátor
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDekor%3DE1tor%3F%3D&In-Reply-To=%3C201102211501.43681.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-February/010157.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-February/010156.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátor</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDekor%3DE1tor%3F%3D&In-Reply-To=%3C201102211501.43681.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] Dekorátor">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Pondělí Únor 21 15:01:43 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010157.html">[python] Dekorátor
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010156.html">[python] Dekorátor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10158">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10158">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10158">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10158">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+Radek (Wednesday 16 of February 2011 15:23:07):
+&gt;<i> nejdřív bych se uvedl, jsem takový opakovaný začátečník,  k Pythonu
+</I>&gt;<i> jsem naposled přičichl možná před osmi lety a nic moc.  Teď, asi tři
+</I>&gt;<i> měsíce zpátky jsem se k němu vrátil, protože si hraju s GAE/P.  Přes
+</I>&gt;<i> všechny problémy se zkouším prokousávat, ikdyž python bolí,
+</I>Něco děláš špatně. Kde to bolí?
+
+
+&gt;<i> Jen tím že chci aby měl dekorátor parametry, se tak radikálně změní
+</I>&gt;<i> kód dekorátoru.
+</I>&gt;<i> Potřeboval bych nějak po lopatě vědět, co se uvnitř děje, protože
+</I>&gt;<i> cítím že ty dekorátory budu určitě používat ještě mnohem divočeji.
+</I>Vtip je v tom že se ve skutečnosti kód nijak nemění. Intuitivní představa že 
+parametry v závorkách by měly být předány dekorátoru je jen optický klam.
+Pokud mám dekorátor jménem &quot;spam&quot;
+
+@spam
+
+pak
+
+@spam(&quot;dirt&quot;)
+
+je ve skutečnosti:
+
+@spam.__call__(&quot;dirt&quot;)
+
+A skutečný dekorátor je výsledek tohoto výrazu. Proč tak složitě? 
+Chování dekorátorů je koupodivu logičtější když zapomeneš na triviální 
+jednoslovné dekorátory a zauvažuješ jak se interpret popere se složitějšími 
+výrazy. Představ si například dekorátor který je metodou objektu:
+
+@hamClass.spam(&quot;dirt&quot;)
+
+Interpret ve skutečnosti uvidí toto:
+
+hamClass.__getAttr__(&quot;spam&quot;).__call__(&quot;dirt&quot;)
+
+Tady už není tak lehké říci co je samotný výraz a co by &quot;intutivně&quot; měly být
+parametry výsledného dekorátoru. Ještě lepší to je pokud mám funkci která 
+vrací dekorátor:
+
+@ham(&quot;dirt&quot;).spam(&quot;dirt&quot;)
+
+je vlastně
+
+@ham.__call__(&quot;dirt&quot;).__call__(&quot;dirt&quot;)
+
+Proč by prakticky stejný token jednou měl být klasické volání funkce a podruhé 
+dekorátor? A pokud vymyslíš nějaké složité pravidlo jak to do sebe poznat:
+
+@ham()
+
+je dekorátor bez parametrů nebo funkce bez parametrů která vrací dekorátor?
+Ergo &quot;naivní&quot; pohled na parametry dekorátoru by fungoval pokud by dekorátory 
+byly omezeny jen na primitivní výrazy, což by byla škoda.
+Python tedy považuje všechno za zavináčem za výraz který bude interpretován 
+CELÝ a dekorátor je výsledek tohoto výrazu, včetně volání funkcí. To má krásný 
+efekt že dekorátor je běžná funkce (tj. jakýkoliv objekt s metodou 
+__call__()).
+Objekty s tímhle nemají nic společného, pouze jmenný prostor uzávěry nahrazují 
+jmenným prostorem instance (metoda __call__ třídy vrací instanci)
+Osobně považuji použití objektů k dekoraci za nešťastné. Metoda &quot;uzávěra v 
+uzávěře&quot; sice vypadá zezačátku děsivě, ale je aspoň přímočará a dá se pochopit 
+co se děje uvnitř. Objekty jen nahradí jednu složitost jinou (kolik lidí chápe 
+nuance metod __call__, __new__ a __init__?).
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010157.html">[python] Dekorátor
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010156.html">[python] Dekorátor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10158">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10158">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10158">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10158">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010158.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:09 GMT -->
+</html>

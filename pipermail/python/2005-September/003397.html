@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003397.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:47 GMT -->
+<HEAD>
+   <TITLE> RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_Detekce_kodovani_zadaneho_vstupu_%3D28byl%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3Fo_RE%3D3A_soubor_v_jin%3DE9_zankov%3DE9_sad%3DEC%3D29%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-September/003396.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_Detekce_kodovani_zadaneho_vstupu_%3D28byl%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3Fo_RE%3D3A_soubor_v_jin%3DE9_zankov%3DE9_sad%3DEC%3D29%3F%3D&In-Reply-To="
+       TITLE="RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Září 30 13:10:05 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003396.html">RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3397">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3397">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3397">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3397">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Opravuji svou reakci na
+
+&gt;<i> geon
+</I>&gt;<i> &gt; pepr
+</I>&gt;<i> &gt; &gt;    cesta = unicode(raw_input(), sys.stdin.encoding)
+</I>&gt;<i> &gt; když to udělám takto, tak mi to nefunguje (v DOSU). Píše to :
+</I>&gt;<i> &gt; C:\Admin\update&gt;deltree_xp.py c:\ěščřžýáí
+</I>&gt;<i> &gt; Traceback (most recent call last):
+</I>&gt;<i> &gt;   File &quot;C:\Admin\update\deltree_xp.py&quot;, line 36, in ?
+</I>&gt;<i> &gt; [...]
+</I>&gt;<i> &gt; WindowsError: [Errno 3] SystÚm nem¨×e nalÚzt uvedenou cestu: 
+</I>&gt;<i> &gt; u'c:\\\xfd\xdc\u0154\xb0\xd7\u0159\xdf\xdd/*.*'
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Když tam ale natvrdo dám místo sys.stdin.encoding --- 
+</I>&gt;<i> &gt; &quot;cp1250&quot;, tak to jede bez problémů...nevím proč....
+</I>
+... to jsem se spletl. Nevšiml jsem si, že se adresář
+zadává z příkazového řádku. Souvisí to s načítáním argv 
+a unicode. V tomto případě asi Python předpokládá, že
+se mu informace z příkazové řádky dostane v podobě 
+dodané systémem (abstrakce nezávislá na tom, jakým 
+způsobem se to zadalo). Asi v tom budou nějaké nejasnosti,
+ale vypadá to, že v tomto případě se při načítání argv
+bude vnitřně používat kódování, které můžu zjistit
+voláním sys.getdefaultencoding() (nemám teď po ruce 
+zdrojáky). Zkus:
+
+c.py
+==================================================
+import sys
+
+print 'cp1250:', unicode(sys.argv[1], 'cp1250')
+print 'cp852:', unicode(sys.argv[1], 'cp852')
+print 'stdin.enc:', unicode(sys.argv[1], sys.stdin.encoding)
+print 'default enc.:', unicode(sys.argv[1], sys.getdefaultencoding())
+raw_input('...')
+==================================================
+
+Zadej &quot;python c.py ěščřžýá&quot; v DOSovém okně
+a pak zkus vytvořit zástupce (Shortcut) na c.py
+a uprav jej tak, aby pracovní adresář ukazoval
+ke skriptu a spouštěl se &quot;.../python.exe c.py ěščřžýá&quot;.
+Poslední příkaz je brzda, aby se okénko nezavřelo.
+
+Nedávno se objevil pokus o implementaci sys.argvu, 
+což měl být ekvivalent sys.argv v unicode. Jenže 
+se objevily komplikace a nakonec to bylo smeteno
+ze stolu. Zmiňuje se o tom i níže zmíněná diskuse
+v comp.lang.python, která uvádí alternativní způsob
+získání argumentů z příkazové řádky v unicode:
+
+<A HREF="http://groups.google.com/group/comp.lang.python/browse_thread/thread/22bcdd80266c6b68/5ed8287c40c79e10?lnk=st&amp;q=python+argv+unicode&amp;rnum=1#5ed8287c40c79e10">http://groups.google.com/group/comp.lang.python/browse_thread/thread/22bcdd80266c6b68/5ed8287c40c79e10?lnk=st&amp;q=python+argv+unicode&amp;rnum=1#5ed8287c40c79e10</A>
+
+(tj. google ve skupinách na &quot;python argv unicode&quot;)
+
+Jádro otázky a odpovědi:
+----------------------------------------------
+Jakob Simon-Gaarde: 
+&gt;<i> How can I ensure a safe passing of arguments maybe having speciel 
+</I>&gt;<i> characters within. 
+</I>
+    Use ctypes to call the Windows GetCommandLine function. The 
+CommandLineToArgvW function can be used to break up the command line 
+string into arguments. 
+----------------------------------------------
+
+Nemám s tím modulem žádné zkušenosti, ale třeba
+se někdo ozve ;-)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003396.html">RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3397">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3397">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3397">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3397">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003397.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:47 GMT -->
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003869.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:58 GMT -->
+<HEAD>
+   <TITLE> OT: Coz takhle dat si jEdit (bylo RE: [python] vim/gvim)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=OT%3A%20Coz%20takhle%20dat%20si%20jEdit%20%28bylo%20RE%3A%20%5Bpython%5D%20vim/gvim%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-January/003867.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-January/003872.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>OT: Coz takhle dat si jEdit (bylo RE: [python] vim/gvim)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=OT%3A%20Coz%20takhle%20dat%20si%20jEdit%20%28bylo%20RE%3A%20%5Bpython%5D%20vim/gvim%29&In-Reply-To="
+       TITLE="OT: Coz takhle dat si jEdit (bylo RE: [python] vim/gvim)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Leden  4 08:27:13 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003867.html">[python] vytovoreni komprimovaneho souboru z adresare
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003872.html">OT: Coz takhle dat si jEdit (bylo RE: [python] vim/gvim)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3869">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3869">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3869">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3869">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>MaReK Olšavský
+&gt;<i> Sent: Tuesday, January 03, 2006 4:21 PM
+</I>&gt;<i> 
+</I>&gt;<i> kdyz jsi jej tak hezky vychvalil [...] potreboval 
+</I>
+Nevychválil jsem SI jej, protože jediné, co s ním
+mám společného, je to, že jej používám. Dík patří
+jeho autorům
+
+&gt;<i> bych jeden tip. Kdyz delam na Win, a pripojuji se
+</I>&gt;<i> k un*xovemu pocitaci pres ssh (pomoci WinSCP),
+</I>&gt;<i> rad bych si tento editor dal jako vychozi pro
+</I>&gt;<i> editaci. Jak to udelam vim, az na jeden detail.
+</I>&gt;<i> jEdit bude mit pravdepodobne nejaky parametr,
+</I>&gt;<i> kterym jej prinutim, aby bezel v jedine instanci
+</I>&gt;<i> a ktery ja neznam. Jde o to, ze kazdy stisk F4 mi
+</I>&gt;<i> otevira novou instanci jEditu, takze si dokazes
+</I>&gt;<i> predstavit ten chaos, kdyz mas pri wwwyvoji
+</I>&gt;<i> otevrenych soubezne pres 10 souboru :-). Znas ten
+</I>&gt;<i> parametr, nebo nepotrebujes?
+</I>
+Doporučoval bych vyzkoušet následující parametry
+při spuštění.
+
+-background
+
+  Run jEdit in background mode. In background
+  mode, the edit server will continue listening
+  for client connections even after all views are
+  closed. Has no effect when connecting to another
+  instance via the edit server.
+
+-nogui
+
+  Do not open an initial view, and instead only
+  open one when the first client connects. Can
+  only be used in combination with the -background
+  switch. You can use this switch to &quot;pre-load&quot;
+  jEdit when you log in to your computer, for
+  example. Has no effect when connecting to
+  another instance via the edit server.
+
+-reuseview
+
+  Opens the specified files in an existing view.
+
+
+Viz F1 (jEdit Help), jEdit 4.3 User's Guide -- Using jEdit
+-- Starting jEdit -- Command Line Usage -- Edit Server Option.
+
+Pro spouštění z různých míst a vazbu na F4 jsem si 
+definoval dávku jedit.bat, která vypadá takto:
+------------------------------------------------------
+@echo off
+set java=C:\Program Files\Java\jre1.5.0_06\bin\javaw.exe
+set jar=C:\Program Files\jEdit\jedit.jar
+set opt=-background -nogui -reuseview
+echo %0 %*
+start &quot;&quot; /b &quot;%java%&quot; -jar &quot;%jar%&quot; %opt% %*
+set java=
+set jar=
+set opt=
+------------------------------------------------------
+
+Parametr -nogui má význam jen při prvním spuštění (dávky)
+bez parametrů, kdy se neotevře okno editoru.
+
+Poprvé to samozřejmě trvá trochu déle. Další soubory
+už to otvírá mnohem rychleji. jEdit není zrovna
+blesk, co se týká doby spouštění. Styl práce se podobá
+trochu Emacsu. Jednou ho spustím a pak si případně 
+jen minimalizuji nebo zavřu jeho okno (to je ono view).
+Pokud chceš jEdit ukončit úplně, pak se použije Exit
+přes menu nebo Ctrl+q.
+
+Co do rychlosti bude jEdit asi taky srovnatelný s Emacsem, 
+včetně těch nepříjemných okamžiků, kdy se dělá garbage 
+collection. Ale dnes jsou procesory rychlejší a paměti 
+větší, takže pokud ten počítač není vyložená šunka 
+(jako jsem měl před Ježíškem), tak si toho člověk ani 
+moc nevšimne. Zdá se taky, že GC už je dělaný trochu líp.
+
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003867.html">[python] vytovoreni komprimovaneho souboru z adresare
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003872.html">OT: Coz takhle dat si jEdit (bylo RE: [python] vim/gvim)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3869">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3869">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3869">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3869">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003869.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:58 GMT -->
+</html>

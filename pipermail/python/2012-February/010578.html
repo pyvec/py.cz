@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010578.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+<HEAD>
+   <TITLE> [python] socket + udp + vytváření paketů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C1329863660.3239.5.camel%40uruloki%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-February/010577.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-February/010579.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] socket + udp + vytváření paketů</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C1329863660.3239.5.camel%40uruloki%3E"
+       TITLE="[python] socket + udp + vytváření paketů">davro na ics.muni.cz
+       </A><BR>
+    <I>Úterý Únor 21 23:34:20 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010577.html">[python] socket + udp + vytváření paketů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010579.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10578">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10578">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10578">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10578">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jakub Vojáček píše v Út 21. 02. 2012 v 23:17 +0100:
+&gt;<i> Dne 21.2.2012 22:02, Jirka Vejrazka napsal(a):
+</I>&gt;<i> &gt; a) server neakceptuje UDP pakety, kde je identifikator spojeni a/nebo
+</I>&gt;<i> &gt; sekvencni cislo nastavene na 
+</I>&gt;<i> Pokud jsem dobře pochopil zadání tak:
+</I>&gt;<i> 
+</I>&gt;<i> &quot;Iniciátorem spojení je vždy klient.
+</I>&gt;<i> Klient pošle první datagram s příznakem SYN a s identifikátorem
+</I>&gt;<i> spojení, sekvenčním číslem a číslem potvrzení nastaveným na nulu.
+</I>&gt;<i> Datová část musí obsahovat právě 1 byte s kódem příkazu:&quot;
+</I>&gt;<i> &gt; b) mas sitovy problem s odpovedi na UDP paket (viz muj predchozi mail).
+</I>&gt;<i> 
+</I>&gt;<i> Kód příkazu je dle specifikace 01h, což do 1byte myslím nenarvu. 
+</I>
+^^^^ chybu máš tady. 01h do 1byte narveš. Když jsem to upravil na
+data = struct.pack(&quot;!IHHBB&quot;, 0, 0, 0, 1, 1)
+
+tak mi ten baryk bez problémů odpověděl.
+
+
+
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010577.html">[python] socket + udp + vytváření paketů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010579.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10578">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10578">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10578">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10578">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010578.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+</html>

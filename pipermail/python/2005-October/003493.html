@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003493.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:32 GMT -->
+<HEAD>
+   <TITLE> [python] Trideni stromu.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Trideni%20stromu.&In-Reply-To=434F7A08.7070806%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003492.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003494.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Trideni stromu.</H1>
+    <B>Jaroslav Pachola</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Trideni%20stromu.&In-Reply-To=434F7A08.7070806%40seznam.cz"
+       TITLE="[python] Trideni stromu.">j_p na centrum.cz
+       </A><BR>
+    <I>Pátek Říjen 14 12:18:15 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003492.html">[python] Trideni stromu.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003494.html">[python] Trideni stromu.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3493">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3493">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3493">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3493">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+moje rada je vykaslat se na vlastni rekurzivni funkce a pouzit klasickou 
+metodu sort(), ktere podstrcis porovnavaci funkci. Staci si sepsat na papirek 
+pravidla, podle kterych se ty polozky radi mezi sebou (vsechny pripady) a ta 
+funkce Ti z toho sama vyplyne.
+
+JP
+
+Dne Friday 14 October 2005 11:27 David Michal napsal(a):
+&gt;<i> Zdravim,.
+</I>&gt;<i> mam nesetrideny seznam a[(id, parent_id)...]
+</I>&gt;<i>
+</I>&gt;<i> Kde a[x][0] je ID zaznamu a a[x][1] je ID rodice, prvni zaznam v seznamu
+</I>&gt;<i> je vzdy prvni ve stromu.
+</I>&gt;<i>
+</I>&gt;<i> napr. [(1,0), (2,0),(3,1),(4,2)]
+</I>&gt;<i>
+</I>&gt;<i> a potreboval bych ho setridit:
+</I>&gt;<i> [(1,0),(3,1),(2,0),(4,2)]
+</I>&gt;<i>
+</I>&gt;<i> Tzn. funkce vrati setrideny seznam tak aby vsechna decka byla umistena
+</I>&gt;<i> za svym rodicem (umisteni decek dle poradi v seznamu a).
+</I>&gt;<i>
+</I>&gt;<i> Nevite nekdo jak to resit?
+</I>&gt;<i>
+</I>&gt;<i> Zkousel jsem bastlit ruzne rekurzivni funkce, ale zatim jsem dosahl
+</I>&gt;<i> pouze zvyseneho hluku od ventilatoru pocitace.
+</I>&gt;<i>
+</I>&gt;<i> Zatim nejblize jsem se dostal pomoci:
+</I>&gt;<i> #a - vstup, b - vystup
+</I>&gt;<i> def sortTree(a, b, pos = 0, cidu = [0,]):
+</I>&gt;<i>     if not a: return
+</I>&gt;<i>     i = a.pop(pos)
+</I>&gt;<i>     b.append(i)
+</I>&gt;<i>     for j in a:
+</I>&gt;<i>         pidu = j[-1]
+</I>&gt;<i>         if cidu[-1] == pidu:
+</I>&gt;<i>             pos = a.index(j)
+</I>&gt;<i>             print cidu, ',',pidu, ',', i
+</I>&gt;<i>             cidu.append(j[1])
+</I>&gt;<i>             sortTree(a, b, pos, cidu)
+</I>&gt;<i>     print cidu, ',', ',', i
+</I>&gt;<i>     if cidu &lt;&gt; [0,]: cidu.pop()
+</I>&gt;<i>     sortTree(a, b, 0, cidu)
+</I>&gt;<i>
+</I>&gt;<i> Ale tahle funkce ma nekde velkou chybu, spatne tridi potomky.
+</I>&gt;<i>
+</I>&gt;<i> Diky za jakykoliv napad,
+</I>&gt;<i> David
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003492.html">[python] Trideni stromu.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003494.html">[python] Trideni stromu.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3493">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3493">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3493">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3493">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003493.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:32 GMT -->
+</html>

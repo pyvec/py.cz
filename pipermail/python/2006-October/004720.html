@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004720.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:46 GMT -->
+<HEAD>
+   <TITLE> [python] kterak vhodne resit architekturu IMAP klienta
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kterak%20vhodne%20resit%20architekturu%20IMAP%20klienta&In-Reply-To=20060917215124.2D30C2C388%40charon.hkfree.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004735.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004721.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] kterak vhodne resit architekturu IMAP klienta</H1>
+    <B>Jan Kundrát</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kterak%20vhodne%20resit%20architekturu%20IMAP%20klienta&In-Reply-To=20060917215124.2D30C2C388%40charon.hkfree.org"
+       TITLE="[python] kterak vhodne resit architekturu IMAP klienta">jkt na gentoo.org
+       </A><BR>
+    <I>Čtvrtek Říjen 12 16:51:25 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004735.html">[python] Menu + disable item
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004721.html">[python] 2 mailinglisty su zbytocne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4720">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4720">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4720">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4720">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pokracuju v metode &quot;radsi si to prectu pozdejc, protoze nad tim musim
+myslet&quot;, a tudiz na mail uspesne zapominam. Inu sorry za pozdni reakci :).
+
+Jan Matejka wrote:
+&gt;<i> Proc? UI zavola metodu Mailbox.DejMiStrukturuMejlu a Mailbox v navratove
+</I>&gt;<i> metode
+</I>&gt;<i> odpovi &quot;o tomto emailu nic nevim&quot;. UI tedy zobrazi presypaci hodiny a zavola
+</I>&gt;<i> Mailbox.ZjistiInformaceOmejluAinformujMeProstrednicvimObjektuN. Mailbox si
+</I>&gt;<i> to nekde poznamena a zapoveluje parser aby az bude vhodny okamzik informace
+</I>&gt;<i> ze serveru vytahl.
+</I>&gt;<i> Po case Parser ziska data, posle je Mailboxu, mailbox zavola prislusnou
+</I>&gt;<i> metodu podstrceneho UI objektu N,  UI zavola Mailbox.DejMiStrukturuMejlu,
+</I>&gt;<i> tentokrat vsak data dostane a zobrazi je.
+</I>
+Aha, ok. Jak to tak vidim, tak se bez nejakeho &quot;bufferu na pozadavky&quot;
+stejne neobejdu, viz obrat &quot;Mailbox si to nekde poznamena&quot;. Je otazka,
+na jake urovni je to lepsi resit...
+
+&gt;&gt;<i> Ty fronty, co jsem navrhoval ja, by IMHO nemusely znamenat, 
+</I>&gt;&gt;<i> ze UI cachuje. Naopak, pokud UI dostane zpravu, na kterou 
+</I>&gt;&gt;<i> nemusi reagovat (protoze IMAP definuje treba situace, kdy je 
+</I>&gt;&gt;<i> nutne upozornit usera etc) a ktera se mu podle nej nehodi, 
+</I>&gt;&gt;<i> muze ji smele ignorovat, protoze si o ni muze zazadat i jinak.
+</I>&gt;&gt;<i>
+</I>&gt;<i> 
+</I>&gt;<i> Jde o to na jake urovni cachovani uvazujeme, pokud by UI nemelo drzet pokud
+</I>&gt;<i> mozno zadna data, tak je treba aby byla z mista kde jsou ulozena dotupna
+</I>&gt;<i> rychle a to by v pripade front nebyla, takze by to UI muselo resit
+</I>&gt;<i> cachovanim.
+</I>
+Mno, otazka je, jak rychlou odpoved muze Mailbox aspon trosku
+garantovat. Pokud bych se drzel sve puvodni koncepce, nemel by byt
+problem - Mailbox se v nejake smycce diva do dvou front, jestli nahodou
+neprisel nejaky pozadavek od UI nebo data od serveru, pokud ano, tak
+nejak reaguje. Podstatny je, ze jakykoli blokovani na I/O urovni
+(prerusene spojeni se serverem,...) Mailbox neovlivni, protoze bezi v
+jinym threadu nez Parser...
+
+Zkratka a dobre, dekuju za podmety, zamyslim se nad tim, mozna si o tom
+nad pivem popovidam a pak uvidim :).
+
+Hezky den,
+-jkt
+
+
+-- 
+cd /local/pub &amp;&amp; more beer &gt; /dev/mouth
+
+------------- další část ---------------
+NetextovĂĄ pĹĂ­loha byla odstranÄna...
+JmĂŠno: signature.asc
+Typ: application/pgp-signature
+Velikost: 252 bytes
+Popis: OpenPGP digital signature
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20061012/7ab0c95d/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20061012/7ab0c95d/attachment.pgp</A> 
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004735.html">[python] Menu + disable item
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004721.html">[python] 2 mailinglisty su zbytocne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4720">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4720">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4720">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4720">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004720.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:46 GMT -->
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004510.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:20 GMT -->
+<HEAD>
+   <TITLE> [python] najdi, nahrad, uloz v ascii subore
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20najdi%2C%20nahrad%2C%20uloz%20v%20ascii%20subore&In-Reply-To=44EC9F80.8080301%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004509.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004514.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] najdi, nahrad, uloz v ascii subore</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20najdi%2C%20nahrad%2C%20uloz%20v%20ascii%20subore&In-Reply-To=44EC9F80.8080301%40centrum.cz"
+       TITLE="[python] najdi, nahrad, uloz v ascii subore">leos na radiante-corp.com
+       </A><BR>
+    <I>Čtvrtek Srpen 24 07:34:54 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004509.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004514.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4510">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4510">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4510">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4510">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hmm, muzete prosim napsat jednoduchy priklad, jakym zpusobem je mozne 
+vlozit do obsahu souboru nekolik znaku, popr nekolik znaku odebrat? Vzdy 
+jsem si myslel, ze toto neni mozne uz jen z pohledu principu 
+filesystemu. Myslim si, ze je jen mozne nahratit (prepsat) urcity pocet 
+znaku v souboru stejnym poctem (seek+write), pridat na konec souboru 
+dalsi data, no a uplne off topic odriznuti souboru na urcitou velikost.
+
+Leo
+
+Jaroslav Pachola wrote:
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> presne tak. Prepisovat to primo na miste je samozrejme mozne, ale v 
+</I>&gt;<i> pripade,
+</I>&gt;<i> ze se za puvodni slovo pridavaji dalsi znaky (nebo se nekde znaky 
+</I>&gt;<i> uberou), znamena
+</I>&gt;<i> to, ze se cela cast souboru za tim slovem musi o urcity pocet znaku 
+</I>&gt;<i> posunout. Coz
+</I>&gt;<i> je prakticky vzdycky zbytecne slozite a v pripade vicecetnych editaci v 
+</I>&gt;<i> ramci souboru
+</I>&gt;<i> i dost pomale. Jedinou vyhodou je setreni mistem na disku, pokud se 
+</I>&gt;<i> presto chces, Peter,
+</I>&gt;<i> tou cestou vydat, prostuduj si metodu seek() ve tride file.
+</I>&gt;<i>
+</I>&gt;<i> JP
+</I>&gt;<i>
+</I>&gt;<i> Leos Pol wrote:
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Ano, soubor se precte cely a pri opravdu velkych souborech to muze 
+</I>&gt;&gt;<i> skoncit na pameti. Napada me pouze jeden zpusob, jak toto vyresit. 
+</I>&gt;&gt;<i> Prochazet vstupni soubor po radcich, vzdy nacist cely block (NAME, 
+</I>&gt;&gt;<i> CODE), pripadne pozmenit a vzdy to pridat do noveho souboru. Nakonec 
+</I>&gt;&gt;<i> novy soubor prejmenovat na puvodni.
+</I>&gt;&gt;<i> Leo
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> peter wrote:
+</I>&gt;&gt;<i>   
+</I>&gt;&gt;<i>     
+</I>&gt;&gt;&gt;<i> Diky moc,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> pokial som dobre pochopil z manualu tak
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> content = fd.read()
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> nacita cely obsah suboru do cache alebo bufferu, a to je prave to co ja
+</I>&gt;&gt;&gt;<i> nechcem, pretoze pracujem s velkymi subormi. Chcem sa vyhnut tomu ze
+</I>&gt;&gt;&gt;<i> nacitam vsetko do pamate, nahradim co potrebujem a potom to zase vsetko
+</I>&gt;&gt;&gt;<i> ulozim. Ale neviem ci je to vobec mozne, nie som az taky velky
+</I>&gt;&gt;&gt;<i> specialista v pythone. V mojom kode idem po jednotlivych riadkoch
+</I>&gt;&gt;&gt;<i> suboru....
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>     
+</I>&gt;&gt;&gt;<i>       
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>   
+</I>
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004509.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004514.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4510">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4510">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4510">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4510">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004510.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:20 GMT -->
+</html>

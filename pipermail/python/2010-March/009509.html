@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009509.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:52 GMT -->
+<HEAD>
+   <TITLE> [python] Problém s blokujícím urlopen
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_blokuj%3DC3%3DADc%3DC3%3DADm_urlopen%3F%3D&In-Reply-To=%3C3883b79d66f744099c8f44a250a01dba%40pobox.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009510.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009511.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problém s blokujícím urlopen</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_blokuj%3DC3%3DADc%3DC3%3DADm_urlopen%3F%3D&In-Reply-To=%3C3883b79d66f744099c8f44a250a01dba%40pobox.sk%3E"
+       TITLE="[python] Problém s blokujícím urlopen">azurit na pobox.sk
+       </A><BR>
+    <I>Pondělí Březen 15 10:21:55 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009510.html">[python] Problém s subprocess
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009511.html">[python] Problém s blokujícím urlopen
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9509">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9509">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9509">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9509">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Vlakno nevies ukoncit 'natvrdo', musi sa ukoncit samo (a kedze je zblokovane, tak to bohuzial neurobi).
+
+
+&gt;<i>-----Pôvodná správa-----
+</I>&gt;<i>Od: Juda Kaleta [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">admin74 na volny.cz</A>]
+</I>&gt;<i>Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i>Predmet: Re: [python] Problém s blokujícím urlopen
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Nápad - co hodit to získávání dat do nějakého vlákna a pokud se nestihne
+</I>&gt;<i>do tří sekund samo zakončit, prostě ho ukončit natvrdo?
+</I>&gt;<i>
+</I>&gt;<i>Yetty
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> Zdravím,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> snad mi poradí někdo tady.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> V jedné aplikaci stahuji soubor přes http pomocí urlopen z modulu
+</I>&gt;&gt;<i> urllib2. Konkrétně se jedná o textový soubor s údaji o počasí, ale
+</I>&gt;&gt;<i> problém se týká obecně jakéhokoliv uri.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Funkce urlopen přijímá v parametru timeout časový limit pro navázání
+</I>&gt;&gt;<i> spojení, který ale zřejmě ignoruje když je nedostupná DNS.
+</I>&gt;&gt;<i> Následující kód by měl skončit po cca 3 sekundách při neúspěšném
+</I>&gt;&gt;<i> spojení, ale zasekne se a skončí asi až po minutě.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> import urllib2
+</I>&gt;&gt;<i> url = '<A HREF="http://weather.noaa.gov/pub/data/observations/metar/stations/">http://weather.noaa.gov/pub/data/observations/metar/stations/</A>
+</I>&gt;&gt;<i> LKPR.TXT'
+</I>&gt;&gt;<i> try:
+</I>&gt;&gt;<i>         data = urllib2.urlopen(url, timeout=3)
+</I>&gt;&gt;<i> except:
+</I>&gt;&gt;<i>         print 'Failed to retrieve a data !'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> V případě navazování spojení na nameserver skript dokonce nereaguje
+</I>&gt;&gt;<i> ani na signál SIGALRM.
+</I>&gt;&gt;<i> Následující kód by měl vyvolat výjimku po 3 sekundách, ale také
+</I>&gt;&gt;<i> zůstane viset na 20x delší dobu:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> import urllib2, signal
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def sig_handler(num,frame):
+</I>&gt;&gt;<i>    raise Exception('Failed to retrieve a data !')
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> try:
+</I>&gt;&gt;<i>     signal.signal(signal.SIGALRM, sig_handler)
+</I>&gt;&gt;<i>     signal.alarm(3)
+</I>&gt;&gt;<i>     data = urllib2.urlopen('<A HREF="http://weather.noaa.gov/pub/data/">http://weather.noaa.gov/pub/data/</A>
+</I>&gt;&gt;<i> observations/metar/stations/LKPR.TXT')
+</I>&gt;&gt;<i> except Exception as excpt_dsc:
+</I>&gt;&gt;<i>     print str(excpt_dsc)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Zkoušel jsem i nastavit socket.setdefaulttimeout, ale taky bez efektu.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Podmínkou je, že síťové rozhraní musí být nakonfigurované a aktivní,
+</I>&gt;&gt;<i> ale nesmí být dostupný žádný z nakonfigurovaných DNS serverů. Tohle se
+</I>&gt;&gt;<i> stává dost často u mobilních notebooků, než se nebo pokud vůbec podaří
+</I>&gt;&gt;<i> překonfigurovat síť na novém místě. Aplikace po tu dobu vůbec
+</I>&gt;&gt;<i> nereaguje.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Python 2.6.4, Linux 2.6.33, glibc 2.11.1
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Předem díky za nakopnutí správným směrem.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> David
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009510.html">[python] Problém s subprocess
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009511.html">[python] Problém s blokujícím urlopen
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9509">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9509">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9509">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9509">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009509.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:52 GMT -->
+</html>

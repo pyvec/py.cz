@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004526.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:22 GMT -->
+<HEAD>
+   <TITLE> [python] Zobrazeni frame-miniframe
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zobrazeni%20frame-miniframe&In-Reply-To=200608291245.k7TCjTGk031448%40mason-2.isp.contactel.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004517.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004527.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zobrazeni frame-miniframe</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zobrazeni%20frame-miniframe&In-Reply-To=200608291245.k7TCjTGk031448%40mason-2.isp.contactel.cz"
+       TITLE="[python] Zobrazeni frame-miniframe">leos na radiante-corp.com
+       </A><BR>
+    <I>Úterý Srpen 29 16:48:26 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004517.html">[python] Zobrazeni frame-miniframe
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004527.html">[python] Zobrazeni frame-miniframe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4526">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4526">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4526">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4526">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+myslim si, ze problem, ktery popisujete, je problem prekreslovani, tzn. 
+aplikace se musi vratit do mainloop, aby se okno/okna prekreslila. 
+Muzete prosim udelat mensi pokus a pridat radek wx.Yield() za radek s 
+dlg.Show(True)? Tipuji, ze ted uz dialog bude vypadat dobre. Nasleduje 
+pak ale dalsi problem, ze kdyz aplikaci prekryjete a nasledne odkryjete 
+jinym oknem. Pokud chcete resit i toto, tak me napadaji dve reseni:
+
+    * prepsat provadeni popen do threadu, anebo
+    * pokud je prikaz &quot;Cmd&quot; plodny a porad neco pise na vystup, muze se
+      jeho vystup cist po jednom znaku a pokazde zavolat wx.Yield()
+
+Jinak pozor na wx.Yield(). Pokud chcete, aby uzivatel behem celeho 
+procesu nemohl nic udelat, bude nutne udelat opatreni, jako vypnout 
+tlacitka a podobne.
+Leos
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">jedlicka_martin na cbox.cz</A> wrote:
+&gt;<i> Zdravim, mam takovy problem. Mam aplikaci ve wxPythonu. Po kliknuti na tlacitko provedu nejaky prikaz cmd pomoci popen. Rad bych, aby po dobu, nez se prikaz provede zobrazil nejaky frame (miniframe), ktery by jen napsal neco jako &quot;Prosim cekejte...&quot;. Po skonceni prikazu cmd by se miniframe zase zavrel. Toto jsem realizoval pomoci miniframe. Pri volani prikazu to pak vypada takto:
+</I>&gt;<i>
+</I>&gt;<i> dlg = WaitWindow.WaitWindow(self)
+</I>&gt;<i> dlg.Show(True)   os.popen(Cmd)
+</I>&gt;<i> dlg.Destroy()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Miniframe WaitWindow pouze obsahuje text &quot;Prosim cekejte...&quot;. Problem je ale v tom, ze po dobu provadeni prikazu se sice miniframe zobrazi, ale nezobrazi se v nem ten text. Misto textu je pouze prazdne misto. Stejny problem je, kdyz tam dam misto textu tlacitko ci cokoliv jineho.
+</I>&gt;<i>
+</I>&gt;<i> Nevite jak toto vyresit?
+</I>&gt;<i>
+</I>&gt;<i> Diky za kazdou radu.
+</I>&gt;<i>
+</I>&gt;<i> Martin
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>   
+</I>
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004517.html">[python] Zobrazeni frame-miniframe
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004527.html">[python] Zobrazeni frame-miniframe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4526">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4526">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4526">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4526">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004526.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:22 GMT -->
+</html>

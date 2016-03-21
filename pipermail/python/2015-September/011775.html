@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011775.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:04 GMT -->
+<HEAD>
+   <TITLE> [python] Chyba v distribuci Pythonu?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FChyba_v_distribuci_Pythonu%3D3F%3F%3D&In-Reply-To=%3C20150918161936.232ACC05%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-September/011763.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-September/011776.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Chyba v distribuci Pythonu?</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FChyba_v_distribuci_Pythonu%3D3F%3F%3D&In-Reply-To=%3C20150918161936.232ACC05%40atlas.cz%3E"
+       TITLE="[python] Chyba v distribuci Pythonu?">prikryl na atlas.cz
+       </A><BR>
+    <I>Pátek Září 18 16:19:36 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011763.html">[python] Používá někdo AsciiDoc?
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011776.html">[python] Chyba v distribuci Pythonu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11775">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11775">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11775">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11775">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj všeci,
+
+Můžete někdo potvrdit, jestli vám to taky funguje blbě? Spouštěl jsem to 
+pod Windows. Pod Linuxem to bude nejspíš bez problémů.
+
+tzname_bug.py
+=========================================
+#!python3
+import time
+import sys
+with open('tzname_bug.txt', 'w', encoding='utf-8') as f:
+    f.write(sys.version + '\n')
+    f.write('Should be: Střední Evropa (běžný čas) | Střední Evropa (letní čas)\n')        
+    f.write('but it is: ' + time.tzname[0] + ' | ' + time.tzname[1] + '\n') 
+    f.write('    types: ' + repr(type(time.tzname[0])) + ' | ' + repr(type(time.tzname[1])) + '\n')        
+=========================================
+
+Vygeneruje to tzname_bug.txt. Mail asi nebude schopen
+zachytit problém s kódováním. Připomínám, že je to Python 3
+a všechny řetězce mají být v UNICODE.
+=========================================
+3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:43:06) [MSC v.1600 32 bit (Intel)]
+Should be: Střední Evropa (běžný čas) | Střední Evropa (letní čas)
+but it is: St&#248;edn&#237; Evropa (b&#236;&#158;n&#253; &#232;as) | St&#248;edn&#237; Evropa (letn&#237; &#232;as)
+    types: &lt;class 'str'&gt; | &lt;class 'str'&gt;
+=========================================
+
+Stejně blbě pro verzi 3.5
+=========================================
+3.5.0 (v3.5.0:374f501f4567, Sep 13 2015, 02:27:37) [MSC v.1900 64 bit (AMD64)]
+Should be: Střední Evropa (běžný čas) | Střední Evropa (letní čas)
+but it is: St&#248;edn&#237; Evropa (b&#236;&#158;n&#253; &#232;as) | St&#248;edn&#237; Evropa (letn&#237; &#232;as)
+    types: &lt;class 'str'&gt; | &lt;class 'str'&gt;
+=========================================
+
+
+Přeju pěkný víkend,
+Petr
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011763.html">[python] Používá někdo AsciiDoc?
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-September/011776.html">[python] Chyba v distribuci Pythonu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-September/date.html#11775">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/thread.html#11775">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/subject.html#11775">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-September/author.html#11775">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-September/011775.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:04 GMT -->
+</html>

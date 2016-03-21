@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-August/010736.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:26 GMT -->
+<HEAD>
+   <TITLE> [python] ssh klient pro python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20ssh%20klient%20pro%20python&In-Reply-To=%3C50277C93.7030207%40ludik.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-August/010735.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-August/010737.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ssh klient pro python</H1>
+    <B>&quot;Ing. Vladislav Ludík&quot;</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20ssh%20klient%20pro%20python&In-Reply-To=%3C50277C93.7030207%40ludik.cz%3E"
+       TITLE="[python] ssh klient pro python">vlada na ludik.cz
+       </A><BR>
+    <I>Neděle Srpen 12 11:51:15 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-August/010735.html">[python] Zji?==?UTF-8?Q?štění názvu souboru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-August/010737.html">[python] ssh klient pro python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-August/date.html#10736">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-August/thread.html#10736">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-August/subject.html#10736">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-August/author.html#10736">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím všechny,
+
+narazil jsem na problém, který se týká nespolehlivého ssh klienta z 
+modulu paramiko.
+
+Když pomocí něj čtu data například z některých verzí Mikrotiku,
+například MikroTik RouterOS 5.17, stane se občas, že nedostanu kompletní 
+data.
+Někdy načte vše, někdy jen něco. Jak kdy.
+Pokud se připojím přes PuTTy, je přenos vždy spolehlivý.
+Můj modul, který pak používám v mých programech je v příloze.
+Neví někdo kde bych měl hledat problém, popřípadě o spolehlivějším 
+klientovi ?
+
+Děkuji V.L.
+------------- další část ---------------
+&quot;&quot;&quot;Modul pro zadavani prikazu pres ssh&quot;&quot;&quot;
+ 
+import paramiko
+import cmd
+import string
+
+class RunCommand(cmd.Cmd):
+	&quot;&quot;&quot; Jednoduchy shell pro zadavani prikazu na adresu host &quot;&quot;&quot;
+
+	prompt = 'ssh &gt; '
+
+	def __init__(self):
+		cmd.Cmd.__init__(self)
+		self.hosts = []
+		self.connections = []
+
+	def do_add_host(self, args):
+		&quot;&quot;&quot;add_host &lt;host,user,password,port&gt;
+		Prida adresu host do seznamu &quot;&quot;&quot;
+		if args:
+			self.hosts.append(args.split(','))
+		else:
+			print &quot;pouziti: host &lt;hostip,user,password,port&gt;&quot;
+
+	def do_connect(self, args):
+		&quot;&quot;&quot; Pripoji se ke vsem adresam host ze seznamu &quot;&quot;&quot;
+		for host in self.hosts:
+			ipcko, user, pswd, port = host
+			user = string.strip(user)
+			pswd = string.strip(pswd)
+			port = int(string.strip(port))
+
+			client = paramiko.SSHClient()
+			client.set_missing_host_key_policy(
+				paramiko.AutoAddPolicy())
+			client.connect(ipcko,
+				username=user,
+				password=pswd,
+				port=port)
+			self.connections.append(client)
+
+	def do_run(self, command):
+		&quot;&quot;&quot;run &lt;command&gt;
+		Provede tento prikaz pro vsechny pripojene adresy ze seznamu &quot;&quot;&quot;
+		if command:
+			for host, conn in zip(self.hosts, self.connections):
+				stdin, stdout, stderr = conn.exec_command(command)
+				out = stdout.read()
+				err = stderr.read()
+				stdout.close()
+				stderr.close()
+				return out, err
+		else:
+			print &quot;pouziti: run &lt;command&gt;&quot;
+
+	def do_close(self, args):
+		for conn in self.connections:
+			conn.close()
+------------- další část ---------------
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+from ssh import *
+
+def doSSH(host, cmd, user=_user, pswd=_pswd, port=_port):
+    'Provedeni prikazu SSH'
+    
+    con = ['%s,%s,%s,%s' % (host, user, pswd, port)]
+    ssh = RunCommand()
+    ssh.do_add_host(con[0])
+    ssh.do_connect(con)
+    stdout, stderr = ssh.do_run(cmd)
+    ssh.do_close(con)
+    
+    return stdout, stderr
+            
+# atd.....
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-August/010735.html">[python] Zji?==?UTF-8?Q?štění názvu souboru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-August/010737.html">[python] ssh klient pro python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-August/date.html#10736">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-August/thread.html#10736">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-August/subject.html#10736">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-August/author.html#10736">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-August/010736.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:26 GMT -->
+</html>

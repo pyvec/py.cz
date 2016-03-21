@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-February/010942.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:14 GMT -->
+<HEAD>
+   <TITLE> [python] bash,signal
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20bash%2Csignal&In-Reply-To=%3C512208E6.9030507%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-February/010941.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-February/010943.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] bash,signal</H1>
+    <B>vepro</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20bash%2Csignal&In-Reply-To=%3C512208E6.9030507%40gmail.com%3E"
+       TITLE="[python] bash,signal">p.zlamal na gmail.com
+       </A><BR>
+    <I>Pondělí Únor 18 11:56:38 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-February/010941.html">[python] [django-cs] Re: Fwd: [SciPy-Dev] Python trademark in legal trouble in Europe, please help
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-February/010943.html">[python] bash,signal
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-February/date.html#10942">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-February/thread.html#10942">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-February/subject.html#10942">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-February/author.html#10942">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+Rad bych se optal na vas nazor ci zpusob reseni nasledujici ulohy:
+
+  V pythonu mam naspanou jednoduchou proceduru pro vyfoceni snimku na 
+digitalni zrcadlovce. Tento skript chci vyuzit pro nasnimani sekvence 
+360 snimku objektu na otocnem stolku. Aplikace ovladajici stolek po 
+kazdem otoceni spusti bashovsky skript, ktery v podstate vola pythoni 
+skript. Pythoni skript se spusti, vyfoti snimek, ulozi a posleze se 
+ukonci. Toto se tedy opakuje 360 krat. Problem spociva v rychlosti 
+obdrzeni jednoho snimku, ktery je cca 17s coz je z hlediska vyuziti 
+mnoho. Zjistil jsem, ze problem je v porizeni prvniho snimku. Udelal 
+jsem si testovaci smycku, kde je v sekvenci vyfoceno nekolik snimku, 
+pricemz prvni snimek trva onen &quot;obrovsky cas&quot;, ostatni snimky jsou 
+relativne rychle do 2s. V mem provedeni foceni jednoho snimku ve skriptu 
+je tedy kazdy snimek &quot;prvni&quot; a tudiz onech 17s. Napadlo me tedy neresit 
+snimek jako jednorazovy skript: spust-vyfot-uloz-skonci ale v podobe 
+&quot;nekonecne&quot; smycky, ktera by testovala pritomnost predem daneho 
+&quot;nuloveho&quot; souboru. Pokud by soubor existoval, udelal by se snimek a 
+nasledne by se smazal  &quot;nulovy&quot; soubor. Aplikace ovladajici stolek by 
+pak jenom vytvarela onen &quot;nulovy&quot; soubor v pripade potreby udelani 
+snimku. Ukonceni pythoniho sriptu by pak bylo provedeno pres test 
+nejakeho jineho &quot;nuloveho&quot; souboru. Takto to bude pravdepodobne plnit 
+muj ucel, ale zajimalo by me zda existuje elegantnejsi reseni napr. v 
+podobe posilani nejakych signalu z bashe do pythonu.
+
+Diky za pripadne rady
+Petr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-February/010941.html">[python] [django-cs] Re: Fwd: [SciPy-Dev] Python trademark in legal trouble in Europe, please help
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-February/010943.html">[python] bash,signal
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-February/date.html#10942">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-February/thread.html#10942">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-February/subject.html#10942">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-February/author.html#10942">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-February/010942.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:14 GMT -->
+</html>

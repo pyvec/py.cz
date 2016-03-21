@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005209.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:41 GMT -->
+<HEAD>
+   <TITLE> [python] cyklus for (bylo superman: zaporny systemovy cas)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cyklus%20for%20%28bylo%20superman%3A%20zaporny%20systemovy%20cas%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005206.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005211.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cyklus for (bylo superman: zaporny systemovy cas)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cyklus%20for%20%28bylo%20superman%3A%20zaporny%20systemovy%20cas%29&In-Reply-To="
+       TITLE="[python] cyklus for (bylo superman: zaporny systemovy cas)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Listopad 29 11:47:32 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005206.html">[python] Import dat z Pascalu.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005211.html">[python] cyklus for (bylo superman: zaporny systemovy cas)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5209">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5209">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5209">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5209">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman
+&gt;<i> &gt; Pokud jakákoliv konstrukce větvení nebo cyklu
+</I>&gt;<i> &gt; neprovádí testy a jiné příkazy způsobem, který
+</I>&gt;<i> &gt; by mohl mít za následek vedlejší efekt, a pokud
+</I>&gt;<i> &gt; je tělo takové konstrukce prázdné, dá se úplně
+</I>&gt;<i> &gt; vynechat.
+</I>&gt;<i> 
+</I>&gt;<i> Pokud testy volají funkci, pak jste s optimalizací 
+</I>&gt;<i> skončil. A for cyklus v Pythonu je veden tímto 
+</I>&gt;<i> směrem, dokonce range má v budoucnu vracet 
+</I>&gt;<i> iterátor, tedy funkci.
+</I>
+Pokud ta funkce nemá vedlejší efekt (což jsem zmínil)
+pak ji ani nemusím volat, abych mohl celou konstrukci
+vypustit. A můžu to udělat právě optimalizací v AST,
+tedy jakoby na úrovni přeparsovaného zdrojového 
+textu. Problém je, jak zjistit, že ta funkce nemá
+vedlejší efekt.
+
+Iterátor není funkce. Je to objekt. A jeho metoda
+next() typicky nemá vedlejší efekt (pokud si ho
+tam někdo sám nenaprogramuje).
+
+Trošku horší je to s generátory, protože vecpat
+tam vedlejší efekt (třeba print)... udělat tuhle
+chybu můžeme jaksi přirozenějším způsobem ;o)
+
+&gt;<i> &gt; Ani v jazycích C/C++ neexistuje klasický cyklus
+</I>&gt;<i> &gt; for. A co je to vůbec klasický cyklus for?
+</I>&gt;<i> &gt; Ten co zavedl (nebo převzal) Pascal? 
+</I>&gt;<i> &gt; Pro objektový přístup, který využívá různé
+</I>&gt;<i> &gt; typy kontejnerů (nejen pole) je průchod přes 
+</I>&gt;<i> &gt; indexy příliš speciální.
+</I>&gt;<i> 
+</I>&gt;<i> Python, který i pro cyklus přes lineární číselnou 
+</I>&gt;<i> řadu musí vytvářet sekvenci, nebo iterátor je jen 
+</I>&gt;<i> překážkou pro optimalizaci. Samozřejmě to jde 
+</I>&gt;<i> optimalizovat, ale je potřeba vědět speciální 
+</I>&gt;<i> objekty a sekvence a vidět dovnitř, tedy je to 
+</I>&gt;<i> špinavý přístup.
+</I>
+Konstrukce cyklu je navržena především pro
+programátory, nikoliv pro jakýkoliv optimalizátor.
+Z tohoto pohledu se ptám ještě jednou. Co to je
+&quot;klasický cyklus&quot;? Je jeho speciálnost pro programátora
+natolik důležitá, aby opodstatnila současnou 
+existenci konstrukcí for/foreach? A v jakých 
+jazycích se takový &quot;klasický for&quot; vlastně 
+používá?
+
+pepr
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005206.html">[python] Import dat z Pascalu.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005211.html">[python] cyklus for (bylo superman: zaporny systemovy cas)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5209">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5209">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5209">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5209">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005209.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:41 GMT -->
+</html>

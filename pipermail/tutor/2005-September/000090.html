@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000090.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Vyrez z posloupnosti (slice) -- bylo RE: Regularni
+	vyrazy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Vyrez%20z%20posloupnosti%20%28slice%29%20--%20bylo%20RE%3A%20Regularni%0A%09vyrazy&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-September/000087.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Vyrez z posloupnosti (slice) -- bylo RE: Regularni
+	vyrazy</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Vyrez%20z%20posloupnosti%20%28slice%29%20--%20bylo%20RE%3A%20Regularni%0A%09vyrazy&In-Reply-To="
+       TITLE="[Tutor PyCZ] Vyrez z posloupnosti (slice) -- bylo RE: Regularni
+	vyrazy">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Září 22 09:31:34 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000087.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#90">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#90">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#90">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#90">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> 
+ 
+
+--
+Petr Prikryl (<A HREF="http://www.py.cz/mailman/listinfo/tutor">prikrylp na skil.cz</A>) 
+
+ 
+
+
+________________________________
+
+Obrat se zjišťováním délky je zbytečný -- viz dále.
+
+geon napsal...
+&gt;<i> [...]
+</I>&gt;<i> logText=&quot;s timto se setkavam poprve [...] rad&quot;
+</I>&gt;<i> print logText[0:-1]
+</I>&gt;<i> 
+</I>&gt;<i> # toto prekvapilo i mne!! myslel jsem ze -1 znaci konec a ze
+</I>&gt;<i> # se vytiskne vse, ale chybi posledni znak ('d')! ale je to
+</I>&gt;<i> # spravne, kdyz je treba [1:4] tak to je 1,2,3 (4 uz ne) to
+</I>&gt;<i> # jen tak mimochodem, ze -1 se nedá pouzit. Musi se to pres
+</I>&gt;<i> # delku.
+</I>&gt;<i> 
+</I>&gt;<i> delka=len(logText)
+</I>&gt;<i> 
+</I>&gt;<i> [...]
+</I>&gt;<i> 
+</I>&gt;<i> vsouvaneSlovo=&quot; chyby&quot;
+</I>&gt;<i> logText = logText[0:pozice] + vsouvaneSlovo + logText[pozice:delka]
+</I>&gt;<i> print logText
+</I>&gt;<i> 
+</I>&gt;<i> Teorii k tomu dodá snad někdo jiný, nebo odkazuji na oficial
+</I>&gt;<i> tutoriál...
+</I>
+Index -1 skutečně znamená index posledního prvku v
+posloupnosti (zde posledního znaku v řetězci).  Ale při
+získávání výřezu z řetězce (slice) se berou znaky od prvního
+zadaného indexu včetně až po druhý zadaný index VYJMA. Druhý
+index vždy udává pozici, kterou už nebereme (prvek za
+posledním zpracovávaným.
+
+Místo zjišťování délky můžeme použít obrat logText[pozice:],
+tj. vynecháme druhý index. Interpretuje se to jako &quot;od
+pozice až do konce&quot;. Podobně, když vynecháme první index,
+interpretuje se to jako &quot;od začátku&quot;. 
+
+Vždy platí  s == s[:pozice] + s[pozice:]
+
+Z uvedeného také vyplývá, že logText[:] vrací řetězec beze
+změny (od začátku do konce). Ale dochází při tom ke vzniku
+nového objektu řetězce, tedy ke KOPÍROVÁNÍ. U řetězců je to
+spíš zbytečný obrat, protože okopírováním nic nezískáme.
+Jsou totiž neměnné (immutable) a dokud existují, budou mít
+pořád stejný obsah. 
+
+Konkrétně u řetězců Python může novější verze Pythonu
+provést vnitřní optimalizaci, takže se kopie nevytvoří: 
+&gt;&gt;&gt;<i> s = 'abcd'
+</I>&gt;&gt;&gt;<i> s
+</I>'abcd'
+&gt;&gt;&gt;<i> id(s)
+</I>9575168
+&gt;&gt;&gt;<i> ss = s[:]
+</I>&gt;&gt;&gt;<i> ss
+</I>'abcd'
+&gt;&gt;&gt;<i> id(ss)
+</I>9575168
+
+(Identifikace objektů s i ss je stejná, to znamená že obě
+jména odkazují na stejný objekt řetězce a ke kopii tedy
+nedošlo.)
+
+Jiné je to ale u seznamů, jejichž obsah můžeme měnit
+(mutable). Uvedeným obratem se tedy často získává kopie
+seznamu:
+
+&gt;&gt;&gt;<i> L = ['abcd', 'efgh']
+</I>&gt;&gt;&gt;<i> L
+</I>['abcd', 'efgh']
+&gt;&gt;&gt;<i> id(L)
+</I>9592384
+&gt;&gt;&gt;<i> LL = L[:]
+</I>&gt;&gt;&gt;<i> LL
+</I>['abcd', 'efgh']
+&gt;&gt;&gt;<i> id(LL)
+</I>9592424
+
+Tady už se identifikace liší, takže k fyzické kopii došlo.
+Obě jména ukazují na různé objekty.
+
+pepr
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000087.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#90">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#90">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#90">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#90">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000090.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+</html>

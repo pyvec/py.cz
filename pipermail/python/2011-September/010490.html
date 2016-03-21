@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-September/010490.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:44 GMT -->
+<HEAD>
+   <TITLE> [python] PyGTK TreeView - změna barvy řádku
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FPyGTK_TreeView_-_zm%3DC4%3D9Bna_barvy_%3DC5%3D99%3DC3%3DA1%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fdku%3F%3D&In-Reply-To=%3Calpine.DEB.2.00.1109060746300.30155%40campanula.stel%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-September/010489.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-September/010491.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PyGTK TreeView - změna barvy řádku</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FPyGTK_TreeView_-_zm%3DC4%3D9Bna_barvy_%3DC5%3D99%3DC3%3DA1%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fdku%3F%3D&In-Reply-To=%3Calpine.DEB.2.00.1109060746300.30155%40campanula.stel%3E"
+       TITLE="[python] PyGTK TreeView - změna barvy řádku">fuky na sunstel.asu.cas.cz
+       </A><BR>
+    <I>Úterý Září  6 07:56:50 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-September/010489.html">[python] PyGTK TreeView - změna barvy řádku
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-September/010491.html">[python] https proxy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-September/date.html#10490">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/thread.html#10490">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/subject.html#10490">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/author.html#10490">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj vespolek,
+ukázka:
+
+     <A HREF="https://stelweb.asu.cas.cz/svn/observe/trunk/bin/observe-users-permissions.py">https://stelweb.asu.cas.cz/svn/observe/trunk/bin/observe-users-permissions.py</A>
+     <A HREF="http://pleione.asu.cas.cz/~fuky/observe/screenshots/observe-users-permissions-save.png">http://pleione.asu.cas.cz/~fuky/observe/screenshots/observe-users-permissions-save.png</A>
+
+V ukázce je šest viditelných sloupečků, v sedmém je uložená barva řádku:
+
+     gtk.ListStore(str, str, str, str, str, str, str)
+
+Při vytváření sloupečků definuješ pomocí argumentu background na jaké pozici
+bude uložena barva pozadí:
+
+     columns = [
+         [&quot;Login&quot;, cellRendererText],
+         [&quot;First Name&quot;, cellRendererText],
+         [&quot;Last Name&quot;, cellRendererText],
+         [&quot;E-mail&quot;, cellRendererText],
+         [&quot;Permission&quot;, cellRendererCombo],
+         [&quot;Save result&quot;, cellRendererText],
+     ]
+
+     id = 0
+     for item in columns:
+         column = gtk.TreeViewColumn(item[0], item[1], text=id, background=6)
+         treeView.append_column(column)
+         id += 1
+
+Přidání řádku (color: &quot;LightGreen&quot;, &quot;LightPink&quot; atp.):
+
+     self.listStore.append([
+         user[&quot;login&quot;],
+         user[&quot;firstName&quot;],
+         user[&quot;lastName&quot;],
+         user[&quot;email&quot;],
+         user[&quot;permission&quot;],
+         save_result,
+         color,
+     ])
+
+Názvy barev nalezneš v /etc/X11/rgb.txt.
+
+Změna barvy řádku:
+
+     def permissionChanged(self, widget, path, text, model):
+         login = model[path][0]
+
+         if (text in [&quot;none&quot;, &quot;read&quot;, &quot;control&quot;]):
+             model[path][4] = text
+
+             if (self.permissions[login] != text):
+                 model[path][6] = &quot;LightBlue&quot;
+             else:
+                 model[path][6] = &quot;White&quot;
+
+
+         S pozdravem Fuky
+
+&gt;<i> Subject: [python] PyGTK TreeView - změna barvy řádku
+</I>
+--
+<A HREF="http://www.fuky.org/">http://www.fuky.org</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-September/010489.html">[python] PyGTK TreeView - změna barvy řádku
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-September/010491.html">[python] https proxy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-September/date.html#10490">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/thread.html#10490">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/subject.html#10490">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/author.html#10490">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-September/010490.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:44 GMT -->
+</html>

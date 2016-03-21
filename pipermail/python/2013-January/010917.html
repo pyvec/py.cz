@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010917.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:18 GMT -->
+<HEAD>
+   <TITLE> [python] smazání větve xml v celém dokumentu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fsmaz%3DE1n%3DED_v%3DECtve_xml_v_cel%3DE9m_dokumen%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Ftu%3F%3D&In-Reply-To=%3CCAAEb_Q3er11uRa9zE-YTee7m15TDQf8auon5eHwfaq%2BKR4S5BQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010916.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010918.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] smazání větve xml v celém dokumentu</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fsmaz%3DE1n%3DED_v%3DECtve_xml_v_cel%3DE9m_dokumen%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Ftu%3F%3D&In-Reply-To=%3CCAAEb_Q3er11uRa9zE-YTee7m15TDQf8auon5eHwfaq%2BKR4S5BQ%40mail.gmail.com%3E"
+       TITLE="[python] smazání větve xml v celém dokumentu">rainbof na gmail.com
+       </A><BR>
+    <I>Pondělí Leden 21 12:49:19 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010916.html">[python] smazání větve xml v celém dokumentu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010918.html">[python] BLOCCATI 10 MLN DI EURO A PAOLO BARRAI (BLOG MERCATO &quot;MERDATO&quot; LIBERO). A LUI E A NAZIS~TRUFFATORE ALESSANDRO PROTO (CONSULTING). A LUGANO. INDAGINI IN TUTTA ITALIA. SPECIE SU LAVA SOLDI MAFIOSI: AVVOCATO ETTORE PARLATO SPADAFORA DI BANCA MEDIOLANUM.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10917">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10917">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10917">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10917">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>zatím jsem to udelal tak ze jsem to spustil na 64bit stroji kde to nacte a
+uplácal jsem toto kde se neprohledava ten strom ale jen nalezene elementy
+coz vyhovuje:
+
+import xml.etree.ElementTree as ET
+
+tree = ET.parse('megadokument.xml')
+for neco in tree.findall(&quot;neco/dalsi/dalsi/dalsi&quot;):
+    delattr(neco)
+
+
+a to ma problem s elementem delattr ale zhruba to je to co potrebuju (pokud
+by to fungovalo). Zajimave je ze to podle tohoto:
+<A HREF="http://docs.python.org/3/library/xml.etree.elementtree.html#elementtree-xpathfungovat">http://docs.python.org/3/library/xml.etree.elementtree.html#elementtree-xpathfungovat</A>
+ma.
+
+
+jeste dodavam ze mam python 3.2 v &quot;zakladu&quot; protoze bych si rad zachoval
+rychlou prenositelnost skriptu.
+
+O.
+
+Dne 21. ledna 2013 12:21 Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.messner na gmail.com</A>&gt; napsal(a):
+
+&gt;<i> Pokud jde o to, že se ten xml dokument nevejde do paměti, tak řešením je
+</I>&gt;<i> SAX:
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://lxml.de/sax.html">http://lxml.de/sax.html</A>
+</I>&gt;<i>
+</I>&gt;<i> Jestli to tedy neni zrovna to procházení, které nechceš :)
+</I>&gt;<i>
+</I>&gt;<i> Petr Messner
+</I>&gt;<i>
+</I>&gt;<i> 21. 1. 2013 v 11:18, Ondrej Beranek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;:
+</I>&gt;<i>
+</I>&gt;<i> mám rozsáhlý a tučný (několik gb) XML dokument, existuje nějaká cesta jak
+</I>&gt;<i> smazat větev v celém dokumentu aniž bych to musel procházet ?
+</I>&gt;<i>
+</I>&gt;<i> struktura &quot;něco jako&quot; (ve skutečnosti je velmi zanořená)
+</I>&gt;<i>
+</I>&gt;<i> &lt;zakaznici&gt;
+</I>&gt;<i> &lt;zakaznik id=123&gt;
+</I>&gt;<i> ...
+</I>&gt;<i> &lt;kontakty&gt;
+</I>&gt;<i> &lt;telefon&gt;1234&lt;/telefon&gt;
+</I>&gt;<i> &lt;telefon&gt;456&lt;/telefon&gt;
+</I>&gt;<i> &lt;/kontakty&gt;
+</I>&gt;<i>
+</I>&gt;<i> &lt;/zakaznik&gt;
+</I>&gt;<i>
+</I>&gt;<i> tohle:
+</I>&gt;<i> <A HREF="http://stackoverflow.com/questions/3359151/how-can-i-remove-all-elements-matching-an-xpath-in-python-using-lxmlmi">http://stackoverflow.com/questions/3359151/how-can-i-remove-all-elements-matching-an-xpath-in-python-using-lxmlmi</A> nefunguje.
+</I>&gt;<i>
+</I>&gt;<i> O.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130121/47ff07e7/attachment.html">http://www.py.cz/pipermail/python/attachments/20130121/47ff07e7/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010916.html">[python] smazání větve xml v celém dokumentu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010918.html">[python] BLOCCATI 10 MLN DI EURO A PAOLO BARRAI (BLOG MERCATO &quot;MERDATO&quot; LIBERO). A LUI E A NAZIS~TRUFFATORE ALESSANDRO PROTO (CONSULTING). A LUGANO. INDAGINI IN TUTTA ITALIA. SPECIE SU LAVA SOLDI MAFIOSI: AVVOCATO ETTORE PARLATO SPADAFORA DI BANCA MEDIOLANUM.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10917">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10917">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10917">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10917">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010917.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:18 GMT -->
+</html>

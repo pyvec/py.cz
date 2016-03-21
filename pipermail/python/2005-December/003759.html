@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003759.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:10 GMT -->
+<HEAD>
+   <TITLE> [python] Lokalne premenne v try-except
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Lokalne%20premenne%20v%20try-except&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-December/003757.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-December/003760.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Lokalne premenne v try-except</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Lokalne%20premenne%20v%20try-except&In-Reply-To="
+       TITLE="[python] Lokalne premenne v try-except">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Prosinec  7 11:40:08 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003757.html">[python] py.cz chybky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003760.html">[python] Lokalne premenne v try-except
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3759">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3759">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3759">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3759">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Janech
+&gt;<i> Jaroslav Pachola wrote:
+</I>&gt;<i> &gt;Jan Janech wrote:
+</I>[...]
+&gt;<i> &gt;&gt;robim na jednu internetovu aplikaciu system, ktory mi  posiela mail pri
+</I>&gt;<i> &gt;&gt;kazdej chybe a system pokracuje dalej. Mam vsak otazku: da sa nejako
+</I>&gt;<i> &gt;&gt;zistit obsah lokalnych premennych v case chyby? chcel by som ich
+</I>&gt;<i> &gt;&gt;posielat serializovane ako prilohu mailu...  z tracebacku sa toho
+</I>&gt;<i> &gt;&gt;castokrat vela nedozviem.
+</I>[...]
+&gt;<i> &gt;treba takto?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;try:
+</I>&gt;<i> &gt;    # nejaky kod
+</I>&gt;<i> &gt;except:
+</I>&gt;<i> &gt;    print locals() # nebo neco podobneho
+</I>&gt;<i> &gt;    raise
+</I>[...]
+&gt;<i> To by bolo prilis jednoduche :) V ramci bloku try mozu byt 
+</I>&gt;<i> volane fcie,  a chyba moze nastat v nich
+</I>
+Zkus si pohrát s modulem inspect. Zaměř se na 
+metody stack() a trace():
+
+  stack( [context]) 
+  
+     Return a list of frame records for the caller's
+     stack. The first entry in the returned list
+     represents the caller; the last entry represents
+     the outermost call on the stack.
+  
+  trace( [context]) 
+  
+     Return a list of frame records for the stack
+     between the current frame and the frame in which
+     an exception currently being handled was raised
+     in. The first entry in the list represents the
+     caller; the last entry represents where the
+     exception was raised.
+
+Třeba z toho to potřebné vydoluješ.
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003757.html">[python] py.cz chybky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003760.html">[python] Lokalne premenne v try-except
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3759">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3759">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3759">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3759">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003759.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:10 GMT -->
+</html>

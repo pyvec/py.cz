@@ -1,0 +1,424 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007346.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:11 GMT -->
+<HEAD>
+   <TITLE> [python] Parsování emailu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-May/007356.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-May/007347.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Parsování emailu</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To="
+       TITLE="[python] Parsování emailu">jakohv na seznam.cz
+       </A><BR>
+    <I>Pondělí Květen  5 22:28:54 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007356.html">[python] Správný návrh Qt aplikace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007347.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7346">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7346">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7346">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7346">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+Zase jsem se tak trochu zasekl při vytváření svého e-mailového klienta. Nyní 
+dokážu rozparsovat snad již všechny zprávy, ale u některých (míň než 1%) 
+blbne kodování. Snažil jsem se problém vyřešit po několik hodin, ale nic mě 
+nenapadlo a tak se obracím opět na Vás.
+Takto vypadá moje metoda pro získání textu zprávy:
+
+#-*- coding: cp1250 -*-
+import cStringIO, mimetools
+from email import parser, re
+class ParseEmail:
+    def decode(self, r):
+        temp = cStringIO.StringIO()
+        x = cStringIO.StringIO()
+        x.write(r)
+        x.seek(0)
+        mimetools.decode(x, temp, &quot;quoted-printable&quot;)
+        temp.seek(0)
+        zprava = temp.read()
+        return zprava
+    def ziskej_zpravu(self, r):
+        r=parser.Parser().parsestr(r)
+        zaloha = r
+        charset=r'[\w\W]+charset *= *&quot;?(?P&lt;x&gt;[\w\-]+)&quot;?;?'
+        kodovani=&quot;cp1250&quot;
+        plain=False
+        html=False
+        zprava=False
+        quoted=False
+        while 1:
+            r=r.get_payload()
+            if type(r) != str:
+                for prvek in r:
+                    dek = False
+                    if not prvek[&quot;Content-Type&quot;]: continue
+                    if prvek[&quot;Content-Type&quot;].startswith(&quot;text/plain&quot;) or 
+prvek[&quot;Content-Type&quot;].startswith(&quot;text/html&quot;):
+                        if prvek[&quot;Content-Transfer-Encoding&quot;] == &quot;base64&quot;:
+                            dek = True
+                        if prvek[&quot;Content-Transfer-Encoding&quot;]:
+                            quoted = prvek[&quot;Content-Transfer-Encoding&quot;]
+                    if prvek[&quot;Content-Type&quot;].startswith(&quot;text/html&quot;):
+                        search = re.search(charset, prvek[&quot;Content-Type&quot;])
+                        if search:
+                            kodovani = search.group(&quot;x&quot;)
+                        html = prvek.get_payload(decode = dek)
+                        if quoted in [&quot;quoted-printable&quot;, &quot;uuencode&quot;, 
+&quot;base64&quot;]:
+                            html = self.decode(html)
+                    if prvek[&quot;Content-Type&quot;].startswith(&quot;text/plain&quot;):
+                        search = re.search(charset, prvek[&quot;Content-Type&quot;])
+                        if search:
+                            kodovani = search.group(&quot;x&quot;)
+                        plain = prvek.get_payload(decode = dek)
+                        if quoted in [&quot;quoted-printable&quot;, &quot;uuencode&quot;, 
+&quot;base64&quot;]:
+                            plain = self.decode(plain).replace('\n','&lt;br 
+/&gt;')
+                r=r[0]
+            else:break
+        if html:
+            zprava=html
+        elif not html and plain:
+            zprava=plain
+        else:
+            dek = False
+            plain=False
+            if zaloha[&quot;Content-Type&quot;]:
+                if zaloha[&quot;Content-Type&quot;].startswith(&quot;text/&quot;):
+                    if zaloha[&quot;Content-Type&quot;].startswith(&quot;text/plain&quot;):
+                        plain = True
+                    if zaloha[&quot;Content-Transfer-Encoding&quot;]:
+                        quoted = zaloha[&quot;Content-Transfer-Encoding&quot;]
+                    search = re.search(charset, zaloha[&quot;Content-Type&quot;])
+                    if search:
+                        kodovani = search.group(&quot;x&quot;)
+                    if zaloha[&quot;Content-Transfer-Encoding&quot;] == &quot;base64&quot;:dek = 
+True
+                    zprava=zaloha.get_payload(decode = dek)
+                    if plain:
+                        zprava=zprava.replace('\n','&lt;br /&gt;')
+            elif not zaloha[&quot;Content-type&quot;] and not 
+zaloha[&quot;Content-Transfer-Encoding&quot;] and not zaloha[&quot;Content-Disposition&quot;]:
+                zprava = zaloha.get_payload().replace('\n', '&lt;br /&gt;')
+        if not zprava:
+            return &quot;&quot;
+        if quoted in [&quot;quoted-printable&quot;, &quot;uuencode&quot;, &quot;base64&quot;]:
+            try:
+                zprava = zprava.decode(kodovani).encode(kodovani)
+            except:
+                zprava = zprava.decode(kodovani).encode(&quot;cp1250&quot;)
+            zprava = self.decode(zprava)
+            zprava = zprava.replace('\n=20',&quot;&lt;br /&gt;&quot;).replace('=&lt;br /&gt;',&quot;&quot;)
+            return zprava
+        try:
+            zprava=zprava.decode(kodovani)
+        except:
+            zprava=zprava.decode(&quot;cp1250&quot;)
+        try:
+            return zprava.encode(&quot;cp1250&quot;)
+        except:
+            return zprava.encode(kodovani)
+
+
+r1 = 'Received: (qmail 16187 invoked by uid 0); 4 Aug 2007 
+07:04:37 -0000\nX-Spam-Checker-Version: szn-spamassassin 
+2006-02-02\nX-Spam-Status: score=-1.6\nReceived: from 64.233.182.184 (EHLO 
+nf-out-0910.google.com)\n  by email-mx6.go.seznam.cz id FixusSMTPd16101; 04 
+Aug 2007 07:04:36 -0000\nReceived: by nf-out-0910.google.com with SMTP id 
+g16so266927nfd\n        for &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt;; Sat, 04 Aug 2007 
+00:04:35 -0700 (PDT)\nReceived: by 10.78.97.7 with SMTP id 
+u7mr986089hub.1186211075388;\n        Sat, 04 Aug 2007 00:04:35 -0700 
+(PDT)\nX-Forwarded-To: <A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>\nX-Forwarded-For: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">blujacker na gmail.com</A> <A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>\nDelivered-To: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">blujacker na gmail.com</A>\nReceived: by 10.78.190.9 with SMTP id n9cs504757huf;\n 
+Sat, 4 Aug 2007 00:04:32 -0700 (PDT)\nReceived: by 10.86.100.7 with SMTP id 
+x7mr2780964fgb.1186211072615;\n        Sat, 04 Aug 2007 00:04:32 -0700 
+(PDT)\nReturn-Path: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">register na avast.com</A>&gt;\nReceived: from lion.avast.com 
+(lion.avast.com [195.47.75.55])\n        by mx.google.com with ESMTP id 
+e9si12366149muf.2007.08.04.00.04.32;\n        Sat, 04 Aug 2007 
+00:04:32 -0700 (PDT)\nReceived-Spf: pass (google.com: domain of 
+<A HREF="http://www.py.cz/mailman/listinfo/python">register na avast.com</A> designates 195.47.75.55 as permitted sender)\nReceived: 
+from ORACLE (oracle.asw.cz [192.168.1.53])\n\tby lion.avast.com 
+(8.13.1/8.13.1) with SMTP id l7474Wna002249\n\tfor &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">blujacker na gmail.com</A>&gt;; 
+Sat, 4 Aug 2007 09:04:32 +0200\nDate: Sat, 04 Aug 2007 09:04:32 +0200 
+(CEST)\nFrom: <A HREF="http://www.py.cz/mailman/listinfo/python">register na avast.com</A>\nMessage-Id: 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">200708040704.l7474Wna002249 na lion.avast.com</A>&gt;\nReply-To: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">register na avast.com</A>\nTo: <A HREF="http://www.py.cz/mailman/listinfo/python">blujacker na gmail.com</A>\nSubject: 
+=?us-ascii?Q?avast=21=20Registration?=\nContent-Type: 
+text/plain;\n\tcharset=&quot;UTF-8&quot;\nContent-Transfer-Encoding: 
+8bit\nX-Custommail: <A HREF="http://www.py.cz/mailman/listinfo/python">blujacker na gmail.com</A>\nErrors-To: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">register-bounces na avast.com</A>\nX-Smtpd: szn-smtpd v1.3-7\nX-Nod32result: clean 
+(vdv=2413)\n\n* Tento e-mail V\xc3\xa1m byl zasl\xc3\xa1n firmou ALWIL 
+Software na z\xc3\xa1klad\xc4\x9b vlo\xc5\xbeen\xc3\xad\n* 
+Va\xc5\xa1\xc3\xad e-mailov\xc3\xa9 adresy v na\xc5\xa1em 
+registra\xc4\x8dn\xc3\xadm formul\xc3\xa1\xc5\x99i na adrese\n* 
+<A HREF="http://www.avast.com/i_kat_207.php?lang=CZE.\n*">http://www.avast.com/i_kat_207.php?lang=CZE.\n*</A> Pokud se jedn\xc3\xa1 o 
+omyl, e-mail sma\xc5\xbete nebo p\xc5\x99epo\xc5\xa1lete na e-mailovou 
+adresu\n* <A HREF="http://www.py.cz/mailman/listinfo/python">unregister na avast.com</A> (registrace pro Va\xc5\xa1i e-mailovou adresu 
+bude zru\xc5\xa1ena). \n\nV\xc3\xa1\xc5\xbeen\xc3\xbd 
+u\xc5\xbeivateli,\nzaregistrovali jsme V\xc3\xa1s k 
+pou\xc5\xbe\xc3\xadv\xc3\xa1n\xc3\xad bezplatn\xc3\xa9 verze na\xc5\xa1eho 
+antivirov\xc3\xa9ho programu\navast! 4 Home Edition. Registraci je 
+nutn\xc3\xa9 dokon\xc4\x8dit vlo\xc5\xbeen\xc3\xadm licen\xc4\x8dn\xc3\xadho 
+kl\xc3\xad\xc4\x8de do\nprogramu. Tato registrace je platn\xc3\xa1 po dobu 
+12 m\xc4\x9bs\xc3\xadc\xc5\xaf, po uplynut\xc3\xad t\xc3\xa9to doby je 
+\nmo\xc5\xben\xc3\xa9 registraci bezplatn\xc4\x9b prodlou\xc5\xbeit o 
+dal\xc5\xa1\xc3\xadch 12 m\xc4\x9bs\xc3\xadc\xc5\xaf op\xc4\x9btovn\xc3\xbdm 
+vypln\xc4\x9bn\xc3\xadm\nregistra\xc4\x8dn\xc3\xadho formul\xc3\xa1\xc5\x99e 
+a vlo\xc5\xbeen\xc3\xadm z\xc3\xadskan\xc3\xa9ho kl\xc3\xad\xc4\x8de do 
+programu.\n\nV\xc3\xa1\xc5\xa1 licen\xc4\x8dn\xc3\xad kl\xc3\xad\xc4\x8d 
+je\n\n---------- licen\xc4\x8dn\xc3\xad 
+kl\xc3\xad\xc4\x8d ----------\nW45446420H4600A1106-BZWF1VTJ\n----------  
+licen\xc4\x8dn\xc3\xad kl\xc3\xad\xc4\x8d ----------\n\nLicence V\xc3\xa1s 
+oprav\xc5uje k pou\xc5\xbeit\xc3\xad tohoto kl\xc3\xad\xc4\x8de na 
+po\xc4\x8d\xc3\xadta\xc4\x8di s 
+nainstalovan\xc3\xbdm\nopera\xc4\x8dn\xc3\xadm syst\xc3\xa9mem ve verzi pro 
+pracovn\xc3\xad stanice (kl\xc3\xad\xc4\x8d nesm\xc3\xad b\xc3\xbdt 
+pou\xc5\xbeit na \nserverov\xc3\xa9m opera\xc4\x8dn\xc3\xadm 
+syst\xc3\xa9mu), kter\xc3\xbd je pou\xc5\xbe\xc3\xadv\xc3\xa1n pro 
+osobn\xc3\xad, dom\xc3\xa1c\xc3\xad a 
+nekomer\xc4\x8dn\xc3\xad\n\xc3\xba\xc4\x8dely (v\xc5\xa1echny t\xc5\x99i 
+podm\xc3\xadnky mus\xc3\xad b\xc3\xbdt spln\xc4\x9bny).\n\nInformace o 
+placen\xc3\xbdch verz\xc3\xadch programu avast! lze z\xc3\xadskat na 
+adrese\<A HREF="nhttp://www.avast.com/cze/products.html.">nhttp://www.avast.com/cze/products.html.</A> V 
+p\xc5\x99\xc3\xadpad\xc4\x9b z\xc3\xa1jmu o koupi 
+nev\xc3\xa1hejte\nkontaktovat spole\xc4\x8dnost ALWIL Trade na e-mailu 
+<A HREF="http://www.py.cz/mailman/listinfo/python">sales na alwil.com</A> nebo telefonn\xc3\xadm\n\xc4\x8d\xc3\xadsle 274 005 
+111.\n\nV\xc5\xa1echny produkty (s v\xc3\xbdjimkou avast! BART CD) je 
+mo\xc5\xben\xc3\xa9 bezplatn\xc4\x9b zkou\xc5\xa1et po dobu\n60 dn\xc5\xaf 
+od instalace (zku\xc5\xa1ebn\xc3\xad doba m\xc5\xaf\xc5\xbee b\xc3\xbdt 
+zkr\xc3\xa1cena v z\xc3\xa1vislosti na 
+ostatn\xc3\xadch\ninstalovan\xc3\xbdch produktech firmy ALWIL 
+Software).\n\nJestli\xc5\xbee ji\xc5\xbe m\xc3\xa1te avast! ve verzi 4.6 
+nebo nov\xc4\x9bj\xc5\xa1\xc3\xad nainstalovan\xc3\xbd, postupte na\nbod 5, 
+jinak postupujte n\xc3\xa1sledovn\xc4\x9b: \n1) St\xc3\xa1hn\xc4\x9bte si 
+instala\xc4\x8dn\xc3\xad program ze str\xc3\xa1nky\n 
+<A HREF="http://www.avast.com/cze/download-avast-home.html/n2">http://www.avast.com/cze/download-avast-home.html\n2</A>) Spus\xc5\xa5te 
+instala\xc4\x8dn\xc3\xad program a postupujte dle instrukc\xc3\xad na 
+obrazovce\n3) Posledn\xc3\xadm krokem instalace je restart 
+po\xc4\x8d\xc3\xadta\xc4\x8de, u\xc4\x8di\xc5te tak, kdy\xc5\xbe V\xc3\xa1s 
+o to\n instala\xc4\x8dn\xc3\xad program po\xc5\xbe\xc3\xa1d\xc3\xa1.\n4) Po 
+\xc3\xbasp\xc4\x9b\xc5\xa1n\xc3\xa9 instalaci se v systray (oblast vedle 
+hodin, standardn\xc4\x9b v prav\xc3\xa9m\n doln\xc3\xadm rohu obrazovky) 
+objev\xc3\xad modr\xc3\xa1 ikona s p\xc3\xadsmenem &quot;a&quot;.\n\nPostup pro 
+vlo\xc5\xbeen\xc3\xad kl\xc3\xad\xc4\x8de do programu:\n5) Klikn\xc4\x9bte 
+prav\xc3\xbdm tla\xc4\x8d\xc3\xadtkem na modrou ikonu s p\xc3\xadsmenem &quot;a&quot; 
+v systray a zvolte\n  mo\xc5\xbenost &quot;O programu avast!...&quot; nebo v 
+jednoduch\xc3\xa9m rozhran\xc3\xad zvolte &quot;N\xc3\xa1pov\xc4\x9bda\n  -&gt; O 
+programu avast!...&quot;.\n6) Ve vysko\xc4\x8div\xc5\xa1\xc3\xadm okn\xc4\x9b 
+klikn\xc4\x9bte na tla\xc4\x8d\xc3\xadtko &quot;Licen\xc4\x8dn\xc3\xad 
+kl\xc3\xad\xc4\x8d&quot;, kter\xc3\xa9 je u doln\xc3\xadho\n okraje okna.\n7) 
+Ozna\xc4\x8dte my\xc5\xa1\xc3\xad V\xc3\xa1\xc5\xa1 licen\xc4\x8dn\xc3\xad 
+kl\xc3\xad\xc4\x8d v tomto e-mailu a stiskem kl\xc3\xa1ves CTRL+C jej\n 
+vlo\xc5\xbete do schr\xc3\xa1nky, p\xc5\x99epn\xc4\x9bte se do okna pro 
+zad\xc3\xa1v\xc3\xa1n\xc3\xad kl\xc3\xad\xc4\x8de a stiskem kl\xc3\xa1ves\n 
+CTRL+V kl\xc3\xad\xc4\x8d ze schr\xc3\xa1nky vlo\xc5\xbete do mod\xc5\x99e 
+ozna\xc4\x8den\xc3\xa9ho \xc5\x99\xc3\xa1dku.\n8) Stiskn\xc4\x9bte 
+tla\xc4\x8d\xc3\xadtko &quot;OK&quot;, \xc3\xbasp\xc4\x9b\xc5\xa1n\xc3\xa9 
+vlo\xc5\xbeen\xc3\xad kl\xc3\xad\xc4\x8de je potvrzeno zpr\xc3\xa1vou 
+&quot;Operace\n dokon\xc4\x8dena \xc3\xbasp\xc4\x9b\xc5\xa1n\xc4\x9b&quot;. 
+\n\nCel\xc3\xbd postup je mo\xc5\xben\xc3\xa9 shl\xc3\xa9dnout ve videu na 
+na\xc5\xa1ich webov\xc3\xa1ch 
+str\xc3\xa1nk\xc3\xa1ch\<A HREF="nhttp://www.avast.com/files/tutorials/insert_keycz.htm\n\nAktualizace">nhttp://www.avast.com/files/tutorials/insert_keycz.htm\n\nAktualizace</A> 
+virov\xc3\xa9 datab\xc3\xa1ze jsou prov\xc3\xa1d\xc4\x9bny automaticky. O 
+nov\xc3\xbdch aktualizac\xc3\xadch\nprogramu budete informov\xc3\xa1ni 
+modr\xc3\xbdm oknem - spu\xc5\xa1t\xc4\x9bn\xc3\xad aktualizace programu 
+mus\xc3\xadte\nvyvolat ve v\xc3\xbdchoz\xc3\xadm nastaven\xc3\xad programu 
+manu\xc3\xa1ln\xc4\x9b.\n\nPokud si s n\xc4\x9b\xc4\x8d\xc3\xadm 
+nev\xc3\xadte rady, zkuste se zeptat v na\xc5\xa1em f\xc3\xb3ru na 
+adrese\<A HREF="nhttp://forum.asw.cz">nhttp://forum.asw.cz</A> nebo nav\xc5\xa1tivte str\xc3\xa1nky 
+na\xc5\xa1\xc3\xad technick\xc3\xa9 podpory na 
+adrese\<A HREF="nhttp://www.avast.com/cze/technical_support.html.\n\nCht\xc4\x9bli">nhttp://www.avast.com/cze/technical_support.html.\n\nCht\xc4\x9bli</A> 
+bychom V\xc3\xa1s upozornit, \xc5\xbee telefonick\xc3\xa1 podpora je 
+poskytov\xc3\xa1na pouze\nkomer\xc4\x8dn\xc3\xadm 
+z\xc3\xa1kazn\xc3\xadk\xc5\xafm.\n\nS pozdravem\n\tV\xc3\xa1\xc5\xa1 ALWIL 
+Software team\n\n'
+r2 = 'Received: (qmail 20844 invoked by uid 0); 12 Nov 2007 
+09:06:47 -0000\nX-Spam-Checker-Version: szn-spamassassin 
+2006-02-02\nX-Spam-Status: score=-19.8\nReceived: from 194.228.3.217 (EHLO 
+hugo.zagamma.cz)\n  by email-mx20.go.seznam.cz id FixusSMTPd19691; 12 Nov 
+2007 09:06:41 -0000\nReceived: from hugo.zagamma.cz (softdnserr 
+[::ffff:127.0.0.1])\n  by hugo.zagamma.cz with esmtp; Mon, 12 Nov 2007 
+10:06:38 +0100\n  id 0030A24E.4738179E.000058FF\nReceived: from 
+smtp.coprosys-lvi.cz (smtp.coprosys-lvi.cz\n\t[::ffff:81.92.158.230])\n\tby 
+hugo.zagamma.cz with esmtp; Mon, 12 Nov 2007 10:06:35 +0100\n\tid 
+00309E0D.4738179B.000058B3\nOld-Received-Spf: none (Address does not pass 
+the Sender Policy Framework)\n\tSPF=HELO; 
+sender=smtp.coprosys-lvi.cz;\n\tremoteip=::ffff:81.92.158.230; 
+remotehost=smtp.coprosys-lvi.cz;\n\thelo=smtp.coprosys-lvi.cz; 
+receiver=hugo.zagamma.cz;\nOld-Received-Spf: none (Address does not pass the 
+Sender Policy Framework)\n\tSPF=MAILFROM; 
+sender=<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>;\n\tremoteip=::ffff:81.92.158.230; 
+remotehost=smtp.coprosys-lvi.cz;\n\thelo=smtp.coprosys-lvi.cz; 
+receiver=hugo.zagamma.cz;\nReceived: from localhost 
+(localhost.coprosys-lvi.cz [127.0.0.1])\n\tby smtp.coprosys-lvi.cz (Postfix) 
+with ESMTP id AF7DEB692E1\n\tfor &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;; Mon, 12 Nov 2007 10:06:31 
++0100 (CET)\nX-Virus-Scanned: amavisd-new at coprosys-lvi.cz\nReceived: from 
+smtp.coprosys-lvi.cz ([127.0.0.1])\n\tby localhost (smtp.coprosys-lvi.cz 
+[127.0.0.1]) (amavisd-new,\n\tport 10024) with ESMTP id 13Nfm9+Kg-Ws for 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;;\n\tMon, 12 Nov 2007 10:06:28 +0100 (CET)\nReceived: from 
+[192.168.100.13] (unknown [81.92.151.173])\n\tby smtp.coprosys-lvi.cz 
+(Postfix) with ESMTP\n\tfor &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;; Mon, 12 Nov 2007 10:06:06 +0100 
+(CET)\nDate: Mon, 12 Nov 2007 10:06:05 +0100 (CET)\nFrom: mtip 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt;\nX-Priority: 3 (Normal)\nMessage-Id: 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">1057725156.20071112100605 na atlas.cz</A>&gt;\nTo: =?us-ascii?Q?Konference=20PyCZ?= 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;\nIn-Reply-To: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">47380ED4.1090102 na brabenec.net</A>&gt;\nReferences: 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">46e1f0de0711100719v3cce21a6s25cf09b809d4ed4 na mail.gmail.com</A>&gt;\n\t&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mailman.5.1194725282.4149.python na py.cz</A>&gt;\n\t&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">1194789670.003635.325640 na v3g2000hsg.googlegroups.com</A>&gt;\n\t&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">46e1f0de0711110728t6a543679g352698bcc50ea8e0 na mail.gmail.com</A>&gt;\n\t&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">91931531.20071111192622 na atlas.cz</A>&gt; 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">47380ED4.1090102 na brabenec.net</A>&gt;\nMime-Version: 1.0\nOld-Received-Spf: none 
+(Address does not pass the Sender Policy Framework)\n\tSPF=FROM; 
+sender=<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>; 
+remoteip=::ffff:81.92.158.230;\n\tremotehost=smtp.coprosys-lvi.cz; 
+helo=smtp.coprosys-lvi.cz;\n\treceiver=hugo.zagamma.cz;\nSubject: 
+=?us-ascii?Q?Re=3A=20=5Bpython=5D=20python=20na=20web=20=2D=20otazky?=\nX-Beenthere: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>\nX-Mailman-Version: 2.1.9\nPrecedence: list\nReply-To: 
+=?us-ascii?Q?Konference=20PyCZ?= &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;\nList-Id: Konference PyCZ 
+&lt;python.py.cz&gt;\nList-Unsubscribe: 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>&gt;,\n\t&lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-request na py.cz</A>?subject=unsubscribe&gt;\nList-Archive: 
+&lt;<A HREF="http://www.py.cz/pipermail/python">http://www.py.cz/pipermail/python</A>&gt;\nList-Post: 
+&lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;\nList-Help: 
+&lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-request na py.cz</A>?subject=help&gt;\nList-Subscribe: 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>&gt;,\n\t&lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-request na py.cz</A>?subject=subscribe&gt;\nContent-Type: 
+text/plain; charset=&quot;iso-8859-2&quot;\nContent-Transfer-Encoding: 
+quoted-printable\nSender: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>\nErrors-To: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>\nX-Smtpd: szn-smtpd v1.3-7\nX-Nod32result: clean 
+(vdv=2261)\n\nTB&gt; Mysl=ED=B9, =BEe bys mi mohl poslat n=ECjak=FD uk=E1zky, 
+jak tvo=F8=ED=\n=B9 z=E1klad aplikace.\nTB&gt; Pot=F8eboval bych trochu 
+nakopnout.\n\nTo uz bude horsi. Muzu ti poslat muj conf pro apache na 
+publisher. Ten\ndoporuceny mi nevyhovuje.\nAle jinak mam mod_python 
+obestaven svym celkem rozsahlym frameworkem.\nNapr. na vytvoreni jedne 
+strany (okna) pouzivam minimalne tri soubory:\nsablonu html, scriptovy 
+soubor python a konfiguracni soubor jazykove mutace=\n (tech muze byt 
+vic).\nTyto se vzajemne propoji a vysledek odesle do bufferu strany.\nTakze 
+na zacatek zbytecne komplikace.\nPouzil bych na zacatek manual 
+napr:\<A HREF="nhttp://www.modpython.org/live/current/doc-html/hand-pub-intro.html\n\nAle">nhttp://www.modpython.org/live/current/doc-html/hand-pub-intro.html\n\nAle</A> 
+popsat co vsechno musis udelat, aby mod_python v rezimu publisher\nzacal 
+schopne bezet a jak to pouzivat, ceho se vyvarovat je na serial.\nNeco z 
+toho je v 
+manualu.\n\n\n\n\n---------------------------------------------------------------------------\n\n\n\n-- 
+=\n\nMirek N.\n\n_______________________________________________\nPython 
+mailing list\<A HREF="http://www.py.cz/mailman/listinfo/python">nPython na py.cz</A>\<A HREF="nhttp://www.py.cz/mailman/listinfo/python'">nhttp://www.py.cz/mailman/listinfo/python'</A>
+r3 = 'Received: (qmail 22793 invoked by uid 0); 24 Aug 2007 
+10:16:07 -0000\nX-Spam-Checker-Version: szn-spamassassin 
+2006-02-02\nX-Spam-Status: score=-19.7\nReceived: from 194.228.3.217 (EHLO 
+hugo.zagamma.cz)\n  by email-mx20.go.seznam.cz id FixusSMTPd18780; 24 Aug 
+2007 10:16:07 -0000\nReceived: from [127.0.0.1] (softdnserr 
+[::ffff:127.0.0.1])\n  by hugo.zagamma.cz with esmtp; Fri, 24 Aug 2007 
+12:16:05 +0200\n  id 002C7EA2.46CEAFE5.0000685B\nReceived: from f3.asseco.cz 
+(f3.pvt.cz [::ffff:195.47.40.133])\n\t(TLS: 
+TLSv1/SSLv3,256bits,AES256-SHA)\n\tby hugo.zagamma.cz with esmtp; Fri, 24 
+Aug 2007 12:16:02 +0200\n\tid 00002878.46CEAFE2.00006800\nOld-Received-Spf: 
+none (Address does not pass the Sender Policy Framework)\n\tSPF=HELO; 
+sender=f3.asseco.cz; remoteip=::ffff:195.47.40.133;\n\tremotehost=f3.pvt.cz; 
+helo=f3.asseco.cz;\n\treceiver=hugo.zagamma.cz;\nOld-Received-Spf: none 
+(Address does not pass the Sender Policy Framework)\n\tSPF=MAILFROM; 
+sender=<A HREF="http://www.py.cz/mailman/listinfo/python">Josef.Sponar na asseco.cz</A>;\n\tremoteip=::ffff:195.47.40.133; 
+remotehost=f3.pvt.cz;\n\thelo=f3.asseco.cz; 
+receiver=hugo.zagamma.cz;\nReceived: from phaw15.pvt.cz (phaw15.pvt.cz 
+[172.17.1.198])\n\tby f3.asseco.cz (8.12.11.20060308/8.11.2) with ESMTP id 
+l7OAG1r6026651\n\tfor &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;; Fri, 24 Aug 2007 12:16:01 
++0200\nReceived: from phaw42.pvt.cz ([172.17.21.8]) by phaw15.pvt.cz with 
+Microsoft\n\tSMTPSVC(6.0.3790.1830); Fri, 24 Aug 2007 12:16:02 
++0200\nReceived: from unow00.pvt.cz ([172.17.38.2]) by phaw42.pvt.cz with 
+Microsoft\n\tSMTPSVC(5.0.2195.6713); Fri, 24 Aug 2007 12:16:00 
++0200\nMime-Version: 1.0\nContent-Class: 
+urn:content-classes:message\nX-Mimeole: Produced By Microsoft Exchange 
+V6.5\nDate: Fri, 24 Aug 2007 12:15:59 +0200 (CEST)\nMessage-Id: 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">5500175B3E42E44D8ECEAAA8DF4E7A1F0C255F na unow00.pvt.cz</A>&gt;\nX-Ms-Has-Attach: 
+\nX-Ms-Tnef-Correlator: \nThread-Topic: [python] subprocess\nThread-Index: 
+AcfmN8RPxKcZrnPcR/+HMNcXGxFXLw==\nFrom: =?iso-8859-2?Q?=A9ponar=20Josef?= 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Josef.Sponar na asseco.cz</A>&gt;\nTo: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>\nX-Originalarrivaltime: 24 Aug 
+2007 10:16:00.0679 (UTC)\n\tFILETIME=[C50B4B70:01C7E637]\nOld-Received-Spf: 
+none (Address does not pass the Sender Policy Framework)\n\tSPF=FROM; 
+sender=<A HREF="http://www.py.cz/mailman/listinfo/python">Josef.Sponar na asseco.cz</A>;\n\tremoteip=::ffff:195.47.40.133; 
+remotehost=f3.pvt.cz;\n\thelo=f3.asseco.cz; 
+receiver=hugo.zagamma.cz;\nSubject: 
+=?us-ascii?Q?=5Bpython=5D=20subprocess?=\nX-Beenthere: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>\nX-Mailman-Version: 2.1.9\nPrecedence: list\nReply-To: 
+=?us-ascii?Q?Konference=20PyCZ?= &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;\nList-Id: Konference PyCZ 
+&lt;python.py.cz&gt;\nList-Unsubscribe: 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>&gt;,\n\t&lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-request na py.cz</A>?subject=unsubscribe&gt;\nList-Archive: 
+&lt;<A HREF="http://www.py.cz/pipermail/python">http://www.py.cz/pipermail/python</A>&gt;\nList-Post: 
+&lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;\nList-Help: 
+&lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-request na py.cz</A>?subject=help&gt;\nList-Subscribe: 
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>&gt;,\n\t&lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-request na py.cz</A>?subject=subscribe&gt;\nContent-Type: 
+text/plain; charset=&quot;iso-8859-2&quot;\nContent-Transfer-Encoding: 
+quoted-printable\nSender: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>\nErrors-To: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>\nX-Smtpd: szn-smtpd v1.3-7\nX-Nod32result: clean 
+(vdv=2261)\n\nAhoj, pro up=F8esn=ECn=ED:\nTato chyba se vyskytne 
+n=E1hodn=EC. =\n\n\nNelze napsat nap=F8:\ntry:\n   process =3D 
+subprocess.Popen([prog_name])\n   retvalue =3D process.wait()\n   if 
+retvalue:\n     print \'program se sice povedlo pustit, ale neco selhalo\'\n 
+else:\n     print \'vse OK\'\nexcept OSError, error:\n   print \'nepovedlo 
+se ho pustit\'\n   print 
+error\n\n_______________________________________________\nPython mailing 
+list\<A HREF="http://www.py.cz/mailman/listinfo/python">nPython na py.cz</A>\<A HREF="nhttp://www.py.cz/mailman/listinfo/python'">nhttp://www.py.cz/mailman/listinfo/python'</A>
+if __name__ == &quot;__main__&quot;:
+    parent=wx.App(0)
+    muj_parser = ParseEmail()
+    for prvek in [r1, r2, r3]:
+        #r1, r2 se zobrazí špatně
+        #r3 je příkladem správného e-mailu
+        okno = wx.Frame(None, id=-1, title=u&quot;Zkouška&quot;)
+        text=wx.TextCtrl(okno, style=wx.TE_MULTILINE)
+        email = muj_parser.ziskej_zpravu(prvek)
+        text.SetValue(email)
+        okno.Show(1)
+    parent.MainLoop()
+
+
+
+
+
+
+
+Omlouvám se za celkem velkou délku ukázkového příkladu, ale myslím, že je to 
+lepší, než kdybych pouze vložil nefungující kód.
+Děkuji za každé postrčení
+
+Jakub 'Blujacker' Vojáček 
+
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007356.html">[python] Správný návrh Qt aplikace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007347.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7346">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7346">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7346">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7346">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007346.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:11 GMT -->
+</html>

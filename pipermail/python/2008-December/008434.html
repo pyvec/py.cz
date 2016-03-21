@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008434.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+<HEAD>
+   <TITLE> [python] jak na xml
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20jak%20na%20xml&In-Reply-To=%3Cfcba3d560812210737h16523a0fj9ae517156e19b938%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008433.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008435.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] jak na xml</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20jak%20na%20xml&In-Reply-To=%3Cfcba3d560812210737h16523a0fj9ae517156e19b938%40mail.gmail.com%3E"
+       TITLE="[python] jak na xml">rainbof na gmail.com
+       </A><BR>
+    <I>Neděle Prosinec 21 16:37:33 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008433.html">[python] jak na xml
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008435.html">[python] jak na xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8434">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8434">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8434">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8434">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Takze jsem s vasi pomoci udelal mensi skriptik. Ktery nema za ukol nic nez
+precist zapsat. zatim beze zmen.
+No problemem je to ze se mi z hodnot ztratily entity. tedy napriklad
+&lt;directory&gt;&amp;#47;&lt;/directory&gt; je nyni     &lt;directory&gt;/&lt;/directory&gt; coz ale
+neni dobre.
+
+skript vypada takto
+
+
+import pprint
+import xml.dom.minidom
+from xml.dom.minidom import Node
+
+doc = xml.dom.minidom.parse(&quot;c:\\devel\\test\\neco.xml&quot;)
+
+soubor=file('c:\\devel\\test\\neco2.xml','w');
+soubor.write(doc.toxml('utf-8'))
+soubor.close()
+
+
+Dne 19. prosinec 2008 9:32 Ondrej Beranek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt; napsal(a):
+
+&gt;<i> To zni hezky. Ja nepotrebuju zpracovavat nic velkeho maximalne 200kb
+</I>&gt;<i> skripty. a 10s na skript nic neznamena
+</I>&gt;<i> zakze by to nevadilo otakzou vsak je zda by to nebylo neefektivni ve chvili
+</I>&gt;<i> kdy neznam presnou strukturu toho
+</I>&gt;<i> dokumentu. jedna se totiz o program ktery je pomoci xml ulozen a komponenty
+</I>&gt;<i> ktere hledam jsou pokazde
+</I>&gt;<i> jinak vnorene a na jinem miste. no a jeste jedno omezeni mam to jsem vcera
+</I>&gt;<i> tedy nenapsal.. je jim python 2.5
+</I>&gt;<i> ktery v tom miste kde to pojede proste nelze vymenit nebo mit vic verzi.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Dne 19. prosinec 2008 7:46 Petr Blahos &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petrblahos na gmail.com</A>&gt; napsal(a):
+</I>&gt;<i>
+</I>&gt;<i> &gt; Ahoj je tomu téměř přesně rok co jsem naposled sáhnul na python. Dneska
+</I>&gt;&gt;<i> jsem
+</I>&gt;&gt;<i> &gt; se dostal k tomu že bych znovu potřeboval
+</I>&gt;&gt;<i> &gt; jeho služby. Řeším úlohu jejíž součástí je přečtení XML souboru a změna
+</I>&gt;&gt;<i> &gt; (přesněji přepsání) některých hodnot (dat).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Před časem jsem se nechal inspirovat trochu sqlalchemy a trochu Gnosis
+</I>&gt;&gt;<i> Utils (<A HREF="http://freshmeat.net/projects/gnosisxml/">http://freshmeat.net/projects/gnosisxml/</A>) a napsal jsem něco, co
+</I>&gt;&gt;<i> přečte xml a udělá z něj objekt. Vpodstatě to funguje tak, že tagy se
+</I>&gt;&gt;<i> převedou na objekty, a attributy na &quot;member variables&quot; - jak se to řekne
+</I>&gt;&gt;<i> česky? Bylo to velmi konfigurovatelné a umělo to i zapisovat. Bohužel
+</I>&gt;&gt;<i> to teď není připraveno k release (žádná dokumentace, dlouho jsem na
+</I>&gt;&gt;<i> to nešáhl, neumí to namespaces, není to asi moc rychlé, určitě tam bude
+</I>&gt;&gt;<i> spousta chyb), ale jestli chcete, mohl bych to přes Vánoce zkusit dát
+</I>&gt;&gt;<i> dohromady.
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> Petr
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20081221/99d421f0/attachment.htm">http://www.py.cz/pipermail/python/attachments/20081221/99d421f0/attachment.htm</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008433.html">[python] jak na xml
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008435.html">[python] jak na xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8434">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8434">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8434">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8434">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008434.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+</html>

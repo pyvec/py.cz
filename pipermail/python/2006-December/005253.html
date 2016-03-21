@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005253.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:07 GMT -->
+<HEAD>
+   <TITLE> [python] skript na zobrazeni uzivatele
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20skript%20na%20zobrazeni%20uzivatele&In-Reply-To=10.12-10778-1792849239-1165909215%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-December/005252.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-December/005254.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] skript na zobrazeni uzivatele</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20skript%20na%20zobrazeni%20uzivatele&In-Reply-To=10.12-10778-1792849239-1165909215%40seznam.cz"
+       TITLE="[python] skript na zobrazeni uzivatele">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Prosinec 12 09:57:19 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005252.html">[python] skript na zobrazeni uzivatele
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005254.html">[python] Clanek o verzi 2.5 (reklama :))
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5253">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5253">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5253">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5253">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>V skripte mas 2 chyby, takze nemoze fungovat vobec (ani pre skupiny):
+
+  File &quot;ldap_pok.py&quot;, line 10
+    l.bind_s(&quot;&quot;,&quot;&quot;, ldap.AUTH_SIMPLE):
+                                     ^
+SyntaxError: invalid syntax
+
+  File &quot;ldap_pok.py&quot;, line 17
+    v = 'v[:200]' +/
+                   ^
+SyntaxError: invalid syntax
+
+Najprv vyhod tu dvojbodku &quot;:&quot; a nahrad &quot;+/&quot; s &quot;+\&quot;
+ 
+
+
+
+&quot;bgdgv kljl&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">pentimu na seznam.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+12.12.2006 08:40
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+cc
+
+Subject
+[python] skript na zobrazeni uzivatele
+
+
+
+
+
+
+Zdravim, potreboval bych upravit tento skript, aby zobrazoval konkretniho 
+uzivatele funkce: ldapsearch -x uid=XXXX, misto skupin, dekuji za 
+jakoukoli pomoc
+
+#!/usr/bin/python
+#
+
+import ldap
+
+url=&quot;<A HREF="ldap://sun.cb.madeta.cz/&quot;">ldap://sun.cb.madeta.cz/&quot;</A>
+dn=&quot;dc=jihomik-group,dc=cz&quot;
+
+l = ldap.initialize(url)
+l.bind_s(&quot;&quot;,&quot;&quot;, ldap.AUTH_SIMPLE):
+
+for name,attrs in l.search_s(dn,ldap.SCOPE_ONELEVEL,&quot;objectclass=*&quot;,[]):
+    print &quot;name: %s &quot; %name
+    for k, vals in attrs.items():
+        for v in vals:
+            if len(v) &gt; 200:
+                 v = 'v[:200]' +/
+                      (&quot;...(%D bytes)&quot;% len(v))
+            else:
+                 v='v'
+            print&quot; %-12s: %s&quot; % (k,v)
+    print&quot;&quot;
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005252.html">[python] skript na zobrazeni uzivatele
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005254.html">[python] Clanek o verzi 2.5 (reklama :))
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5253">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5253">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5253">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5253">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005253.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:07 GMT -->
+</html>

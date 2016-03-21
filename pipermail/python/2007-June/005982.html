@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/005982.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:46 GMT -->
+<HEAD>
+   <TITLE> [python] získání IP adresy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_IP_adresy%3F%3D&In-Reply-To=d4a7b1730706020637t18620ef5qf270799981cc490d%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-June/005980.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-June/005983.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] získání IP adresy</H1>
+    <B>Vladislav Ludík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_IP_adresy%3F%3D&In-Reply-To=d4a7b1730706020637t18620ef5qf270799981cc490d%40mail.gmail.com"
+       TITLE="[python] získání IP adresy">vlada na ludik.cz
+       </A><BR>
+    <I>Sobota Červen  2 18:17:15 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/005980.html">[python] získání IP adresy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/005983.html">[python] získání IP adresy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#5982">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#5982">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#5982">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#5982">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Jakubuv napsal(a):
+&gt;<i> zdravim,
+</I>&gt;<i>
+</I>&gt;<i> 1.6.07, Vladislav Ludík &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;:
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Ví někdo, jak co nejelegantněji získat IP dresu stroje, z kterého se
+</I>&gt;&gt;<i> přihlašuji pomocí Cherrypy na stránku?
+</I>&gt;&gt;<i> Platforma Linux.
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> cherrypy.request.remote
+</I>&gt;<i> pripadne pouze cherrypy.request.remote.ip
+</I>&gt;<i> - funguje pro cherrypy 3.0 (starsi verze cherrypy.request.remote_addr, ...)
+</I>&gt;<i>   
+</I>*Jen tak pro zajímavost:
+*
+
+*cherrypy.request.remote.ip vrací: /localhost/
+
+cherrypy.request.remote vrací: /http.Host('localhost', 1111, 'localhost')/
+
+Mám spuštěný logging a ten zapisuje do logu i na konzolu správnou IP, například:
+
+/cherrypy.access.1077760780 INFO     192.168.1.192 - - [01/Jun/2007:08:49:44]
+/
+
+Z logu bych to uměl zpracovat, ale neumím log donutit, aby mi předal parametry v programu přímo. Neví to snad někdo ?*
+
+*Díky VL*
+&gt;&gt;<i> Řeším problém s chráněným přístupem na zabezpečené stránky, kdy po
+</I>&gt;&gt;<i> uzavření prohlížeče bez odhlášení a otevření na jiném stroji v síti se
+</I>&gt;&gt;<i> objeví moje zalogovaná stránka !
+</I>&gt;&gt;<i> Myslím si, že bych do sessions přidal ještě IP stroje. Nebo ví někdo o
+</I>&gt;&gt;<i> dalších možnostech, jak zabránit migraci mého přihlášení?
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> nevim jestli tim zcela vyresite tento problem. co kdyz se nekdo v
+</I>&gt;<i> prohlizeci neodhlasi a ze stejneho stroje (=se stejnou ip adresou) pak
+</I>&gt;<i> nekdo uplne jiny otevre danou stranku?
+</I>&gt;<i>
+</I>&gt;<i> nevim presne jakym zpusobem se obecne dany problem resi, nicmene
+</I>&gt;<i> muzete napriklad pri prihlaseni vygeneroval jednoznacne id a to
+</I>&gt;<i> ulozit, nasledne generovat vsechny stranky tak, aby vsechny odkazy
+</I>&gt;<i> obsahovali jako parametr toto id (napr. &lt;a href=&quot;link?id=2343&quot;&gt;) a to
+</I>&gt;<i> pak kontrolovat. pokud nekdo otevre stranku bez id nebo se spatnym id
+</I>&gt;<i> tak mu prislusnou stranku nezobrazite. pripadne muzete id menit s
+</I>&gt;<i> kazdym &quot;kliknutim&quot;.
+</I>&gt;<i>
+</I>&gt;<i> s pozdravem,
+</I>&gt;<i>   h.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> __________ Informace od NOD32 2305 (20070601) __________
+</I>&gt;<i>
+</I>&gt;<i> Tato zprava byla proverena antivirovym systemem NOD32.
+</I>&gt;<i> <A HREF="http://www.nod32.cz/">http://www.nod32.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/005980.html">[python] získání IP adresy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/005983.html">[python] získání IP adresy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#5982">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#5982">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#5982">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#5982">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/005982.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:46 GMT -->
+</html>

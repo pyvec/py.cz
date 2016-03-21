@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004972.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:17 GMT -->
+<HEAD>
+   <TITLE> [python] Statické metody v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004967.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004973.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Statické metody v Pythonu</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To="
+       TITLE="[python] Statické metody v Pythonu">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Listopad  8 15:28:49 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004967.html">[python] Dynamicke volani trid
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004973.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4972">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4972">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4972">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4972">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Díval jsem se na to znovu a beru zpět to, 
+že si myslím, že tohle využití vypadá zajímavě.
+ 
+
+superman
+&gt;<i> [...]Protože v předkovi uhel se počítá s tím, že v metodě 
+</I>&gt;<i> __add__ se přes self předává jen jeden argument, najednou 
+</I>&gt;<i> si v potomku začne stěžovat na dva. Python má v tomhle 
+</I>&gt;<i> asi nepořádek a asi nesnáší takové šťoury jako jsem já. 
+</I>&gt;<i> Takže závěr nikdy nezkoušejte předefinovat statickou 
+</I>&gt;<i> metodu nestatickou, protože Python si s tím neví 
+</I>&gt;<i> rady a začne hlásit chyby i tam, kde by to v jiných 
+</I>&gt;<i> jazycích bylo v pořádku. Never is perfect :-)))
+</I>&gt;<i> [myšleno asi Nobody is perfect -- Někdo to rád horké]
+</I> 
+&gt;<i> class uhel:
+</I>&gt;<i> 
+</I>&gt;<i>      @staticmethod
+</I>&gt;<i>      def static(a):
+</I>&gt;<i>          print &quot;trida1.static(): &quot;, a
+</I>&gt;<i> 
+</I>&gt;<i>      def method(self):
+</I>&gt;<i>          self.static(1)
+</I>&gt;<i> 
+</I>&gt;<i> class zemepisny_uhel(uhel):
+</I>&gt;<i> 
+</I>&gt;<i>      #@staticmethod
+</I>&gt;<i>      def static(a):
+</I>&gt;<i>          print &quot;trida2.static(): &quot;, a
+</I>&gt;<i> 
+</I>&gt;<i> a = uhel()
+</I>&gt;<i> a.method()
+</I>&gt;<i> 
+</I>&gt;<i> b = zemepisny_uhel()
+</I>&gt;<i> b.method()
+</I>&gt;<i> 
+</I>&gt;<i> trida1.static():  1
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>    File &quot;C:\home\astrol\test.py&quot;, line 25, in ?
+</I>&gt;<i>      b.method()
+</I>&gt;<i>    File &quot;C:\home\astrol\test.py&quot;, line 10, in method
+</I>&gt;<i>      self.static(1)
+</I>&gt;<i> TypeError: static() takes exactly 1 argument (2 given)
+</I>&gt;<i> 
+</I>&gt;<i> Závěr: Python se chová tak, jako kdyby definici třídy znovu 
+</I>&gt;<i> překládal do definice potomka. Zápis self.static přeloží 
+</I>&gt;<i> v uhel.method jako volání statické metody s jedním parametrem, 
+</I>&gt;<i> zatímco v zemepisny_uhel jako volání normální metody se dvěma 
+</I>&gt;<i> parametry. Řekl bych, že tato feature je dost error prone, 
+</I>&gt;<i> a že vlastnost &quot;zapouzdření&quot; dostává pěkně na zadek.
+</I>
+Já na tom nevidím nic divného. V části 
+
+&gt;<i> class zemepisny_uhel(uhel):
+</I>&gt;<i>      #@staticmethod
+</I>&gt;<i>      def static(a):
+</I>&gt;<i>          print &quot;trida2.static(): &quot;, a
+</I>
+je dekorátor zapoznámkovaný, takže je to stejné, jako kdybych
+napsal 
+
+ class zemepisny_uhel(uhel):
+      def static(a):
+          print &quot;trida2.static(): &quot;, a
+
+Což je stejné jako
+
+ class zemepisny_uhel(uhel):
+      def static(self):
+          print &quot;trida2.static(): &quot;, self
+
+Jenom jsi porušil konvenci, že první argument metody se má
+pojmenovat self. No a druhý argument tam není. Myslím,
+že interpret Pythonu v tom docela jasno MÁ ;o)
+
+A ještě k tomu použití statické metody. Možná máš znalosti
+C++, kde se zápis typu 
+
+zem_uhel + &quot;30N54&quot; 
+
+typicky dosahuje přetížením operátoru +  a typicky se
+implementuje tak, že se na místě druhého argumentu očekává
+konstantní reference a třídu zemepisny_uhel. Jenže 
+u třídy zemepisny_uhel by se v takovém případě typicky 
+definoval konstruktor, který bere odkaz na konstantní string
+a může se tam tedy dosadit i literál. Překladač pak automaticky
+udělá tohle:
+
+zem_uhel + zemepisny_uhel(&quot;30N54&quot;)
+
+tj. nejdříve zkonstruuje pomocný objekt pro druhý argument.
+Dále se to dá rozepsat jako
+
+zem_uhel.operator+(zemepisny_uhel((&quot;30N54&quot;)))
+
+Python ale implicitně podobný konstruktor nezavolá. Podle 
+mého by tedy měla být třída uhel vytvořena tak, aby její
+složka __radians jednoduše obsahovala platnou hodnotu, nebo
+by se měla definovat metoda, která hodnotu v radiánech
+vrací. Metoda __add__ by jako argument měla brát instanci
+třídy uhel a udělat jednoduše
+
+class uhel:
+    def __init__(self, radian):
+        self.__rad = radian
+
+    def __add__(self, u):
+        return self.__rad + u.__rad
+
+    def __str__(self):
+        return str(self.__rad)
+
+
+u1 = uhel(1.0)
+u2 = uhel(2.0)
+
+print u1
+print u2
+
+u3 = u1 + u2
+u4 = u1 + uhel(3.0)
+
+print u3
+print u4
+
+Třída zemepisny_uhel by byla odvozená v tom smyslu, 
+že by měla jinou implementaci __init__(), ve které
+by se mohly rozpoznávat různé formy předaného argumentu.
+Pak by to mohlo vypadat takhle:
+
+class uhel:
+    def __init__(self, radian):
+        self.__rad = radian
+
+    def __add__(self, u):
+        return self.__rad + u.__rad
+
+    def __str__(self):
+        return str(self.__rad)
+
+
+class zemepisny_uhel(uhel):
+    def __init__(self, s):
+        uhel.__init__(self, float(s))
+
+u1 = uhel(1.0)
+u2 = uhel(2.0)
+
+print u1
+print u2
+
+u3 = u1 + u2
+u4 = u1 + uhel(3.0)
+
+print u3
+print u4
+
+z = zemepisny_uhel('4.0')
+
+print z
+print u1 + z
+print z + u2
+
+Uplatnění pro statické metody jsem v tom příkladu
+zatím nenašel. 
+
+Poznámka: kromě staticmethod() a příslušného
+dekorátoru existuje i classmethod(), ke které 
+jsme se zatím nedostali.
+
+pepr
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004967.html">[python] Dynamicke volani trid
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004973.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4972">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4972">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4972">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4972">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004972.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:17 GMT -->
+</html>

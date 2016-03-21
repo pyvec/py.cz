@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005131.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:34 GMT -->
+<HEAD>
+   <TITLE> [python] file.next() (bylo Buducnost Pythonu: lambda, map, filter)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20file.next%28%29%20%28bylo%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%0A%20filter%29&In-Reply-To=mailman.181.1163519317.6465.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005129.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005132.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] file.next() (bylo Buducnost Pythonu: lambda, map, filter)</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20file.next%28%29%20%28bylo%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%0A%20filter%29&In-Reply-To=mailman.181.1163519317.6465.python%40py.cz"
+       TITLE="[python] file.next() (bylo Buducnost Pythonu: lambda, map, filter)">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Listopad 14 18:52:18 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005129.html">[python] Na vsetko cyklus for  ?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005132.html">[python] Fw:  dotaz
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5131">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5131">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5131">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5131">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>radek napsal(a):
+&gt;&gt;<i> &gt; Avšak souhlasím s názorem, že soubory se čtou 
+</I>&gt;&gt;<i> &gt; většinou po řádcích  takže je
+</I>&gt;&gt;<i> &gt; to takto praktické ale mám z toho pocit vyjímky která se mi nelíbí.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Problém je v tom, že zadrátovat do jazyka konstrukci, která ušetří
+</I>&gt;&gt;<i> několik písmenek je sice praktické, ale nedobré. Nechť je prostě všechni
+</I>&gt;&gt;<i> vidět. Pokud se soubory mohou číst i jinak, než po řádcích, což se děje
+</I>&gt;&gt;<i> velmi často, tak bych tyto zjednodušující konstrukce do jazyka vůbec
+</I>&gt;&gt;<i> nedával.
+</I>&gt;&gt;<i>
+</I>&gt;<i> 
+</I>&gt;<i> Presne tak, priklady, jak by to vypadalo jinak:
+</I>&gt;<i> 
+</I>&gt;<i> #cteni po radcich s defaultnim line oddelovacem (jak je ted)
+</I>&gt;<i> for line in file(&quot;data.txt&quot;).lines():
+</I>&gt;<i> ...
+</I>&gt;<i> 
+</I>&gt;<i> #cteni po radcich, ktere jsou oddelene oddelovacem &lt;br&gt;
+</I>&gt;<i> for line in file(&quot;data.txt&quot;).lines(&quot;&lt;br&gt;&quot;):
+</I>&gt;<i> [...]
+</I>
+Ale definice, že řádek v textovém souboru je ukončen
+&lt;br&gt; jaksi není obecně přijímaná. Když chci, musím
+si to napsat sám a nebo použít odpovídající parser.
+
+
+Jan Matějka
+&gt;<i> Ono obecnější řešení je udělat parsovací generátory, které by šly použít s
+</I>&gt;<i> čímkoliv file-like jako vstupním prametrem, a nestrkat parsování to objektu
+</I>&gt;<i> file. Tedy: [...]
+</I>&gt;<i> 
+</I>&gt;<i> for line in lines(file(&quot;data.txt&quot;)):
+</I>&gt;<i>  ...
+</I>&gt;<i> [...] atd.
+</I>&gt;<i> 
+</I>&gt;<i> Výpočetní náročnost by zústala stejná. Generátory mi přijdou jako skvělý
+</I>&gt;<i> nástroj, škoda že se GvR brání zobecnění do více úrovní zanoření jenž nabízí
+</I>&gt;<i> stackless python. 
+</I>
+Ale vdyť mi nic nebrání zpracovávat soubor po znacích.
+
+# Vygenerujeme si testovaci textovy soubor.
+f = open('test.txt', 'w')
+for i in xrange(3):
+     f.write('Line %d.\n' % i)
+f.close()
+
+
+# Pruchod po znacich.
+
+f = open('test.txt')
+c = 'init'
+while c != '':
+     c = f.read(1)
+     print c
+f.close()
+
+A nic mi nebrání napsat generátor, který vezme a bude vracet znaky
+a použít ho:
+
+def chargen(f):
+     c = 'init'
+     while c != '':
+         c = f.read(1)
+         yield c
+
+for c in chargen(file('test.txt')):
+     print c
+
+A můžu si napsat jakýkoliv jiný generátor/parser.
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005129.html">[python] Na vsetko cyklus for  ?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005132.html">[python] Fw:  dotaz
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5131">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5131">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5131">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5131">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005131.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:34 GMT -->
+</html>

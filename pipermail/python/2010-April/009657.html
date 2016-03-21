@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009657.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:44 GMT -->
+<HEAD>
+   <TITLE> [python] Zkrácená forma přiřazení selže
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZkr%3DE1cen%3DE1_forma_p%3DF8i%3DF8azen%3DED_sel%3DBE%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fe%3F%3D&In-Reply-To=%3Cc1efeb3a-97d5-46c4-b922-8df8dac26702%40n6g2000vbf.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009652.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009658.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zkrácená forma přiřazení selže</H1>
+    <B>petrofF</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZkr%3DE1cen%3DE1_forma_p%3DF8i%3DF8azen%3DED_sel%3DBE%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fe%3F%3D&In-Reply-To=%3Cc1efeb3a-97d5-46c4-b922-8df8dac26702%40n6g2000vbf.googlegroups.com%3E"
+       TITLE="[python] Zkrácená forma přiřazení selže">petr0ff na seznam.cz
+       </A><BR>
+    <I>Úterý Duben 20 13:49:08 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009652.html">[python] Záměna funkce v instanci objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009658.html">[python] Zkrácená forma přiřazení selže
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9657">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9657">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9657">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9657">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Proměnné se iniciují se seznamu, který nemusí být kompletní (chybějící
+prvky se načtou jako None)
+
+class Seznam():
+    def __init__(self,sez):
+        self.data=sez
+    def __getitem__(self,idx):
+        return idx &lt; len(self.data) and self.data[idx] or None
+
+### VSTUP: ###   
+slova = Seznam([&quot;ITEM-1&quot;,&quot;ITEM-2&quot;])
+
+#---(a) FUNGUJE SPRÁVNĚ (3.+4. mají hodnotu None) ---#
+prvni = slova[0]
+druhy = slova[1]
+treti = slova[2]
+ctrty = slova[3]
+
+#--- (b) SELŽE (error = ValueError) ---#
+prvy, druhy, treti, ctrty = slova
+
+Dalo by se to v třídě Seznam nějak ošetřit ?
+(počet proměnných není konstantní, 4 je příklad)
+
+-petroff-
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009652.html">[python] Záměna funkce v instanci objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009658.html">[python] Zkrácená forma přiřazení selže
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9657">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9657">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9657">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9657">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009657.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:44 GMT -->
+</html>

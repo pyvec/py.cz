@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-May/000284.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Akce nad soubory konkretniho typu v	adresarovestrukture
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Akce%20nad%20soubory%20konkretniho%20typu%20v%0A%09adresarovestrukture&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-May/000286.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-May/000294.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Akce nad soubory konkretniho typu v	adresarovestrukture</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Akce%20nad%20soubory%20konkretniho%20typu%20v%0A%09adresarovestrukture&In-Reply-To="
+       TITLE="[Tutor PyCZ] Akce nad soubory konkretniho typu v	adresarovestrukture">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Květen  3 16:02:29 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000286.html">[Tutor PyCZ] Akce nad soubory konkretniho typu v adresarove	strukture
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000294.html">[Tutor PyCZ] Had - jeste jednou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/date.html#284">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/thread.html#284">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/subject.html#284">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/author.html#284">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+dam
+&gt;<i> [...] se nemuzu zbavit
+</I>&gt;<i> pocitu, ze by to melo jit lip (treba jen to vyhodnoceni, zda je soubor
+</I>&gt;<i> prislusneho typu celkem taha za oci). Takze spis namet na diskusi:
+</I>&gt;<i> 
+</I>&gt;<i> import os
+</I>&gt;<i> 
+</I>&gt;<i> def walkdir(folder):
+</I>&gt;<i>     for root, dirs, files in os.walk(folder):
+</I>&gt;<i>         for file in filter(lambda s: s.endswith('.tmp'), files):	
+</I>&gt;<i>            print root, ' - ', file
+</I>&gt;<i>            akce(root + file)
+</I>&gt;<i> 
+</I>&gt;<i> walkdir(dir)
+</I>
+Osobně bych se vyhnul použití filter() a lambda.
+Python není funkcionální jazyk a nemusí to být
+efektivní.
+
+Doporučuji taky předávat cestu jako unicode
+řetězec. V tom případě bude i os.walk() vracet
+unicode řetězce.
+
+------------------------------------
+import os
+
+def walkdir(folder):
+    for root, dirs, files in os.walk(folder):
+        for file in files:
+            if file.endswith('.tmp'):	
+                print root, ' - ', file
+                #akce(root + file)
+
+walkdir(u&quot;.&quot;)
+------------------------------------
+
+Jméno souboru by se taky dalo rozdělit přes
+name, ext = os.path.splitext(file)
+ext pak případně převést na malá písmena
+(pod Windows, kde se na malá a velká nehraje)
+a otestovat na předem definovanou množinu přípon:
+------------------------------------
+import os
+
+def walkdir(folder):
+    extensions = set(['.tmp', '.~', '.bak'])
+    for root, dirs, files in os.walk(folder):
+        for file in files:
+            name, ext = os.path.splitext(file)
+            if ext in extensions:	
+                print root, ' - ', file
+                #akce(root + file)
+
+walkdir(u&quot;.&quot;)
+------------------------------------
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000286.html">[Tutor PyCZ] Akce nad soubory konkretniho typu v adresarove	strukture
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000294.html">[Tutor PyCZ] Had - jeste jednou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/date.html#284">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/thread.html#284">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/subject.html#284">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/author.html#284">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-May/000284.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

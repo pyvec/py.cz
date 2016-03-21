@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007990.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:37 GMT -->
+<HEAD>
+   <TITLE> [python] Thread a wxpython
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Thread%20a%20wxpython&In-Reply-To=bc48d6d3-3d71-472c-b3d5-c915a578539e%402g2000hsn.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/007989.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/007994.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Thread a wxpython</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Thread%20a%20wxpython&In-Reply-To=bc48d6d3-3d71-472c-b3d5-c915a578539e%402g2000hsn.googlegroups.com"
+       TITLE="[python] Thread a wxpython">feed na centrum.cz
+       </A><BR>
+    <I>Středa Červenec 16 15:16:31 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007989.html">[python] Thread a wxpython
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007994.html">[python] XML-RPC
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7990">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7990">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7990">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7990">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A je Vám známo, že všechny grafické knihovny jsou dělány na jedno 
+vlákno? A že neumí korektně zacházet s tím, když jim ve více vláknech 
+ovládáte grafické objekty? A pokud ano, tak se to musí speciálně 
+ošetřovat, a není to úplně snadné?
+
+Ono totiž udělat multithreadovou knihovnu nese značnou režii. Je to 
+složité, a vzniká při tom řada problémů, které se ne vždy dají vyřešit. 
+Protože principiálně nelze všechny problémy u multithreadových 
+rozsáhlých knihoven vyřešit, a protože v případě grafické knihovny ani 
+nemá moc smysl se příliš snažit o multithreading, bývají grafické 
+knihovny tvrdě single task.
+
+V případě, že se bez dalšího ošetření pokusíte použít knihovnu jako 
+multi thread, pak se může stát cokoli, od zhroucení knihovny, přes 
+neintegritu vnitřních datových struktur, až po různé obranné akce 
+knihovny jako rušení objektů, či násilné uvolňování různých API.
+
+S grafickými knihovnami se pracuje tak, že je řídí jedno vlákno, pokud 
+nejsou vážné důvody dělat to jinak.
+
+Miloslav Ponkrác
+
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">vaclavik na ondrav.net</A> napsal(a):
+&gt;<i> Zdravím, mám takový problém, když vytvořím jakýkoliv obejekt wxpythonu
+</I>&gt;<i> ve vláknu, tak po dokončení toho vlákna zmizí. Já bych potřeboval aby
+</I>&gt;<i> zůstal. S vlákny teprve začínám. Jednoduchý příklad:
+</I>&gt;<i>
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i> import wx
+</I>&gt;<i> import thread
+</I>&gt;<i> class Okno:
+</I>&gt;<i>     def __init__(self, parent):
+</I>&gt;<i>         self.okno=wx.MDIChildFrame(parent,title=u&quot;Test&quot;,id=-1)
+</I>&gt;<i>         self.okno.Maximize()
+</I>&gt;<i>         thread.start_new_thread(self.funkce,())
+</I>&gt;<i>     def funkce(self):
+</I>&gt;<i>         self.promena=wx.StaticText(self.okno, label=u&quot;Test&quot;)
+</I>&gt;<i> if __name__ == &quot;__main__&quot;:
+</I>&gt;<i>     okno = wx.App(0)
+</I>&gt;<i>     parent=wx.MDIParentFrame(None,size=wx.Size(500,500))
+</I>&gt;<i>     Okno(parent)
+</I>&gt;<i>     parent.Show()
+</I>&gt;<i>     okno.MainLoop()
+</I>&gt;<i>
+</I>&gt;<i> Díky za pomoc
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007989.html">[python] Thread a wxpython
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007994.html">[python] XML-RPC
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7990">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7990">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7990">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7990">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007990.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:37 GMT -->
+</html>

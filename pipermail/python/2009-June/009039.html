@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009039.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:32 GMT -->
+<HEAD>
+   <TITLE> [python] Amiga Python, Rekurze a non ASCII poznamka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Amiga%20Python%2C%20Rekurze%20a%20non%20ASCII%20poznamka&In-Reply-To=%3C20090626115507.GA25650%40lxultra2.macs.hw.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-June/009038.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-June/009040.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Amiga Python, Rekurze a non ASCII poznamka</H1>
+    <B>Jan Jakubuv</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Amiga%20Python%2C%20Rekurze%20a%20non%20ASCII%20poznamka&In-Reply-To=%3C20090626115507.GA25650%40lxultra2.macs.hw.ac.uk%3E"
+       TITLE="[python] Amiga Python, Rekurze a non ASCII poznamka">cbboy na matfyz.cz
+       </A><BR>
+    <I>Pátek Červen 26 13:55:07 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009038.html">[python] Amiga Python, Rekurze a non ASCII poznamka
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009040.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9039">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9039">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9039">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9039">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+Ad 1:
+
+On Fri, Jun 26, 2009 at 01:08:26AM +0200, Martin wrote:
+&gt;<i> Zdravim, mam 2 problemy.
+</I>&gt;<i> 
+</I>&gt;<i> Prvy problem je s rekurziou v programe pod pocitacom Amiga.
+</I>&gt;<i> Pokial dam v Amiga Pythonu prikaz: print sys.getrecursionlimit(), vyhodi mi to vysledok 1000 tak ako u PC. Zistil som ale, ze skutocny limit zanorenia u Amigy neni 1000 ale nejako okolo 139, preto mi to asi v polovine mojej hry vyhodi chybu:
+</I>&gt;<i> MemoryError: Stack Overflow. Prikazom: sys.setrecursionlimit() mozem teda dosiahnut mensi limit zanorenia ako 139, kedy mi program skonci hlaskou: RuntimeError: maximum recursion depth exceeded.
+</I>&gt;<i> 
+</I>&gt;<i> nerekurzivni reseni:
+</I>&gt;<i> def Hledej(start):
+</I>&gt;<i>     while not podminka:
+</I>&gt;<i>         #neco delej
+</I>&gt;<i>         start+=1
+</I>&gt;<i>     return vysledek
+</I>&gt;<i> 
+</I>
+Jednoduse prepiste funkci tak, ze nebude pouzivat rekurzivni volani. V tomto
+pripade, kdy vysledek rekurzivniho volani `pesinka` neni nikde pouzit a
+pouze se propaguje pri navratu, by to nemel by problem.  Obecne, pokud
+prekrocite recursion limit (byt i jen onu hodnotu 139), je na miste
+prehodnotit navrh aplikace. Navic se domnivam, ze limit prekrocite i na PC
+pokud dostatecne krat (cca 1000x ?) stisknete enter.
+
+Ad 2:
+
+&gt;<i> Druhy problem mam s vypisovanim nasledovnej hlasky:
+</I>&gt;<i>  __main__:1: DeprecationWarning: NON-ASCII charakter '\xf8' in file mojProgram.py on line 74, but no encoding declared; see <A HREF="http://www.python.org/peps/pep-0263.html">http://www.python.org/peps/pep-0263.html</A> for details.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> # -*- coding: latin2 -*-
+</I>&gt;<i> print 'Amiga 1200 je počítač z roku 1992'
+</I>&gt;<i> 
+</I>
+Nemam zkusenosti s Pythonem na Amize. Nicmene, pokud vidite varovani, ze
+jste neuvedl kodovani souboru,  prestoze jste ho uvedl pomoci radku  &quot; -*-
+coding: latin2 -*- &quot;, tak budto mate chybu v onon radku nastavujicim
+kodovani nebo se to v Amiga Pythonu dela jinak (nebo neco co nevim co ;-)).
+
+S pozdravem,
+
+    honza.
+
+
+
+-- 
+Heriot-Watt University is a Scottish charity
+registered under charity number SC000278.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009038.html">[python] Amiga Python, Rekurze a non ASCII poznamka
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009040.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9039">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9039">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9039">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9039">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009039.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:32 GMT -->
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-August/011434.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:33 GMT -->
+<HEAD>
+   <TITLE> [python] python 3 cp1250 retazec do utf-8
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fpython_3_cp1250_retazec_do_utf-8%3F%3D&In-Reply-To=%3C20140814173455.075F15F7%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-August/011433.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-August/011426.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] python 3 cp1250 retazec do utf-8</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fpython_3_cp1250_retazec_do_utf-8%3F%3D&In-Reply-To=%3C20140814173455.075F15F7%40atlas.cz%3E"
+       TITLE="[python] python 3 cp1250 retazec do utf-8">prikryl na atlas.cz
+       </A><BR>
+    <I>Čtvrtek Srpen 14 17:34:55 CEST 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-August/011433.html">[python] python 3 cp1250 retazec do utf-8
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-August/011426.html">[python] python 3 cp1250 retazec do utf-8
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-August/date.html#11434">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-August/thread.html#11434">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-August/subject.html#11434">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-August/author.html#11434">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Kecám. Blbost. Ten connection string se předá, jak je. Ale nějak se tam to kódování musí vnutit dřív. Nebo se musí dosáhnout toho, aby to pyodbc nechal v binární podobě (bytes).
+
+P.
+
+______________________________________________________________
+&gt;<i> Od: &quot;Petr Přikryl&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prikryl na atlas.cz</A>&gt;
+</I>&gt;<i> Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> Datum: 14.08.2014 17:20
+</I>&gt;<i> Předmět: Re: [python] python 3 cp1250 retazec do utf-8
+</I>&gt;<i>
+</I>&gt;<i>Vrac&#237; se to 'doru&#232;en&#233;' jako string nebo jako bytes? Pokud je to unicode string, tak u&#382; je to v tom okam&#382;iku &#353;patn&#283; a melo by se to &#345;e&#353;it u&#382; d&#345;&#237;v a ne a&#382; dodate&#269;n&#283;. Connection string bere i dal&#353;&#237; parametry, kter&#233; nep&#345;ed&#225;v&#225; ovlada&#269;i, ale pyodbc je pou&#382;ije pro sebe. Nezkou&#353;el jsem to, ale letmo jsem v dokumentaci narazil na n&#283;co takov&#233;ho: 'CHARSET=cp1250'. Je tam je&#353;t&#283; n&#283;jak&#253; parametr, aby se v&#353;e vracelo jako unicode.
+</I>&gt;<i>
+</I>&gt;<i>P.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>______________________________________________________________
+</I>&gt;&gt;<i> Od: &quot;Zdenko Podobný&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zdposter na gmail.com</A>&gt;
+</I>&gt;&gt;<i> Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;<i> Datum: 14.08.2014 16:27
+</I>&gt;&gt;<i> Předmět: Re: [python] python 3 cp1250 retazec do utf-8
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>napr. 'doru&#232;en&#233;' a potrebujem ma&#357; 'doru&#269;en&#233;'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>v pyodbc kódovanie neriešim (v connect mam len db, user a pass)
+</I>&gt;&gt;<i>V odbc driveri je nastavene db aj client locale na en_US.819, ale data do
+</I>&gt;&gt;<i>db aplikacia uklada v lokalnom  windows kodovanie (cp1250) ;-) Akykolvek
+</I>&gt;&gt;<i>pokus o zmenu kovania v odbc konci odmietnutim spojenia na db (testovane vo
+</I>&gt;&gt;<i>winsql).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>2014-08-14 16:08 GMT+02:00 Petr Viktorin &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">encukou na gmail.com</A>&gt;:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 2014-08-14 15:58 GMT+02:00 Zdenko Podobný &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zdposter na gmail.com</A>&gt;:
+</I>&gt;&gt;&gt;<i> &gt; Ahojte,
+</I>&gt;&gt;&gt;<i> &gt;
+</I>&gt;&gt;&gt;<i> &gt; ako prekodovat cp1250 retazec do utf-8 v pythone 3.4.1?
+</I>&gt;&gt;&gt;<i> &gt; V 2.7 to bolo jednoduche: retazec.decode('cp1250').
+</I>&gt;&gt;&gt;<i> &gt; Retazec je vystup z databazy cez pyodbc, kde neviem ovplyvnit
+</I>&gt;&gt;&gt;<i> kodovanie...
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Co dostáváš za řetězec? Respektive, jaké kódování předpokládá ono pyodbc?
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>----------
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>_______________________________________________
+</I>&gt;&gt;<i>Python mailing list
+</I>&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-August/011433.html">[python] python 3 cp1250 retazec do utf-8
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-August/011426.html">[python] python 3 cp1250 retazec do utf-8
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-August/date.html#11434">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-August/thread.html#11434">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-August/subject.html#11434">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-August/author.html#11434">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-August/011434.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:33 GMT -->
+</html>

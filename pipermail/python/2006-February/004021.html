@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004021.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:49 GMT -->
+<HEAD>
+   <TITLE> [python] Referencia
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Referencia&In-Reply-To=200602031319.08742.j_p%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-February/004020.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-February/004022.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Referencia</H1>
+    <B>balky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Referencia&In-Reply-To=200602031319.08742.j_p%40centrum.cz"
+       TITLE="[python] Referencia">vbalko na gmail.com
+       </A><BR>
+    <I>Pátek Únor  3 13:38:09 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004020.html">[python] Referencia
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004022.html">[python] Referencia
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4021">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4021">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4021">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4021">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>no globals[A] nemozem pouzit pretoze....
+
+Asi musim viac osvetlit na com robim.
+
+Robim Celularny Automat. Je to vlastne pole buniek. Kazda bunka ma 
+nejaky stav, ktory sa meni v kazdej iteracii na zaklade prechodovej 
+funkcie. No a prechodova funkcia meni stav bunky na zaklade okolia bunky 
+podla danych pravidiel CA. Okolie je bud
+
+Mooreove okolie
+xxx
+xbx
+xxx
+
+alebo von Neumanove okolie
+ x
+xbx
+ x
+
+Toto vsak nie je podstatne. Podstatne je to, ze kvoli zrychleniu 
+vypoctov, kazda bunka je trieda, ktora vie svoj stav a obsahuje 
+referencie na svoje okolie. T.j. ma ako clensku premennu pole, v ktorom 
+su referencie na susedov bunky. Cize
+
+vesmir = numpy.empty((x,y),dtype=object)
+for x in xrange(x):
+  for y in xrange(y):
+    bunka = vesmir[x][y]  
+    bunka.okolie = numpy.empty((3,3),dtype=object)
+    bunka.okolie[1][1] = vesmir[x-1][y-1]
+    bunka.okolie[1][2] = vesmir[x][y-1]
+    bunka.okolie[1][3] = vesmir[x+1][y-1]
+    bunka.okolie[2][1] = vesmir[x-1][y]
+   atd....
+
+Samozrejme, ze u seba to mam napisane inak - toto je nazorne pre pochopenie.
+
+Ako spravim to, ze ked zmenim napr. vesmir[5][5], aby sa mi zmeny 
+reflektovali aj do okoli vsetkych buniek, ktore maju bunku vesmir[5][5] 
+ako svoje okolie
+
+Dufam, ze som to vysvetlil jasne. Ak nie pytajte sa upresnim.
+
+balky
+
+Jaroslav Pachola wrote:
+
+&gt;<i>Ahoj,
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>Cize este raz chcem aby sa B odkazovalo aj na nove pole s menom A. Da sa
+</I>&gt;&gt;<i>to v pythone vyriesit?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>balky
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>moznosti je nekolik. Napriklad se muzes uplne vykaslat na nejake permanentni B 
+</I>&gt;<i>a psat misto nej globals()['A']. Ale daleko lepsi je podle me udelat tridu ve 
+</I>&gt;<i>stylu:
+</I>&gt;<i>
+</I>&gt;<i>class A(object):
+</I>&gt;<i>  DIMENSION = 1000
+</I>&gt;<i>	
+</I>&gt;<i>  def __init__(self):
+</I>&gt;<i>    self.array =  self.resetArray()
+</I>&gt;<i>
+</I>&gt;<i>  def resetArray(self):
+</I>&gt;<i>    self.array = numpy.zeros(self.DIMENSION)
+</I>&gt;<i>
+</I>&gt;<i>a = A()
+</I>&gt;<i>b = a
+</I>&gt;<i>a.resetArray()
+</I>&gt;<i># b je v klidu
+</I>&gt;<i>
+</I>&gt;<i># nebo nejak tak
+</I>&gt;<i>
+</I>&gt;<i>JP
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004020.html">[python] Referencia
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004022.html">[python] Referencia
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4021">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4021">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4021">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4021">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004021.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:49 GMT -->
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000528.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+<HEAD>
+   <TITLE> [python] globalni promenne
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20promenne&In-Reply-To=3E4B953D.9070204%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-February/000523.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-February/000525.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] globalni promenne</H1>
+    <B>Jan Svec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20promenne&In-Reply-To=3E4B953D.9070204%40seznam.cz"
+       TITLE="[python] globalni promenne">honza na py.cz
+       </A><BR>
+    <I>Čtvrtek Únor 13 20:25:17 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000523.html">[python] globalni promenne
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000525.html">[python] globalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#528">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#528">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#528">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#528">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Thu, 13 Feb 2003, Petr Mach wrote:
+
+&gt;<i> &gt; Pokud se nemylim, tak lze provest 'import __main__'...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Muj nazor na tento thread zni takto: globalni promenne jsou
+</I>&gt;<i> &gt; prezitek. Pokud touzite po jakemsi zapouzdreni, pouzijte
+</I>&gt;<i> &gt; OOP!
+</I>&gt;<i> Ne, ja netouzim po zapouzdreni, ja chci jednoduse mit
+</I>&gt;<i> sdilene promenne a chci je mit sdilene i po tom, co je
+</I>&gt;<i> rozdelim do nekolika souboru.
+</I>
+No prave, musite si zvyknout na to, ze Python nektere veci
+zapouzdruje, cili zapouzdruje kod do modulu a proto zde
+nemuzete pouzit to, co chcete a znate z PHP.
+
+&gt;<i> &gt; Podle meho globalni promenne jak je pouziva Python jsou na
+</I>&gt;<i> &gt; vysi, presne takto maji podle meho slouzit. To co je
+</I>&gt;<i> &gt; globalni je globalni pouze pro jeden modul. A pokud se chci
+</I>&gt;<i> &gt; odkazovat na neco jineho, musim pouzit teckovou notaci. A
+</I>&gt;<i> &gt; nebo (dulezite!) na objekt vytvorit odkaz (!). Dulezite je
+</I>&gt;<i> &gt; pochopit, ze Python NEMA promenne! V Pythonu jsou pouze
+</I>&gt;<i> &gt; odkazy na objekty. Promenna, tak jak tento pojem chape
+</I>&gt;<i> &gt; vetsina pocitacove verejnosti zde neexistuje, promennou
+</I>&gt;<i> &gt; mnohdy oznacujeme misto v pameti.
+</I>&gt;<i> To je v tomto pripade (problem s namespace) prece uplne
+</I>&gt;<i> jedno, jestli promenna (jeji jmeno) uchovava hodnotu nebo
+</I>&gt;<i> odkaz na objekt.
+</I>
+To je jen na vysvetleni proc na globalni urovni nefunguje
+from module import name ale funguje to v urovni funkce.
+
+&gt;<i> &gt; Ale protoze Python je jazyk objektovy (nikdo mi to
+</I>&gt;<i> &gt; nevymluvi), tak zde existuji objekty, na ktere vytvarim
+</I>&gt;<i> &gt; odkazy. A pokud si v lokalnim prostoru (nebo jakemkoli jinem)
+</I>&gt;<i> &gt; vytvorim odkaz, pak odkazuje na objekt, cili pokud v
+</I>&gt;<i> &gt; puvodnim jmennem prostoru (ve vyse uvazovanem threadu onen
+</I>&gt;<i> &gt; &quot;globalni&quot; modul) zmenim, tj. predefinuju odkaz tak, aby
+</I>&gt;<i> &gt; ukazoval na nejaky jiny objekt, zmena se v kopii odkazu
+</I>&gt;<i> &gt; nepromitne! Kolikrate jsem premyslel (k implementaci jsem se
+</I>&gt;<i> &gt; nedostal) nad tim vytvorit objekt &quot;odkaz&quot;, ktery by pracoval
+</I>&gt;<i> &gt; jako proxy a ktery by si pamatoval jmeno promenne na kterou
+</I>&gt;<i> &gt; ukazuje a tu by take modifikoval. Zatim jsem ho nakonec
+</I>&gt;<i> &gt; nikdy nepotreboval.
+</I>&gt;<i> Ale o to prece prave jde, ze ja se chci odkazovat porad na ten
+</I>&gt;<i> samy objekt. Pro vas tedy nebudu tvrdit, ze chci sdilet promenne,
+</I>&gt;<i> ale ze chci sdilet odkazy na ty promenne, je to prast jak uhod.
+</I>
+Nechcete se odkazovat na stale stejny objekt, kdyz provedete
+definujete promennou 'foo = 1' pak foo odkazuje na objekt
+reprezentujici jednicku, kdyz nyni provedete 'foo = 2', uz
+foo neodkazuje stale na ten samy objekt (jak chcete vy), ale
+na objekt reprezentujici dvojku. Takze NECHCETE odkazovat
+stale na ten samy objekt! Jako domaci cviceni si prosimvas
+prectete neco o promennych a nemennych objektech a
+namespace, prosim.
+
+&gt;<i> &gt; Je vsak treba pripomenout, ze globalni promenne a jejich
+</I>&gt;<i> &gt; pouzivani svedci o spatnem navrhu a ze &quot;Neco shnileho je ve
+</I>&gt;<i> &gt; state Danskem.&quot; Stejne tak by dobre navrzeny program mel jit
+</I>&gt;<i> &gt; rozdelit do modulu v libovolne fazi vyvoje. Pokud tak tomu
+</I>&gt;<i> &gt; neni, dozajista jste porusil jedno z pravidel programovani:
+</I>&gt;<i> &gt; Think first, program latter.
+</I>&gt;<i> Tohle je hezka teorie, ale praxe byva ruzna. Byl jsem pozadan
+</I>&gt;<i> o udelani kratkeho programku. Odhadem tak 50 radku. Jenze
+</I>&gt;<i> pak se ukazalo, ze by bylo dobre, kdyby to umel jeste jednu
+</I>&gt;<i> drobnost (zas jen par radek) a pak dalsi a tak dale. Az se to
+</I>&gt;<i> neumerne rozrostlo. A tak vyvstala potreba rozdelit ten
+</I>&gt;<i> soubor do nekolika, aby se s tim snadneji delalo. Nemam potrebu
+</I>&gt;<i> mit vic modulu, nemam potrebu mit vice globalnich prostoru.
+</I>&gt;<i> To mi nuti Python, ja o to v tomto pripade nestojim, jen chci
+</I>&gt;<i> ten dlouhy kod mit ve vice souborech. Stacilo by, kdyby
+</I>&gt;<i> python podporoval krome prikazu import i prikaz include, ktery
+</I>&gt;<i> by soubor nevnimal jako dalsi modul.
+</I>
+Vim, ale porad muzete pouzivat techniky, ktere vam umozni
+kod rozdelit. Staci myslet dopredu.
+
+&gt;<i> Takze ano neco shnileho tu je. Ale imho v pythonu, ktery
+</I>&gt;<i> neumoznuje veci bezne v jinych jazycich, at uz pomoci
+</I>&gt;<i> preprocesoru, jako C nebo potrebnych prikazu, jako treba
+</I>&gt;<i> PHP.
+</I>
+Veci bezne v Pythonu ani zdaleka neumoznuji jine jazyky!
+Proto se nesnazte z Pythonu udelat objektove PHP, nema to
+cenu a Guido dobre vi, proc to dela takhle. Prece vsechny
+jazyky nemusi vypadat stejne a nemusi podporovat stejne
+veci, ze?
+
+&gt;<i> &gt; A jeste jedno, nedokazu si predstavit vase starosti, pokud
+</I>&gt;<i> &gt; byste se rozhodl zmenit architekturu programu (napr.
+</I>&gt;<i> &gt; pouzivani vlaken apod). Nechci vam do niceho zasahovat, ale
+</I>&gt;<i> &gt; Python si urcite zaslouzi programovat v nem objektove.
+</I>&gt;<i> Az mi Python a predevsim jeho knihovny umozni programovat
+</I>&gt;<i> opravdu objektove, tak proc ne.
+</I>
+Tak to mi vysvetlete, cely Python je objektovy, vy pouze
+nechapete co slovicko objektovy znamena (viz. vyse kde jste
+mne nepochopil u pasaze s odkazy na objekty atd.).
+
+--
+S pozdravem
+Jan Svec
+
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza na py.cz</A>&gt;
+<A HREF="http://dev.py.cz/users/honza">http://dev.py.cz/users/honza</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000523.html">[python] globalni promenne
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000525.html">[python] globalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#528">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#528">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#528">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#528">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000528.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+</html>

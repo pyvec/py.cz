@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2002-July/000177.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:41 GMT -->
+<HEAD>
+   <TITLE> [python]  python a cestina
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20python%20a%20cestina&In-Reply-To=A604GB71MIS1WURO1UPKWV4WRQC1Y.3d245408%40ALPHACSP-IQJUUF">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2002-July/000176.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2002-July/000178.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python]  python a cestina</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20python%20a%20cestina&In-Reply-To=A604GB71MIS1WURO1UPKWV4WRQC1Y.3d245408%40ALPHACSP-IQJUUF"
+       TITLE="[python]  python a cestina">rk na dat.cz
+       </A><BR>
+    <I>Čtvrtek Červenec  4 19:34:03 CEST 2002</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000176.html">[python]  python a cestina
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000178.html">[python]  from modul import *
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-July/date.html#177">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/thread.html#177">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/subject.html#177">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/author.html#177">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Thu, Jul 04, 2002 at 03:56:24PM +0200, <A HREF="http://www.py.cz/mailman/listinfo/python">servigo na seznam.cz</A> wrote:
+
+&gt;<i> jak je na tom python s cestinou?
+</I>&gt;<i> co se pouziva: unicode, kodove stranky?
+</I>&gt;<i>  1. umi wxPython standartne cestinu(unicode/utf/...) nebo je treba ho
+</I>&gt;<i> speci compilovat?
+</I>
+S wx moc zkusenosti nemam, takze nevim.
+
+&gt;<i>  2. zkousel sem unicode jenom pomoci print a tohle je vysledek
+</I>&gt;<i> 
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;print.py&quot;, line 5, in ?
+</I>&gt;<i>     print u'Nezn\xe1m\xe1 chyba vzd\xe1len\xe9ho napaden\xed v= OpenSSH (4)'
+</I>&gt;<i> UnicodeError: ASCII encoding error: ordinal not in range(128)
+</I>&gt;<i> shell returned 1
+</I>
+V tisku unicodu je ten problem, ze pokud retezec obsahuje znaky,
+ktere neumi vystupni zarizeni zobrazit, nastane prave tato vyjimka.
+Jakou znakovou sadu umi terminal, lze zjistit prikazem
+sys.getdefaultencoding(). Pokud mam v promenne ``u'' nejaky unicodovy
+retezec, ``print u'' se potom chova, jako kdyby bylo volano
+
+print u.encode(sys.getdefaultencoding())
+
+Aspon v mem pythonu vrati sys.getdefaultencoding() hodnotu 'ascii'
+a ve znakove sade ascii ceske znaky samozrejme nejsou. Proto
+print u'ahoj' projde, ale print u'\u011b\u0161\u010d\u0159' neprojde.
+Resenim je explicitni prekodovani do znakove sady, kterou vystupni
+zarizeni podporuje ('iso8859-2', 'cp1250'...) :
+
+print u'\u011b\u0161\u010d\u0159'.encode('iso8859-2')
+
+Pokud bych ovsem v unicodovem retezci mel nejake cinske znaky,
+zhavaruje i tohle.
+
+Explicitnimu prekodovani se lze vyhnout pouzitim wrapperu nad stdout,
+ktery provede prekodovani unicodovych objektu do pozadovane znakove sady:
+
+---------------------------------------------
+#!/usr/bin/env python
+
+import sys, types
+
+class StdoutWrapper :
+    def __init__ (self, fd) :
+	self.fd = fd
+    def write (self, o) :
+	if type(o) == types.UnicodeType :
+	    o = o.encode('iso8859-2')
+	self.fd.write(o)
+
+sys.stdout = StdoutWrapper(sys.stdout)
+
+print u'ahoj'
+print 'ahoj'
+print u'\u011b\u0161\u010d\u0159'
+---------------------------------------------
+
+Mrknete take na <A HREF="http://www.reportlab.com/i18n/python_unicode_tutorial.html">http://www.reportlab.com/i18n/python_unicode_tutorial.html</A>
+
+Zdravi
+
+Radek Kaňovský
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000176.html">[python]  python a cestina
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000178.html">[python]  from modul import *
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-July/date.html#177">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/thread.html#177">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/subject.html#177">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/author.html#177">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2002-July/000177.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:41 GMT -->
+</html>

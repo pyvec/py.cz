@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001738.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:33 GMT -->
+<HEAD>
+   <TITLE> [python] Konverze řetězce na float
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Konverze%20%3D%3Fiso-8859-2%3Fq%3F%3DF8et%3DECzce%3F%3D%20na%20float&In-Reply-To=20040511085342.GA6681%40alioth">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-May/001731.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-May/001732.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Konverze řetězce na float</H1>
+    <B>Jan Svec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Konverze%20%3D%3Fiso-8859-2%3Fq%3F%3DF8et%3DECzce%3F%3D%20na%20float&In-Reply-To=20040511085342.GA6681%40alioth"
+       TITLE="[python] Konverze řetězce na float">honza na py.cz
+       </A><BR>
+    <I>Čtvrtek Květen 13 13:43:51 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001731.html">[python] Konverze řetězce na float
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001732.html">[python] Tk a after
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1738">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1738">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1738">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1738">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+problem vyresite pocitacem, ktery misto binarni soustavy pouziva
+desitkovou :) Proste 12.2 nikdy v pocitaci nezobrazite. Je to podobne
+jako 1/3 v desitkove zobrazite take jako 0.3333333333, ale nikdy to neni
+1/3. Zato pokud by byl pocitac s trojkovou soustavou, tak by to bylo
+0.1. Jasne? Jinak pro konverzi retezce na float je nejlepsi
+float('12.2'). Vice take na <A HREF="http://py.cz/Members/honza">http://py.cz/Members/honza</A> kde si najdete
+tutorial Pythonu a jeden appendix se tomu venuje.
+
+Honza
+
+
+On Tue, 11 May 2004, Jan Fuchs wrote:
+
+&gt;<i> Ahoj,
+</I>&gt;<i> můžu nějakým způsobem docílit správného převedení řetězce např. &quot;12.2&quot;
+</I>&gt;<i> na číslo float 12.2? Zkoušel jsem to dvěmi následujícími způsoby, ale
+</I>&gt;<i> ani jeden nefunguje dle mých představ. Lépe řečeno, oba narazí na problém
+</I>&gt;<i> ve stejném místě a JÁ nevím jak to obejít.
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt;&gt; import string
+</I>&gt;<i> &gt;&gt;&gt; import modul
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt;&gt; cislo = string.atof(&quot;12.2&quot;)
+</I>&gt;<i> &gt;&gt;&gt; cislo
+</I>&gt;<i> 12.199999999999999
+</I>&gt;<i> &gt;&gt;&gt; round(cislo, 2)
+</I>&gt;<i> 12.199999999999999
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt;&gt; modul.string2float(&quot;12.2&quot;)
+</I>&gt;<i> řetězec: 12.2, číslo = 12.200000
+</I>&gt;<i> 12.199999999999999
+</I>&gt;<i>
+</I>&gt;<i> PyObject* string2float(PyObject* self, PyObject* args)
+</I>&gt;<i> {
+</I>&gt;<i>   char *s;
+</I>&gt;<i>
+</I>&gt;<i>   if(!PyArg_ParseTuple(args, &quot;s&quot;, &amp;s)) return NULL;
+</I>&gt;<i>
+</I>&gt;<i>   printf(&quot;řetězec: %s, číslo = %f\n&quot;, s, atof(s));
+</I>&gt;<i>
+</I>&gt;<i>   return Py_BuildValue(&quot;f&quot;, atof(s));
+</I>&gt;<i> }
+</I>&gt;<i>
+</I>&gt;<i> Dík za případné odpovědi.
+</I>&gt;<i>
+</I>&gt;<i>      S pozdravem Fuky
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i>
+</I>&gt;<i> ####################################################################
+</I>&gt;<i> # Žádný program není bezchybný, dokonalý ani nejlepší, # Gnu.cz    #
+</I>&gt;<i> # to samé platí i o lidech a nejen o nich.             # Linux.cz  #
+</I>&gt;<i> #                                   -- Jan Fuchs --    # Debian.cz #
+</I>&gt;<i> ####################################################################
+</I>&gt;<i> # <A HREF="http://www.asu.cas.cz/">http://www.asu.cas.cz</A>                           ICQ: 200 692 177 #
+</I>&gt;<i> ####################################################################
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+--
+S pozdravem    .-------------------------.
+Jan Svec       | Znate jazyk Python? NE? |
+               | zkuste <A HREF="http://www.py.cz/">http://www.py.cz</A> |
+.--------------+-------------------------+
+|<i>            &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza na py.cz</A>&gt;               |
+</I>|<i>     <A HREF="http://www.py.cz/Members/honza">http://www.py.cz/Members/honza</A>     |
+</I>|<i>            <A HREF="http://www.py.cz/mailman/listinfo/python">honzas na jabber.cz</A>            |
+</I>`----------------------------------------'
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001731.html">[python] Konverze řetězce na float
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001732.html">[python] Tk a after
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1738">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1738">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1738">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1738">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001738.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:33 GMT -->
+</html>

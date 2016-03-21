@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003528.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:35 GMT -->
+<HEAD>
+   <TITLE> [python] mailman viewer
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20mailman%20viewer&In-Reply-To=ed0e19a1c18c479bae12fa730be4d6ba%40pobox.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003527.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003535.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] mailman viewer</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20mailman%20viewer&In-Reply-To=ed0e19a1c18c479bae12fa730be4d6ba%40pobox.sk"
+       TITLE="[python] mailman viewer">geon na post.cz
+       </A><BR>
+    <I>Sobota Říjen 22 11:45:14 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003527.html">[python] mailman viewer
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003535.html">[python] PSP - python server pages
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3528">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3528">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3528">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3528">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>azurIt napsal(a):
+
+&gt;<i>geon este by sa to dalo vyriesit tak, ze to stiahnes ako web a potom to aj ako web budes offline pozerat :) napr. pomocou wget (alebo pod win je dobry Teleport Pro)
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>to se ale špatně prohledává, a já jsem nějak zatížen na ty emailové 
+klienty ;-) (to je jedna z jejích výhod - prozaická možnost kvalitního 
+prohledávání...) :-) :-) , ale stejně díky
+
+p.s. už si píši skript, na stahování těch archivů....zatím to vypadá takhle:
+
+import urllib, os
+
+archivyNaWebu='<A HREF="http://www.py.cz/pipermail/python/'">http://www.py.cz/pipermail/python/'</A>
+odkazy=[]
+
+fp = urllib.urlopen(archivyNaWebu)
+data = fp.read()
+fp.close()
+
+
+for radek in data.split('\n'):
+    if &quot;.gz&quot; in radek:
+        prvniUvozovky=radek.index('&quot;')
+        druheUvozovky=radek.index('&quot;', prvniUvozovky+1)
+        odkazy.append(radek[prvniUvozovky+1:druheUvozovky])
+
+# print odkazy
+
+for soubor in odkazy:
+    archiv=os.path.join(archivyNaWebu, soubor)
+    fp = urllib.urlopen(archiv)
+    data = fp.read()
+    fp.close()
+   
+    # ulozeni na local
+    f=file(soubor,'wb')      # otevri soubor f pro BINARNI zapis
+    f.write(data)
+    f.close()
+   
+    print &quot;Soubor&quot;, soubor, &quot;ulozen do&quot;, os.getcwd()
+       
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003527.html">[python] mailman viewer
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003535.html">[python] PSP - python server pages
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3528">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3528">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3528">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3528">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003528.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:35 GMT -->
+</html>

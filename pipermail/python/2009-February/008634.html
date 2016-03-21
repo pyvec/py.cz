@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-February/008634.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:52 GMT -->
+<HEAD>
+   <TITLE> [python] PyGTK, crontab, a já :)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPyGTK%3D2C_crontab%3D2C_a_j%3DE1_%3D3A%3D29%3F%3D&In-Reply-To=%3C1233690276.29555.1%40klofy%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-February/008633.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-February/008636.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PyGTK, crontab, a já :)</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPyGTK%3D2C_crontab%3D2C_a_j%3DE1_%3D3A%3D29%3F%3D&In-Reply-To=%3C1233690276.29555.1%40klofy%3E"
+       TITLE="[python] PyGTK, crontab, a já :)">regnarg na seznam.cz
+       </A><BR>
+    <I>Úterý Únor  3 20:44:36 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008633.html">[python] PyGTK, crontab, a já :)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008636.html">[python] PyGTK, crontab, a já :)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-February/date.html#8634">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/thread.html#8634">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/subject.html#8634">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/author.html#8634">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne 3.2.2009 20:37:10 napsal slush:
+&gt;<i> Je to, jak psal Filip, složitější, každopádně to má řešení.
+</I>&gt;<i> 
+</I>&gt;<i> a) v crontabu by na začátku měla být korektně nastavena proměnná
+</I>&gt;<i> DISPLAY,
+</I>&gt;<i> která řekne aplikaci, s kterým X serverem má povídat. Případně jsem
+</I>&gt;<i> teď
+</I>&gt;<i> našel čistě pythoní řešení na
+</I>&gt;<i> <A HREF="http://www.le-web.org/2008/11/06/pygtk-how-to-display-a-systray-icon-">http://www.le-web.org/2008/11/06/pygtk-how-to-display-a-systray-icon-</A>
+</I>&gt;<i> from-a-cronjob/
+</I>&gt;<i> 
+</I>&gt;<i> b) D-BUS funguje na principu klient (Vaše aplikace) - server (DBUS
+</I>&gt;<i> daemon)
+</I>&gt;<i> modelu. Pokud aplikaci pouštíte jako root, může komunikovat jen se
+</I>&gt;<i> systémovou DBUS sběrnicí (na které mmj visí HAL apod). Pokud je
+</I>&gt;<i> crontab
+</I>&gt;<i> uživatelův, aplikace si může vybrat systémovou nebo session sběrnici
+</I>&gt;<i> (existuje separátně pro každého přihlášeného uživatele). Co děláte v
+</I>&gt;<i> aplikaci špatně je, že předpokládáte, že DBUS již běží. Já bych to
+</I>&gt;<i> řešil
+</I>&gt;<i> periodickým pokusem o připojení a při neúspěchu neukončoval aplikaci
+</I>&gt;<i> (a
+</I>&gt;<i> předpokládal, že dbus za chvíli naběhne).
+</I>
+Ono je to ještě složitější, protože u X jsou různé autentizační
+mechanismy, navíc to neřeší, když je uživatel přihlášen 
+vícenásobně (což asi nebude, ale principiálně vzato). S D-BUSem
+je to ještě horší, protože aby mělo jeho použití smysl (např.
+spolu s libnotify), museli bychom se napojit na _uživatelův_
+D-BUS session, ne nějaký další, a jeho adresu asi není dobrá
+šance jednoduše zjistit. I když ty hlášky ohledně D-BUSU možná
+jen generuje PyGTK a třeba jej aplikace k ničemu rozumnému
+nepoužívá... nejspíš ani nejsou fatální. Tohle řešení by při
+dobré vůli fungovat mohlo, ale přinejmenším systematicky vzato
+je asi lepší jít na to jinak.
+
+Krásný zbytek večera všem,
+Filip Š.
+
+-- 
+<A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na matfyz.cz</A> &#8226; <A HREF="http://regnarg.matfyz.cz/">http://regnarg.matfyz.cz</A> &#8226; <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
+Loving someone is giving them the power to hurt you,but trusting
+them not to. --Anonymous &#8226; Take away love, and our earth is a 
+tomb. --Robert Browning &#8226; Death cannot stop true love. All it 
+can do is delay it for a while. --''The Princess Bride''
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008633.html">[python] PyGTK, crontab, a já :)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-February/008636.html">[python] PyGTK, crontab, a já :)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-February/date.html#8634">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/thread.html#8634">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/subject.html#8634">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-February/author.html#8634">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-February/008634.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:52 GMT -->
+</html>

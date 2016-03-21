@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007989.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:36 GMT -->
+<HEAD>
+   <TITLE> [python] Thread a wxpython
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Thread%20a%20wxpython&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/007988.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/007990.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Thread a wxpython</H1>
+    <B>vaclavik na ondrav.net</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Thread%20a%20wxpython&In-Reply-To="
+       TITLE="[python] Thread a wxpython">vaclavik na ondrav.net
+       </A><BR>
+    <I>Středa Červenec 16 14:34:46 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007988.html">[python] httplib a socks proxy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007990.html">[python] Thread a wxpython
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7989">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7989">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7989">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7989">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím, mám takový problém, když vytvořím jakýkoliv obejekt wxpythonu
+ve vláknu, tak po dokončení toho vlákna zmizí. Já bych potřeboval aby
+zůstal. S vlákny teprve začínám. Jednoduchý příklad:
+
+# -*- coding: utf-8 -*-
+import wx
+import thread
+class Okno:
+    def __init__(self, parent):
+        self.okno=wx.MDIChildFrame(parent,title=u&quot;Test&quot;,id=-1)
+        self.okno.Maximize()
+        thread.start_new_thread(self.funkce,())
+    def funkce(self):
+        self.promena=wx.StaticText(self.okno, label=u&quot;Test&quot;)
+if __name__ == &quot;__main__&quot;:
+    okno = wx.App(0)
+    parent=wx.MDIParentFrame(None,size=wx.Size(500,500))
+    Okno(parent)
+    parent.Show()
+    okno.MainLoop()
+
+Díky za pomoc
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007988.html">[python] httplib a socks proxy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007990.html">[python] Thread a wxpython
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7989">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7989">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7989">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7989">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007989.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:36 GMT -->
+</html>

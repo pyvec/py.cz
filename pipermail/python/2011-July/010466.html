@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-July/010466.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+<HEAD>
+   <TITLE> [python] email headers
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20email%20headers&In-Reply-To=%3C4E2EDFF2.5010900%40ludik.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-July/010472.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-July/010467.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] email headers</H1>
+    <B>&quot;Ing. Vladislav Ludík&quot;</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20email%20headers&In-Reply-To=%3C4E2EDFF2.5010900%40ludik.cz%3E"
+       TITLE="[python] email headers">vlada na ludik.cz
+       </A><BR>
+    <I>Úterý Červenec 26 17:40:34 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-July/010472.html">[python] WX Python do exe
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-July/010467.html">[python] email headers
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-July/date.html#10466">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/thread.html#10466">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/subject.html#10466">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/author.html#10466">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím všechny znalé pythonu.
+
+Může mi někdo poradit s dekódováním hlaviček emailů ?
+
+Jde o toto:
+
+Ve složce /var/mail/ na linuxu přicházející emaily potřebuju elegantně 
+zdekódovat.
+Co se týká vlastních zpráv, nemám problém:
+
+def ebox(inbox):
+    'Zpracuje email inbox'
+   
+    fp = open(inbox, 'rb')
+    mbox = mailbox.UnixMailbox(fp, email.message_from_file)
+
+    for msg in mbox:
+        for part in msg.walk():
+            if part.get_content_maintype() == 'text':
+                data = part.get_payload(decode=True)
+                # zpracuju data
+
+Problém mám jen s hlavičkama. Když použiju například
+headers = Parser().parse(fp)
+tak ten ve výsledku dává při více zprávách za sebou vždy první nalezený 
+objekt, ale další už ne:
+
+    print 'To: %s' % headers['to']
+    print 'From: %s' % headers['from']
+    print 'Subject: %s' % headers['subject']
+
+Můj dotaz tedy je: jak skloubit jednoduše obě funkce?
+Složitě to umím.
+
+Děkuji za váš čas.
+
+Zdraví V.L.
+
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-July/010472.html">[python] WX Python do exe
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-July/010467.html">[python] email headers
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-July/date.html#10466">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/thread.html#10466">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/subject.html#10466">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/author.html#10466">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-July/010466.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+</html>

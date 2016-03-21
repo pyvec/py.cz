@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009662.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:44 GMT -->
+<HEAD>
+   <TITLE> [python] Zkrácená forma přiřazení selže
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FWmtyw6FjZW7DoSBmb3JtYSBwxZlpxZlhemVuw60gc2Vs%3F%3D%0A%09%3D%3Futf-8%3Fb%3Fxb5l%3F%3D&In-Reply-To=%3Cdab75dd451ce46af805130b530051225%400f0069f76a794bcfbbe62550cb3a35c1%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009664.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009665.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zkrácená forma přiřazení selže</H1>
+    <B>Přikryl Petr</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FWmtyw6FjZW7DoSBmb3JtYSBwxZlpxZlhemVuw60gc2Vs%3F%3D%0A%09%3D%3Futf-8%3Fb%3Fxb5l%3F%3D&In-Reply-To=%3Cdab75dd451ce46af805130b530051225%400f0069f76a794bcfbbe62550cb3a35c1%3E"
+       TITLE="[python] Zkrácená forma přiřazení selže">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Duben 20 15:33:08 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009664.html">[python] Zkrácená forma přiřazení selže
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009665.html">[python] html do pdf
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9662">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9662">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9662">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9662">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No jo. Je to zjednodušení.
+
+Petr Messner
+&gt;<i> Přikryl Petr
+</I>&gt;&gt;<i>    def __iter__(self):
+</I>&gt;&gt;<i>        '''Vraci iterator -- sam sobe iteratorem.'''
+</I>&gt;&gt;<i>        self.idx = 0
+</I>&gt;&gt;<i>        return self
+</I>&gt;<i>
+</I>&gt;<i>prosim takto ne, kdyz udelam
+</I>&gt;<i>it = iter(slova)
+</I>&gt;<i>it2 = iter(slova)
+</I>&gt;<i>tak ty iteratory se navzajem ovlivnuji.
+</I>
+Záleží na tom, k čemu to má sloužit. Dá se to napsat
+s odděleným objektem iterátoru:
+
+class Seznam:
+    def __init__(self,sez):
+        self.data=sez
+    def __getitem__(self,idx):
+        return idx &lt; len(self.data) and self.data[idx] or None
+        
+    def __iter__(self):  
+        return SeznamIterator(self)
+
+        
+class SeznamIterator:
+    def __init__(self, obj):
+        self.idx = 0
+        self.obj = obj
+
+    def next(self):
+        '''Standardni podpora iterace.'''
+        if self.idx &gt;= len(self.obj.data):
+            StopIteration
+        hodnota = Seznam.__getitem__(self.obj, self.idx)
+        self.idx += 1
+        return hodnota           
+
+
+        
+### VSTUP: ###   
+slova = Seznam([&quot;ITEM-1&quot;,&quot;ITEM-2&quot;,&quot;ITEM-3&quot;, 4])
+
+prvni = slova[0]
+druhy = slova[1]
+treti = slova[2]
+ctrty = slova[3]
+
+# Rucne provadena iterace.
+it1 = iter(slova)
+it2 = iter(slova)
+
+print id(it1)
+print id(it2)
+
+print next(it1)
+print next(it2)
+
+print next(it1)
+print next(it2)
+
+print next(it1)
+print next(it2)
+
+print next(it1)
+print next(it2)
+print '-' * 50
+
+&gt;<i>Problem ale stejne bude v tom, ze kdyz chci
+</I>&gt;<i>prvy, druhy, treti, ctrty = slova
+</I>&gt;<i>
+</I>&gt;<i>tak ten iterator musi vratit presne 4 hodnoty a pak vyvolat
+</I>&gt;<i>StopIteration. A jak tomu reknes, ze z toho tahas ty 4 hodnoty? Leda
+</I>&gt;<i>tak tim, ze tam fakt budou presne 4. To ale neni chovani, ktere
+</I>&gt;<i>ocekava tazatel.
+</I>
+Tady je otázka, jestli je očekávání podporováno realitou.
+Nevím, jestli to vůbec nějak jde. Nedivil bych se, kdyby
+to nešlo. Takhle se bude chovat i standardní seznam.
+
+Pokud to má podporovat iteraci, pak nemá smysl ani to None v __getitem__()
+
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009664.html">[python] Zkrácená forma přiřazení selže
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009665.html">[python] html do pdf
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9662">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9662">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9662">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9662">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009662.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:44 GMT -->
+</html>

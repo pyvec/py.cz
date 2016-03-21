@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010154.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:08 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátor
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FDekor%3DE1tor%3F%3D&In-Reply-To=%3CAANLkTik8h5y%3D_Le%2BdygNcCytc1-DUsjy1D6jGRUVms6x%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-February/010151.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-February/010155.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátor</H1>
+    <B>Jakub Vysoky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FDekor%3DE1tor%3F%3D&In-Reply-To=%3CAANLkTik8h5y%3D_Le%2BdygNcCytc1-DUsjy1D6jGRUVms6x%40mail.gmail.com%3E"
+       TITLE="[python] Dekorátor">jakub na borka.cz
+       </A><BR>
+    <I>Pondělí Únor 21 13:56:57 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010151.html">[python] Dekorátor
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010155.html">[python] Dekorátor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10154">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10154">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10154">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10154">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>jenom bych rad doplnil, zed pythoni syntaxe
+
+ @muj_dekorator
+ def moje_funkce(*args): pass
+
+je jenom syntakticky cukr a znamena to:
+
+ moje_funkce = muj_dekorator(moje_funkce)
+
+z cehoz je mozna mnohem jasnejsi, jak dekorator funguje.
+alespon mne to tak dava vetsi smysl ;))
+
+jakub..
+
+ps: dekorator nemusi byt jenom funkce, je to zkratka objekt obalujici
+jiny objekt
+
+
+2011/2/20 Róbert Čerňanský &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">hslists na zoznam.sk</A>&gt;:
+&gt;<i> On Wed, 16 Feb 2011 06:23:07 -0800 (PST)
+</I>&gt;<i> Radek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">radek.hnilica na gmail.com</A>&gt; wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Byl by tady někdo, kdo by mě mohl odkázat na rozumný studijní
+</I>&gt;&gt;<i> materiál, podtrhuji rozumný, ze kterého bych byl schopen pochopit, jak
+</I>&gt;&gt;<i> funguje dekorátor který definuju jako třídu.  S dekorátory jako
+</I>&gt;&gt;<i> funkcemi jsem se nějak popasoval, tedy aspoň si to myslim, ale u té
+</I>&gt;&gt;<i> třídy je to pro mě černá magie.
+</I>&gt;<i>
+</I>&gt;<i> S tými rozumnými materiálmi je to bieda.  Hlavne sa mi zdá, že
+</I>&gt;<i> oficiálny Python Tutorial akosi zaostáva.  Pri niekoľkonásobnom
+</I>&gt;<i> prečítaní relevantných (a roztrúsených) častí oficiálnej dokumentácie
+</I>&gt;<i> [1], [2], [3] a PEP 318 [4] sa to akosi dá pochopiť.  Pokúsim sa to
+</I>&gt;<i> vysvetliť nižsie.
+</I>&gt;<i>
+</I>&gt;&gt;<i> Pokud nemá dekorátor parametry, tak se zdá že to nějak chápu.  Do
+</I>&gt;&gt;<i> __init__ je předána dekorovaná fuknce a do __call__ jsou pak předávány
+</I>&gt;&gt;<i> argumenty té funkce viz:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class mydec:
+</I>&gt;&gt;<i>     def __init__(self, fce):
+</I>&gt;&gt;<i>         self.fce = fce   # Store, we will use it in __call__
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     def __call__(self, *args, **kwds):
+</I>&gt;&gt;<i>         ....pre
+</I>&gt;&gt;<i>         result = self.fce(*args, **kwds)
+</I>&gt;&gt;<i>         .....post
+</I>&gt;&gt;<i>         return result
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> @mydec
+</I>&gt;&gt;<i> def myfunc(*args, **kwds):
+</I>&gt;&gt;<i>     pass
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ale pokud má mít dekorátor parametry, tak jsem sice našel/zkonstruoval
+</I>&gt;&gt;<i> kód který se zdá fungovat, ale plně mu nerozumím.
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i> Jen tím že chci aby měl dekorátor parametry, se tak radikálně změní
+</I>&gt;&gt;<i> kód dekorátoru.
+</I>&gt;&gt;<i> Potřeboval bych nějak po lopatě vědět, co se uvnitř děje, protože
+</I>&gt;&gt;<i> cítím že ty dekorátory budu určitě používat ještě mnohem divočeji.
+</I>&gt;<i>
+</I>&gt;<i> Vo všeobecnosti je dekorátor funkcia, ktorá vracia funkciu.  V Pythone
+</I>&gt;<i> je dekorátor &quot;niečo, čo sa dá zavolať&quot; a po zavolaní to vráti tiež
+</I>&gt;<i> &quot;niečo, čo sa dá zavolať&quot;.  To &quot;niečo, čo sa dá zavolať&quot; je akýkoľvek
+</I>&gt;<i> objekt, ktorý má metódu __call__() - čiže funkcia; trieda; inštancia
+</I>&gt;<i> tredy, ktorá definuje __call__(); jedným slovom callable.  To prvé
+</I>&gt;<i> callable reprezentuje samotný dekorátor a to druhé callable
+</I>&gt;<i> reprezentuje, *v prípade dekorátora bez parametrov*, odekorovanú
+</I>&gt;<i> funkciu (čize funkciu, ktorá už je &quot;oblečená&quot; do dekorátora).
+</I>&gt;<i>
+</I>&gt;<i> Dekorátor (to, čo je za @) je volaný pri *definícii* funkcie, teda nie
+</I>&gt;<i> pri jej zavolaní.  Pri tomto volaní sa vráti uz spomínané druhé
+</I>&gt;<i> callable, ktoré reprezentuje odekorovanú funkciu (v prípade dekorátora
+</I>&gt;<i> bez parametrov).  To je potom volané zakaždým, keď je volaná
+</I>&gt;<i> dekorovaná funkcia (čiže tá, ktorá má nad sebou @).
+</I>&gt;<i>
+</I>&gt;<i> _Dekorátor bez parametrov_, je zavolaný s jedným parametrom a tým je
+</I>&gt;<i> dekorovaná funkcia.
+</I>&gt;<i>
+</I>&gt;<i> Čiže keď zoberieme Tvoj príklad dekorátora bez parametrov, tak mydec
+</I>&gt;<i> je zavolaný pri definícii myfunc() a dostane myfunc ako parameter.
+</I>&gt;<i> Keď zoberieme do úvahy, že mydec je trieda, tak jej zavolanie vlastne
+</I>&gt;<i> znamená vytvorenie inštancie.  Táto vzniknutá inštancia má __call__()
+</I>&gt;<i> a teda spĺňa podmnienku, že je callable.  Vniknutá inštancia teda
+</I>&gt;<i> reprezentuje odekorovanú myfunc() a jej metóda __call__() je zavolaná
+</I>&gt;<i> pri každom volaní myfunc().
+</I>&gt;<i>
+</I>&gt;<i> _Dekorátor s parametrami_, je zavolaný iba s tými parametrami, s
+</I>&gt;<i> ktorými bol nadefinovaný.  Čiže *nedostane dekorovanú funkciu*.
+</I>&gt;<i> Callable, ktoré takýto dekorátor vráti reprezentuje *ďalší dekorátor*.
+</I>&gt;<i> Tento ďalší dekorátor, je už &quot;normálny&quot; dekorátor bez parametrov
+</I>&gt;<i> popísaný vyššie.  Je zavolaný tiež pri definícii funkcie (hneď za
+</I>&gt;<i> dekorátorom s parametrami, ktorý ho vrátil) a dostane dekorovanú
+</I>&gt;<i> funkciu ako parameter.
+</I>&gt;<i>
+</I>&gt;<i> Dúfam, že som Ťa ešte viac nepoplietol. ;-)
+</I>&gt;<i>
+</I>&gt;<i> [1] - <A HREF="http://docs.python.org/py3k/glossary.html#term-decorator">http://docs.python.org/py3k/glossary.html#term-decorator</A>
+</I>&gt;<i> [2] -
+</I>&gt;<i> <A HREF="http://docs.python.org/py3k/reference/compound_stmts.html#function">http://docs.python.org/py3k/reference/compound_stmts.html#function</A>
+</I>&gt;<i> [3] -
+</I>&gt;<i> <A HREF="http://docs.python.org/py3k/whatsnew/2.4.html?highlight=decorator">http://docs.python.org/py3k/whatsnew/2.4.html?highlight=decorator</A>
+</I>&gt;<i>
+</I>&gt;<i> Robo
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Robert Cernansky
+</I>&gt;<i> E-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">hslists na zoznam.sk</A>
+</I>&gt;<i> Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">hs na jabber.sk</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+
+-- 
+Jakub Vysoky
+
+mob: +420 605 852 377
+jab: <A HREF="http://www.py.cz/mailman/listinfo/python">jakub.vysoky na gmail.com</A>
+icq: 109248375
+twit: <A HREF="https://twitter.com/kvbik">https://twitter.com/kvbik</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010151.html">[python] Dekorátor
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010155.html">[python] Dekorátor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10154">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10154">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10154">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10154">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010154.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:08 GMT -->
+</html>

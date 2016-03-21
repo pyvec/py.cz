@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007951.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:34 GMT -->
+<HEAD>
+   <TITLE> [python] MySQL - nativní rozhraní pro Python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FMySQL_-_nativn%3DC3%3DAD_rozhran%3DC3%3DAD_pro_Python%3F%3D&In-Reply-To=4867F18F.3060202%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/007958.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] MySQL - nativní rozhraní pro Python</H1>
+    <B>Jan Bednařík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FMySQL_-_nativn%3DC3%3DAD_rozhran%3DC3%3DAD_pro_Python%3F%3D&In-Reply-To=4867F18F.3060202%40seznam.cz"
+       TITLE="[python] MySQL - nativní rozhraní pro Python">jan.bednarik na gmail.com
+       </A><BR>
+    <I>Úterý Červenec  1 01:17:09 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007958.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7951">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7951">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7951">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7951">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2008/6/29 zu1234 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zu1234 na seznam.cz</A>&gt;:
+&gt;<i> Doufám že to někdo nevezme jako provokaci, ale opravdu
+</I>&gt;<i> by mi občas bodlo dostat se prostě do obrazu.
+</I>&gt;<i>
+</I>&gt;<i> Takže, byl by někdo ochotný obeznámit nás začátečníky s pojmy jako je
+</I>&gt;<i> SQLAlchemy a Django. Ale prosím opět polopatě a prakticky a lidsky.
+</I>&gt;<i>
+</I>&gt;<i> ZU
+</I>
+SQLAlchemy je aplikace, která ti umožní pracovat s tabulkami a záznamy
+v databázi jako s běžnými objekty. Je určena pro integraci do jiných
+aplikací, jako databázová vrstva. Nemusíš tak být odborník na SQL, aby
+jsi mohl jednoduše a pohodlně pracovat s databází, teoreticky ani
+nemusíš vědět, jak databáze fungují a co to SQL je. Koukni na
+<A HREF="http://www.sqlalchemy.org/docs/05/ormtutorial.html">http://www.sqlalchemy.org/docs/05/ormtutorial.html</A> a pochopíš, oč jde.
+
+Django je RAD (Rapid Application Development) framework pro tvorbu
+internetových aplikací. Funguje na principu MTV = Model Template View.
+V první úrovni - Model - nadefinuješ modely. To jsou třídy
+reprezentující tabulky v databázi a jejich závislosti a pak s nimi
+pracuješ jako s objekty. Je to hodně podobné jako ta SQLAlchemy s
+hlavním rozdílem v tom, že nedefinuješ jen typické datové typy
+(varchar, int, atd.), ale můžeš použít i speciální jako EmailField,
+IPAddressField, apod., které jsou v databázi uloženy třeba jako
+obyčejný varchar, ale při práci mají speciální &quot;schopnosti&quot;, jako
+třeba že ten EmailField při přiřazení kontroluje, zda je hodnota
+platná e-mailová adresa. Teď trochu odbočím, ale musím prozradit jednu
+z bezkonkurenčních (pokud jsem dobře informován) výhod Djanga oproti
+jiným webovým frameworkům, a tou je automaticky generovaná
+administrace. Na základě zadefinovaných modelů generuje velmi
+propracované administrační rozhraní. Proto je tam taky spousta různých
+datových typů, které ve výsledku mají vliv jen na chování té
+administrace (různé formulářové prvky s JS/AJAX vylepšeními). A když
+jsou nadefinované modely, přide na řadu část View. To znamená
+nadefinovat šablony pro URL a k nim odpovídající view funkce, které se
+mají zavolat (dle potřeby s parametry získanými z URL). Tady je to
+hlavně o hraní s objekty modelů. Ve view získáš potřebná data, která
+se zpracují v poslední části - Template. Template jsou (X)HTML (nebo
+XML, nebo jakékoliv jiné) soubory, které obsahují speciální značky,
+které Django nahradí hodnotou z view. Pole hodnot vypíše cyklem.
+Aplikuje na hodnoty různé výstupní filtry třeba na pěkné zobrazení
+data či zaokrouhlení měny. A tak podobně. Je toho spousta, co by šlo o
+Djangu napsat, doporučuji ale rovnou zkusit. Je to zábava s ním
+pracovat.
+
+Ještě jsem si vzpoměl na jedno video z nějaké přednášky o Djangu,
+které stojí za to shlédnout
+<A HREF="http://video.google.com/videoplay?docid=-70449010942275062&amp;q=django&amp;ei=7mhpSMG7Jpyc2wLx8dyoCg">http://video.google.com/videoplay?docid=-70449010942275062&amp;q=django&amp;ei=7mhpSMG7Jpyc2wLx8dyoCg</A>
+
+Honza
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007958.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7951">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7951">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7951">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7951">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007951.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:34 GMT -->
+</html>

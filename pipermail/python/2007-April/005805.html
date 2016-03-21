@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005805.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:10 GMT -->
+<HEAD>
+   <TITLE> [python] XML PARSER
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML%20PARSER&In-Reply-To=mailman.89.1175897630.4700.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005826.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005807.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] XML PARSER</H1>
+    <B>hexima@seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML%20PARSER&In-Reply-To=mailman.89.1175897630.4700.python%40py.cz"
+       TITLE="[python] XML PARSER">hexim2007 na gmail.com
+       </A><BR>
+    <I>Úterý Duben 10 00:58:15 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005826.html">[python] Modul Struct
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005807.html">[python] Jakého typu je iterátor?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5805">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5805">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5805">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5805">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Diky za odpoved,
+
+nakonec jsem pouzil tento priklad :
+
+Vzorovy XML:
+
+
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+&lt;myxml&gt;
+  &lt;neco&gt;
+        &lt;tagA&gt;Ahoj Svete&lt;/tagA&gt;
+  &lt;/neco&gt;
+  &lt;mysql&gt;
+        &lt;host&gt;localhost&lt;/host&gt;
+        &lt;user&gt;root&lt;/user&gt;
+        &lt;password&gt;heslo&lt;/password&gt;
+        &lt;db&gt;databaze&lt;/db&gt;
+  &lt;/mysql&gt;
+&lt;/myxml&gt;
+
+
+#!/usr/bin/python
+
+import xml.sax as sax
+from xml.sax.handler import ContentHandler
+
+xmltoparse = 'xxx.xml'
+
+
+class my_handler(ContentHandler):		# definujeme nas handler jako
+potomka ContentHandler
+  def startDocument( self):
+    &quot;tahle funkce se vola na zacatku dokumentu&quot;
+    ## self.document je slovnik (dictionary) - obsahuje polozky
+asociovane s libovolnymi klici
+    self.document = {}
+    ## vynulujeme textovy obsah aktualniho elementu
+    self._recent_text = ''
+
+
+  def endElement( self, name):			# vola se na konci elementu
+    if name == &quot;tagA&quot;:
+      self.document['tagA'] = self._recent_text.strip()
+    if name == &quot;host&quot;:
+      self.document['host'] = self._recent_text.strip()
+    if name == &quot;user&quot;:
+      self.document['user'] = self._recent_text.strip()
+    self._recent_text = ''
+
+  def characters( self, content):		# vola se pokazde kdyz parser
+precte cast obsahu dokumentu neni zaruceno, ze se cely obsah preda
+najednou
+    self._recent_text += content
+
+# samotny akt cteni XML
+dh = my_handler()
+sax.parse(xmltoparse, dh)
+
+print dh.document['tagA']
+print dh.document['host']
+print dh.document['user']
+
+dekuji za odpoved a krasny priklad.
+
+Hexim
+
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005826.html">[python] Modul Struct
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005807.html">[python] Jakého typu je iterátor?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5805">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5805">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5805">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5805">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005805.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:10 GMT -->
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005540.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:36 GMT -->
+<HEAD>
+   <TITLE> [python] sqllite - existuje záznam v DB?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fsqllite_-_existuje_z%3DC3%3DA1znam_v_DB%3D3F%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005538.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005542.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sqllite - existuje záznam v DB?</H1>
+    <B>Petr Vanek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3Fsqllite_-_existuje_z%3DC3%3DA1znam_v_DB%3D3F%3F%3D&In-Reply-To="
+       TITLE="[python] sqllite - existuje záznam v DB?">petr na scribus.info
+       </A><BR>
+    <I>Čtvrtek Únor  8 13:06:13 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005538.html">[python] Praca s polom, navedte ma na spravnu cestu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005542.html">[python] sqllite - existuje záznam v DB?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5540">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5540">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5540">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5540">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> &gt; jsem jen hloupý chlapec z předměstí, ale opravdu netuším, proč
+</I>bych na to měl 
+&gt;<i> &gt; používat subquery? Nebo mi něco uniklo?
+</I>&gt;<i> 
+</I>&gt;<i> Zásada je dolovat z databáze jen ty informace, které nazbytně 
+</I>&gt;<i> potřebujete - je zbytečné chtít cokoli víc, a zbytečné zatěžovat
+</I>databázi.
+
+s tim souhlasim
+ 
+&gt;<i> Takové COUNT musí spočítat skutečný počet řádků - aby pak v
+</I>programu 
+&gt;<i> tato hodnota byla zahozena a tranformováno v pouhou hodnotu 
+</I>&gt;<i> existuje/neexistuje. Databáze tedy musela udělat zbytečnou práci,
+</I>která 
+&gt;<i> nebyla k ničemu.
+</I>&gt;<i> 
+</I>&gt;<i> EXISTS pouze zjistí, zda takový řádek existuje, tedy databáze může 
+</I>&gt;<i> udělat méně práce. Databáze zjistí jen přesně to, co se využije.
+</I>
+ano, ale v, a ted pozor (opravdu dobry pozor), tramtadada - v *poddotazu*.
+Takze abych zjistil udaj, ktery mohu zjistit prostym selektem, ktery pojede
+index range scanem - idealne pres unique ix, bych mel udelat umely
+pseudo-join?
+Napoveda: jakakoli reference SQL.
+Mimochodem, a ted uz se nebavme o sqlite, at si to zkousim na oracle,
+jak to zkousim, tak execution plan a vysledne casy s exists v tomto pripade
+lepsi nedostanu.
+A ani v sqlite ne. viz:
+orde  from            detail
+----  --------------  ----------
+0     0               TABLE foo
+
+vs.
+
+orde  from            detail
+----  --------------  ----------
+0     0               TABLE foo
+0     0               TABLE foo
+
+&gt;<i> Jinak jsem jenom hloupý chlapec, který optimalizuje databáze a už si 
+</I>&gt;<i> jakožto databázový administrátor vydělal nějaký ten peníz
+</I>optimalizací 
+&gt;<i> databází do vysokých zátěží.
+</I>
+chtel jsem byt politicky korektni a citaci odmazat, ale nemohu si pomoci:
+&quot;kvaky, kvaky, kvaky. Znal jsem tolik zaslouzilych guruu, a jejich systemy
+ryly tlamou v zemi...&quot;
+
+zdar a silu
+petr vanek,
+ten ktery jeste nikdy nevidel databazi, ani tu nejmensi v okrese ;)
+
+
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005538.html">[python] Praca s polom, navedte ma na spravnu cestu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005542.html">[python] sqllite - existuje záznam v DB?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5540">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5540">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5540">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5540">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005540.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:36 GMT -->
+</html>

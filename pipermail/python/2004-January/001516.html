@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-January/001516.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:50 GMT -->
+<HEAD>
+   <TITLE> [python] lama ...
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20lama%20...&In-Reply-To=20040127084317.GL8028%40dat.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-January/001515.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-January/001517.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] lama ...</H1>
+    <B>Martin 'PLAWA' Dohnal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20lama%20...&In-Reply-To=20040127084317.GL8028%40dat.cz"
+       TITLE="[python] lama ...">plawa na cyber.cz
+       </A><BR>
+    <I>Úterý Leden 27 11:04:36 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001515.html">Re: [python] lama ...
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001517.html">Re: [python] lama ...
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-January/date.html#1516">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/thread.html#1516">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/subject.html#1516">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/author.html#1516">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>DD,
+
+k tomu IRCu.. dovolil bych si lehce nesouhlasit, vyberte si nejaky IRC server 
+dle vlastni libosti (irc.felk.cvut.cz pro ukazku bude stacit), telnet na port 
+6667:
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">root na plawa</A>:~# telnet irc.felk.cvut.cz 6667
+Trying 147.32.80.79...
+Connected to irc.felk.cvut.cz.
+Escape character is '^]'.
+NICK Plawa
+USER Plawa * * :plawa
+:<i>irc.felk.cvut.cz 001 Plawa :Welcome to the Internet Relay Network 
+</I>Plawa!~<A HREF="http://www.py.cz/mailman/listinfo/python">Plawa na plawa.xxx.xx</A>
+:<i>irc.felk.cvut.cz 002 Plawa :Your host is irc.felk.cvut.cz, running version 
+</I>2.10.3p5+hemp2
+:<i>irc.felk.cvut.cz 003 Plawa :This server was created Mon Oct 13 2003 at 
+</I>17:20:52 CEST
+...
+
+'help' ti potom da kompletni seznam dostupnych IRC commandu.
+
+//doporucoval bych ty pokusy neprehanet, nebo se tamnejsi admini nakrknou...
+
+Rekl bych, ze pokud jestli chce jt psat jednoduchyho irc_bota, tak mu tohle 
+rozhrani bude naprosto stacit, hloupy irc_bot v bashi ma 30 radku a bez 
+blizsiho pruzkumu bych si dovolil tipnout, ze ircove moduly budou jenom 
+jakysi wrapper na telnet - velmi zjednodusene receno.
+
+Samozrejme, ze na nejakou vetsi praci s IRCem ma cenu sahnout po modulu, na 
+nauceni se je imho tohle docela postacujici a vdecny.
+
+Pripominky vitam.
+
+Martin.
+
+
+On Tuesday 27 of January 2004 09:43, Radek Kanovsky wrote:
+&gt;<i> On Tue, Jan 27, 2004 at 12:35:59AM +0100, jt wrote:
+</I>&gt;<i> &gt;    1) modul jsem nalezl i fce v nem, ale nevim jak je spravne pouzit k
+</I>&gt;<i> &gt; tomu, aby mi to dalo ten spravny vysledek ( raw_imput je jednoduzsi a
+</I>&gt;<i> &gt; chapu ho ... ale ta zas neni asi ono )
+</I>&gt;<i>
+</I>&gt;<i> Zkuste tohle:
+</I>&gt;<i>
+</I>&gt;<i>     import code
+</I>&gt;<i>
+</I>&gt;<i>     def ahoj () :
+</I>&gt;<i>         print &quot;ahoj&quot;
+</I>&gt;<i>     ahoj()
+</I>&gt;<i>
+</I>&gt;<i>     code.interact(local=locals())
+</I>&gt;<i>
+</I>&gt;<i> Po skonceni skriptu se objevi prompt, kde je mozne pracovat s objekty
+</I>&gt;<i> vytvorenymi skriptem. Parametr `local=locals()' zajisti export lokalnich
+</I>&gt;<i> objektu &quot;do promptu&quot;. Bez tohoto parametru by v promptu funkce `ahoj'
+</I>&gt;<i> nebyla dostupna.
+</I>&gt;<i>
+</I>&gt;<i>     ahoj
+</I>&gt;<i>     Python 2.3.3 (#2, Jan  4 2004, 12:24:16)
+</I>&gt;<i>     [GCC 3.3.3 20031229 (prerelease) (Debian)] on linux2
+</I>&gt;<i>     Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+</I>&gt;<i>     (InteractiveConsole)
+</I>&gt;<i>
+</I>&gt;<i>     &gt;&gt;&gt; ahoj
+</I>&gt;<i>
+</I>&gt;<i>     &lt;function ahoj at 0x4021efb4&gt;
+</I>&gt;<i>
+</I>&gt;<i>     &gt;&gt;&gt; ahoj()
+</I>&gt;<i>
+</I>&gt;<i>     ahoj
+</I>&gt;<i>
+</I>&gt;<i>     &gt;&gt;&gt; help(code.interact)
+</I>&gt;<i>
+</I>&gt;<i>     .....
+</I>&gt;<i>
+</I>&gt;<i> PS: Nevim, jestli to bude fungovat na windows.
+</I>&gt;<i>
+</I>&gt;<i> &gt;    2) ad 3 Ohledne telnetu jsem na tom slabe - server i port poznam,
+</I>&gt;<i> &gt; ale nevim jak ten zbytek (kanal, jmeno ...).  &quot;docela se to podoba praci
+</I>&gt;<i> &gt; s expectem ...&quot; - ale ja nevim co to je a nikdy jsem s tim nepracoval
+</I>&gt;<i>
+</I>&gt;<i> Modul telnet podle me moc nepomuze, protoze IRC nema s telnetem nic moc
+</I>&gt;<i> spolecneho. Na praci s IRC existuje spousta modulu, ale zadny neni primo
+</I>&gt;<i> ve standardni knihovne pythonu, je potreba si tedy nejaky doinstalovat:
+</I>&gt;<i>
+</I>&gt;<i> * <A HREF="http://python-irclib.sourceforge.net/">http://python-irclib.sourceforge.net/</A>
+</I>&gt;<i>
+</I>&gt;<i> * <A HREF="http://sk.nvg.org/python/irc_uninett/">http://sk.nvg.org/python/irc_uninett/</A>
+</I>&gt;<i>
+</I>&gt;<i> * <A HREF="http://www.twistedmatrix.com/products/twisted">http://www.twistedmatrix.com/products/twisted</A>
+</I>&gt;<i>   (priklad <A HREF="http://twistedmatrix.com/documents/examples/ircLogBot.py">http://twistedmatrix.com/documents/examples/ircLogBot.py</A> )
+</I>&gt;<i>
+</I>&gt;<i> Spousta veci je uz pythonu napsanych a jsou ve standardni knihovne
+</I>&gt;<i> (zname porekadlo &quot;batteries included&quot;) nebo jsou volne k dispozici na
+</I>&gt;<i> siti, takze vetsinou neni potreba se zakladnimi vecmi vubec zabyvat.
+</I>&gt;<i> Dost casto se vyplati chvilku potrapit google a clovek najde dobrodince,
+</I>&gt;<i> ktery dany problem vyresil a dal volne k dispozici.
+</I>&gt;<i>
+</I>&gt;<i> Radek Kaňovský
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001515.html">Re: [python] lama ...
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001517.html">Re: [python] lama ...
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-January/date.html#1516">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/thread.html#1516">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/subject.html#1516">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/author.html#1516">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-January/001516.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:50 GMT -->
+</html>

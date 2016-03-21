@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000491.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+<HEAD>
+   <TITLE> [python] igui - Independent GUI
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20igui%20-%20Independent%20GUI&In-Reply-To=AFC8540FEA0CF146A0256CEEC7FCEC6F0155456B%40apps.intra.ditec.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-February/000522.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-February/000495.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] igui - Independent GUI</H1>
+    <B>Jan Svec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20igui%20-%20Independent%20GUI&In-Reply-To=AFC8540FEA0CF146A0256CEEC7FCEC6F0155456B%40apps.intra.ditec.sk"
+       TITLE="[python] igui - Independent GUI">honza na py.cz
+       </A><BR>
+    <I>Úterý Únor 11 10:35:51 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000522.html">[python] globalni promenne
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000495.html">[python] Re: Kde je http://dev.py.cz/user/honza/igui2.tar.gz?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#491">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#491">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#491">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#491">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, 11 Feb 2003, Vasko Miroslav wrote:
+
+&gt;<i> dobry den im vsetkym prajem,
+</I>&gt;<i>
+</I>&gt;<i> a este by som si rypol.
+</I>&gt;<i>
+</I>&gt;<i> poznaju anygui? <A HREF="http://anygui.sf.net/">http://anygui.sf.net</A>
+</I>&gt;<i> ten isty princip, ale je to nedokoncene,
+</I>&gt;<i> napriek tomu im tam takisto zakladne
+</I>&gt;<i> veci slapu, a to aj pod gtk, tkinter, curses,
+</I>&gt;<i> java (pre jython)
+</I>&gt;<i>
+</I>&gt;<i> porozmyslaju, ci by nestalo za to pozriet
+</I>&gt;<i> sa na anygui a spojit sily. na taketo *gui
+</I>&gt;<i> uz cakame dlho a dlho
+</I>&gt;<i>
+</I>&gt;<i> miro
+</I>
+&lt;agitace pro='igui'&gt;
+Jenze anygui ma (alespon si to myslim) trochu jine cile, ma
+to byt neco jako je anydbm, cili ta nejmensi podmnozina
+vseho. igui jsem jiz ze zacatku chtel navrhnout tak aby to
+vypadalo pokud nozno co nejlepe a proto bych chtel
+vyzdvihnout nekolik veci:
+
+1) Event scheduler a dispatcher ktere se staraji o udalosti
+2) Dva typy udalosti - eventy a notifikace
+3) Packing manager - spravce geometrie, ktereho lze velice
+   snadno implementovat pouze odvozenim od zakladni tridy a
+   napsanim dvou metod (viz igui/classes/nonvisual.py)
+4) XObjekty - pokud budete mit widget seznam (List), pak pro
+   manipulaci s polozkami se v igui pouzivaji:
+
+	list.items[:] = ['jedna', 2, '3']
+        list.items.sort()
+	list.items.reverse()
+
+   a vsechno funguje jak ma. Stejnou filozofii pouzivaji i
+   editovaci policka a treba i kontejnery. Tj. pokud budete
+   chtit obratit poradi widgetu v kontejneru, staci
+   container.reverse() a je to.
+5) anygui je jiz od zacatku stavene na modelu
+   Models-Controls-Views. Maji to sice v dokumentaci pekne
+   popsane, ale ... Nevim, nejsem z toho moc odvazany. Do
+   igui bych neco podobneho chtel dat jako nadstavbu, treba
+   model, ktery se na jednom konci pripoji k DB a druhy
+   konec ke controlum a obsah tabulky se bude rovnou sypat
+   do ovladacich prvku atd atd atd.
+
+Cili, anygui je podle meho v porovnani s igui ponekud lehke
+vahy, igui ma od zacatku komplexni navrh a snazil jsem se ze
+vsech toolkitu vytahnout to nejlepsi.
+&lt;/agitace&gt;
+
+--
+S pozdravem
+Jan Svec
+
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza na py.cz</A>&gt;
+<A HREF="http://dev.py.cz/users/honza">http://dev.py.cz/users/honza</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000522.html">[python] globalni promenne
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000495.html">[python] Re: Kde je http://dev.py.cz/user/honza/igui2.tar.gz?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#491">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#491">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#491">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#491">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000491.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+</html>

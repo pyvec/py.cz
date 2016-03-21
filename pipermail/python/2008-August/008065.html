@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008065.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:24 GMT -->
+<HEAD>
+   <TITLE> [python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVGlweSBuYSBu77%2B9dnJoIHTvv73vv71keQ%3D%3D%3F%3D&In-Reply-To=20080801165715.GA11980%40sirius">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008064.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008066.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVGlweSBuYSBu77%2B9dnJoIHTvv73vv71keQ%3D%3D%3F%3D&In-Reply-To=20080801165715.GA11980%40sirius"
+       TITLE="[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy">slush na centrum.cz
+       </A><BR>
+    <I>Sobota Srpen  2 11:24:02 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008064.html">[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008066.html">[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8065">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8065">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8065">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8065">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Taky zdravim a taky nesouhlasim, ikdyz ne zcela.
+
+To, ze se to s OOP nesmi prehanet souhlasim, ale tohle se primo vybizi.
+Prikaz *je* objekt a ma vlastnosti, ktere do neobjektoveho modelu (v tomto
+pripade dekoratory) budete lamat pres koleno. Ma napriklad vlastnosti
+(jmeno, prava pristupu), muze vyuzit dedicnost (mimo odvozeni od zakladni
+tridy Command lze samozrejme prikaz odvodit od nejakeho jineho a tim
+rozsirit jeho funkcnost) atd. Objektovy model v tomto pripade je velmi
+jednoduchy, rozsirovatelny a *prehledny*. Pokud budete chtit rozsirit kod s
+dekoratory napriklad o prava pristupu/vlastniky, nenapada me jednoduchy
+postup.
+
+Zrejme kazdy povazujeme za elegantni neco jineho.
+
+Marek
+
+
+&gt;<i> Zdravím...
+</I>&gt;<i> ...a zcela nesouhlasím. Návrhové vzory jsem nikdy neměl
+</I>&gt;<i> rád protože jsem zastáncem toho, že je vždy třeba
+</I>&gt;<i> posoudit konrétní situaci a najít chytré řešení, ne
+</I>&gt;<i> napasovat nějakou &quot;oficiální&quot; metodu jen pro vytvoření
+</I>&gt;<i> dojmu něčeho lepšího. Navíc, s OOP se to nikdy nesmí
+</I>&gt;<i> přehánět, a co-příkaz-to-třída může spíš uškodit než na
+</I>&gt;<i> opak.
+</I>&gt;<i>
+</I>&gt;<i> Měli bychom se ptát: co je příkaz ? Je to reakce na
+</I>&gt;<i> událost, reakce jako kód, posloupnost odpovědí vyvolaných
+</I>&gt;<i> určitou podmínkou. Kód, tedy funkce. Necpějeme OOP, kam
+</I>&gt;<i> nepatří, jen protože je to OO. Odhoďme předsudky, odhoďme
+</I>&gt;<i> iluze. Ne vždy je dokonalé zapozdření či úplná
+</I>&gt;<i> objektovost ideálním východiskem. Proto se také Python
+</I>&gt;<i> nevydal cestou Javy. Protože tam je vynucené používání
+</I>&gt;<i> tříd na příliš mnoho věcí, kde je to jinak absurdní.
+</I>&gt;<i>
+</I>&gt;<i> Je třeba přemýšlet. Každý problém si vyžaduje řešení.
+</I>&gt;<i> Důmyslné, originální a chytré řešení, které zároveň je
+</I>&gt;<i> pohodlné pro okolí. V tomto případě navrhuji rozšířit
+</I>&gt;<i> původní, dle mého názoru dobrý, nápad, jen bez
+</I>&gt;<i> &quot;zneužívání&quot; dokumentačních řetězců, které se můžou třeba
+</I>&gt;<i> později zneužít pro nápovědu k příkazům.
+</I>&gt;<i>
+</I>&gt;<i> Dekorátor. Opět to samozřejmě vyžaduje prohledání
+</I>&gt;<i> namespace, ale od čeho máme metatřídy ? Je nesmysl to
+</I>&gt;<i> dělat při každé inicializaci instance. Při vytváření
+</I>&gt;<i> třídy se stejně ns prochází a mění, takže na efektivitě
+</I>&gt;<i> netratíme. Ba naopak.
+</I>&gt;<i>
+</I>&gt;<i> import inspect
+</I>&gt;<i>
+</I>&gt;<i> class CmdMeta(type):
+</I>&gt;<i>    def __init__(self, *a):
+</I>&gt;<i>        type.__init__(*a)
+</I>&gt;<i>        self.commands={}
+</I>&gt;<i>        for k,v in inspect.getmembers(self):
+</I>&gt;<i>            if hasattr(v, '__command__'):
+</I>&gt;<i>                self.commands[v.__command__]=v
+</I>&gt;<i>
+</I>&gt;<i> class command(object):
+</I>&gt;<i>    def __init__(self, cmd):
+</I>&gt;<i>        self.cmd=cmd
+</I>&gt;<i>    def __call__(self, fx): #when decorating
+</I>&gt;<i>        fx.__command__=self.cmd
+</I>&gt;<i>        return fx
+</I>&gt;<i>
+</I>&gt;<i> class Commands(object):
+</I>&gt;<i>    __metaclass__=CmdMeta
+</I>&gt;<i>
+</I>&gt;<i>    ### vlastní definice příkazů ###
+</I>&gt;<i>    @command(&quot;echo&quot;)
+</I>&gt;<i>    def echo(self, rest):
+</I>&gt;<i>        self.connection.send(rest)
+</I>&gt;<i>    ################################
+</I>&gt;<i>
+</I>&gt;<i>    def execute_command(self, line):
+</I>&gt;<i>        cmd,rest=line.split(None, 1)
+</I>&gt;<i>        self.__class__.commands[cmd](self, rest) #unbound
+</I>&gt;<i>
+</I>&gt;<i> Ukázka je velmi jednoduchá ve stylu &quot;příkazového řádku&quot;,
+</I>&gt;<i> tedy že bere jen formát &quot;příkaz parametr&quot;, ale to již lze
+</I>&gt;<i> jakkoliv upravit. A troufám si toto řešení označit za
+</I>&gt;<i> elegantní...
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> regnarg --- <A HREF="http://rg.pretel.cz/">http://rg.pretel.cz</A> -- JID: <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>
+</I>&gt;<i> V péči o štěstí druhých nacházíme své vlastní.   --Platón
+</I>&gt;<i> Přátelství může trvat jedině mezi dobrými lidmi. --Cicero
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080802/bdf532ea/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080802/bdf532ea/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008064.html">[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008066.html">[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8065">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8065">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8065">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8065">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008065.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:24 GMT -->
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-May/000802.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:36 GMT -->
+<HEAD>
+   <TITLE> [python] socket.ssl
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20socket.ssl&In-Reply-To=3EBBA9A3.6040600%40nextra.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-May/000804.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-May/000805.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] socket.ssl</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20socket.ssl&In-Reply-To=3EBBA9A3.6040600%40nextra.cz"
+       TITLE="[python] socket.ssl">rk na dat.cz
+       </A><BR>
+    <I>Pátek Květen  9 15:40:42 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000804.html">[python] socket.ssl
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000805.html">[python] socket.ssl
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-May/date.html#802">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/thread.html#802">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/subject.html#802">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/author.html#802">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, May 09, 2003 at 03:14:11PM +0200, Zdenek Pavlas wrote:
+
+&gt;<i> Ahoj,
+</I>&gt;<i> 
+</I>&gt;<i> Mam problem s SSL na strane serveru. Zatimco klientska SSL negotiation
+</I>&gt;<i> probehne ok (napriklad kdyz se chci nakonektit na https server), na opacne
+</I>&gt;<i> strane to probehne takhle:
+</I>&gt;<i> 
+</I>&gt;<i> &gt;&gt;&gt; from socket import *
+</I>&gt;<i> &gt;&gt;&gt; s=socket(AF_INET, SOCK_STREAM)
+</I>&gt;<i> &gt;&gt;&gt; s.bind (('', 1080))
+</I>&gt;<i> &gt;&gt;&gt; s.listen (5)
+</I>&gt;<i> &gt;&gt;&gt; s.accept ()
+</I>&gt;<i> (&lt;socket object, fd=4, family=2, type=1, protocol=0&gt;, ('127.0.0.1', 3066))
+</I>&gt;<i> (po spusteni links <A HREF="https://localhost:1080,/">https://localhost:1080,</A> ktery je ted ve stavu &quot;ssl 
+</I>&gt;<i> negotiation&quot;)
+</I>&gt;<i> &gt;&gt;&gt; c = _[0]
+</I>&gt;<i> &gt;&gt;&gt; ssl.__doc__
+</I>&gt;<i> 'ssl(socket, keyfile, certfile) -&gt; sslobject'
+</I>&gt;<i> &gt;&gt;&gt; ssl (c, 'cert_key.pem', 'cert.pem')
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+</I>&gt;<i> socket.sslerror: SSL_connect error
+</I>&gt;<i> ..nacez server ten socket zavre protoze links ukaze &quot;connection refused&quot;.
+</I>&gt;<i> 
+</I>&gt;<i> Netusi nekdo co delam spatne? Ten private key a self-signed certifikat
+</I>&gt;<i> je ok, apache nebo stunnel s nim funguji bez jakychkoliv problemu.
+</I>&gt;<i> Jejich nacteni a overeni je take ok protoze kdyz je bud prohodim
+</I>&gt;<i> nebo zkratim na nulovou delku, dostanu jinou chybovou hlasku.
+</I>
+Nikde jsem to napsane nevidel, ale podle me je socket.ssl delan jenom
+pro klienty. Na server je potreba pouzit modul openssl nebo neco jineho.
+
+Radek Kaňovský
+
+-----------------------------------------------------------------
+from OpenSSL import SSL
+import os, socket
+
+PORT = 50007
+
+def verify_cb(conn, cert, errnum, depth, ok):
+    # This obviously has to be updated
+    print 'Got certificate: %s' % cert.get_subject()
+    return ok
+
+# Initialize context
+ctx = SSL.Context(SSL.SSLv23_METHOD)
+ctx.set_options(SSL.OP_NO_SSLv2)
+#ctx.set_verify(SSL.VERIFY_PEER|SSL.VERIFY_FAIL_IF_NO_PEER_CERT, verify_cb)
+ctx.set_verify(SSL.VERIFY_PEER, verify_cb)
+ctx.use_privatekey_file ('key.pem')
+ctx.use_certificate_file('cert.pem')
+#ctx.load_verify_locations(os.path.join(dir, 'CA.cert'))
+
+# Set up server
+server = SSL.Connection(ctx, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+server.bind(('', PORT))
+server.listen(3)
+#server.setblocking(0)
+
+cli, addr = server.accept()
+print cli, addr
+data = cli.recv(1024)
+cli.send(data)
+cli.shutdown()
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000804.html">[python] socket.ssl
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000805.html">[python] socket.ssl
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-May/date.html#802">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/thread.html#802">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/subject.html#802">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/author.html#802">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-May/000802.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:36 GMT -->
+</html>

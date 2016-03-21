@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008233.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:21 GMT -->
+<HEAD>
+   <TITLE> [python] zapis na zacatek souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20zapis%20na%20zacatek%20souboru&In-Reply-To=%3C48CE0D8B.8060703%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-September/008232.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-September/008213.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zapis na zacatek souboru</H1>
+    <B>Petr Zlamal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20zapis%20na%20zacatek%20souboru&In-Reply-To=%3C48CE0D8B.8060703%40gmail.com%3E"
+       TITLE="[python] zapis na zacatek souboru">p.zlamal na gmail.com
+       </A><BR>
+    <I>Pondělí Září 15 09:23:55 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008232.html">[python] zapis na zacatek souboru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008213.html">[python] zapis na zacatek souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8233">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8233">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8233">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8233">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jako puvodce dotazu bych byl taky rad kdyby se dohadovani udelalo 
+pritrz. Bylo mi porazeno a dohadovani ve zbylich  dnech jiz bylo 
+zbytecne. Jsme preci rozumni lide
+Vepro
+&gt;<i> Sakra lidi, co tady furt resite?
+</I>&gt;<i> Ja myslel, ze je to tady konfera o radach a ne o dohadovani :-(
+</I>&gt;<i>
+</I>&gt;<i> Takze to shrneme, mas 2 moznosti:
+</I>&gt;<i> 1. nacist si obsah souboru do pameti, metodou write zapsat do souboru 
+</I>&gt;<i> nova data+data z pameti
+</I>&gt;<i> 2. prejmenovat soubor, a zapsat do souboru nova data + data z 
+</I>&gt;<i> prejmenovaneho souboru
+</I>&gt;<i> To jsou rady k polozenemu dotazu, osobne se priklanim k prvni variante.
+</I>&gt;<i>
+</I>&gt;<i> Pokud je ovsem dat hodne, doporucuji pouzit nejakou  DB, urcite 
+</I>&gt;<i> postaci SQLite.
+</I>&gt;<i> Pokud se jedna o citliva, pripadne dulezita data opet doporucuji 
+</I>&gt;<i> pouzit DB, pak cloveka nezaskoci ani vypadek proudu.
+</I>&gt;<i> Pokud ale nepracujes s nijak dulezitymi daty, nepotrebujes zalohovani, 
+</I>&gt;<i> atd, atd. doporucuji pouzit 1. zminovanou variantu.
+</I>&gt;<i>
+</I>&gt;<i> HOWK
+</I>&gt;<i>
+</I>&gt;<i> Tomas
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Dne 10.9.2008 12:18, Petr Zlamal napsal(a):
+</I>&gt;&gt;<i> Pratele,
+</I>&gt;&gt;<i> Potreboval bych zapsat retezec na zacatek jiz existujiciho souboru. 
+</I>&gt;&gt;<i> Zkousel jsem neco jako:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> &gt;&gt;&gt; f=open(&quot;file.txt&quot;,&quot;a&quot;)
+</I>&gt;&gt;<i> &gt;&gt;&gt; f.write(&quot;slovo&quot;)
+</I>&gt;&gt;<i> &gt;&gt;&gt; f.close()
+</I>&gt;&gt;<i> &gt;&gt;&gt; f=open(&quot;file.txt&quot;,&quot;a&quot;)
+</I>&gt;&gt;<i> &gt;&gt;&gt; f.tell()
+</I>&gt;&gt;<i> 5L
+</I>&gt;&gt;<i> &gt;&gt;&gt; f.seek(0)
+</I>&gt;&gt;<i> &gt;&gt;&gt; f.tell()
+</I>&gt;&gt;<i> 0L
+</I>&gt;&gt;<i> &gt;&gt;&gt; f.write(&quot;slovo2&quot;)
+</I>&gt;&gt;<i> &gt;&gt;&gt; f.close()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ale furt pripisuje na konec, ikdyz dle me by nemel. Tak jsem to 
+</I>&gt;&gt;<i> vyresil cyklem, ktery vytvori novy soubor, ulozi retezec na zacatek a 
+</I>&gt;&gt;<i> pote prekopiruje obsah puvodniho souboru. Zda se mi to jako 
+</I>&gt;&gt;<i> neefektivni reseni, zna a poradi nekdo neco  elegatnejsiho?
+</I>&gt;&gt;<i> Vepro
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008232.html">[python] zapis na zacatek souboru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008213.html">[python] zapis na zacatek souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8233">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8233">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8233">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8233">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008233.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:21 GMT -->
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009496.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:51 GMT -->
+<HEAD>
+   <TITLE> [python] Problém s subprocess
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_subprocess%3F%3D&In-Reply-To=%3Cff884680b4af4840b5e97fa4cb978fb0%40pobox.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009495.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009497.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problém s subprocess</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_subprocess%3F%3D&In-Reply-To=%3Cff884680b4af4840b5e97fa4cb978fb0%40pobox.sk%3E"
+       TITLE="[python] Problém s subprocess">azurit na pobox.sk
+       </A><BR>
+    <I>Sobota Březen 13 21:34:51 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009495.html">[python] Problém s subprocess
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009497.html">[python] Problém s subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9496">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9496">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9496">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9496">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>subprocess predsa plne podporuje presmerovanie standardneho aj chyboveho vystupu (hint: stdout, stderr):
+<A HREF="http://docs.python.org/release/2.5.4/lib/node528.html">http://docs.python.org/release/2.5.4/lib/node528.html</A>
+
+Priklad:
+
+import subprocess
+javac = subprocess.Popen(args=[&quot;C:\\java\\bin\\javac.exe Main.java -d .&quot;], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+print javac.communicate()
+
+azur
+
+
+&gt;<i>-----Pôvodná správa-----
+</I>&gt;<i>Od: Radek Hol [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">radekholypublic na gmail.com</A>]
+</I>&gt;<i>Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i>Predmet: [python] Problém s subprocess
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Ahoj,
+</I>&gt;<i>chtěl bych se Vás zeptat, zda byste mi neuměli poradit s mým problémem
+</I>&gt;<i>s voláním externího programu.
+</I>&gt;<i>Používám Python 2.5.4 (věřím, že kvůli kompatibilitě s Jython 2.5.1)
+</I>&gt;<i>na Windows 7.
+</I>&gt;<i>
+</I>&gt;<i>Snažím se o spuštění &quot;překladače&quot; &quot;javac.exe&quot;:
+</I>&gt;<i>
+</I>&gt;<i>------------------------------------------------
+</I>&gt;<i>...
+</I>&gt;<i>javac = subprocess.Popen(u&quot;C:\\java\\bin\\javac.exe Main.java -d .&quot;)
+</I>&gt;<i>javac.communicate()
+</I>&gt;<i>------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>Zjistil jsem ale, že takto volaný externí program (nebo alepoň
+</I>&gt;<i>&quot;javac.exe&quot;) s následným voláním &quot;communicate()&quot; (ale nemusí to být
+</I>&gt;<i>jen volání této metody - může to být jakýkoliv další kód) mi nevypíše
+</I>&gt;<i>na chybový výstup žádné informace (pokud je chyba v &quot;Main.java&quot;), i
+</I>&gt;<i>když při volání ze systémové příkazové řádky se informace vypíší.
+</I>&gt;<i>Dále jsem zjistil, že když můj program skončí ihned po
+</I>&gt;<i>&quot;...subprocess.Popen...&quot; (tedy vynechám &quot;communicate()&quot;), tak se na
+</I>&gt;<i>chybový výstup vypíše, co má. Jenže já tímto samozřejmě nechci
+</I>&gt;<i>končit...
+</I>&gt;<i>Zkoušel jsem i použití funkce &quot;time.sleep()&quot;, ale bez úspěchu.
+</I>&gt;<i>Pokud v &quot;Main.java&quot; chyba není, má &quot;javac.exe&quot; vygenerovat soubor
+</I>&gt;<i>&quot;Main.class&quot;, jenže chování je podobné... Tedy, pokud se pod voláním
+</I>&gt;<i>&quot;javac.exe&quot; vyskytuje ještě další kód, soubor &quot;Main.class&quot; se
+</I>&gt;<i>vygeneruje až po skončení mého programu. (Ověřeno pomocí
+</I>&gt;<i>&quot;os.path.exists()&quot; i &quot;os.listdir()&quot;)
+</I>&gt;<i>Přitom návratový kód je již nastaven...
+</I>&gt;<i>
+</I>&gt;<i>Předem děkuji za pomoc, Radek Holý
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009495.html">[python] Problém s subprocess
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009497.html">[python] Problém s subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9496">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9496">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9496">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9496">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009496.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:51 GMT -->
+</html>

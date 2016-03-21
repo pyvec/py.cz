@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003160.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:48 GMT -->
+<HEAD>
+   <TITLE> [python] Sablony
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Sablony&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-August/003161.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-August/003162.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Sablony</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Sablony&In-Reply-To="
+       TITLE="[python] Sablony">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Srpen  2 08:18:40 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003161.html">[python] Sablony
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003162.html">[python] apache a mod_python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3160">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3160">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3160">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3160">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Martin Blazik
+&gt;<i> nedoporucil by mi nekdo nakej hezkej sablonovaci system pro webove
+</I>&gt;<i> aplikace? Nemyslim cely framework pro weby, ale jen a pouze 
+</I>&gt;<i> HTML sablony [...]
+</I>
+Pokud to není na velké věci, pak možná stačí
+využít vlastností formátovacího řetězce a dosazování
+položek nachystaných ve slovníku takto:
+
+1. Vyhradím si slovník, kde klíčem je zvolená zkratka
+   a hodnotou požadovaná hodnota (pro parametrizaci šablony).
+
+2. Do souboru si připravím šablonu dokumentu a v místech, 
+   kde se má něco dosazovat, uvedu například %(mujParametr)s.
+
+3. Načtu soubor definující šablonu do řetězcové proměnné 
+   -- bude to formátovací řetězec. 
+
+4. Do přes formátovací řetězec přepasíruji nachystaný
+   slovník a výsledkem je řetězec, který zapíšu do výstupního
+   souboru.
+
+Je to sice triviální a v této podobě bez jakékoliv diagnostiky,
+ale je to snadno pochopitelné a při minimálním úsilí asi
+poměrně výkonné.
+
+Není taky tak moc složité definovat si natvrdo šablonu
+pro záhlaví dokumentu a pro ukončení dokumentu. Pro generování
+jednotlivých prvků dokumentu si taky můžu definovat své
+funkce/metody objektů.
+
+Příklad:
+
+Soubor p.py
+=================================================
+# -*- coding: cp1250 -*-
+
+tpl_name = &quot;sablona.tpl&quot;
+out_name = &quot;vystup.html&quot;
+
+d = { 'title':    'Toto je titulek dokumentu',
+      'version':  '3.0.1.256'
+    }
+
+# Tady bude nějaký další kód...
+
+d['poznamka'] = u'Toto je nějaká moje poznámka'
+d['kun'] = u'Unicodový příšerně žluťoučký kůň, co úpěl ďábelské ódy.'
+
+
+# Načteme šablonu.
+
+f = file(tpl_name)
+sablona = f.read()
+f.close()
+
+
+# Dosadíme do šablony a výsledek zapíšeme do výstupního souboru.
+
+f = file(out_name, 'w')
+f.write(sablona % d)       # Dosazení slovníku do šablony.
+f.close()
+
+
+# Spustím prohlížeč na výsledek.
+
+import webbrowser
+webbrowser.open(out_name)
+=================================================
+
+
+Soubor sablona.tpl
+=================================================
+&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=windows-1250&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;tutor.css&quot; &gt;
+  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;colors.css&quot; &gt;
+  &lt;title&gt;%(title)s&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+&lt;h1&gt;%(title)s -- použito podruhé&lt;/h1&gt;
+
+&lt;table summary=&quot;důležitá tabulka&quot;&gt;
+&lt;tr&gt;&lt;td&gt;Verze:&lt;/td&gt;&lt;td&gt;%(version)s&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Jak je to s tím koněm?&lt;/td&gt;&lt;td&gt;%(kun)s&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;b&gt;Poznámka:&lt;/b&gt; %(poznamka)s&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+=================================================
+
+pepr
+
+P.S. V programování existuje taky dualita: program versus data.
+Složitější logiku můžu zvládnout složitějším programem
+nebo složitějšími datovými strukturami. Šablonové systémy 
+zjevně vkládají veškeré aplikační moudro do mocnějšího 
+dosazovacího aparátu, aby uživatel zvládl vše definicí dat. 
+V některých případech (a v Pythonu díky jeho stručnosti 
+a pružnosti zvláště) může být jednodušší napsat si svůj kousek kódu, 
+než studovat šablonový mechanismus, který napsal někdo jiný. 
+Je to věc posouzení potřeb, dostupných nástrojů, zvážení toho, 
+co budu potřebovat v blízké a vzdálenější budoucnosti (jestli se 
+vyplatí studovat nějaký složitější systém) a zvolení vhodných 
+kompromisů.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003161.html">[python] Sablony
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003162.html">[python] apache a mod_python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3160">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3160">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3160">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3160">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003160.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:48 GMT -->
+</html>

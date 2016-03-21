@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004995.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:18 GMT -->
+<HEAD>
+   <TITLE> [python] Classmethod
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Classmethod&In-Reply-To=4553073F.6000904%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004992.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004974.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Classmethod</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Classmethod&In-Reply-To=4553073F.6000904%40centrum.cz"
+       TITLE="[python] Classmethod">devel na atlas.sk
+       </A><BR>
+    <I>Čtvrtek Listopad  9 15:14:43 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004992.html">[python] Classmethod
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004974.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4995">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4995">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4995">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4995">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman wrote:
+&gt;<i> Mnohokrát děkuji
+</I>&gt;<i> 
+</I>&gt;<i> Chápu to tedy správně, že:
+</I>&gt;<i> 
+</I>&gt;<i> 1) Normální metoda dostane jako první parametr instanci třídy.
+</I>&gt;<i> 
+</I>&gt;<i> 2) Classmethod dostane jako první parametr pouze třídu, tedy snad pouze 
+</I>&gt;<i> nějaký odkaz na něco souvisejícího s názvem třídy.
+</I>
+Ako prvy parameter dostanes triedu.Je to vhodne koli dedicnosti. Napr.
+
+~~~~~~~~~~~~~~~ &lt;IPYTHON SHELL&gt; ~~~~~~~~~~~~~~~~~~~~
+In [1]: class Trieda1:
+   ...:     @classmethod
+   ...:     def akoze_konstruktor(cls):
+   ...:         print &quot;Konstruujem triedu '%s'&quot;%cls.__name__
+   ...:         return cls()
+   ...:
+   ...:
+
+In [2]: class Trieda2(Trieda1):
+   ...:     pass
+   ...:
+
+In [3]: Trieda1.akoze_konstruktor()
+Konstruujem triedu 'Trieda1'
+Out[3]: &lt;__main__.Trieda1 instance at 0xb78a72ec&gt;
+
+In [4]: Trieda2.akoze_konstruktor()
+Konstruujem triedu 'Trieda2'
+Out[4]: &lt;__main__.Trieda2 instance at 0xb789ebac&gt;
+~~~~~~~~~~~~~~~ &lt;/IPYTHON SHELL&gt; ~~~~~~~~~~~~~~~~~~~
+
+okrem toho prebera aj vlastnost statickej metody, ze ju mozete zavolat
+aj na triede, aj na instancii triedy a dosiahnete to iste. Teda
+Trieda1.akoze_konstruktor() a Trieda1().akoze_konstruktor() vykonaju
+totoznu akciu
+
+&gt;<i> 
+</I>&gt;<i> 3) Statická metoda nedostane jako první parametr nic (tedy kromě toho co 
+</I>&gt;<i> si explicitně zvolím jako paramtry).
+</I>&gt;<i>
+</I>&gt;<i> Miloslav Ponkrác
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004992.html">[python] Classmethod
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004974.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4995">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4995">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4995">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4995">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004995.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:18 GMT -->
+</html>

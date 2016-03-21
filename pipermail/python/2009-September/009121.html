@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-September/009121.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:19 GMT -->
+<HEAD>
+   <TITLE> [python] python ast.literal_eval a čeština
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fpython_ast%3D2Eliteral%3D5Feval_a_%3DE8e%3DB9tina%3F%3D&In-Reply-To=%3C4AB00943.2090003%40post.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-September/009120.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-September/009118.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] python ast.literal_eval a čeština</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fpython_ast%3D2Eliteral%3D5Feval_a_%3DE8e%3DB9tina%3F%3D&In-Reply-To=%3C4AB00943.2090003%40post.cz%3E"
+       TITLE="[python] python ast.literal_eval a čeština">geon na post.cz
+       </A><BR>
+    <I>Úterý Září 15 23:38:11 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009120.html">[python] python ast.literal_eval a čeština
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009118.html">[python] python ast.literal_eval a čeština
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-September/date.html#9121">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/thread.html#9121">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/subject.html#9121">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/author.html#9121">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>cpickle je klasičtější, asi i rychlejší u velkých dat, json jsem ani 
+nevěděl, že je přibalen k Pythonu. Pěkné.
+geon
+
+
+Luboš Melichar napsal(a), dne 15.9.2009 20:32:
+&gt;<i> Dobra,
+</I>&gt;<i> děkuji za rady, ast.literal_eval() jsem opustil a zkusil to s cPickle a JSONem.
+</I>&gt;<i> (nevim teda k čemu je určen, když ne k tomuto)
+</I>&gt;<i>
+</I>&gt;<i> *********************
+</I>&gt;<i> * CPICKLE
+</I>&gt;<i> **********************
+</I>&gt;<i>     import cPickle
+</I>&gt;<i>
+</I>&gt;<i>     list = [u&quot;čeština&quot;, u&quot;maďarština&quot;, u&quot;francouština&quot;]
+</I>&gt;<i>
+</I>&gt;<i>     #ULOZENI DO SOUBORU
+</I>&gt;<i>     FILE = open(&quot;file.txt&quot;, 'w')
+</I>&gt;<i>     cPickle.dump(list, FILE)
+</I>&gt;<i>
+</I>&gt;<i>     #NACTENI ZE SOUBORU A VYPIS
+</I>&gt;<i>     FILE = open(&quot;file.txt&quot;, 'r')
+</I>&gt;<i>     list2 = cPickle.load(FILE)
+</I>&gt;<i>     FILE.close()
+</I>&gt;<i>
+</I>&gt;<i>     for record in list2:
+</I>&gt;<i>         print record
+</I>&gt;<i>
+</I>&gt;<i> ***********
+</I>&gt;<i> * JSON
+</I>&gt;<i> ***********
+</I>&gt;<i>     import json
+</I>&gt;<i>
+</I>&gt;<i>     list = [u&quot;čeština&quot;, u&quot;maďarština&quot;, u&quot;francouština&quot;]
+</I>&gt;<i>
+</I>&gt;<i>     #ULOZENI DO SOUBORU
+</I>&gt;<i>     FILE = open(&quot;file.txt&quot;, 'w')
+</I>&gt;<i>     text = json.dumps(list)
+</I>&gt;<i>     FILE.write(text)
+</I>&gt;<i>     FILE.close()
+</I>&gt;<i>
+</I>&gt;<i>     #NACTENI A VYPIS
+</I>&gt;<i>     FILE2 = open(&quot;file.txt&quot;)
+</I>&gt;<i>     text2 = FILE2.read()
+</I>&gt;<i>
+</I>&gt;<i>     list2 = json.loads(text2)
+</I>&gt;<i>     for record in list2:
+</I>&gt;<i>         print record
+</I>&gt;<i>
+</I>&gt;<i> Obojí funguje tak jak jsem potřeboval, nevim jak moc je to košér a
+</I>&gt;<i> proto to sem pastuju.
+</I>&gt;<i> Pokud je obojí rozumné, použiji ten JSON, páč datová struktura si drží
+</I>&gt;<i> tvar a editací souboru vidím hned co vní je.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009120.html">[python] python ast.literal_eval a čeština
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009118.html">[python] python ast.literal_eval a čeština
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-September/date.html#9121">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/thread.html#9121">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/subject.html#9121">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/author.html#9121">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-September/009121.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:19 GMT -->
+</html>

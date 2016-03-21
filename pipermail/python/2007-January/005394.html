@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005394.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:54 GMT -->
+<HEAD>
+   <TITLE> [python] Speciální znaky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FSpeci%3DE1ln%3DED_znaky%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005389.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005395.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Speciální znaky</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FSpeci%3DE1ln%3DED_znaky%3F%3D&In-Reply-To="
+       TITLE="[python] Speciální znaky">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Leden 18 09:16:53 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005389.html">[python] Speciální znaky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005395.html">[python] Speciální znaky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5394">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5394">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5394">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5394">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Jakub Vojacek napsal(a):
+</I>&gt;<i> &gt;  
+</I>&gt;<i> &gt; mám dotaz: Jak řešíte když v programu potřebujete 
+</I>&gt;<i> &gt; nějaké speciální znaky jako řeckou abecedu či znak 
+</I>&gt;<i> &gt; pro nekonečno?
+</I>
+MaReK Olšavský
+&gt;<i> 
+</I>&gt;<i> UTF-8 a kod toho znaku :-).
+</I>
+Přesněji řečeno, musí se používat unicode řetězce.
+Ty se dají i v ascii zdrojáku zapsat pomocí náhradní
+sekvence. Před uvozovky nebo apostrofy se ale musí
+uvést malé u. Takže nekonečno se zapíše takto:
+
+s = u'\u221e'
+
+Další problém spočívá v zobrazování nebo ve výstupu
+do souboru. Pro zobrazování se musí použít GUI okénka,
+která umí zobrazovat Unicode, pro zápis do souboru
+se musí konvertovat do správného kódování. Zkus tohle
+
+======================================
+# -*- coding: utf-8 -*-
+
+prolog = u'''&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
+  &lt;title&gt;Pokus s Unicode&lt;/title&gt;
+&lt;/head&gt;
+'''
+epilog = u'&lt;/html&gt;'
+s = u'Příšerně žluťoučký kůň úpěl ďábelské ódy až do \u221e'
+
+f = open('pokus.html', 'w')
+f.write(prolog.encode('utf-8'))
+f.write(s.encode('utf-8'))
+f.write(epilog.encode('utf-8'))
+f.close()
+======================================
+
+Zdrojový soubor se musí uložit přes editor, který to umí
+uložit v kódování UTF-8. 
+
+Nebo změň první řádek ve zdrojáku na kódování, které umí
+zachytit češtinu a ulož to v tom kódování -- například
+pod Windows v kódování windows-1250 (v Pythonu cp1250):
+
+======================================
+# -*- coding: cp1250 -*-
+
+prolog = u'''&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
+  &lt;title&gt;Pokus s Unicode&lt;/title&gt;
+&lt;/head&gt;
+'''
+epilog = u'&lt;/html&gt;'
+s = u'Příšerně žluťoučký kůň úpěl ďábelské ódy až do \u221e'
+
+f = open('pokus.html', 'w')
+f.write(prolog.encode('utf-8'))
+f.write(s.encode('utf-8'))
+f.write(epilog.encode('utf-8'))
+f.close()
+======================================
+
+V obou případech to vygeneruje stejný soubor pokus.html.
+Prohlížeč by s nekonečnem neměl mít problém.
+
+Kódy unicode znaků lze nalézt například přes 
+<A HREF="http://www.unicode.org/charts/charindex.html">http://www.unicode.org/charts/charindex.html</A> 
+
+Hledej INFINITY (\u221E). Klikni na číslo a objeví se
+část s velkým počtem matematických symbolů.
+
+Přes <A HREF="http://www.unicode.org/charts/">http://www.unicode.org/charts/</A> se dostaneš
+k řeckým písmenkům.
+
+Nějaký unicoďák by se k tomu ještě mohl vyjádřit ;)
+
+
+pepr
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005389.html">[python] Speciální znaky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005395.html">[python] Speciální znaky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5394">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5394">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5394">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5394">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005394.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:54 GMT -->
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007871.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:07 GMT -->
+<HEAD>
+   <TITLE> [python] sqlite3 a dotazy z promenne
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sqlite3%20a%20dotazy%20z%20promenne&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007919.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007874.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sqlite3 a dotazy z promenne</H1>
+    <B>Tomas Pelka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sqlite3%20a%20dotazy%20z%20promenne&In-Reply-To="
+       TITLE="[python] sqlite3 a dotazy z promenne">tompelka na gmail.com
+       </A><BR>
+    <I>Středa Červen 25 16:35:18 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007919.html">[python] doplnek k firefoxu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007874.html">[python] sqlite3 a dotazy z promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7871">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7871">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7871">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7871">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim konferenci,
+
+narazil sem na problem vkladani databazovych dotazu z promenne, resp.
+parametru. Popisi situaci, mam tridu dejme tomu data:
+
+****************************************************
+import sqlite3
+
+class Data:
+	def __init__(self,query):
+		self.query = query
+		self.conn = sqlite3.connect('db.db')
+		self.c = self.conn.cursor()
+		self.c.execute('%s' % self.query);
+
+	def getRow(self):
+		return self.c.fetchone()
+*****************************************************
+
+
+Chtel bych ji jako parametr zadavat cely databazovy dotaz (Pokud je to
+spatne cesta poradte jak na to prosim.).
+
+Pouziji-li teoreticky nebezpecnou metodu s retezcem (%s) dostavam tohle:
+****************************************************
+&gt;&gt;&gt;<i> import data
+</I>&gt;&gt;&gt;<i> d = data.Data(&quot;SELECT * FROM main_t;&quot;)
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;data.py&quot;, line 10, in __init__
+    self.c.execute('%s' % self.query);
+sqlite3.OperationalError: near &quot;SELECT&quot;: syntax error
+****************************************************
+
+
+Pouziji-li dle dokumentace bezpecnou metodu (self.c.execute('?',
+(self.query));) dostavam tohle:
+****************************************************
+&gt;&gt;&gt;<i> import data
+</I>&gt;&gt;&gt;<i> d = data.Data(&quot;SELECT * FROM main_t;&quot;)
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;data.py&quot;, line 10, in __init__
+    self.c.execute('?', (self.query));
+sqlite3.OperationalError: near &quot;?&quot;: syntax error
+****************************************************
+
+Dekuji za rady, hezky den vsem.
+
+-- 
+
+S pozdravem Tomáš Pelka
+e-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">tompelka na gmail.com</A>
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007919.html">[python] doplnek k firefoxu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007874.html">[python] sqlite3 a dotazy z promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7871">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7871">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7871">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7871">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007871.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:07 GMT -->
+</html>

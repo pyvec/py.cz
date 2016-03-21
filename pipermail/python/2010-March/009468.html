@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009468.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:49 GMT -->
+<HEAD>
+   <TITLE> [python] dokumentace k novejsim rysum jazyka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dokumentace%20k%20novejsim%20rysum%20jazyka&In-Reply-To=%3C1267746443.5278.15.camel%40uruloki%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009467.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009469.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dokumentace k novejsim rysum jazyka</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dokumentace%20k%20novejsim%20rysum%20jazyka&In-Reply-To=%3C1267746443.5278.15.camel%40uruloki%3E"
+       TITLE="[python] dokumentace k novejsim rysum jazyka">davro na ics.muni.cz
+       </A><BR>
+    <I>Pátek Březen  5 00:47:23 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009467.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009469.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9468">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9468">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9468">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9468">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jirka Vejrazka píše v Pá 05. 03. 2010 v 00:37 +0100:
+&gt;<i> Ahoj,
+</I>&gt;<i> 
+</I>&gt;<i> &gt; když si tak občas čtu různé vzorové příklady, tak mám problém rozumět
+</I>&gt;<i> &gt; některým novým rysům. Je tu někdo, kdo by mně řekl co znamená třeba
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; [i*i for i in range(10)]
+</I>&gt;<i> 
+</I>&gt;<i> to je takzvany &quot;list comprehension&quot; (1), tj. definice listu &quot;zevnitr&quot;.
+</I>&gt;<i> Vysledkem je list, ve kterem jsou druhe mocniny cisel 1 az 10.
+</I>&gt;<i> Je to zkraceny zapis tohoto:
+</I>&gt;<i> 
+</I>&gt;<i> x = []   # nebo x = list()
+</I>&gt;<i> for i in range(10):
+</I>&gt;<i>     x.append(i*i)
+</I>&gt;<i> 
+</I>&gt;<i> &gt; a=(i*i for i in range(10))
+</I>&gt;<i> 
+</I>&gt;<i> To je totez jako predtim, jenom vysledkem neni list, ale tuple (cili
+</I>&gt;<i> list, ktery se po vytvoreni neda zmenit).
+</I>
+To mně právě nepřijde:
+
+
+&gt;&gt;&gt;<i> a=(i*i for i in range(10))
+</I>&gt;&gt;&gt;<i> a.next()
+</I>0
+&gt;&gt;&gt;<i> a.next()
+</I>1
+&gt;&gt;&gt;<i> a.next()
+</I>4
+
+(pak skončí výjimkou StopIteration)
+čili se to chová jinak než standardní tuple, je to spíš něco, čemu se říká generátor. 
+
+&gt;&gt;&gt;<i> b=(1,2,3)
+</I>&gt;&gt;&gt;<i> b.next()
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+AttributeError: 'tuple' object has no attribute 'next'
+
+Mně se takové věci celkem líbí, ale připadne mně to nějak nedomyšlené,
+protože by celý ten generátor měl tvořit samostatnou syntaktickou
+jednotku, tj. interpret by měl nějak sežrat zápis
+
+&gt;&gt;&gt;<i> i*i for i in range(10)
+</I>
+(třeba tím, že řekne, že je to generator object)
+
+
+
+&gt;<i> Da se to jeste doplnit o podminku, ktera se zapisuje az na konci, treba:
+</I>&gt;<i> 
+</I>&gt;<i> &gt;&gt;&gt; delitelne_tremi = [x for x in range(20) if x % 3 == 0]
+</I>&gt;<i> &gt;&gt;&gt; delitelne_tremi
+</I>&gt;<i> [0, 3, 6, 9, 12, 15, 18]
+</I>&gt;<i> 
+</I>&gt;<i>    Jirka
+</I>&gt;<i> (1) <A HREF="http://docs.python.org/tutorial/datastructures.html#list-comprehensions">http://docs.python.org/tutorial/datastructures.html#list-comprehensions</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009467.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009469.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9468">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9468">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9468">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9468">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009468.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:49 GMT -->
+</html>

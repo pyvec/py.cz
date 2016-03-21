@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002440.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:51 GMT -->
+<HEAD>
+   <TITLE> [python] db a thready
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20db%20a%20thready&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-March/002439.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-March/002441.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] db a thready</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20db%20a%20thready&In-Reply-To="
+       TITLE="[python] db a thready">azurit na pobox.sk
+       </A><BR>
+    <I>Čtvrtek Březen 31 18:46:10 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002439.html">[python] db a thready
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002441.html">Re: [python] db a thready
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2440">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2440">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2440">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2440">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ahoj,
+
+no mozes pouzit MySQL + modul mysql-python, je to thread safe. inak, 
+preco to chces rjesit cez thready ? podla mna to nje je nutne, 
+python ma rozne funkcie na robenje bez threadoveho servra (dookola 
+sa zaradom kontroluju sockety, ak su v nejakom z nich data, zoberu 
+sa a pokracuje sa dalej...).
+
+azurIt
+
+
+&gt;<i> Dobrý den ve spolek :-),
+</I>&gt;<i> 
+</I>&gt;<i> potřebuji napsat aplikaci typu malý multithreadový tcp/ip server, 
+</I>který sbírá
+&gt;<i> data (posílají je náhodně klienti) a ukládá je do databáze. Někdy 
+</I>se ale naopak
+&gt;<i> na požadavek klienta čtou z databáze a posílají klientovi. Těch 
+</I>dat není moc, 
+&gt;<i> max. pár tisíc datově malých záznamů, budou to používat a starat 
+</I>se o to laici,
+&gt;<i> takže jsem chtěl použít nějakou bezůdržbovou embeded databázi jako 
+</I>SQLite nebo 
+&gt;<i> Gadfly, ale zdá se, že tyto nejsou thradově bezpečné, to jest 
+</I>neumožní mi sdílet 
+&gt;<i> připojení mezi thready. 
+</I>&gt;<i> 
+</I>&gt;<i> Jaké mám k dispozici řešení? Je možné nějak zařídit, aby s 
+</I>databází pracoval 
+&gt;<i> jen jeden thread (nemyslím jen současně, ale vůbec)? To se mi zdá 
+</I>dost těžko 
+&gt;<i> realizovatelné, ale možná jen nevím jak na to. Jediné co mě napadá 
+</I>je povolit 
+&gt;<i> práci s databází v jednu chvíli jen jednomu threadu, který by si 
+</I>otevřel spojení 
+&gt;<i> s databází a pak ho zavřel. Ale to nechci, rád bych měl připojení 
+</I>k databázi 
+&gt;<i> otevřené po celou dobu.
+</I>&gt;<i> 
+</I>&gt;<i> Nebo nevíte o nějaké threadově bezpečné databázi? Pokud možno 
+</I>embeded, ale
+&gt;<i> když to nepůjde jinak, použiji i klasickou. Musí být free a pro 
+</I>windows.
+&gt;<i> 
+</I>&gt;<i> No a hlavně to musí být spolehlivé, hodně, proto se ptám na 
+</I>zkušenosti nekoho,
+&gt;<i> kdo už to řešil a ví, jak takovou věc dobře udělat, aby mě 
+</I>nakopnul správným
+&gt;<i> směrem.
+</I>&gt;<i> 
+</I>&gt;<i> Děkuji a přeji hezký den
+</I>&gt;<i> 
+</I>&gt;<i> Petr Mach
+</I>&gt;<i> ____________________________________________________________
+</I>&gt;<i> <A HREF="http://www.bezpecnyinternet.cz/">http://www.bezpecnyinternet.cz</A>
+</I>&gt;<i> <A HREF="http://ad.seznam.cz/clickthru?spotId=94734">http://ad.seznam.cz/clickthru?spotId=94734</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>
+_______________________________________________________________________
+Časopisy prinášajúce aktuálne informácie z oblasti daní, účtovníctva,
+miezd, personalistiky, odmeňovania vo forme odborných článkov, komentárov
+a praktických príkladov.
+Nájdete na stránke <A HREF="http://www.epi.sk/pp.htm">http://www.epi.sk/pp.htm</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002439.html">[python] db a thready
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002441.html">Re: [python] db a thready
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2440">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2440">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2440">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2440">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002440.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:51 GMT -->
+</html>

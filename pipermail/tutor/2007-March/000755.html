@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000755.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] ještě seznam jako globální proměnná
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fje%3DB9t%3DEC_seznam_jako_glob%3DE1ln%3DED_pr%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fom%3DECnn%3DE1%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000754.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000756.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] ještě seznam jako globální proměnná</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fje%3DB9t%3DEC_seznam_jako_glob%3DE1ln%3DED_pr%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fom%3DECnn%3DE1%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] ještě seznam jako globální proměnná">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Březen 28 07:49:42 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000754.html">[Tutor PyCZ] ještě seznam jako globální proměnná
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000756.html">[Tutor PyCZ] ještě seznam jako globální proměnná
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#755">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#755">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#755">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#755">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+Jan Šimůnek
+&gt;<i> [...] 
+</I>&gt;<i> děkuji za včerejší rady, snad to bude fungovat [...]
+</I>
+Z těch rad bych si vybral především to vyhýbání se
+globálním proměnným.
+
+&gt;<i> Dělám grafický formulář, do kterého se údaje naklepou 
+</I>&gt;<i> myší z OptionMenu (mnoha), takže je potom nutné takto
+</I>&gt;<i> nastavené proměnné hromadně zpracovat a uložit jako 
+</I>&gt;<i> řádek do databáze. Takže nemohu volat parametry této
+</I>&gt;<i> funkce, tu nechávám uživatele volat až když je vše 
+</I>&gt;<i> nastaveno. Seznamy by mě měly ušetřit
+</I>&gt;<i> kód, abych nemusel psát do nekonečna:
+</I>&gt;<i> 
+</I>&gt;<i> vyberA=StringVar()
+</I>&gt;<i> vyberA.set(&quot;0&quot;)
+</I>&gt;<i> vyberB=StringVar()
+</I>&gt;<i> vyberB.set(&quot;0&quot;)
+</I>&gt;<i> 
+</I>&gt;<i> atd. ...
+</I>&gt;<i> 
+</I>&gt;<i> a potom
+</I>&gt;<i> 
+</I>&gt;<i> def zpracovani():
+</I>&gt;<i>       global vyberA
+</I>&gt;<i>       global vyberB
+</I>&gt;<i>       atd. ...
+</I>&gt;<i> 
+</I>&gt;<i> do zblbnutí, protože těch výběrů je několik desítek.
+</I>
+Odhaduji, že by dané parametry bylo lepší sbírat
+do struktury, které se v Pythonu říká slovník,
+v C++ map a obecně vyhledávací tabulka.
+
+d = {}  # prázdný slovník
+d['volba1'] = True
+d['volba3'] = '0'
+d['graf.typ3'] = 14
+atd.
+
+Funkci zpracování pak mohu předat slovník jako
+celek. 
+
+def zpracuj(D):
+    for klic in D:
+        ...zohledni D[klic]
+    ...nebo
+    if D['volba1']:
+        ...
+     
+
+&gt;<i> (Obávám se, že jediným &quot;přínosem&quot; koncepce objektového 
+</I>&gt;<i> programování je, že 90% zdrojového textu programu 
+</I>&gt;<i> je v porovnání s procedurálním programováním jen 
+</I>&gt;<i> naprostý balast.)
+</I>
+Podle mého odhadu jste k tomu ještě dostatečně 
+nepřičichnul a neměl byste to hodnotit. Jsou oblasti,
+kdy je objektově orientované programování zbytečné,
+ale u praktických problémů je jich málo. Většinou
+je OOP lepší (ne z akademických důvodů, ale protože
+se s tím líp pracuje). Je to, jako kdybyste tvrdil, 
+že rýč je lepší než motyka, protože se s ním ta hlína
+líp uplácává. Musíte změnit přístup. Musíte k tomu
+přistoupit nezaujatě a hledat, co se tím asi myslí.
+
+Prostá funkce je někdy určitě lepší, než třída
+a její metody. Použité nástroje musí odrážet 
+způsob myšlení. Při programování převádíte své
+myšlenky na formálnější zápis. U OOP musíte
+jinak myslet. Možná jste si zvykl myslet moc
+procedurálně (data + algoritmus = program).
+Zkuste se na to dívat jako na spolupracující
+kousky, personifikujte si je do role specialistů,
+kteří poskytují své služby.
+
+&gt;<i> Takže pokud by se proměnné z OptionMenu daly 
+</I>&gt;<i> stáhnout do seznamů (po logických celcích), 
+</I>&gt;<i> což jde při jejich deklaraci pomocí cyklu, 
+</I>&gt;<i> to jsem už vyzkoušel, a ty seznamy jednoduše 
+</I>&gt;<i> nastavit jako globální (a ne položku po položce),
+</I>&gt;<i> pak by to byla velká úspora kódu.
+</I>
+Těžko se o tom bavit bez hlubší znalosti vašeho
+problému a přístupu. Chce to samostatnější příklad,
+na kterém ukážete, jak to děláte a jaký je celkový
+záměr.
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000754.html">[Tutor PyCZ] ještě seznam jako globální proměnná
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000756.html">[Tutor PyCZ] ještě seznam jako globální proměnná
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#755">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#755">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#755">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#755">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000755.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+</html>

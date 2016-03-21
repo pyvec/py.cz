@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005028.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:26 GMT -->
+<HEAD>
+   <TITLE> [python] class a subclass
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=3840748187.20061110160527%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005025.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005036.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] class a subclass</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=3840748187.20061110160527%40atlas.cz"
+       TITLE="[python] class a subclass">RMiklos na pss.sk
+       </A><BR>
+    <I>Pátek Listopad 10 16:11:32 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005025.html">[python] class a subclass
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005036.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5028">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5028">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5028">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5028">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A nemozes postavit metodu u rodica tak, ze ju celu zavolas v metode 
+potomka a nieco k nej este pre ptomka dodas, 
+ako to mam v tom priklade dole?
+
+&gt;<i>Potreboval bych neco jako super u Javy.
+</I>No v tom sa zial nevyznam....
+
+
+
+
+mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+10.11.2006 16:05
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+Re: [python] class a subclass
+
+
+
+
+
+
+Bohuzel zmenu nazvu metody v potomku chci nechat jako nouzove reseni.
+Potrebuju prekryt obe metody, protoze po aplikaci potomka nemaji
+smysl a dokonce jejich pouzitim by doslo k chybe, proto prekryti je
+idealni zpusob, jak se jich zbavit. Potreboval bych neco jako super u
+Javy.
+
+Mirek.
+
+
+RM&gt; Realny priklad:
+
+RM&gt; class MyGrep1:
+RM&gt;   &quot;&quot;&quot;
+RM&gt;    obsahuje metody na vyhladavanie retazcov v suboroch 
+RM&gt;   &quot;&quot;&quot;
+RM&gt; ...
+
+RM&gt;   def usage(self):
+RM&gt;       &quot;&quot;&quot; Benutzungshilfe druecken &quot;&quot;&quot; 
+RM&gt;       usage =\
+RM&gt;       '\n %s Ver. %s, [rm] %s (<A HREF="http://www.py.cz/mailman/listinfo/python">rmiklos na pss.sk</A>)\n'\
+RM&gt;       % (self.short_progname,self.version,self.creationdate) \
+RM&gt;       + ' Searching for a list of strings in a list of a files\n\n'\
+RM&gt;       + ' [python] %s options \n\n'\
+RM&gt;       % self.progname \
+RM&gt;       + '   MANDATORY OPTIONS: \n'\
+RM&gt;       + '    -f &lt;file&gt;   | --file &lt;file&gt;\n'\
+RM&gt;       + '       required argument:\n'\
+RM&gt;       + '       &lt;file&gt; - file name or list of file names delimited by 
+&quot;
+RM&gt; &quot;,\n'\
+RM&gt;       + '                which can contain wildcard characters * and 
+?\n'\
+RM&gt;       + '    -s &lt;string&gt; | --string &lt;string&gt;\n'\
+RM&gt;       + '       required argument:\n'\
+RM&gt;       + '       &lt;string&gt; - string or list of strings delimited by &quot; 
+&quot;\n'\
+RM&gt;       + '   OPTIONS:\n'\
+RM&gt;       + '    -h | --help     print this help message\n'\
+RM&gt;       + '    -d | --dbginfo  print some debug informations'
+RM&gt;       print usage
+
+RM&gt; ...
+
+RM&gt; Metoda usage je vlastne command-line helpovnik ked zadas mygrep -h, 
+alebo
+RM&gt; mygrep --help
+
+RM&gt; Teraz rozsirim funkcionalitu povodneho programu o nejaky novy command 
+line
+RM&gt; option (-c resp --nocase) a preto musim zmenit aj helpovnik, takze
+RM&gt; vytvorim novy Class
+
+RM&gt; class MyGrep2(MyGrep1):
+RM&gt;   &quot;&quot;&quot;
+RM&gt;     rozsirenie triedy MyGrep1 o cmdline-option
+RM&gt;       -c 
+RM&gt;       --nocase 
+RM&gt;   &quot;&quot;&quot; 
+RM&gt; ...
+
+RM&gt;   def usage(self):
+RM&gt;       &quot;&quot;&quot; Benutzungshilfe druecken &quot;&quot;&quot;
+RM&gt;       # Urspruengliche Parrent-Methode anrufen
+RM&gt;       MyGrep1.usage(self)
+RM&gt;       # Help-Erweiterung
+RM&gt;       usage =\
+RM&gt;       '    -c | --nocase   ignore case'
+RM&gt;       print usage 
+
+RM&gt; Takze rozsiril som help tak ze vytlacim stary help + este jeden riadok
+
+
+
+
+RM&gt; Roman Miklos &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A>&gt; 
+RM&gt; Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+RM&gt; 10.11.2006 15:38
+RM&gt; Please respond to
+RM&gt; Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+RM&gt; To
+RM&gt; Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+RM&gt; cc
+
+RM&gt; Subject
+RM&gt; Re: [python] class a subclass
+
+
+
+
+
+
+RM&gt; 1)Mozes premenovat prn v triede dietata, t.j. v b napr. na prnb, to
+RM&gt; znamena neprekryvat prn() v a:
+
+RM&gt; class a:
+RM&gt;     def prn(self):
+RM&gt;         print 'a',self
+RM&gt;     def ma(self):
+RM&gt;         self.prn()
+
+RM&gt; class b(a):
+RM&gt;     def prnb(self):
+RM&gt;         print 'b',self
+RM&gt;     def ma(self):
+RM&gt;         '''prekryje a.ma()'''
+RM&gt;         a.ma(self)
+
+RM&gt; x=b()
+RM&gt; x.ma()
+
+RM&gt; 2) Alebo ak potrebujes v prn() objektu b nieco z prn() objektu a mozes 
+ju
+RM&gt; najprv zavolat a potom tam este nieco dodat:
+
+
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005025.html">[python] class a subclass
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005036.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5028">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5028">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5028">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5028">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005028.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:26 GMT -->
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006228.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:37 GMT -->
+<HEAD>
+   <TITLE> [python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Nesrozumitelne%20prirazovaci%20prikazy%20zamichane%20mezi%0A%09definice%20standalone%20funkci%20v%20modulu&In-Reply-To=78823f240707081112v70d80b85v93770cb4607965fc%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006224.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006231.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu</H1>
+    <B>Petra Javornicka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Nesrozumitelne%20prirazovaci%20prikazy%20zamichane%20mezi%0A%09definice%20standalone%20funkci%20v%20modulu&In-Reply-To=78823f240707081112v70d80b85v93770cb4607965fc%40mail.gmail.com"
+       TITLE="[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu">petra.javornicka na gmail.com
+       </A><BR>
+    <I>Pondělí Červenec  9 00:27:09 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006224.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006231.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi definice standalone funkci v modulu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6228">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6228">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6228">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6228">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Muzes udelat i s odkazem na definici funkce:
+</I>&gt;<i> index = neco_udelam_s_funkci(index)
+</I>&gt;<i> Doufam, ze to je jasnejsi :)
+</I>
+Ne o moc, protoze to neco_udelam_s_funkci je taky funkce, ne?
+Jak se z toho pak pozna, ze chci do promenne index strcit adresu funkce
+neco_udelam_s_funkci a ne ji zavolat a strcit tam jeji navratovou hodnotu,
+kdyz ji predavam argument index :-O
+
+Analogicky ke Tvym prikladum bych cekavala, ze se adresa priradi v pripade:
+    index  = neco_udelam_s_funkci
+coz by odpovidalo Tvemu prirazeni b=a. Ale kdyz napisu, ze
+    neco_udelam_s_funkci(index)
+tak to vypada spis jako jeji volani, tedy a(1)
+
+###-
+
+&gt;<i> At uz se rozhodnete jakoli, zajimalo by me, co jste nasli na Djangu
+</I>&gt;<i> negativniho...
+</I>
+Zkusim odpovedet zatim sem, treba to bude zajimat i jiny Pythomce :-)
+
+Nejvic zapasime s dokumentaci a reusebilitou - Django se na prvni
+pohled jevi velmi slibne a asi ho navrhovuji/delaji lide, kteri vedi
+neco o SW inzenyrstvi.
+Ale na druhy pohled to vypada, ze nektere jeho subsystemy bychom
+potrebovali pouzit v nasi aplikaci, ale nejak nam to nejde a to jsme
+tomu venovali znacne usili.
+
+Srovnej napr. vlastnosti automaticky generovaneho editoru modelu v
+Admin modulu s collapsable skupinami fieldu, jejich viditelnosti,
+poradim, poradim skupin, jejich stosovanim, kalendarem v JS atd. atd.
+s vlastnostmi, ktere maji new forms - to je prece bida. Kdyz
+chceme/potrebujeme stejne komfortni editor nabidnout BFU treba pro
+editovani jeho profilu nebo jakehokoli jineho DB modelu popr. bychom
+chteli udelat editor, ktery by editoval model User spolecne s
+UserProfilem, ale aby pred BFU by skryval nektera interni pole jako
+casy posledniho zalogovani apod. a naopak si odchytil zmenu emailu,
+aby se dal autentikovat feedbackem, tak se dostavame do pro nas
+neresitelnych problemu - vsechno bychom si museli udelat sami a znovu,
+stejne jako jsme si delali bezny typ home page se zabudovanym loginem
+a registraci BFU pres email (pravda, pouzivame new forms, sessions,
+authentikaci, login).
+
+Kdyz se divame do zdrojovek Admin modulu, protoze dokumentace je vice
+nez skoupa, tak podle implementace change_stage() aspol. nabyvame
+dojmu, ze zavada nebude na nasem prijimaci :-(
+
+A co je asi nejhorsi, je django-user group - kdyz se tam kolegyne na
+tyhle veci pta, tak se ji skoro nikdo nenamaha odpovedet. Fajn - je to
+open source a zadarmo - tak co bychom chteli, ze? Ale musim rict, ze
+tu user group par dni sleduju a ze jsem se v zadne jine komunite
+nesetkala s tak vysokym procentem nezodpovezenych dotazu :-(
+
+
+Angela
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006224.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006231.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi definice standalone funkci v modulu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6228">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6228">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6228">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6228">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006228.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:37 GMT -->
+</html>

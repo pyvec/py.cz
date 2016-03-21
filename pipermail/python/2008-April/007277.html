@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007277.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:32 GMT -->
+<HEAD>
+   <TITLE> [python] cherrypy + ajax
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cherrypy%20%2B%20ajax&In-Reply-To=0a6d01c8a37b%24b045d2d0%246164a8c0%40xp">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007276.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007281.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cherrypy + ajax</H1>
+    <B>Marek Palatinus</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cherrypy%20%2B%20ajax&In-Reply-To=0a6d01c8a37b%24b045d2d0%246164a8c0%40xp"
+       TITLE="[python] cherrypy + ajax">marek na palatinus.cz
+       </A><BR>
+    <I>Pondělí Duben 21 10:28:29 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007276.html">[python] cherrypy + ajax
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007281.html">[python] cherrypy + ajax
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7277">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7277">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7277">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7277">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2008/4/21 Jaroslav Lukesh &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lukesh na seznam.cz</A>&gt;:
+
+&gt;<i> Ajax není PUSH, ale PULL
+</I>
+
+Jde to jednoduse nasimulovat:
+
+V JS udelejte bezny setInterval s periodou cca 1s (klidne i mene), ve volane
+funkci vytvarejte request na serveru.
+V pythonu na serveru po requestu z javascriptu zkontrolujte, jestli se
+provedla ta akce, na kterou javascript ceka. Pokud ne, pockejte sekundu
+(klidne i mene) a test opakujte max x-krat, pote v nejhorsim vratte prazdny
+request. Jedina nevyhoda toho mechanismu je vyssi pocet connection na
+serveru pri paralelnim pristupu k aplikaci (request neni vyrizen behem
+0.00nic sekundy, ale muze tam viset treba 10 sekund), zato efekt je super -
+pouzivam to u sveho ajax vieweru logu apache2.
+
+Na zaver prikladam kus kodu (psano pomoci jQuery a Pythonu) pod licenci
+&quot;delejte si s tim co chcete&quot; :-) :
+
+//funkce volana po 100ms v javascriptu, ziskava XML a parsuje do stranky
+function checkLog() {
+    user = $('#seluser').val()
+    log = $('#sellog').val()
+
+    if(!user || !log || working) return;
+
+    $('#status').text('reading...')
+    working = true
+
+$.get('log.py/show?user='+user+'&amp;log='+log+'&amp;size='+size+'&amp;filter='+$('#filter').val(),
+function(data) {
+
+        working = false
+        $('#logarea').prepend($('data', data).text())
+
+        if($('#logarea').text().length &gt; 1000000) {
+            $('#logarea').text($('#logarea').text().substr(0,900000))
+        }
+
+        size = $('size', data).text()
+        $('#status').text('')
+    })
+}
+
+# funkce v pythonu resici HTTP pooling, vraci data pokud jsou, jinak ceka
+par sekund
+def show(req, user, log, size, filter):
+    global logpath
+
+    if user == '_master':
+        logfile = &quot;%s/%s&quot;%(logpath, log)
+    else:
+        logfile = &quot;%s/%s/%s&quot;%(logpath, user, log)
+
+    fp = open(logfile, 'r')
+
+    size = int(size)
+    if size == 0:
+        size = os.path.getsize(logfile)
+        size -= min(size, 3000)
+        fp.seek(size)
+        lines = _readlinesWait(fp, filter)
+        del lines[0]
+    else:
+        fp.seek(size)
+        lines = _readlinesWait(fp, filter)
+
+    size = os.path.getsize(logfile)
+    fp.close()
+
+    ret = ''
+    for l in lines:
+        ret = &quot;%s%s&quot;%(l, ret)
+
+    return &quot;&lt;xml&gt;&lt;size&gt;%s&lt;/size&gt;&lt;data&gt;%s&lt;/data&gt;&lt;/xml&gt;&quot;%(size, ret)
+
+def _readlinesWait(fp, filter):
+    tries = 5
+    while(tries):
+        tmp = fp.readlines()
+        lines = []
+
+        for l in tmp:
+            if filter != '' and l.find(filter) == -1:
+                continue
+
+            if l.find('log.py/') == -1:
+                lines.append(l)
+
+        if len(lines): break
+
+        tries -= 1
+        time.sleep(1)
+
+    return lines
+
+Snad Vam to k necemu bude prospesne...
+
+S pozdravem
+MP
+-- 
+gtalk/jabber:<A HREF="http://www.py.cz/mailman/listinfo/python">slush na jabber.cz</A> &lt;jabber%<A HREF="http://www.py.cz/mailman/listinfo/python">3Aslush na jabber.cz</A>&gt;
+email/msn:<A HREF="http://www.py.cz/mailman/listinfo/python">marek na palatinus.cz</A> &lt;msn%<A HREF="http://www.py.cz/mailman/listinfo/python">3Amarek na palatinus.cz</A>&gt;
+icq:360-737-802
+tel:+420 724 249 422
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080421/502a2005/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080421/502a2005/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007276.html">[python] cherrypy + ajax
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007281.html">[python] cherrypy + ajax
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7277">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7277">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7277">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7277">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007277.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:32 GMT -->
+</html>

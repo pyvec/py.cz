@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-July/000009.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:13 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] pouziti knihovny v C z pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20pouziti%20knihovny%20v%20C%20z%20pythonu&In-Reply-To=63b3130405070319443b01623e%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-July/000008.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-July/000010.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] pouziti knihovny v C z pythonu</H1>
+    <B>Michal Molhanec</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20pouziti%20knihovny%20v%20C%20z%20pythonu&In-Reply-To=63b3130405070319443b01623e%40mail.gmail.com"
+       TITLE="[Tutor PyCZ] pouziti knihovny v C z pythonu">molsoft na centrum.cz
+       </A><BR>
+    <I>Pondělí Červenec  4 22:12:15 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000008.html">[Tutor PyCZ] pouziti knihovny v C z pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000010.html">[Tutor PyCZ] pouziti knihovny v C z pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/date.html#9">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/thread.html#9">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/subject.html#9">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/author.html#9">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>teda je to uz dlouho, co jsem neco takovyho psal, ale kdyz vidim, co se 
+tu deje.
+
+1) kod z tohohle mailu uloz do mycrc.c
+2) zkompiluj pomoci
+cl -LD mycrc.c  -Id:\python24\include -link -LIBPATH:d:\python24\libs
+kde d:\python24 je tvoje instalace pythonu (melo by bez problemu 
+fungovat i v 2.3)
+BTW fakt nechapu v cem je ten prikaz horsi nez ten pro gcc ?!?
+3) no a pak uz staci
+import mycrc
+print mycrc.crc(&quot;fsdfsdf&quot;)
+
+pokud ti nejde nainstalovat VC 6 tak napis, co konkretne ti nejde, jinak 
+je to debata o nicem
+
+-- 
+Regards,
+     Michal
+
+ICQ# 175762750
+
+=============================KOD
+
+#include &lt;Python.h&gt;
+
+#define poly 0x8005
+#define BITF 0x8000
+
+static PyObject* crc(PyObject* self, PyObject *args)
+{
+   int count;
+   unsigned char *ptr;
+   unsigned int i,j;
+   unsigned short int tmp,val;    // 16 Bit
+
+   if (!PyArg_ParseTuple(args, &quot;s#&quot; , &amp;ptr, &amp;count)) return NULL;
+
+   tmp = *ptr++;
+   tmp = (tmp&lt;&lt;8) + *ptr++;    // first 16 bit value
+
+   for (i=count/2;i&gt;0;i--)    // only even counts !!! and more than 4
+   {
+   if (i&gt;1)
+   {
+   val = *ptr++;
+   val= (val&lt;&lt;8) + *ptr++;    // next 16 bit value
+   }
+   else
+   {
+     val=0; //last valu with 0   // last 16 bit value
+   }
+     for (j=0;j&lt;16;j++)
+     {
+        if (tmp &amp; BITF)
+        {
+           tmp  &lt;&lt;= 1;
+           if (val &amp; BITF)tmp++;  // rotate carry
+           tmp ^= poly;
+        }
+        else
+        {
+           tmp  &lt;&lt;= 1;
+           if (val &amp; BITF)tmp++;  // rotate carry
+        }
+        val &lt;&lt;= 1;
+      }
+   }
+
+   return Py_BuildValue(&quot;i&quot; , tmp);
+}
+
+static PyMethodDef MyCrcMethods[] = {
+   {&quot;crc&quot;, crc, METH_VARARGS, &quot;My CRC&quot;},
+   {NULL,  NULL,0,            NULL}        /* Sentinel */
+};
+
+PyMODINIT_FUNC initmycrc(void) {
+     PyObject* module = Py_InitModule3(&quot;mycrc&quot;, MyCrcMethods, &quot;My CRC&quot;);
+}
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000008.html">[Tutor PyCZ] pouziti knihovny v C z pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000010.html">[Tutor PyCZ] pouziti knihovny v C z pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/date.html#9">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/thread.html#9">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/subject.html#9">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/author.html#9">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-July/000009.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:13 GMT -->
+</html>

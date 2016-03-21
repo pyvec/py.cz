@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-August/001328.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:28 GMT -->
+<HEAD>
+   <TITLE> [python] Pomozte mi prosim s optimalizaci primitivniho kodu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Pomozte%20mi%20prosim%20s%20optimalizaci%20primitivniho%20kodu&In-Reply-To=sqfjpucoa2be1pk3kb2vpatu2sn618fd9r%404ax.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-August/001025.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-August/001329.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Pomozte mi prosim s optimalizaci primitivniho kodu</H1>
+    <B>Matej Pivoluska</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Pomozte%20mi%20prosim%20s%20optimalizaci%20primitivniho%20kodu&In-Reply-To=sqfjpucoa2be1pk3kb2vpatu2sn618fd9r%404ax.com"
+       TITLE="[python] Pomozte mi prosim s optimalizaci primitivniho kodu">pivoluska na matfyz.cz
+       </A><BR>
+    <I>Neděle Srpen 24 11:04:00 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/001025.html">[python] Pomozte mi prosim s optimalizaci primitivniho kodu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/001329.html">[python] Pomozte mi prosim s optimalizaci primitivniho kodu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-August/date.html#1328">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/thread.html#1328">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/subject.html#1328">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/author.html#1328">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Chrabros wrote --- napísal::
+
+&gt;<i>Ahoj,
+</I>&gt;<i>napsal jsem svoji prvni aplikaci v Pythonu, tak me prosim nekamenujte.
+</I>&gt;<i>Mam jen jeden problem a to, ze cteni a zpracovani cca 10 MB souboru
+</I>&gt;<i>trva asi pul minuty, coz je vecnost. Zrejme jsem pouzil hloupou
+</I>&gt;<i>datovou strukturu.
+</I>&gt;<i>Muzete mi prosim poradit, jak zoptimalizovat tenhle kousek kodu?
+</I>&gt;<i>Predem diky.
+</I>&gt;<i>
+</I>&gt;<i> Dalibor
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>while y&lt;maxY :
+</I>&gt;<i>  x=0
+</I>&gt;<i>  line = file.read(maxX*2)
+</I>&gt;<i>  while x&lt;maxX :
+</I>&gt;<i>    val   = ord(line[x*2+2])*256 + ord(line[x*2+3])
+</I>&gt;<i>   ... tady uz jsou jen nejaky podminky, 
+</I>&gt;<i>   ... ktere pocitaji cetnost hodnot val
+</I>&gt;<i>    x=x+2
+</I>&gt;<i>y=y+2
+</I>&gt;<i>
+</I>&gt;<i>Mam pocit, ze vyuziti stringu line asi dela nejvetsi
+</I>&gt;<i>problemy, ale jak to udelat jinak?
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>Pri optimalizovani pocit nestaci. Najprv to prezen cez profiler. (Skript 
+profile.py z distribucie pythonu.) Ten povie, co trva najdlhsie. A potom 
+mozes zacat optimalizovat.
+
+Ja mam naopak pocit, ze by bolo dobre optimalizovat naopak kod uprostred 
+vnutorneho cyklu, co takto napriklad
+
+  while x&lt;maxX :
+    #val   = ord(line[x*2+2])*256 + ord(line[x*2+3])
+    x2=x*2
+    val   = ord(line[x2+2])*256 + ord(line[x2+3])
+   ... tady uz jsou jen nejaky podminky, 
+   ... ktere pocitaji cetnost hodnot val
+    x=x+2
+
+
+    for x in range(maxX,2): 
+
+    x2=x*2
+    val   = ord(line[x2+2])*256 + ord(line[x2+3])
+   ... tady uz jsou jen nejaky podminky, 
+   ... ktere pocitaji cetnost hodnot val
+    #x=x+2
+
+
+...
+Namiesto stringu by sa dal pouzit modul array
+
+atd...
+
+A este si skus precitat tento clanok:
+
+<A HREF="http://www.python.org/doc/essays/list2str.html">http://www.python.org/doc/essays/list2str.html</A>
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/001025.html">[python] Pomozte mi prosim s optimalizaci primitivniho kodu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/001329.html">[python] Pomozte mi prosim s optimalizaci primitivniho kodu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-August/date.html#1328">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/thread.html#1328">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/subject.html#1328">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/author.html#1328">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-August/001328.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:28 GMT -->
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008130.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:29 GMT -->
+<HEAD>
+   <TITLE> [python] Vkladani listu do SQL prikazu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vkladani%20listu%20do%20SQL%20prikazu&In-Reply-To=48A538E8.8080708%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008129.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008131.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vkladani listu do SQL prikazu</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vkladani%20listu%20do%20SQL%20prikazu&In-Reply-To=48A538E8.8080708%40centrum.cz"
+       TITLE="[python] Vkladani listu do SQL prikazu">devel na atlas.sk
+       </A><BR>
+    <I>Pátek Srpen 15 12:23:41 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008129.html">[python] Vkladani listu do SQL prikazu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008131.html">[python] Vkladani listu do SQL prikazu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8130">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8130">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8130">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8130">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Osobne tam nevidim nic zle. Nie je to &quot;pitome&quot; riesenie, nakolko sa o 
+vyplnenie a formatovanie stara DB-API a nie ja. Poprosim o ukazku toho, 
+ako to dokaze nejaky cracker naburat.
+
+superman wrote:
+&gt;<i> Já se moc omlouvám, ale proti podobně pitomým řešením se musím ozvat. 
+</I>&gt;<i> Tedy pokud toužíte po tom dát případnému crackerovi do ruky naprosto 
+</I>&gt;<i> ideální nástroj k průniku do vašeho systému tak je toto řešení skvělé. A 
+</I>&gt;<i> pokud takto řešíte listy, tak není pro mě problém vám zvenčí třeba 
+</I>&gt;<i> zrušit celou databázi a vyčistit vám jí dočista do čista pouhým vstupem 
+</I>&gt;<i> zvenku jakožto uživatel.
+</I>&gt;<i> 
+</I>&gt;<i> Nehledě na tom, že na některých vstupech v listech to musí selhat tak 
+</I>&gt;<i> jako tak.
+</I>&gt;<i> 
+</I>&gt;<i> Takhle se to nedá dělat!
+</I>&gt;<i> 
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ako najjednoduchsie (a zaroven este ako tak rozumne) riesenie vidim:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> tmp = &quot;,&quot;.join([&quot;%s&quot;]*len(nejakylist))
+</I>&gt;&gt;<i> cursor.execute(&quot;SELECT ....WHERE t.tagname IN (&quot;+tmp+&quot;)&quot;, nejakylist).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Popripade, ak sa niekomu nepaci, ze sa tam robi zbytocny zoznam (napr. 
+</I>&gt;&gt;<i> mne ;) ), tak to iste cez iteratory:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> tmp = &quot;,&quot;.join(&quot;%s&quot; for polozka in nejakylist)
+</I>&gt;&gt;<i> cursor.execute(&quot;SELECT ....WHERE t.tagname IN (&quot;+tmp+&quot;)&quot;, nejakylist).
+</I>&gt;&gt;<i>   
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+
+-- 
+
+____________________________
+Ing. Jan Janech
+Katedra softverovych technologii
+Fakulta riadenia a informatiky
+Zilinska Univerzita
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008129.html">[python] Vkladani listu do SQL prikazu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008131.html">[python] Vkladani listu do SQL prikazu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8130">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8130">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8130">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8130">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008130.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:29 GMT -->
+</html>

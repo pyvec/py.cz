@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002749.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:14 GMT -->
+<HEAD>
+   <TITLE> [python] Posielanie emailu cez python znova
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Posielanie%20emailu%20cez%20python%20znova&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-June/002748.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-June/002750.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Posielanie emailu cez python znova</H1>
+    <B>pavel kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Posielanie%20emailu%20cez%20python%20znova&In-Reply-To="
+       TITLE="[python] Posielanie emailu cez python znova">geon na post.cz
+       </A><BR>
+    <I>Pondělí Červen 13 13:41:51 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002748.html">[python] Posielanie emailu cez python znova
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002750.html">[python] Posielanie emailu cez python znova
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2749">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2749">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2749">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2749">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Na některých smtp server není třeba (= nesmí se) se 'logovat, ověřovat'.
+Zkus to bez toho. Zjistíš to asi nejlépe v tvém Thunderbirdu :-), kde máš
+nastavení SMTP, jestli tam máš že se musí uživatel identifikovat (ověřovat)
+na SMTP serveru nebo ne ....
+
+Pavel
+
+----- Original Message -----
+From: &quot;Tomix&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">ppttt na tiscali.cz</A>&gt;
+Newsgroups: cz.comp.lang.python
+To: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+Sent: Monday, June 13, 2005 12:38 PM
+Subject: Re: [python] Posielanie emailu cez python znova
+
+
+&gt;<i> Tomáš Babej napsal(a):
+</I>&gt;<i> &gt; Neviem ako vám, ale mne to nefunguje. Nevie niekto kde je chyba?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Zdrojový kód programu je:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; import smtplib
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; odesilatel = &quot;<A HREF="http://www.py.cz/mailman/listinfo/python">tbabej na seznam.cz</A>&quot;
+</I>&gt;<i> &gt; prijemce  = &quot;<A HREF="http://www.py.cz/mailman/listinfo/python">tbabej na seznam.cz</A>&quot;   # sam sobe :-)
+</I>&gt;<i> &gt; predmet=&quot;ahoj&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; # Add the From: and To: headers at the start!
+</I>&gt;<i> &gt; msg = &quot;From: %s\r\nSubject: %s\r\nTo: %s\r\n\r\n&quot; % (odesilatel,
+</I>predmet, prijemce)
+&gt;<i> &gt; zprava=&quot;Ahoj jak se mas. &quot;*500
+</I>&gt;<i> &gt; msg=msg+zprava
+</I>&gt;<i> &gt; print &quot;Zprava: \n\n&quot;, msg
+</I>&gt;<i> &gt; print &quot;\nZprava je dlouha&quot;, len(msg),&quot;bitu\n&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; server = smtplib.SMTP('smtp.seznam.cz')  # protoze na post.cz mi nejak
+</I>nefunguje smtp
+&gt;<i> &gt; server.login('tbabej','tomas') # tvoje uz.jmeno a heslo na poste na
+</I>seznamu
+&gt;<i> &gt; server.sendmail(odesilatel, prijemce, msg)
+</I>&gt;<i> &gt; server.quit()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> Dobrý den, zkusil jsem tenhle prográmek,
+</I>&gt;<i> ale pro server = smtplib.SMTP('smtp.chello.cz') mi to vrací chybu:
+</I>&gt;<i>
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>    File &quot;C:\Python24\Projekty\posilani_mailu.py&quot;, line 16, in -toplevel-
+</I>&gt;<i>      server.login('mojeJmeno','mojeHeslo') # tvoje uz.jmeno a heslo
+</I>&gt;<i>    File &quot;C:\Python24\lib\smtplib.py&quot;, line 547, in login
+</I>&gt;<i>      raise SMTPException(&quot;SMTP AUTH extension not supported by server.&quot;)
+</I>&gt;<i> SMTPException: SMTP AUTH extension not supported by server.
+</I>&gt;<i>
+</I>&gt;<i> Můžete mi prosim poradit, co že to server nepodporuje ?
+</I>&gt;<i>
+</I>
+
+----------------------------------------------------------------------------
+----
+
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002748.html">[python] Posielanie emailu cez python znova
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002750.html">[python] Posielanie emailu cez python znova
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2749">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2749">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2749">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2749">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002749.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:14 GMT -->
+</html>

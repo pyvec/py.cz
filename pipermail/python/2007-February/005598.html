@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005598.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:42 GMT -->
+<HEAD>
+   <TITLE> [python] lstrip
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20lstrip&In-Reply-To=45D99CA5.2060002%40dp.fce.vutbr.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005595.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005596.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] lstrip</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20lstrip&In-Reply-To=45D99CA5.2060002%40dp.fce.vutbr.cz"
+       TITLE="[python] lstrip">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Pondělí Únor 19 14:00:01 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005595.html">[python] lstrip
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005596.html">[python] lstrip
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5598">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5598">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5598">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5598">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Martinek wrote:
+&gt;<i> Hynek Beran wrote:
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i> mám script, který používá různé parametry.
+</I>&gt;&gt;<i> např.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> pyBackup.py --cfg=celyVyvoj.cfg
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ve scriptu mám :
+</I>&gt;&gt;<i> cfgFile = sys.argv[1].lstrip('--cfg=')
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> očekával jsem, že mi takto napsaný řádek vrátí název souboru  celyVyvoj.cfg .
+</I>&gt;&gt;<i> Uřízne to --cfg=
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ale ono mi to vrátí elyVyvoj.cfg (odmaže i c znázvu souboru). Když tam
+</I>&gt;&gt;<i> zadám cokoli jiného do parametru , co nezačíná na c, tak to projde ...
+</I>&gt;&gt;<i> Pochopil jsem špatně funkce ?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Díky za pomoc.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> Hynek BERAN
+</I>&gt;&gt;<i>
+</I>&gt;<i> 
+</I>&gt;<i> Je to tím, že parametrem metody lstrip je řetězec obsahující seznam 
+</I>&gt;<i> znaků, které se mají uříznout. Např.
+</I>&gt;<i> 
+</I>&gt;<i>  &gt;&gt;&gt; 'babalezekominem'.lstrip('ab')
+</I>&gt;<i> 'lezekominem'
+</I>&gt;<i> 
+</I>&gt;<i> Doporučuji tuto cestu opustit a použít modul OptionParser. Umí zacházet 
+</I>&gt;<i> s parametry, bere v úvahu jejich datové typy, je možné mu nastavit 
+</I>&gt;<i> defaultní hodnoty, vypisuje help a další užitečné věci, které by jinak 
+</I>&gt;<i> člověk musel dost složitě psát.
+</I>&gt;<i> 
+</I>&gt;<i> Jan Martinek
+</I>
+Ještě doplním ukázku:
+
+import sys
+from optparse import OptionParser
+
+usage = &quot;usage: %prog [--cfg configfile]&quot;
+
+parser = OptionParser(usage, version=&quot;%prog version 0.1&quot;)
+
+parser.add_option(&quot;-c&quot;, &quot;--cfg&quot;, action = &quot;store&quot;, type = &quot;string&quot;,
+default = 'celyVyvoj.cfg', dest='cfgFile', help='Configuration file')
+
+(options, args) = parser.parse_args()
+print options.cfgFile
+
+
+Zkus to pustit s parametrem --help a uvidíš sám.
+
+Jan Martinek
+
+P.S. Ta konference je nějaká pomalá - napsal jsem svůj příspěvek a až 
+teprve potom se ukázalo, že jdu s křížkem po funuse ;-)
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005595.html">[python] lstrip
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005596.html">[python] lstrip
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5598">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5598">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5598">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5598">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005598.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:42 GMT -->
+</html>

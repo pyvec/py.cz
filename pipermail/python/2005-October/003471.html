@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003471.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:31 GMT -->
+<HEAD>
+   <TITLE> [python] Jak zjistit ze zpracovavam posledniho clena ze seznamu.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20zjistit%20ze%20zpracovavam%20posledniho%20clena%20ze%20seznamu.&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003467.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003472.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak zjistit ze zpracovavam posledniho clena ze seznamu.</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20zjistit%20ze%20zpracovavam%20posledniho%20clena%20ze%20seznamu.&In-Reply-To="
+       TITLE="[python] Jak zjistit ze zpracovavam posledniho clena ze seznamu.">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Říjen 11 14:44:06 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003467.html">[python] [Fwd: Jak zjistit ze zpracovavam posledniho clena ze
+	seznamu.] oprava
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003472.html">[python] Kodovani emajlu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3471">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3471">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3471">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3471">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>David Michal...
+&gt;<i> Jaroslav Pachola wrote:
+</I>&gt;<i> &gt; [...] mne to prijde zvlastni. [...] Osobne bych 
+</I>&gt;<i> &gt; hledal zakopaneho psa mimo funkci stripApostrof().
+</I>&gt;<i> &gt; [...] Co se bude s daty teto funkce delat? [...]  
+</I>&gt;<i> &gt;
+</I>&gt;<i> No je to vysledek selectu z SQL napr.
+</I>&gt;<i> 
+</I>&gt;<i> (&quot;a&quot;,&quot;' '&quot;,&quot;b&quot;,&quot;' ('&quot;,)
+</I>&gt;<i> 
+</I>&gt;<i> Z tohoto vysledku potrebuji udelat dalsi select: 'select a, b 
+</I>&gt;<i> from table'.
+</I>&gt;<i> 
+</I>&gt;<i> Takze to je cele zadani, v tom vysledku obcas dostavam ruzne 
+</I>&gt;<i> apostrofy, mezery a zavorky, tak proto tam mam fci stripApostrof. 
+</I>
+Připojuji se k Jardovi...
+
+První poznámku mám k n-tici a. Typ tuple nepodporuje
+metodu split()...
+
+Postupně dávám zapravdu GvR, že lambda, map, filter,... 
+program spíše znepřehledňují... pokud nebyl tvým rodným
+jazykem lisp nebo něco podobného.
+
+Zkus tohle:
+
+======================================================
+def buildSelect(a, zakazane=set((&quot;' '&quot;, &quot;' ('&quot;, &quot;' )'&quot;))):
+   lst = [x for x in a if x not in zakazane]
+   return 'select ' + ', '.join(lst) + ' from ...'
+
+
+a = (&quot;a&quot;,&quot;' '&quot;,&quot;b&quot;,&quot;' ('&quot;)
+print buildSelect(a)
+======================================================
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003467.html">[python] [Fwd: Jak zjistit ze zpracovavam posledniho clena ze
+	seznamu.] oprava
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003472.html">[python] Kodovani emajlu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3471">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3471">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3471">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3471">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003471.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:31 GMT -->
+</html>

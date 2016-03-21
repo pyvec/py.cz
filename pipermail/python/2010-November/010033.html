@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010033.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:16 GMT -->
+<HEAD>
+   <TITLE> [python] Proces vs. vlakno
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Proces%20vs.%20vlakno&In-Reply-To=%3C1F482118-2F15-4678-A357-0300EF8991E7%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-November/010030.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-November/010035.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Proces vs. vlakno</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Proces%20vs.%20vlakno&In-Reply-To=%3C1F482118-2F15-4678-A357-0300EF8991E7%40gmail.com%3E"
+       TITLE="[python] Proces vs. vlakno">petr.messner na gmail.com
+       </A><BR>
+    <I>Středa Listopad  3 22:43:11 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010030.html">[python] Proces vs. vlakno
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010035.html">[python] Automatická tvorba dokumentace pomocí Hg, reST a Sphinx
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10033">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10033">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10033">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10033">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+na jakém operačním systému a jaké verzi to zkoušíš? Třeba Linux nevytváří vlákna, ale procesy. Vlákna jsou jen procesy, které spolu sdílí nějaké prostředky (paměť, otevřené soubory apod.). Viz clone(2). V Linuxu prostě každé &quot;vlákno&quot; má svoje PID, několik vláken má shodné TGID (thread group identifier), je to dobře vidět v /proc/*/stat. Protože POSIX se na vlákna dívá trochu jinak, funkce getpid() ve skutečnosti vrací TGID :)
+
+Takže pokud jsi na Linuxu, ani není divu, že místo vláken vidíš procesy. Záleží na nástroji, kterým se na ty vlákna/procesy díváš, jak ti to podá. Možná bude problém tady. Python si totiž nevymýšlí vlastní věci, většina toho, co dělá, je akorát volání různých funkcí v libc apod., takže pokud je pozorována nějaká domnělá anomálie, spíš než v Pythonu bude mít původ někde ještě níže. Může i záležet na konkrétní verzi Linuxového kernelu nebo možná i libc.
+
+Pokud se chceš nějak pohnout z místa, dodej víc informací. Především na čem jedeš (distribuce, její verze, verze kernelu), jak jsi vůbec zjistil, že máš vlákna nebo procesy, a případně nějaký ukázkový kód, ať je jisté, že do toho nezasahuje nějaká knihovna třetí strany (původně tato diskuze o něčem takovém byla, jestli se nepletu). A samozřejmě, jaký problém ti to způsobuje, který potřebuješ vyřešit :) Co jsem tak narychlo zkoušel threading.Thread na Debianu Lenny (x86 i x64), fungovalo to normálně (tzn. příkaz ps se tvářil, že je jeden proces se dvěma thready).
+
+Jinak modul thread je opravdu built-in, takže žádné thread.by skutečně není.
+
+
+PM
+
+
+On 3.11.2010, at 18:36, Tomas Hnizdil wrote:
+
+&gt;<i> Jsem trochu dale, zatim jsem dosel k tomu, ze za vytvareni procesu muze patricne pojmenovana knihovna &quot;threading&quot; :)
+</I>&gt;<i> jeji verze pro 32/64 se nelisi, nicmene na amd64 strojich vytvori vlakna (zustava jeden proces) a na i386 procesy (procesu je tedy vice). Tu rozdilnou logiku bych tedy videl na knihovne thread, kterou si threading importuje a vola z ni start_new_thread ...
+</I>&gt;<i> 
+</I>&gt;<i> Kazdopadne neco jako thread.py najit nemuzu, tohle nejspis nebude pythonovska zalezitost, nebo se pletu?
+</I>&gt;<i> 
+</I>&gt;<i> v threading je i metoda _test(), zkousel jsem ji volat jak z pythonu 2.4.4, 2.5 a 2.6.2 ve vsech nam to tvori procesy ... nesetkal se nekdo s necim podobnym? kde najit onen thread?
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010030.html">[python] Proces vs. vlakno
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010035.html">[python] Automatická tvorba dokumentace pomocí Hg, reST a Sphinx
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10033">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10033">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10033">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10033">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010033.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:16 GMT -->
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-September/000446.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Problem s diakritikou
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Problem%20s%20diakritikou&In-Reply-To=107177030.20060928121948%40gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-September/000443.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-September/000447.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Problem s diakritikou</H1>
+    <B>Richard Korinek</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Problem%20s%20diakritikou&In-Reply-To=107177030.20060928121948%40gmail.com"
+       TITLE="[Tutor PyCZ] Problem s diakritikou">richard.korinek na gmail.com
+       </A><BR>
+    <I>Čtvrtek Září 28 14:16:40 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000443.html">[Tutor PyCZ] Problem s diakritikou
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000447.html">[Tutor PyCZ] Problem s diakritikou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/date.html#446">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/thread.html#446">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/subject.html#446">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/author.html#446">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tak ja to zkusim - misto StringCol bych pouzil UnicodeCol. Tak jsem
+resil podobny problem a nakonec jsem dospel k variante:
+
+uri = &quot;<A HREF="mysql://root@localhost/is_db&quot;">mysql://root@localhost/is_db&quot;</A>
+connection = connectionForURI(uri, use_unicode = 1)
+connection.debug = True
+sqlhub.processConnection = connection
+
+S timto se mi podarilo diakritiku rozchodit. Take jsem ale pracoval s
+existujici databazi, ktera byla v iso8859-2, takze do iniciace
+UnicodeCol jsem pridaval UnicodeCol(dbEncoding='iso-8859-2').
+
+Nicmene v sqlObject a Pythonu jsem temer uplna lama a navic jsem s tim
+experimentoval az pred nejakou dobou, takze pametove stopy uz
+zeslably.
+
+Richard Korinek
+On 28/09/06, Matus Lucenic &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">matus.lucenic na gmail.com</A>&gt; wrote:
+&gt;<i> Zdravim,
+</I>&gt;<i> potreboval by som poradit ohladne vkladania znakov s diakritikou do MySql cez SqlObject.
+</I>&gt;<i> Prikladik:
+</I>&gt;<i>
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i>
+</I>&gt;<i> from sqlobject import *
+</I>&gt;<i>
+</I>&gt;<i> __connection__ = '<A HREF="mysql://root:@localhost/test'">mysql://root:@localhost/test'</A>
+</I>&gt;<i>
+</I>&gt;<i> class skTab(SQLObject):
+</I>&gt;<i>   meno = StringCol(length = 50, notNone = True)
+</I>&gt;<i>
+</I>&gt;<i> def zapis():
+</I>&gt;<i>     skTab.createTable(ifNotExists=True)
+</I>&gt;<i>     meno =u'skúška'
+</I>&gt;<i>
+</I>&gt;<i>     novyZaznam = skTab(meno=meno)
+</I>&gt;<i>
+</I>&gt;<i> zapis()
+</I>&gt;<i>
+</I>&gt;<i> vypise mi takuto chybovy hlasku:
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;C:\dia.py&quot;, line 19, in ?
+</I>&gt;<i>     zapis()
+</I>&gt;<i>   File &quot;C:\dia.py&quot;, line 17, in zapis
+</I>&gt;<i>     novyZaznam = skTab(meno=meno)
+</I>&gt;<i>   File &quot;c:\python24\lib\site-packages\SQLObject-0.7rc1-py2.4.egg\sqlobject\main.
+</I>&gt;<i> py&quot;, line 1179, in __init__
+</I>&gt;<i>     self._create(id, **kw)
+</I>&gt;<i>   File &quot;c:\python24\lib\site-packages\SQLObject-0.7rc1-py2.4.egg\sqlobject\main.
+</I>&gt;<i> py&quot;, line 1203, in _create
+</I>&gt;<i>     self.set(**kw)
+</I>&gt;<i>   File &quot;c:\python24\lib\site-packages\SQLObject-0.7rc1-py2.4.egg\sqlobject\main.
+</I>&gt;<i> py&quot;, line 1064, in set
+</I>&gt;<i>     kw[name] = dbValue = from_python(value, self._SO_validatorState)
+</I>&gt;<i>   File &quot;c:\python24\lib\site-packages\SQLObject-0.7rc1-py2.4.egg\sqlobject\col.p
+</I>&gt;<i> y&quot;, line 498, in from_python
+</I>&gt;<i>     return value.encode(&quot;ascii&quot;)
+</I>&gt;<i> UnicodeEncodeError: 'ascii' codec can't encode characters in position 2-3: ordin
+</I>&gt;<i> al not in range(128)
+</I>&gt;<i>
+</I>&gt;<i> Podla tejto hlasky to vyzera tak, ze SQLObject sa to snazi previest do ascii, ale nenasiel som sposob, ako to zrusit.
+</I>&gt;<i>
+</I>&gt;<i> Takisto pri vypise z db:
+</I>&gt;<i>
+</I>&gt;<i> def vypis():
+</I>&gt;<i>   vypisTab = skTab.select()
+</I>&gt;<i>   for riadokTab in vypisTab:
+</I>&gt;<i>     print riadokTab.meno
+</I>&gt;<i>
+</I>&gt;<i> vypis()
+</I>&gt;<i>
+</I>&gt;<i> mi to vrati haky-baky
+</I>&gt;<i>
+</I>&gt;<i> Uz som skusal vsetko mozne, vsetky mozne kodovania na strane pythonu aj db, skusal som to aj cez sqlite ale bezvysledne. Vie mi niekto poradit, v com moze byt problem.
+</I>&gt;<i>
+</I>&gt;<i> Dakujem
+</I>&gt;<i> ml
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000443.html">[Tutor PyCZ] Problem s diakritikou
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000447.html">[Tutor PyCZ] Problem s diakritikou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/date.html#446">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/thread.html#446">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/subject.html#446">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/author.html#446">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-September/000446.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

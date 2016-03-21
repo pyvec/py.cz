@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009832.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:33 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorovana funkce
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Dekorovana%20funkce&In-Reply-To=%3C4C21EADC.3070300%40fnet.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-June/009830.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-June/009833.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorovana funkce</H1>
+    <B>Martin Blažík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Dekorovana%20funkce&In-Reply-To=%3C4C21EADC.3070300%40fnet.cz%3E"
+       TITLE="[python] Dekorovana funkce">lachtan na fnet.cz
+       </A><BR>
+    <I>Středa Červen 23 13:07:08 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009830.html">[python] Dekorovana funkce
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009833.html">[python] Dekorovana funkce
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9832">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9832">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9832">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9832">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tu ukazku jsem si ted vycucal z prstu, aby jen bylo videt co hledam. 
+Dekorat nemusi byt muj, a ani jinej dekorator nechci znovu dekorovat :) 
+Tim padem do obalovane funkce nic vlozeno nebude. Predstavoval jsem si, 
+ze to zjistim nejakym zpusobem pres reflexi, ale jak jsm psal, nemuzu 
+natrefit na ty spravne atributy.
+
+lachtan
+
+Dne 23.6.2010 9:30, Petr Messner napsal(a):
+&gt;<i> Pokud se jedná o tvůj vlastní dekorátor, můžeš vracené funkci nastavit 
+</I>&gt;<i> nejaký atribut, jehož přítomnost pak můžeš testovat.
+</I>&gt;<i>
+</I>&gt;<i> Mimochodem ten dekorátor co uvádíš není nejlepší, protože přepisuje 
+</I>&gt;<i> název a dokumentaci původní funkce. Tím by to také možná šlo zjistit.
+</I>&gt;<i>
+</I>&gt;<i> Petr Messner
+</I>&gt;<i>
+</I>&gt;<i> 23.6.2010 v 9:14, Martin Blažík &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lachtan na fnet.cz</A>&gt;:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Čusík,
+</I>&gt;&gt;<i> nemáte někdo představu, jak zjistit za běhu programu, zda funkce či
+</I>&gt;&gt;<i> metoda byla obalena konkrétním dekorátorem? Mějme tento ukázkový kód
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def decorator(func):
+</I>&gt;&gt;<i>  def wrap(*args, **kwargs):
+</I>&gt;&gt;<i>      return func(*args, **kwargs)
+</I>&gt;&gt;<i>  return wrap
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def test1():
+</I>&gt;&gt;<i>  return 'test1'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> @decorator
+</I>&gt;&gt;<i> def test2():
+</I>&gt;&gt;<i>  return 'test2'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> @decorator
+</I>&gt;&gt;<i> def test3():
+</I>&gt;&gt;<i>  return 'test3'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> a já bych rád měl funkci
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def isDecorated(function, decor):
+</I>&gt;&gt;<i>  pass
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> která vrátí True, pokud function vznikla tak, že nějaká jiná funkce
+</I>&gt;&gt;<i> (nezáleží na tom jaká) byla obalena dekorátorem decor. Mohl bych napsat
+</I>&gt;&gt;<i> třeba
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> lst = [test1, test2, test3]
+</I>&gt;&gt;<i> for function in lst:
+</I>&gt;&gt;<i>  if isDecorated(function, decorator):
+</I>&gt;&gt;<i>    print function.__name__, 'YES'
+</I>&gt;&gt;<i>  else:
+</I>&gt;&gt;<i>    print function.__name__, 'NO'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Snažil jsem se o tom něco najít na inetu i jsem provedl hromadu
+</I>&gt;&gt;<i> testování za použítí různých atributu funkce, ale pořád nemůžu najít 
+</I>&gt;&gt;<i> řešení.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Za všechny nápady předem dík
+</I>&gt;&gt;<i> lachtan
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009830.html">[python] Dekorovana funkce
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009833.html">[python] Dekorovana funkce
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9832">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9832">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9832">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9832">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009832.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:33 GMT -->
+</html>

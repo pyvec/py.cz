@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008152.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:30 GMT -->
+<HEAD>
+   <TITLE> [python] Gener
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Gener&In-Reply-To=48ABD830.6070503%40atlas.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008150.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008153.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Gener</H1>
+    <B>Calis.martin na seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Gener&In-Reply-To=48ABD830.6070503%40atlas.sk"
+       TITLE="[python] Gener">Calis.martin na seznam.cz
+       </A><BR>
+    <I>Středa Srpen 20 12:22:46 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008150.html">[python] Generátory
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008153.html">[python] Generátory
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8152">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8152">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8152">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8152">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Děkuji, takhle už to funguje :)
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Jan Janech &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">devel na atlas.sk</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] Gener
+</I>&gt;<i> Datum: 20.8.2008 10:49:40
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Dobry den,
+</I>&gt;<i> 
+</I>&gt;<i> zakazdym ked zavolate generatorovu metodu, tak sa generator inicializuje 
+</I>&gt;<i> nanovo. Takze:
+</I>&gt;<i> 
+</I>&gt;<i> def generatorCisel():
+</I>&gt;<i>      yield 1
+</I>&gt;<i>      yield 2
+</I>&gt;<i>      yield 3
+</I>&gt;<i> 
+</I>&gt;<i> Spravi:
+</I>&gt;<i> 
+</I>&gt;<i>  &gt;&gt;&gt; generatorCisel().next()
+</I>&gt;<i> 1
+</I>&gt;<i>  &gt;&gt;&gt; generatorCisel().next()
+</I>&gt;<i> 1
+</I>&gt;<i> 
+</I>&gt;<i> Ale:
+</I>&gt;<i> 
+</I>&gt;<i>  &gt;&gt;&gt; tmp = generatorCisel()
+</I>&gt;<i>  &gt;&gt;&gt; tmp.next()
+</I>&gt;<i> 1
+</I>&gt;<i>  &gt;&gt;&gt; tmp.next()
+</I>&gt;<i> 2
+</I>&gt;<i>  &gt;&gt;&gt; tmp.next()
+</I>&gt;<i> 3
+</I>&gt;<i> 
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A> wrote:
+</I>&gt;<i> &gt; Dobrý den, nedávno jsem se rozhodl použít z jistých důvodu generátory.
+</I>&gt;<i> Každopádně pokud mam script:
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt;
+</I>&gt;<i> --------------------------------------------------------------------------------------
+</I>&gt;<i> &gt; class Trida:
+</I>&gt;<i> &gt; ...def __init__(self):
+</I>&gt;<i> &gt; ......self.seznam = []
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; ...def metoda(self, jedna, dve):
+</I>&gt;<i> &gt; ......for promnena in self.seznam[jedna][dve]:
+</I>&gt;<i> &gt; .........yield promnena
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; ...def metoda2(self, jedna, dve):
+</I>&gt;<i> &gt; ......print self.seznam[jedna][dve]
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; priklad = Trida()
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt;&gt;&gt;&gt; print priklad.metoda(1,1)
+</I>&gt;<i> &gt; &lt;generator object at 0x00B550D0&gt;
+</I>&gt;<i> &gt;&gt;&gt;&gt; print priklad.metoda(1,1).next()
+</I>&gt;<i> &gt; ['...', 'Vykuchejte blbou rybu!']
+</I>&gt;<i> &gt;&gt;&gt;&gt; print priklad.metoda(1,1).next()
+</I>&gt;<i> &gt; ['...', 'Vykuchejte blbou rybu!']###nevite proc mi to znovu vytisklo predchozi
+</I>&gt;<i> vysledek?
+</I>&gt;<i> &gt;&gt;&gt;&gt; priklad.metoda2(1,1)
+</I>&gt;<i> &gt; [['...', 'Vykuchejte blbou rybu!'], ['...', '...']]
+</I>&gt;<i> &gt; None
+</I>&gt;<i> &gt;
+</I>&gt;<i> ---------------------------------------------------------------------------------------
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Nevíte proč nefunguje next() tak jak má?
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> 
+</I>&gt;<i> ____________________________
+</I>&gt;<i> Ing. Jan Janech
+</I>&gt;<i> Katedra softverovych technologii
+</I>&gt;<i> Fakulta riadenia a informatiky
+</I>&gt;<i> Zilinska Univerzita
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008150.html">[python] Generátory
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008153.html">[python] Generátory
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8152">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8152">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8152">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8152">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008152.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:30 GMT -->
+</html>

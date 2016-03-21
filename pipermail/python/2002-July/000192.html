@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2002-July/000192.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:41 GMT -->
+<HEAD>
+   <TITLE> [python] Python - taková skoro školní úloha
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Python%20-%20%3D%3Fiso-8859-2%3FQ%3Ftakov%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3F%3DE1_skoro_%3DB9koln%3DED_%3DFAloha%3F%3D&In-Reply-To=20020730103607.2072C4138%40ns.chl.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2002-July/000191.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2002-July/000193.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Python - taková skoro školní úloha</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Python%20-%20%3D%3Fiso-8859-2%3FQ%3Ftakov%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3F%3DE1_skoro_%3DB9koln%3DED_%3DFAloha%3F%3D&In-Reply-To=20020730103607.2072C4138%40ns.chl.cz"
+       TITLE="[python] Python - taková skoro školní úloha">rk na dat.cz
+       </A><BR>
+    <I>Úterý Červenec 30 15:20:28 CEST 2002</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000191.html">[python] Python - taková skoro školní úloha
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000193.html">[python] Python - taková skoro školní úloha
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-July/date.html#192">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/thread.html#192">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/subject.html#192">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/author.html#192">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, Jul 30, 2002 at 12:37:32PM +0200, Jaroslav Lukesh wrote:
+
+&gt;<i> Dobrý den,
+</I>&gt;<i> 
+</I>&gt;<i> potřebuji mít v pythonu (jako skript do Zope) program, který po zavolání s
+</I>&gt;<i> parametrem souboru, z něj ignoruje vše od začátku do &lt;body cokoli&gt; včetně,
+</I>&gt;<i> a od &lt;/body&gt; včetně do konce souboru. Tedy dá na výstup jen text mezi &lt;body
+</I>&gt;<i> cokoli&gt;text&lt;/body&gt;
+</I>&gt;<i>
+</I>&gt;<i> HTML Document product do Zope mi nepomůže, protože se dokument musí volat z
+</I>&gt;<i> URL a nikoli renderovat.
+</I>&gt;<i> 
+</I>&gt;<i> Koukal jsem do manuálu Pythónu a jsem z toho pythómy. V Basicu/Pascalu bych
+</I>&gt;<i> to napsal (po konzultaci s helpem, programoval jsem naposledy velmi dávno),
+</I>&gt;<i> ale pythonovská dokumentace jakoby některé věci neměla (nebo bad URL).
+</I>&gt;<i> 
+</I>&gt;<i> Kdyby se to povedlo, byl by to zajímavý variant pro HTML Document.
+</I>
+Jde to udelat velmi jednoduse vytvorenim DOM reprezentace HTML
+dokumentu. Je to ale neefektivni a rychlejsi je pouzit nejaky SAX nebo
+SGML parser, ale tohle zase funguje spolehlive i na ponekud nestandardni
+HTML dokumenty a navic to ony &quot;nestandardni&quot; HTML dokumenty samo
+znormalizuje. Tenhle postup vyzaduje mit nainstalovany modul PyXML.
+
+-----------------------------------------------------------
+#!/usr/bin/env python
+
+import sys, xml, StringIO
+from xml.dom.ext.reader import HtmlLib
+from xml.dom.ext import PrettyPrint
+
+def htmlbody (url) :
+    result = StringIO.StringIO()
+    reader = HtmlLib.Reader()
+    doc = reader.fromUri(url)
+    body = doc.getElementsByTagName(&quot;BODY&quot;)[0]
+    for child in body._get_childNodes() :
+        PrettyPrint(child, stream=result)
+    return result.getvalue()
+    
+
+body = htmlbody(sys.argv[1])
+print body
+-----------------------------------------------------------
+
+
+Priklad rychlejsi implementace po ruce bohuzel nemam, krome prastareho
+kodu, ktery je trochu nerobustni, ale vetsinou funguje:
+
+-----------------------------------------------------------
+#!/usr/bin/env python
+
+import string, sys
+
+def htmlbody (file) :
+    input = open(file).read()
+    start = 0
+    output = ''
+    inbody = 0
+    while start &lt; len(input) -1 :
+        ss = string.find(input, '&lt;', start)
+        if ss &lt; 0 : break
+        se = string.find(input, '&gt;', start)
+        if se &lt; 0 : break
+        tag = input[ss+1:se]
+        tag = string.replace(tag,'\n',' ')
+        tl = string.split(tag, ' ', 1)
+        tl = map(lambda x : string.upper(string.strip(x)), tl)
+        if tl[0] == 'BODY' : 
+            inbody = 1
+        elif tl[0] == '/BODY' : 
+            output = output + input[start:ss]
+            inbody = 0
+        elif inbody : 
+            output = output + input[start:se+1]
+        start = se + 1
+    return output
+
+body = htmlbody(sys.argv[1])
+print body
+-----------------------------------------------------------
+
+
+Zdravi
+
+Radek Kaňovský
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000191.html">[python] Python - taková skoro školní úloha
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-July/000193.html">[python] Python - taková skoro školní úloha
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-July/date.html#192">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/thread.html#192">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/subject.html#192">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-July/author.html#192">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2002-July/000192.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:41 GMT -->
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011299.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:45 GMT -->
+<HEAD>
+   <TITLE> [python] Gtk LED on/off (začiatočník)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FGtk_LED_on/off_%3D28za%3DE8iato%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3CCAE1QKmTEajfHD8CU57CeZqotx6AGEpu4yg3ZtLvJQXAHc3hxyA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-March/011298.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-March/011300.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Gtk LED on/off (začiatočník)</H1>
+    <B>Petr Blahos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FGtk_LED_on/off_%3D28za%3DE8iato%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3CCAE1QKmTEajfHD8CU57CeZqotx6AGEpu4yg3ZtLvJQXAHc3hxyA%40mail.gmail.com%3E"
+       TITLE="[python] Gtk LED on/off (začiatočník)">petrblahos na gmail.com
+       </A><BR>
+    <I>Středa Březen 19 20:08:30 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011298.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011300.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11299">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11299">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11299">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11299">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+zkus tohle:
+    <A HREF="https://gist.github.com/petrblahos/9648800">https://gist.github.com/petrblahos/9648800</A>
+a klidně se ptej. Ovšem připomínám, že s Gtk nedělám, takže je možné,
+že Best Practices jsou někde jinde.
+
+Je tam problém, že se mnohokrát volá set_from_file. Správně by bylo si ty
+2 obrázky na začátku nahrát, a potom je jen použít.
+--
+Petr
+
+
+
+
+2014-03-18 18:19 GMT+01:00 Lukáš Sliacky &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lukas na sliacky.eu</A>&gt;:
+
+&gt;<i> Ahoj Petr,
+</I>&gt;<i>
+</I>&gt;<i> ďakujem za ochotu. Rozumiem tomu, čo si chcel &quot;povedať&quot;, ale žiaľ, toto je
+</I>&gt;<i> môj prvý program, takže sa s tým celkom dobre trápim. (Hotovým zdrojákom
+</I>&gt;<i> ako tak rozumiem, ale ak mám vyprodukovať niečo z hlavy, je to problém)
+</I>&gt;<i>
+</I>&gt;<i> Snažil som sa Tvoj pseudokód preložiť do reálneho kódu, ale na to mám
+</I>&gt;<i> príliš málo vedomostí a skúseností.
+</I>&gt;<i>
+</I>&gt;<i> &quot;Výsledok&quot; je tu:
+</I>&gt;<i>
+</I>&gt;<i> from gi.repository import Gtk
+</I>&gt;<i> import sys
+</I>&gt;<i>
+</I>&gt;<i> class LedControl(Gtk.Window):
+</I>&gt;<i>
+</I>&gt;<i>     def __init__(self):
+</I>&gt;<i>         Gtk.Window.__init__(self, title=&quot;LED Control&quot;)
+</I>&gt;<i>         self.set_border_width(6)
+</I>&gt;<i>         self.set_default_size(200, 250)
+</I>&gt;<i>
+</I>&gt;<i>         okno = Gtk.Table(4, 2, True)
+</I>&gt;<i>         self.add(okno)
+</I>&gt;<i>
+</I>&gt;<i>         img_LED_on = Gtk.Image()
+</I>&gt;<i>         img_LED_on.set_from_file(&quot;LED_on.png&quot;)
+</I>&gt;<i>         #~ self.add(img_LED_on)
+</I>&gt;<i>
+</I>&gt;<i>         img_LED_off = Gtk.Image()
+</I>&gt;<i>         img_LED_off.set_from_file(&quot;LED_off.png&quot;)
+</I>&gt;<i>         #~ self.add(img_LED_off)
+</I>&gt;<i>
+</I>&gt;<i>         widget_LED1 = Gtk.Image()
+</I>&gt;<i>         widget_LED2 = Gtk.Image()
+</I>&gt;<i>         widget_LED3 = Gtk.Image()
+</I>&gt;<i>         widget_LED4 = Gtk.Image()
+</I>&gt;<i>
+</I>&gt;<i>         widget1 = Gtk.Image()
+</I>&gt;<i>         widget2 = Gtk.Image()
+</I>&gt;<i>         widget3 = Gtk.Image()
+</I>&gt;<i>         widget4 = Gtk.Image()
+</I>&gt;<i>
+</I>&gt;<i>         button_LED_1 = Gtk.ToggleButton(&quot;LED 1&quot;)
+</I>&gt;<i>         button_LED_1.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;1&quot;)
+</I>&gt;<i>         button_LED_1.set_border_width(2)
+</I>&gt;<i>
+</I>&gt;<i>         button_LED_2 = Gtk.ToggleButton(&quot;LED 2&quot;)
+</I>&gt;<i>         button_LED_2.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;2&quot;)
+</I>&gt;<i>         button_LED_2.set_border_width(2)
+</I>&gt;<i>
+</I>&gt;<i>         button_LED_3 = Gtk.ToggleButton(&quot;LED 3&quot;)
+</I>&gt;<i>         button_LED_3.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;3&quot;)
+</I>&gt;<i>         button_LED_3.set_border_width(2)
+</I>&gt;<i>
+</I>&gt;<i>         button_LED_4 = Gtk.ToggleButton(&quot;LED 4&quot;)
+</I>&gt;<i>         button_LED_4.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;4&quot;)
+</I>&gt;<i>         button_LED_4.set_border_width(2)
+</I>&gt;<i>
+</I>&gt;<i>         led_widgets = {
+</I>&gt;<i>             button_LED_1.id: widget1,
+</I>&gt;<i>             button_LED_2.id: widget2,
+</I>&gt;<i>             button_LED_3.id: widget3,
+</I>&gt;<i>             button_LED_4.id: widget4
+</I>&gt;<i>         }
+</I>&gt;<i>
+</I>&gt;<i>         okno.attach(button_LED_1, 0, 1, 0, 1)
+</I>&gt;<i>         okno.attach(button_LED_2, 0, 1, 1, 2)
+</I>&gt;<i>         okno.attach(button_LED_3, 0, 1, 2, 3)
+</I>&gt;<i>         okno.attach(button_LED_4, 0, 1, 3, 4)
+</I>&gt;<i>
+</I>&gt;<i>         #~ widget1.set_from_image(img_LED_off)
+</I>&gt;<i>         #~ widget1.set_from_image(img_LED_off)
+</I>&gt;<i>         #~ widget1.set_from_image(img_LED_off)
+</I>&gt;<i>         #~ widget1.set_from_image(img_LED_off)
+</I>&gt;<i>
+</I>&gt;<i>         okno.attach = (widget_LED1, 1, 2, 2, 3)
+</I>&gt;<i>         okno.attach = (widget_LED2, 1, 2, 0, 1)
+</I>&gt;<i>         okno.attach = (widget_LED3, 1, 2, 1, 2)
+</I>&gt;<i>         okno.attach = (widget_LED4, 1, 2, 2, 3)
+</I>&gt;<i>
+</I>&gt;<i>     def LED_OnOff(self, okno, name):
+</I>&gt;<i>         if okno.get_active():
+</I>&gt;<i>             status = &quot;on&quot;
+</I>&gt;<i>             led_widgets[okno.id].set_from_image(img_LED_on)
+</I>&gt;<i>         else:
+</I>&gt;<i>             status = &quot;off&quot;
+</I>&gt;<i>             led_widgets[okno.id].set_from_image(img_LED_off)
+</I>&gt;<i>         print(&quot;Tlačítko LED&quot;, name, &quot;zmenilo stav na&quot;, status)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> app = LedControl()
+</I>&gt;<i> app.connect(&quot;delete-event&quot;, Gtk.main_quit)
+</I>&gt;<i> app.show_all()
+</I>&gt;<i> Gtk.main()
+</I>&gt;<i>
+</I>&gt;<i> Našiel by sa niekto ochotný a hlavne trpezlivý, kto by ma posunul kúsok
+</I>&gt;<i> ďalej?
+</I>&gt;<i> Ďakujem.
+</I>&gt;<i>
+</I>&gt;<i> Lukáš
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+____________________
+<A HREF="http://pysk.blog.root.cz/">http://pysk.blog.root.cz/</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20140319/15df6692/attachment.html">http://www.py.cz/pipermail/python/attachments/20140319/15df6692/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011298.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011300.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11299">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11299">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11299">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11299">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011299.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:45 GMT -->
+</html>

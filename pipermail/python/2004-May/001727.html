@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001727.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:32 GMT -->
+<HEAD>
+   <TITLE> [python] Konverze řetězce na float
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Konverze%20%3D%3Fiso-8859-2%3Fq%3F%3DF8et%3DECzce%3F%3D%20na%20float&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-May/001726.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-May/001728.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Konverze řetězce na float</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Konverze%20%3D%3Fiso-8859-2%3Fq%3F%3DF8et%3DECzce%3F%3D%20na%20float&In-Reply-To="
+       TITLE="[python] Konverze řetězce na float">fuky na seif.cz
+       </A><BR>
+    <I>Úterý Květen 11 10:53:42 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001726.html">[python] (no subject):socket&gt;blender&gt;delphi
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001728.html">[python] Konverze řetězce na float
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1727">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1727">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1727">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1727">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+můžu nějakým způsobem docílit správného převedení řetězce např. &quot;12.2&quot;
+na číslo float 12.2? Zkoušel jsem to dvěmi následujícími způsoby, ale
+ani jeden nefunguje dle mých představ. Lépe řečeno, oba narazí na problém
+ve stejném místě a JÁ nevím jak to obejít.
+
+&gt;&gt;&gt;<i> import string
+</I>&gt;&gt;&gt;<i> import modul
+</I>
+&gt;&gt;&gt;<i> cislo = string.atof(&quot;12.2&quot;)
+</I>&gt;&gt;&gt;<i> cislo
+</I>12.199999999999999
+&gt;&gt;&gt;<i> round(cislo, 2)
+</I>12.199999999999999
+
+&gt;&gt;&gt;<i> modul.string2float(&quot;12.2&quot;)
+</I>řetězec: 12.2, číslo = 12.200000
+12.199999999999999
+
+PyObject* string2float(PyObject* self, PyObject* args)
+{
+  char *s;
+  
+  if(!PyArg_ParseTuple(args, &quot;s&quot;, &amp;s)) return NULL;
+  
+  printf(&quot;řetězec: %s, číslo = %f\n&quot;, s, atof(s));
+  
+  return Py_BuildValue(&quot;f&quot;, atof(s));
+}
+
+Dík za případné odpovědi.
+
+     S pozdravem Fuky
+
+-- 
+
+####################################################################
+# Žádný program není bezchybný, dokonalý ani nejlepší, # Gnu.cz    #
+# to samé platí i o lidech a nejen o nich.             # Linux.cz  #
+#                                   -- Jan Fuchs --    # Debian.cz #
+####################################################################
+# <A HREF="http://www.asu.cas.cz/">http://www.asu.cas.cz</A>                           ICQ: 200 692 177 #
+####################################################################
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001726.html">[python] (no subject):socket&gt;blender&gt;delphi
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001728.html">[python] Konverze řetězce na float
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1727">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1727">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1727">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1727">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001727.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:32 GMT -->
+</html>

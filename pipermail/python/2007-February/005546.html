@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005546.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:37 GMT -->
+<HEAD>
+   <TITLE> [python] Tkinter a OOP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Tkinter%20a%20OOP&In-Reply-To=45CB6252.7010706%40svobodnik.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005545.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005547.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Tkinter a OOP</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Tkinter%20a%20OOP&In-Reply-To=45CB6252.7010706%40svobodnik.cz"
+       TITLE="[python] Tkinter a OOP">geon na post.cz
+       </A><BR>
+    <I>Čtvrtek Únor  8 20:15:00 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005545.html">[python] Tkinter a OOP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005547.html">[python] Tkinter a OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5546">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5546">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5546">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5546">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pavel Svobodník napsal(a):
+&gt;<i> Dobrý den, tak opět jsem narazil na jeden problém který nevím jak 
+</I>&gt;<i> vyřešit a tak jsem se rozhodl poprosit o pomoc
+</I>&gt;<i> Mám program ve kterém mám různé funkce a do kterého importuju modul.py 
+</I>&gt;<i> ve kterém mám garfické rozhraní.
+</I>&gt;<i> Toto grafické rozhraní bych chtěl udržovat odděleně ve vlastním modulu 
+</I>&gt;<i> od ostatního kódu.
+</I>&gt;<i> Ale mám problém s tím jak donutit button OK k tomu aby zavolal funkci 
+</I>&gt;<i> test() v hlavním programu ne v importovaném modulu.
+</I>&gt;<i> Děkuju za radu
+</I>&gt;<i> Pavel Svobodník
+</I>&gt;<i>
+</I>&gt;<i> obsah modul.py
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i> from Tkinter import *
+</I>&gt;<i>
+</I>&gt;<i> class rozhrani:
+</I>&gt;<i>     def __init__(self, master):
+</I>&gt;<i>         master.title(&quot;test&quot;)
+</I>&gt;<i>     def zpracuj(self, master):
+</I>&gt;<i>         prochazej=Button(master, text='OK', command=test)
+</I>&gt;<i>         prochazej.grid(row=0, column=0, sticky='w')
+</I>&gt;<i>     def test(self):
+</I>&gt;<i>        print &quot;test gui&quot;
+</I>&gt;<i> if __name__==&quot;__main__&quot;:
+</I>&gt;<i>     root = Tk()
+</I>&gt;<i>     app = rozhrani(root)
+</I>&gt;<i>     app.zpracuj(root)
+</I>&gt;<i>     root.mainloop()
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Tak jednak máš v tomto programu chybu, která nedovolí jeho funkčnost. 
+Bud musíš volat command=self.test, nebo def test vysunout ven z definice 
+třídy (a odstranit self ze závorky). Pokud to uděláš, bude to fungovat, 
+ale stále jinak než chceš.
+&gt;<i> program do kterého modul importuju
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i> from Tkinter import *
+</I>&gt;<i> import modul
+</I>&gt;<i>
+</I>&gt;<i> root = Tk()
+</I>&gt;<i> gui=modul.rozhrani(root)
+</I>&gt;<i> gui.zpracuj(root)
+</I>&gt;<i>
+</I>&gt;<i> def test():
+</I>&gt;<i>     print &quot;test v hlavnim programu&quot;
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Myslím, že budeš muset v tomto hlavním programu vytvořit novou třídu, 
+která bude potomkem modul.rozhraní, a ve které přetypuješ funkci zpracuj 
+(vlastně ji opíšeš). Když definici funkce test() dáš na začátek 
+programu, mělo by ti fungovat, jako mně.
+
+Pokud chceš ale důsledně oddělit grafiku od kodu, možná bys mohl místo 
+command používat v hlavním modulu bind (+četné úpravy kodu).
+
+Něco k tomu možná i na 
+<A HREF="http://www.nabble.com/separation-gui-from-logic-t498927.html#a1354241">http://www.nabble.com/separation-gui-from-logic-t498927.html#a1354241</A> .
+
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005545.html">[python] Tkinter a OOP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005547.html">[python] Tkinter a OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5546">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5546">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5546">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5546">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005546.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:37 GMT -->
+</html>

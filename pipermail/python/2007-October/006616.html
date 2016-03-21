@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006616.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:16 GMT -->
+<HEAD>
+   <TITLE> [python] subprocess, pipes
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20subprocess%2C%20pipes&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-October/006615.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-October/006617.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] subprocess, pipes</H1>
+    <B>Koumes21</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20subprocess%2C%20pipes&In-Reply-To="
+       TITLE="[python] subprocess, pipes">koumes21 na gmail.com
+       </A><BR>
+    <I>Středa Říjen 10 21:02:46 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006615.html">[python] Jak setridit dictionary
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006617.html">[python] Client+Server - povodne: subprocess, pipes
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6616">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6616">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6616">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6616">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+udělal jsem si dva jednoducé prográmky abych si vyzkouše
+komunikaci mezi procesy. Jeden z nich jednoduše vypisuje to, co do něj
+napíšete:
+
+import sys
+
+while 1:
+    c1=sys.stdin.read(1)
+    sys.stdout.write(c1)
+    sys.stdout.flush()
+
+Tento první jsem změnil na exe soubor modulem py2exe.
+Druhý program spustí ten první a posílá do něj to co uživatel
+napíše a to co se vrátí tiskne na obrazovku:
+
+import subprocess,sys,thread
+
+pipe = subprocess.Popen(&quot;server.exe&quot;,
+stdin=subprocess.PIPE,
+stdout=subprocess.PIPE)
+
+def reciever():
+    while 1:
+        c1=pipe.stdout.read(1)
+        sys.stdout.write(c1)
+
+thread.start_new(reciever,())
+
+while 1:
+....c1=sys.stdin.read(1)
+....pipe.stdin.write(c1)
+
+Je mi jasné, že program není ještě dokončený, ale jde o princip.
+V tomto okamžiku vše správně funguje. Já bych ale potřeboval,
+aby se &quot;server&quot; nezapínal jako podproces, ale aby například oba
+programy zapnul uživatel a oni se sami poznaly a začaly spolu
+komunikovat. Kdyby někdo věděl a poradil mi, budu mu jistě vděčný.
+
+Koumes21
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20071010/fb1cf193/attachment.htm">http://www.py.cz/pipermail/python/attachments/20071010/fb1cf193/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006615.html">[python] Jak setridit dictionary
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006617.html">[python] Client+Server - povodne: subprocess, pipes
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6616">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6616">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6616">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6616">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006616.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:16 GMT -->
+</html>

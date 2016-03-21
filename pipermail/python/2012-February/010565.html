@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010565.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:38 GMT -->
+<HEAD>
+   <TITLE> [python] socket + udp + vytváření paketů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fsocket_%2B_udp_%2B_vytv%3DE1%3DF8en%3DED_paket%3DF9%3F%3D&In-Reply-To=%3C9DFB6F75-D82C-4FB0-989F-6052D68EEC43%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-February/010564.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-February/010566.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] socket + udp + vytváření paketů</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fsocket_%2B_udp_%2B_vytv%3DE1%3DF8en%3DED_paket%3DF9%3F%3D&In-Reply-To=%3C9DFB6F75-D82C-4FB0-989F-6052D68EEC43%40gmail.com%3E"
+       TITLE="[python] socket + udp + vytváření paketů">petr.messner na gmail.com
+       </A><BR>
+    <I>Úterý Únor 21 19:52:40 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010564.html">[python] socket + udp + vytváření paketů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010566.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10565">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10565">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10565">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10565">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+21. 2. 2012 v 19:19, Jakub Vojáček:
+...
+&gt;<i> Pokud bych neměl definován tvar paketu, tak bych použil 
+</I>&gt;<i> 
+</I>&gt;<i> s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM )
+</I>&gt;<i> s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+</I>&gt;<i> s.sendto(data, host, port))
+</I>&gt;<i> 
+</I>&gt;<i> , ale jelikož je přesně definována velikost a struktura paketu, tak tento způsob nemohu použít. 
+</I>
+Nerozumím tomu, proč tento způsob nemůžeš použít. Jediné, co potřebuješ upravit, jsou data. Jak ten paket chceš potom odeslat, když ne takto?
+
+&gt;<i> 
+</I>&gt;<i> Formát je definován následovně:
+</I>&gt;<i> - 4B jsou rezervovány na identifikátor spojení
+</I>&gt;<i> - 2B jsou rezervovány na sekvenční číslo
+</I>&gt;<i> - 2B jsou rezervovány na číslo potvrzení
+</I>&gt;<i> - 1B je rezervován na příznak
+</I>&gt;<i> - 0-256B je rezervováno na data
+</I>&gt;<i> 
+</I>&gt;<i> Abych řekl pravdu, vůbec jsem nevěděl, jak začít. Nakonec jsem se pokusil použít modul struct a přenáše data zabalena pomoci toho modulu.
+</I>&gt;<i> 
+</I>&gt;<i> Použil jsem tedy funkci struct.pack()
+</I>&gt;<i> 
+</I>&gt;<i> data = struct.pack(&quot;!IHHB256s&quot;, 0, 0, 0, 1, &quot;1&quot;)
+</I>&gt;<i> s.sendto(data, (host, port))
+</I>&gt;<i> 
+</I>
+Možná je chyba zde. Jako data posíláš &quot;1&quot;, ale zabališ to jako &quot;1&quot; a za tím 255 znaků 0x00. To možná takto být nemá, záleží na zadání.
+
+Také pozor na endianitu. Vykřičníkem nastavuješ network/big-endian byte order, což by mělo být správně, ale je možné, že server je naprogramovaný špatně :)
+
+&gt;<i> Jenomže tento způsob také nefunguje, protože pokud pošlu takto zabalenou zprávu referenčnímu serveru, tak nedostanu odpověď - tudíž server nepřečetl paket správně.
+</I>
+Zkus se třeba tcpdumpem nebo wiresharkem (zmiňovaném v dalším mailu) podívat, co přesně lítá po síti. Není možné nějak z toho serveru zjistit, co je špatně? Máš ten server nějak k dispozici?
+
+&gt;<i> 
+</I>&gt;<i> Prosím Vás tedy o nějaký nápad, jak dál postupovat a jestli je např. použití modulu struct vhodné.
+</I>&gt;<i> 
+</I>
+Modul struct je vhodný přesně na toto.
+
+PM
+
+&gt;<i> Děkuji za každou radu
+</I>&gt;<i> 
+</I>&gt;<i> Jakub
+</I>
+
+
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010564.html">[python] socket + udp + vytváření paketů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010566.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10565">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10565">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10565">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10565">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010565.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:38 GMT -->
+</html>

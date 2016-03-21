@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005076.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+<HEAD>
+   <TITLE> [python] class a subclass
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=Mahogany-0.67.0-10556-20061111-130135.00%40kihnet.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005075.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005077.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] class a subclass</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=Mahogany-0.67.0-10556-20061111-130135.00%40kihnet.sk"
+       TITLE="[python] class a subclass">mtip na atlas.cz
+       </A><BR>
+    <I>Sobota Listopad 11 13:47:31 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005075.html">[python] class a subclass
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005077.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5076">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5076">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5076">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5076">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>RC&gt; table ako posledny potomok sa mi zda nespravny navrh. Najjvysie ma byt
+RC&gt; daco vseobecne a postupne ako dedis implementujes viac low-level
+RC&gt; operacie.
+
+Mam to poradi takto, to je preci postup od vseobecnemu ke konkretnimu:
+
+class binds:
+      ...
+      
+class rowtable(binds):
+      ...
+      
+class table(rowtable):
+    '''zpracovava udalosti nad tabulkou
+    (pohyb po zaznamech, zmeny zaznamu atd)'''
+
+    def move(self,recordNum):
+        '''posun po zaznamech'''
+        pass
+
+    def refresh(self,tbl):
+        '''obnovi tabulku'''
+        pass
+
+    def create(self,fields,tbl):
+        this.__fields=fields #ulozi nove nazvy poli
+        this.refresh() #obnovi tabulku (S POTOMKEM VYTVORI CHYBU)
+
+class sql(table):
+    '''prebira vse z table a vylepsi metody create a refresh'''
+    def refresh(self):
+        '''prekryje metodu rodice
+        nacte zaznamy napr z MySQL a posle do rodice tb'''
+        #neco jako opakuj posledni SELECT a ziskej pole tbl
+        table.refresh(self,tbl)
+        
+    def create(self,sqlText):
+        '''prekryje metodu rodice
+        nacte novou tabulku z sql do pole a preda ho rodici'''
+        #neco jako
+        #tbl = run (SELECT...)
+        #fields = nazvy poli z dotazu select
+        table.create(self,fields,tbl)
+
+
+RC&gt; Ak chces pracovat priamo s pamatou, tak vytvor dalsiu odvodenu classu
+RC&gt; mem(table) a prekry prislusne metody sqlCreate a sqlRefresh.
+Ale ja preci s pameti pracuju uz takto:
+instTable=table()
+instTable.create(fields,tbl)
+
+ale uz tomu asi rozumim. Class table ma byt ve skutecnosti nahrazena
+class template a nad ni teprve bud class sql nebo class memo, a ty budou
+pouze prekryvat dve template metody, jinymi slovy, vyuzit toho, ze i
+rodic hleda vzdy nejprve v potomkovi.
+
+Diky za trpelivost.
+
+---
+Mirek Nemecek.
+
+
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005075.html">[python] class a subclass
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005077.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5076">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5076">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5076">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5076">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005076.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+</html>

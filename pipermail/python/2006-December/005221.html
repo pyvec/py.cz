@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005221.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:03 GMT -->
+<HEAD>
+   <TITLE> [python] os.listdir
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20os.listdir&In-Reply-To=000c01c71529%24dc9652b0%240e01a8c0%40topinfo.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-December/005220.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-December/005222.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] os.listdir</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20os.listdir&In-Reply-To=000c01c71529%24dc9652b0%240e01a8c0%40topinfo.cz"
+       TITLE="[python] os.listdir">rk na dat.cz
+       </A><BR>
+    <I>Pátek Prosinec  1 11:16:18 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005220.html">[python] os.listdir
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005222.html">[python] Velikost  adresáře
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5221">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5221">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5221">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5221">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, Dec 01, 2006 at 10:19:28AM +0100, Novák Jan - Topinfo s.r.o. wrote:
+
+&gt;<i> Python/2.4.4 (Debian)
+</I>&gt;<i> &gt;&gt;&gt; import os, sys
+</I>&gt;<i> &gt;&gt;&gt; sys.getfilesystemencoding()
+</I>&gt;<i> 'ANSI_X3.4-1968'
+</I>&gt;<i> &gt;&gt;&gt; os.listdir('path')
+</I>&gt;<i> ['aaa.txt', 'bbb.txt', '\xe8e\xb9tina.txt', 'ccc.txt']
+</I>&gt;<i> &gt;&gt;&gt; os.listdir(u'path')
+</I>&gt;<i> [u'aaa.txt', u'bbb.txt', '\xe8e\xb9tina.txt', u'ccc.txt']
+</I>&gt;<i> &gt;&gt;&gt; ...? 3. není unicode
+</I>
+ANSI_X3.4-1968 je myslim normalni 7bitove ASCII kodovani.
+Takze prevod diakritiky zhavaruje.
+
+Zkuste nastavit systemovou promennou LC_CTYPE na cs_CZ.UTF-8
+(nebo en_US.UTF-8).
+
+    $ LC_CTYPE=cs python -c 'import sys; print sys.getfilesystemencoding()'
+    ANSI_X3.4-1968
+
+    $ LC_CTYPE=cs_CZ.UTF-8 python -c 'import sys; print sys.getfilesystemencoding()'
+    UTF-8
+
+Pak to snad bude fungovat.
+
+Radek Kaňovský
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005220.html">[python] os.listdir
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005222.html">[python] Velikost  adresáře
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5221">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5221">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5221">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5221">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005221.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:03 GMT -->
+</html>

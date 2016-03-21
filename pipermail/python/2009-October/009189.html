@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-October/009189.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:15 GMT -->
+<HEAD>
+   <TITLE> [python] cgi.FieldStorage, cherrypy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20cgi.FieldStorage%2C%20cherrypy&In-Reply-To=%3Calpine.DEB.2.00.0910162311110.30172%40alioth.stel%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-October/009188.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-October/009190.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cgi.FieldStorage, cherrypy</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20cgi.FieldStorage%2C%20cherrypy&In-Reply-To=%3Calpine.DEB.2.00.0910162311110.30172%40alioth.stel%3E"
+       TITLE="[python] cgi.FieldStorage, cherrypy">fuky na sunstel.asu.cas.cz
+       </A><BR>
+    <I>Pátek Říjen 16 23:27:09 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-October/009188.html">[python] Podívejte se na můj Facebook profil
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-October/009190.html">[python] Vyřešeno: cgi.FieldStorage, cherrypy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-October/date.html#9189">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/thread.html#9189">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/subject.html#9189">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/author.html#9189">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+používám cgi '2.6' a cherrypy '3.0.2' na Debian Lenny. Mám problém s uploadem
+souboru. Někdy dostanu soubor správné velikosti tj. např. 177200B, ale někdy je
+oříznut o měnící se počet bajtů např. 537. Pro ukázku posílám testovací server,
+dám několik uploadů stejného souboru za sebou, ale pokaždé dostanu jinou velikost.
+
+Ani když použiji pro přístup k datům přímo params[&quot;data&quot;].file tj. instace
+objektu cgi.FieldStorage, nic se nezmění a problém přetrvává.
+
+Chová se mi to stejně jak na binárních, tak na obyčejných ASCII souborech.
+
+Netuší někdo v čem je problém?
+
+     #!/usr/bin/env python2.5
+     # -*- coding: utf-8 -*-
+
+     import cherrypy
+
+     class RootServer:
+         @cherrypy.expose
+         def index(self, *vdir, **params):
+             method = cherrypy.request.method
+
+             if (method != &quot;POST&quot;):
+                 return &quot;&quot;&quot;
+                 &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;<A HREF="http://www.w3.org/TR/html4/loose.dtd">http://www.w3.org/TR/html4/loose.dtd</A>&quot;&gt;
+                 &lt;html&gt;
+                 &lt;head&gt;&lt;title&gt;Upload&lt;/title&gt;&lt;/head&gt;
+                 &lt;body&gt;
+                     &lt;form action=&quot;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+                         &lt;input type=&quot;file&quot; name=&quot;data&quot;&gt;
+                         &lt;input type=&quot;submit&quot; value=&quot;Upload&quot;&gt;
+                     &lt;/form&gt;
+                 &lt;/body&gt;
+                 &lt;/html&gt;
+                 &quot;&quot;&quot;
+             else:
+                 return &quot;%i\n&quot; % len(params[&quot;data&quot;].value)
+
+     def main():
+         config = {
+             'global': {
+                 'server.socket_port': 8000,
+                 'server.ssl_certificate': 'cert.pem',
+                 'server.ssl_private_key': 'key.pem',
+             }
+         }
+
+         cherrypy.quickstart(RootServer(), '/', config=config)
+
+     if __name__ == '__main__':
+         main()
+
+         S pozdravem Jan Fuchs
+
+--
+/**************************************************************
+*   _    Žádný program není bezchybný, dokonalý ani nejlepší, *
+*  °v°   to samé platí i o lidech a nejen o nich.             *
+* /(_)\                                      -- Jan Fuchs --  *
+*  ^ ^                                                        *
+*        <A HREF="http://www.fuky.org/">http://www.fuky.org</A>   Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">jan.fuchs.cz na gmail.com</A> *
+**************************************************************/
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-October/009188.html">[python] Podívejte se na můj Facebook profil
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-October/009190.html">[python] Vyřešeno: cgi.FieldStorage, cherrypy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-October/date.html#9189">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/thread.html#9189">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/subject.html#9189">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/author.html#9189">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-October/009189.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:15 GMT -->
+</html>

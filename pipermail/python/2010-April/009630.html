@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009630.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:42 GMT -->
+<HEAD>
+   <TITLE> [python] fungování skriptu - Vista x XP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Ffungov%3DE1n%3DED_skriptu_-_Vista_x_XP%3F%3D&In-Reply-To=%3C37879.1392.7726-30299-2119219158-1270998717%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009629.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009631.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] fungování skriptu - Vista x XP</H1>
+    <B>Szkandera.Karel</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Ffungov%3DE1n%3DED_skriptu_-_Vista_x_XP%3F%3D&In-Reply-To=%3C37879.1392.7726-30299-2119219158-1270998717%40seznam.cz%3E"
+       TITLE="[python] fungování skriptu - Vista x XP">Szkandera.Karel na seznam.cz
+       </A><BR>
+    <I>Neděle Duben 11 17:11:57 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009629.html">[python] fungování skriptu - Vista x XP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009631.html">[python] Unicode In Python, Completely Demystified
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9630">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9630">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9630">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9630">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tak už vím čím to je, nicméně řešení tohoto problému už je pro mě vyšší dívčí..
+Chyba vzniká tady:
+
+gtk.gdk.thread_init()
+
+pokud toto vyhodím, zbytek skriptu funguje normálně, až na sledování běhu programu, na což jsem právě potřeboval threads.. Bez toho nevím jak &quot;sdělovat&quot; uživateli v průběhu cyklu v jaké fázi se program nachází. Ve Vistách to přitom funguje jak jsem chtěl - ve vláknu spustím zpracování dat a při průběhu cyklem se mi aktualizuje popis status baru, procenta zpracovani atd.. 
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Szkandera.Karel &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Szkandera.Karel na seznam.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] fungování skriptu - Vista x XP
+</I>&gt;<i> Datum: 11.4.2010 16:12:39
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Tak nakonec se mi na xp povedlo nainstalovat i to gtk (dělala tam problém jedna
+</I>&gt;<i> knihovna ve windows/system). Nicméně problém je stejný jako když spustím ten
+</I>&gt;<i> skript přeložený do exe.. Najede jenom obrys základního okna a přestane
+</I>&gt;<i> odpovídat..
+</I>&gt;<i> Jdu zkoušet dál :-/
+</I>&gt;<i> 
+</I>&gt;<i> &gt; ----------------------------------------
+</I>&gt;<i> &gt; Chtěl jsem se řídit touto radou, ale nepovedlo se mi nainstalovat na windows
+</I>&gt;<i> xp
+</I>&gt;<i> &gt; python s gtk.
+</I>&gt;<i> &gt; Postupoval jsem podle různých návodu, ale vždy jsem skončil na hlášce, která
+</I>&gt;<i> &gt; vyskočila po importu gtk.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; postupoval jsem například podle tohoto návodu:
+</I>&gt;<i> &gt; <A HREF="http://www.penjuinlabs.com/blog/?p=94">http://www.penjuinlabs.com/blog/?p=94</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt;&gt;&gt; import pygtk
+</I>&gt;<i> &gt; &gt;&gt;&gt; import gtk
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Traceback (most recent call last):
+</I>&gt;<i> &gt;   File &quot;&lt;pyshell#26&gt;&quot;, line 1, in &lt;module&gt;
+</I>&gt;<i> &gt;     import gtk
+</I>&gt;<i> &gt;   File &quot;C:\Python26\lib\site-packages\gtk-2.0\gtk\__init__.py&quot;, line 38, in
+</I>&gt;<i> &gt; &lt;module&gt;
+</I>&gt;<i> &gt;     import gobject as _gobject
+</I>&gt;<i> &gt;   File &quot;C:\Python26\lib\site-packages\gtk-2.0\gobject\__init__.py&quot;, line 30,
+</I>&gt;<i> in
+</I>&gt;<i> &gt; &lt;module&gt;
+</I>&gt;<i> &gt;     from gobject.constants import *
+</I>&gt;<i> &gt;   File &quot;C:\Python26\lib\site-packages\gtk-2.0\gobject\constants.py&quot;, line 22,
+</I>&gt;<i> in
+</I>&gt;<i> &gt; &lt;module&gt;
+</I>&gt;<i> &gt;     from _gobject import type_from_name
+</I>&gt;<i> &gt; ImportError: DLL load failed: Uvedená procedura nebyla nalezena.
+</I>&gt;<i> &gt; &gt;&gt;&gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; ------------ Původní zpráva ------------
+</I>&gt;<i> &gt; &gt; Od: Visgean Skeloru &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">visgean na gmail.com</A>&gt;
+</I>&gt;<i> &gt; &gt; Předmět: Re: [python] fungování skriptu - Vista x XP
+</I>&gt;<i> &gt; &gt; Datum: 10.4.2010 13:23:40
+</I>&gt;<i> &gt; &gt; ----------------------------------------
+</I>&gt;<i> &gt; &gt; Zkus spustit zdrojáky normálně přes pythonu. Jestli půjdou tak to zkompiluj
+</I>&gt;<i> &gt; &gt; na win xp.
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; 2010/4/10 Szkandera.Karel &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Szkandera.Karel na seznam.cz</A>&gt;
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt; Celé jsem to psal a poté i generoval exe soubor na vistach. Na xp jenom
+</I>&gt;<i> &gt; &gt; &gt; zkouším spouštět exe soubor..
+</I>&gt;<i> &gt; &gt; &gt; Pri spuštění přes command linu (opravdu se to tak jmenuje :) ) mi to
+</I>&gt;<i> &gt; &gt; &gt; nevypíše nic, skončí to stejně jako při spuštění double clickem..
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; ps: včera jsem zapomněl napsat, zkoušel jsem se to spustit i ve windows 7
+</I>&gt;<i> a
+</I>&gt;<i> &gt; &gt; &gt; také bez problémů..
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt; ------------ Původní zpráva ------------
+</I>&gt;<i> &gt; &gt; &gt; &gt; Od: Visgean Skeloru &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">visgean na gmail.com</A>&gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt; Předmět: Re: [python] fungování skriptu - Vista x XP
+</I>&gt;<i> &gt; &gt; &gt; &gt; Datum: 10.4.2010 01:29:38
+</I>&gt;<i> &gt; &gt; &gt; &gt; ----------------------------------------
+</I>&gt;<i> &gt; &gt; &gt; &gt; Zkoušel si to spustit přes command linu (nebo jak se ten bastl ve
+</I>&gt;<i> woknech
+</I>&gt;<i> &gt; &gt; &gt; &gt; jmenuje)? Ten exe si generoval na XP nebo na Vistach? To by podle mně
+</I>&gt;<i> &gt; &gt; &gt; mohlo
+</I>&gt;<i> &gt; &gt; &gt; &gt; být klíčový - Vista nemá úplnou kompatibilitu s XP.. Pust to z komand
+</I>&gt;<i> &gt; &gt; &gt; lajny
+</I>&gt;<i> &gt; &gt; &gt; &gt; a jukni na to co ti to vyhodí - dost možná na to nemůže najít cesty k
+</I>&gt;<i> těm
+</I>&gt;<i> &gt; &gt; &gt; &gt; knihovnám.
+</I>&gt;<i> &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt; 2010/4/9 Szkandera.Karel &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Szkandera.Karel na seznam.cz</A>&gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; Ahoj,
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; chtěl bych se zeptat na radu, jelikož řeším jeden problém. Napsal
+</I>&gt;<i> jsem
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; prográmek, který využívá knihovny pygtk, gtk, gobject, httplib2,
+</I>&gt;<i> &gt; &gt; &gt; urllib,
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; Thread.
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; když jsem skript spouštěl ze svého stroje (Vista), jelo mi vše ok.
+</I>&gt;<i> &gt; &gt; &gt; Jelikož
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; jsem chci tento skript dále distribuovat, udělal jsem z něj pomocí
+</I>&gt;<i> &gt; &gt; &gt; py2exe
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; spustitelný soubor. Když jsem ho u sebe spouštěl, fungoval jak má,
+</I>&gt;<i> &gt; &gt; &gt; stejně
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; tak i na &quot;čistém&quot; počítači s Vistama. Problém nastal na všech
+</I>&gt;<i> &gt; &gt; &gt; počítačích s
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; windows XP na kterých jsem to zkoušel.
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; Vyzkoušel jsem už do dist přidat všechny možné knihovny, ale nna xp
+</I>&gt;<i> mi
+</I>&gt;<i> &gt; &gt; &gt; vždy
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; naběhne jenom základní prázdné okno a pak to jen načítá a načítá a
+</I>&gt;<i> nic
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; nenačte. Zatímco při správném fungování se základním okno objeví s
+</I>&gt;<i> &gt; &gt; &gt; různými
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; tlačítkami atd.
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; Nějaký nápad, čím by to mohlo být?
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; děkuji Karel
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; _______________________________________________
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; Python mailing list
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt; &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; &gt; _______________________________________________
+</I>&gt;<i> &gt; &gt; &gt; Python mailing list
+</I>&gt;<i> &gt; &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009629.html">[python] fungování skriptu - Vista x XP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009631.html">[python] Unicode In Python, Completely Demystified
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9630">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9630">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9630">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9630">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009630.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:42 GMT -->
+</html>

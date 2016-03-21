@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-May/000814.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:36 GMT -->
+<HEAD>
+   <TITLE> [python] linux a vlakna
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20linux%20a%20vlakna&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-May/000832.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-May/000816.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] linux a vlakna</H1>
+    <B>Zdenek Pavlas</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20linux%20a%20vlakna&In-Reply-To="
+       TITLE="[python] linux a vlakna">zdenek.pavlas na nextra.cz
+       </A><BR>
+    <I>Pondělí Květen 12 09:42:02 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000832.html">[python] Python v ASP atd.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000816.html">[python] linux a vlakna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-May/date.html#814">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/thread.html#814">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/subject.html#814">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/author.html#814">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Martin Hassman wrote:
+
+&gt;<i> Je to normalni, ze se kazde vlakno zobrazuje 
+</I>&gt;<i> jako vlastni process (a ja jen zaspal dobu, protoze driv to tak dle me 
+</I>&gt;<i> nebylo)? Nebo je neco spatneho v mem programku ;-) ci pythonu?
+</I>
+To je uplne noumalni, Udo. Ma to nekolik vyhod:
+
+- signal muzes poslat primo urcitemu threadu
+- korektne funguji veci jako os.nice()
+- top toho ukazuje vic :)
+
+Bohuzel, na *BSD maji vsechny thready stejny PID, kernel je nejspis
+vubec nevidi. To by nevadilo kdyby signaly poslane procesu chodily
+nejak deterministicky, nejlepe vsem threadum.
+
+Podle meho pozorovani chodi nahodne- chytne je asi ten thread ktery
+je zrovna zablokovanej v kernelu. Tzn. thread ktery blokuje na 
+allocate_lock()
+signal nikdy nedostane, thready ktery blokujou na recv() nebo accept()
+si to nejak vylosujou :(
+
+Ja to resim tak ze na BSD posilam ten samy signal procesu tak dlouho
+dokud nezabiju main thread a proces neskonci. Je to ale docela hnusny
+reseni a funguje jen na ukonceni procesu- nevi nekdo o lepsim napadu?
+
+-- 
+Zdenek Pavlas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000832.html">[python] Python v ASP atd.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-May/000816.html">[python] linux a vlakna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-May/date.html#814">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/thread.html#814">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/subject.html#814">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-May/author.html#814">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-May/000814.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:36 GMT -->
+</html>

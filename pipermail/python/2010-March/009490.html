@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009490.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:50 GMT -->
+<HEAD>
+   <TITLE> [python] dokumentace k novejsim rysum jazyka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dokumentace%20k%20novejsim%20rysum%20jazyka&In-Reply-To=%3C1268046050.2138.30.camel%40falat%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009489.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009491.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dokumentace k novejsim rysum jazyka</H1>
+    <B>Tomáš Drenčák</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dokumentace%20k%20novejsim%20rysum%20jazyka&In-Reply-To=%3C1268046050.2138.30.camel%40falat%3E"
+       TITLE="[python] dokumentace k novejsim rysum jazyka">tomas na drencak.com
+       </A><BR>
+    <I>Pondělí Březen  8 12:00:50 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009489.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009491.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9490">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9490">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9490">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9490">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>no hej...aj tak sa to da, len tie xml metody neexistuju lokalne, ich
+nazov sa odvodi od nazvu volanej funkcie
+
+v zdrojakoch ServerProxy je tato metoda:
+
+    def __getattr__(self, name):
+        # magic method dispatcher
+        return _Method(self.__request, name)
+
+ono to vrati objekt _Method, ktory obsahuje nazov volanej metody (name
+parameter) a kedze za nazvom parametra su (), tak sa zavola metoda
+__call__ na objekte _Method
+
+proxy = ServerProxy(...)
+proxy.xxx # toto je objekt _Method
+proxy.xxx() # toto je volanie _Method.__call__(...)
+
+
+
+
+V Pondelok, 8. marec 2010 o 11:51 +0100, David Rohleder napísal(a): 
+&gt;<i> Fakt, že jo, měl jsem to skoro dobře, funguje to třeba i takto:
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> class Test:
+</I>&gt;<i>     pass
+</I>&gt;<i> 
+</I>&gt;<i> def fce():
+</I>&gt;<i>     print &quot;Test&quot;
+</I>&gt;<i> 
+</I>&gt;<i> a=Test()
+</I>&gt;<i> a.__dict__['test'] = fce
+</I>&gt;<i> a.test()
+</I>&gt;<i> 
+</I>&gt;<i> Tomáš Drenčák píše v Po 08. 03. 2010 v 11:48 +0100:
+</I>&gt;<i> &gt; nevidel som to, ale predpokladam ze pouzivaju __getattr__ metodu
+</I>&gt;<i> &gt; <A HREF="http://docs.python.org/reference/datamodel.html#object.__getattr_">http://docs.python.org/reference/datamodel.html#object.__getattr_</A>_
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; V Pondelok, 8. marec 2010 o 11:43 +0100, David Rohleder napísal(a): 
+</I>&gt;<i> &gt; &gt; Jirka Vejrazka píše v Po 08. 03. 2010 v 10:05 +0100:
+</I>&gt;<i> &gt; &gt; &gt; &gt; Který nový rys pythonu od verze 2.0 vám přijde zajímavý, případně
+</I>&gt;<i> &gt; &gt; &gt; &gt; užitečný? (iterátory, generátory, dekorátory, atd.)
+</I>&gt;<i> &gt; &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt;  Vsechny zminene, k tomu jeste mnoziny ( set() ) a par internich veci.
+</I>&gt;<i> &gt; &gt; &gt; Ale mne drzi u Pythonu dve zakladni veci:
+</I>&gt;<i> &gt; &gt; &gt;  - vyborna citelnost ciziho kodu diky kontroverznimu odsazovani
+</I>&gt;<i> &gt; &gt; &gt;  - obrovsky rozsah externich modulu a funkci, ktere jsou dostupne. Pro
+</I>&gt;<i> &gt; &gt; &gt; mne od nizkourovnovych veci na siti (scapy, impacket, dpkt, dnet) pres
+</I>&gt;<i> &gt; &gt; &gt; kompletni sitove frameworky (twisted) az po webove frameworky (Django
+</I>&gt;<i> &gt; &gt; &gt; apod.)
+</I>&gt;<i> &gt; &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt;   Zminuju to jenom proto, ze ve svetle techto dvou velkych vyhod me
+</I>&gt;<i> &gt; &gt; &gt; jednotlive &quot;nelogicnosti&quot; jazyka nechavaji chadnym. Nelibi se mi treba
+</I>&gt;<i> &gt; &gt; &gt;  ''.join(neco), ale jsem ochotny si na to zvyknout, beru to jako dan
+</I>&gt;<i> &gt; &gt; &gt; za pohodli v ostatnich vecech.
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; Mne fascinuje dynamické vytváření funkcí, akorát teda nevím, jak to
+</I>&gt;<i> &gt; &gt; dělají, příklad u XML-RPC. Na serveru jsou definované přes XML-RPC
+</I>&gt;<i> &gt; &gt; nějaké služby, tj. funkce a najednou mám ty funkce i ve svém vlastním
+</I>&gt;<i> &gt; &gt; programu, aniž bych je musel nějak definovat:
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; (funkce listblockedIP a blockIP jsou metody definované na serveru a
+</I>&gt;<i> &gt; &gt; ServerProxy opravdu nemá nadefinované metody listblockedIP a další)
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; ====
+</I>&gt;<i> &gt; &gt; import xmlrpclib, sys
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; url = &quot;<A HREF="http://localhost:8765/">http://localhost:8765/</A>&quot;
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; s = xmlrpclib.ServerProxy(url)
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; blkdIP = s.listblockedIP()
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; print blkdIP
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; print s.blockIP( 126, 6, 4, 5) 
+</I>&gt;<i> &gt; &gt; ====
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; Říkal jsem si, že je to udělané pomocí slovníku, třeba takto:
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; class Test:
+</I>&gt;<i> &gt; &gt;     pass
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; def fce():
+</I>&gt;<i> &gt; &gt;     print &quot;Test&quot;
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; a=Test()
+</I>&gt;<i> &gt; &gt; a['funkce'] = fce
+</I>&gt;<i> &gt; &gt; a.funkce()
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; ale takto to nějak nefunguje.
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; D.
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; _______________________________________________
+</I>&gt;<i> &gt; &gt; Python mailing list
+</I>&gt;<i> &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009489.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009491.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9490">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9490">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9490">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9490">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009490.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:50 GMT -->
+</html>

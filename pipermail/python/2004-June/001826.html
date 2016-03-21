@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-June/001826.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:30 GMT -->
+<HEAD>
+   <TITLE> [python] bug v timeout-och v module socket
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20bug%20v%20timeout-och%20v%20module%20socket&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-June/001824.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-June/001835.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] bug v timeout-och v module socket</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20bug%20v%20timeout-och%20v%20module%20socket&In-Reply-To="
+       TITLE="[python] bug v timeout-och v module socket">azurit na pobox.sk
+       </A><BR>
+    <I>Čtvrtek Červen 24 21:35:28 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001824.html">[python] encoding do html
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001835.html">[python] bug v timeout-och v module socket
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-June/date.html#1826">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/thread.html#1826">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/subject.html#1826">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/author.html#1826">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>zdravim zase,
+
+tak som sa pozrel na ten socket.settimeout, nechapem preco som si to 
+predtym nevsimol :) diky za radu uz mi to funguje tak ako som chcel 
+az na jeden problem: na windoze (skusal som len WinME) je v tom 
+timeout-e bug. v dokumentacii je napisane 'If a float is given, 
+subsequent socket operations will raise an timeout exception if the 
+timeout period value has elapsed before the operation has completed.' 
+na linuxe to aj presne takto funguje, na windowsoch je problem v tom, 
+ze ak je nastaveny timeout a ak sa socket nepripoji na ciel (koli 
+chybe), tak VZDY caka na vyprsanje casu a VZDY vyhodi timeout 
+exception. napriklad, ak je timeout nastaveny na 10 sekund a socket 
+by (bez timeout-u) po 5 sekundach vyhodil exception napr. 
+socket.error: connection refused, tak sa nic take nestane a po 10tich 
+sekundach vyhodi timeout exception. ak sa pripoji pred vyprsanim 
+timeout-u, tak je vsetko ok, vtedy to funguje dobre. ako som pisal 
+vyssie, na linuxe to funguje tak ako ma, cize ak pred vyprsanim 
+timeout-u vznikne nejaka ina exception, pripajanje hned ukonci.
+
+chcel som poslat bug report ale robi sa to cez sourceforge a treba sa 
+tam registrovat alebo co a na to som velmi lenivy. ak sa to njekomu 
+chce alebo ak je tam registrovany tak by to mohol ohlasit :) nech to 
+mozu opravit.
+
+azurIt
+____________________________________
+<A HREF="http://www.pobox.sk/">http://www.pobox.sk/</A> - najvacsi slovensky freemail
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001824.html">[python] encoding do html
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001835.html">[python] bug v timeout-och v module socket
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-June/date.html#1826">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/thread.html#1826">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/subject.html#1826">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/author.html#1826">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-June/001826.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:30 GMT -->
+</html>

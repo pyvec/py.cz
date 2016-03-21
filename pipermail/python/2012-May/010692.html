@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010692.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:32 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3FRGVrb3LDoXRvciAtIHByb3PDrW0gcMSba27EmyBvIGtv%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fnzultaci_a_vysv%3DC4%3D9Btlen%3DC3%3DAD%3F%3D&In-Reply-To=%3C4FAA6509.6060105%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-May/010687.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-May/010693.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3FRGVrb3LDoXRvciAtIHByb3PDrW0gcMSba27EmyBvIGtv%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fnzultaci_a_vysv%3DC4%3D9Btlen%3DC3%3DAD%3F%3D&In-Reply-To=%3C4FAA6509.6060105%40firma.seznam.cz%3E"
+       TITLE="[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Středa Květen  9 14:37:29 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010687.html">[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010693.html">[python] chyba kódování MySQL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10692">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10692">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10692">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10692">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> tj. d neni v podstate primo dekorator, ale tovarna, ktera dekorator
+</I>&gt;<i> vytvori (1. vnoreni) a ten pak vetsinou obsahuje wrapper puvodni
+</I>&gt;<i> funkce (2. vnoreni)
+</I>
+To bych si dovolil trochu rozvést. Důvod je ten, že kód za zavináčem je
+platný pythoní výraz se vším všudy. Může tedy to být i něco složitějšího:
+
+@spamClass(&quot;dirt&quot;).getSpamDeco(someHam, 42)
+
+Jak může interpret poznat jestli je getSpamDeco dekorátor s parametry
+nebo fabrická  metoda která vrací parametrizovaný dekorátor?
+P&#345;&#237;klad se d&#225; naj&#237;t p&#345;&#237;mo ve standartn&#237; knihovn&#283; &#8211; property dekor&#225;tor m&#225;
+metody setter a deleter. Tam kde člověk napíše &quot;@x.setter&quot; ovšem
+interpret uvidí &quot;x.__getattribute__('setter')&quot; a zase by nevěděl jak si
+to m&#225; vykl&#225;dat. Interpret se proto &#345;&#237;d&#237; jednoduch&#253;m pravidlem &#8211; n&#283;jak&#233;
+dekorátory neřeší a prostě vyhodnotí výraz se vším všudy.
+Z hlediska interpretru je tedy řešení výše uvedeného dilematu takové, že
+každé takové volání je parametrizovaný dekorátor. Z hlediska
+programátora to znamená, že  obskoč s parametrizovaným dekorátorem je
+nutné udělat i když by stačilo dekorovat všechno jednou funkcí která by
+přebírala parametry.
+Druhá vnitřní funkce je už jen klasický wrapper nad samotnou dekorovanou
+funkcí.
+Celé je to jen důsledek snahy udržet jednoduchou vnitřní logiku
+interpretru. Ve výsledku to sice vypadá hrozně, ale dá se to pochopit
+aplikací jednoduchých pravidel.
+S&#225;m jsem to ocenil a&#382; kdy&#382; jsem na narazil na IMO opa&#269;n&#253; p&#345;&#237;pad &#8211; copy
+konstruktory v C++. Snaha o &quot;přímočarý&quot; zápis tam vede ke složité logice
+uvnitř kompileru a pro mě obtížně předvídatelné chování.
+
+BTW kdysi jsem si napsal &quot;metadekorátor&quot; který na funkci s parametry
+aplikoval onen obskoč automaticky. Pokud to nebude někde v archivu
+konfery, je to celkem zajímavý domácí úkol na procvičení dekorátorů :-)
+
+Ufff&#8230;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010687.html">[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010693.html">[python] chyba kódování MySQL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10692">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10692">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10692">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10692">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010692.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:32 GMT -->
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010763.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:24 GMT -->
+<HEAD>
+   <TITLE> [python] multiprocess problem se sirotkem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20problem%20se%20sirotkem&In-Reply-To=%3CCAK9Q5BQU%2BtK1%3DEft5QZx_tvnsZSmE8f293cn7cwkzSCGP-%3D1%3Dg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-September/010766.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-September/010765.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multiprocess problem se sirotkem</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20problem%20se%20sirotkem&In-Reply-To=%3CCAK9Q5BQU%2BtK1%3DEft5QZx_tvnsZSmE8f293cn7cwkzSCGP-%3D1%3Dg%40mail.gmail.com%3E"
+       TITLE="[python] multiprocess problem se sirotkem">petr.messner na gmail.com
+       </A><BR>
+    <I>Středa Září  5 10:14:12 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010766.html">[python] multiprocess problem se sirotkem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010765.html">[python] multiprocess problem se sirotkem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10763">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10763">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10763">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10763">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Na Linuxu mi právě běží spousta procesů, jejichž parent už neběží :)
+
+Petr Messner
+
+
+Dne 5. září 2012 9:56 azurIt &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>&gt; napsal(a):
+&gt;<i>
+</I>&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> proces je ukonceny pretoze jeho parent skoncil (proces web serveru -&gt; CGI skript). Ak si na linuxe, tak toto nie je mozne takymto sposobom urobit (resp. nie je mi znamy sposob). Ine OS neviem.
+</I>&gt;<i>
+</I>&gt;<i> azur
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ______________________________________________________________
+</I>&gt;<i> &gt; Od: &quot;Tomas Pelka&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">tompelka na gmail.com</A>&gt;
+</I>&gt;<i> &gt; Komu: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;
+</I>&gt;<i> &gt; Dátum: 05.09.2012 09:51
+</I>&gt;<i> &gt; Predmet: [python] multiprocess problem se sirotkem
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Zdravim vsechny,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;resim nasledujici problem a verim, ze mi nekdo z vas pomuze.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Potrebuji z cgi skriptu (interpretuje jej jednoduchy httpserver) pustit
+</I>&gt;<i> &gt;dlouho bezici ulohu ale tak abych nemusel volat mutiprocess.join(),
+</I>&gt;<i> &gt;protoze pak stranka zustane viset. Jak jsem zminil pouzivam k tomu
+</I>&gt;<i> &gt;multiprocess, ktery pouze nastartuji ale nejoinu. Vse ale nasvercuje
+</I>&gt;<i> &gt;tomu, ze proces je zabyt i kdyz by mel byt daemonem.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;import multiprocess
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;mp = Process(target=__handle_execution, args=(args,))
+</I>&gt;<i> &gt;mp.daemon = True
+</I>&gt;<i> &gt;mp.start()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;-- zde je konec cgi skriptu --
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Ma nekdo s podobnym chovanim zkusenosti?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Diky
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;--
+</I>&gt;<i> &gt;Tomas Pelka
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;----------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;_______________________________________________
+</I>&gt;<i> &gt;Python mailing list
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010766.html">[python] multiprocess problem se sirotkem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010765.html">[python] multiprocess problem se sirotkem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10763">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10763">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10763">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10763">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010763.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:24 GMT -->
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007795.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+<HEAD>
+   <TITLE> [python] Getters and Setters.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Getters%20and%20Setters.&In-Reply-To=D65DE45E9DB07C43B4F5210329E41BE661485E%40londinium.hq.altien.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007791.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007797.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Getters and Setters.</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Getters%20and%20Setters.&In-Reply-To=D65DE45E9DB07C43B4F5210329E41BE661485E%40londinium.hq.altien.com"
+       TITLE="[python] Getters and Setters.">regnarg na seznam.cz
+       </A><BR>
+    <I>Sobota Červen 21 14:46:22 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007791.html">[python] Getters and Setters.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007797.html">[python] Getters and Setters.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7795">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7795">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7795">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7795">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On So, čen 21, 2008 at 01:09:04 +0200, David Michal wrote:
+&gt;<i> Asi je to jen mou neznalosti, ale preci kdyz budu dusledne pouzivat get
+</I>&gt;<i> a set metody, tak si pri pripadne zmene atributu ulehcim praci, jelikoz
+</I>&gt;<i> takova zmena bude znamenat editaci pouze samotne tridy a nebudu muset
+</I>&gt;<i> prochazet cely kod a hledat kde vsude se na tridu odvolavam.
+</I>
+Gettery a settery jsou hezká věc, ale nikdy, NIKDY, ne,
+když jsou používány explicitně. Volat obj.set_size(12)
+je prostě zavrženíhodná ohavnost. Python je hlavně o
+přehlednosi, čitelnosti a smysluplnosti kódu, takže
+samozřejmě nabízí lepší řešení.
+
+class Test(object):
+    def _set_a(self,val):
+        print &quot;Value changed&quot;
+        self._a=val
+    def _get_a(self):
+        return self._a-1
+    a=property(_get_a, _set_a)
+    
+A pak se normálně používá print t.a, t.a=5, etc. Zcela
+p&#345;irozen&#283;, jasn&#283; a bez chaosu &#8212; o vol&#225;n&#237; getter&#367;/setter&#367;
+se stará Python. Z toho je zcela jasné, proč je možné
+rozhodnutí kdykloliv změnit, navenek se bude vše chovat
+stále stejně.
+
+Další hloupostí je používat gettery/settery, které jen
+&#269;tou/nastavuj&#237; prom&#283;nnou. N&#283;kdo si mysl&#237; &#8212; hur&#225;, m&#225;m
+settery, mám správné zapouzdření, jsem OOOOP guru, ale
+program tím ničím lepší není. Jen se přidává overhead
+voláním zbytečných metod.
+
+S pozdarvem
+regnarg
+
+-- 
+regnarg --- <A HREF="http://rg.pretel.cz/">http://rg.pretel.cz</A> -- JID: <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>
+V péči o štěstí druhých nacházíme své vlastní.   --Platón
+Přátelství může trvat jedině mezi dobrými lidmi. --Cicero
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007791.html">[python] Getters and Setters.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007797.html">[python] Getters and Setters.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7795">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7795">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7795">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7795">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007795.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010599.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:36 GMT -->
+<HEAD>
+   <TITLE> [python] pyserial -- čtení a zápis
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fpyserial_--_%3DE8ten%3DED_a_z%3DE1pis%3F%3D&In-Reply-To=%3CD7A36E29-3A89-47EE-BF58-4277232DC23E%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-March/010600.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pyserial -- čtení a zápis</H1>
+    <B>Vlastimil Slintak</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fpyserial_--_%3DE8ten%3DED_a_z%3DE1pis%3F%3D&In-Reply-To=%3CD7A36E29-3A89-47EE-BF58-4277232DC23E%40gmail.com%3E"
+       TITLE="[python] pyserial -- čtení a zápis">vasco.vls na gmail.com
+       </A><BR>
+    <I>Čtvrtek Březen  1 11:22:50 CET 2012</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010600.html">[python] pyserial -- čtení a zápis
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10599">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10599">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10599">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10599">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+poslední dva dny se trápím s komunikací přes sériovou linku a knihovnou pyserial a nemůžu se hnout z místa.
+
+Abych byl konkr&#233;tn&#237; &#8212; m&#225;m desku s mikrokontrol&#233;rem ATMega8U2, kter&#253; se skrze USB hl&#225;s&#237; jako s&#233;riov&#225; linka (na Mac OS je to /dev/tty.usbmodem441) a chci do tohoto za&#345;&#237;zen&#237; zapisovat i &#269;&#237;st. Po p&#345;ipojen&#237; desky s n&#237; mohu norm&#225;ln&#283; komunikovat, nap&#345;.:
+
+  import serial
+
+  s = serial.Serial('/dev/tty.usbmodem441', 57600, timeout=1)
+    
+  s.write('R')
+  print s.read(size=6)
+
+  s.write('S')
+  print s.read(size=50)
+
+Problém je ten, že občas ze zařízení přečtu přesně to, co očekávám, občas ne, občas přečtu jen půlku. Zkoušel jsem různě nastavit 'timeout', ale bez úspěchu. Zkoušel jsem i něco takového:
+
+  s.write('R')
+  print s.read(size=s.inWaiting())
+
+a
+
+  s.write('R)
+  while s.inWaiting():
+    print.s.read()
+
+ale zdá se, že funkce s.inWaiting() nevrací správné hodnoty, nebo se chová jinak než si myslím. Také jsem zkoušel mezi zápis a čtení vložit  sleep():
+
+  s.write('R')
+  time.sleep(1)
+  print s.read(size=6)
+
+Chci se tedy zeptat &#8212; jak&#253; je korektn&#237; zp&#367;sob z&#225;pisu a &#269;ten&#237; ze s&#233;riov&#233; linky, kdy&#382; p&#345;edem nev&#237;m, kolik znak&#367; m&#225;m p&#345;e&#269;&#237;st? Je n&#283;jak&#253; zp&#367;sob, jak to zjistit? A co se stane, kdy&#382; do za&#345;&#237;zen&#237; pouze zap&#237;&#353;u, ale ji&#382; nep&#345;e&#269;tu? Ztrat&#237; se p&#345;ijat&#225; data, nebo z&#367;stanou n&#283;kde v bufferu?
+
+Díky,
+V.S.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010600.html">[python] pyserial -- čtení a zápis
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10599">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10599">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10599">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10599">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010599.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:36 GMT -->
+</html>

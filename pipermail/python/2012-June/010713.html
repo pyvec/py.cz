@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-June/010713.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:29 GMT -->
+<HEAD>
+   <TITLE> [python] Python freeze a Vista UAC
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Python%20freeze%20a%20Vista%20UAC&In-Reply-To=%3CCAJ9iWDnsSemAH-9%2B9z9vm8BJSvcBbNmz7j3wsKDJSMOye-Y%3Dgg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-June/010712.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-June/010714.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Python freeze a Vista UAC</H1>
+    <B>Radek Holý</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Python%20freeze%20a%20Vista%20UAC&In-Reply-To=%3CCAJ9iWDnsSemAH-9%2B9z9vm8BJSvcBbNmz7j3wsKDJSMOye-Y%3Dgg%40mail.gmail.com%3E"
+       TITLE="[python] Python freeze a Vista UAC">radekholypublic na gmail.com
+       </A><BR>
+    <I>Úterý Červen 12 00:26:11 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-June/010712.html">[python] Python freeze a Vista UAC
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-June/010714.html">[python] Python freeze a Vista UAC
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-June/date.html#10713">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/thread.html#10713">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/subject.html#10713">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/author.html#10713">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pokusil jsem se...
+
+-- 
+Radek Holý
+
+
+
+Dne 7. června 2012 19:36 Michal Molhanec &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mol-python na seznam.cz</A>&gt; napsal(a):
+&gt;<i> Dobrý den,
+</I>&gt;<i>
+</I>&gt;<i> to zní užitečně, nechcete to přidat do wiki ?
+</I>&gt;<i>
+</I>&gt;<i> Dne 6.6.2012 23:30, Radek Holý napsal(a):
+</I>&gt;&gt;<i> Dobrý den,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> moc děkuju za postrčení. Získal jsem další klíčová slova pro hledání a
+</I>&gt;&gt;<i> nakonec jsem zjistil, že pro změnu manifestu stačí následující kód:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> import win32api
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> # Load manifest.
+</I>&gt;&gt;&gt;&gt;&gt;<i> handle = win32api.LoadLibrary(PATH_TO_EXE)
+</I>&gt;&gt;&gt;&gt;&gt;<i> manifest = win32api.LoadResource(handle, 24, 1, 1033)
+</I>&gt;&gt;&gt;&gt;&gt;<i> win32api.FreeLibrary(handle)
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> # Modify manifest (replacing 'requestedExecutionLevel level=&quot;asInvoker&quot;' by 'requestedExecutionLevel level=&quot;requireAdministrator&quot;').
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> # Save new manifest.
+</I>&gt;&gt;&gt;&gt;&gt;<i> handle = win32api.BeginUpdateResource(PATH_TO_EXE, 0)
+</I>&gt;&gt;&gt;&gt;&gt;<i> win32api.UpdateResource(handle, 24, 1, manifest, 1033)
+</I>&gt;&gt;&gt;&gt;&gt;<i> win32api.EndUpdateResource(handle, 0)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Resp. toto stačí pro EXE soubory používané v cx_freeze. Nevím, jestli
+</I>&gt;&gt;<i> v jiných EXE souborech není třeba použít jiné identifikátory než &quot;1&quot; a
+</I>&gt;&gt;<i> &quot;1033&quot; ve funkcích ``win32api.LoadResource`` a
+</I>&gt;&gt;<i> ``win32api.UpdateResource``...
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Zdraví,
+</I>&gt;<i> Michal Molhanec
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-June/010712.html">[python] Python freeze a Vista UAC
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-June/010714.html">[python] Python freeze a Vista UAC
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-June/date.html#10713">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/thread.html#10713">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/subject.html#10713">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/author.html#10713">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-June/010713.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:29 GMT -->
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-May/008873.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:33 GMT -->
+<HEAD>
+   <TITLE> [python] Porovnávání v py 0.2&lt;0.2 True????
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUG9yb3Zuw6F2w6Fuw60gdiBweSAwLjI8MC4yIFRydWU/%3F%3D%0A%09%3D%3Futf-8%3Fb%3FPz8/%3F%3D&In-Reply-To=%3Cfue9ckxyem7s4g8979UYAxe124vaj_firegpg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-May/008872.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-May/008874.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Porovnávání v py 0.2&lt;0.2 True????</H1>
+    <B>Koumes21</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUG9yb3Zuw6F2w6Fuw60gdiBweSAwLjI8MC4yIFRydWU/%3F%3D%0A%09%3D%3Futf-8%3Fb%3FPz8/%3F%3D&In-Reply-To=%3Cfue9ckxyem7s4g8979UYAxe124vaj_firegpg%40mail.gmail.com%3E"
+       TITLE="[python] Porovnávání v py 0.2&lt;0.2 True????">koumes21 na gmail.com
+       </A><BR>
+    <I>Středa Květen  6 18:42:41 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008872.html">[python] Porovnávání v py 0.2&lt;0.2 True????
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008874.html">[python] Porovnávání v py 0.2&lt;0.2 True????
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-May/date.html#8873">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/thread.html#8873">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/subject.html#8873">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/author.html#8873">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mám ten pocit, že se doporučovalo při porovnávání dvou čísel použít nějakou odchylku, v tomto případě pravděpodobně nějak takhle:
+
+def float_is_less(a, b, odchylka = 0.0000001):
+    return a &lt; (b - odchylka)
+
+Ještě poznámka: problém není s desetinnými čísly v Pythonu ale obecně s desetinnými čísly na počítačích. Základní formát desetinných čísel není &quot;absolutně přesný&quot;, protože někdy není možné uložit desetinné číslo úplně přesně kvůli převodu do dvojkové soustavy (může vycházet perioda, kterou počítač musí zaokrouhlit). Pokud člověk potřebuje dostat hodnotu, kterou očekává, je lepší použít celočíselný typ reprezentující např. procenta nebo jiné zlomky celku.
+
+2009/5/6 MICHÁLEK Jan Mgr. &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Michalek.Jan na uhul.cz</A>&gt;:
+&gt;<i> P.S.:
+</I>&gt;<i> Když použiju math.fabs, tak to dělá to samé.
+</I>&gt;<i> ________________________________
+</I>&gt;<i> From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of
+</I>&gt;<i> MICHÁLEK Jan Mgr.
+</I>&gt;<i> Sent: Wednesday, May 06, 2009 6:28 PM
+</I>&gt;<i> To: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> Subject: [python] Porovnávání v py 0.2&lt;0.2 True????
+</I>&gt;<i>
+</I>&gt;<i> omlouvám se za předchozí prázdný email, omylem jsem to odeslal prázdné
+</I>&gt;<i>  
+</I>&gt;<i> Řeším následující problém:
+</I>&gt;<i> Zpracovávám dotazy z db (MS SQL) a potřebuji vybrat ze dvou čísel to, které
+</I>&gt;<i> je bližší k cílové hodnotě,
+</I>&gt;<i> v podmínce mám následující výraz
+</I>&gt;<i> (abs(fv-tp)&lt;abs(tv-tp))
+</I>&gt;<i> fv i tv jsou 0.2, přesto mi to vrací True, fv je suma ze dvou záznamů. tv
+</I>&gt;<i> jen z jednoho.
+</I>&gt;<i>  
+</I>&gt;<i> Pamatuju si, že jsem v nějakém článku našel popis problému s desetinými
+</I>&gt;<i> čísly v pythonu a byl tam i popis řešení, ale nemůžu to dohledat.
+</I>&gt;<i> když použiju:
+</I>&gt;<i> print repr(abs(fv-tp)),repr(abs(tv-tp))
+</I>&gt;<i>  
+</I>&gt;<i> tak mi to vrátí:
+</I>&gt;<i> 0.019999999999999907 0.020000000000000018
+</I>&gt;<i>  
+</I>&gt;<i> nechci použít zaokrouhlování, co s tím můžu udělat?
+</I>&gt;<i>  
+</I>&gt;<i> Děkuji Jelen
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;<i> __________ Informace od ESET NOD32 Antivirus, verze databaze 4056 (20090506)
+</I>&gt;<i> __________
+</I>&gt;<i>
+</I>&gt;<i> Tuto zpravu proveril ESET NOD32 Antivirus.
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> __________ Informace od ESET NOD32 Antivirus, verze databaze 4056 (20090506)
+</I>&gt;<i> __________
+</I>&gt;<i>
+</I>&gt;<i> Tuto zpravu proveril ESET NOD32 Antivirus.
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> __________ Informace od ESET NOD32 Antivirus, verze databaze 4056 (20090506)
+</I>&gt;<i> __________
+</I>&gt;<i>
+</I>&gt;<i> Tuto zpravu proveril ESET NOD32 Antivirus.
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 260 bytes
+Desc: OpenPGP digital signature
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090506/7e67a922/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20090506/7e67a922/attachment.pgp</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008872.html">[python] Porovnávání v py 0.2&lt;0.2 True????
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008874.html">[python] Porovnávání v py 0.2&lt;0.2 True????
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-May/date.html#8873">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/thread.html#8873">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/subject.html#8873">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/author.html#8873">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-May/008873.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:33 GMT -->
+</html>

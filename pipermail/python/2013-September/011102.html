@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-September/011102.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:00 GMT -->
+<HEAD>
+   <TITLE> [python] nahrada pip ?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nahrada%20pip%20%3F&In-Reply-To=%3CCAAEb_Q3Kaptb-e0%2BQrnwqqq_6B7k9pkwoHF8UZciDdg3_UP6PA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-September/011101.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-September/011103.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] nahrada pip ?</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nahrada%20pip%20%3F&In-Reply-To=%3CCAAEb_Q3Kaptb-e0%2BQrnwqqq_6B7k9pkwoHF8UZciDdg3_UP6PA%40mail.gmail.com%3E"
+       TITLE="[python] nahrada pip ?">rainbof na gmail.com
+       </A><BR>
+    <I>Pátek Září  6 15:22:33 CEST 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-September/011101.html">[python] nahrada pip ?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-September/011103.html">[python] nahrada pip ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-September/date.html#11102">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/thread.html#11102">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/subject.html#11102">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/author.html#11102">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>nakonec jsem pip i easy_install dostal do pythonu problem je ten ze proste
+psycopg nechce jit je tam nejaka buga vzteka se to na me takto:
+
+
+Python 3.4.0a1 (v3.4.0a1:46535f65e7f3, Aug  3 2013, 22:59:31) [MSC v.1600
+32 bit (Intel)] on win32
+Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license()&quot; for more information.
+&gt;&gt;&gt;<i> import psycopg2
+</I>Traceback (most recent call last):
+  File &quot;&lt;pyshell#0&gt;&quot;, line 1, in &lt;module&gt;
+    import psycopg2
+  File &quot;C:\Python34\lib\site-packages\psycopg2\__init__.py&quot;, line 50, in
+&lt;module&gt;
+    from psycopg2._psycopg import BINARY, NUMBER, STRING, DATETIME, ROWID
+ImportError: DLL load failed: Uvedený modul nebyl nalezen.
+&gt;&gt;&gt;<i>
+</I>
+
+kompilaci jsem delal pres mingw. tady skoncila vetsina lidi. dela to verze
+instalovana &quot;rucne&quot; ale i ostatni verze...
+
+behem instalace mi to hlasilo
+
+    C:\mingw\bin\gcc.exe -mdll -O -Wall -DPSYCOPG_DEFAULT_PYDATETIME=1
+&quot;-DPSYCOP
+G_VERSION=\&quot;2.5.1 (dt dec pq3 ext)\&quot;&quot; -DPG_VERSION_HEX=0x090204
+-DPSYCOPG_EXTENS
+IONS=1 -DPSYCOPG_NEW_BOOLEAN=1 -DHAVE_PQFREEMEM=1 -Ic:\Python34\include
+-Ic:\Pyt
+hon34\include -I. -IC:/PROGRA~1/POSTGR~1/9.2/include
+-IC:/PROGRA~1/POSTGR~1/9.2/
+include/server -c psycopg\connection_int.c -o
+build\temp.win32-3.4\Release\psyco
+pg\connection_int.o -O3 -fno-strict-aliasing
+    In file included from ./psycopg/psycopg.h:33:0,
+                     from psycopg\connection_int.c:27:
+    ./psycopg/config.h:97:12: warning: 'pthread_mutex_init' defined but not
+used
+ [-Wunused-function]
+     static int pthread_mutex_init(pthread_mutex_t *mutex, void* fake)
+                ^
+    C:\mingw\bin\gcc.exe -mdll -O -Wall -DPSYCOPG_DEFAULT_PYDATETIME=1
+&quot;-DPSYCOP
+G_VERSION=\&quot;2.5.1 (dt dec pq3 ext)\&quot;&quot; -DPG_VERSION_HEX=0x090204
+-DPSYCOPG_EXTENS
+IONS=1 -DPSYCOPG_NEW_BOOLEAN=1 -DHAVE_PQFREEMEM=1 -Ic:\Python34\include
+-Ic:\Pyt
+hon34\include -I. -IC:/PROGRA~1/POSTGR~1/9.2/include
+-IC:/PROGRA~1/POSTGR~1/9.2/
+include/server -c psycopg\connection_type.c -o
+build\temp.win32-3.4\Release\psyc
+opg\connection_type.o -O3 -fno-strict-aliasing
+    C:\mingw\bin\gcc.exe -mdll -O -Wall -DPSYCOPG_DEFAULT_PYDATETIME=1
+&quot;-DPSYCOP
+G_VERSION=\&quot;2.5.1 (dt dec pq3 ext)\&quot;&quot; -DPG_VERSION_HEX=0x090204
+-DPSYCOPG_EXTENS
+IONS=1 -DPSYCOPG_NEW_BOOLEAN=1 -DHAVE_PQFREEMEM=1 -Ic:\Python34\include
+-Ic:\Pyt
+hon34\include -I. -IC:/PROGRA~1/POSTGR~1/9.2/include
+-IC:/PROGRA~1/POSTGR~1/9.2/
+include/server -c psycopg\cursor_int.c -o
+build\temp.win32-3.4\Release\psycopg\c
+ursor_int.o -O3 -fno-strict-aliasing
+    In file included from ./psycopg/psycopg.h:33:0,
+                     from psycopg\cursor_int.c:27:
+    ./psycopg/config.h:97:12: warning: 'pthread_mutex_init' defined but not
+used
+ [-Wunused-function]
+     static int pthread_mutex_init(pthread_mutex_t *mutex, void* fake)
+.....
+.....
+coz mi prijde jako vpohode. jine nez tyto chyby tam nebyly.
+
+
+Dne 6. září 2013 13:04 Petr Blahos &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petrblahos na gmail.com</A>&gt; napsal(a):
+
+&gt;<i>
+</I>&gt;<i> Ne, že bych to zkoušel, ale podle pypi to vypadá, že pip podporuje Python
+</I>&gt;<i> 3.
+</I>&gt;<i> <A HREF="https://pypi.python.org/pypi/pip/1.4.1">https://pypi.python.org/pypi/pip/1.4.1</A>
+</I>&gt;<i> <A HREF="http://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3">http://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3</A>
+</I>&gt;<i> Nebo jsem něco nepochopil?
+</I>&gt;<i> --
+</I>&gt;<i> Petr
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2013/9/6 Ondrej Beranek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;
+</I>&gt;<i>
+</I>&gt;&gt;<i> pustil jsem se do pythonu 3 zjistuji ze na windows neni nastroj pro
+</I>&gt;&gt;<i> instalaci ruznych veci napriklad psycopg. pouzilval jsem v minulosti PIP
+</I>&gt;&gt;<i> ale ten se zda ze zemrel s verzi 2...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> existuje nejake dobre reseni jak / cim pip nahradit ?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130906/e6c9437a/attachment.html">http://www.py.cz/pipermail/python/attachments/20130906/e6c9437a/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-September/011101.html">[python] nahrada pip ?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-September/011103.html">[python] nahrada pip ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-September/date.html#11102">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/thread.html#11102">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/subject.html#11102">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-September/author.html#11102">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-September/011102.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:00 GMT -->
+</html>

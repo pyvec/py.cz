@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009748.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:36 GMT -->
+<HEAD>
+   <TITLE> [python] parsing souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20parsing%20souboru&In-Reply-To=%3Cl2w77c3131a1005050627sa7ac4d6dv4d983dd5207d3991%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-May/009746.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-May/009750.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] parsing souboru</H1>
+    <B>Jakub Zíka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20parsing%20souboru&In-Reply-To=%3Cl2w77c3131a1005050627sa7ac4d6dv4d983dd5207d3991%40mail.gmail.com%3E"
+       TITLE="[python] parsing souboru">jakub.zika.21 na gmail.com
+       </A><BR>
+    <I>Středa Květen  5 15:27:57 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009746.html">[python] parsing souboru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009750.html">[python] parsing souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9748">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9748">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9748">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9748">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Na Linuxu bych se proti přetížení procesoru bránil tak, že bych
+spustil skript jako samostatný proces (např. modul multiprocessing
+nebo subprocess) a pak bych mu posílal signály SIGSTOP a SIGCONT přes
+funkci os.kill(pid, sig). Kdyby mi připadalo, že už běží nějak moc
+dlouho, prostě bych ho vypnul přes signál TERM, pokud by nereagoval
+(myslím, že se to může stát, když počítá např. 100000**10000000), tak
+signál KILL. Protože by uživatel nemohl změnit chování při přijetí
+signálů (protože by nemohl importovat potřebný modul), mělo by to
+fungovat celkem spolehlivě. Maximální velikost použité paměti lze
+omezit přes modul resource.
+
+2010/5/5 Jan Janech &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">devel na atlas.sk</A>&gt;:
+&gt;<i> Potesim Vas, z evalu ani z execu sa pokial mi je znamo utiect neda. Teda ak
+</I>&gt;<i> to clovek vie spravit.
+</I>&gt;<i>
+</I>&gt;<i> staci nieco taketo:
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> eval(superNebezpecnyKod, {'__builtins__': {}}, {})
+</I>&gt;<i>
+</I>&gt;<i> alebo
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> exec superNebezpecnyKod in {'__builtins__': {}}, {}
+</I>&gt;<i>
+</I>&gt;<i> zavisi ale od toho, akym situaciam sa chcete vyhnut.
+</I>&gt;<i>
+</I>&gt;<i> coho sa nezbavite (ani evalom) je napr nekonecna rekurzia:
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> superNebezpecnyKod='(lambda x=(lambda y: y(y)): x(x))()'
+</I>&gt;<i>
+</I>&gt;<i> to az tak neboli, ak nemate povolenu nejaku prilis hlboku uroven rekurzie.
+</I>&gt;<i>
+</I>&gt;<i> co tak ale nekonecny cyklus?
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> superNebezpecnyKod='(lambda x=[1]: [x.append(1) for i in x])()'
+</I>&gt;<i>
+</I>&gt;<i> alebo supernarocne operacie?
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> superNebezpecnyKod='2**10000000000000000'
+</I>&gt;<i>
+</I>&gt;<i> vela stastia pri vyuzivani evalu a execu :D
+</I>&gt;<i>
+</I>&gt;<i> Jan Janech
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On 05/05/10 14:26, Hynek Fabian wrote:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jan Janech (středa 05 Květen 2010 13:08:49):
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Dovolim si oponovat. Vsetko co sa da v pythone v exec spravit pre
+</I>&gt;&gt;&gt;<i> narusenie bezpecnosti sa da spravit aj v eval.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jak?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> eval(x, {}, {})
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jakým X se dá z takové konstrukce utéci?
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i>
+</I>&gt;<i> ____________________________
+</I>&gt;<i> Ing. Jan Janech
+</I>&gt;<i> Katedra softverovych technologii
+</I>&gt;<i> Fakulta riadenia a informatiky
+</I>&gt;<i> Zilinska Univerzita
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009746.html">[python] parsing souboru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009750.html">[python] parsing souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9748">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9748">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9748">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9748">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009748.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:36 GMT -->
+</html>

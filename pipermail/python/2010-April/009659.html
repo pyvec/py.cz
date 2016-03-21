@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009659.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:44 GMT -->
+<HEAD>
+   <TITLE> [python] Záměna funkce v instanci objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZ%3DE1m%3DECna_funkce_v_instanci_objektu%3F%3D&In-Reply-To=%3C201004201417.58435.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009655.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009652.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Záměna funkce v instanci objektu</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZ%3DE1m%3DECna_funkce_v_instanci_objektu%3F%3D&In-Reply-To=%3C201004201417.58435.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] Záměna funkce v instanci objektu">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Úterý Duben 20 14:17:57 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009655.html">[python] Záměna funkce v instanci objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009652.html">[python] Záměna funkce v instanci objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9659">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9659">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9659">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9659">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ještě jsem na to koukal a zjistil jsem zajimavou věc.
+MethodType a UnboundMethodType jsou tentýž objekt,
+čili vázané a odvázané metody jsou na oko stejného typu.
+Typ zkonstruované metody závisí na argumentech:
+
+MethodType(funkce, instance)     # vrátí vázanou metodu
+MethodType(funkce, None, třída)  # vrátí odvázanou metodu
+
+Když se použije jak instance, tak třída, výsledek je vázaná metoda.
+
+
+Hynek Fabian (úterý 20 Duben 2010 11:10:20):
+&gt;<i> 302302 (úterý 20 Duben 2010 09:56:14):
+</I>&gt;<i> &gt; Ano, mělo by to být dynamické. A vaše řešení se mi líbí. Jenom nechápu
+</I>&gt;<i> &gt; proč to nelze udělat tím prostým přiřazením? Co se tedy vlastně stane,
+</I>&gt;<i> &gt; když do metody nějakého objektu přiřadím novou funkci?
+</I>&gt;<i> 
+</I>&gt;<i> &quot;do metody&quot; nic nepřiřadíš, jen nahradíš jeden objekt ve jmenném prostoru
+</I>&gt;<i> instance jiným - v daném případě obyčejnou funkcí. Jeden způsob je vázat ji
+</I>&gt;<i> ručně:
+</I>&gt;<i> 
+</I>&gt;<i> class C: pass
+</I>&gt;<i> c = C()
+</I>&gt;<i> def a(self): pass
+</I>&gt;<i> c.(a)
+</I>&gt;<i> 
+</I>&gt;<i> Pokud chceš jen předávat někam jednu metodu, může být jednodušší ji svázat
+</I>&gt;<i> ručne:
+</I>&gt;<i> 
+</I>&gt;<i> b = lambda: a(c)
+</I>&gt;<i> 
+</I>&gt;<i> Je to jen kosmetická úprava proti ručnímu svázání a je to funkčně zcela
+</I>&gt;<i> shodné s opravdovou metodou objektu.
+</I>&gt;<i> Pokud chceš opravdovou vázanou metodu, můžeš si ji vyrobit:
+</I>&gt;<i> 
+</I>&gt;<i> import types
+</I>&gt;<i> b = types.MethodType(a, c, C)
+</I>&gt;<i> c.b = b
+</I>&gt;<i> 
+</I>&gt;<i> b() bude nadále dostávat jako první argument instanci c
+</I>&gt;<i> Mezi voláním b() a c.b() není žádný rozdíl, totéž platí pro konstrukci s
+</I>&gt;<i> lambdou. Ta je sice jiného typu (LambdaType vs. MethodType) ale dělá totéž,
+</I>&gt;<i> metody se v pythonu od funkcí ničím jiným neliší.
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009655.html">[python] Záměna funkce v instanci objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009652.html">[python] Záměna funkce v instanci objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9659">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9659">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9659">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9659">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009659.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:44 GMT -->
+</html>

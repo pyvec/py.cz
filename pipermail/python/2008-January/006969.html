@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/006969.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:47 GMT -->
+<HEAD>
+   <TITLE> [python] Exec a unicode problem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Exec%20a%20unicode%20problem&In-Reply-To=D65DE45E9DB07C43B4F5210329E41BE641F8A6%40londinium.hq.altien.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-January/006970.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-January/006971.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Exec a unicode problem</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Exec%20a%20unicode%20problem&In-Reply-To=D65DE45E9DB07C43B4F5210329E41BE641F8A6%40londinium.hq.altien.com"
+       TITLE="[python] Exec a unicode problem">fuky na sunstel.asu.cas.cz
+       </A><BR>
+    <I>Čtvrtek Leden 10 15:50:10 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006970.html">[python] Exec a unicode problem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006971.html">[python] January promo on w4tches sWGA
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#6969">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#6969">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#6969">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#6969">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+máme skript:
+
+  #!/usr/bin/python
+  # -*- coding: utf-8 -*-
+  
+  def string2hex(string):
+    for c in string:
+      print &quot;%X&quot; % ord(c)
+    print type(string)
+    print string
+  
+  s = u'ž'
+  command2 = &quot;string2hex(s)&quot;
+  command3 = unicode(&quot;string2hex(u'ž')&quot;, 'utf-8')
+  command4 = &quot;string2hex(unicode('ž', 'utf-8'))&quot;
+  command5 = &quot;string2hex(u'\u017e')&quot;
+  command6 = &quot;string2hex(unicode('\xc5\xbe', 'utf-8'))&quot;
+  command7 = u&quot;string2hex(u'ž')&quot;
+  command8 = &quot;string2hex(u'\xc5\xbe')&quot; # error
+  #command8 = &quot;string2hex(u'ž')&quot; # error
+  
+  exec(&quot;string2hex(s)&quot;)
+  exec(command2)
+  exec(command3)
+  exec(command4)
+  exec(command5)
+  exec(command6)
+  exec(command7)
+  exec(command8)
+
+Jeho výstup:
+
+  17E
+  &lt;type 'unicode'&gt;
+  ž
+
+  ...
+
+  C5
+  BE
+  &lt;type 'unicode'&gt;
+  Traceback (most recent call last):
+    File &quot;./u.py&quot;, line 26, in ?
+      exec(command8)
+    File &quot;&lt;string&gt;&quot;, line 1, in ?
+    File &quot;./u.py&quot;, line 8, in string2hex
+      print string
+    File &quot;/usr/lib/python2.3/encodings/iso8859_2.py&quot;, line 18, in encode
+      return codecs.charmap_encode(input,errors,encoding_map)
+  UnicodeEncodeError: 'charmap' codec can't encode characters in position 0-1: character maps to &lt;undefined&gt;
+
+Až do command8 = &quot;string2hex(u'\xc5\xbe')&quot; je vše v pořádku, vždy je přesně
+specifikováno z čeho do čeho probíhá převod. Ale v tomto případě ne, rozhodnutí
+se ponechalo na implicitním nastavení tj. 'ascii' a to je chyba.
+
+String &quot;string2hex(u'\xc5\xbe')&quot; se díky '# -*- coding: utf-8 -*-' správně
+interpretuje jako utf-8, ale na jeho část &quot;u'\xc5\xbe'&quot; se už toto nastavení
+nevztahuje. Jestli se pletu, tak mě opravte.
+
+        S pozdravem Jan Fuchs
+
+<A HREF="http://www.py.cz/PythonUnicodeCestina">http://www.py.cz/PythonUnicodeCestina</A>
+
+09. Jan (Wednesday) v 23:35:00 CET 2008, <A HREF="http://www.py.cz/mailman/listinfo/python">dmichal na altien.com</A> napsal(a):
+&gt;<i> umel by jste mi nekdo vysvetlit proc mi volani exec(script2) hazi
+</I>&gt;<i> chybu (UnicodeEncodeError: 'charmap' codec can't encode characters in
+</I>&gt;<i> position 0-1: character maps to &lt;undefined&gt;)? A jak to obejit.
+</I>&gt;<i> 
+</I>&gt;<i> #!/usr/bin/python
+</I>&gt;<i> #-*- coding: utf8 -*-
+</I>&gt;<i>     
+</I>&gt;<i> script2 = &quot;out(u'žlutý kun')&quot;
+</I>
+-- 
+
+/**************************************************************
+*   _    Žádný program není bezchybný, dokonalý ani nejlepší, *
+*  °v°   to samé platí i o lidech a nejen o nich.             *
+* /(_)\                                      -- Jan Fuchs --  *
+*  ^ ^                                                        *
+*        <A HREF="http://www.fuky.org/">http://www.fuky.org</A>                 ICQ: 200692177   *
+**************************************************************/
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006970.html">[python] Exec a unicode problem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006971.html">[python] January promo on w4tches sWGA
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#6969">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#6969">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#6969">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#6969">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/006969.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:47 GMT -->
+</html>

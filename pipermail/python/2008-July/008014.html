@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008014.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:38 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátor a přístup do jmenného prostoru třídy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Dekor%E1tor%20a%20p%F8%EDstup%20do%20jmenn%E9ho%20prostoru%20t%F8%EDdy&In-Reply-To=d2219e620807231013v629130d3rb1581fb5d2ba318c%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/008013.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/008015.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátor a přístup do jmenného prostoru třídy</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Dekor%E1tor%20a%20p%F8%EDstup%20do%20jmenn%E9ho%20prostoru%20t%F8%EDdy&In-Reply-To=d2219e620807231013v629130d3rb1581fb5d2ba318c%40mail.gmail.com"
+       TITLE="[python] Dekorátor a přístup do jmenného prostoru třídy">devel na atlas.sk
+       </A><BR>
+    <I>Středa Červenec 23 20:15:00 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008013.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008015.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8014">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8014">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8014">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8014">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Martin Stiborský wrote:
+&gt;<i> Potřeboval bych, aby dekorátor měl přístup k self.bar, aby mohl číst
+</I>&gt;<i> co je zrovna v té proměnné, na aktuální funkčnost nekoukejte, jenom
+</I>&gt;<i> jsem chtěl nastínit jak to vypadá. Nevím jak to napsat tak, aby se ten
+</I>&gt;<i> dekorátor k tomu dostal :( Potřeboval bych totiž uvnitř dekorátoru s
+</I>&gt;<i> onou self.bar pracovat ..
+</I>
+'bry den,
+
+hadam staci nieco taketo:
+
+def dekorator():
+   def decorate(fce):
+     def wrapper(self, *args, **kwargs):
+       print &quot;bar je nastaveny na:&quot;, self.bar
+     return wrapper
+   return decorate
+
+-- 
+
+____________________________
+Ing. Jan Janech
+Katedra softverovych technologii
+Fakulta riadenia a informatiky
+Zilinska Univerzita
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008013.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008015.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8014">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8014">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8014">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8014">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008014.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:38 GMT -->
+</html>

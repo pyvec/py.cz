@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007876.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:05 GMT -->
+<HEAD>
+   <TITLE> [python] Guido o funkcich reduce(), filter() a map() v Python 3000
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=48625435.4030005%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007881.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007882.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Guido o funkcich reduce(), filter() a map() v Python 3000</H1>
+    <B>BoneFlute</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=48625435.4030005%40centrum.cz"
+       TITLE="[python] Guido o funkcich reduce(), filter() a map() v Python 3000">boneflute na taco-beru.name
+       </A><BR>
+    <I>Středa Červen 25 17:35:02 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007881.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007882.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7876">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7876">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7876">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7876">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman napsal(a):
+&gt;<i> Zajímavé je, že stálice a hvězdy na nebi programovacích jazyků jsou Ty, 
+</I>&gt;<i> které to nedělají. Evidentně Rossumův postup neprospívá jazykům. 
+</I>&gt;<i> Teoreticky si můžete myslet co chcete, ale v praxi se Rossumův postup 
+</I>&gt;<i> ukazuje jako spolehlivý postup, jak jazyk poslat do kolen a na dno. 
+</I>&gt;<i> Podívejte se do historie, a uvidíte to.
+</I>Měl bych tu přirovnání: C a C++. Ačkoliv C++ je zpětně kompatabilní, 
+není zcela. Některé Cčkovské konstrukce v C++ použít nemůžete.
+Jiný příklad je Java. Ta si udržuje silnou zpětnou kompatabilitu. A 
+proto, když přišel C# - což není nic jiného, než překopaná java - tak 
+získal velice rychle své místo na trhu protože se odvážil přinést nové 
+prvky a nové technologie, které v Javě nejsou, nebo jsou špatně. (Tím 
+netvrdím, že je C# nějak zvlášť úžasný. Ale je to krok kupředu.)
+
+Python zvolil cestu mezi. Odvážil se k radikálnějším zásahům do jazyka, 
+oproti příkladu s C x C++, kde ty nekompatabilní změny jsou opravdu 
+výjimečné. Ale nevytvořil úplně nový jazyk, jako Java x C# a tím si 
+uchoval uživatelskou základnu. V případě pythonu se jedná o zdokonalení 
+jazyka.
+
+K vašemu tvrzení, o stálicích, osobně se domnívám (ale je to opět jen mé 
+tvrzení), že životnost jazyka a jeho použití určují i jiné skutečnosti 
+než jak se s ním zachází.
+Jako příklad proti, mohu uvést Objektive C. Ten nedělal žádné změny ve 
+jazykové syntaxi původního C, a přesto se v drtivé většině používá jen 
+díky Applu. Již zmíněná Java měla nadčasový návrh. A zřejmě dodnes z 
+toho těží. Ale skutečnost je taková, že navzdory kritice, někdy ústící 
+až v šťavnaté nadávky, drží se. A to hlavně díky SUNu a IBM, které na 
+něm založili část své existence.
+
+&gt;<i> 
+</I>&gt;<i> Je sice hezké, že pro Rossuma je Python zábavou, ale pokud o něco jde, 
+</I>&gt;<i> tak se to až tak necení, pokud zábava nejde ruku v ruce se 
+</I>&gt;<i> spolehlivostí. Nebo otázka: Svěřili byste své celoživotní úspory někomu, 
+</I>&gt;<i> pro kterého je práce zábavou, ale nic jiného. Je mu jedno, že Vás to 
+</I>&gt;<i> poškodí, hlavně, že se baví? Vybíráte si právníka, který Vás bude hájit 
+</I>&gt;<i> hlavně proto, aby ho to bavilo? Atd..
+</I>To zajisté ne. Ale najmu si právníka, který právničinnou žije. Najmu si 
+zedníka, který dělá svou práci rád a je pro ni zapálen. Raději, než 
+profesionála, který to dělá jen pro peníze.
+
+
+--
+BF
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007881.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007882.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7876">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7876">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7876">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7876">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007876.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:05 GMT -->
+</html>

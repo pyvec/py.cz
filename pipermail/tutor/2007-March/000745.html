@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000745.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] polozka listbox
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20polozka%20listbox&In-Reply-To=op.tplvc4yy5zon3w%40milasek.muj">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000744.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000746.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] polozka listbox</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20polozka%20listbox&In-Reply-To=op.tplvc4yy5zon3w%40milasek.muj"
+       TITLE="[Tutor PyCZ] polozka listbox">geon na post.cz
+       </A><BR>
+    <I>Čtvrtek Březen 22 19:57:07 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000744.html">[Tutor PyCZ] polozka listbox
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000746.html">[Tutor PyCZ] polozka listbox
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#745">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#745">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#745">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#745">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ondryska Jaromír napsal(a):
+&gt;&gt;<i> Myslím, že to je chyba nebo naše neznalost. Mě to taky nefunguje.
+</I>&gt;&gt;<i> Dokonce jsem v překladu o tom od sebe našel i zmínku ;-)
+</I>&gt;&gt;<i> Používej curselection() a jsi za vodou, ne?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> Strašně rád bych používal curselection(), ale to taky nefunguje tak, jak  
+</I>&gt;<i> bych chtěl...
+</I>&gt;<i> Asi mám moc vysoké nároky :-)
+</I>&gt;<i>   
+</I>
+No jo, curselection to dělá úplně stejně špatně :-( Nakonec jsem na to 
+ale přišel. Myslím že by to mělo jít jednak
+
+* podle <A HREF="http://tkintercz.wz.cz/listbox.htm">http://tkintercz.wz.cz/listbox.htm</A> Pojetí - Command - Časovač
+* nebo takto :
+from Tkinter import *
+
+class window:
+    def __init__( self, frame ):
+        self.listbox_1 = Listbox( frame, selectmode=SINGLE )
+        self.listbox_1.grid( row=2, column=0, sticky=W+E+N+S, columnspan=3 )
+        self.listbox_1.bind( &quot;&lt;1&gt;&quot;, self.mouse_at_listbox_1 )
+
+    def fill_listbox( self, array_of_video_items ):
+        print &quot;function fill_listbox, parameter is:&quot;, array_of_video_items
+        self.listbox_1.delete( 0, END )
+        for item in array_of_video_items:
+              self.listbox_1.insert(END, item)
+
+    def mouse_at_listbox_1( self, param ):
+        souradnice=&quot;@&quot;+str(param.x)+&quot;,&quot;+str(param.y)   
+        print &quot;mouse pressed at listbox: &quot;,
+        selected_item = self.listbox_1.get(souradnice)
+        # selected_item = self.listbox_1.curselection()
+        print selected_item
+                 
+
+root=Tk()
+l=window(root)
+l.fill_listbox(list(&quot;Python&quot;))
+mainloop()
+
+Je to mírně upravený tvuj zdroj, ve kterém byxl jeden překled (chyba) a 
+chybně odsazovaáno (míchání skutečných tabulátorů a mezerníků).
+
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000744.html">[Tutor PyCZ] polozka listbox
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000746.html">[Tutor PyCZ] polozka listbox
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#745">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#745">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#745">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#745">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000745.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+</html>

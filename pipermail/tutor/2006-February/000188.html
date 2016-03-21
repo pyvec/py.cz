@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000188.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Dalsi problem s Livewires
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Dalsi%20problem%20s%20Livewires&In-Reply-To=ca0bf9ff0602271544p5040debaq%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000187.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000189.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Dalsi problem s Livewires</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Dalsi%20problem%20s%20Livewires&In-Reply-To=ca0bf9ff0602271544p5040debaq%40mail.gmail.com"
+       TITLE="[Tutor PyCZ] Dalsi problem s Livewires">geon na post.cz
+       </A><BR>
+    <I>Úterý Únor 28 07:42:08 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000187.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000189.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#188">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#188">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#188">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#188">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tomáš Bělonožník napsal(a):
+&gt;<i> Ahoj,
+</I>&gt;<i> tak jsem se taky jal vyrabet roboti hru z toho Livewires tutorialu a
+</I>&gt;<i> zasekl jsem se temer na zacatku. Procital jsem si tuhle konferenci a
+</I>&gt;<i> snazil jsem se tedy vyvarovat global. Muj problem je asi v tom, ze
+</I>&gt;<i> dostatecne nerozumim prikazu return, nikde sem ani nenasel nejaky
+</I>&gt;<i> vyklad. 
+</I>return někdy předčasně, někdy až na konci opuští cyklus a vrací jednu 
+nebo několik hodnot.
+
+&gt;<i> Pokusil jsem se aplikovat postup, ktery platil na vyrobHrace i
+</I>&gt;<i> na posunHrace, ale háže mi to chybu, kterou si nejsem schopen
+</I>&gt;<i> prelozit&quot;
+</I>&gt;<i>
+</I>&gt;<i> Hrac_telo, xh, yh = posunHrace()
+</I>&gt;<i> TypeError: unpack non-sequence
+</I>&gt;<i>   
+</I>Ty se pak ukládají do odpovídajících proměnných
+
+Je-li ve funkci mojeFunkce() return a, b - tak funkce vrací dvě 
+proměnné, které se musí do dvou proměnných zapsat:
+pocet, velikost = mojeFunkce(). Odpovídá to zápisu:
+pocet=a
+velikost=b
+
+Je to vlastně praktické využití jedné pythonoské fíčurky:
+a,b,c = 1,2,3
+nebo taky
+a,b,c=[1,2,3]
+a,b,c=(1,2,3)
+
+return a,b je ve skutečnosti return (a,b), takže se vrací tuple, která 
+se samorozbaluje do přislušných proměnných.
+
+Pokud není soulad v počtu proměnných, dostáváš tuto chybu--&gt; vracíš dvě 
+proměnné (xy, yh), očekáváš tři (Hrac_telo, xh, yh ).
+
+&gt;<i> Muj kod ted vypada takhle:
+</I>&gt;<i>
+</I>&gt;<i> import random
+</I>&gt;<i> from livewires import *
+</I>&gt;<i> begin_graphics()
+</I>&gt;<i> allow_moveables()
+</I>&gt;<i> def vyrobHrace():
+</I>&gt;<i>    xh=random.randint(0, 639)
+</I>&gt;<i>    yh=random.randint(0, 479)
+</I>&gt;<i>    Hrac_telo = circle(xh, yh, 5, filled=1, colour=Colour.red)
+</I>&gt;<i>    return xh, yh, Hrac_telo
+</I>&gt;<i> def posunHrace():
+</I>&gt;<i>     stisky = keys_pressed()
+</I>&gt;<i>   
+</I>tahle (výše uvedená)řádka tam být nemusí (nebo nemá?)
+&gt;<i>     if &quot;2&quot; in stisky:
+</I>&gt;<i>   
+</I>if &quot;2&quot; in klavesy:
+&gt;<i>         move_to(Hrac_telo, xh, yh+1)
+</I>&gt;<i>         return xh, yh
+</I>&gt;<i>
+</I>&gt;<i> xh, yh, Hrac_telo = vyrobHrace() # Jak tak nad tim premyslim tak tuhle
+</I>&gt;<i> radku nechapu...
+</I>&gt;<i> while 1:
+</I>&gt;<i>    klavesy = keys_pressed()
+</I>&gt;<i>    Hrac_telo, xh, yh = posunHrace() # Tady je problém
+</I>&gt;<i>    if &quot;q&quot; in klavesy:
+</I>&gt;<i>        break
+</I>&gt;<i> end_graphics()
+</I>&gt;<i>
+</I>&gt;<i> Díky za jakoukoliv pomoc, mozna mi bude stacit jen vysvetleni toho return...
+</I>&gt;<i>   
+</I>S tím return to může být ještě zamotanějsí, ale snad to takhle zatím 
+stačí...
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000187.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000189.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#188">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#188">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#188">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#188">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000188.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

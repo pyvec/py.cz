@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009893.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+<HEAD>
+   <TITLE> [python] pomoc v pythone
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pomoc%20v%20pythone&In-Reply-To=%3C1280122368.078890.28891.nullmailer%40mail1001.cent%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009891.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009894.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pomoc v pythone</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pomoc%20v%20pythone&In-Reply-To=%3C1280122368.078890.28891.nullmailer%40mail1001.cent%3E"
+       TITLE="[python] pomoc v pythone">prikryl na atlas.cz
+       </A><BR>
+    <I>Pondělí Červenec 26 07:32:48 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009891.html">[python] pomoc v pythone
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009894.html">[python] pomoc v pythone
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9893">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9893">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9893">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9893">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i>Musíš si to odřádkovat :-)
+</I>
+Pro doplnění, příkaz print si přidává konec řádku sám a dá se
+přesměrovat i do souboru. Přesto bych ale dal přednost tomu
+subor.write(...)
+
+&gt;<i>Před &quot;subor.close()&quot; napiš &quot;subor.write('rn')&quot; nebo, což je
+</I>&gt;<i>korektnější, &quot;subor.write(os.linesep)&quot;, nezapomeň někde nad tím uvést
+</I>&gt;<i>&quot;import os&quot;.
+</I>&gt;<i>
+</I>&gt;<i>os.linesep obsahuje oddělovač řádků - na Windows tam bude &quot;rn&quot;, na
+</I>&gt;<i>Unix-like systémech (tj. skoro všude jinde) &quot;n&quot;. Mimochodem, existuje
+</I>&gt;<i>ještě jedna možnost - otevřít souboru v režimu  &quot;universal newline
+</I>&gt;<i>support&quot; a jako oddělovač řádku psát jen &quot;n&quot;, ono by se to pak mělo
+</I>&gt;<i>na Windows na &quot;rn&quot; převést samo. (To, že jedeš na Windows, odvozuji
+</I>&gt;<i>ze sleepu na konci.)
+</I>
+Toto není přesné. Pokud je soubor otevřen pro zápis v textovém
+režimu (což platí vždy, když se to mode neuvede 'b'), pak se 'n'
+automaticky převádí na posloupnost pro konec řádku používaný
+v daném operačním systému. Hraní si s os.linesep má smysl
+jen v případě, kdy si soubor záměrně otevřeme pro ČTENÍ 
+v BINÁRNÍM režimu.
+
+Universal Newline Support se používá jen při otvírání textových
+souborů pro čtení (režim 'rU). Pak je jedno, v jakém OS byl
+soubor vytvořen.
+
+&gt;&gt;<i> subor=file(nazov,'a')
+</I>
+Pro otvírání souboru používej open(). Volání jakoby konstruktoru
+objektu typu file() již například v Python 3 není možné.  Takže pokud
+byly file() a open() v Pythonu 2 synonyma (vždy se ale doporučovalo
+používat open()), v Pythnonu už file() způsobí chybu.
+
+Měj se fajn,
+   Petr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009891.html">[python] pomoc v pythone
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009894.html">[python] pomoc v pythone
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9893">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9893">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9893">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9893">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009893.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+</html>

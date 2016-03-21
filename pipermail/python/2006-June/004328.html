@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004328.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:29 GMT -->
+<HEAD>
+   <TITLE> [python] ukončení interpretu, zničení objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004327.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004329.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ukončení interpretu, zničení objektu</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To="
+       TITLE="[python] ukončení interpretu, zničení objektu">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Červen  6 11:09:40 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004327.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004329.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4328">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4328">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4328">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4328">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Kurňa, byl jsem pomalý :-)
+
+
+Jan Martinek
+&gt;<i> [...]
+</I>&gt;<i> poslal jsem to jako bugreport a zde je vyjádření vývojářů:
+</I>&gt;<i> [...]
+</I>&gt;<i> This isn't really a bug, atleast not one that we plan to
+</I>&gt;<i> fix. The order in which modules get emptied is unspecified,
+</I>&gt;<i> and it can easily happen that things are gone when some
+</I>&gt;<i> destructor runs. Classes should be written to be resistent
+</I>&gt;<i> against this behaviour, e.g. by writing
+</I>&gt;<i> 
+</I>&gt;<i>    def __del__(self):
+</I>&gt;<i>      self.__class__.b = 0 # name &quot;M&quot; might be gone
+</I>&gt;<i> already
+</I>&gt;<i> [...]
+</I>&gt;<i> Závěr je, že se nejedná o chybu, tedy alespoň ne takovou, kterou je v 
+</I>&gt;<i> plánu opravit. Doporučuje se používat self.__class__.
+</I>&gt;<i>
+</I>&gt;<i> Děkuji všem za reakce. Zůstává mi ale pořád jedna nejasnost - 
+</I>&gt;<i> jaktože to windowsářům tu výjimku nehází? 
+</I>
+Dělá mi to přesně to samé.
+
+===========================
+class M:
+   b = 0
+   def __del__(self):
+       M.b = 1
+
+a1 = M()
+===========================
+
+C:\tmp\a&gt;python a.py
+Exception exceptions.AttributeError: &quot;'NoneType' object has no attribute 'b'&quot; in
+ &lt;bound method M.__del__ of &lt;__main__.M instance at 0x00927E68&gt;&gt; ignored
+
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004327.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004329.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4328">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4328">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4328">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4328">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004328.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:29 GMT -->
+</html>

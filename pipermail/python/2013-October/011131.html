@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011131.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:57 GMT -->
+<HEAD>
+   <TITLE> [python] volání funkce, kde název je uložen v proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3Fdm9sw6Fuw60gZnVua2NlLCBrZGUgbsOhemV2IGplIHVs%3F%3D%0A%09%3D%3Futf-8%3Fb%3Fb8W%2BZW4gdiBwcm9txJtubsOp%3F%3D&In-Reply-To=%3CCA%2B7MNVp%2BAke3S84mKkzfjr77ZeW3XySexNp3L%2BWF4TUapOb-kA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-October/011130.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-October/011132.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] volání funkce, kde název je uložen v proměnné</H1>
+    <B>starenka .</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3Fdm9sw6Fuw60gZnVua2NlLCBrZGUgbsOhemV2IGplIHVs%3F%3D%0A%09%3D%3Futf-8%3Fb%3Fb8W%2BZW4gdiBwcm9txJtubsOp%3F%3D&In-Reply-To=%3CCA%2B7MNVp%2BAke3S84mKkzfjr77ZeW3XySexNp3L%2BWF4TUapOb-kA%40mail.gmail.com%3E"
+       TITLE="[python] volání funkce, kde název je uložen v proměnné">starenka0 na gmail.com
+       </A><BR>
+    <I>Středa Říjen  9 21:09:50 CEST 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011130.html">[python] volání funkce, kde název je uložen v proměnné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011132.html">[python] volání funkce, kde název je uložen v proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11131">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11131">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11131">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11131">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>aha, jasny. nejak sem z toho nepochopil, ze tim myslis view...
+
+------
+aknerats[::-1]
+On Oct 9, 2013 9:05 PM, &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">bertikster at gmail.com</A>&gt; wrote:
+
+&gt;<i> Dne středa, 9. října 2013 21:01:14 UTC+2 <A HREF="http://www.py.cz/mailman/listinfo/python">berti... at gmail.com</A> napsal(a):
+</I>&gt;<i> &gt; ja nebudu posílat celou formu, jen název
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Edit: zjednodusena a nefungujici funkce,shruba takhle chci aby to
+</I>&gt;<i> fungovalo:
+</I>&gt;<i> def validace_formulare(request,nazevform,nazevmodel,presmerovat):
+</I>&gt;<i>         if request.method == 'POST': # If the form has been submitted...
+</I>&gt;<i>                 form = nazevform(request.POST) # A form bound to the POST
+</I>&gt;<i> data
+</I>&gt;<i>                 if form.is_valid(): # All validation rules pass
+</I>&gt;<i>                         # Process the data in form.cleaned_data
+</I>&gt;<i>                         cast_form =
+</I>&gt;<i> nazevmodel(author=request.user,prispevek=prispevek)
+</I>&gt;<i>                         form = nazevform(request.POST, instance=cast_form)
+</I>&gt;<i>                         form.save()
+</I>&gt;<i>                         return HttpResponseRedirect(presmerovat) #
+</I>&gt;<i> Redirect after POST
+</I>&gt;<i>         else:
+</I>&gt;<i>                 form = nazevform() # An unbound form
+</I>&gt;<i>         return form
+</I>&gt;<i> s tim, že v promenne nazevform, by byl jen nazev ne cela forma
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Dne středa, 9. října 2013 20:34:53 UTC+2 starenka . napsal(a):
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; V Djangu se spis validujou fieldy formu. Ty pouzivaji validatory
+</I>&gt;<i> <A HREF="https://docs.djangoproject.com/en/dev/ref/forms/validation/">https://docs.djangoproject.com/en/dev/ref/forms/validation/</A> Pripadne si
+</I>&gt;<i> tu funkci, jestli fakt potrebujes zavolej v cleanu() formu. Posilani formu
+</I>&gt;<i> funkci, ktera ho ma validovat mi pride tak trochu drbani se na zadech
+</I>&gt;<i> exhumovanou rukou php programatora.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; ------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; aknerats[::-1]
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; On Oct 9, 2013 8:25 PM,  &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">berti... at gmail.com</A>&gt; wrote:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; Chci mít funkci na validaci formuláře v Djangu, ale chci měnit jméno
+</I>&gt;<i> formuláře, které budu posílat v paramtru funkce, abych jí mohl používat pro
+</I>&gt;<i> různé formuláře
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; Dne středa, 9. října 2013 16:35:37 UTC+2 Petr Messner napsal(a):
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt; Proč něco takového chceš?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt; PM
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt; Dne 9. října 2013 15:45  &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">berti... at gmail.com</A>&gt; napsal(a):
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt; Mám název funkce v proměnné, tak bych se chtěl zeptat jak tu funkci
+</I>&gt;<i> můžu zavolat? jde mi o to abych dále té funkci mohl dát další parametry
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt; _______________________________________________
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt; Python mailing list
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Pyt... at py.cz</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; _______________________________________________
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; Python mailing list
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Pyt... at py.cz</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20131009/851bc901/attachment.html">http://www.py.cz/pipermail/python/attachments/20131009/851bc901/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011130.html">[python] volání funkce, kde název je uložen v proměnné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011132.html">[python] volání funkce, kde název je uložen v proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11131">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11131">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11131">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11131">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011131.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:57 GMT -->
+</html>

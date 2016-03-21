@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004955.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:16 GMT -->
+<HEAD>
+   <TITLE> [python] Statické metody v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004981.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004962.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Statické metody v Pythonu</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To="
+       TITLE="[python] Statické metody v Pythonu">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Listopad  8 12:34:46 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004981.html">[python] Statické metody v Pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004962.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4955">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4955">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4955">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4955">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman
+&gt;<i> pepr
+</I>&gt;<i> &gt; Stejně je ale otázka, jestli opravdu chci používat
+</I>&gt;<i> &gt; statické metody třídy. V podstatě jsou elegantní jen
+</I>&gt;<i> &gt; v případě, kdy používají proměnné stejné třídy. 
+</I>&gt;<i> &gt; A zavádění proměnných třídy v Pythonu asi taky 
+</I>&gt;<i> &gt; není moc časté. [...]
+</I>&gt;<i> 
+</I>&gt;<i> [...] Uvědomte si, že statická metoda patří do 
+</I>&gt;<i> prostoru jmen třídy a její potomek jí může předefinovat. 
+</I>&gt;<i> Jediným rozdílem je, že statická metoda nezná konkrétní 
+</I>&gt;<i> instanci třídy. Takže klidně můžete udělat toto:
+</I>&gt;<i> 
+</I>&gt;<i> class uhel:
+</I>&gt;<i>    @staticmethod
+</I>&gt;<i>    def static_str_na_radiany(s):
+</I>&gt;<i>      return blablabla;
+</I>&gt;<i> 
+</I>&gt;<i>    def __add__(self, other):
+</I>&gt;<i>      if isinstance(other, basestring):
+</I>&gt;<i>        return uhel(self.__radians +\
+</I>&gt;<i>                    self.static_str_na_radiany(other));
+</I>&gt;<i>      elseif:
+</I>&gt;<i>        # a tak dale
+</I>&gt;<i> 
+</I>&gt;<i> class zemepisny_uhel(uhel):
+</I>&gt;<i>    def static_str_na_radiany(s):
+</I>&gt;<i>      # tato metoda umi konvertovat zemepisny
+</I>&gt;<i>      # uhel zapsany ve stringu na radiany
+</I>&gt;<i>      # na rozdil od stejne metody v predkovi
+</I>&gt;<i>      # umi konvertovat i GPS souradnice
+</I>&gt;<i>      return blablabla;
+</I>&gt;<i> [...]
+</I>&gt;<i> Tohle je velmi blízké tomu co chci udělat a díky 
+</I>&gt;<i> statické metodě vím, že metoda __add__ ve třídě 
+</I>&gt;<i> uhel bude naprosto správně fungovat i pro potomky, 
+</I>&gt;<i> [...]
+</I>
+Tohle použití vypadá velmi rozumně. Přidávám to
+k tomu případu, kdy statické metody používají
+statické proměnné. Shrnuto, jde tedy o případ, 
+kdy je statická metoda volána z metody objektu 
+stejné třídy a chci dosáhnout polymorfního chování.
+
+Nikdy jsem to nepoužil a nechce se mi to zkoušet.
+Bude ta metoda v potomkovi automaticky taky 
+statická? 
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004981.html">[python] Statické metody v Pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004962.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4955">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4955">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4955">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4955">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004955.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:16 GMT -->
+</html>

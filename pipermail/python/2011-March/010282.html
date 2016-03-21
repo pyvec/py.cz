@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-March/010282.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:07 GMT -->
+<HEAD>
+   <TITLE> [python] Jaky zpusobem ukladat data do pole
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Jaky%20zpusobem%20ukladat%20data%20do%20pole&In-Reply-To=%3C5c2c0653-cd8f-4645-81e0-ddf884154d18%40cu4g2000vbb.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-March/010281.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jaky zpusobem ukladat data do pole</H1>
+    <B>Stone</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Jaky%20zpusobem%20ukladat%20data%20do%20pole&In-Reply-To=%3C5c2c0653-cd8f-4645-81e0-ddf884154d18%40cu4g2000vbb.googlegroups.com%3E"
+       TITLE="[python] Jaky zpusobem ukladat data do pole">phracek2 na gmail.com
+       </A><BR>
+    <I>Čtvrtek Březen 31 10:52:58 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010281.html">[python] Jaky zpusobem ukladat data do pole
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-March/date.html#10282">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/thread.html#10282">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/subject.html#10282">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/author.html#10282">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Diky presne toto jsem potreboval.
+
+On 31 bře, 10:14, &quot;Petr Přikryl&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prik... na atlas.cz</A>&gt; wrote:
+&gt;<i> Zkus tohle
+</I>&gt;<i>
+</I>&gt;<i> --------------------------------------------------------------------------------
+</I>&gt;<i> pole1 = {}    # prázdný slovník (ekvivalent perlovského hash)
+</I>&gt;<i> pole2 = {}
+</I>&gt;<i>
+</I>&gt;<i> f = open('trace.data')
+</I>&gt;<i> for line in f:
+</I>&gt;<i>     k, v = line.rstrip().split('=', 1)  # .rstrip() odstraní n
+</I>&gt;<i>     print repr(k), repr(v)
+</I>&gt;<i>     pole1[k] = v
+</I>&gt;<i> f.close()
+</I>&gt;<i>
+</I>&gt;<i> f = open('trace.cfg')
+</I>&gt;<i> for line in f:
+</I>&gt;<i>     k, v = line.rstrip().split('=', 1)
+</I>&gt;<i>     print repr(k), repr(v)
+</I>&gt;<i>     pole2[k] = v
+</I>&gt;<i> f.close()
+</I>&gt;<i>
+</I>&gt;<i> print pole1
+</I>&gt;<i> print pole2
+</I>&gt;<i>
+</I>&gt;<i> print pole1['AAA']
+</I>&gt;<i> print pole2['AAA']
+</I>&gt;<i> print repr(pole2['AAA'])
+</I>&gt;<i> -----------------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Když jsem do uvedených souborů uložil ty udané řádky, vypisuje to tohle:
+</I>&gt;<i>
+</I>&gt;<i> C:tmp___pythonStonepy.cz&gt;python a.py
+</I>&gt;<i> 'AAA' 'BBB=CCC=DDD=EEE'
+</I>&gt;<i> 'AAA' 'FFF=GGG=HHH'
+</I>&gt;<i> {'AAA': 'BBB=CCC=DDD=EEE'}
+</I>&gt;<i> {'AAA': 'FFF=GGG=HHH'}
+</I>&gt;<i> BBB=CCC=DDD=EEE
+</I>&gt;<i> FFF=GGG=HHH
+</I>&gt;<i> 'FFF=GGG=HHH'
+</I>&gt;<i>
+</I>&gt;<i> Petr
+</I>&gt;<i>
+</I>&gt;<i> ______________________________________________________________
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> &gt; Od: &quot;Stone&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">phrac... na gmail.com</A>&gt;
+</I>&gt;<i> &gt; Komu: <A HREF="http://www.py.cz/mailman/listinfo/python">pyt... na py.cz</A>
+</I>&gt;<i> &gt; Datum: 31.03.2011 09:35
+</I>&gt;<i> &gt; Předmět: [python] Jaky zpusobem ukladat data do pole
+</I>&gt;<i>
+</I>&gt;<i> &gt;Ahoj vsichni,
+</I>&gt;<i>
+</I>&gt;<i> &gt;jsem zacatecnik v Pythonu. Delam v nem asi 4 mesice.
+</I>&gt;<i> &gt;Mam jeden dotaz.
+</I>&gt;<i> &gt;V konfiguracnim souboru trace.data mam nasledujici radky:
+</I>&gt;<i> &gt;AAA=BBB=CCC=DDD=EEE
+</I>&gt;<i> &gt;v dalsim kofiguracnim souboru jako trace.cfg man tyto radky:
+</I>&gt;<i> &gt;AAA=FFF=GGG=HHH
+</I>&gt;<i>
+</I>&gt;<i> &gt;V perlu jsem to delal pomoci Hashe.
+</I>&gt;<i> &gt;Existuje neco podobneho v Python? Perl se mi uz prestal libit.
+</I>&gt;<i> &gt;Jak by se dala testovat jestli dotycna hodnota existuje?
+</I>&gt;<i> &gt;Predpokladal bych neco jako:
+</I>&gt;<i> &gt;pole1{&quot;AAA&quot;}=&quot;BBB=CCC=DDD=EEE&quot;
+</I>&gt;<i> &gt;pole2{&quot;AAA&quot;}=&quot;FFF=GGG=HHH&quot;
+</I>&gt;<i>
+</I>&gt;<i> &gt;Diky predem
+</I>&gt;<i> &gt;Petr
+</I>&gt;<i> &gt;_______________________________________________
+</I>&gt;<i> &gt;Python mailing list
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python">Pyt... na py.cz</A>
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010281.html">[python] Jaky zpusobem ukladat data do pole
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-March/date.html#10282">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/thread.html#10282">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/subject.html#10282">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/author.html#10282">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-March/010282.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:07 GMT -->
+</html>

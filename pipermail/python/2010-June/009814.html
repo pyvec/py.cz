@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009814.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:32 GMT -->
+<HEAD>
+   <TITLE> [python] pyqt4,system tray,zavreni aplikace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pyqt4%2Csystem%20tray%2Czavreni%20aplikace&In-Reply-To=%3C4C1A0D50.5050606%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-June/009813.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-June/009815.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pyqt4,system tray,zavreni aplikace</H1>
+    <B>vepro</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pyqt4%2Csystem%20tray%2Czavreni%20aplikace&In-Reply-To=%3C4C1A0D50.5050606%40gmail.com%3E"
+       TITLE="[python] pyqt4,system tray,zavreni aplikace">p.zlamal na gmail.com
+       </A><BR>
+    <I>Čtvrtek Červen 17 13:56:00 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009813.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009815.html">[python] pyqt4,system tray,zavreni aplikace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9814">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9814">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9814">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9814">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pratele,
+Zkousim udelat cast kodu, ktera ma mit za cil vytvorit v system tray 
+ikonu + menu. V tomto menu budou ruzne polozky (ktere budou dale 
+otevirat ruzna okna) a take polozka Exit. Polozka Exit ukonci celou 
+aplikaci. Zatim se mi podaril nasledujici kod (viz nize), ktery aplikaci 
+ukonci, avsak v konzoli se objevi: Segmentation fault. Je to nekorektni 
+postup, ci co to presne znamena?? Nejake navrhy jak to udelat pr  ipadne 
+lepe? Dekuji
+
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import sys
+from PyQt4 import QtGui, QtCore
+
+class SystemTrayIcon(QtGui.QSystemTrayIcon):
+         def __init__(self, icon, parent=None):
+                 QtGui.QSystemTrayIcon.__init__(self,parent)
+                 self.setIcon(QtGui.QIcon(&quot;./pig_icon.gif&quot;))
+                 self.trayMenu = QtGui.QMenu()
+                 self.exitAction = self.trayMenu.addAction(&quot;Exit&quot;)
+                 self.loadAction = self.trayMenu.addAction(&quot;Load&quot;)
+                 self.setContextMenu(self.trayMenu)
+                 self.connect(self.exitAction, 
+QtCore.SIGNAL('triggered()'), self.closeApp)
+                 self.connect(self.loadAction, 
+QtCore.SIGNAL('triggered()'), self.load)
+         def closeApp(self):
+                 app.exit()
+         def load(self):
+                 print &quot;load&quot;
+
+if __name__ == '__main__':
+         app = QtGui.QApplication(sys.argv)
+         trayIcon = SystemTrayIcon(QtGui.QIcon())
+         trayIcon.show()
+         sys.exit(app.exec_())
+
+
+Vepro
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009813.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009815.html">[python] pyqt4,system tray,zavreni aplikace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9814">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9814">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9814">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9814">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009814.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:32 GMT -->
+</html>

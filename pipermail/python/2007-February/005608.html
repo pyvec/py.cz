@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005608.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:42 GMT -->
+<HEAD>
+   <TITLE> [python] wxSizers
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20wxSizers&In-Reply-To=765.284-10604-1186107750-1172002415%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005607.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005609.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] wxSizers</H1>
+    <B>Petr Hlávka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20wxSizers&In-Reply-To=765.284-10604-1186107750-1172002415%40seznam.cz"
+       TITLE="[python] wxSizers">petrhlavka na gmail.com
+       </A><BR>
+    <I>Úterý Únor 20 21:57:26 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005607.html">[python] wxSizers
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005609.html">[python] wxSizers
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5608">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5608">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5608">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5608">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+nefunguje to, protoze ten druhy frame vybec nezobrazite (nezavolate na
+nej Show()). wx.Frame neni mozna uplne vyztizny nazev, z pohledu
+window manageru se jedna o samostatne okno
+
+A frame is a window whose size and position can (usually) be changed
+by the user. It usually has thick borders and a title bar, and can
+optionally contain a menu bar, toolbar and status bar. A frame can
+contain any window that is not a frame or dialog.
+
+On 2/20/07, Jakub Vojáček &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Jakohv na seznam.cz</A>&gt; wrote:
+&gt;<i> &gt; Od: Petr Hlávka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petrhlavka na gmail.com</A>&gt;
+</I>&gt;<i> &gt; ...
+</I>&gt;<i> Tohle jsem taky zvládl, ale nefunguje mi to když dám ten graf do dalšího Framu. Já vím, je to zbytečný, ale nechápu proč to nefunguje:
+</I>&gt;<i> def __init__(self):
+</I>&gt;<i>         data = [(1,2), (2,3), (3,5), (4,6), (5,8), (6,8), (10,10)]
+</I>&gt;<i>         okno=wx.Frame(None)
+</I>&gt;<i>         radic=wx.BoxSizer(wx.VERTICAL)
+</I>&gt;<i>         #
+</I>&gt;<i>         ram=wx.Frame(okno)
+</I>&gt;<i>         client = plot.PlotCanvas(ram)
+</I>&gt;<i>         line = plot.PolyLine(data, legend='', colour='pink', width=1)
+</I>&gt;<i>         gc = plot.PlotGraphics([line], 'Line Graph', 'X Axis', 'Y Axis')
+</I>&gt;<i>         client.Draw(gc, xAxis= (0,15), yAxis= (0,15))
+</I>&gt;<i>         #
+</I>&gt;<i>         radic.Add(ram,1,wx.EXPAND)
+</I>&gt;<i>         radic.Layout()
+</I>&gt;<i>         okno.SetSizer(radic)
+</I>&gt;<i>         okno.Show(True)
+</I>
+ram.Show(True)
+
+&gt;<i>
+</I>&gt;<i> Dokumentaci jsem si prošel, stejně tak i demo ukázky ale nepochopil jsem z toho porč mi to nefunguje...
+</I>&gt;<i>
+</I>
+  S pozdravem Petr Hlavka.
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005607.html">[python] wxSizers
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005609.html">[python] wxSizers
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5608">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5608">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5608">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5608">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005608.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:42 GMT -->
+</html>

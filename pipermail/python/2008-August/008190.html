@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008190.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:32 GMT -->
+<HEAD>
+   <TITLE> [python] Přetěžování metod v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FP%3DF8et%3DEC%3DBEov%3DE1n%3DED_metod_v_Pythonu%3F%3D&In-Reply-To=%3C1dbb29780808290411g48d708bbj897491098c42b68d%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008185.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008187.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Přetěžování metod v Pythonu</H1>
+    <B>Petr Zloty</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FP%3DF8et%3DEC%3DBEov%3DE1n%3DED_metod_v_Pythonu%3F%3D&In-Reply-To=%3C1dbb29780808290411g48d708bbj897491098c42b68d%40mail.gmail.com%3E"
+       TITLE="[python] Přetěžování metod v Pythonu">petr.zloty na gmail.com
+       </A><BR>
+    <I>Pátek Srpen 29 13:11:21 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008185.html">[python] Přetěžování metod v Pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008187.html">[python] Přetěžování metod v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8190">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8190">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8190">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8190">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>jj predefinuje prvni funkci, takze pretezovani funkce ala C++ podle
+poctu parametru neumoznuje bez **keywords resp. * args (Musim projit
+jeden stary zdrojak kde jsem tohle pouzival a &quot;nejak&quot; to fungovalo :/,
+ale v ramci metod se da pouzit viz prvni priklad nebo tenhle fukcni
+kod:
+
+class Master:
+	def a(self, x=0):
+		print 'jeden argument'
+
+class Commander(Master):
+	def a(self, x=0,y=0):
+		print 'dva argumenty'
+		
+	def b(self, x=0, y=0):
+		Master().a()
+		
+
+a = Master()
+a.a()	# puvodni metoda a
+
+b = Commander()
+b.a()	# nova metoda a
+b.b()	# puvodni metoda a
+
+coz je pretezovani metod ve tride
+
+Hodi se to pokud clovek potrebuje stejne chovani jako built in typy,
+nebo potrebuje zmenit chovani built in typu, popripadne si chce
+zjednodusit nektere zapisy, osobne jsem to v nejak zvlast velke mire
+jeste nevyuzil, davam prednost metodam, takze misto:
+
+NewCollection = CollectionA + CollectionB  ##objekt Collection
+nadefinovany nekde ve tride, operator + nadefinovany ve stejne tride
+pomoci def __add__: etc...
+
+## pouzivam napr:
+
+NewCollection.Add(CollectionA)   ## metoda Add menici objekt in-place
+NewCollection.Add(CollectionB)
+
+2008/8/29 David Michal &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">dmichal na altien.com</A>&gt;:
+&gt;&gt;<i> -----Original Message-----
+</I>&gt;&gt;<i> From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of
+</I>&gt;&gt;<i> Petr Zloty
+</I>&gt;&gt;<i> Sent: Friday, August 29, 2008 10:59 AM
+</I>&gt;&gt;<i> To: Konference PyCZ
+</I>&gt;&gt;<i> Subject: Re: [python] Přetěžování metod v Pythonu
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> pretezovani operatoru:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ve tride definuj metodu __add__: pro scistani __mul__ pro nasobeni
+</I>&gt;&gt;<i> atd..
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> tenhle priklad funguje pokud se pouzijou keywords argumenty,
+</I>&gt;&gt;<i> prirovnanim k C staci incializovat promenne, tudiz tohle funguje:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def a(x=0):
+</I>&gt;&gt;<i>    print x
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def a(x=0,y=0):
+</I>&gt;&gt;<i>    print x + y
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> a(1)
+</I>&gt;&gt;<i> a(1,1)
+</I>&gt;&gt;<i>
+</I>&gt;<i> No funguje, ale ta prvni definice a je tam zbytecna. Python je interpretovany jazyk, takze pri provadeni kodu jede pekne radek po radce. V tomhle pripade tedy nejdrive nadefinuje a jako a(x=0)... a pak to prepise definici a(x=0,y=0)....Takze priklad:
+</I>&gt;<i>
+</I>&gt;<i> def a(x=0):
+</I>&gt;<i>    print 'jeden argument'
+</I>&gt;<i>
+</I>&gt;<i> def a(x=0,y=0):
+</I>&gt;<i>    print 'dva argumenty'
+</I>&gt;<i>
+</I>&gt;<i> a(1)
+</I>&gt;<i> a(1,1)
+</I>&gt;<i>
+</I>&gt;<i> uz moc dobre fungovat nebude.
+</I>&gt;<i>
+</I>&gt;<i> Ad k tomu pretizeni operatoru, kdy to pouzivat? V jakem pripade se to hodi?
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008185.html">[python] Přetěžování metod v Pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008187.html">[python] Přetěžování metod v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8190">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8190">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8190">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8190">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008190.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:32 GMT -->
+</html>

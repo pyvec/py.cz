@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006766.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=46e1f0de0711170422t3121112cl14ddcbffc12e0f6c%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006754.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006767.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Tomy novella</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=46e1f0de0711170422t3121112cl14ddcbffc12e0f6c%40mail.gmail.com"
+       TITLE="[python] sockety - problem s HTTP spojenim">tomasnovella na gmail.com
+       </A><BR>
+    <I>Úterý Listopad 20 19:47:11 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006754.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006767.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6766">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6766">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6766">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6766">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ahooj :),
+
+
+noo pozeral som jeden example a doplnil som ho 2 riadkami kodu na konci:
+----------------------------------------
+#! /usr/bin/python
+import asyncore
+class http_client(asyncore.dispatcher):
+    def __init__(self, host,path):
+        asyncore.dispatcher.__init__(self)
+        self.path = path
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect( (host, 80) )
+        self.buffer = 'GET %s HTTP/1.0\r\n\r\n' % self.path
+
+    def handle_connect(self):
+        pass
+
+    def handle_read(self):
+        data = self.recv(8192)
+        print data
+
+    def writable(self):
+        return (len(self.buffer) &gt; 0)
+
+    def handle_write(self):
+        sent = self.send(self.buffer)
+        self.buffer = self.buffer[sent:]
+
+# to su tie moje 2 riadky kodu :), nevrati funkcnu stranku, ale len
+error 404 :)
+client = http_client(&quot;www.google.sk&quot;, &quot;/index.php&quot;)
+client.handle_read()
+
+
+----------------------------------
+problemom vsakje, ze hadze mi error:
+
+Traceback (most recent call last):
+  File &quot;./asyncore.py&quot;, line 2, in &lt;module&gt;
+    import asyncore
+  File &quot;/home/tomi/tomi/develop/python/asyncore.py&quot;, line 3, in &lt;module&gt;
+    class http_client(asyncore.dispatcher):
+AttributeError: 'module' object has no attribute 'dispatcher'
+
+comu absolutne nechapem, pretoze som predsa naimportoval asynchat,
+takze neviem preco mi to nechce najst triedu dispatcher ;(
+
+v com je problem?
+
+
+Dňa 17.11.2007, Tomy novella &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">tomasnovella na gmail.com</A>&gt; napísal(a):
+&gt;<i> ahoj,
+</I>&gt;<i>
+</I>&gt;<i> ondrej: viem, ze je na 7000, ale funguje aj na porte 23 - skusal som
+</I>&gt;<i> uz tak frcat cez program telnet aj cez &quot;nc atlantis.talker.sk 23&quot;.
+</I>&gt;<i> takze v tom asi chyba nebude :-)
+</I>&gt;<i>
+</I>&gt;<i> veros: noo uznavam, ze som nic nenapisal o tom, PRECO to nejde, ale
+</I>&gt;<i> nenapisal som to z dovodu, ze je to par riadkovy skript a myslel som
+</I>&gt;<i> si, ze profici v diskusii mi hned najdu tu chybu v tom mojom skripte
+</I>&gt;<i> ;)
+</I>&gt;<i> ale pre ujasnenie, nacita mi to prvu stranku, ako keby som sa pripojil
+</I>&gt;<i> do atlantis talkra cez telnet, alebo netcat, ale potom mi uz nereaguje
+</I>&gt;<i> na zadany vstup, presnejsie prvykrat mi dovoli nieco napisat(zobrazi
+</I>&gt;<i> sa mi &quot;prompt&quot;: 'napis text:'), ale potom uz je len prazdny riadok bez
+</I>&gt;<i> promptu a nejde to tak, ako som si predstavoval :(
+</I>&gt;<i>
+</I>&gt;<i> no a nakoniec najdlhsia odpoved ;)
+</I>&gt;<i> filip: funkciu exit som napisal, lebo ked som ju napisal, tak mi ju
+</I>&gt;<i> idle zvyraznilo, ako keby ju poznalo, tak som ju tam nechal : )
+</I>&gt;<i> funkcia recv (imho) funguje v tomto pripade, nakolko mi to este tu
+</I>&gt;<i> uvodnu obrazovku atlantisu zobrazi zobrazi :( idem sa pozriet na tie
+</I>&gt;<i> moduly asyncore a asynchat, ktore si mi napisal. mimochodom to oni
+</I>&gt;<i> riesia to cez neblokovane spojenie?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2007/11/16, Věroslav Kaplan &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">veros.kaplan na gmail.com</A>&gt;:
+</I>&gt;<i> &gt; On Nov 16, 2007 7:37 PM, Tomy novella  wrote:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; - skusam si spravit klienta na telnet, resp. chcem, aby ma to
+</I>&gt;<i> &gt; &gt; pripojilo na atlantis.talker.sk problemom vsak je, ze
+</I>&gt;<i> &gt; &gt; nefunguje(nedokaze komunikovat) ;( what`s wrong?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Jesti můžu poradit, tak místo &quot;nefunguje&quot; je vhodné popsat příznaky detailněji:
+</I>&gt;<i> &gt; - co čekám že můj výtvor bude dělat
+</I>&gt;<i> &gt; - co opravdu dělá a kdy se začne moje očekávání lišit od skutečného stavu.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Pokud se vyskytnou nějaké neočekávané  výstupy (třeba chybové
+</I>&gt;<i> &gt; exceptions), tak je přiložit taky. Chybové výstupy  však přikládat s
+</I>&gt;<i> &gt; mírou, moje zkušenost praví, že pokud musím číst víc než 20-30 řádků,
+</I>&gt;<i> &gt; tak mne to přestane bavit (a stejně jako většina lidí tady odpovídám
+</I>&gt;<i> &gt; ve volném čase a mám ho málo).
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Z toho, co jsi poslal &quot;nefunguje (nedokaze komunikovat)&quot; nevím, co si
+</I>&gt;<i> &gt; mám představit.  To je jako bych zavolal do servisu: &quot;nejede mi auto&quot;
+</I>&gt;<i> &gt; :-)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Čím líp se budeš ptát, tím lepší odpovědi dostaneš. Probatum est.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --V
+</I>&gt;<i> &gt; PS: Omlouvám se čtenářům za off-topic, ale třeba se takhle dobereme
+</I>&gt;<i> &gt; výsledku rychleji a s menším úsilím..
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> PS: prosim v mailoch tykat! nie vykat ;)
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Tom na sQo</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">tomasnovella na gmail.com</A>
+</I>&gt;<i>
+</I>
+
+-- 
+PS: prosim v mailoch tykat! nie vykat ;)
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">Tom na sQo</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">tomasnovella na gmail.com</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006754.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006767.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6766">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6766">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6766">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6766">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006766.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+</html>

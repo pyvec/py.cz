@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009897.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+<HEAD>
+   <TITLE> [python] xml.etree.ElementTree , parsování xml
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fxml%3D2Eetree%3D2EElementTree_%3D2C_parsov%3DE1n%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DED_xml%3F%3D&In-Reply-To=%3CAANLkTimC3T_vcMK%2Bu65vpkXJh8stKaSnatMVzKTosdMX%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009896.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009900.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] xml.etree.ElementTree , parsování xml</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fxml%3D2Eetree%3D2EElementTree_%3D2C_parsov%3DE1n%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DED_xml%3F%3D&In-Reply-To=%3CAANLkTimC3T_vcMK%2Bu65vpkXJh8stKaSnatMVzKTosdMX%40mail.gmail.com%3E"
+       TITLE="[python] xml.etree.ElementTree , parsování xml">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Úterý Červenec 27 08:23:59 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009896.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009900.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9897">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9897">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9897">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9897">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Dobrý den, mám tu objekt elementu z modulu xml.etree.ElementTree který
+</I>&gt;<i> odpovídá kodu &lt;name&gt;Pepa&lt;/name&gt; ... nevíte jak z toho mam dostat Pepu?
+</I>&gt;<i> Zkoušel jsem metody z dokumentace -
+</I>&gt;<i> <A HREF="http://docs.python.org/library/xml.etree.elementtree.html">http://docs.python.org/library/xml.etree.elementtree.html</A> ale všechny my
+</I>&gt;<i> vracejí nanejvýš atributy, nikoliv však Pepu :( Nevíte někdo jak osvobodit
+</I>&gt;<i> Pepu z xml klece?
+</I>
+Ahoj,
+
+  to je trochu tezke, kdyz nenapises co uz jsi vyzkousel a
+nefungovalo. Nevim, jak vypada zbytek tveho XML, ale vyzkousel bych
+neco ve stylu:
+
+et = ElementTree()
+data = et.parse(muj_soubor)
+names = data.findall('name')
+for name in names:
+    print name.text
+
+
+Ale je to jenom strelene od boku, nedal jsi dost informaci.
+
+   Jirka
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009896.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009900.html">[python] xml.etree.ElementTree , parsování xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9897">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9897">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9897">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9897">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009897.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+</html>

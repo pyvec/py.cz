@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-August/000951.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:25 GMT -->
+<HEAD>
+   <TITLE> unicode stx patch Was: [python] Kde najdu navod pro praci se svym
+	obsahem na www.py.cz?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=unicode%20stx%20patch%20Was%3A%20%5Bpython%5D%20Kde%20najdu%20navod%20pro%20praci%20se%20svym%0A%09obsahem%20na%20www.py.cz%3F&In-Reply-To=3F4379A7.1020607%40zagamma.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-August/000950.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-August/000952.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>unicode stx patch Was: [python] Kde najdu navod pro praci se svym
+	obsahem na www.py.cz?</H1>
+    <B>Ondřej Surý</B> 
+    <A HREF="mailto:python%40py.cz?Subject=unicode%20stx%20patch%20Was%3A%20%5Bpython%5D%20Kde%20najdu%20navod%20pro%20praci%20se%20svym%0A%09obsahem%20na%20www.py.cz%3F&In-Reply-To=3F4379A7.1020607%40zagamma.cz"
+       TITLE="unicode stx patch Was: [python] Kde najdu navod pro praci se svym
+	obsahem na www.py.cz?">sury.ondrej na globe.cz
+       </A><BR>
+    <I>Středa Srpen 20 15:38:29 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/000950.html">[python] Kde najdu navod pro praci se svym obsahem na www.py.cz?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/000952.html">unicode stx patch Was: [python] Kde najdu navod pro praci se
+	svym	obsahem na www.py.cz?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-August/date.html#951">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/thread.html#951">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/subject.html#951">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/author.html#951">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, 2003-08-20 at 15:37, ViNiL wrote:
+
+&gt;<i> Bohuzel, Cestina zpusobuje nekdy problemy :-( Cekam porad na nejakou 
+</I>&gt;<i> patch a ta nejde a nejde ;-)
+</I>
+Asi spatne hledate...
+
+O.
+
+-- 
+OndĹej SurĂ˝ - co/CTO
+---------------------------------------------------
+Globe Internet, s.r.o.       -      <A HREF="http://globe.cz/">http://globe.cz</A>
+PlĂĄniÄkova 1, 162 00 Praha 6 - <A HREF="http://mapa.globe.cz/">http://mapa.globe.cz</A>
+Tel.: +420 2 35365000        -      <A HREF="http://www.py.cz/mailman/listinfo/python">info na servery.cz</A>
+------------- další část ---------------
+? i18n-0.9.9.patch
+Index: DocumentClass.py
+===================================================================
+RCS file: /var/lib/cvs/nkm/zope/StructuredText/DocumentClass.py,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2.2.1
+diff -r1.1.1.1 -r1.2.2.1
+310c310
+&lt;     def __call__(self, doc):
+---
+&gt;<i>     def __call__(self, doc): 
+</I>792c792
+&lt;         expr = re.compile(r&quot;(\W+|^)'([%s%s%s\s]+)'([%s]+|$)&quot; % (letters, digits, literal_punc, phrase_delimiters)).search,):
+---
+&gt;<i>         expr = re.compile(r&quot;(\W+|^)'((?:\w|[%s%s\s])+)'([%s]+|$)&quot; % (digits, literal_punc, phrase_delimiters), re.U).search,):
+</I>810c810,812
+&lt;         expr = re.compile(r'\*([%s%s%s\s]+?)\*' % (letters, digits, strongem_punc)).search
+---
+&gt;<i>         # i18nal variant
+</I>&gt;<i>         expr = re.compile(r'\*((?:\w|[%s\s])+?)\*' % (strongem_punc), re.U).search
+</I>&gt;<i>         #expr = re.compile(r'\*([%s%s%s\s]+?)\*' % (letters, digits, strongem_punc)).search
+</I>856c858
+&lt;                       expr=re.compile(r'_([%s%s%s\s]+)_([\s%s]|$)' % (letters, digits, under_punc,phrase_delimiters)).search):
+---
+&gt;<i>                       expr=re.compile(r'_((?:\w|[%s\s])+)_([\s%s]|$)' % (under_punc,phrase_delimiters), re.U).search):
+</I>870c872
+&lt;                    expr = re.compile(r'\*\*([%s%s%s\s]+?)\*\*' % (letters, digits, strongem_punc)).search
+---
+&gt;<i>                    expr = re.compile(r'\*\*((?:\w|[%s%s\s])+?)\*\*' % (digits, strongem_punc), re.U).search
+</I>882c884
+&lt;     _DQUOTEDTEXT = r'(&quot;[ %s0-9\n\r%s]+&quot;)' % (letters,dbl_quoted_punc) ## double quoted text
+---
+&gt;<i>     _DQUOTEDTEXT = r'(&quot;(?:\w|[ 0-9\n\r%s])+&quot;)' % (dbl_quoted_punc) ## double quoted text
+</I>890c892
+&lt;                   expr=re.compile(_DQUOTEDTEXT + &quot;(:)&quot; + _ABS_AND_RELATIVE_URL + _SPACES).search
+---
+&gt;<i>                   expr=re.compile(_DQUOTEDTEXT + &quot;(:)&quot; + _ABS_AND_RELATIVE_URL + _SPACES, re.U).search
+</I>895c897
+&lt;                   expr=re.compile(_DQUOTEDTEXT + r'(\,\s+)' + _ABSOLUTE_URL + _SPACES).search
+---
+&gt;<i>                   expr=re.compile(_DQUOTEDTEXT + r'(\,\s+)' + _ABSOLUTE_URL + _SPACES, re.U).search
+</I>Index: DocumentWithImages.py
+===================================================================
+RCS file: /var/lib/cvs/nkm/zope/StructuredText/DocumentWithImages.py,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2
+diff -r1.1.1.1 -r1.2
+33,34c33,34
+&lt;         expr1=re.compile('\&quot;([ _a-zA-Z0-9*.:/;,\-\n\~]+)\&quot;:img:([a-zA-Z0-9\_\-.:/;,\n\~]+)').search,
+&lt;         expr2=re.compile('\&quot;([ _a-zA-Z0-9*.:/;,\-\n\~]+)\&quot;:img:([a-zA-Z0-9\_\-.:/;,\n\~]+):([a-zA-Z0-9_\-.:/;,\n\~]+)').search
+---
+&gt;<i>         expr1=re.compile('\&quot;((?:\w|[ *.:/;,\-\n\~])+)\&quot;:img:([a-zA-Z0-9\_\-.:/;,\n\~]+)', re.U).search,
+</I>&gt;<i>         expr2=re.compile('\&quot;((?:\w|[ *.:/;,\-\n\~])+)\&quot;:img:([a-zA-Z0-9\_\-.:/;,\n\~]+):([a-zA-Z0-9_\-.:/;,\n\~]+)', re.U).search
+</I>36d35
+&lt; 
+38a38
+&gt;<i> 
+</I>Index: HTMLClass.py
+===================================================================
+RCS file: /var/lib/cvs/nkm/zope/StructuredText/HTMLClass.py,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2.2.2
+diff -r1.1.1.1 -r1.2.2.2
+Index: ST.py
+===================================================================
+RCS file: /var/lib/cvs/nkm/zope/StructuredText/ST.py,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2
+diff -r1.1.1.1 -r1.2
+117a118,120
+&gt;<i>     if type(paragraphs) == type(''):
+</I>&gt;<i>         paragraphs = unicode(paragraphs, 'utf-8')
+</I>&gt;<i> 
+</I>Index: tests/testStructuredText.py
+===================================================================
+RCS file: /var/lib/cvs/nkm/zope/StructuredText/tests/testStructuredText.py,v
+retrieving revision 1.1.1.1
+retrieving revision 1.1.1.1.2.1
+diff -r1.1.1.1 -r1.1.1.1.2.1
+213,219c213,223
+&lt;     def XXXtestUnicodeContent(self):
+&lt;         # This fails because ST uses the default locale to get &quot;letters&quot;
+&lt;         # whereas it should use \w+ and re.U if the string is Unicode.
+&lt;         #self._test(u&quot;h\xe9 **y\xe9** xx&quot;,
+&lt;         #           u&quot;h\xe9 &lt;strong&gt;y\xe9&lt;/strong&gt; xx&quot;)
+&lt;         pass
+&lt; 
+---
+&gt;<i>     def testUnicodeContent(self):
+</I>&gt;<i>         self._test(u&quot;h\xe9 **y\xe9** xx&quot;,
+</I>&gt;<i>                    u&quot;h\xe9 &lt;strong&gt;y\xe9&lt;/strong&gt; xx&quot;)
+</I>&gt;<i>         self._test(u&quot;h\xe9 *y\xe9* xx&quot;,
+</I>&gt;<i>                    u&quot;h\xe9 &lt;em&gt;y\xe9&lt;/em&gt; xx&quot;)
+</I>&gt;<i>         self._test(u&quot;h\xe9 _y\xe9_ xx&quot;,
+</I>&gt;<i>                    u&quot;h\xe9 &lt;u&gt;y\xe9&lt;/u&gt; xx&quot;)
+</I>&gt;<i>         self._test(u&quot;h\xe9 'y\xe9' xx&quot;,
+</I>&gt;<i>                    u&quot;h\xe9 &lt;code&gt;y\xe9&lt;/code&gt; xx&quot;)
+</I>&gt;<i>         self._test(u&quot;h\xe9 \&quot;y\xe9\&quot;:<A HREF="http://zope.org/">http://zope.org</A> xx&quot;,
+</I>&gt;<i>                    u&quot;h\xe9 &lt;a href=\&quot;<A HREF="http://zope.org/"">http://zope.org\&quot;</A>&gt;y\xe9&lt;/a&gt; xx&quot;)
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/000950.html">[python] Kde najdu navod pro praci se svym obsahem na www.py.cz?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-August/000952.html">unicode stx patch Was: [python] Kde najdu navod pro praci se
+	svym	obsahem na www.py.cz?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-August/date.html#951">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/thread.html#951">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/subject.html#951">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-August/author.html#951">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-August/000951.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:25 GMT -->
+</html>

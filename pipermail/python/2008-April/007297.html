@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007297.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+<HEAD>
+   <TITLE> [python] for-else -&gt; wtf?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for-else%20-%3E%20wtf%3F&In-Reply-To=200804231523.14633.msk.conf%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007296.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007298.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] for-else -&gt; wtf?</H1>
+    <B>Michal Molhanec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for-else%20-%3E%20wtf%3F&In-Reply-To=200804231523.14633.msk.conf%40seznam.cz"
+       TITLE="[python] for-else -&gt; wtf?">molhanec na seznam.cz
+       </A><BR>
+    <I>Středa Duben 23 15:49:54 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007296.html">[python] for-else -&gt; wtf?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007298.html">[python] for-else -&gt; wtf?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7297">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7297">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7297">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7297">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dusan Zatkovsky napsal(a):
+&gt;<i> DD.
+</I>&gt;<i> 
+</I>&gt;<i> Riesili sme tu s kolegami jeden priklad, ktory na prvy pohlad bol syntakticky 
+</I>&gt;<i> nespravne. Potom som na neho narazil na 
+</I>&gt;<i> <A HREF="http://docs.python.org/tut/node6.html#SECTION006400000000000000000">http://docs.python.org/tut/node6.html#SECTION006400000000000000000</A> a z 
+</I>&gt;<i> dokumentacie som zistil, ze je dokonca syntakticky spravne.
+</I>&gt;<i> 
+</I>&gt;<i> Tak som sa s for-else chcel zoznamit a tak som si vytvoril 3 testcase:
+</I>&gt;<i> 
+</I>&gt;<i> # cyklus sa vykona
+</I>&gt;<i> for x in 'a':
+</I>&gt;<i> 	pass
+</I>&gt;<i> else:
+</I>&gt;<i> 	print &quot;test1&quot;
+</I>&gt;<i> 
+</I>&gt;<i> # cyklus sa vykona a breakne
+</I>&gt;<i> for x in 'a':
+</I>&gt;<i> 	break
+</I>&gt;<i> else:
+</I>&gt;<i> 	print &quot;test2&quot;
+</I>&gt;<i> 
+</I>&gt;<i> # cyklus sa nevykona
+</I>&gt;<i> for x in '':
+</I>&gt;<i> 	pass
+</I>&gt;<i> else:
+</I>&gt;<i> 	print &quot;test3&quot;
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Vysledok zodpoveda tomu, co vravi dokumentacia, ale mne to pride zvratene.
+</I>&gt;<i> 
+</I>&gt;<i> Preco to else zavisi na break vo vnutri cyklu a nie na tom, ci sa cyklus 
+</I>&gt;<i> vykonal, alebo nie? Ked totiz na toto narazi niekto, kto sa python uci, tak 
+</I>&gt;<i> sa z toho osype ( pisem prilezitostne v pythone uz 2 roky a je to aj moj 
+</I>&gt;<i> pripad ).
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Mozete mi niekto ozrejmit, co tym autor myslel a preco je ta logika postavena 
+</I>&gt;<i> prave takto? Intuicia mi totiz hovori, ze else by sa malo vykonat prave ked 
+</I>&gt;<i> sa nevykona ani jeden priebeh cyklu...
+</I>
+0 pruchodu cyklem je typicky OK
+
+predstavme si napr. nejake hledani
+
+for i in nekde:
+   if nasel(i):
+     print &quot;Nasel&quot;
+     break
+else:
+   print &quot;Nenasel&quot;
+
+tohle bude fungovat i pokud nekde bude prazdne
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007296.html">[python] for-else -&gt; wtf?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007298.html">[python] for-else -&gt; wtf?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7297">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7297">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7297">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7297">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007297.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+</html>

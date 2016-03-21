@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006356.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:27 GMT -->
+<HEAD>
+   <TITLE> [python] Kriticka sekce (bylo RE: zamykani jednoho vlakna druhym)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Kriticka%20sekce%20%28bylo%20RE%3A%20zamykani%20jednoho%20vlakna%20druhym%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-August/006352.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-August/006358.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Kriticka sekce (bylo RE: zamykani jednoho vlakna druhym)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Kriticka%20sekce%20%28bylo%20RE%3A%20zamykani%20jednoho%20vlakna%20druhym%29&In-Reply-To="
+       TITLE="[python] Kriticka sekce (bylo RE: zamykani jednoho vlakna druhym)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Srpen 16 09:31:44 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006352.html">[python] využití warnings v mysqldb
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006358.html">[python] 100
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6356">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6356">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6356">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6356">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jen to trochu okomentuju...
+
+Marek se ptal
+&gt;<i> caute mam maly problem mam dve vlakna urobene cez 
+</I>&gt;<i> threading  a potrebujem jedno vlakno uzamknut 
+</I>&gt;<i> na chvilku druhym da sa to nejako?
+</I>
+Jirka se snažil (neberte mu to, většina se na to vy...)
+&gt;<i> Nevim co znamena &quot;uzamknout&quot; a nikdy jsem neresil 
+</I>&gt;<i> podobny problem, ale vzhledem k tomu ze vlakna 
+</I>&gt;<i> sdileji globalni promenne by nemel byt problem 
+</I>&gt;<i> v jednom vlakne nastavit:
+</I>&gt;<i>
+</I>&gt;<i> vlakna_mutex = True
+</I>&gt;<i>
+</I>&gt;<i> a v druhem na vhodnem miste:
+</I>&gt;<i>
+</I>&gt;<i> while vlakna_mutex is True:
+</I>&gt;<i>    sleep(1)
+</I>&gt;<i>
+</I>&gt;<i> Tohle by bylo &quot;brutalni reseni&quot; ktere bych 
+</I>&gt;<i> zkusil jako prvni.
+</I>
+Karol zareagoval (má pravdu)
+&gt;<i> takyto postup nemozno nazvat riesenie, ale hnusna &quot;praktika&quot; =&gt;
+</I>&gt;<i> nespolahlive, nebezpecne, nepredvidatelne vysledky ... 
+</I>&gt;<i> Odporucam pozriet dokumentaciu [1] a clanok [2],
+</I>&gt;<i> pre lenivych:
+</I>
+Jirka si sype popel...
+&gt;<i> Nojo, ja jsem si rikal ze nemam odpovidat na dotaz 
+</I>&gt;<i> kdyz si nejsem jisty odpovedi (a nemam cas 
+</I>&gt;<i> to hledat). Mea culpa, omlouvam se. 
+</I>
+Teď ten komentář. Thready jsou (pseudo)paralelně běžící
+činnosti, které sdílejí společný datový prostor. Od 
+čistých procesů se liší právě tím sdílením paměti.
+
+Paralelně běžící čisté procesy se musí chovat 
+korektně vůči používaným prostředkům. Platí to i 
+pro thready, které se navíc musí starat právě
+o to sdílení paměti. Paměť je místem, o které
+musí korektně soupeřit. Takže multithreading
+může být z hlediska programátorského výhodný
+v méně případech, než se na první pohled může zdát.
+Pokud se mu dá vyhnout, je lepší se mu vyhnout.
+Pokud se mu nedá vyhnout, je dobré vědět, že
+korektní řešení mohou být obtížná.
+
+Při sdílení prostředku je nutné zajistit
+výlučný přístup. K používání prostředku dochází
+v úseku kódu, kterému se říká kritická sekce.
+Kritická je proto, protože pokud by se více
+procesů dostalo současně do odpovídající kritické
+sekce, nastala by &quot;kritická situace&quot;. Mohou nastat
+v zásadě dva typy havárií deadlock (smrtelné
+objetí -- všichni jsou mrtví) a race (vyhladovění
+-- jeden se furt nemůže dostat k lizu, i když
+něco furt jede).
+
+Obvykle uvažujeme tak, že všechny paralelně 
+běžící procesy mají stejné postavení. Musí se tedy
+použít nástroj, který jim umožní dohodu.
+Příslušná operace, pomocí které se rozhodnutí
+o vstupu do kritické sekce realizuje, musí být
+atomická (nedělitelná, nepřerušitelná). Proto
+k tomu nelze využít prostředků o které soupeříme.
+Proto nelze k rozhodnutí o použití sdílené
+paměti využít jen obyčejné příkazy a kousek
+sdílené paměti.
+
+Dynamické čekání (v cyklu) je vždycky na prd, 
+protože zatěžuje procesor. Proces se musí nechat
+uspat (zablokovat) na dobu, kdy nemůže pracovat.
+Z pohledu procesu je to ale aktivita typu 
+&quot;Před chvílí jsem usnul, ale právě jsem se 
+vzbudil a jedu dál. Ani nevím, jak dlouho
+jsem spal. Byl to jen okamžíček... (?)&quot;
+
+Pokud bych chtěl k vzájemnému vyloučení
+procesů použit obyčejné příkazy a obyčejnou
+sdílenou proměnnou, nedosáhnu atomického
+chování:
+
+    # Chybný pokus o realizaci kritické sekce.
+    while blokováno:     # (1)
+        pass
+ 
+    blokováno = True     # (2)
+
+    # Tohle je kód kritické sekce.
+    příkaz1
+    příkaz2
+    ...
+
+    # Tady jako opustím kritickou sekci.
+    blokováno = False    # (3)
+
+Jenže... Dejme tomu, že budu mít 3 thready
+provádějící uvedený kód. Jeden s nich 
+se právě nachází v naší &quot;kritické sekci.
+Dejme tomu, že ostatní dva do ní právě chtějí
+vstoupit. Trčí dynamicky v cyklu (1).
+
+Až dosud to může být zdánlivě vpořádku.
+Když ale ten jeden opustí příkazem (3)
+kritickou sekci, může dojít k tomu, že 
+se ostatní thready prostřídají v činnosti
+tak, že oba propadnou přes cyklus (1)
+a teprve pak se dostanou k provádění (2).
+Je to právě tím, že (1) a (2) se neprovedou 
+atomicky, najednou, neoddělitelně.
+Oba thready tedy vlezou do kritické sekce,
+a myslí si, že v ní není nikdo jiný, což je
+chyba.
+
+Zjednodušeně řečeno, je to stejné, jako
+kdybychom se nezatěžovali podobnými kličkami
+a psali to úplně tupě. Jen se sníží pravděpodobnost
+toho, že ta situace nastane, ale tím se současně
+zvýší obtížnost odhalování příčin problémů, 
+které se v budoucnu vyskytnou. Jinými slovy, 
+problém nebudeme hledat v tomto místě, protože
+si myslíme, že jsme to ošetřili a &quot;musí&quot; 
+to fungovat.
+
+pepr
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006352.html">[python] využití warnings v mysqldb
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006358.html">[python] 100
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6356">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6356">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6356">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6356">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006356.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:27 GMT -->
+</html>

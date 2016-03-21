@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000528.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] statické proměnné ve funkcích
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fstatick%3DE9_prom%3DECnn%3DE9_ve_funkc%3DEDch%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000566.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000529.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] statické proměnné ve funkcích</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fstatick%3DE9_prom%3DECnn%3DE9_ve_funkc%3DEDch%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] statické proměnné ve funkcích">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Říjen 10 08:12:34 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000566.html">[Tutor PyCZ] zrušení konference
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000529.html">[Tutor PyCZ] zrušení konference
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#528">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#528">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#528">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#528">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ondryska Jaromír
+&gt;<i> jsem amatérský začátečník v programování, jak v pythonu, tak 
+</I>&gt;<i> v C, z toho důvodu bych potřeboval objasnit tuto věc: je možné 
+</I>&gt;<i> v pythonu užívat proměnnné na způsob statických proměnných funkcí
+</I>&gt;<i> jazyka C ? - tedy proměnná se ve funkci inicializuje jen 
+</I>&gt;<i> jednou a drží si mezi voláním funkce svou hodnotu. 
+</I>
+Ne. Vyplývá to z odlišností kompilovaného a interpretovaného
+jazyka. Zatímco v kódu vygenerovaném z céčkové funkce může 
+být pevně zakompilovaná adresa paměťového místa, které udržuje
+obsah statické proměnné, v pythonovském kódu se proměnné 
+realizují v dynamicky přidělovaném prostoru a zpřístupňují
+se přes odkazy (obvykle pojmenované). 
+
+Prostor proměnných se člení na globální (v rámci jednoho 
+modulu) a lokální (pro bloky kódu). Pro důkladnější studium
+doporučuji podkapitolu &quot;4.1 Naming and binding&quot; ze standardní
+pythonovské dokumentace.
+
+Uvedený rys by tedy bylo možné realizovat použitím globální
+proměnné, což ale není totéž. Navíc se to spíš nedoporučuje.
+Doporučuji dobře zvážit, jestli se vůbec má něco jako statická
+proměnná chtít používat.
+
+Další možnosti realizace záměru závisí na charakteru požadované 
+funkce. Podobný obrat lze asi nejobecněji a docela čistě 
+nasimulovat pomocí instance třídy (tj. objektu), který v sobě
+udržuje požadovanou proměnnou. Kromě toho tento objekt 
+definuje metodu (členskou funkci), která realizuje požadovanou
+funkčnost.
+
+class C:
+
+    def __init__(self):
+        self.x = 10
+
+    def fce(self, a):
+        self.x = self.x + a
+        return self.x
+
+c = C()
+
+
+Aby vše fungovalo stejně, jako v případě céčkové
+funkce se statickou proměnnou, musí se volat odpovídající
+metoda stále toho stejného objektu.
+
+print c.fce(1)
+print c.fce(1)
+print c.fce(10)
+print c.fce(10)
+print c.fce(10)
+print c.fce(10)
+
+Abychom na to nemuseli pořád myslet, můžeme si 
+volání metody tohoto objektu pojmenovat. Pak
+bude zápis vypadat podobně, jako by tomu bylo 
+v C:
+
+mojeFunkce = c.fce
+
+print mojeFunkce(1)
+print mojeFunkce(1)
+print mojeFunkce(10)
+print mojeFunkce(10)
+print mojeFunkce(10)
+print mojeFunkce(10)
+
+Zajímavou možností, která se dá použít ve speciálnějším
+případě, kdy funkci nechceme při volání předávat vstupní 
+parametry, je využití takzvaných generátorů. Z opačného
+pohledu by se dalo říci, že pythonovské generátory by
+se v C daly napodobit funkcí se statickou proměnnou
+(ale ne zcela obecně).
+
+pepr
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000566.html">[Tutor PyCZ] zrušení konference
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000529.html">[Tutor PyCZ] zrušení konference
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#528">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#528">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#528">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#528">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000528.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

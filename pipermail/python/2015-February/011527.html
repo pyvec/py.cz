@@ -1,0 +1,307 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011527.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:17 GMT -->
+<HEAD>
+   <TITLE> [python] Seznamy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Seznamy&In-Reply-To=%3CCADoCwr20xMAbDU5RUJcS_wJHCD1S6c02_5gWvCMLaVrDYiWe%2Bw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011526.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011529.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Seznamy</H1>
+    <B>Honza Král</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Seznamy&In-Reply-To=%3CCADoCwr20xMAbDU5RUJcS_wJHCD1S6c02_5gWvCMLaVrDYiWe%2Bw%40mail.gmail.com%3E"
+       TITLE="[python] Seznamy">honza.kral na gmail.com
+       </A><BR>
+    <I>Pondělí Únor  9 15:41:50 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011526.html">[python] Seznamy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011529.html">[python] Seznamy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11527">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11527">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11527">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11527">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Mě se líbí explicitní použití funkcí map() a filter(), protože je to pro začátečníka čitelnější a pochopitelnější, než List Comprehension
+</I>
+Tohle me zajima - ja mam presne opacnou zkusenost. Bavime se o
+zacatecnicich v programovani (s temi mam zkusenost ja), ci jen
+zacatecniky s pythonem, ale programatory?
+
+Diky
+
+Jinak samozrejme souhlas s dalsimi body, jen je, dle meho, potreba
+dbat na to, aby kod byl citelny - casto je lepsi mit mene efektivni
+implementaci, ktera je na prvni pohled zrejma.
+Honza Král
+E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>
+Phone:  +420 606 678585
+
+
+2015-02-09 15:33 GMT+01:00 Jan Bednařík &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jan.bednarik na gmail.com</A>&gt;:
+&gt;<i> Mě se líbí explicitní použití funkcí map() a filter(), protože je to pro
+</I>&gt;<i> začátečníka čitelnější a pochopitelnější, než List Comprehension, kde si ty
+</I>&gt;<i> funkce musí domyslet. Nicméně List Comprehension je v Pythonu idiomatické
+</I>&gt;<i> řešení, a čím dříve ho začátečník pochopí a naučí se ho používat, tím lépe.
+</I>&gt;<i>
+</I>&gt;<i> Myslím si ale, že re-implementovat funkci reduce() vlastním for cyklem, není
+</I>&gt;<i> úplně šťastné řešení. Tam kde to jde bych se držel hotových nástrojů ze
+</I>&gt;<i> standardní knihovny. V tomhle případě je ale set.intersection() lepší volba
+</I>&gt;<i> než reduce(and_, ...).
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Každopádně asi všechna navržená řešení nefungují, protože nepočítají s
+</I>&gt;<i> variantou, že budou všechny vstupní seznamy prázdné. Já bych to řešil takto:
+</I>&gt;<i>
+</I>&gt;<i> sets = [set(l) for l in (list_a, list_b, list_c) if l]
+</I>&gt;<i> result = list(set.intersection(*sets)) if sets else []
+</I>&gt;<i>
+</I>&gt;<i> Honza
+</I>&gt;<i>
+</I>&gt;<i> 2015-02-09 14:21 GMT+01:00 Honza Král &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>&gt;:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Je fajn, ze davas funkcionalni reseni, ale kdyz uz to napises mozna by
+</I>&gt;&gt;<i> stalo za to vysvetlit, v cem je to dobre, proc by to melo nekoho
+</I>&gt;&gt;<i> zajimat?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ja tam funkcne zadny rozdil nevidim na rozdil od druheho reseni (s
+</I>&gt;&gt;<i> .pop() nebo intersection od alese) a je to o neco horsi nez ciste
+</I>&gt;&gt;<i> funkcionalni reseni pres reduce (ktere nenuti materializaci toho
+</I>&gt;&gt;<i> seznamu uprostred).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dik
+</I>&gt;&gt;<i> Honza Král
+</I>&gt;&gt;<i> E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>
+</I>&gt;&gt;<i> Phone:  +420 606 678585
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2015-02-09 14:06 GMT+01:00 Pavel S &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">pavel na schon.cz</A>&gt;:
+</I>&gt;&gt;<i> &gt; Jeste jedno reseni tu mame, ktere je ciste funkcnionalni, nebot
+</I>&gt;&gt;<i> &gt; nepouziva imperativni operace jako pop() apod.
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; result = (
+</I>&gt;&gt;<i> &gt;     set.intersection(
+</I>&gt;&gt;<i> &gt;         *map(
+</I>&gt;&gt;<i> &gt;              set,
+</I>&gt;&gt;<i> &gt;              filter(
+</I>&gt;&gt;<i> &gt;                 operator.truth,
+</I>&gt;&gt;<i> &gt;                 ( list_a, list_b, list_c )))))
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Dne sobota 7. února 2015 22:24:59 UTC+1 Ales Zoulek napsal(a):
+</I>&gt;&gt;<i> &gt;&gt; &quot;lists.pop()&quot; melo byt pravdepodobne &quot;sets.pop()&quot;, jinak urcite radsi
+</I>&gt;&gt;<i> &gt;&gt; to druhy.
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; Jinak na to existuje zkratka, ktera dela v zasade to stejne -
+</I>&gt;&gt;<i> &gt;&gt; set.intersection() bere jako parametr libovolny pocet setu. Takze toto by
+</I>&gt;&gt;<i> &gt;&gt; melo byt rozumne kratky a furt dost citelny:
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; non_empty_sets = [set(l) for l in (list_a, list_b, ..) if l]
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; result_set = set.intersection(*non_empty_sets)
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; return list(result_set)
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; On Fri Feb 06 2015 at 10:55:51 PM Vladimir Macek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">ma... na sandbox.cz</A>&gt;
+</I>&gt;&gt;<i> &gt;&gt; wrote:
+</I>&gt;&gt;<i> &gt;&gt; Dovolte poznámku,
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; je fajn, jak Honza dodal dva návrhy. Tipuju, že ten druhý je čitelnější
+</I>&gt;&gt;<i> &gt;&gt; pro
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; začátečníky, je takový imperativní. :-)
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; Doporučoval bych však zkusit pochopit eleganci toho druhého, který je
+</I>&gt;&gt;<i> &gt;&gt; IMO
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; přístupnější pro zkušené a otevírá trochu jiný svět uvažování.
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; Čitelnosti by pomohlo rozdělení na dva řádky (nejdřív nazvat
+</I>&gt;&gt;<i> &gt;&gt; generátor),
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; což jistě Honza ví.
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; Pokud tazateli zároveň půjde o zachování pořadí prvků, může se podívat
+</I>&gt;&gt;<i> &gt;&gt; po
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; typu OrderedSet (<A HREF="http://code.activestate.com/recipes/576694/">http://code.activestate.com/recipes/576694/</A>).
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; Vl.
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; On 6.2.2015 20:50, Honza Král wrote:
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; tohle je kratka odpoved:
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; import operator
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; reduce(operator.and_, (set(l) for l in (list_a, list_b, list_c) if
+</I>&gt;&gt;<i> &gt;&gt; &gt; l))
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; ale asi ne nejlepsi (neni prilis citelna)
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; doporucil bych spis neco jako:
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; sets = [set(l) for l in (list_a, list_b, ..) if l]
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; result =lists.pop()
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; for s in sets:
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;     result &amp;= s
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; list_vysledny = list(result)
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; Honza Král
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">honza... na gmail.com</A>
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; Phone:  +420 606 678585
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt; 2015-02-06 20:10 GMT+01:00 Marcus Scalpere &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">marcus.... na gmail.com</A>&gt;:
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; Pěkný večer vinšuji,
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; mám několik seznamů a potřebuji zjistit, které jsou a nejsou prázdné
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; (to bych ještě dal) a pokud některé prázdne nejsou, tak je projít a pokud
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; jsou některé hodnoty ve VŠECH, tak je uložit.
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; Něco jako:
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; list_a = []
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; list_b = [x, y, z]
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; list_c = [x, y]
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; .
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; .
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; .
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; list_vysledny = [x, y]
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; &gt;&gt; Snad jsem se vyjádřil jasně a srozumitelně. Děkuji mnohokráte
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; _______________________________________________
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; Python mailing list
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">pyt... na py.cz</A>
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i> &gt;&gt; Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; _______________________________________________
+</I>&gt;&gt;<i> &gt; Python mailing list
+</I>&gt;&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011526.html">[python] Seznamy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011529.html">[python] Seznamy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11527">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11527">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11527">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11527">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011527.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:17 GMT -->
+</html>

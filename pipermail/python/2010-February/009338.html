@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009338.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:00 GMT -->
+<HEAD>
+   <TITLE> [python] Pole v ctypes
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Pole%20v%20ctypes&In-Reply-To=%3CBB4273F1-1AF5-4A91-8784-2087EEC9539C%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-February/009337.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-February/009339.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Pole v ctypes</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Pole%20v%20ctypes&In-Reply-To=%3CBB4273F1-1AF5-4A91-8784-2087EEC9539C%40gmail.com%3E"
+       TITLE="[python] Pole v ctypes">petr.messner na gmail.com
+       </A><BR>
+    <I>Neděle Únor  7 18:09:54 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009337.html">[python] Pole v ctypes
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009339.html">[python] Pole v ctypes
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9338">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9338">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9338">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9338">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+&gt;<i> &gt;&gt;&gt; import ctypes
+</I>&gt;<i> &gt;&gt;&gt; plnp = [1, 2, 3, 4]
+</I>&gt;<i> &gt;&gt;&gt; array = ctypes.c_double * len(plnp)
+</I>&gt;<i> &gt;&gt;&gt; clnp = array(*plnp)
+</I>&gt;<i> &gt;&gt;&gt; clnp
+</I>&gt;<i> &lt;__main__.c_double_Array_4 object at 0x10024bef0&gt;
+</I>&gt;<i> &gt;&gt;&gt; list(clnp)
+</I>&gt;<i> [1.0, 2.0, 3.0, 4.0]
+</I>
+PM
+
+On 7.2.2010, at 18:03, Radek Machulka wrote:
+
+&gt;<i> Zdar,
+</I>&gt;<i> 
+</I>&gt;<i> posledni dobou se to tu celkem rozjelo, tak prihodim i ja svoji trosku do 
+</I>&gt;<i> mlyna.
+</I>&gt;<i> 
+</I>&gt;<i> Snazim se napsat vlastni wrapper okolo C knihovny (LabView) pomoci modulu 
+</I>&gt;<i> ctypes. Jeden problem, na ktery jsem narazil je transformace datovych typu, 
+</I>&gt;<i> predevsim pole. Fukce v pythonu dostane jako vstupni parametr pole (iterable), 
+</I>&gt;<i> ktery musi prevest na pole v C a predat C funkci. Podle toho co jsem nasel by 
+</I>&gt;<i> melo reseni vypadat nasledovne (pro pole o delce 3):
+</I>&gt;<i> 
+</I>&gt;<i> float64 = ctypes.c_double
+</I>&gt;<i> array = float64 * 3
+</I>&gt;<i> cInp = array(pInp[0], pInp[1], pInp[2]),
+</I>&gt;<i> 
+</I>&gt;<i> kde pInp je pole v pythonu a cInp je pole v C.
+</I>&gt;<i> 
+</I>&gt;<i> Jak predchozi priklad upravit tak, aby podporoval vstupni pole (pInp) o 
+</I>&gt;<i> libovolne (cti predem nezname) delce? Da se predpokladat, ze druhy radek bude 
+</I>&gt;<i> 
+</I>&gt;<i> array = float64 * len(pInp),
+</I>&gt;<i> 
+</I>&gt;<i> ale co ten treti?
+</I>&gt;<i> 
+</I>&gt;<i> Predem dik
+</I>&gt;<i> Radek
+</I>
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009337.html">[python] Pole v ctypes
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009339.html">[python] Pole v ctypes
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9338">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9338">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9338">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9338">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009338.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:00 GMT -->
+</html>

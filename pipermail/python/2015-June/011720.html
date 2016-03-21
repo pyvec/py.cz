@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011720.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:07 GMT -->
+<HEAD>
+   <TITLE> [python] Paměťově náročné řazení
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUGFtxJvFpW92xJsgbsOhcm/EjW7DqSDFmWF6ZW7DrQ%3D%3D%3F%3D&In-Reply-To=%3CCAFhEBED-ZVYBKrYeiN3_WMzL%3D-vaDOvz1eNiGBaH9r7xDou4WA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-June/011719.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-June/011721.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Paměťově náročné řazení</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUGFtxJvFpW92xJsgbsOhcm/EjW7DqSDFmWF6ZW7DrQ%3D%3D%3F%3D&In-Reply-To=%3CCAFhEBED-ZVYBKrYeiN3_WMzL%3D-vaDOvz1eNiGBaH9r7xDou4WA%40mail.gmail.com%3E"
+       TITLE="[python] Paměťově náročné řazení">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Úterý Červen 16 11:21:10 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011719.html">[python] Paměťově náročné řazení
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011721.html">[python] Paměťově náročné řazení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11720">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11720">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11720">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11720">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>
+</I>&gt;<i> Proste z toho stringu odvodis nejakou hodnotu, ktera umozni razeni. A
+</I>&gt;<i> sorted() ti podle ni ochodne seradi, pro kazdou polozku se ta hodnota &quot;key&quot;
+</I>&gt;<i> bude pocitat jenom jednou (narozdil od &quot;cmp&quot;).
+</I>&gt;<i>
+</I>
+&gt;<i> No a to je právě ten problém - sort zavolá key jenom jednou a výsledek si
+</I>zapamatuje, jenže je toho tolik, že to zabere &gt; spoustu paměti. Proto je
+tady ten cmp styl lepší, nebo ty objekty, co to vypočívávají &quot;lazy&quot;.
+
+To ja beru, ale pro kazdy vstupni radek si zapamatuje jen jedno cislo (i
+kdyz velke). Pokud by i tohle byl problem, tak uz zbyva snad jenom nejaka
+forma externiho trideni na disku.
+
+   Jirka
+
+2015-06-16 11:10 GMT+02:00 Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.messner at gmail.com</A>&gt;:
+
+&gt;<i> Dne 16. června 2015 11:03 Jirka Vejrazka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jirka.vejrazka at gmail.com</A>&gt;
+</I>&gt;<i> napsal(a):
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Proste z toho stringu odvodis nejakou hodnotu, ktera umozni razeni. A
+</I>&gt;&gt;<i> sorted() ti podle ni ochodne seradi, pro kazdou polozku se ta hodnota &quot;key&quot;
+</I>&gt;&gt;<i> bude pocitat jenom jednou (narozdil od &quot;cmp&quot;).
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> No a to je právě ten problém - sort zavolá key jenom jednou a výsledek si
+</I>&gt;<i> zapamatuje, jenže je toho tolik, že to zabere spoustu paměti. Proto je tady
+</I>&gt;<i> ten cmp styl lepší, nebo ty objekty, co to vypočívávají &quot;lazy&quot;.
+</I>&gt;<i>
+</I>&gt;<i> PM
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python at py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150616/45979103/attachment.html">http://www.py.cz/pipermail/python/attachments/20150616/45979103/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011719.html">[python] Paměťově náročné řazení
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011721.html">[python] Paměťově náročné řazení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11720">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11720">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11720">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11720">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011720.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:07 GMT -->
+</html>

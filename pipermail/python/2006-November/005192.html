@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005192.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:39 GMT -->
+<HEAD>
+   <TITLE> [python] zaporny systemovy cas
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zaporny%20systemovy%20cas&In-Reply-To=456C3C6D.3000206%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005189.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005193.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zaporny systemovy cas</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zaporny%20systemovy%20cas&In-Reply-To=456C3C6D.3000206%40centrum.cz"
+       TITLE="[python] zaporny systemovy cas">leos na radiante-corp.com
+       </A><BR>
+    <I>Úterý Listopad 28 14:56:51 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005189.html">[python] zaporny systemovy cas
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005193.html">[python] zaporny systemovy cas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5192">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5192">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5192">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5192">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman wrote:
+&gt;&gt;<i> A na jakou optimalizaci konkrétně se ptáš? 
+</I>&gt;&gt;<i> Bral jsem to spíš obecně. Ale rád se nechám 
+</I>&gt;&gt;<i> poučit, co přesně se děje při provádění pass.
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> Haha. Vzhledem k tomu, že GvR dělá problém pouhá implementace některých 
+</I>&gt;<i> příkazů, a snaží se je v pythonu 3000 vyhodit, přičemž se tímto důvodem 
+</I>&gt;<i> vůbec netají, pak čekáte subtilnější věci jako je optimalizace?
+</I>&gt;<i>
+</I>&gt;<i> Proboha, vždyť se na to podívejte. Python prostě přeparsuje (a i to dělá 
+</I>&gt;<i> špatně a se sekama), pak to převede do binární formy, kterou nahraje 
+</I>&gt;<i> jako pyc, nebo optimalizované, kterou nahraje jako pyo, a která se 
+</I>&gt;<i> prakticky ve výkonném kódu naprosto neliší od neoptimalizované.
+</I>&gt;<i>
+</I>&gt;<i> Nějaká optimalizace naprosto nehrozí, protože je to jednak náročná věc 
+</I>&gt;<i> (taková optimalizační jednotka bývá řádově složitější, než zbytek 
+</I>&gt;<i> kompilátorů a interpretrů - není vůbec problém, aby optimalizační 
+</I>&gt;<i> jednotka obsahovala 95% veškerého kódu i více), navíc žere čas a to u 
+</I>&gt;<i> pomalého pythonu by byl problém.
+</I>&gt;<i>
+</I>&gt;<i> Takže si opravdu nedělejte starosti, že by pass, případně dokonce for 
+</I>&gt;<i> cyklus python vyoptimalizoval. Navíc python zavádí čím dál víc 
+</I>&gt;<i> konstrukcí, které by chtěly opravdu velmi vysokou inteligenci aby se 
+</I>&gt;<i> daly vyoptimalizovat, například klasický cyklus for, který se relativně 
+</I>&gt;<i> dobře optimalizuje v pythonu neexistuje!!! Namísto toho je tam cyklus 
+</I>&gt;<i> foreach, který se optimalizuje extrémně špatně až nemožně.
+</I>&gt;<i>
+</I>&gt;<i> Buďte rádi, že je GvR a spol. schopen napsat interpretr jakž takž. I tak 
+</I>&gt;<i> se mi to nelíbí. Proč se třeba nepoužije generátor parserů a gramatiky a 
+</I>&gt;<i> namísto si GvR lepí svůj, samozřejmě horší, nechápu. Namísto toho na 
+</I>&gt;<i> přednáškách o novém pythonu se dozvídám, že světě div se, GvR použije 
+</I>&gt;<i> abstraktní syntaktické stromy!!! To mě zajímá asi stejně jako na výstavě 
+</I>&gt;<i> traktorů, že jsou tam matičky M10.
+</I>&gt;<i>   
+</I>Nevim, jak to presne v pythonu je, ale obecne abstraktni syntakticky 
+strom je vstupem pro generator vnitrniho kodu, ktery by mel byt uz 
+snadneji optimalizovatelny.
+Presto ale nechci uverit tomu, ze python ve vysledku udela neco jako:
+
+        mov cx, cislo
+
+    L1:  &lt;nacti dalsi 'i'&gt;
+         loop L1
+
+Kazdopadne k jistym upravam by melo take dochazet na urovni procesoru.
+
+Jen muj nazor,
+Leo
+
+&gt;<i> Na optimalizaci chlapci zapoměňte. To je vyšší dívčí.
+</I>&gt;<i>
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>   
+</I>
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005189.html">[python] zaporny systemovy cas
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005193.html">[python] zaporny systemovy cas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5192">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5192">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5192">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5192">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005192.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:39 GMT -->
+</html>

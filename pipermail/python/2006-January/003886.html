@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003886.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:00 GMT -->
+<HEAD>
+   <TITLE> [python] více seznamů z jednoho souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3FQ%3Fv%3DEDce_seznam%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3F%3DF9%3F%3D%20z%20jednoho%20souboru&In-Reply-To=43C17167.4060000%40ovtp-orion.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-January/003887.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-January/003892.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] více seznamů z jednoho souboru</H1>
+    <B>David Necas (Yeti)</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3FQ%3Fv%3DEDce_seznam%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3F%3DF9%3F%3D%20z%20jednoho%20souboru&In-Reply-To=43C17167.4060000%40ovtp-orion.cz"
+       TITLE="[python] více seznamů z jednoho souboru">yeti na physics.muni.cz
+       </A><BR>
+    <I>Neděle Leden  8 22:27:28 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003887.html">[python] více seznamů z jednoho souboru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003892.html">[python] více seznamů z jednoho souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3886">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3886">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3886">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3886">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Sun, Jan 08, 2006 at 09:09:11PM +0100, Ondřej Ezr wrote:
+&gt;<i> Mßm problÚm nevÝm, jak mohu z nýjakÚho souboru dostat vÝc seznam¨?
+</I>&gt;<i> t°eba ze souboru s obsahem:
+</I>&gt;<i> 
+</I>&gt;<i> ááá [rano]
+</I>&gt;<i> ááá vstavat
+</I>&gt;<i> ááá snidane
+</I>&gt;<i> ááá zuby
+</I>&gt;<i> 
+</I>&gt;<i> ááá [odpoledne]
+</I>&gt;<i> ááá krouzky
+</I>&gt;<i> ááá ukoly
+</I>&gt;<i> 
+</I>&gt;<i> ááá [vecer]
+</I>&gt;<i> ááá vecere
+</I>&gt;<i> ááá zuby
+</I>&gt;<i> ááá televize
+</I>&gt;<i> ááá spani
+</I>&gt;<i> 
+</I>&gt;<i> dostat seznamy:
+</I>&gt;<i> ááá rano = [vstavat, snidane, zuby]
+</I>&gt;<i> ááá odpoledne = [krouzky, ukoly]
+</I>&gt;<i> ááá vecer = [vecere, zuby, televize, spani]
+</I>&gt;<i> 
+</I>&gt;<i> nebo jakkoli jinak uspo°ßdat ten soubor
+</I>&gt;<i> p°edem dýkuji za pomoc
+</I>
+Asi něco v tomto smyslu (nacpe to do slovníku podle sekcí,
+globální sekce bude pod None):
+
+def read_file_to_lists(filename):
+    lists = {}
+    current = None
+    for line in file(filename):
+        line = line.strip()
+        if not line:
+            continue
+        elif line.startswith('[') and line.endswith(']'):
+            current = line[1:-1].strip()
+            lists.setdefault(current, [])
+        else:
+            lists[current].append(line)
+    return lists
+
+Výsledkem tedy bude slovník:
+
+{
+  'rano': ['vstavat', 'snidane', 'zuby'],
+  'odpoledne': ['krouzky', 'ukoly'],
+  'vecer': ['vecere', 'zuby', 'televize', 'spani']
+}
+
+Yeti
+
+
+--
+That's enough.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003887.html">[python] více seznamů z jednoho souboru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003892.html">[python] více seznamů z jednoho souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3886">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3886">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3886">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3886">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003886.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:00 GMT -->
+</html>

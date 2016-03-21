@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010058.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:18 GMT -->
+<HEAD>
+   <TITLE> [python] vlakna,cpu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20vlakna%2Ccpu&In-Reply-To=%3C4CE6A798.5000401%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-November/010057.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-November/010059.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vlakna,cpu</H1>
+    <B>vepro</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20vlakna%2Ccpu&In-Reply-To=%3C4CE6A798.5000401%40gmail.com%3E"
+       TITLE="[python] vlakna,cpu">p.zlamal na gmail.com
+       </A><BR>
+    <I>Pátek Listopad 19 17:36:40 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010057.html">[python] vlakna,cpu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010059.html">[python] vlakna,cpu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10058">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10058">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10058">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10058">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Sdilene promenne pouzivam takto:
+
+mgr=multiprocessing.Manager()
+pointA=mgr.list()
+voxelGrid_list=mgr.list()
+storage=mgr.dict()
+global_index=mgr.list([0])
+
+Tyto promenne pak do jednotlivych procesu vlozim pri jejich zakladani 
+jako argument. Jednotlive procesy pak jen do techto promennych pridavaji 
+hodnoty (append) a proto jsem nepuzil zadny zamek. Jediny zamek co 
+pouzivam je v ramci kodu citajici tri instrukce, kde jednotlive procesy 
+inkrementalne zvysuji hodnotu promenne. Dle teto promenne se pak uklada 
+hodnota do pole, tak ze index bude odpovidat teto zvysovane promenne.
+
+                         self.lock.acquire()
+                         
+self.storage[unicode(self.index)]=self.global_index[0]
+                         
+self.pointA.append([self.local_x,self.local_y,self.local_z])
+                         self.global_index[0]=self.global_index[0]+1
+                         self.lock.release()
+
+To je snad jedina cast, kdy muze jeden proces ovlivnovat druhy.
+Petr
+
+On 11/19/2010 05:03 PM, Jirka Vejrazka wrote:
+&gt;&gt;<i> duvod, proc tomu tak je? Mozna je problem s tim, ze v procesech pouzivam
+</I>&gt;&gt;<i> sdilene promenne, ale bez toho se proste neobejdu.
+</I>&gt;&gt;<i>      
+</I>&gt;<i>    To zalezi na tom, jake sdilene promenne pouzivas a jak moc na sebe
+</I>&gt;<i> jednotlive procesy &quot;cekaji&quot;. Muzes to nejak priblizit, pripadne sem
+</I>&gt;<i> hodit kus kodu?
+</I>&gt;<i>
+</I>&gt;<i>    Kdyby byl zajem, muzu dohledat zajimave video z jednoho PyConu
+</I>&gt;<i> (myslim, ze australskeho), kde jeden clovek detailne popisoval co se
+</I>&gt;<i> deje v Pythonu na jednom a vice jadrech, ale asi ti to k reseni
+</I>&gt;<i> problemu moc nepomuze.
+</I>&gt;<i>
+</I>&gt;<i>     Jirka
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>    
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010057.html">[python] vlakna,cpu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010059.html">[python] vlakna,cpu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10058">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10058">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10058">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10058">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010058.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:18 GMT -->
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008224.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:20 GMT -->
+<HEAD>
+   <TITLE> [python] zapis na zacatek souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20zapis%20na%20zacatek%20souboru&In-Reply-To=%3C263.552-28036-2129636271-1221242831%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-September/008223.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-September/008226.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zapis na zacatek souboru</H1>
+    <B>Calis.martin na seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20zapis%20na%20zacatek%20souboru&In-Reply-To=%3C263.552-28036-2129636271-1221242831%40seznam.cz%3E"
+       TITLE="[python] zapis na zacatek souboru">Calis.martin na seznam.cz
+       </A><BR>
+    <I>Pátek Září 12 20:07:11 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008223.html">[python] zapis na zacatek souboru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008226.html">[python] zapis na zacatek souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8224">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8224">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8224">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8224">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>a co treba takto: 
+
+file = open(&quot;soubor&quot;,&quot;r&quot;)
+data = file.read()
+file.close()
+
+data = tvojeData + data
+
+file = open(&quot;soubor&quot;,&quot;w&quot;)
+data = file.write(data)
+file.close()
+###konec
+
+Pokud vím tak tvoje metoda by byla jenom naprosto zbytečná protože bys to musel udělat s modem &quot;a&quot; místo &quot;w&quot; ;) asi takhle:
+
+newfile = open( 'newfile', 'a')
+oldfile = open( 'oldfile', 'r')
+newfile.write( oldfile.read())
+newfile.close()
+oldfile.close()
+
+
+###
+
+ale stejně by si musel použít dva místo jednoho souboru :(
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Petr Nesladek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.nesladek na seznam.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] zapis na zacatek souboru
+</I>&gt;<i> Datum: 12.9.2008 08:27:22
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Asi nejjednodussi - nazorne takto :
+</I>&gt;<i> 
+</I>&gt;<i> newfile = open( 'newfie', 'w')
+</I>&gt;<i> newfile.write( &quot;Neco na zacatek souboru.\n&quot;)
+</I>&gt;<i> oldfile = open( 'oldfile', 'r')
+</I>&gt;<i> newfile.write( oldfile.read())
+</I>&gt;<i> newfile.close()
+</I>&gt;<i> oldfile.close() 
+</I>&gt;<i> 
+</I>&gt;<i> - lepe to neznam - ale rad se priucim
+</I>&gt;<i> 
+</I>&gt;<i> Petr
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008223.html">[python] zapis na zacatek souboru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008226.html">[python] zapis na zacatek souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8224">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8224">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8224">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8224">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008224.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:20 GMT -->
+</html>

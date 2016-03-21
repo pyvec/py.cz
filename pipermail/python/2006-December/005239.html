@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005239.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:05 GMT -->
+<HEAD>
+   <TITLE> [python] Zope a  TAL
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zope%20a%20%20TAL&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-December/005238.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-December/005240.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zope a  TAL</H1>
+    <B>Jaroslav Lukesh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zope%20a%20%20TAL&In-Reply-To="
+       TITLE="[python] Zope a  TAL">lukesh na seznam.cz
+       </A><BR>
+    <I>Pátek Prosinec  8 12:16:32 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005238.html">[python] Zope a  TAL
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005240.html">[python] Zope a  TAL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5239">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5239">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5239">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5239">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jdete na to moc vědecky, takhle by to nešlo?
+
+&lt;b tal:content=&quot;here/pozdrav/out(aa)&quot;&gt;temp&lt;/b&gt;
+&lt;b tal:content=&quot;here/pozdrav/out(bb)&quot;&gt;temp&lt;/b&gt;
+&lt;b tal:content=&quot;here/pozdrav/out(aa,bb)&quot;&gt;temp&lt;/b&gt;
+
+skript si zvládnete představit, že?
+
+Sice všude se tlačí TAL, ale to je, jak bych to tak kulantně řekl, no, 
+prostě když bylo DTML, tak zope mělo cílovou skupinu webů $10k..$200k, s TAL 
+se toto posunulo mnohem výš, řekl bych až někam k systému Vignette, tedy 
+minimálně o řád vyšší.
+
+A opravdu i dle mých zkušeností, weby pod $2k jsou s DTML na hranici 
+únosnosti (zde v CZ)a integrační věci se stejně řeší v python scriptu (u 
+dražších webů). K $200k jsem zatím nedošel, asi tak k $100k a DTML mě nijak 
+neomezuje, spíše naopak, někdy se musím hlídat abych některé věci řešil v 
+pythonu, DTML je příliš univerzální a schopné. V TALu některé věci kupodivu 
+ani neuděláte anebo se musí řešit velmi komplikovaným způsobem. A weby &lt;$1k 
+je lepší řešit prachsprostým frontpagem, v index_html dáte &lt;dtml-var 
+index.htm&gt; a je klid.
+
+U TAL a spol je tento target rate ještě vyšší, nedovedete si představit jací 
+magoři jsou ve vznostných webdesignerských studiích, hlavně že ty buzny umí 
+dodat skvostně růžovými barvičkami vyvedenou strukturu webu (a to přece 
+platí na managory), ale podklady pak stojí za úplné ho*no. Kdybych jim měl 
+dát svoji šablonu s TALem, tak by ji tak rozvrtali, že bych ji musel stejně 
+dělat celou znova, stačí mi mé zkušenosti když jim dodám rozsekanou šablonu 
+zpět. Oni ji totiž navrhnou, nechají svůj chytrý soft od adobe vyrobit 
+tabulku a ta je jedna ohromná skrz celý design stránky. No a samozřejmé věci 
+jako dynamická délka stránky nebo některých částí, tak na to prdí.
+
+JL.
+
+
+----- Original Message ----- 
+From: &quot;mtip&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt;
+
+mam otazku trosku odjinud, ale kdyz je Zope napsano v Pythonu...
+Snazim se naucit Zope a nejak se mi nedari, mohl by me nekdo malinko
+postrcit ?. Mam tuhle predstavu:
+Sablona TAL v ni treba:
+&lt;b tal:content=&quot;here/pozdrav/???aa??&quot;&gt;temp&lt;/b&gt;
+&lt;b tal:content=&quot;here/pozdrav/???bb??&quot;&gt;temp&lt;/b&gt;
+&lt;b tal:content=&quot;here/pozdrav/???out()???&quot;&gt;temp&lt;/b&gt;
+
+Pak script v Pythonu s id = pozdrav, asi takto:
+class ClsA:
+    def __init__(self):
+        self.ba=&quot;ahoj&quot;
+        self.bb=&quot;svete&quot;
+
+    def out(self):
+        return &quot;%s %s&quot; % (self.ba, self.bb)
+
+Potreboval bych, aby vysledek sablony byl:
+&lt;b&gt;ahoj&lt;/b&gt;
+&lt;b&gt;svete&lt;/b&gt;
+&lt;b&gt;ahoj svete&lt;/b&gt;
+
+Muzete mi nekdo poradit jestli je lepsi vytvorit instanci ClsA v
+sablone nebo ve scriptu a jak to cele dosadit do tal:content aby to
+fungovalo ?
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005238.html">[python] Zope a  TAL
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005240.html">[python] Zope a  TAL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5239">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5239">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5239">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5239">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005239.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:05 GMT -->
+</html>

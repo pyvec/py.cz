@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004895.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:04 GMT -->
+<HEAD>
+   <TITLE> [python] (no subject)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%28no%20subject%29&In-Reply-To=20061028113341.GA5492%40q.uh.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004894.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004896.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] (no subject)</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%28no%20subject%29&In-Reply-To=20061028113341.GA5492%40q.uh.cz"
+       TITLE="[python] (no subject)">Jakohv na seznam.cz
+       </A><BR>
+    <I>Sobota Říjen 28 17:39:52 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004894.html">[python] (no subject)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004896.html">[python] (no subject)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4895">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4895">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4895">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4895">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dík, už mi to funguje;)
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Radek Kanovsky &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rk na dat.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] (no subject)
+</I>&gt;<i> Datum: 28.10.2006 13:47:24
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> On Sat, Oct 28, 2006 at 10:10:39AM +0200, Jakub Vojáček wrote:
+</I>&gt;<i> 
+</I>&gt;<i> &gt; mám problém tady stím:
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; from Tkinter import*
+</I>&gt;<i> &gt; def pis(co):
+</I>&gt;<i> &gt;     print co
+</I>&gt;<i> &gt; okno=Tk()
+</I>&gt;<i> &gt; menubar = Menu(okno)
+</I>&gt;<i> &gt; menu = Menu(menubar, tearoff=0)
+</I>&gt;<i> &gt; cisla=[1,2,3,4,5,6,7,8,9,10]
+</I>&gt;<i> &gt; for prvek in cisla:      
+</I>&gt;<i> &gt;     menu.add_cascade(label=prvek,command=lambda: pis(prvek))
+</I>&gt;<i> &gt; menubar.add_cascade(label=&quot;cisla&quot;,menu=menu)    
+</I>&gt;<i> &gt; okno.config(menu=menubar)
+</I>&gt;<i> &gt; mainloop()
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; když v tom menu kliknu na jakoukoliv položku tak se vždy napíše
+</I>&gt;<i> &gt; 10? proč?mělo by to přece napsat to číslo na který klikám
+</I>&gt;<i> 
+</I>&gt;<i> Prolem je v definici lambda funkce. Promenna 'prvek' je v te funkci jako
+</I>&gt;<i> volna promenna a zkompilovana lambda vypada nejak takto:
+</I>&gt;<i> 
+</I>&gt;<i>     lambda: pis(LOAD_DEREF('prvek'))
+</I>&gt;<i> 
+</I>&gt;<i>     Nebo lambda: pis(LOAD_GLOBAL('prvek')), pokud je definovana na
+</I>&gt;<i>     globalni urovni.
+</I>&gt;<i> 
+</I>&gt;<i> Ale ne takto:
+</I>&gt;<i> 
+</I>&gt;<i>     lambda: pis(1)
+</I>&gt;<i>     lambda: pis(2)
+</I>&gt;<i>     ....
+</I>&gt;<i> 
+</I>&gt;<i> Cili ve vasem pripade v tom cyklu v podstate vznikne 10 shodnych
+</I>&gt;<i> funkci, ktere si hodnotu prvku zjistuji az za behu a ta je
+</I>&gt;<i> po skonceni cyklu rovna hodnote 10. Vice o tom najdete pres
+</I>&gt;<i> klicova slova &quot;python closures&quot;.
+</I>&gt;<i> 
+</I>&gt;<i> Aby to fungovalo, musi se pouzit nejaky trik:
+</I>&gt;<i> 
+</I>&gt;<i>     lambda p=prvek: pis(p)
+</I>&gt;<i> 
+</I>&gt;<i> nebo
+</I>&gt;<i> 
+</I>&gt;<i>     new.instancemethod(lambda p:pis(p), prvek, type(prvek))
+</I>&gt;<i> 
+</I>&gt;<i> Tim se vygenerovana instance lambda funkce vzdy svaze s konkretnim prvkem.
+</I>&gt;<i> Prvni varianta je jednodussi, ale meni signaturu funkce, coz muze nekdy
+</I>&gt;<i> vadit. Druha verze vytvori fiktivni anonymni metodu konkretniho objektu
+</I>&gt;<i> prvek (bound method), ikdyz trida int zadnou takovou metodu nema.
+</I>&gt;<i> Je to vlastne zkracena verze varianty s pomocnou tridou:
+</I>&gt;<i> 
+</I>&gt;<i>     class PisInt:
+</I>&gt;<i>         def __init__(self, prvek):
+</I>&gt;<i>             self.p = prvek
+</I>&gt;<i>         def __call__(self):
+</I>&gt;<i>             return pis(self.p)
+</I>&gt;<i> 
+</I>&gt;<i>     for prvek in cisla:      
+</I>&gt;<i>         menu.add_cascade(label=prvek,command=PisInt(prvek))
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Radek Kaňovský
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+Blujacker
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004894.html">[python] (no subject)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004896.html">[python] (no subject)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4895">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4895">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4895">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4895">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004895.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:04 GMT -->
+</html>

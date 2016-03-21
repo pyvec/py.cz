@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2002-September/000265.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:40 GMT -->
+<HEAD>
+   <TITLE> [python]  a dalsi zopiny
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20a%20dalsi%20zopiny&In-Reply-To=1032966887.14190.47.camel%40muvs99">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2002-September/000264.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2002-September/000268.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python]  a dalsi zopiny</H1>
+    <B>ViNiL</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20a%20dalsi%20zopiny&In-Reply-To=1032966887.14190.47.camel%40muvs99"
+       TITLE="[python]  a dalsi zopiny">vinil na zagamma.cz
+       </A><BR>
+    <I>Středa Září 25 15:29:32 CEST 2002</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-September/000264.html">[python]  a dalsi zopiny
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-September/000268.html">[python]  a dalsi zopiny
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-September/date.html#265">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-September/thread.html#265">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-September/subject.html#265">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-September/author.html#265">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, Sep 25, 2002 at 05:14:47PM +0200, Petr Vaněk wrote:
+&gt;<i> On St, 2002-09-25 at 14:45, ViNiL wrote:
+</I>&gt;<i> &gt; On Wed, Sep 25, 2002 at 04:32:55PM +0200, Petr Vaněk wrote:
+</I>&gt;<i> &gt; &gt; dd.
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; - proc skip_unauthorized nefunguje v pripade,ze
+</I>&gt;<i> &gt; &gt; v &lt;dtml-in&gt; seznam objektu vraci pythoni skript?
+</I>&gt;<i> &gt; &gt; pricemz napr. sort=vlastnost jede jak po masle.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Peclive bych se kouk do zdrojaku, co presne vraci &quot;dtml metody&quot;, kdyz volaji
+</I>&gt;<i> &gt; napr. objectValues nebo tak.
+</I>&gt;<i> 
+</I>&gt;<i> instance objektu. stejne jako kdyz volam objectValues
+</I>&gt;<i> z pythonu v contextu.
+</I>
+To jo, ale vracis urcite cele ty objekty? Vola to samozrejme na to tu security
+checkovaci funkci a jestli vracis jen jmena, tak to pochopitelne nefunguje.
+
+
+&gt;<i> &gt; &gt; - jak v DTML zjistim, zda ma nejaky objekt urcitou
+</I>&gt;<i> &gt; &gt; vlastnost? hasattr(sequence-item,'nejakavlastnost')
+</I>&gt;<i> &gt; &gt; moc nepomaha.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; cituji z helpu:
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; hasProperty(id):
+</I>&gt;<i> 
+</I>&gt;<i> hm, to jsem samozrejme nasel, ale nezjistil, jak pouzit.
+</I>&gt;<i> sequence-item.hasProperty()... nejak nejede...
+</I>
+no jo, v dtml to musis delat asi nejak takhle:
+
+&lt;dtml-let a=sequence-item&gt;
+&lt;dtml-if &quot;a.hasProperty()&quot;&gt;
+  Muhaha
+&lt;/dtml-if&gt;
+&lt;/dtml-let&gt;
+
+(to je jeden z mnoha duvodu, proc se dtml vyhybam)
+
+
+&gt;<i> &gt; &gt; - jak patricna opravneni zjistim v pythonim skriptu?
+</I>&gt;<i> &gt; &gt; t.j. jak se dostanu k tridam a funkcim popsanym
+</I>&gt;<i> &gt; &gt; v zope API helpu? co mam importovat?
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; nic -- funguje normalne ;-)
+</I>&gt;<i> 
+</I>&gt;<i> asi mam jine zope :)))
+</I>&gt;<i> 
+</I>&gt;<i> jak treba zavolam 
+</I>&gt;<i> AuthenticatedUser.has_permission(permission, object)
+</I>&gt;<i> -&gt;
+</I>&gt;<i> global name 'AuthenticatedUser' is not defined
+</I>
+ach jo, to ma byt samozrejme nejak takhle:
+
+user = REQUEST.AUTHENTICATED_USER
+if user.has_permission(perm, obj):
+  print &quot;Muhaha&quot;
+
+To, co pises ty, je trida, ne instance!
+
+Vidim to na trikrat otcenas a dvakrat znovu zopebook ;-)
+
+-- 
+ViNiL the GNU hippie
+
+Rozumbrada je jako eunuch - ví přesně, jak na to, ale přitom to nedokáže.
+                -- Sapfó
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-September/000264.html">[python]  a dalsi zopiny
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-September/000268.html">[python]  a dalsi zopiny
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-September/date.html#265">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-September/thread.html#265">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-September/subject.html#265">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-September/author.html#265">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2002-September/000265.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:40 GMT -->
+</html>

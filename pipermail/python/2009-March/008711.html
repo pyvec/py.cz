@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008711.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:44 GMT -->
+<HEAD>
+   <TITLE> [python] Optimalizace vicenasobneho spousteni skriptu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Optimalizace%20vicenasobneho%20spousteni%20skriptu&In-Reply-To=%3C1e5f8cdc0903051319y5ef1cf07tfc70ace551b7da79%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-March/008712.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-March/008714.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Optimalizace vicenasobneho spousteni skriptu</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Optimalizace%20vicenasobneho%20spousteni%20skriptu&In-Reply-To=%3C1e5f8cdc0903051319y5ef1cf07tfc70ace551b7da79%40mail.gmail.com%3E"
+       TITLE="[python] Optimalizace vicenasobneho spousteni skriptu">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Čtvrtek Březen  5 22:19:10 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008712.html">[python] Optimalizace vicenasobneho spousteni skriptu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008714.html">[python] prosba o radu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8711">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8711">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8711">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8711">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Podivej se na pyevent (napsal Dug Song), nadstavba nad libevent -
+mohlo by to byt to co potrebujes.
+
+  Jirka
+
+On 05/03/2009, sebastian &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">sebastian at sendmail.cz</A>&gt; wrote:
+&gt;<i> Zdravim,
+</I>&gt;<i> resim takovy &quot;problem&quot; a nevim jakou cestou se dat. Dovolim si Vas uvest
+</I>&gt;<i> do obrazu: v miniaturni embedded desce (RouterStation od UBNT) mam
+</I>&gt;<i> funkcni Python 2.5 - k teto desce mam pripojeno nekolik seriovych portu
+</I>&gt;<i> (mam funkcni pyserial); na portech budou pripojeny ruzne periferie;
+</I>&gt;<i> puvodni idea byla ze pro kazdou periferii vytvorim skript kteremu pomoci
+</I>&gt;<i> parametru pridam pri spusteni co ma delat; pokud by skripty spoustela
+</I>&gt;<i> obsluha rucne urcite by to fungovalo dobre; v budoucnu je ale bude volat
+</I>&gt;<i> aplikace provozovana na jinem stroji pomoci ssh, bude je volat pomerne
+</I>&gt;<i> casto a navic bude mit aplikace v jednom okamziku otevreno vice ssh
+</I>&gt;<i> spojeni v kterych bude volat vice techto skriptu; co mne trochu trapi je
+</I>&gt;<i> efektivnost vyse popsaneho; chapu to spravne tak, ze pro kazde spusteni
+</I>&gt;<i> skriptu se nejdrive nahraje do pameti samostatna instance Pythona? Cili
+</I>&gt;<i> pokud spustim treba pet skriptu budu mit zaroven v pameti pet interpretu
+</I>&gt;<i> Pythona a zaroven pokud v jeden okamzik spustim dva ruzne skripty budou
+</I>&gt;<i> se do pameti natahovat dva interpreti?
+</I>&gt;<i>
+</I>&gt;<i> Obavam se, ze to chapu spravne :-(
+</I>&gt;<i>
+</I>&gt;<i> Mohl bych cele ovladani prepsat do jednoho skriptu ale nevim jak bych
+</I>&gt;<i> potom resil situaci kdy jeste jeden skript respektive funkce obsluhujici
+</I>&gt;<i> jednu periferii neskoncila a ja potreboval ovladat jinou.
+</I>&gt;<i>
+</I>&gt;<i> A proto bych uvital nazor nekoho dalsiho jakou cestou se vydat.
+</I>&gt;<i>
+</I>&gt;<i> Predem diky za reakce.
+</I>&gt;<i>
+</I>&gt;<i> Sebastian
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008712.html">[python] Optimalizace vicenasobneho spousteni skriptu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008714.html">[python] prosba o radu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8711">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8711">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8711">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8711">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008711.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:44 GMT -->
+</html>

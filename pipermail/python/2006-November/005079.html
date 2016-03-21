@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005079.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:31 GMT -->
+<HEAD>
+   <TITLE> [python] class a subclass
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=mailman.83.1163167037.6465.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005073.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005080.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] class a subclass</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=mailman.83.1163167037.6465.python%40py.cz"
+       TITLE="[python] class a subclass">prikryl na atlas.cz
+       </A><BR>
+    <I>Neděle Listopad 12 13:04:40 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005073.html">[python] anonce překladu How to Think Like a Computer Scientist
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005080.html">[python] Specialitky GUI v GTK
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5079">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5079">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5079">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5079">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ještě jednou se vrátím k původnímu dotazu. Kdybych přece jen
+chtěl něco takového, abych u instance mohl dynamicky rozhodovat,
+jaká varianta metody se má volat (zda rodičovský kód nebo
+kód potomka) a kdyby se o tom mělo rozhodovat například
+zvnějšku, mohu použít prostředníka...
+
+
+mtip napsal(a):
+&gt;<i> [...]
+</I>&gt;<i> class a:
+</I>&gt;<i>     def prn(self):
+</I>&gt;<i>         print 'a',self
+</I>&gt;<i>     def ma(self):
+</I>&gt;<i>         self.prn()
+</I>&gt;<i> 
+</I>&gt;<i> class b(a):
+</I>&gt;<i>     def prn(self):
+</I>&gt;<i>         print 'b',self
+</I>&gt;<i>     def ma(self):
+</I>&gt;<i>         '''prekryje a.ma()'''
+</I>&gt;<i>         a.ma(self)
+</I>&gt;<i> 
+</I>&gt;<i> x=b()
+</I>&gt;<i> x.ma()
+</I>&gt;<i> 
+</I>&gt;<i> vysledkem je print z metody b.prn, a ja bych potreboval aby byl a.prn
+</I>
+Nadefinujeme referenci self.prnX, která bude obsahovat buď odkaz
+na rodičovský kód metody nebo na potomkův kód metody. Metoda ma()
+nebude volat prn() přímo, ale prostřednictvím prnX(). Budeme
+přepínat voláním funkce setPrn?(). Příklad:
+
+class a:
+     def __init__(self):
+         self.setPrnA()
+
+     def prn(self):
+         print 'a',self
+
+     def setPrnA(self):
+         self.prnX = a.prn
+
+     def ma(self):
+         self.prnX(self)
+
+
+class b(a):
+     def __init__(self):
+         a.__init__(self)
+         self.setPrnB()
+
+     def prn(self):
+         print 'b',self
+
+     def ma(self):
+         '''prekryje a.ma()'''
+         a.ma(self)
+
+     def setPrnB(self):
+         self.prnX = b.prn
+
+
+x=b()
+x.ma()
+
+x.setPrnA()
+x.ma()
+
+x.setPrnB()
+x.ma()
+
+Pokud se nepletu, tak se tomu po zobecnění říká Strategy Pattern
+nebo delegace (moc silný v teorii tady nejsem). Jde o to, že
+chci provádět nějakou činnost, která má pro mě jakýsi abstraktní
+význam (například tisk), ale teprve za běhu chci upřesnit, kterou
+variantu oné abstraktní operace budu chtít používat.
+
+(Lovím to z hlavy. Možná jsem tady trochu nepřesný.)
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005073.html">[python] anonce překladu How to Think Like a Computer Scientist
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005080.html">[python] Specialitky GUI v GTK
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5079">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5079">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5079">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5079">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005079.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:31 GMT -->
+</html>

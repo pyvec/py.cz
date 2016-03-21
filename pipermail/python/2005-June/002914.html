@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002914.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:24 GMT -->
+<HEAD>
+   <TITLE> [python] Python(CherryPy) a cestina
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Python%28CherryPy%29%20a%20cestina&In-Reply-To=200506271128.20389.hlohsoft%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-June/002912.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-June/002899.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Python(CherryPy) a cestina</H1>
+    <B>Ivo Štolpa</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Python%28CherryPy%29%20a%20cestina&In-Reply-To=200506271128.20389.hlohsoft%40atlas.cz"
+       TITLE="[python] Python(CherryPy) a cestina">pussa na pussa.cz
+       </A><BR>
+    <I>Pondělí Červen 27 12:19:18 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002912.html">[python] Python(CherryPy) a cestina
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002899.html">[python] OT: anglické knihy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2914">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2914">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2914">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2914">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Vladimír Hloušek napsal(a):
+
+&gt;<i>Dne neděle, 26. června 2005 18:39 <A HREF="http://www.py.cz/mailman/listinfo/python">dmarko na tiscali.cz</A> napsal(a):
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>Pouzivam CherryPy a mam problemy s cestinou v nekterych oblastech. Nemam
+</I>&gt;&gt;<i>problem cestinu zadavat ani zobrazovat a pres SQLObject ukladat do
+</I>&gt;&gt;<i>databaze. Pokud vsak chci na retezec s ceskymi znaky aplikovat nejakou
+</I>&gt;&gt;<i>Python funkci, se zlou se potazu. Napr. pokud mam cesky retezec a chci jej
+</I>&gt;&gt;<i>prevest na velka pismena  ( &quot;ěščřžýáí&quot;.upper() ). Zkousel jsem
+</I>&gt;&gt;<i>ruzne varianty nastavovani # -*- coding: xxx -*- ale nic. Bud to vyhazuje
+</I>&gt;&gt;<i>chybu nebo se znaky s diakritikou na velka pismena neprevedou. Muzete
+</I>&gt;&gt;<i>nekdo poradit?
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Nepomohlo by nastavit správně locale?
+</I>&gt;<i>
+</I>&gt;<i>print &quot;řčššě&quot;.upper()
+</I>&gt;<i>	řčššě
+</I>&gt;<i>import locale; locale.setlocale(locale.LC_ALL, &quot;cs_CZ&quot;)
+</I>&gt;<i>	'cs_CZ'
+</I>&gt;<i>print &quot;řčššě&quot;.upper()
+</I>&gt;<i>	ŘČŠŠĚ
+</I>&gt;<i>
+</I>&gt;<i>V. Hloušek
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>Pomáhá. Pokud ale všude pracuji v utf-8, problém zůstává. Mám nastaveno 
+# -*- coding: utf-8 -*-, přímo do zdrojového kódu zapisovaný řetězec 
+tedy je v utf-8. Když zapnu locale je zapisovaný řetězec v iso8859-2 
+(cs_CZ) nebo cp1250 (czech) a to bez ohledu na #-*-.... Funkce upper 
+proběhne opravdu správně, ale výsledek se opět musí převést do utf-8 
+(pokud to potřebuji). Pokud se s tímto počítá je to možná cesta, ale jde 
+o cestu z bláta do louže. Trochu mne to mrzí protože sqlite mám v utf-8, 
+GTK jede v utf-8 a mezi tím je Python, kde s tím občas musím pěkně 
+cvičit. To se týká i CherryPy, kde také generuji stránky kódované v 
+utf-8. Já ale tento dotaz nepoložil, takže tazateli možná šlo o něco 
+jiného, nebo některá z odpovědí mu již postačuje.
+
+ivo
+
+-- 
+Ing. Ivo Štolpa
+
+***********************************************
+PUSSA software, Žižkova 13, 58601 Jihlava
+e-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">pussa na pussa.cz</A>, <A HREF="http://www.py.cz/mailman/listinfo/python">ivo.stolpa na seznam.cz</A>
+stránky: <A HREF="http://www.pussa.cz/">http://www.pussa.cz</A>
+mobilní telefon: 602 735 124
+pevná linka: 567 320 386
+fax: 602 783 071
+***********************************************
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002912.html">[python] Python(CherryPy) a cestina
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002899.html">[python] OT: anglické knihy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2914">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2914">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2914">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2914">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002914.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:24 GMT -->
+</html>

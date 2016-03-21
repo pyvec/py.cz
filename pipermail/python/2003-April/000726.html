@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-April/000726.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+<HEAD>
+   <TITLE> [python] Metody korenoveho objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Metody%20korenoveho%20objektu&In-Reply-To=200304071505.38206.petr.vanek%40ika.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-April/000725.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-April/000727.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Metody korenoveho objektu</H1>
+    <B>Jan Svec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Metody%20korenoveho%20objektu&In-Reply-To=200304071505.38206.petr.vanek%40ika.cz"
+       TITLE="[python] Metody korenoveho objektu">honza na py.cz
+       </A><BR>
+    <I>Pondělí Duben  7 15:14:30 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000725.html">[python] Metody korenoveho objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000727.html">[python] Metody korenoveho objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-April/date.html#726">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/thread.html#726">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/subject.html#726">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/author.html#726">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, 7 Apr 2003, Petr Vaněk wrote:
+
+&gt;<i> Dne po 7. dubna 2003 14:11 Jan Svec napsal(a):
+</I>&gt;<i> &gt; A co je ono collect, select atd.? Ne kazdy zna Smalltalk
+</I>&gt;<i> &gt; jako oni. Nejde to pomoci map, reduce, filter nebo strucneho
+</I>&gt;<i> &gt; seznamu?
+</I>&gt;<i>
+</I>&gt;<i> smalltalkovy pseudokod:
+</I>&gt;<i>
+</I>&gt;<i> seznam = [1 2 3 4 5]  v pythonu  [1,2,3...]
+</I>&gt;<i> novySeznam = seznam select: [:x, x&gt;3]
+</I>&gt;<i> novySeznam je ted [4 5]
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://www.gnu.org/software/smalltalk/gst-manual/gst_74.html">http://www.gnu.org/software/smalltalk/gst-manual/gst_74.html</A>
+</I>&gt;<i>
+</I>&gt;<i> v podstate vsechno ostatni krome &quot;select&quot; jde osetrit pomoci
+</I>&gt;<i> map atd., ale opravdu mne nenapada, jak select jednoduse
+</I>&gt;<i> implementovat treba nad dictionary...
+</I>
+Jestli jsem to vsechno dobre pochopil, tak budes potrebovat
+strucny slovnik. Uz jsme se specialne o tomhle bavili na
+sraziku, takze budes moc psat neco jako. Bohuzel je to stale
+jeste hudba budoucnosti:
+
+d = {1: 'jedna', 2: 'dve', 3: 'tri', 4: 'ctyri'}
+novy_d = {k: v for k, v in d.iteritems() if k &gt; 3}
+
+Pak v novy_d budes mit podmnozinu d kde klice budou vetsi
+nez 3. Vic se toho dozvis z PEP274. Je tam i obecna
+formulka, jak strucny seznam pretvorit na dictionary, podle
+toho dojdes k necemu takovemu:
+
+novy_d = dict([(k, v) for k, v in d.iteritems() if k &gt; 3])
+
+Viva iteratory!
+
+--
+S pozdravem    .-------------------------.
+Jan Svec       | Znate jazyk Python? NE? |
+               | zkuste <A HREF="http://www.py.cz/">http://www.py.cz</A> |
+.--------------+-------------------------+
+|<i>            &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza na py.cz</A>&gt;               |
+</I>|<i>     <A HREF="http://www.py.cz/Members/honza">http://www.py.cz/Members/honza</A>     |
+</I>|<i>            <A HREF="http://www.py.cz/mailman/listinfo/python">honzas na jabber.cz</A>            |
+</I>`----------------------------------------'
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000725.html">[python] Metody korenoveho objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000727.html">[python] Metody korenoveho objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-April/date.html#726">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/thread.html#726">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/subject.html#726">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/author.html#726">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-April/000726.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+</html>

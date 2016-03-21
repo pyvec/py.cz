@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007799.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+<HEAD>
+   <TITLE> [python] Getters and Setters.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Getters%20and%20Setters.&In-Reply-To=63b313040806210919u6f8798d8re3fdce797f620ac2%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007797.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007801.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Getters and Setters.</H1>
+    <B>David Michal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Getters%20and%20Setters.&In-Reply-To=63b313040806210919u6f8798d8re3fdce797f620ac2%40mail.gmail.com"
+       TITLE="[python] Getters and Setters.">dmichal na altien.com
+       </A><BR>
+    <I>Sobota Červen 21 19:20:22 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007797.html">[python] Getters and Setters.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007801.html">[python] Getters and Setters.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7799">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7799">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7799">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7799">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Aha, tak mou neznalosti bylo, ze jsem nevedel o &quot;property&quot;.
+Ale stejne mi to neni uplne jasne.
+
+V tomto prikladu:
+
+&gt;<i> class C(object):
+</I>&gt;<i>     def __init__(self):
+</I>&gt;<i>         self._x = 0;
+</I>&gt;<i> 
+</I>&gt;<i>     def magic(self):
+</I>&gt;<i>         self.x = self.x * 10
+</I>&gt;<i> 
+</I>&gt;<i>     def get_x(self):
+</I>&gt;<i>         return(self._x)
+</I>&gt;<i> 
+</I>&gt;<i>     def set_x(self, value):
+</I>&gt;<i>         if value &gt;= 0:
+</I>&gt;<i>              self._x = value * 2
+</I>&gt;<i>         else:
+</I>&gt;<i>              self._x = 0
+</I>&gt;<i> 
+</I>&gt;<i>     x = property(get_x, set_x)
+</I>
+Ta promena x je pak promenou tridy, nebo instance? Co se stane kdyz
+upravim __init__ takto:
+def __init__(self):
+    self.x = 0
+    self.x = property(self.get_x, self.set_x)
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007797.html">[python] Getters and Setters.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007801.html">[python] Getters and Setters.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7799">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7799">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7799">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7799">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007799.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+</html>

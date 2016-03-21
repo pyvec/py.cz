@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003278.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:39 GMT -->
+<HEAD>
+   <TITLE> [python] Komunikace 2 procesu v linuxu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Komunikace%202%20procesu%20v%20linuxu&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-September/003277.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-September/003279.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Komunikace 2 procesu v linuxu</H1>
+    <B>Lukas Lipavsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Komunikace%202%20procesu%20v%20linuxu&In-Reply-To="
+       TITLE="[python] Komunikace 2 procesu v linuxu">lukas.lipavsky na gmail.com
+       </A><BR>
+    <I>Čtvrtek Září  8 15:43:06 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003277.html">[python] for rollin: extremely peaceful thumbnail indexes - ow diy
+	vutmo roj - (1/1)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003279.html">[python] Komunikace 2 procesu v linuxu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3278">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3278">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3278">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3278">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+s pythonem prave zacinam, tak prosim o shovivavost, jestli se ptam na neco, 
+co uz bylo reseno mockrat, bohuzel google (nebo vyber mych dotazu) selhal.
+
+Snazim se napsat pod Linuxem &quot;program&quot; na ovladani wifiny (konkretne wpa 
+supplicantu, ale to neni tak moc dulezite). Problemem je, ze celkovy 
+&quot;program&quot; se bude zkladat ze dvou procesu (oba bych rad napsal v pythonu). 
+Jeden bude daemon, bezici s pravy roota (plus minus), ktery bude provadet 
+vlastni praci (nastavovani, zjistovani stavu, hledani dostupnych siti, ...) 
+a druhy bude uzivatelsky program (PyGtk), ktery bude tyto informace 
+prezentovat uzivateli a prikazy od uzivatele posilat daemonu. Navic idealni 
+by bylo, kdyby daemon prijimal prikazy na zmenu nastaveni jen od uzivatele v 
+dane grupe (napr. wifi), ale zobrazoval informace (cili prijimal pozadavky 
+ne informace) vsem.
+
+Jako reseni me napada:
+1) pouzit linuxove IPC, pravdepodobne zasilani zprav... to vypada celkem ok, 
+ale nevim, jestli se tam daji nejak zohlednit ta prava
+2) sockety -unix sockets - tam uz teprve nevim, jestli by sly ty prava nejak 
+ohlidat
+3) pipy - /tmp/wifi/authorized_command, common_command, response_{pid 
+klienta}, kde klient by vytvoril svoji pipe, jeji nazev by v requestu predal 
+daemonu a bavili by se pres ne. Prava by byla zajistena systemem 
+rw-rw---- user wifi authorized_command
+rw-rw-rw- user wifi common_command
+rw-rw---- user_name wifi-daemon responce_{pid}
+
+Me nejlepe pripada posledni reseni
+
+Neresili jste nekdo nejaky podobny problem? Nemate nejake jine reseni? Nebo 
+vidite rovnou z praxe v mem navrhu nejakou blbost?
+
+Vim, ze z velke casti to je spise problematika linuxu, ale co kdyby... :)
+
+Predem dekuji za odpoved
+
+Lukas Lipavsky
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20050908/dca21d4a/attachment.htm">http://www.py.cz/pipermail/python/attachments/20050908/dca21d4a/attachment.htm</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003277.html">[python] for rollin: extremely peaceful thumbnail indexes - ow diy
+	vutmo roj - (1/1)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003279.html">[python] Komunikace 2 procesu v linuxu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3278">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3278">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3278">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3278">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003278.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:39 GMT -->
+</html>

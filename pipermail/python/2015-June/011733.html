@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011733.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:08 GMT -->
+<HEAD>
+   <TITLE> [python] regulární výrazy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3Fregul%3DE1rn%3DED_v%3DFDrazy%3F%3D&In-Reply-To=%3C36c5f8e8-4fcd-41b8-86a1-2ba5d590f260%40googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-June/011728.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-June/011729.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] regulární výrazy</H1>
+    <B>Lumír Balhar</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3Fregul%3DE1rn%3DED_v%3DFDrazy%3F%3D&In-Reply-To=%3C36c5f8e8-4fcd-41b8-86a1-2ba5d590f260%40googlegroups.com%3E"
+       TITLE="[python] regulární výrazy">frenzy.madness na gmail.com
+       </A><BR>
+    <I>Úterý Červen 30 07:23:49 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011728.html">[python] regulární výrazy
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011729.html">[python] unicode 2.7
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11733">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11733">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11733">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11733">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj.
+
+Pro každá vstupní data by se dal napsat regulární výraz, který by je testoval. V Pythonu je k tomu určen modul re.
+
+Například pro stav relé by to mohlo vypadat takto:
+
+import re
+re.match(r'^[01]{10}$', '1010010110')
+
+re.match testuje regulární výraz proti zadanému vstupu. Pokud vyhovuje, vrátí ti Match object, pokud nesedí, vrátí None. Konkrétně tento testuje, zda je celý řetězec kombinací jen jedniček a nul v počtu deseti. Pokud tam bude kdekoli jakýkoli jiný znak, nebo bude vstup delší či kratší, bude vracet None.
+
+Analogicky pro stav napětí (to samé, jen pro kratší řetězec):
+
+re.match(r'^[01]{2}$', '01')
+
+Pro stav teplot je to drobet složitější, ale princip je pořád stejný:
+
+re.match(r'^[0-9]{4}\|[0-9]{4}\|[0-9]{4}\|$', '1256|1360|1150|')
+
+Jednoduše řečeno - hledej od začátku čísla 0-9 v počtu čtyř, pak svislítko, pak další čtyři čísla, pak zase svislítko atp. až do konce.
+
+Na poslední vstup bych regulární výrazy nepoužil. Místo toho bych si datum nechal konvertovat do objektu datetime takto:
+
+from datetime import datetime
+datetime.strptime('23.06.2015 16:01:35', '%d.%m.%Y %H:%M:%S')
+
+Funkce v tomto případě vyrobí objekt reprezentující datum a čas rozparsované z řetězce dle zadaného formátu. Pokud by řetězec tomuto formátu neodpovídal, funkce vyvolá výjimku. Výjimku také vyvolá, pokud by na vstup přišlo nějaké nesmyslné datum jako 32. den v měsíci či 17. měsíc apod.
+
+Snad je to srozumitelné. Před použitím doporučuji otestovat, zda naměřené hodnoty opravdu odpovídají těmto reg. výrazům.
+
+Hezký den.
+Lumír
+
+
+Dne pondělí 29. června 2015 21:07:36 UTC+2 &quot;Ing. Vladislav Ludík&quot; napsal(a):
+&gt;<i> Zdravím,
+</I>&gt;<i> 
+</I>&gt;<i> moje elektronika mi vrací po sériovém portu několik druhů dat:
+</I>&gt;<i> 
+</I>&gt;<i> stav relé: &quot;010101010101&quot; - 10-ti místný výstup 0 nebo 1
+</I>&gt;<i> stav napětí: &quot;01&quot; - 2-místný výstup 0 nebo 1
+</I>&gt;<i> stav teplot: &quot;1256|1360|1150|&quot; 15-ti místný výstup tří skupin oddělených |
+</I>&gt;<i> datum a čas: &quot;23.06.2015 16:01:35&quot; 19-ti místný výstup
+</I>&gt;<i> 
+</I>&gt;<i> Složitě to otestovat umím.
+</I>&gt;<i> Test by měl rozpoznat chybnou délku, formát a nelegální znaky 
+</I>&gt;<i> testovaných dat.
+</I>&gt;<i> Chtěl bych použít co nejjednodušší test.
+</I>&gt;<i> Zatím se mi to moc nedaří.
+</I>&gt;<i> Poradí mi někdo ?
+</I>&gt;<i> 
+</I>&gt;<i> Díky Vláďa
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> --- <A HREF="news://freenews.netfront.net/">news://freenews.netfront.net/</A> - complaints: <A HREF="http://www.py.cz/mailman/listinfo/python">news na netfront.net</A> ---
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011728.html">[python] regulární výrazy
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011729.html">[python] unicode 2.7
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11733">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11733">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11733">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11733">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011733.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:08 GMT -->
+</html>

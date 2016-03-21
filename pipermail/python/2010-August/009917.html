@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-August/009917.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:25 GMT -->
+<HEAD>
+   <TITLE> [python] Python 3.1 v Eclipse nefunguje
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Python%203.1%20v%20Eclipse%20nefunguje&In-Reply-To=%3C096c1000-74ec-4947-8540-a7025161bfc5%40d8g2000yqf.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-August/009916.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-August/009918.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Python 3.1 v Eclipse nefunguje</H1>
+    <B>petrofF</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Python%203.1%20v%20Eclipse%20nefunguje&In-Reply-To=%3C096c1000-74ec-4947-8540-a7025161bfc5%40d8g2000yqf.googlegroups.com%3E"
+       TITLE="[python] Python 3.1 v Eclipse nefunguje">petr0ff na seznam.cz
+       </A><BR>
+    <I>Neděle Srpen 15 22:28:00 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-August/009916.html">[python] Python 3.1 v Eclipse nefunguje
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-August/009918.html">[python] BATTERIES PLUS
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-August/date.html#9917">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-August/thread.html#9917">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-August/subject.html#9917">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-August/author.html#9917">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Nepomohla ani aktualizace nejnovější verzi pydev: 1.6.1
+[ECLIPSE]
+Version: 3.5.2
+Build id: M20100211-1343
+[OS=WIN XP]
+Prostudoval jsem, co se dá a MĚLO BY TO FUNGOVAT
+Evidentně je něco v nepořádku
+
+On 13 srp, 15:59, petrofF &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr... na seznam.cz</A>&gt; wrote:
+&gt;<i> Doposud jsem používal verzi 2.6, která s PyDev/Eclipse fungovala
+</I>&gt;<i> normálně.
+</I>&gt;<i> Nyní se učím Trojku, a první spuštění testovacího skriptu (po
+</I>&gt;<i> nakonfigurování projektu) v ladícím módu skončilo chybou:
+</I>&gt;<i>
+</I>&gt;<i> pydev debugger: warning: psyco not available for speedups (the
+</I>&gt;<i> debugger will still work correctly, but a bit slower)
+</I>&gt;<i> pydev debugger: starting
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;C:\Eclipse\eclipse\plugins
+</I>&gt;<i> \org.python.pydev.debug_1.5.6.2010033101\pysrc\pydevd_comm.py&quot;, line
+</I>&gt;<i> 235, in OnRun
+</I>&gt;<i>     r = r.decode('utf-8')
+</I>&gt;<i> UnicodeDecodeError: 'utf8' codec can't decode bytes in position 38-40:
+</I>&gt;<i> invalid data
+</I>&gt;<i>
+</I>&gt;<i> Konkrétně jde o výjimku ve vláknu pro RemoteDebugging:
+</I>&gt;<i>
+</I>&gt;<i>  [ FILE: pydevd_comm.py ]
+</I>&gt;<i>  ....
+</I>&gt;<i> class PyDBDaemonThread(threading.Thread):
+</I>&gt;<i>  ....
+</I>&gt;<i> class ReaderThread(PyDBDaemonThread):
+</I>&gt;<i>     &quot;&quot;&quot; reader thread reads and dispatches commands in an infinite
+</I>&gt;<i> loop &quot;&quot;&quot;
+</I>&gt;<i>  .....
+</I>&gt;<i>     def OnRun(self):
+</I>&gt;<i>         pydevd_tracing.SetTrace(None) # no debugging on this thread
+</I>&gt;<i>         buffer = &quot;&quot;
+</I>&gt;<i>         try:
+</I>&gt;<i>             while not self.killReceived:
+</I>&gt;<i>                 try:
+</I>&gt;<i>                     r = self.sock.recv(1024)
+</I>&gt;<i>                 except:
+</I>&gt;<i>
+</I>&gt;<i> GlobalDebuggerHolder.globalDbg.finishDebuggingSession = True
+</I>&gt;<i>                     break #Finished communication.
+</I>&gt;<i>                 if IS_PY3K:
+</I>&gt;<i>                     r = r.decode('utf-8')
+</I>&gt;<i>                 buffer += r
+</I>&gt;<i>                  ....atd.
+</I>&gt;<i> PS.
+</I>&gt;<i> Navíc v testovaném zdrojáku mi IDE označilo definice:
+</I>&gt;<i> def radius
+</I>&gt;<i> jako Error =&gt; Duplicitní výskyt
+</I>&gt;<i> (přitom ve skutečnosti jde o atributy vlastnosti, a syntaxe to tak
+</I>&gt;<i> vyžaduje)
+</I>&gt;<i>
+</I>&gt;<i> [ FILE: Testovací ]
+</I>&gt;<i>   @property
+</I>&gt;<i>     def radius(self):
+</I>&gt;<i>         &quot;&quot;&quot;Poloměr kruhu
+</I>&gt;<i>         ...atd
+</I>&gt;<i>         &quot;&quot;&quot;
+</I>&gt;<i>         return self.__radius
+</I>&gt;<i>
+</I>&gt;<i>     @radius.setter
+</I>&gt;<i>     def radius(self, radius):
+</I>&gt;<i>         assert radius &gt; 0, &quot;poloměř musí být nenulový a nezáporný&quot;
+</I>&gt;<i>         self.__radius = radius
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-August/009916.html">[python] Python 3.1 v Eclipse nefunguje
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-August/009918.html">[python] BATTERIES PLUS
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-August/date.html#9917">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-August/thread.html#9917">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-August/subject.html#9917">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-August/author.html#9917">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-August/009917.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:25 GMT -->
+</html>

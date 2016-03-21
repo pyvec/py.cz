@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006844.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:13 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=474DCDF6.3030507%40gentoo.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006843.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006845.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=474DCDF6.3030507%40gentoo.org"
+       TITLE="[python] sockety - problem s HTTP spojenim">feed na centrum.cz
+       </A><BR>
+    <I>Středa Listopad 28 21:42:16 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006843.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006845.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6844">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6844">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6844">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6844">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> No, mohl bych poprosit o referenci na nejaky zdroj, ktery tvrdi, ze od
+</I>&gt;<i> zacatku provadeni vyrazu &quot;buffer += foo&quot; az po jeho dokonceni se
+</I>&gt;<i> nedostane ke slovu jiny thread?
+</I>
+Ne, tato operace rozhodně atomická není a ani být nemůže. To, že tam 
+jsou immutable stringy situace dost zlepšuje, nicméně o atomičnosti 
+operace nemůže být ani řeči.
+
+&gt;<i> Vzhledem k tomu, ze se celkem bezne [1] tvrdi, ze += 1 na int *neni*
+</I>&gt;<i> atomicke, tak soudim, ze append na (immutable) stringy rovnez nebude.
+</I>
+Pokud je vykonávána operace (int) += 1, pak tato instrukce v rámci 
+strojového kódu atomická být samozřejmě může. Přímo assembler většiny 
+procesorů umožňuje tuto operaci vykonat atomicky.
+
+Druhá otázka je, zda a jak tuto instrukci vykonává Python, a zda možnost 
+atomičnosti této operaci podporované dokonce přímo na úrovni procesoru 
+využije, nebo hodí do kopru.
+
+Jinak atomickou incrementaci int podporují i operační systémy (například 
+na Windows funkce InterlockedIncrement()), nebo základní knihovny mnoha 
+překladačů (třeba funkce __atomic_inc() v gcc). Takže zde jen záleží na 
+interpreteru Pythonu, zda využije této možnosti.
+
+&gt;&gt;<i>3) vzhledem k pythonímu GIL je vše (mnohdy až příliš) thread-safe a pokud
+</I>&gt;&gt;<i>   nepoužíváte nějaké neobvyklé C extenze, nemusíte zamykat skoro nic
+</I>&gt;<i> 
+</I>&gt;<i> Silne nesouhlasim, viz znovu [1]. Dalsi vygoogleny odkaz je thread [2].
+</I>
+Ač jsem nečetl nic a dokonce se přiznávám, že vůbec netuším, co je to 
+GIL - jako člověk, který napsat fůru multithreadových aplikací toto 
+sebevědomí mi říká, že autor o thread safe programování moc neví.
+
+Dokonalé zajištění thread safe je VELMI DRAHÁ záležitost, pro kterou 
+musíte obětovat velmi mnoho rychlosti a efektivity programu, pokud jí 
+chcete zajistit naprosto obecně. Z těchto důvodů dokonalé thread safe 
+věci NEEXISTUJÍ (vynechám-li triviální věci a triviální problémy). Vždy 
+je potřeba udělat ústupky, má-li to vůbec být použitelné. V opačném 
+případě je to nepoužitelné a velmi náchylné k deadlockům.
+
+Miloslav Ponkrác
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006843.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006845.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6844">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6844">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6844">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6844">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006844.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:13 GMT -->
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005807.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:10 GMT -->
+<HEAD>
+   <TITLE> [python] Jakého typu je iterátor?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FJak%3DC3%3DA9ho_typu_je_iter%3DC3%3DA1tor%3D3F%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005805.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005812.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jakého typu je iterátor?</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FJak%3DC3%3DA9ho_typu_je_iter%3DC3%3DA1tor%3D3F%3F%3D&In-Reply-To="
+       TITLE="[python] Jakého typu je iterátor?">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Duben 10 08:38:08 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005805.html">[python] XML PARSER
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005812.html">[python] Jakého typu je iterátor?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5807">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5807">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5807">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5807">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Michal Vyskocil
+&gt;<i> jakeho typu je vlastně iterator? V modulu types je 
+</I>&gt;<i> ani ve verzi 2.4, ani ve 2.5 nevidím. Ani mechanicke
+</I>&gt;<i> porovnani typu mi nevrati nic. Pritom generatory,
+</I>&gt;<i> ktere jsou iteratorum podobne, v modulu types jsou ...
+</I>&gt;<i> [...] 
+</I>&gt;<i> Myslite, ze je to chyba v Pythonu, nebo jsou uz 
+</I>&gt;<i> iteratory deprecated a nikoho nezajimaji?
+</I>
+&quot;Iterátor&quot; je především koncept. V jiných jazycích
+byste mohl položit podobnou otázku &quot;Jakého typu
+je ukazatel?&quot;.
+
+Na iterátoru je podstatné chování a nikoliv typ.
+Typ může být různý. Důležité je dodržení dohodnutého
+protokolu (tedy rozhraní a chování): poskytnutí
+hodnoty z procházené (iterované) kolekce 
+a signalizace dokončení průchodu celou kolekcí.
+Příklad typů iterátorů pro základní pythonovské
+datové typy:
+
+&gt;&gt;&gt;<i> i = iter([1, 2, 3,])
+</I>&gt;&gt;&gt;<i> i
+</I>&lt;listiterator object at 0x00A356F0&gt;
+&gt;&gt;&gt;<i> i = iter('abc')
+</I>&gt;&gt;&gt;<i> i
+</I>&lt;iterator object at 0x00A35570&gt;
+&gt;&gt;&gt;<i> i = iter({'a': 1, 'b': 2})
+</I>&gt;&gt;&gt;<i> i
+</I>&lt;dictionary-keyiterator object at 0x00A356E0&gt;
+
+Iterátory v čistém slova smyslu jsou spojeny
+se skutečnými kolekcemi a zpřístupňují objekty
+do nich zařazené. Generátory jsou výhodným
+zobecněním. Liší se tím, že vracejí hodnoty
+fiktivní kolekce, potenciálně nekonečné:
+
+&gt;&gt;&gt;<i> def g():
+</I>...     n = 0
+...     while True:
+...         yield n
+...
+&gt;&gt;&gt;<i> g
+</I>&lt;function g at 0x00A33BF0&gt;
+&gt;&gt;&gt;<i> i = g()
+</I>&gt;&gt;&gt;<i> i
+</I>&lt;generator object at 0x00A37418&gt;
+
+Podstatné je to, že generátory podporují
+stejné rozhraní (metody __iter__() a next())
+
+&gt;&gt;&gt;<i> dir(i)
+</I>['__class__', '__delattr__', '__doc__', '__getattribute__', '__hash__', '__init__', '__iter__', '__n
+ew__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__str__', 'close', 'gi_frame', 'gi
+_running', 'next', 'send', 'throw']
+&gt;&gt;&gt;<i> ii = i.__iter__()
+</I>&gt;&gt;&gt;<i> ii
+</I>&lt;generator object at 0x00A37418&gt;
+&gt;&gt;&gt;<i> i2 = g()
+</I>&gt;&gt;&gt;<i> i2
+</I>&lt;generator object at 0x00A37440&gt;
+
+Generátory lze proto využít pro implementaci
+iterátoru našich vlastních datových typů.
+
+Protokol iterátorů podporují i objekty jiných
+typů, jako je například otevřený souborový objekt:
+
+&gt;&gt;&gt;<i> f = open('a.txt')
+</I>&gt;&gt;&gt;<i> f
+</I>&lt;open file 'a.txt', mode 'r' at 0x00A36338&gt;
+&gt;&gt;&gt;<i> dir(f)
+</I>['__class__', '__delattr__', '__doc__', '__enter__', '__exit__', '__getattribute__', '__hash__', '__
+init__', '__iter__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__str__',
+ 'close', 'closed', 'encoding', 'fileno', 'flush', 'isatty', 'mode', 'name', 'newlines', 'next', 're
+ad', 'readinto', 'readline', 'readlines', 'seek', 'softspace', 'tell', 'truncate', 'write', 'writeli
+nes', 'xreadlines']
+
+Nedá se tedy říci, že typ iterátoru je podstatný.
+Podstatná je jejich funkčnost. Rozhodně nejsou
+na ústupu. Spíše naopak. Prorůstají celým 
+Pythonem. Představují podstatnou inovaci, která
+přirozeným způsobem pomohla zobecnit například
+konstrukci, které se dříve říkalo &quot;počítaný cyklus&quot;
+(tedy cyklus for). Jejich skrytým využitím se 
+zobecnil na cyklus, kterému se jinde říká
+&quot;for each&quot; a odpovídá matematickému vyjádření
+&quot;pro všechny prvky...&quot;.
+
+Do budoucna bude možné za určitých předpokladů
+iterátory využít k paralelizaci úloh (souběžné 
+zpracování iterovaných prvků více procesy nebo 
+procesory). Jsou pro tento účel mnohem vhodnější,
+než například počítaný cyklus, protože pokud 
+říkají něco o způsobu průchodu kolekcí, pak jde
+jen o dohodu -- implementační, ne nezbytný rys.
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005805.html">[python] XML PARSER
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005812.html">[python] Jakého typu je iterátor?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5807">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5807">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5807">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5807">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005807.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:10 GMT -->
+</html>

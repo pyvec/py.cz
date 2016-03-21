@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008578.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:05 GMT -->
+<HEAD>
+   <TITLE> [python] Unicode v databazi utf8
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode%20v%20databazi%20utf8&In-Reply-To=%3Cfcba3d560901180709i431def6eo68d18eddb2118754%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008577.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008579.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Unicode v databazi utf8</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode%20v%20databazi%20utf8&In-Reply-To=%3Cfcba3d560901180709i431def6eo68d18eddb2118754%40mail.gmail.com%3E"
+       TITLE="[python] Unicode v databazi utf8">rainbof na gmail.com
+       </A><BR>
+    <I>Neděle Leden 18 16:09:40 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008577.html">[python] Unicode v databazi utf8
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008579.html">[python] Unicode v databazi utf8
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8578">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8578">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8578">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8578">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>- K pouziti, nebude to na webu pujde jen o filtr fora ktery se bude starat o
+jiste souvztaznosti. jednotlivych prispevku.
+No co je to PEP vubec nevim. Rad si necham poradit (nasel jsem toto
+<A HREF="http://www.python.org/dev/peps/pep-0249/">http://www.python.org/dev/peps/pep-0249/</A> a to si v tydnu postupne prostuduji
+jen co se mi to povede nekde vytisknout)
+- Zda se ze charset v connection a mimo dela to same zrejme to slouzi ke
+cteni dat z tabulek s jinou znakovou sadou. Kazdopadne jsem si pridal
+charset do connect
+- pokud bych smel poprosit o priklad , jak by melo vypadat schema kdy prectu
+pomoci dotazu hodnotu a zase ji spravne ulozim ?
+
+Ondrej Beranek
+
+Dne 18. leden 2009 15:30 Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.messner na gmail.com</A>&gt; napsal(a):
+
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> execute(&quot;sql prikaz a v nem %s&quot; % promennaOdUZivatele) neni osetreno
+</I>&gt;<i> proti stavu, kdy v promenne budou apostrofy, natoz proti SQL
+</I>&gt;<i> injection. Vola se to takto: execute(&quot;sql prikaz a v nem %s&quot;,
+</I>&gt;<i> promennaOdUZivatele). Ono si to tu operaci &quot;%&quot; (cili naformatovani
+</I>&gt;<i> nebo jak to chceme nazyvat) provede samo a zaroven to odescapuje
+</I>&gt;<i> nebezpecne znaky. Viz prislusne PEP, tusim ze je to PEP 249.
+</I>
+
+
+
+&gt;<i>
+</I>&gt;<i> Mimochodem, informace o kodovani se da dat uz funkci MySQLdb.connect.
+</I>&gt;<i> Databaze pak pracuje s a vraci unicode (tam kde je to relevantni).
+</I>&gt;<i> conn.set_character_set() mozna dela to same, nevim.
+</I>
+
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Problem je, ze '\xa1[' neni validni retezec v kodovani UTF-8. Proto
+</I>&gt;<i> nefunguje x.decode(). MySQL to mozna take neumi prevest do utf-8,
+</I>&gt;<i> pokud to neukladas do blobu, ale do napr. textoveho sloupce s
+</I>&gt;<i> kodovanim utf8, i kdyz ve tvem pripade je to spis tim, ze v c.execute
+</I>&gt;<i> pouzivas operator %, jak jsem jiz psal, a tudiz problem s prevodem do
+</I>&gt;<i> utf-8 je uz na strane Pythonu/db ovladace.
+</I>
+
+
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Snad jsem nic nepopletl, vyzkousel jsem si to :) Zdravim,
+</I>&gt;<i>
+</I>&gt;<i> PM
+</I>&gt;<i>
+</I>&gt;<i> Predpokladam, ze pracujeme v Python 2.x.
+</I>&gt;<i>
+</I>&gt;<i> 2009/1/18 Ondrej Beranek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;:
+</I>&gt;<i> &gt; Tak jsem se dostal ve svem putovani Py svetem k dalsi zahade.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; pokousim se provest zapis do tabulky ovsem pokud string obsahuje nejake
+</I>&gt;<i> &gt; nevhodne znaky tak se to neprovede a prevest mi to proste nejde.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; provadim toto:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; import _mysql
+</I>&gt;<i> &gt; import MySQLdb
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; conn = MySQLdb.connect (host = &quot;localhost&quot;,
+</I>&gt;<i> &gt;                         user = &quot;root&quot;,
+</I>&gt;<i> &gt;                         passwd = &quot;&quot;,
+</I>&gt;<i> &gt;                         db = &quot;databaze&quot;)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; conn.set_character_set('utf8')
+</I>&gt;<i> &gt; spojeni = conn.cursor ()
+</I>&gt;<i> &gt; x='url=\xa1[img'
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; spojeni.execute(&quot;UPDATE databaze.phpbb3_posts SET post_text = '%s' WHERE
+</I>&gt;<i> &gt; phpbb3_posts.post_id =637797 LIMIT 1 ;&quot;%x)
+</I>&gt;<i> &gt; spojeni.close()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; a zde dostanu hlaseni
+</I>&gt;<i> &gt; &quot;Warning: Incorrect string value: '\xA1[img' for column 'post_text' at
+</I>&gt;<i> row
+</I>&gt;<i> &gt; 1&quot;
+</I>&gt;<i> &gt; coz mi teda neni jasne string jako string. navic toto jsem z db prve
+</I>&gt;<i> precetl
+</I>&gt;<i> &gt; a ted to potrebuju jen vratit zpet na puvodni misto ve tvaru v jakem to
+</I>&gt;<i> tam
+</I>&gt;<i> &gt; bylo.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; No rekneme ze tedy neni slusne do databaze cpat unicode ovsem ono to
+</I>&gt;<i> spadne
+</I>&gt;<i> &gt; i u prevodu
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; print x.decode('utf-8')
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; mi zakrici: UnicodeDecodeError: 'utf8' codec can't decode byte 0xa1 in
+</I>&gt;<i> &gt; position 4: unexpected code byte
+</I>&gt;<i> &gt; takze ted nejak nevim kudy kam.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- dal?í ?ást ---------------
+HTML p?íloha byla odstran?na...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090118/697a112f/attachment.htm">http://www.py.cz/pipermail/python/attachments/20090118/697a112f/attachment.htm</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008577.html">[python] Unicode v databazi utf8
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008579.html">[python] Unicode v databazi utf8
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8578">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8578">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8578">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8578">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008578.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:05 GMT -->
+</html>

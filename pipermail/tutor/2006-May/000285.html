@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-May/000285.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Akce nad soubory konkretniho typu v adresarove	strukture
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Akce%20nad%20soubory%20konkretniho%20typu%20v%20adresarove%0A%09strukture&In-Reply-To=004301c66eb1%24bb11a3c0%24880ba8c0%40mediaresearch.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-May/000291.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-May/000288.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Akce nad soubory konkretniho typu v adresarove	strukture</H1>
+    <B>Jiri Vit</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Akce%20nad%20soubory%20konkretniho%20typu%20v%20adresarove%0A%09strukture&In-Reply-To=004301c66eb1%24bb11a3c0%24880ba8c0%40mediaresearch.cz"
+       TITLE="[Tutor PyCZ] Akce nad soubory konkretniho typu v adresarove	strukture">jirivit na jirivit.com
+       </A><BR>
+    <I>Středa Květen  3 16:05:47 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000291.html">[Tutor PyCZ] narocnejsi vystup na konzoli
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000288.html">[Tutor PyCZ] Fwd: Re: Akce nad soubory konkretniho typu v	adresarove strukture
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/date.html#285">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/thread.html#285">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/subject.html#285">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/author.html#285">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+jde to jednoduseji (podle me). Napr. chci najit mptrojky v podrizenych 
+adresarich: 
+
+import os,re
+MEDIA_FILE = re.compile('.mp3$',re.I)
+
+def funkce(arg,subfolder,filelist):
+    &quot;&quot;&quot;Tato funkce je volana pro kazdy podadresar, vytvori cesty k souborum
+       s mp3 extenzi &quot;&quot;&quot;
+    songs = [os.path.join(subfolder,filename) for filename in filelist  
+            if MEDIA_FILE.search(filename)]
+    if songs != []: print songs
+    
+os.path.walk(os.getcwd(),funkce,None)
+
+
+On Wed, 3 May 2006 15:01:45 +0200, dam wrote
+&gt;<i> Ahoj,
+</I>&gt;<i> seznamuju se s pythonem, resil jsem jednoduchou ulohu: projit adresarovou
+</I>&gt;<i> strukturu a nad soubory nejakeho konkretniho typu udelat nejakou 
+</I>&gt;<i> akci. Po chvilce laborovani jsem vyplodil nasledujici, ale proste se 
+</I>&gt;<i> nemuzu zbavit pocitu, ze by to melo jit lip (treba jen to 
+</I>&gt;<i> vyhodnoceni, zda je soubor prislusneho typu celkem taha za oci). 
+</I>&gt;<i> Takze spis namet na diskusi:
+</I>&gt;<i> 
+</I>&gt;<i> import os
+</I>&gt;<i> 
+</I>&gt;<i> def walkdir(folder):
+</I>&gt;<i>     for root, dirs, files in os.walk(folder):
+</I>&gt;<i>         for file in filter(lambda s: s.endswith('.tmp'), files):	
+</I>&gt;<i>            print root, ' - ', file
+</I>&gt;<i>            akce(root + file)
+</I>&gt;<i> 
+</I>&gt;<i> walkdir(dir)
+</I>&gt;<i> 
+</I>&gt;<i> Dik za nazory, ikdyz ocekavam, ze budou spise kriticke, rad se 
+</I>&gt;<i> priucim (-: 	David
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>
+
+--
+Jiri Vit
+tel.  608182795
+skype: muf211
+mail: <A HREF="http://www.py.cz/mailman/listinfo/tutor">jirivit na jirivit.com</A>
+web:  <A HREF="http://jirivit.com/">http://jirivit.com</A>
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000291.html">[Tutor PyCZ] narocnejsi vystup na konzoli
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000288.html">[Tutor PyCZ] Fwd: Re: Akce nad soubory konkretniho typu v	adresarove strukture
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/date.html#285">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/thread.html#285">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/subject.html#285">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/author.html#285">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-May/000285.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

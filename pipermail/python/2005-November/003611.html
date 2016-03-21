@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-November/003611.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:19 GMT -->
+<HEAD>
+   <TITLE> [python] SAX
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20SAX&In-Reply-To=436BB364.1070807%40premiumsms.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-November/003610.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-November/003612.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] SAX</H1>
+    <B>tdc</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20SAX&In-Reply-To=436BB364.1070807%40premiumsms.cz"
+       TITLE="[python] SAX">tdc na phreaker.net
+       </A><BR>
+    <I>Sobota Listopad  5 13:57:18 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003610.html">[python] SAX
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003612.html">[python] monitrování paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-November/date.html#3611">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/thread.html#3611">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/subject.html#3611">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/author.html#3611">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Nevim jak SAX (ten asi tezko), ale vim minimalne o dvou jinych kandidatech.
+
+s = &quot;&quot;&quot;
+&lt;html&gt;
+&lt;body&gt;
+&lt;/html&gt;
+&lt;/body&gt;
+&quot;&quot;&quot;
+
+1) balik twisted z <A HREF="http://twistedmatrix.com/">http://twistedmatrix.com/</A>
+
+from twisted.web import microdom
+x = microdom.parseString(s, beExtremelyLenient=1)
+print x.toprettyxml()
+
+2) modul BeautifulSoup z <A HREF="http://www.crummy.com/software/BeautifulSoup/">http://www.crummy.com/software/BeautifulSoup/</A>
+
+from BeautifulSoup import BeautifulSoup
+x = BeautifulSoup(s)
+print x.prettify()
+
+
+Nevyhody u obou - nemusi to opravit vsechno a je to POMALE! Na opravu 
+dat (napriklad z webu, kde o validite nemuzete rozhodnout sam) je to ok, 
+ale zpracovavat takto vetsi dokumenty (natozpak vlastni) je plytvani 
+strojovym casem. Pokud to XML generujete sam z nejakych vlastnich 
+zdroju, nemel by snad byt problem si validni XML vygenerovat. V kazdem 
+pripade tohle by mela byt opravdu posledni cesta, jak se ke spravnemu 
+XML dostat.
+
+tdc
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003610.html">[python] SAX
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003612.html">[python] monitrování paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-November/date.html#3611">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/thread.html#3611">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/subject.html#3611">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/author.html#3611">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-November/003611.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:19 GMT -->
+</html>

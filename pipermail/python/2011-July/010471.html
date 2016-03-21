@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-July/010471.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+<HEAD>
+   <TITLE> [python] email headers
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20email%20headers&In-Reply-To=%3C4E30560F.7040805%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-July/010470.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-July/010468.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] email headers</H1>
+    <B>Michal Molhanec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20email%20headers&In-Reply-To=%3C4E30560F.7040805%40seznam.cz%3E"
+       TITLE="[python] email headers">mol-python na seznam.cz
+       </A><BR>
+    <I>Středa Červenec 27 20:16:47 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-July/010470.html">[python] email headers
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-July/010468.html">[python] email headers
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-July/date.html#10471">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/thread.html#10471">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/subject.html#10471">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/author.html#10471">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne 27.7.2011 5:14, &quot;Ing. Vladislav Ludík&quot; napsal(a):
+&gt;<i> A ještě toto mi nedá spát:
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> jak zjistit obecně, které parametry se tak dají načíst z výše uvedené konstrukce z instance msg['parametr'] ?
+</I>
+jestli myslíte seznam hlaviček, tak ten lze zjistit msg.keys()
+
+&gt;<i> a dále:
+</I>&gt;<i> msg['date'] mi dá například výsledek:  Mon, 25 Jul 2011 12:07:26 +0200
+</I>&gt;<i> 
+</I>&gt;<i> Je v Pythonu funkce na převod do formátu pro zapsání do tabulky mysql, v tomto příkladu by to mělo být: 2011-07-25 14:07:26
+</I>&gt;<i> 
+</I>&gt;<i> Zatím to dělám dvěma dotazy sql:
+</I>&gt;<i> 
+</I>&gt;<i> SELECT STR_TO_DATE('Mon, 25 Jul 2011 12:07:26', '%a, %d %b %Y  %T ');
+</I>&gt;<i> a následně z jeho výsledku:
+</I>&gt;<i> SELECT CONVERT_TZ('2011-07-25 12:07:26','+00:00','+02:00');
+</I>
+&gt;&gt;&gt;<i> import datetime
+</I>&gt;&gt;&gt;<i> d=datetime.strptime('Mon, 25 Jul 2011 12:07:26 +0200', '%a, %d %b %Y %H:%M:%S +0200')
+</I>&gt;&gt;&gt;<i> d=d.replace(hour=d.hour+2)
+</I>&gt;&gt;&gt;<i> d.isoformat(' ')
+</I>'2011-07-25 14:07:26'
+
+(ale v zásadě nevidím důvod, proč to nenechat na databázi, ty funkce STR_TO_DATE ap. lze přece volat rovnou při INSERTu)
+
+-- 
+Zdraví,
+Michal Molhanec
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-July/010470.html">[python] email headers
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-July/010468.html">[python] email headers
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-July/date.html#10471">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/thread.html#10471">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/subject.html#10471">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-July/author.html#10471">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-July/010471.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+</html>

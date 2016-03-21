@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/007068.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:52 GMT -->
+<HEAD>
+   <TITLE> [python] [:lower:] apod.?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5B%3Alower%3A%5D%20apod.%3F&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-January/007067.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-January/007033.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] [:lower:] apod.?</H1>
+    <B>propanbutan</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5B%3Alower%3A%5D%20apod.%3F&In-Reply-To="
+       TITLE="[python] [:lower:] apod.?">propanbutan na gmx.net
+       </A><BR>
+    <I>Čtvrtek Leden 31 11:30:14 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007067.html">[python] [:lower:] apod.?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007033.html">[python] [:lower:] apod.?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#7068">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#7068">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#7068">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#7068">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Alexandr Rosen &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">alexandr.rosen na ff.cuni.cz</A>&gt; wrote:
+&gt;<i> 1. Jak udelat, aby v tom re_lower byly vsecky lowercase znaky z
+</I>&gt;<i> UTF-8? Tedy nejen ty z cp1250 nebo iso-8859-2, ale i iso-8859-1,
+</I>&gt;<i> iso-8859-5 (cyrilice), rectina, to by mozna uz stacilo... Spojit ty
+</I>&gt;<i> stringy a vyhodit duplicity? Nebo by to slo nejak jednodusejs?
+</I>
+spojit leda po prevedeni do unicode, pac ty hex-escaped znaky davaji
+smysl jen pro dane kodovani. nebo projet celou unicode tabulku jako
+vespod [1]
+
+&gt;<i> 2. Jak udelat, abych vstupni soubor v utf-8 nacet opravdu jako utf8
+</I>&gt;<i> string?
+</I>
+v pythonu mate bud objekt typu str, vite v jakem je kodovani, a do
+unicode reprezentace ho prevedete pomoci str.decode(obj, enc)
+
+&gt;&gt;&gt;<i> 'řř'.decode('iso-8859-2')
+</I>u'\u0159\u0159'
+
+nebo mate unicode, ktery pomoci unicode.encode prevedete do ceho
+to jen pujde
+
+&gt;&gt;&gt;<i> u'\0159\u0159'.encode('iso-8859-2')
+</I>'\xf8\xf8'
+&gt;&gt;&gt;<i> 'řř'.encode('hex')
+</I>'f8f8'
+
+vestaveny file cte a pise str, kdyz codecs.open [2] date kodovani,
+muzete cist a psat unicode
+
+[1] <A HREF="http://www.py.cz/pipermail/python/2008-January/007056.html">http://www.py.cz/pipermail/python/2008-January/007056.html</A>
+[2] <A HREF="http://docs.python.org/lib/module-codecs.html">http://docs.python.org/lib/module-codecs.html</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007067.html">[python] [:lower:] apod.?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007033.html">[python] [:lower:] apod.?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#7068">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#7068">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#7068">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#7068">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/007068.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:52 GMT -->
+</html>

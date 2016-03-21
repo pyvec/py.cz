@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010389.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+<HEAD>
+   <TITLE> [python] Divné chování os.walk
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDivn%3DE9_chov%3DE1n%3DED_os%3D2Ewalk%3F%3D&In-Reply-To=%3C32897.4305.8221-313-2084589367-1307089876%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010388.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010390.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Divné chování os.walk</H1>
+    <B>Petr Nesladek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDivn%3DE9_chov%3DE1n%3DED_os%3D2Ewalk%3F%3D&In-Reply-To=%3C32897.4305.8221-313-2084589367-1307089876%40seznam.cz%3E"
+       TITLE="[python] Divné chování os.walk">petr.nesladek na seznam.cz
+       </A><BR>
+    <I>Pátek Červen  3 10:31:16 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010388.html">[python] Divné chování os.walk
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010390.html">[python] učit Python 2.x nebo 3.x
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10389">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10389">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10389">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10389">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jak psal azurIt - měnit řídící pole v cyklu je nebezpečné - jinak ten skript dělá přesně co má:
+
+ - na řádku dirs.remove(name) - vyjme položku na kterou právě ukazuje cyklus
+ - pointer pak ukazuje na následující položku
+- a poté ji na řádku continue přeskočí na následující
+
+
+Takže myslím, že konstrukce :
+
+if self.exclude_dir(dirname):
+	continue;
+
+... a za ní zpracování  
+
+self.create_context(dirname,True);
+for file in files:
+     filename=os.path.join(root,file);
+     self.create_context(filename,False);
+
+bude naprosto funkční, a nebude třeba modifikovat řídící strukturu cyklu for
+
+
+Petr
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Filip Bartmann &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">filbar na centrum.cz</A>&gt;
+</I>&gt;<i> Předmět: [python] Divné chování os.walk
+</I>&gt;<i> Datum: 01.6.2011 17:21:41
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> V programu mám tento kód:
+</I>&gt;<i> ---------------------------------------------------------------------------
+</I>&gt;<i>  	def list_dir(self,dir):
+</I>&gt;<i>                 for root,dirs,files in os.walk(dir):
+</I>&gt;<i>                         print dirs;
+</I>&gt;<i>                         for name in dirs:
+</I>&gt;<i>                                 dirname=os.path.join(root,name);
+</I>&gt;<i>                                 if self.exclude_dir(dirname):
+</I>&gt;<i>                                         dirs.remove(name);
+</I>&gt;<i> 					continue;
+</I>&gt;<i>                                 print name;
+</I>&gt;<i>                                 self.create_context(dirname,True);
+</I>&gt;<i>                         for file in files:
+</I>&gt;<i>                                 filename=os.path.join(root,file);
+</I>&gt;<i>                                 self.create_context(filename,False);
+</I>&gt;<i>         
+</I>&gt;<i>         def exclude_dir(self,dir):
+</I>&gt;<i>                 for e in self.exclude:
+</I>&gt;<i>                         e=re.sub(&quot;/$&quot;,&quot;&quot;,e);
+</I>&gt;<i>                         if re.search(&quot;^&quot;+e,dir):
+</I>&gt;<i>                                 return True;
+</I>&gt;<i>                 return False;
+</I>&gt;<i> 
+</I>&gt;<i> --------------------------------------------------------------------------
+</I>&gt;<i> 
+</I>&gt;<i> Problém mi ale dělá podmínka exclude_dir, ona jaky by nevynechávala
+</I>&gt;<i> jenom zadaný adresář, ale mimo to i jeden navíc.
+</I>&gt;<i> 
+</I>&gt;<i> V dirs mám např(print dirs v kódu): ['usr', 'hosts', 'lib', 'selinux',
+</I>&gt;<i> 'etc', 'lib64', 'var', 'dev', 'bin', 'proc'] a na vynechání mám určene
+</I>&gt;<i> hosts. selinux a var, jenomže ono mi to projde jenom adresáře(print
+</I>&gt;<i> name v kódu):
+</I>&gt;<i> usr
+</I>&gt;<i> lib64
+</I>&gt;<i> bin
+</I>&gt;<i> 
+</I>&gt;<i> Tedy když chci vynechat třeba selinux, tak mi to vynechá i etc, ale
+</I>&gt;<i> zajímavé je, že podadresáře toho v tomto případě etc to vezme, ale v té
+</I>&gt;<i> samotné úrovni to přeskakuje jakoby oba dva adresáře.
+</I>&gt;<i> 
+</I>&gt;<i> Předem děkuji za odpověď.
+</I>&gt;<i> 
+</I>&gt;<i> Filip Bartmann
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010388.html">[python] Divné chování os.walk
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010390.html">[python] učit Python 2.x nebo 3.x
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10389">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10389">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10389">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10389">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010389.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+</html>

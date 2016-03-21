@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005513.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:32 GMT -->
+<HEAD>
+   <TITLE> [python] reportlab a čeština
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Freportlab_a_%3DE8e%3DB9tina%3F%3D&In-Reply-To=OF749E1FC7.24DC7FB5-ONC1257279.002FD235-C1257279.003070C7%40pds.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005502.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005501.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] reportlab a čeština</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Freportlab_a_%3DE8e%3DB9tina%3F%3D&In-Reply-To=OF749E1FC7.24DC7FB5-ONC1257279.002FD235-C1257279.003070C7%40pds.sk"
+       TITLE="[python] reportlab a čeština">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Únor  6 09:16:48 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005502.html">[python] reportlab a čeština
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005501.html">[python] CSIS Lead Investigation into heinous Terror Plot
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5513">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5513">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5513">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5513">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Toto 
+# -*- coding: iso-8859-2 -*- 
+u mna vo Windows nefunguje, ale funguje toto
+# -*- coding: cp1250 -*-
+Je to kodovanie v ktorom mas napisany Pythonovsky skript. 
+Myslim, ze cp1250 je vo windows (u nas) standard, alebo ty to robis na 
+Unixe?
+
+Font si sice zaregistroval ale zabudol si ho nastavit cez 
+canv.setFont(&quot;Arial&quot;, ...)
+
+Tu je cely skript, ktory mne funguje:
+
+--------------------------------- skript ---------------------------
+# -*- coding: cp1250 -*-
+
+import reportlab.rl_config
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfgen import canvas
+
+reportlab.rl_config.TTFSearchpath = '<A HREF="c://Windows//Fonts'">c://Windows//Fonts'</A>
+pdfmetrics.registerFont(TTFont('Arial','arial.ttf'))
+
+def run():
+ 
+    t1= 'Bez diakritiky : e-s-c-r-z-y-a-i-e-d-t-n-E-S-C-R-Z-Y-A-I-E-D-T-N'
+    t2= u'S diakritikou  : 
+ě-š-č-ř-ž-ý-á-í-é-ď-ť-ň-Ě-Š-Č-Ř-Ž-Ý-Á-Í-É-Ď-Ť-Ň'
+    canv = canvas.Canvas('Test.pdf')
+    canv.setFont(&quot;Arial&quot;, 10) 
+    canv.drawString(120,600,t1)
+    canv.drawString(120,580,t2.encode('utf-8'))
+    canv.save()
+
+if __name__ == '__main__':
+
+     run()
+---------------------------------- konec ------------------------- 
+
+a tu je vysledok
+
+
+
+
+
+
+*************************************************************************************************************
+Výsledek je v příloze. Asi to fakt neumím.
+
+Můžu ještě poprosit o pomoc?
+
+Děkuji Ludík
+
+Napsal jsem podle návodu, snad přesně:
+
+# -*- coding: iso-8859-2 -*-
+
+import reportlab.rl_config
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfgen import canvas
+
+reportlab.rl_config.TTFSearchpath = 'c:/Windows/Fonts'
+pdfmetrics.registerFont(TTFont('Arial','arial.ttf'))
+
+def run():
+ 
+    t1= 'Bez diakritiky : e-s-c-r-z-y-a-i-e-d-t-n-E-S-C-R-Z-Y-A-I-E-D-T-N'
+    t2= 'S diakritikou  : '+ 
+u'ě-š-č-ř-ž-ý-á-í-é-ď-ť-ň-Ě-Š-Č-Ř-Ž-Ý-Á-Í-É-Ď-Ť-Ň'
+    canv = canvas.Canvas('Test.pdf',)
+    canv.drawString(120,600,t1)
+    canv.drawString(120,580,t2.encode('utf-8'))
+    canv.save()
+
+if __name__ == '__main__':
+
+     run()
+
+
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20070206/75f70010/attachment.htm">http://www.py.cz/pipermail/python/attachments/20070206/75f70010/attachment.htm</A> 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: Test.pdf
+Typ: application/octet-stream
+Velikost: 2414 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20070206/75f70010/attachment.obj">http://www.py.cz/pipermail/python/attachments/20070206/75f70010/attachment.obj</A> 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: Test.pdf
+Typ: application/octet-stream
+Velikost: 21320 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20070206/75f70010/attachment-0001.obj">http://www.py.cz/pipermail/python/attachments/20070206/75f70010/attachment-0001.obj</A> 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: test.py
+Typ: application/octet-stream
+Velikost: 680 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20070206/75f70010/attachment-0002.obj">http://www.py.cz/pipermail/python/attachments/20070206/75f70010/attachment-0002.obj</A> 
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005502.html">[python] reportlab a čeština
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005501.html">[python] CSIS Lead Investigation into heinous Terror Plot
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5513">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5513">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5513">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5513">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005513.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:32 GMT -->
+</html>

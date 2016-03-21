@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000525.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+<HEAD>
+   <TITLE> [python] globalni promenne
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20promenne&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-February/000528.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-February/000527.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] globalni promenne</H1>
+    <B>Zdenek Pavlas</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20promenne&In-Reply-To="
+       TITLE="[python] globalni promenne">zdenek.pavlas na nextra.cz
+       </A><BR>
+    <I>Čtvrtek Únor 13 14:13:55 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000528.html">[python] globalni promenne
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000527.html">[python] globalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#525">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#525">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#525">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#525">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Svec wrote:
+
+&gt;<i> Pokud se nemylim, tak lze provest 'import __main__'...
+</I>
+Aha, to jsem nevedel.. Zkusil jsem a funguje to.. super.
+
+&gt;<i> Muj nazor na tento thread zni takto: globalni promenne jsou
+</I>&gt;<i> prezitek. Pokud touzite po jakemsi zapouzdreni, pouzijte
+</I>&gt;<i> OOP!
+</I>
+Silne nesouhlasim. Velmi casto potrebujete &quot;globalni kontext&quot;,
+ktery uchovava takove veci jako DB connection, ruzne konfiguracni
+parametry, logovaci subsystem a jeho parametry, atd..
+
+Posilat tento kontext jako dalsi atribut do kazde funkce
+je zbytecny overhead, stejne tak cpat jej do kazdeho objektu
+jako instance attribut.
+
+Me se treba osvedcilo v kazde aplikaci dat do __builtins__
+vlastni funkci 'log ()' pro logovani, a dictionary 'conf'
+kde je rozparsovan config file.
+
+Proste pokud mate singleton objekt ke kteremu pristupujete
+&quot;vlastne porad&quot;, je rozumne mit jej globalni.
+
+&gt;<i> Ale protoze Python je jazyk objektovy (nikdo mi to
+</I>&gt;<i> nevymluvi), tak zde existuji objekty, na ktere vytvarim
+</I>&gt;<i> odkazy. A pokud si v lokalnim prostoru (nebo jakemkoli jinem)
+</I>&gt;<i> vytvorim odkaz, pak odkazuje na objekt, cili pokud v
+</I>
+V tomhle je v pythonu docela bordel. &quot;Odkaz&quot; muzete vzit
+i na dictionary nebo list ktere ale nejsou objekty (nejde
+je subclassovat), a to prestoze maji metody.
+
+&gt;<i> nepromitne! Kolikrate jsem premyslel (k implementaci jsem se
+</I>&gt;<i> nedostal) nad tim vytvorit objekt &quot;odkaz&quot;, ktery by pracoval
+</I>&gt;<i> jako proxy a ktery by si pamatoval jmeno promenne na kterou
+</I>&gt;<i> ukazuje a tu by take modifikoval. Zatim jsem ho nakonec
+</I>&gt;<i> nikdy nepotreboval.
+</I>
+Tohle uz myslim v pythonu je, viz &quot;bastion&quot; a podobne.
+Funguje to ale pouze nad pythonovskym objektem.
+
+&gt;<i> Je vsak treba pripomenout, ze globalni promenne a jejich
+</I>&gt;<i> pouzivani svedci o spatnem navrhu a ze &quot;Neco shnileho je ve
+</I>&gt;<i> state Danskem.&quot; Stejne tak by dobre navrzeny program mel jit
+</I>&gt;<i> rozdelit do modulu v libovolne fazi vyvoje. Pokud tak tomu
+</I>&gt;<i> neni, dozajista jste porusil jedno z pravidel programovani:
+</I>&gt;<i> Think first, program latter.
+</I>
+Bullshit. Nepisete nahodou v Hungarian notation? :) Debata je
+o nicem protoze lokalni promenne neexistuji. Je jedno globalni
+pole a to se (ruznym zpusobem) indexuje.
+
+&gt;<i> A jeste jedno, nedokazu si predstavit vase starosti, pokud
+</I>&gt;<i> byste se rozhodl zmenit architekturu programu (napr.
+</I>&gt;<i> pouzivani vlaken apod). Nechci vam do niceho zasahovat, ale
+</I>&gt;<i> Python si urcite zaslouzi programovat v nem objektove.
+</I>
+OOP je ok- pro veci na ktere se hodi.
+
+-- 
+Zdenek Pavlas
+Application Developer
+NEXTRA Czech Republic s.r.o.  <A HREF="http://www.nextra.cz/">http://www.nextra.cz</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000528.html">[python] globalni promenne
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000527.html">[python] globalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#525">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#525">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#525">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#525">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000525.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+</html>

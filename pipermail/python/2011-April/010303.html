@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010303.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:59 GMT -->
+<HEAD>
+   <TITLE> [python] Vytvoreni obrazovky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Vytvoreni%20obrazovky&In-Reply-To=%3CBANLkTi%3DYQ293P9xBzcopvsu-xuyzxMAi8Q%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-April/010298.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-April/010299.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vytvoreni obrazovky</H1>
+    <B>Visgean Skeloru</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Vytvoreni%20obrazovky&In-Reply-To=%3CBANLkTi%3DYQ293P9xBzcopvsu-xuyzxMAi8Q%40mail.gmail.com%3E"
+       TITLE="[python] Vytvoreni obrazovky">visgean na gmail.com
+       </A><BR>
+    <I>Úterý Duben 19 22:37:43 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010298.html">[python] Vytvoreni obrazovky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010299.html">[python] Nastavení default kódování print-u (je?t? jednou)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10303">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10303">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10303">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10303">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ehm, když už jsme u té práce s terminálem, zná někdo nějaký modul na
+vytváření oken v terminálu? Mám na mysli něco lehce použitelného, vím že je
+tu urwid a ty curses ale obojí mi to přijde dost neohrabané. Asi
+nejpoužitelnější mi přijde python-dialog ale ten zase neposkytuje moc věcí a
+vypadá to že projekt už je dost dlouho bez vývoje (ale stále funkční)...
+
+
+2011/4/18 David Rohleder &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>&gt;
+
+&gt;<i> Osobně si myslím, že použití knihovny curses bude asi nejlepší, skryje
+</I>&gt;<i> rozdíly mezi jednotlivými typy terminálů a dá se kreslit třeba na určité
+</I>&gt;<i> místo, takže celkem použitelné, akorát asi zdlouhavé.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Petr Messner píše v Po 18. 04. 2011 v 14:01 +0200:
+</I>&gt;<i> &gt; Ahoj,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; příkaz clear jen pošle na výstup speciální sekvenci, které tvůj
+</I>&gt;<i> &gt; terminál porozumí a smaže se:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; $ clear | hd
+</I>&gt;<i> &gt; 00000000  1b 5b 48 1b 5b 32 4a                              |.[H.[2J|
+</I>&gt;<i> &gt; 00000007
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Takže v Pythonu můžeš udělat to samé:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; print &quot;\x1b[H\x1b[2J&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Akorát ta speciální sekvence se může lišit podle typu terminálu - tomu
+</I>&gt;<i> &gt; už ale moc nerozumím, jde spíš o historické souvislosti.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Nebo si ten příkaz clear můžeš spustit přímo z Pythonu:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; os.system('clear')
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; PM
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; 2011/4/18 Petr Hráček &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">phracek na gmail.com</A>&gt;:
+</I>&gt;<i> &gt; &gt; Ahoj vsichni,
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt; chci se Vas zeptat na jednu drobnost tykajici se Linux obrazovky (ne
+</I>&gt;<i> &gt; &gt; GUI).
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt; Chtel bych vytvorit obrazovky tak, aby prvni 4 radky od vrchu meli
+</I>&gt;<i> &gt; &gt; strukturu jako:
+</I>&gt;<i> &gt; &gt; 1) aaaa
+</I>&gt;<i> &gt; &gt; 2) bbbb
+</I>&gt;<i> &gt; &gt; 3) cccc
+</I>&gt;<i> &gt; &gt; 4) dddd
+</I>&gt;<i> &gt; &gt; Vas vstup: --&gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt; a az do konce obrazovky prazdno. Lze to nejak udelat?
+</I>&gt;<i> &gt; &gt; V Perl existuje prikaz `clear`, ale v Pythonu jsem nic podobneho
+</I>&gt;<i> &gt; &gt; nenasel.
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt; Diky moc za rady
+</I>&gt;<i> &gt; &gt; Petr
+</I>&gt;<i> &gt; &gt; _______________________________________________
+</I>&gt;<i> &gt; &gt; Python mailing list
+</I>&gt;<i> &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i> David Rohleder                                         <A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>
+</I>&gt;<i> Institute of Computer Science, Masaryk University
+</I>&gt;<i> Brno, Czech Republic
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20110419/467dca63/attachment.html">http://www.py.cz/pipermail/python/attachments/20110419/467dca63/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010298.html">[python] Vytvoreni obrazovky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010299.html">[python] Nastavení default kódování print-u (je?t? jednou)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10303">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10303">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10303">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10303">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010303.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:59 GMT -->
+</html>

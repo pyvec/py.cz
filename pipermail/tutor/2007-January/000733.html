@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-January/000733.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:07 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Canas.scale()
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Canas.scale%28%29&In-Reply-To=000801c73402%247b07b4b0%246e7ba8c0%40python00sz8iw8">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2007-January/000732.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Canas.scale()</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Canas.scale%28%29&In-Reply-To=000801c73402%247b07b4b0%246e7ba8c0%40python00sz8iw8"
+       TITLE="[Tutor PyCZ] Canas.scale()">geon na post.cz
+       </A><BR>
+    <I>Sobota Leden 13 19:49:35 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-January/000732.html">[Tutor PyCZ] Canas.scale()
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-January/date.html#733">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-January/thread.html#733">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-January/subject.html#733">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-January/author.html#733">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jakub Vojacek napsal(a):
+&gt;<i> Ahoj
+</I>&gt;<i>  
+</I>&gt;<i> dělám na jednom prográmku co využívá canvas a potřeboval bych občas 
+</I>&gt;<i> oddáli obsah... na to by měla být funkce scale().
+</I>&gt;<i> Ale já nevím jak ji použít na oddálení. vždy se mi podařilio pouze 
+</I>&gt;<i> přiblížit. děkuju 
+</I>trochu upravený 
+<A HREF="http://mail.python.org/pipermail/python-bugs-list/1999-November/000302.html">http://mail.python.org/pipermail/python-bugs-list/1999-November/000302.html</A>
+(hledal jsem &quot;tkinter canvas scale)
+
+from Tkinter import 
+*                                                         
+#                                                                              
+
+# Create 
+widgets                                                              
+#                                                                              
+
+root = 
+Tk()                                                                   
+canvas = Canvas( root, width = 300, height = 300 
+)                            
+canvas.pack()                                                                  
+
+canvas.create_rectangle( (-100,-100,100,100), outline = &quot;#008000&quot;, 
+fill=&quot;#800000&quot;, width = 3 )     
+canvas.create_line( (-100,-100,100,100),fill=&quot;blue&quot;, width=3 
+)                                    
+canvas.create_line( (-100,100,100,-100),fill=&quot;blue&quot;, width=3 
+)                                    
+canvas.config( scrollregion = canvas.bbox( ALL ) 
+)                            
+#                                                                              
+
+# Zoom the canvas until it's bounds get toasted because they exceed 
+MAXINT    
+#                                                                              
+
+def TimerCB( canvas=canvas 
+):                                                 
+  old = canvas.bbox( ALL 
+)                                                    
+  canvas.scale( ALL, 0.0, 0.0, 0.5, 0.5 
+)                                     
+  new = canvas.bbox( ALL 
+)                                                    
+  print &quot;Old = %s, New = %s&quot; % ( old, new 
+)                                   
+  if new == 
+None:                                                             
+    raise SystemError, &quot;canvas's bbox is toast (exceeds signed 
+MAXINT)&quot;       
+  canvas.after( 300, TimerCB )         
+ 
+                                        
+print &quot;CANVAS ZOOM BLOW-UP 
+TEST:\n&quot;                                           
+canvas.after( 1500, TimerCB 
+)                                                 
+root.mainloop()   
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-January/000732.html">[Tutor PyCZ] Canas.scale()
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-January/date.html#733">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-January/thread.html#733">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-January/subject.html#733">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-January/author.html#733">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-January/000733.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:07 GMT -->
+</html>

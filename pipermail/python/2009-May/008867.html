@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-May/008867.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:33 GMT -->
+<HEAD>
+   <TITLE> [python] access soubor - vytvoření relací
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Faccess_soubor_-_vytvo%3DF8en%3DED_relac%3DED%3F%3D&In-Reply-To=%3COF55A379B3.5697DE36-ONC12575AD.0057EC96-C12575AD.005A9673%40pss.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-May/008866.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-May/008868.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] access soubor - vytvoření relací</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Faccess_soubor_-_vytvo%3DF8en%3DED_relac%3DED%3F%3D&In-Reply-To=%3COF55A379B3.5697DE36-ONC12575AD.0057EC96-C12575AD.005A9673%40pss.sk%3E"
+       TITLE="[python] access soubor - vytvoření relací">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Květen  5 18:29:28 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008866.html">[python] access soubor - vytvoření relací
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008868.html">[python] access soubor - vytvoření relací
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-May/date.html#8867">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/thread.html#8867">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/subject.html#8867">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/author.html#8867">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ked su na to SQL-prikazy mohlo by to fungovat.
+Mimochodom ked som zadal do Googlu 
+<A HREF="http://www.google.sk/search?hl=sk&amp;q=data+relation+ADO&amp;meta=&amp;aq=f&amp;oq=">http://www.google.sk/search?hl=sk&amp;q=data+relation+ADO&amp;meta=&amp;aq=f&amp;oq=</A>
+tak mi to vyhodilo same linky suvisiace s ADO.NET - napriklad tu 
+
+<A HREF="http://www.c-sharpcorner.com/UploadFile/cvinodkumar/DataRelationVK11292005072318AM/DataRelationVK.aspx">http://www.c-sharpcorner.com/UploadFile/cvinodkumar/DataRelationVK11292005072318AM/DataRelationVK.aspx</A>
+
+Predpokladam, ze ADO na to nema metody, iba ADO.NET.
+
+ADO.NET je odlisne od ADO. Napriklad namiesto objektu Recordset sa pouziva 
+DataSet, ktory moze obsahovat viac tabuliek. 
+Ale na vytvorenie relacie ma objekt typu DataSet metodu (ako vidiet na 
+priklade v horeuvedenom linku: DataSet.Relations.Add() )
+
+ADO.NET som skusal s IronPythonom ( <A HREF="http://www.codeplex.com/IronPython">http://www.codeplex.com/IronPython</A> ). 
+Ak by si to chcel skusit s IronPythonom, tak tu je maly zdrojak jak sa s 
+tym robi, Zvysok odkukas zo zdrojakov C# alebo VB.NET
+(Negarantujem ci zdrojak 100% funguje, lebo teraz IronPython nainstalovany 
+nemam).
+
+
+&quot;&quot;&quot;
+Pouzitie ADO.NET pre pristup do AS/400
+s vyuzitim DataSet a DataAdapter
+&quot;&quot;&quot;
+csebk ='nejaka_as400'
+userid='nejake_id'
+pwd   ='nejake_heslo'
+
+### Pouzitie ADO.NET
+import clr
+import System
+clr.AddReference(&quot;System.Data&quot;)
+import System.Data
+
+from System.Data.OleDb import OleDbConnection as dbconnection
+from System.Data.OleDb import OleDbDataAdapter as dbdataadapter
+from System.Data import DataSet as dataset
+
+# Connection String
+connectstr='PROVIDER=IBMDA400.DataSource.1;DATA SOURCE='+csebk+'; USER ID=
+'+userid+'; PASSWORD='+pwd
+#print connectstr
+
+# Vytvorit spojenie
+dbconn=dbconnection(connectstr)
+dbconn.Open()
+
+# Vytvorit SQL Statement
+sqlStatement = &quot;SELECT * FROM r000100T.r000270V&quot;
+#sqlStatement = &quot;SELECT * FROM r000100T.p400100v&quot;
+# DataAdapter
+da = dbdataadapter(sqlStatement, dbconn)
+
+# Vytvorit DataSet
+#ds = System.Data.DataSet(&quot;MyDataSet&quot;)
+ds=dataset(&quot;MyDataSet&quot;)
+
+# Naplnit Dataset
+da.Fill(ds, &quot;MyTable&quot;)
+
+# Vylistovat tabulky v DataSete
+for table in ds.Tables:
+  print table
+
+# Vylistovat vybrane polia vo vsetkych riadkoch 1.tabulky DataSetu
+count=0
+for row in ds.Tables[0].Rows:
+  count +=1
+  print &quot;%10s %10s %10s %10s&quot; % (row[0], row[1], row[2], row[3])
+
+print &quot;pocet viet v tabulke je: %d&quot; % count
+
+# Ukoncit spojenie
+dbconn.Close()
+
+
+
+
+
+
+
+From:
+Ondrej Beranek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;
+To:
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+Date:
+05.05.2009 17:58
+Subject:
+Re: [python] access soubor - vytvoření relací
+Sent by:
+<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+
+
+
+Uz to odkoukavam tady:
+
+<A HREF="http://msdn.microsoft.com/en-us/library/bb243835.aspx">http://msdn.microsoft.com/en-us/library/bb243835.aspx</A>
+
+pokusim se to tam naprat jako sadu SQL prikazu.
+
+2009/5/5 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A>&gt;
+Jake relacie myslis?   
+S Accessom nepracujem, ale ak to co chces ide vseobecne cez ADO, tak sa to 
+da odkukat z nejakych prikladov napr. vo Visual Basicu a malo by to 
+fungovat aj v Pythone podobnym sposobom. 
+
+
+
+
+From: 
+Ondrej Beranek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt; 
+To: 
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt; 
+Date: 
+05.05.2009 17:03 
+Subject: 
+Re: [python] access soubor - vytvoření relací
+Sent by: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+
+
+
+
+Přes ADO to vypadá jednoduše. Nenašel jsem ale způsob jak to donutit 
+tvořit relace mezi tabulkami.
+
+2009/5/5 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A>&gt; 
+Ja pouzivam ADO: 
+Priklad spracovanie (update) *.dbf suboru: 
+
+#
+&quot;&quot;&quot;
+Spracovanie DBF databazy pomocou ADO
+&quot;&quot;&quot;
+import string
+# Pouzitie ADO
+import win32com.client
+conn=win32com.client.Dispatch('ADODB.Connection')
+# Connection String
+DSN='Provider=Microsoft.Jet.OLEDB.4.0;Data Source=d:\Perl_Python\Database;
+\
+        Extended Properties=FoxPro 3.0;'
+# print DSN
+conn.Open(DSN)
+rs = win32com.client.Dispatch('ADODB.Recordset')
+rs_name = 'MyRecordset'
+rs.CursorLocation = 3
+rs.Open(&quot;SELECT * FROM rkun000&quot;, conn,1,3)
+
+# Vypis tabulky a update
+rs.MoveFirst()
+count = 0
+while 1: 
+   if rs.EOF:
+      break 
+   else: 
+      # pocet viet
+      count = count + 1
+      nazov  = rs.Fields.Item('NAZOV').Value
+      rs.Fields.Item('NAZOV').Value = string.capwords(nazov)
+      print rs.Fields.Item('NAZOV').Value
+      # update aktualnu vetu
+      rs.Update()
+      # next record
+      rs.MoveNext() 
+
+print &quot;Pocet spracovanych viet v databaze = %d&quot; % count
+
+# Ukoncit spojenie
+conn.Close() 
+
+
+Na Accsess musis zmenit iba connection string - pohladaj si ho (mozno tu): 
+
+<A HREF="http://www.connectionstrings.com/">http://www.connectionstrings.com/</A> 
+<A HREF="http://www.carlprothman.net/Default.aspx?tabid=81">http://www.carlprothman.net/Default.aspx?tabid=81</A> 
+
+
+
+From: 
+Ondrej Beranek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt; 
+To: 
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt; 
+Date: 
+04.05.2009 17:46 
+Subject: 
+[python] access soubor - vytvoření relací 
+Sent by: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+
+
+
+
+
+Ahoj, 
+
+potřeboval bych nějak z python skriptu stvořit access databázi (mdb 
+soubor) a aby toho nebylo dost potřeboval bych v ní ještě vytvořit relace. 
+Je soubor datové výměny která probíhá denně. Ty relace stačí vyrobit až po 
+vytvořeníé tabulek.
+Přítomnost accessu neni problem. 
+
+Díky za všechny typy._______________________________________________ 
+
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> 
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> 
+
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> 
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> 
+
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090505/1dbd9a7c/attachment.htm">http://www.py.cz/pipermail/python/attachments/20090505/1dbd9a7c/attachment.htm</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008866.html">[python] access soubor - vytvoření relací
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008868.html">[python] access soubor - vytvoření relací
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-May/date.html#8867">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/thread.html#8867">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/subject.html#8867">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/author.html#8867">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-May/008867.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:33 GMT -->
+</html>

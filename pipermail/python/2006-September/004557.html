@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004557.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:07 GMT -->
+<HEAD>
+   <TITLE> [python] execfile
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20execfile&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-September/004556.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-September/004558.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] execfile</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20execfile&In-Reply-To="
+       TITLE="[python] execfile">Jakohv na seznam.cz
+       </A><BR>
+    <I>Neděle Září 10 12:18:16 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004556.html">[python] Text
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004558.html">[python] video tutorialy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4557">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4557">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4557">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4557">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+Mám takovej problém, dělám naprogramu, přes kterej bych mohl pouštět ostatní pythonovský programy. Když by měl nějaký program chybu, tak by se ptevřelo okno spopisem chyby...
+
+zatím mám tadyto:
+# -*- coding: utf-8 -*-
+from Tkinter import*
+import cStringIO,traceback
+okno=Tk()
+okno.title('Please help!')
+text=Text()
+text.pack()
+def beg():
+    run()
+    text.insert(END,cout.getvalue())
+def run():
+    global cout
+    cout = cStringIO.StringIO()
+    sys.stderr=cout
+    sys.stdout=cout    
+    try:
+	print prosim_pomoc
+	return (traceback.print_exc())	
+    except:
+        return (traceback.print_exc())
+Button(text=&quot;Ok&quot;,command=beg).pack()
+mainloop()
+
+To funguje, ale místo print .. tam dám execfile tak narazím na problém. Když je v to programu kterej pouštím přes execfile() chyba tak mi ji to zobrazí, ale když je ta chyba pozdějc, navazujicí na nějakou událost tak už to nezobrazí. Tady je příklad toho co nefunguje:
+
+from Tkinter import*
+okno=Tk()
+def press():
+    print omg
+Button(text=&quot;press me!&quot;,command=press).pack()
+mainloop()
+
+normalně se otevře okno s tim tlacitkem ale když pak to tlačitko zmačknu, tak se nic nestane, ale měla by se objevit v text() hláška:
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File &quot;C:\Python24\lib\lib-tk\Tkinter.py&quot;, line 1345, in __call__
+    return self.func(*args)
+  File &quot;C:/Documents and Settings/Blu/Plocha/Creator/blujacker.py&quot;, line 4, in press
+    print omg
+NameError: global name 'omg' is not defined
+
+Tipuju že budu potřebovat nějaký server. Místo sys.stdout=cout     bych měl dát něco jako sys.stdout = objekt. Ten objekt by měl definici
+def write(self,co):
+     self.dataSocket.send(co)
+a pak by ten program měl puštěnej server a to co přijde vkládal do Textu() ale nepodařilo se mi to zprovoznit:(
+
+
+děkuju
+
+
+
+Blujacker
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004556.html">[python] Text
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004558.html">[python] video tutorialy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4557">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4557">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4557">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4557">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004557.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:07 GMT -->
+</html>

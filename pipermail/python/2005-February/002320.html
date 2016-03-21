@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002320.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:53 GMT -->
+<HEAD>
+   <TITLE> [python] dotaz-mřížka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3FISO-8859-2%3FQ%3Fdotaz-m%3DF8%3DED%3DBEka%3F%3D&In-Reply-To=mailman.67.1102589830.32358.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-February/002317.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-February/002325.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dotaz-mřížka</H1>
+    <B>p.kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3FISO-8859-2%3FQ%3Fdotaz-m%3DF8%3DED%3DBEka%3F%3D&In-Reply-To=mailman.67.1102589830.32358.python%40py.cz"
+       TITLE="[python] dotaz-mřížka">gen2n na seznam.cz
+       </A><BR>
+    <I>Pondělí Únor 14 07:31:02 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002317.html">RE: [python] Jak systémově pípnout?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002325.html">[python] dotaz-mřížka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2320">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2320">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2320">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2320">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ještě jedno řešení, jestli tu  ještě jsi, tentokrát okenní:
+
+from Tkinter import *
+import random
+
+KROK=30                                     # velikost jednoho ctverecku
+OKRAJ=20                                    # velikost okraje
+DELKA=10                                    # pocet poli
+BARVA={0:'white',1:'red', 2:'lightgreen'}   # barvicky (free bonus)
+
+def ctverec(x,y,vypln):
+     &quot;Vytiskne ctverecek v souradnicich x,y a s vyplni&quot;
+     x=x*KROK+OKRAJ
+     y=y*KROK+OKRAJ
+     canvas.create_rectangle(x,y,x+KROK,y+KROK,fill=BARVA[vypln])
+
+def sachovnice():
+     &quot;Vymalovani sachovnice bunek&quot;
+     for y in range(DELKA):
+         for x in range(DELKA):
+                 bakterie=(random.randint(0,2))
+                 ctverec(x,y, bakterie)
+
+# inicializace Tkinter
+root=Tk()
+root.title(&quot;Sachovnice&quot;)
+frame=Frame(root)
+frame.pack()
+canvas=Canvas(frame, bg='white', height=DELKA*KROK+2*OKRAJ, 
+width=DELKA*KROK+2*OKRAJ)
+canvas.pack()
+
+# vykresleni sachovnice
+sachovnice()
+root.mainloop()
+
+
+PAvel
+
+
+
+David Kvasnička napsal(a):
+&gt;<i> Mám dotaz, jak se udělá v pythonu mřížka s devíti čarami svisle a devíti čarami vodorovně. Vznikne z toho vlastně taková síť. 
+</I>&gt;<i> Díky za odpověď
+</I>&gt;<i> ____________________________________________________________
+</I>&gt;<i> <A HREF="http://www.bezpecnyinternet.cz/">http://www.bezpecnyinternet.cz</A>
+</I>&gt;<i> <A HREF="http://ad.seznam.cz/clickthru?spotId=80833">http://ad.seznam.cz/clickthru?spotId=80833</A>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002317.html">RE: [python] Jak systémově pípnout?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002325.html">[python] dotaz-mřížka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2320">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2320">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2320">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2320">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002320.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:53 GMT -->
+</html>

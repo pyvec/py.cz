@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007842.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:02 GMT -->
+<HEAD>
+   <TITLE> [python] SimpleHTTP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20SimpleHTTP&In-Reply-To=132b63ac0806231313o79aa9b40y532ed16f2673fb7b%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007841.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007845.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] SimpleHTTP</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20SimpleHTTP&In-Reply-To=132b63ac0806231313o79aa9b40y532ed16f2673fb7b%40mail.gmail.com"
+       TITLE="[python] SimpleHTTP">slush na centrum.cz
+       </A><BR>
+    <I>Pondělí Červen 23 22:38:09 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007841.html">[python] SimpleHTTP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007845.html">[python] SimpleHTTP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7842">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7842">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7842">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7842">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Myslim, ze to neodpovida na otazku Petra. Co jsem se tak obecne docetl,
+pouzivat interni HTTP server se &quot;nema&quot; predevsim z hlediska vykonu, coz
+nekdy nemusi byt zcela relevantni duvod. &quot;Pro&quot; pouziti vestaveneho serveru
+proste muze hrat jednak absolutni jednoduchost plus moznost nativniho
+rozsirovani vlastnim python kodem. Takze dotaz zcela chapu.
+
+K veci - sam jsem zdrojak HTTP serveru nezkoumal, kazdopadne znam a vyuzivam
+nekolik implementaci, ktere ho interne vyuzivaji a o zadnych bezpecnostnich
+problemech nevim. Kdyz se nad tim clovek zamysli, ono tam pri te
+jednoduchosti ani moc der udelat nejde ;).
+
+Rad bych ale upozornil na sitovy framework Twisted, ktery je primo na tvorbu
+sitovych aplikaci (klientskych i serverovych) urcen. Viz.
+<A HREF="http://twistedmatrix.com/">http://twistedmatrix.com/</A> . Maji tam hromadu prikladu, vcetne simple http
+serveru :).
+
+Tj. pokud muzu mluvit za sebe, ja bych za urcitych jasne definovanych
+okolnosti a pri dodrzeni zakladnich bezpecnostnich zasad (ktere Petr zminil)
+spusteni aplikaci nad tim HTTP serverem nebranil. Na druhou stranu bych se
+ale podival na Twisted a omrknul, jestli to nemuze byt pro me v necem
+uzitecne (bezpecnejsi, rychlejsi, ...).
+
+Marek
+
+2008/6/23 Vlado Balko &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vbalko na gmail.com</A>&gt;:
+
+&gt;<i> Aj tak vsak ak to chces pouzivat ako &quot;produkcny&quot; server, mal by si sa
+</I>&gt;<i> poobzerat po nejakom lightweight http servery. Videl som viacere, takze by
+</I>&gt;<i> nemal byt problem niektory z nich spojazdnit s pythonom. Na zaciatok ti
+</I>&gt;<i> mozno posluzi toto <A HREF="http://www.vmware.com/appliances/directory/289">http://www.vmware.com/appliances/directory/289</A> . Je to
+</I>&gt;<i> VMWare package kompletne pripraveneho systemu na vyvoj web aplikacii v
+</I>&gt;<i> pythone.
+</I>&gt;<i>
+</I>&gt;<i> vbalko
+</I>&gt;<i>
+</I>&gt;<i> 2008/6/23 Petr Dlabal &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">dlabal na gmail.com</A>&gt;:
+</I>&gt;<i>
+</I>&gt;<i> Ahoj, mam takovy dotaz na bezpecnost. Zajimal by me nazor odborniku.
+</I>&gt;&gt;<i> Predpokladejme ze bych mel takovy jednoduchoucky serverik napriklad
+</I>&gt;&gt;<i> takovehoto typu:
+</I>&gt;&gt;<i> <A HREF="http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/392879">http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/392879</A>
+</I>&gt;&gt;<i> jak moc silene by bylo otevrit ho pro volny pristup z internetu (treba
+</I>&gt;&gt;<i> na nejakem netradicnim portu) a obsluhovat s nim pozadavky nejake
+</I>&gt;&gt;<i> klientske aplikace (pokud by se vyresila nejaka autentifikace, ktera v
+</I>&gt;&gt;<i> tom prikladu neni)?
+</I>&gt;&gt;<i> Jinymi slovy - SimpleHTTP server (hlasi se to SimpleHTTP/0.6
+</I>&gt;&gt;<i> Python/2.5.2), jsou zname nejake zavazne bezpecnostni diry? Kdyz mi
+</I>&gt;&gt;<i> ten pythonsky skript toho serveru pojede (na os win, bohuzel) pod
+</I>&gt;&gt;<i> nejakym vyhrazenym uzivatelem s rozumne nastavenymi pravy atd...? Je
+</I>&gt;&gt;<i> to uplne silenstvi nebo jen castecne silenstvi? :-)7
+</I>&gt;&gt;<i> Diky za kazdy nazor :-)
+</I>&gt;&gt;<i> PD
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080623/ac97037a/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080623/ac97037a/attachment.htm</A> 
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007841.html">[python] SimpleHTTP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007845.html">[python] SimpleHTTP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7842">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7842">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7842">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7842">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007842.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:02 GMT -->
+</html>

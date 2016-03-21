@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005099.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:31 GMT -->
+<HEAD>
+   <TITLE> [python] vzor Observer a predavani metody v parametru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vzor%20Observer%20a%20predavani%20metody%20v%20parametru&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005097.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005100.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vzor Observer a predavani metody v parametru</H1>
+    <B>Ondrej Penicka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vzor%20Observer%20a%20predavani%20metody%20v%20parametru&In-Reply-To="
+       TITLE="[python] vzor Observer a predavani metody v parametru">penicka na web2day.org
+       </A><BR>
+    <I>Úterý Listopad 14 06:32:04 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005097.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005100.html">[python] OT: Pridat nebo odebrat? (bylo Buducnost Pythonu: lambda,	map, filter)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5099">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5099">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5099">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5099">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+pri implementaci vzoru observer jsem narazil na problem s predavanim
+metody vychozi tridy vsech pozorovatelu. Subjekt je trida sledovaneho
+objektu, Observer vzorova trida pro pozorovatele a ConcreteObserver
+priklad pozorovatele. Zadrhel je v tride myList, ktera udrzuje seznam
+pozorovatelu a definuje funkci call, ktera pro kazdou polozku zavola
+predanou funkci (Observer.update). Pri volani predane funkce s objektem
+jako parametr (namisto self) se samozrejme vola funkce Observer.update
+namisto ConcreteObserver.update i kdyz self ukazuje na instanci
+ConcreteObserver.
+
+class myList:
+   def call(self, function, subject):
+      for item in self.list:
+         function(item, subject);
+
+class Subjekt:
+   def __init__(self):
+       self.observers = myList
+   def updateAll(self):
+      self.myList.call(Observer.update, self)
+
+class Observer:
+   def update(self, subjekt):
+      print &quot;virtual Observer method called&quot;
+
+class ConcreteObserver(Observer):
+   def update(self, subjekt):
+      print &quot;change something&quot;
+
+Neprilis elegantni reseni je v metode Observer.update volat
+self.update_real()
+
+class Observer:
+   def update(self, subjekt):
+      self.update_real(subjekt)
+
+class ConcreteObserver(Observer):
+   def update_real(self, subjekt):
+      print &quot;change something&quot;
+
+Pravdepodobne je to dusledek toho, ze se v pythonu i trida chova jako
+objekt.
+Neni nejake lepsi reseni, aniz bych zasahoval do tridy myList?
+
+Diky, Ondrej Penicka
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005097.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005100.html">[python] OT: Pridat nebo odebrat? (bylo Buducnost Pythonu: lambda,	map, filter)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5099">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5099">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5099">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5099">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005099.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:31 GMT -->
+</html>

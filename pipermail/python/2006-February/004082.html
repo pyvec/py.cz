@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004082.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:53 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s metodami
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20metodami&In-Reply-To=20060217122038.GB2210%40rk.uh.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-February/004081.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-February/004083.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s metodami</H1>
+    <B>Petr Mach</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20metodami&In-Reply-To=20060217122038.GB2210%40rk.uh.cz"
+       TITLE="[python] Problem s metodami">gsl na seznam.cz
+       </A><BR>
+    <I>Pátek Únor 17 14:03:41 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004081.html">[python] Problem s metodami
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004083.html">[python] Problem s metodami
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4082">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4082">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4082">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4082">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i>     &gt;&gt;&gt; type(cls.__dict__['method'])
+</I>&gt;<i>     &lt;type 'function'&gt;
+</I>&gt;<i>     &gt;&gt;&gt; type(cls.method)
+</I>&gt;<i>     &lt;type 'instancemethod'&gt;
+</I>&gt;<i> 
+</I>&gt;<i> Vyraz cls.method vrati objekt typu instancemethod, v kterem je
+</I>&gt;<i> zapouzdrena prislusna funkce. Jelikoz se zapouzdreni nikde nekesuje,
+</I>&gt;<i> je pri kazdem vyskytu vyrazu `cls.method' vytvoren novy objekt typu
+</I>&gt;<i> instancemethod. Proto pro porovnani pres operator `is' dostavame False.
+</I>
+Je ale poněkud zvláštní a je potřeba si dát pozor na to, že ten &quot;novy 
+objekt typu instancemethod&quot; má pořád stejné id:
+
+ &gt;&gt;&gt; id(c.m)
+-1208131876
+ &gt;&gt;&gt; id(c.m)
+-1208131876
+ &gt;&gt;&gt; id(c.m)
+-1208131876
+
+ &gt;&gt;&gt; id(c.m) == id(c.m), c.m is c.m
+(True, False)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004081.html">[python] Problem s metodami
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004083.html">[python] Problem s metodami
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4082">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4082">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4082">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4082">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004082.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:53 GMT -->
+</html>

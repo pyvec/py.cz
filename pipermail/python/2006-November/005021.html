@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005021.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:22 GMT -->
+<HEAD>
+   <TITLE> [python] Buducnost Pythonu: lambda, map, filter
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%20filter&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA27E%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005009.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005082.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Buducnost Pythonu: lambda, map, filter</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%20filter&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA27E%40skil01.skil.mistni"
+       TITLE="[python] Buducnost Pythonu: lambda, map, filter">feed na centrum.cz
+       </A><BR>
+    <I>Pátek Listopad 10 15:43:17 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005009.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005082.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5021">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5021">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5021">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5021">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Jde o to, že Python může k reduce a lambda nabídnout 
+</I>&gt;<i> alternativy, které nelze srovnávat s primitivností 
+</I>&gt;<i> podmíněného skoku. Ty alternativy mi připadají lepší
+</I>&gt;<i> než reduce/lambda.
+</I>
+Tady je problém jednak ten výraz &quot;mi připadají lepší&quot;, tedy jde o
+subjektivní názor a druhý problém je zpětná kompatibilita.
+
+&gt;<i> Ten sadistický důvod se jmenuje zpětná kompatibilita. Začíná
+</I>&gt;<i> to u strojových instrukcí, přes C, C++ a vše, co se je snaží
+</I>&gt;<i> napodobovat. Strojové instrukce neznají typy ve smyslu
+</I>&gt;<i> vyššího programovacího jazyka. Nula je false, cokoliv jiného
+</I>&gt;<i> je true. Python kdysi boolovské hodnoty vůbec neznal.
+</I>
+Toto už jsem diskutoval v tom kontextu, že Python 3 stejně tuto
+kompatibilitu porušuje. Jazyk, který od počátku nezná boolevské hodnoty
+je IMHO hrubá chyba návrhu jazyka.
+
+&gt;<i> ... ale ne v Pythonu. V něm můžu jakémukoliv jménu přiřadit 
+</I>&gt;<i> cokoliv (referenci na libovolný objekt). Pascal a Java dělají
+</I>&gt;<i> typovou kontrolu v době kompilace a identifikátor je svázán
+</I>&gt;<i> s typem. V Pythonu by tedy docházelo k výrazně zapeklitějším 
+</I>&gt;<i> chybám.
+</I>
+A Python taky dělá typovou kontrolu. Rozdíl je akorát ten, že jí dělá za
+běhu, to je vše. Takže tento Váš argument neplatí.
+
+&gt;<i> Říká se tomu interpretace v boolovském kontextu. Je to věc
+</I>&gt;<i> dohody. Taky píšu raději 
+</I>&gt;<i>   if len(lst) &gt; 0:
+</I>&gt;<i>      ...
+</I>&gt;<i> než jen
+</I>&gt;<i>   if lst:
+</I>&gt;<i>      ...
+</I>&gt;<i> 
+</I>&gt;<i> Ale hodně lidí dává přednost stručnosti... ;o)
+</I>&gt;<i> a taky vyhození této vlastností by v porovnání s vyhozením
+</I>&gt;<i> lambda bylo mnohem výraznější...
+</I>
+Tahle stručnost způsobila tolik chyb, že by se neměla podporovat.
+
+Lambdu beru u každého jazyka jako výraznou výhodu. Problém je, že lambda
+má jen velmi omezenou funkčnost v Pythonu, spíše by to mělo být rozšířeno.
+
+&gt;<i> Trochu mi to připomíná &quot;Nic mi neříkejte! Já na to přijdu sám.&quot;.
+</I>&gt;<i> Debata kolem návrhu odstranit lambda a spol byla tuhá. Pokud si
+</I>&gt;<i> dobře pamatuji, implementace lambda je v jádře jazyka udělána
+</I>&gt;<i> nějak nečistě a některé věci komplikuje. Asi komplikuje i další
+</I>&gt;<i> vývoj. V novějších verzích Pythonu se objevily generátory 
+</I>&gt;<i> a generátorové výrazy, které zpětně vyjasňují i konstrukce
+</I>&gt;<i> s tak krkolomným názvem, jako je &quot;list comprehension&quot;
+</I>&gt;<i> (generátor seznamu).
+</I>
+Mě to připomíná styl, že pokud má Eskymák problémy s odrazem Slunce od
+sněhu, tak mu vypíchneme oči namísto toho, abychom ulevili jeho očím.
+Je-li implementace udělána v jádře nečistě, nechť se udělá čistě. Co
+jiného?
+
+&gt;<i> Spousta odborníků používajících C++ říká, že jednou z největších
+</I>&gt;<i> chyb byla asi snaha být důsledně zpětně kompatibilní s C.
+</I>
+Jako člověk, který se drsně komerčně mimo jiné pomocí C++ přes deset let
+dost dobře živil, a ještě předtím pomocí C, a který má dodnes tento
+jazyk C++ má rád říkám, že každá věc má dva konce.
+
+1) Pokud by jazyk C++ nebyl dost kompatibilní s C, asi by se nerozšířil,
+protože takto tvořil přirozenou přestupní stanici z C na C++. Pokud by
+kompatibilita C++ byla malá, asi by lidé z C nepřestoupili na C++ a C++
+by zůstalo jen pokusem v historii.
+
+2) Jazyk C++ není zpětně kompatibilní s C, to je sice hodně tradovaná
+fáma, ale není to pravda. Mnoho zápisů má v C++ jiný význam, než v C,
+mnoho konstrukcí z C není v C++ povoleno. Takže o jaké důslednosti to
+mluvíte?
+
+3) To co C++ zdědilo z C je podle mě spíš plus. Jendak zdědilo logickou
+syntaxi, jednak prostředky na úrovni práce se strojovým kódem, obojí
+dodnes velké a silné zbraně C++.
+
+Jinak nevidím v C++ problém co se týká kompatibility s C, vidím v C++
+problém v jeho mizerném rozvoji dobudoucna, a v jeho mizerných
+knihovnách. Můj názor je, že největší chyby C++ jsou:
+
+1) Přenesení vývoje do standartizační komise, neznám jazyk, kterému by
+to prospělo. Vezmu-li si C, C++, Javu, Python, Ruby, Pascal, Smalltalk,
+Lisp, Simulu, C#, atd.. všechny jazyky se bouřlivě vyvíjely a udržely si
+čistotu a konzistenci, pokud hlavní slovo ve vývoji měl jednotlivec,
+nebo skupina. Teď je problém cokoli změnit a jakákoli drobná změna v C++
+je otázkou pěti let diskusí.
+
+2) Modla rychlosti. Například standardní STL knihovna v C++ je navržená
+pro maximální rychlost. To znamená prasečiny stylu neprovádí se kontrola
+chyb, třídy nelze podědit, nebo přetěžovat, atd.. Jenom vybojování
+vlastnosti, že STL bude bezpečná vůči vyhozeným výjimkám byla dlouholetá
+zdůvodňovací bitva. Takže STL je zprasená stejně tak jako spousty
+dalších knihoven. Hledejte si chyby v STL, když to někde padá, že.
+
+3) Mizerné knihovny. C++ spoléhá na C knihovny, není tam ani třída pro
+datum a čas, nejsou tam thready, není tam vůbec nic.
+
+Raději toho už nechám. Viděl bych spoustu chyb v C++, ale zpětná
+kompatibilita s C to rozhodně není. Spíše bych to nazval vykašláním se
+na rozvoj C++, který šel nabastlit v C zděděné části - tím mluvím o
+knihovnách.
+
+&gt;&gt;<i>2) Jazyk, který kdy v historii hrubě porušil zpětnou 
+</I>&gt;&gt;<i>kompatibilitu vymřel.
+</I>&gt;<i> 
+</I>&gt;<i> Příklad?
+</I>
+Rozhlédněte se kolem. Všechny zavedené jazyky drží zpětnou
+kompatibilitu. C, C++, Java, Fortran, Cobol, Ada, Lisp, Smalltalk,
+unixový shell, tohle jsou stálice, které stále žijí a přežily mnoho let.
+Ani jedna z těchto stálic si nedovolila výrazněji porušit zpětnou
+kompatibilitu s často desítky let starými zápisy. Já to obrátím,
+jsemujte mi jeden jediný příklad jazyka, který se delší dobu udržel a
+hrubě porušil zpětnou kompatibilitu. Já takový jazyk neznám.
+
+Mnoho těchto jazyků se při svých nejodvážnějších snech o porušení zpětné
+kompatibility odvážilo tak maximálně do vod daných warningem
+&quot;obsoleted&quot;, nebo &quot;deprecated&quot;, ale nikam dál!!!
+
+Miloslav Ponkrác
+
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005009.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005082.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5021">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5021">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5021">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5021">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005021.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:22 GMT -->
+</html>

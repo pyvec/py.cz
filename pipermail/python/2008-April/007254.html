@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007254.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+<HEAD>
+   <TITLE> [python] Parsování emailu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007252.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007258.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Parsování emailu</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To="
+       TITLE="[python] Parsování emailu">jakohv na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Duben 17 17:37:31 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007252.html">[python] Parsování emailu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007258.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7254">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7254">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7254">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7254">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ano, už to částečně funguje. Manuál jsem četl a dokonce jsem zkoušel použít 
+funkci get_payload(), ale fakt mě nenapadlo, že to musím zavolat dvakrát...
+Nicméně to funguje, nevím proč, pouze na některé emaily; zde je můj kód:
+
+import re
+from email.parser import*
+m1=&quot;&quot;&quot;('+OK Message follows (1562 bytes).', ['Reply-To: 
+=?iso-8859-2?Q?Jakub=20Voj=E1=E8ek?= &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt;', 'Received: from 
+kubuvpocitac (r3ai164.net.upc.cz [213.220.226.164])', '\tby 
+email-relay2.go.seznam.cz (Seznam SMTPD <A HREF="http://www.py.cz/mailman/listinfo/python">1.0.36 na 12969</A>) with ESMTP;', '\tWed, 
+16 Apr 2008 18:46:52 +0200 (CEST)  ', 'Message-Id: 
+&lt;004f01c89fe1$7b567220$<A HREF="http://www.py.cz/mailman/listinfo/python">6e7ba8c0 na kubuvpocitac</A>&gt;', 'From: 
+=?iso-8859-2?Q?Jakub=20Voj=E1=E8ek?= &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt;', 'To: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>', 'Subject: predemr', 'Date: Wed, 16 Apr 2008 18:46:52 
++0200 (CEST)', 'Mime-Version: 1.0', 'Content-Type: multipart/alternative;', 
+'\tboundary=&quot;----=_NextPart_000_004A_01C89FF2.3C51E080&quot;', 'X-Priority: 3', 
+'X-Msmail-Priority: Normal', 'X-Mailer: Microsoft Outlook Express 
+6.00.2900.3138', 'X-Mimeole: Produced By Microsoft MimeOLE V6.00.2900.3198', 
+'X-Smtpd: <A HREF="http://www.py.cz/mailman/listinfo/python">1.0.36 na 12969</A>', 'X-Seznam-User: <A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>', 'X-Qm-Mark: 
+email-qm1&lt;17546722&gt;', 'X-Seznam-Ffp: 680759260', '', 'This is a multi-part 
+message in MIME format.', '', '------=_NextPart_000_004A_01C89FF2.3C51E080', 
+'Content-Type: text/plain;', '\tcharset=&quot;iso-8859-2&quot;', 
+'Content-Transfer-Encoding: quoted-printable', '', 'hhahsd', 
+'------=_NextPart_000_004A_01C89FF2.3C51E080', 'Content-Type: text/html;', 
+'\tcharset=&quot;iso-8859-2&quot;', 'Content-Transfer-Encoding: quoted-printable', '', 
+'&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;', 
+'&lt;HTML&gt;&lt;HEAD&gt;', '&lt;META http-equiv=3DContent-Type content=3D&quot;text/html; =', 
+'charset=3Diso-8859-2&quot;&gt;', '&lt;META content=3D&quot;MSHTML 6.00.2900.3314&quot; 
+name=3DGENERATOR&gt;', '&lt;STYLE&gt;&lt;/STYLE&gt;', '&lt;/HEAD&gt;', '&lt;BODY 
+bgColor=3D#ffffff&gt;', '&lt;DIV&gt;&lt;FONT face=3DArial 
+size=3D2&gt;hhahsd&lt;/FONT&gt;&lt;/DIV&gt;&lt;/BODY&gt;&lt;/HTML&gt;', '', 
+'------=_NextPart_000_004A_01C89FF2.3C51E080--'], 1562)&quot;&quot;&quot;
+m2=&quot;&quot;&quot;('+OK Message follows (1601 bytes).', ['Reply-To: 
+=?iso-8859-2?Q?Jakub=20Voj=E1=E8ek?= &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt;', 'Received: from 
+kubuvpocitac (r3ai164.net.upc.cz [213.220.226.164])', '\tby 
+email-relay2.go.seznam.cz (Seznam SMTPD <A HREF="http://www.py.cz/mailman/listinfo/python">1.0.36 na 12969</A>) with ESMTP;', '\tThu, 
+17 Apr 2008 17:10:38 +0200 (CEST)  ', 'Message-Id: 
+&lt;00ba01c8a09d$320e0b70$<A HREF="http://www.py.cz/mailman/listinfo/python">6e7ba8c0 na kubuvpocitac</A>&gt;', 'From: 
+=?iso-8859-2?Q?Jakub=20Voj=E1=E8ek?= &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt;', 'To: 
+<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>', 'Subject: predemr', 'Date: Thu, 17 Apr 2008 17:10:36 
++0200 (CEST)', 'Mime-Version: 1.0', 'Content-Type: multipart/alternative;', 
+'\tboundary=&quot;----=_NextPart_000_00B7_01C8A0AD.F44443C0&quot;', 'X-Priority: 3', 
+'X-Msmail-Priority: Normal', 'X-Mailer: Microsoft Outlook Express 
+6.00.2900.3138', 'X-Mimeole: Produced By Microsoft MimeOLE V6.00.2900.3198', 
+'X-Smtpd: <A HREF="http://www.py.cz/mailman/listinfo/python">1.0.36 na 12969</A>', 'X-Seznam-User: <A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>', 'X-Qm-Mark: 
+email-qm1&lt;17566836&gt;', 'X-Seznam-Ffp: -1361842557', '', 'This is a multi-part 
+message in MIME format.', '', '------=_NextPart_000_00B7_01C8A0AD.F44443C0', 
+'Content-Type: text/plain;', '\tcharset=&quot;iso-8859-2&quot;', 
+'Content-Transfer-Encoding: quoted-printable', '', &quot;'sdfdf','sdf'&quot;, 
+'------=_NextPart_000_00B7_01C8A0AD. F44443C0', 'Content-Type: text/html;', 
+'\tcharset=&quot;iso-8859-2&quot;', 'Content-Transfer-Encoding: quoted-printable', '', 
+'&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0  Transitional//EN&quot;&gt;', 
+'&lt;HTML&gt;&lt;HEAD&gt;', '&lt;META http-equiv=3DContent-Type content=3 D&quot;text/html; =', 
+'charset=3Diso-8859-2&quot;&gt;', '&lt;META content=3D&quot;MSHTML 6.00.2900.33 14&quot; 
+name=3DGENERATOR&gt;', '&lt;STYLE&gt;&lt;/STYLE&gt;', '&lt;/HEAD&gt;', '&lt;BODY bgColor=3D#ffffff&gt;' 
+, '&lt;DIV&gt;&lt;FONT face=3DArial =', 
+&quot;size=3D2&gt;'sdfdf','sdf'&lt;/FONT&gt;&lt;/DIV&gt;&lt;/BODY&gt;&lt;/HTML &gt;&quot;, '', 
+'------=_NextPart_000_00B7_01C8A0AD.F44443C0--'], 1601)&quot;&quot;&quot;
+m1=re.search(r&quot;[\w]*\['(?P&lt;x&gt;[\w\W]*)'\]&quot;, m1).group(&quot;x&quot;).replace(&quot;', 
+'&quot;,&quot;\n&quot;)
+m2=re.search(r&quot;[\w]*\['(?P&lt;x&gt;[\w\W]*)'\]&quot;, m2).group(&quot;x&quot;).replace(&quot;', 
+'&quot;,&quot;\n&quot;)
+print Parser().parsestr(m1).get_payload()[0].get_payload()
+print Parser().parsestr(m2).get_payload()[0].get_payload()
+#První email to rozparsuje dobře, ale ten druhý už ne...
+#Děkuji za trpělivost; pomalu mi to myslí:(
+
+
+----- Original Message ----- 
+From: &quot;Jan Kundrát&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jkt na gentoo.org</A>&gt;
+To: &quot;Konference PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+Sent: Thursday, April 17, 2008 4:47 PM
+Subject: Re: [python] Parsování emailu
+
+
+Jakub Vojáček wrote:
+&gt;<i> Jenomže to stejně nevrací tělo zprávy...
+</I>
+Je dobre si prostudovat dokumentaci celeho modulu. Kdybys cetl [1],
+dozvedel by ses, ze email.message.Message ma dve dulezite casti,
+&quot;headers&quot; a &quot;payload&quot;. Vic ti nereknu, myslim, ze na to uz umis prijit sam.
+
+Pokud to s tim psanim mailoveho klienta myslis vazne, mel by sis precist
+vic manualu.
+
+[1] <A HREF="http://docs.python.org/lib/module-email.message.html">http://docs.python.org/lib/module-email.message.html</A>
+
+Hezky den,
+-jkt
+
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007252.html">[python] Parsování emailu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007258.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7254">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7254">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7254">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7254">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007254.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+</html>

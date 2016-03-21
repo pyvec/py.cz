@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000486.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+<HEAD>
+   <TITLE> [python] igui - Independent GUI
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20igui%20-%20Independent%20GUI&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-February/000485.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-February/000487.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] igui - Independent GUI</H1>
+    <B>Jan Svec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20igui%20-%20Independent%20GUI&In-Reply-To="
+       TITLE="[python] igui - Independent GUI">honza na py.cz
+       </A><BR>
+    <I>Pondělí Únor 10 18:57:24 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000485.html">[python] Muj login...
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000487.html">[python] igui - Independent GUI
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#486">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#486">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#486">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#486">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+jak jsem tu jednou psal, tak jsem vytvoril gui framework pro
+Python. Jestli mate naladu, stahujte z
+<A HREF="http://dev.py.cz/user/honza/igui2.tar.gz">http://dev.py.cz/user/honza/igui2.tar.gz</A> a zkompilujte
+(potrebujete GTK+ 1.2). Pak muze vase aplikace v Pythonu mit
+treba takovej zdrojak:
+
+
+#!/usr/bin/env python2.2
+
+from igui.classes import *
+
+app = Application(name='hello_world')
+win = Window(title='Hello world')
+win.packing_manager.border = 15
+
+win.append(Button(name='button', title='Pozdrav\nsvet!'))
+def print_hello(e):
+	print 'Hello world'
+win.button.OnActivate.append(print_hello)
+
+app.Run(win)
+
+
+Pozor, je silne devel, mnoho veci neni dodelanych kazdopadne
+prvni jakz-takz funkci verze behem pristich tri tydnu. Zbyva
+dodelat generovani nekterych udalosti atd.
+
+Pokud mate naladu, otestujte a sdelte mi sve pocity.
+
+--
+S pozdravem
+Jan Svec
+
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza na py.cz</A>&gt;
+<A HREF="http://dev.py.cz/users/honza">http://dev.py.cz/users/honza</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000485.html">[python] Muj login...
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000487.html">[python] igui - Independent GUI
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#486">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#486">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#486">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#486">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000486.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+</html>

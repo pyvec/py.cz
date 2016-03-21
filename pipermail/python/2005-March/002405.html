@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002405.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:49 GMT -->
+<HEAD>
+   <TITLE> [python] Import
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Import&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-March/002404.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-March/002407.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Import</H1>
+    <B>Martin Šebela</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Import&In-Reply-To="
+       TITLE="[python] Import">msebela_conf na centrum.cz
+       </A><BR>
+    <I>Úterý Březen 22 18:34:40 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002404.html">[python] ad web
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002407.html">[python] Import
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2405">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2405">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2405">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2405">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+potreboval bych poradit jak spravne pracovat s importy. Mam sice funkcni 
+reseni, ale je zbytecne slozite :(
+
+Mam tuto adresarovou strukturu:
+------------
+/ GeneticLab
+|<i>	/ ZZZ
+</I>|<i>	|	| kkk.py
+</I>|<i>	| __init__.py
+</I>|<i>	| Engine.py
+</I>|<i>	| Population.py
+</I>|<i>	| ...
+</I>|<i> TestApp.py
+</I>
+*** __init__.py
+__all__ = ['Engine', 'Population', ... ]
+
+*** Engine.py
+__all__ = ['Engine', 'XXX']
+class Engine(object):
+	...
+class XXX(object):
+	...
+
+*** Population.py
+__all__ = ['Population']
+class Population(object):
+	...
+
+Dotazy:
+1) Pokud ted chci pouzit knihovnu, tak musim rucne vypsat vsechny 
+pouzite moduly:
+  	from GeneticLab.Engine import *
+	from GeneticLab.Population import *
+
+Co mam upravit, abych mohl pouzit:
+	import GeneticLab
+(Nyni se vyvola vyjimka TypeError: 'module' object is not callable)
+
+2) Jak muzu importovat modul, ktery je ulozen o adresar vise. Takze 
+napr. jak ma kkk.py importovat Engine.py. Vyzkousel jsem snad vsechny 
+zapisy ../, ale bez uspechu.
+
+3) Da se donutit Eclipse s modulem pydev, aby zobrazoval Code 
+completion/Intellisense i pro moje zdrojaky?
+
+dekuji za rady
+Martin Sebela
+
+
+-- 
+#  Martin Šebela
+#  <A HREF="http://www.py.cz/mailman/listinfo/python">ms na selfnet.cz</A> | +420-608-633963 | icq: 115751858
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002404.html">[python] ad web
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002407.html">[python] Import
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2405">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2405">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2405">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2405">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002405.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:49 GMT -->
+</html>

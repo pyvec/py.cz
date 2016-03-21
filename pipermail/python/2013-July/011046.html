@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-July/011046.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:03 GMT -->
+<HEAD>
+   <TITLE> [python] Nabídka práce pro příznivce programovacího jazyka Python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Nab%EDdka%20pr%E1ce%20pro%20p%F8%EDznivce%20programovac%EDho%20jazyka%20Python&In-Reply-To=%3C016201ce775e%241b487e50%2480d810ac%40IBMXP%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-July/011045.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-July/011047.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Nabídka práce pro příznivce programovacího jazyka Python</H1>
+    <B>Jaroslav Lukesh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Nab%EDdka%20pr%E1ce%20pro%20p%F8%EDznivce%20programovac%EDho%20jazyka%20Python&In-Reply-To=%3C016201ce775e%241b487e50%2480d810ac%40IBMXP%3E"
+       TITLE="[python] Nabídka práce pro příznivce programovacího jazyka Python">lukesh na seznam.cz
+       </A><BR>
+    <I>Úterý Červenec  2 21:54:26 CEST 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-July/011045.html">[python] Nabídka práce pro příznivce programovacího jazyka Python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-July/011047.html">[python] Nabídka práce pro příznivce programovacího jazyka Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-July/date.html#11046">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-July/thread.html#11046">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-July/subject.html#11046">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-July/author.html#11046">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zkuste Zope, má nativní stromovou databázi, dokonce umí i SQL 
+&quot;zestromovatět&quot;.
+
+Tahle databáze je geniální na katalogovou strukturu - typicky starý dobrý 
+yahoo a seznam než to začali dělat  i s fultextem, sklady, náhradní díly, 
+cestovky, prostě ideál. Dědí to vlastnosti, proměnné, obsahy, akorát to chce 
+ho pochopit oč tam vlastně jde.
+
+Protože zope.org je poněkud nepřehledná (aspoň por mně), tak vám tady přes 
+konferu pomůžem ho nasadit a vybrat to co bude třeba.
+
+Vůbec se nemusíte učit ten zparchantělý TAL, který vznikl pouze pro 
+vysokonákladové projekty, kde filozofie byla, že programátor naprogramuje 
+stránku, kterou dostal od designra a tan v případě změny prostě jenom 
+popřesouvá prvky. No idea je to hezká, ale v EU jenom jedno grafické studio, 
+které to tak dělá (nebo před tak 5 lety dělalo).
+
+Každý mlamoj vám bude říkat DTML is dead use TAL dude!, ale je to jenom 
+zlomyslnost, aby vás dostal do bezesných nocí. Ne, fakt to není potřeba, 
+DTML rozhodně není dead a bude mít podporu neustále, navíc pokud se 
+připojíte na SQL, nebo budete chtít generovat cokoli jiného než HTML/XML 
+(jako např. CSV, JS, JSON a pod), tak se bez DTML stejně neobejdete.
+
+proměnnou můžete mít nastavenou i jako vlastnost kteréhokoli nadřízeného 
+objektu (to se udělá přes webový interface), pak odpadá její natlačení do 
+namespace pomocí REQUEST.set.
+
+&lt;html&gt;&lt;body&gt;
+&lt;dtml-call &quot;REQUEST.set('kecy', 'Haló world!')&quot;&gt;
+&lt;dtml-var kecy missing=&quot;není tu&quot; null=&quot;prázdno&quot; prefix=&quot;nuzky&quot;&gt;
+&lt;hr&gt;
+&lt;dtml-in&quot;_.range(0,10)&quot;&gt;
+  &lt;dtml-var nuzky_index&gt;. &lt;dtml-var &quot;kecy[:nuzky_number]&quot;&gt;
+  &lt;dtml-unless sequence-end&gt;
+    &lt;br&gt;
+  &lt;/dtml-unless&gt;
+&lt;/dtml-in&gt;
+&lt;/body&gt;&lt;/html&gt;
+
+tipnete si i bez znalosti DTML co to udělá? Tak a teď to někdo předveďte v 
+TALu, bude to elegantní, krásně v jednom HTML tagu  (či naprosto nepřehledně 
+několika vnořených spanů), ale ----- jako neautor už moc tomu nebudete 
+rozumnět, hlavně po letech, když se na to podíváte, bude kód už nečitelný.
+
+
+
+----- Původní zpráva ----- 
+Od: &quot;&quot;Ing. Vladislav Ludík&quot;&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;
+
+Již několik let se zdokonaluju v programování užitečných doplňků,
+sloužících pro hladký chod naší internetové sítě.
+Jak šel čas, situace se vyvinula tak, že programy a moduly jsou uloženy
+na několika serverech a několika místech, navíc na různých databázích a
+verzích Pythonu.
+Rozhodl jsem se, že to TAKHLE DÁL DĚLAT NECHCI !
+
+Chtěl bych proto vytvořit nový, ucelený systém na jedné databázi na
+jednom virtuálním stroji.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-July/011045.html">[python] Nabídka práce pro příznivce programovacího jazyka Python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-July/011047.html">[python] Nabídka práce pro příznivce programovacího jazyka Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-July/date.html#11046">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-July/thread.html#11046">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-July/subject.html#11046">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-July/author.html#11046">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-July/011046.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:03 GMT -->
+</html>

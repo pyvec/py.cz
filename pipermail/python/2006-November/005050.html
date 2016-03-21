@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005050.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:27 GMT -->
+<HEAD>
+   <TITLE> [python] class a subclass
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=15848469718.20061110181409%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005059.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005018.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] class a subclass</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=15848469718.20061110181409%40atlas.cz"
+       TITLE="[python] class a subclass">RMiklos na pss.sk
+       </A><BR>
+    <I>Pátek Listopad 10 19:09:03 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005059.html">[python] class a subclass
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005018.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5050">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5050">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5050">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5050">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Vsetko funguje jak ma,  pozri na toto
+--------------------
+class a(object):
+    def prn(self):
+        print 'a',self
+    def ma(self):
+        print &quot;ma() rodica&quot;, self
+        self.prn()
+    def aa(self):
+        pass
+
+class b(a):
+    def prn(self):
+        print 'b',self
+    def ma(self):
+        '''prekryje a.ma()'''
+        print &quot;ma() potomka&quot;, self 
+        super(b,self).ma()
+    def ba(self):
+        pass
+
+
+x=b()
+x.ma()
+----------------
+
+ked to spustis dostanes toto
+ma() potomka &lt;__main__.b object at 0x00A22F50&gt;
+ma() rodica &lt;__main__.b object at 0x00A22F50&gt;
+b &lt;__main__.b object at 0x00A22F50&gt;
+
+1) takze najprv si v ma()-potomka, to ti vypise
+ma() potomka &lt;__main__.b object at 0x00A22F50&gt;
+tu ma self objektu x hodnotu &lt;__main__.b object at 0x00A22F50&gt;
+
+2) teraz super(b,self).ma() 
+zavola ma() rodica (triedy a) ale odovzda jej self potomka, t.j. objektu x
+t.j. ako vidis to iste cislo: &lt;__main__.b object at 0x00A22F50&gt;
+
+3)Teraz v ma()-rodica volas
+self.prn(), lenze self ma hodnotu &lt;__main__.b object at 0x00A22F50&gt; a to 
+mu odovzdas, a to je referncia na potomka, takze sa zavola metoda 
+prn z potomka (a nie z rodica) a ta ti vytiskne 
+b &lt;__main__.b object at 0x00A22F50&gt;
+self rodica si nikde nezistil, lebo si tam nevytvoril na neho instanciu a 
+tak ani nemozes zavolat jeho metodu prn()
+
+V Pythone realizovali OOP (podla mna) podobne ako v Perle, jedna sa 
+vlastne o slovniky referencii ci uz na datove struktury, alebo na kod.
+V Perle OOP na nizsej urovni (to je primitivnejsie), ale clovek tam zas 
+lepsie vidi preco je to tak a jak to funguje.
+
+
+
+
+
+
+mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+10.11.2006 18:14
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+Re: [python] class a subclass
+
+
+
+
+
+
+&gt;&gt;<i>Proc by mel Python hledat
+</I>&gt;&gt;<i>nejprve metodu v potomku, kdyz ji volam z rodice ?
+</I>
+RM&gt; ale ty vytvoris instanciu potomka a volas teda metodu potomka takto
+RM&gt; x=b()
+RM&gt; x.ma()
+
+ME NEJDE O TO x.ma(). JDE O TO:
+x.ma()- &gt; vola ma() v potomku = OK
+ma() uvnitr vola rodicovske ma() = OK
+rodicovske ma() uvnitr vola self.prn() a to se vrati k potomkovi,
+protoze existuje stejna metoda b.ma()  a to je podle me chyba !
+tady by mel rodic volat svoje ma().
+Mirek.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RM&gt; mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt; 
+RM&gt; Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+RM&gt; 10.11.2006 17:24
+RM&gt; Please respond to
+RM&gt; Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+RM&gt; To
+RM&gt; Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+RM&gt; cc
+
+RM&gt; Subject
+RM&gt; Re: [python] class a subclass
+
+
+
+
+
+
+RM&gt; Zkusil jsem super a vysledek je ten samy.
+RM&gt; class a(object):
+RM&gt;     def prn(self):
+RM&gt;         print 'a',self
+RM&gt;     def ma(self):
+RM&gt;         self.prn()
+RM&gt;     def aa(self):
+RM&gt;         pass
+
+RM&gt; class b(a):
+RM&gt;     def prn(self):
+RM&gt;         print 'b',self
+RM&gt;     def ma(self):
+RM&gt;         '''prekryje a.ma()'''
+RM&gt;         super(b,self).ma()
+RM&gt;     def ba(self):
+RM&gt;         pass
+
+
+RM&gt; x=b()
+RM&gt; x.ma()
+ 
+
+RM&gt; Zjistil jsem, ze to funguje, jen pokud to zavolam takto:
+RM&gt; class b(a):
+RM&gt;     def prn(self):
+RM&gt;         print 'b',self
+RM&gt;     def ma(self):
+RM&gt;         '''prekryje a.ma()'''
+RM&gt;         a.ma(a())
+RM&gt;     def ba(self):
+RM&gt;         pass
+
+RM&gt; Coz je samozrejme nesmysl, protoze vytvarim novou instanci a.
+RM&gt; Tak se mi zda, ze tohle je neprijemna chyba. Proc by mel Python hledat
+RM&gt; nejprve metodu v potomku, kdyz ji volam z rodice ?
+
+RM&gt; Mirek.
+
+s&gt;&gt; Použij slovo super.
+
+s&gt;&gt; super(a,x).ma()
+
+s&gt;&gt; Miloslav Ponkrác
+
+RM&gt; _______________________________________________
+RM&gt; Python mailing list
+RM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+RM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+RM&gt; Mgr. Ing. Roman MIKLÓŠ 
+RM&gt; Prvá stavebná sporiteľňa a.s. 
+RM&gt; Bajkalská 30, P. O. Box 48 
+RM&gt; 829 48  Bratislava 25 
+RM&gt; Tel.: +421/ 2 / 582 31 174 
+RM&gt; Fax: +421/ 2 / 582 31 109 
+
+RM&gt; _______________________________________________
+RM&gt; Python mailing list
+RM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+RM&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005059.html">[python] class a subclass
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005018.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5050">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5050">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5050">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5050">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005050.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:27 GMT -->
+</html>

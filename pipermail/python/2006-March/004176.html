@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-March/004176.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:45 GMT -->
+<HEAD>
+   <TITLE> [python] ioctl() v céčku funguje, v Pythonu selže
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fioctl%3D28%3D29_v_c%3DE9%3DE8ku_funguje%3D2C_v_Pyth%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fonu_sel%3DBEe%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-March/004175.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-March/004178.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ioctl() v céčku funguje, v Pythonu selže</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fioctl%3D28%3D29_v_c%3DE9%3DE8ku_funguje%3D2C_v_Pyth%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fonu_sel%3DBEe%3F%3D&In-Reply-To="
+       TITLE="[python] ioctl() v céčku funguje, v Pythonu selže">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Středa Březen 22 04:15:38 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004175.html">[python] Prepis videa -- nove umisteni, prepracovana prvni cast
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004178.html">[python] ioctl() v céčku funguje, v Pythonu selže
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-March/date.html#4176">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/thread.html#4176">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/subject.html#4176">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/author.html#4176">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+když v Pythonu napíšu tohle,
+
+import tty, os, fcntl
+fd = os.open('/dev/ttyS0', os.O_RDWR | os.O_SYNC)
+fcntl.ioctl(fd, tty.TIOCMBIC, tty.TIOCM_DTR)
+
+tak to vyvolá výjimku
+IOError: [Errno 14] Bad address
+
+zatímco ekvivalentní program v C (puštěný na stejném stroji pod stejným 
+uživatelem)
+
+#include &lt;stdio.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(int argc, char **argv) {
+   int fd, r;
+   int iFlags = TIOCM_DTR;
+
+   fd = open(&quot;/dev/ttyS0&quot;,  O_RDWR | O_SYNC);
+   if (fd == -1){
+     perror(&quot;Failed to open port&quot;);
+     return -1;
+   }
+   r = ioctl(fd, TIOCMBIC, &amp;iFlags); /* Vynuluje DTR */
+   if (r == -1){
+     perror(&quot;TIOCMBIC failed&quot;);
+     return -1;
+   }
+   close(fd);
+   return 0;
+}
+
+funguje a žádnou chybu nevyhodí. Netušíte, v čem může být rozdíl?
+
+Díky
+johny
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004175.html">[python] Prepis videa -- nove umisteni, prepracovana prvni cast
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004178.html">[python] ioctl() v céčku funguje, v Pythonu selže
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-March/date.html#4176">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/thread.html#4176">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/subject.html#4176">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/author.html#4176">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-March/004176.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:45 GMT -->
+</html>

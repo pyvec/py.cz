@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-April/010656.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:35 GMT -->
+<HEAD>
+   <TITLE> [python] Unicode/ne-unicode problem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode/ne-unicode%20problem&In-Reply-To=%3C05ea01cd2450%24a4c43c80%246164a8c0%40IBMXP%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-April/010663.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-April/010657.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Unicode/ne-unicode problem</H1>
+    <B>Jaroslav Lukesh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode/ne-unicode%20problem&In-Reply-To=%3C05ea01cd2450%24a4c43c80%246164a8c0%40IBMXP%3E"
+       TITLE="[python] Unicode/ne-unicode problem">lukesh na seznam.cz
+       </A><BR>
+    <I>Pátek Duben 27 10:35:04 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-April/010663.html">[python] Banky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-April/010657.html">[python] file.close
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-April/date.html#10656">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-April/thread.html#10656">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-April/subject.html#10656">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-April/author.html#10656">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+
+potřeboval bych dostat z binárních dat utf8 na vstupu normální neunicodový 
+výstup, ale nějak mi to nejde.
+
+Vstup: znaky &quot;ě š č ř&quot; v utf8 již v binární formě, systém je v iso8859-2
+
+Čekám že z toho nějak dostanu &quot;ě š č ř&quot; ale pořád nic. Jak mu říct, že 'Ă˝ 
+Ăˇ Ă­ Ă.' je už v utf8?
+
+Děkuji, JL.
+
+&gt;&gt;&gt;<i> a='Ă˝ Ăˇ Ă­ Ă.'
+</I>&gt;&gt;&gt;<i> A=unicode(a,'iso8859-2')
+</I>&gt;&gt;&gt;<i> print a
+</I>Ă˝ Ăˇ Ă­ Ă.
+&gt;&gt;&gt;<i> A=unicode(a,'utf8')
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  File &quot;/var/zope/python/lib/python2.4/encodings/utf_8.py&quot;, line 16, in 
+decode
+    return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode bytes in position 9-10: 
+invalid data
+
+&gt;&gt;&gt;<i> A.encode('iso8859-2')
+</I>'\xc3\xbd \xc3\xb7 \xc3\xad \xc3.'
+
+&gt;&gt;&gt;<i> a.encode('iso8859-2')
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  File &quot;/var/zope/python/lib/python2.4/encodings/iso8859_2.py&quot;, line 18, in 
+encode
+    return codecs.charmap_encode(input,errors,encoding_map)
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 0: 
+ordinal not in range(128)
+&gt;&gt;&gt;<i>
+</I>
+&gt;&gt;&gt;<i> A.decode('iso8859-2')
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  File &quot;/var/zope/python/lib/python2.4/encodings/iso8859_2.py&quot;, line 22, in 
+decode
+    return codecs.charmap_decode(input,errors,decoding_map)
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-1: 
+ordinal not in range(128)
+&gt;&gt;&gt;<i> a.decode('iso8859-2')
+</I>u'\u0102\u02dd \u0102\u02c7 \u0102\xad \u0102.'
+&gt;&gt;&gt;<i> a.decode('utf8')
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  File &quot;/var/zope/python/lib/python2.4/encodings/utf_8.py&quot;, line 16, in 
+decode
+    return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode bytes in position 9-10: 
+invalid data
+&gt;&gt;&gt;<i>
+</I>
+
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-April/010663.html">[python] Banky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-April/010657.html">[python] file.close
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-April/date.html#10656">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-April/thread.html#10656">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-April/subject.html#10656">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-April/author.html#10656">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-April/010656.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:35 GMT -->
+</html>

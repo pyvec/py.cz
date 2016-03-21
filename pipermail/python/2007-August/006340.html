@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006340.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:26 GMT -->
+<HEAD>
+   <TITLE> [python] Odpověď na...Re: Python do DLL
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FOdpov%3DEC%3DEF_na%3D2E%3D2E%3D2ERe%3D3A_Python_do_DL%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3FL%3F%3D&In-Reply-To=234.180-30120-2095820744-1186051132%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-August/006339.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-August/006337.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Odpověď na...Re: Python do DLL</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FOdpov%3DEC%3DEF_na%3D2E%3D2E%3D2ERe%3D3A_Python_do_DL%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3FL%3F%3D&In-Reply-To=234.180-30120-2095820744-1186051132%40seznam.cz"
+       TITLE="[python] Odpověď na...Re: Python do DLL">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Čtvrtek Srpen  2 13:34:52 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006339.html">[python] Odpověď na...Re:  Python do DLL
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006337.html">[python] Odpověď na...Re:  Python do DLL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6340">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6340">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6340">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6340">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>
+</I>&gt;<i> Mohl by mi někdo prosím osvětlit, k čemu jsou v setup.py ty řádky od
+</I>&gt;<i> začátku až po začátek třídy Target?
+</I>&gt;<i> Je to k neuvěření, ale jsem mnohem větší začátečník než vy :)
+</I>&gt;<i>
+</I>
+No, vezmeme to poporadku :)
+
+1) importy - ty vysvetlovat nebudu ;-)
+2) ten workaround okopirovany z <A HREF="http://www.py2exe.org/index.cgi/WinShell">http://www.py2exe.org/index.cgi/WinShell</A>
+  to je reseni problemu (kompletne okopirovane z uvedene stranky) kdy jsou
+ve zdrojaku pouzity moduly z win32com. Tenhle modul se nechova uplne
+standardne a vnitrne provadi ruzne magicke kousky s cestou. Diky tomu ma pri
+normalnim spusteni py2exe trochu problem, ze nedokaze spravne moduly najit.
+Tech uvedenych par kousku kodu najde spravne soubory a naimportuje je, takze
+si s tim pak py2exe uz poradi.
+
+3) sys.path.append(getcwd()) - prida do cesty aktualni adresar, aby py2exe
+nasel potrebne soubory (je to tam jenom z lenosti, abych nemusel psat vsude
+kompletni cesty)
+
+4) pak uz je tam jenom ten kousek ktery rika, ze py2exe se ma volat s
+parametrem &quot;-q&quot; aby nebyl tak ukecany..
+
+Snad to pomuze :)
+
+   Jirka
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20070802/fe0003f7/attachment.htm">http://www.py.cz/pipermail/python/attachments/20070802/fe0003f7/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006339.html">[python] Odpověď na...Re:  Python do DLL
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006337.html">[python] Odpověď na...Re:  Python do DLL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6340">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6340">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6340">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6340">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006340.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:26 GMT -->
+</html>

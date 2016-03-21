@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005500.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:32 GMT -->
+<HEAD>
+   <TITLE> [python] reportlab a čeština
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Freportlab_a_%3DE8e%3DB9tina%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005497.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005502.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] reportlab a čeština</H1>
+    <B>Vladislav Ludík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Freportlab_a_%3DE8e%3DB9tina%3F%3D&In-Reply-To="
+       TITLE="[python] reportlab a čeština">vlada na ludik.cz
+       </A><BR>
+    <I>Neděle Únor  4 08:58:37 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005497.html">[python] spracovanie emailu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005502.html">[python] reportlab a čeština
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5500">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5500">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5500">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5500">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Problém: latin2 v modulu reportlab
+
+Když použiju program viz níže, jsou vygenerovány pdf tabulky v latin1.
+
+Jak dostat z reportlab co nejjednodušeji českou sadu na výstupu pdf ?
+
+import sys
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfgen import canvas
+import string
+
+label_formats = {'dec':('%d=', 'Decimal'),
+                'oct':('%o=','Octal'),
+                'hex':('0x%x=', 'Hexadecimal')}
+
+def run(mode):
+
+   label_formatter, caption = label_formats[mode]
+
+   for enc in ['WinAnsi','MacRoman']:
+
+       canv = canvas.Canvas(
+               'StandardFonts_%s.pdf' % enc,
+               )
+       canv.setPageCompression(0)
+
+       for faceName in pdfmetrics.standardFonts:
+           if faceName in ['Symbol', 'ZapfDingbats']:
+               encLabel = faceName+'Encoding'
+           else:
+               encLabel = enc + 'Encoding'
+
+           fontName = faceName + '-' + encLabel
+           pdfmetrics.registerFont(pdfmetrics.Font(fontName,
+                                       faceName,
+                                       encLabel)
+                       )
+
+           canv.setFont('Times-Bold', 18)
+           canv.drawString(80, 744, fontName)
+           canv.setFont('Times-BoldItalic', 12)
+           canv.drawRightString(515, 744, 'Labels in ' + caption)
+
+
+           #for dingbats, we need to use another font for the numbers.
+           #do two parallel text objects.
+           for byt in range(32, 256):
+               col, row = divmod(byt - 32, 32)
+               x = 72 + (66*col)
+               y = 720 - (18*row)
+               canv.setFont('Helvetica', 14)
+               canv.drawString(x, y, label_formatter % byt)
+               canv.setFont(fontName, 14)
+               canv.drawString(x+44, y, 
+chr(byt).decode(encLabel,'ignore').encode('utf8'))
+                         canv.showPage()
+       canv.save()
+
+
+if __name__ == '__main__':
+
+   mode = 'hex'
+   run(mode)
+
+
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005497.html">[python] spracovanie emailu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005502.html">[python] reportlab a čeština
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5500">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5500">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5500">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5500">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005500.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:32 GMT -->
+</html>

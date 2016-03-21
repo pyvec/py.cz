@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003163.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:48 GMT -->
+<HEAD>
+   <TITLE> [python] apache a mod_python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20apache%20a%20mod_python&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-August/003162.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-August/003181.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] apache a mod_python</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20apache%20a%20mod_python&In-Reply-To="
+       TITLE="[python] apache a mod_python">azurit na pobox.sk
+       </A><BR>
+    <I>Úterý Srpen  2 19:01:13 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003162.html">[python] apache a mod_python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003181.html">[python] apache a mod_python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3163">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3163">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3163">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3163">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+len taka malickost: toto je pre apache 2.x a mod_python 3.x
+
+clovek, ktory polozil otazku pouziva apache 1.3.x a mod_python 2.7.x :)
+
+azurIt
+
+
+&gt;<i> Staci toto:
+</I>&gt;<i> apt-get install mod_python (alebo podla distra)
+</I>&gt;<i> 
+</I>&gt;<i> v apache2 conf adresare: 
+</I>&gt;<i> cat mod_psp.cfg
+</I>&gt;<i>  AddHandler mod_python .psp
+</I>&gt;<i>  PythonHandler mod_python.psp
+</I>&gt;<i>  PythonDebug Off
+</I>&gt;<i> 
+</I>&gt;<i> linku z mods_available do mods_enabled (mod_python.load)
+</I>&gt;<i> a restarnut apacha
+</I>&gt;<i> 
+</I>&gt;<i> /etc/init.d/apache2 restart
+</I>&gt;<i> 
+</I>&gt;<i> Skusis napr.:
+</I>&gt;<i> cat skuska.psp
+</I>&gt;<i> def pr(tlac=&quot;&lt;h2&gt;Ziadny parameter neprisiel do funkcie \'pr\'.&lt;/h2&gt;&quot;):
+</I>&gt;<i>  req.write(str(tlac))
+</I>&gt;<i> pr (&quot;skuska tlace z pythona&quot;)
+</I>&gt;<i> 
+</I>&gt;<i> Neskusal som to, ale malo by to neako takto ist.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> On 7/31/05, azurIt &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>&gt; wrote:
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; ahoj,
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; co konkretne ti nejde ? vyhodi to nejaku chybu ? verzia Apachu ?
+</I>&gt;<i> &gt; verzia mod_pythonu ? ... ? ..... ? ako ti ma niekto pomoct, ked
+</I>&gt;<i> &gt; neposkytnes ziadne info ? :)
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; azurIt
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; Nejak to nemuzu dat dokopy,Procetl sem si napovedu k mod_python pre
+</I>&gt;<i> &gt; &gt; apache ale ani ukazkove skrypty nefunguji.Nevite nekdo jak dat
+</I>dokopy
+&gt;<i> &gt; &gt; apache spolu s mod_python a jakym spusobem psat skrypty.Nikde
+</I>sem nejak
+&gt;<i> &gt; &gt; nenasel rozumny navod.Za radu dekuji
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt;
+</I>___________________________________________________________________________
+&gt;<i> &gt; Podte na navstevu k Wande - k najlepsej priatelke kazdej zeny na 
+</I>&gt;<i> &gt; internete.
+</I>&gt;<i> &gt; <A HREF="http://www.wanda.sk/">http://www.wanda.sk/</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> 
+</I>
+___________________________________________________________________________
+Podte na navstevu k Wande - k najlepsej priatelke kazdej zeny na internete.
+<A HREF="http://www.wanda.sk/">http://www.wanda.sk/</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003162.html">[python] apache a mod_python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003181.html">[python] apache a mod_python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3163">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3163">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3163">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3163">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003163.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:48 GMT -->
+</html>

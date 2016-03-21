@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-February/001527.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:48 GMT -->
+<HEAD>
+   <TITLE> [python] VYŘEŠENO: Threading, GTK2
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVY%3DD8E%3DA9ENO%3D3A%3F%3D%20Threading%2C%20GTK2&In-Reply-To=20040210225854.GD728%40primula">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-February/001526.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-February/001528.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] VYŘEŠENO: Threading, GTK2</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVY%3DD8E%3DA9ENO%3D3A%3F%3D%20Threading%2C%20GTK2&In-Reply-To=20040210225854.GD728%40primula"
+       TITLE="[python] VYŘEŠENO: Threading, GTK2">fuky na seif.cz
+       </A><BR>
+    <I>Středa Únor 11 21:28:16 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-February/001526.html">[python] Threading, GTK2
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-February/001528.html">[python] ZTP - header - foother
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-February/date.html#1527">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/thread.html#1527">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/subject.html#1527">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/author.html#1527">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+tak jsem již našel odpověď na svou otázku ;-D
+
+gtk.threads_init()
+
+A někomu by se ještě mohli hodit funkce:
+
+gtk.threads_enter()
+gtk.threads_leave()
+
+          S pozdravem Fuky
+
+10. Feb (Tuesday) v 23:58:55 CET 2004, <A HREF="http://www.py.cz/mailman/listinfo/python">fuky na seif.cz</A> napsal(a):
+&gt;<i> Dobrý den,
+</I>&gt;<i> mám gtk aplikaci a v ním spouštím funkci (použitím tlačítka), která
+</I>&gt;<i> spustí dva další procesy (používám modul threading).
+</I>&gt;<i> 
+</I>&gt;<i> Procesy se spustí, ale jakmile se funkce, která je spustila ukončí a
+</I>&gt;<i> řízení programu se předá tím pádem zpátky gtk, okamžitě procesy přeruší.
+</I>&gt;<i> Takže se procesy dokončí teprve, když uzavřu gtk okno.
+</I>&gt;<i> 
+</I>&gt;<i> Jak docílit toho, aby gtk procesy nepřerušovalo a nechalo je běžet. Když
+</I>&gt;<i> použiju join(), tak sice gtk zablokuju, proces mi doběhne do konce, ale
+</I>&gt;<i> to nechci.
+</I>&gt;<i> 
+</I>&gt;<i> Chci nechat běžet současně gtk + dva mé procesy. Jak mám tedy gtk říct,
+</I>&gt;<i> aby si jich nevšímalo a nechalo je klidně běžet?
+</I>&gt;<i> 
+</I>&gt;<i> Budu vděčný za každou radu.
+</I>&gt;<i> 
+</I>&gt;<i>           S pozdravem Fuky
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> 
+</I>&gt;<i> /************* GNU.CZ Linux.CZ Debian.CZ ***************
+</I>&gt;<i>  * WWW.Seif.CZ
+</I>&gt;<i>  *******************************************************
+</I>&gt;<i>  * Žádný program není bezchybný, dokonalý ani nejlepší,
+</I>&gt;<i>  * to samé platí i o lidech a nejen o nich.
+</I>&gt;<i>  *                                   -- Jan Fuchs --
+</I>&gt;<i>  *******************************************************/
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+-- 
+
+/************* GNU.CZ Linux.CZ Debian.CZ ***************
+ * WWW.Seif.CZ
+ *******************************************************
+ * Žádný program není bezchybný, dokonalý ani nejlepší,
+ * to samé platí i o lidech a nejen o nich.
+ *                                   -- Jan Fuchs --
+ *******************************************************/
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-February/001526.html">[python] Threading, GTK2
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-February/001528.html">[python] ZTP - header - foother
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-February/date.html#1527">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/thread.html#1527">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/subject.html#1527">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/author.html#1527">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-February/001527.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:48 GMT -->
+</html>

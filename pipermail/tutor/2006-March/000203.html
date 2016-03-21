@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000203.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Globalni,
+	lokalni a volne promenno (bylo Dalsi problem s Livewires)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Globalni%2C%0A%09lokalni%20a%20volne%20promenno%20%28bylo%20Dalsi%20problem%20s%20Livewires%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000207.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000210.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Globalni,
+	lokalni a volne promenno (bylo Dalsi problem s Livewires)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Globalni%2C%0A%09lokalni%20a%20volne%20promenno%20%28bylo%20Dalsi%20problem%20s%20Livewires%29&In-Reply-To="
+       TITLE="[Tutor PyCZ] Globalni,
+	lokalni a volne promenno (bylo Dalsi problem s Livewires)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Březen  1 09:19:21 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000207.html">[Tutor PyCZ] gui aplikace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000210.html">[Tutor PyCZ] Globalni,
+	lokalni a volne promenno (bylo Dalsi problem s Livewires)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#203">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#203">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#203">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#203">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>geon
+&gt;<i> Tomáš Bělonožník napsal(a):
+</I>&gt;<i> &gt; [...]
+</I>&gt;<i> &gt; def posunHrace():
+</I>&gt;<i> &gt;     stisky = keys_pressed()
+</I>&gt;<i> &gt;     if &quot;2&quot; in stisky:
+</I>&gt;<i> &gt;         yh = yh - 10
+</I>&gt;<i> &gt;         move_to(Hrac_telo, xh, yh)
+</I>&gt;<i> &gt;         return yh
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; [...] Hází mi to ale chybu &quot;local variable 'yh' 
+</I>&gt;<i> &gt; referenced before assignment&quot;. Chápu to
+</I>&gt;<i> &gt; tak, že jsem proměnnou yh zmínil ještě předtím, 
+</I>&gt;<i> &gt; než jsem jí přiřadil nějakou hodnotu. Ale proč 
+</I>&gt;<i> &gt; si tu hodnotu nevezme sám z vyšších pater
+</I>&gt;<i> &gt; programu, jako to udělal, když řádek move_to vypadal
+</I>&gt;<i> &gt; &quot;move_to(Hrac_telo, xh, yh-10)&quot;. 
+</I>
+&gt;<i> [...] Trocha teorie ode mne: některé proměnné 
+</I>&gt;<i> skutečně funkce dokáže brát zezhora - zde třeba Hrac_telo 
+</I>&gt;<i> nebo tvůj výše uváděný move_to(Hrac_telo, xh, yh-10). 
+</I>&gt;<i> Jsou to ale vzdy jen ty proměnné, které se ve funkci 
+</I>&gt;<i> nemění - jsou tam jen jakoby read-only. Proto ti to 
+</I>&gt;<i> házelo tu chybu, protože jsi chtěl změnit read-only 
+</I>&gt;<i> proměnnou.
+</I>
+Pokud ve funkci použiji proměnnou a nesnažím
+se do ní přiřazovat, jde o takzvanou volnou proměnnou
+(free variable). Volnou se nazývá proto, protože
+v bloku kódu neexistuje pevná vazba mezi jménem
+'x' a konkrétním místem, kde je hodnota uložena.
+V okamžiku odkazu se teprve poloha &quot;ve vyšších patrech&quot;
+bude zjišťovat.
+
+Pokud do proměnné něco přiřadím, stává se lokální 
+proměnnou v daném bloku kódu. Vyytváří se pevná
+vazba z mého lokálního prostoru. Už nemůžeme hovořit
+o volné proměnné (tj. o proměnné definované někde
+ve vyšších patrech). Pevná vazba na lokální prostor
+se vytváří i tehdy, když se do této proměnné
+přiřazuje až později (ve stejném bloku), než když 
+se z ní čte. Příklad:
+
+soubor a.py 
+=====================================
+x = 10
+
+def funkce1():
+    print x
+
+def funkce2():
+    return x
+
+print x            # (1)
+funkce1()          # (2)
+print funkce2()    # (3)
+=====================================
+
+Příkaz &quot;print x&quot; na řádku (1) vytiskne
+podle očekávání hodnotu 10. Jde o proměnnou
+definovanou na stejné úrovni.
+
+Na řádku (2) voláme funkce1() a ta se
+v příkazu &quot;print x&quot; tiskne proměnou, která
+je definována na &quot;vyšší úrovni&quot;. Jde ale
+o volnou proměnnou, která se postupně hledá
+v nadřízených lokálních prostorech (zde
+žádné nemáme) a nakonec v prostoru globálním.
+
+Na řádku (3) tiskneme výsledek, který získáváme
+voláním funkce2(). V jejím těle se pouze vrací
+hodnota volné proměnné x. Jde o podobný případ,
+jako u funkce1(). Hodnota proměnné x se pouze
+zpracuje jiným způsobem.
+
+Zkuste ale tohle:
+
+soubor c.py 
+=====================================
+x = 10
+
+def funkce3():
+    x = x + 1
+    print x
+
+funkce3()
+=====================================
+
+Při pokusu o spuštění se ukáže toto...
+
+C:\tmp&gt;python c.py
+Traceback (most recent call last):
+  File &quot;c.py&quot;, line 7, in ?
+    funkce3()
+  File &quot;c.py&quot;, line 4, in funkce3
+    x = x + 1
+UnboundLocalError: local variable 'x' referenced before assignment
+
+Jak už bylo uvedeno výše, přiřazení &quot;x = x + 1&quot; 
+způsobí, že funkce3 už o proměnné x chce uvažovat
+jako o lokální proměnné. Jenže tato lokální proměnná
+je použita na pravé straně přiřazení a zatím jí
+nebyla přiřazena žádná hodnota, tj. &quot;proveden
+odkaz na lokální proměnnou 'x', které dosud nebylo 
+nic přiřazeno&quot;. Ona vlastně proměnná x zatím 
+neexistuje a chceme ji vytvořit a přiřadit
+jí její neexistující hodnotu zvětšenou o jedničku.
+
+Ve stejném bloku kódu označuje jedno jméno
+jen jednu proměnnou. Python nedovolí, abychom
+se na tuto proměnnou dívali chvíli jako na volnou
+proměnnou (vytvořenou ve vyšších patrech) a o něco
+později jako na lokální proměnnou. Z tohoto důvodu
+selže i následující příklad:
+
+soubor d.py 
+=====================================
+x = 10
+
+def funkce4():
+    print x
+    x = x + 1
+
+funkce4()
+=====================================
+
+C:\tmp\a&gt;python d.py
+Traceback (most recent call last):
+  File &quot;d.py&quot;, line 7, in ?
+    funkce4()
+  File &quot;d.py&quot;, line 4, in funkce4
+    print x
+UnboundLocalError: local variable 'x' referenced before assignment
+
+Tentokrát selže už příkaz &quot;print x&quot;, který
+ve funkce1() normálně fungoval. Tehdy jsme se
+ale na x dívali jako na volnou proměnnou 
+(definovanou jinde). Jenže příkaz &quot;x = x + 1&quot;
+ve funkce4() způsobí, že x nemůže být volnou
+proměnnou. V okamžiku definice funkce4() už se
+rozhodne o tom, že x bude lokální proměnná
+a nikdy jinak. Za těchto okolností se na příkaz
+&quot;print x&quot; pohlíží jako na pokus zobrazit obsah
+dosud neexistující proměnné.
+
+Pokud by Python nebyl tak přísný a měnil
+by charakter proměnné z volné na lokální
+až podle potřeby, mohlo by to fungovat, 
+ale pro člověka by se zdrojový text stával
+nepřehledným a v komplikovanějších případech 
+by to mohlo vést k těžko odhalitelným chybám. 
+Už jen v případě &quot;x = x + 1&quot; bychom vlastně
+nemohli říci, co ten příkaz dělá, protože
+bychom neměli jistotu, že se na obou stranách
+přiřazení pracuje se stejnou proměnnou x.
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000207.html">[Tutor PyCZ] gui aplikace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000210.html">[Tutor PyCZ] Globalni,
+	lokalni a volne promenno (bylo Dalsi problem s Livewires)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#203">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#203">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#203">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#203">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000203.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010773.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+<HEAD>
+   <TITLE> [python] pygame
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pygame&In-Reply-To=%3C22628.4887.11139-15023-1544220518-1346964819%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-September/010772.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-September/010774.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pygame</H1>
+    <B>Ctibor.Plasek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pygame&In-Reply-To=%3C22628.4887.11139-15023-1544220518-1346964819%40seznam.cz%3E"
+       TITLE="[python] pygame">Ctibor.Plasek na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Září  6 22:53:39 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010772.html">[python] pygame
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010774.html">[python] pygame
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10773">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10773">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10773">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10773">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No to je luxus.
+
+Díky moc.
+Ctibor
+
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od:  &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">goddard na seznam.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] pygame
+</I>&gt;<i> Datum: 06.9.2012 12:27:22
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> ahoj,
+</I>&gt;<i> 
+</I>&gt;<i> tohle by melo fungovat diky pygame.key.set_repeat(delay, interval)
+</I>&gt;<i> (<A HREF="http://www.pygame.org/docs/ref/key.html#pygame.key.set_repeat">http://www.pygame.org/docs/ref/key.html#pygame.key.set_repeat</A>)
+</I>&gt;<i> 
+</I>&gt;<i> import random, time, pygame, sys
+</I>&gt;<i> from pygame.locals import *
+</I>&gt;<i> 
+</I>&gt;<i> FPS = 25
+</I>&gt;<i> W_HEIGHT = 480
+</I>&gt;<i> W_WIDTH = 640
+</I>&gt;<i> 
+</I>&gt;<i> pygame.init()
+</I>&gt;<i> pygame.display.set_mode((W_WIDTH, W_HEIGHT))
+</I>&gt;<i> pygame.key.set_repeat(1, 25)
+</I>&gt;<i> 
+</I>&gt;<i> while True:
+</I>&gt;<i>   for event in pygame.event.get():
+</I>&gt;<i>     if event.type == QUIT:
+</I>&gt;<i>       sys.exit(0)
+</I>&gt;<i>     if event.type == KEYDOWN:
+</I>&gt;<i>       if event.key == K_LEFT:
+</I>&gt;<i>         print &quot;go left&quot;
+</I>&gt;<i> 
+</I>&gt;<i> pygame.dsplay.update()
+</I>&gt;<i> FPSCLOCK.tick(FPS)
+</I>&gt;<i> 
+</I>&gt;<i> jiri
+</I>&gt;<i> 
+</I>&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Hynek Fabian &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">hynek.fabian na firma.seznam.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] pygame
+</I>&gt;<i> Datum: 05.9.2012 13:43:47
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> To IMO o moc lip vyresit nejde, pacz kdyz budes reagovat na kazdou
+</I>&gt;<i> udalost, tak panacek pujde tak rychle jak rychle bude masina stihat
+</I>&gt;<i> vyrabet udalosti. Cili tam stejne nekde budes muset mit casovac, v
+</I>&gt;<i> hlavni smycce postupne sbirat udalosti vcetne klaves a az kdyz prisel
+</I>&gt;<i> cas udelat dalsi krok tak na ne reagovat.
+</I>&gt;<i> 
+</I>&gt;<i> On 09/05/12 12:36, Ctibor.Plasek wrote:
+</I>&gt;<i> &gt; Ahoj. To jsem taky vyzkoušel akorát mi to přišlo takové kostrbaté
+</I>&gt;<i> &gt; řešení (permanentně kontrolovat, že je klávesa stisknutá a pak zas že
+</I>&gt;<i> &gt; je puštěná). Ale asi to asi jinak nepůjde :-(
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt;&gt; ------------ Původní zpráva ------------ Od: azurIt
+</I>&gt;<i> &gt;&gt; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit na pobox.sk</A>&gt; Předmět: Re: [python] pygame Datum: 05.9.2012
+</I>&gt;<i> &gt;&gt; 12:18:39 ---------------------------------------- Ahoj,
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; priamo skusenosti s tym nemam avsak co tak pri stlaceni nastavit
+</I>&gt;<i> &gt;&gt; nejaky priznak (nejaku premennu na True), ze klavesa je stlacena a
+</I>&gt;<i> &gt;&gt; nasledne pri pusteni ten priznak vynulovat? Dany priznak mozes
+</I>&gt;<i> &gt;&gt; niekde inde kontrolovat a ak je True, tak sa panacik bude
+</I>&gt;<i> &gt;&gt; pohybovat.
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; azur
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; ______________________________________________________________
+</I>&gt;<i> &gt;&gt;&gt; Od: &quot;Ctibor.Plasek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Ctibor.Plasek na seznam.cz</A>&gt; Komu:
+</I>&gt;<i> &gt;&gt;&gt; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt; Dátum: 05.09.2012 12:12 Predmet: [python] pygame
+</I>&gt;<i> &gt;&gt;&gt; 
+</I>&gt;<i> &gt;&gt;&gt; Ahoj. Nemáte někdo zkušenosti s Pygame? Mám takový problém : při
+</I>&gt;<i> &gt;&gt;&gt; stisku klávesy chci, aby 'panáček' šel tak dlouho,
+</I>&gt;<i> &gt;&gt; dokud klávesu nepustím ( což je zdá se logické).
+</I>&gt;<i> &gt;&gt;&gt; Jenže když použiji :
+</I>&gt;<i> &gt;&gt;&gt; 
+</I>&gt;<i> &gt;&gt;&gt; stisk = pygame.key.get_pressed() if stisk[K_UP]: print(&quot;ahoj
+</I>&gt;<i> &gt;&gt;&gt; UP&quot;) elif stisk[pygame.K_DOWN]: print(&quot;ahoj DOWN&quot;)
+</I>&gt;<i> &gt;&gt;&gt; 
+</I>&gt;<i> &gt;&gt;&gt; anebo :
+</I>&gt;<i> &gt;&gt;&gt; 
+</I>&gt;<i> &gt;&gt;&gt; for event in pygame.event.get():
+</I>&gt;<i> &gt;&gt;&gt; 
+</I>&gt;<i> &gt;&gt;&gt; if event.type == QUIT or (event.type == KEYUP and event.key ==
+</I>&gt;<i> &gt;&gt; K_ESCAPE):
+</I>&gt;<i> &gt;&gt;&gt; pygame.quit() sys.exit()
+</I>&gt;<i> &gt;&gt;&gt; 
+</I>&gt;<i> &gt;&gt;&gt; if event.type == KEYUP and event.key == K_RIGHT : klavesa = 1
+</I>&gt;<i> &gt;&gt;&gt; 
+</I>&gt;<i> &gt;&gt;&gt; if event.type == KEYUP and event.key == K_LEFT : klavesa = -1
+</I>&gt;<i> &gt;&gt;&gt; 
+</I>&gt;<i> &gt;&gt;&gt; Tak to vždy bere akorát jedno stisknutí. Nemůžete mi někdo
+</I>&gt;<i> &gt;&gt;&gt; poradit, jak to
+</I>&gt;<i> &gt;&gt; jednoduše vyřešit ?
+</I>&gt;<i> &gt;&gt;&gt; Děkuji Ctibor _______________________________________________ 
+</I>&gt;<i> &gt;&gt;&gt; Python mailing list <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> 
+</I>&gt;<i> &gt;&gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;&gt;&gt; 
+</I>&gt;<i> &gt;&gt; _______________________________________________ Python mailing
+</I>&gt;<i> &gt;&gt; list <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt;&gt; 
+</I>&gt;<i> &gt; _______________________________________________ Python mailing list 
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010772.html">[python] pygame
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010774.html">[python] pygame
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10773">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10773">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10773">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10773">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010773.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+</html>

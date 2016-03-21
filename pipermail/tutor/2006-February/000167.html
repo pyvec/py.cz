@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000167.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Tkinter - promenny pocet widgetu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Tkinter%20-%20promenny%20pocet%20widgetu&In-Reply-To=433AE4935BD340258080F6F07BB6EF7B.MAI%40email.forpsi.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000166.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000168.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Tkinter - promenny pocet widgetu</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Tkinter%20-%20promenny%20pocet%20widgetu&In-Reply-To=433AE4935BD340258080F6F07BB6EF7B.MAI%40email.forpsi.com"
+       TITLE="[Tutor PyCZ] Tkinter - promenny pocet widgetu">geon na post.cz
+       </A><BR>
+    <I>Sobota Únor 11 22:16:34 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000166.html">[Tutor PyCZ] Tkinter - promenny pocet widgetu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000168.html">[Tutor PyCZ] Tkinter - promenny pocet widgetu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#167">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#167">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#167">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#167">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE><A HREF="http://www.py.cz/mailman/listinfo/tutor">michal na kandrac.net</A> napsal(a):
+&gt;<i> Ahoj.
+</I>&gt;<i> Tak jsem na tom popracoval, z casti uz to dela co bych chtel - pocet 
+</I>&gt;<i> rout se meni podle promenne routyPocet. Nicmene ted nedokazu udelat 
+</I>&gt;<i> to, aby se dal jejich pocet menit za chodu smycky hlavniho okna. 
+</I>&gt;<i> Tusim, ze to bude jednoduche, ale moje znalosti zatim jaksi 
+</I>&gt;<i> nepostacuji. Prosim jeste jednou o radu. Napadlo me, ze bych mohl 
+</I>&gt;<i> celou tu cast, ve ktere se vytvareji widgety pro routy umistit dovnitr 
+</I>&gt;<i> funkce zmenPocet, ale nezda se mi to jako dobra myslenka. Tak se 
+</I>&gt;<i> radeji zeptam :-).
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> def zmenPocet():
+</I>&gt;<i>     global routyPocet
+</I>&gt;<i>     routyPocet = int(volbaPoctuRout.get())
+</I>&gt;<i>     print routyPocet
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> for x in range(routyPocet):
+</I>&gt;<i>     var=StringVar()
+</I>&gt;<i>     routaSit=Entry(root, textvariable=var, width = 14)
+</I>&gt;<i>     routaSit.grid(row = 2 + range(routyPocet).index(x), column = 1)
+</I>&gt;<i>     routySitVar.append(var)
+</I>&gt;<i>
+</I>&gt;<i> for x in range(routyPocet):
+</I>&gt;<i>     var=StringVar()
+</I>&gt;<i>     routaMaska=Entry(root, textvariable=var, width = 14)
+</I>&gt;<i>     routaMaska.grid(row = 2 + range(routyPocet).index(x), column = 2)
+</I>&gt;<i>     routyMaskaVar.append(var)
+</I>&gt;<i>
+</I>&gt;<i> for x in range(routyPocet):
+</I>&gt;<i>     var=StringVar()
+</I>&gt;<i>     routaKam=Entry(root, textvariable=var, width = 14)
+</I>&gt;<i>     routaKam.grid(row = 2 + range(routyPocet).index(x), column = 3)
+</I>&gt;<i>     routyKamVar.append(var)
+</I>&gt;<i>   
+</I>Budeš muset tu část, kde se Routy (co co vlastně je ta Routa? :-) ) 
+vytvářejí, umísnit do funkce. A tuto fukci volat jednak při prvním běhu 
+a jednak při každém zavolání funkce zmenPocet(). Tam navíc musíš 
+zajistit smazání všech dosavadních Entry (procházet je v poli a použít 
+metodu ....grid_remove? nebo dokonce destroy ? ) A nebo to celé umístnit 
+do Framu a nechat ničit najednou cely Frame.
+
+Bacha na to že, že z globálních proměnných se v té nové funkci stanou 
+lokální proměnné a na to, že tam máš defacto natvrdo 3 sloupce. To budeš 
+muset udělat cyklem, abys to mohl dynamicky měnit, pokud tedy sloupce 
+nemají zůstávat pořád tři. Pak by se asi nemuselo vše mazat , jak jsem 
+psal v minulém odstavci, ale je si pamatovat, kolik tam bylo řad a 
+mazat/přidávat jen 3 widgety. A nebo zase si celou řadu dávat do Framu a 
+mazat cely Frame.
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000166.html">[Tutor PyCZ] Tkinter - promenny pocet widgetu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000168.html">[Tutor PyCZ] Tkinter - promenny pocet widgetu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#167">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#167">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#167">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#167">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000167.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007900.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:06 GMT -->
+<HEAD>
+   <TITLE> [python] Guido o funkcich reduce(), filter() a map() v Python 3000
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=764EAB0866804A5198593C0D5842B5E1%40HP15900312791">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007897.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007904.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Guido o funkcich reduce(), filter() a map() v Python 3000</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=764EAB0866804A5198593C0D5842B5E1%40HP15900312791"
+       TITLE="[python] Guido o funkcich reduce(), filter() a map() v Python 3000">feed na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Červen 26 11:23:28 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007897.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007904.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7900">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7900">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7900">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7900">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i> C++ je! pokračovatelem C. Přirozeným, nebo nepřirozeným ale je. Že se
+</I>&gt;<i> Stroustrup nechal inspirovat jinými jazyky je tak nějak jasné. Protože
+</I>&gt;<i> proto asi C měnil, že nemá objekty, že nemá proudy a tak.
+</I>&gt;<i> A C++ je zpětně kompatabilní, zvláště u vás mě překvapuje, že tvrdíte
+</I>&gt;<i> opak. Rozdíl je pouze v tom, že jsou tam občas háčky. Nehledě k tomu,
+</I>&gt;<i> pakliže by jste byl tak velký hnidopich, on je rozdíl i mezi
+</I>&gt;<i> jednotlivými verzemi C. Netvrdím že nějak zásadní, ale jsou tam.
+</I>&gt;<i>   
+</I>
+Ale houby. C++ není pokračovatelem C. Je to vidět i na vývoje, jak C, 
+tak i C++ se stále vyvíjí samostatně a zcela nezávisle, a nikterak se na 
+nich neprojevuje, že by &quot;C++ bylo pokračovatelem C&quot;. C si střihlo novou 
+normu C99 a C++ teď vážně míří k normě C++0x - a obě normy velmi 
+rozevírají nůžky mezi C++ a C. A věřte mi, že zdrojový kód Céčka plně 
+využívající výdobytků normy C99 ani náhodou nepřeložíte C++ kompilátorem.
+
+Je to prostě lež jako věž - C++ není pokračovatelem C. A jak vidíte i z 
+vývoje obou jazyků - oba jazyky se chovají zcela individuálně, a 
+vyvíjejí se naprosto rozdílně.
+
+Celé je to o tom, že C++ má &quot;C like syntaxi&quot; a to proto, že si 
+Stroustrup (který byl podnikavě praktický, a obchodní hledisko měl v 
+krvi) uvědomoval, že rychleji prosadí C++, pokud se po přechodu z C 
+budou muset lidé co nejméně učit. Tato strategie mu vyšla. A stejnou 
+strategii udělal třeba Sun s Javou, kde jí dal do vínku &quot;C++ like 
+syntaxi&quot;. Stejnou strategii udělal Microsoft s C#, kde mu dal &quot;C++ like 
+syntaxi&quot;.
+
+K faktické stránce: Jazyk C má proudy. Je rozdíl mezi verzemi C, jsou v 
+zásadě 3 verze: K&amp;R C, C98 a C99. Všechny současné a moderní kompilátory 
+umějí první verze jako když bičem mrská, a budou je umět i v budoucnu. 
+Kde je problém?
+
+&gt;<i> Chcete mi trvrdit, že Novell a Migueala tak moc ovlivnil Microsoftí
+</I>&gt;<i> marketing? No, možné to je. Ale o tomhle jsem hovořil dále.
+</I>&gt;<i>   
+</I>Chci tvrdit, že marketink má větší sílu, než si všichni uvědomujeme.
+
+
+&gt;<i> Záruky jsou buzzword. Uznávám, že v tomto máte pravdu. Jsou velice
+</I>&gt;<i> důležité. Problém je v tom, že vám je nikdo nedá. Nebo tedy, alespoň já
+</I>&gt;<i> jsem se vždycky setkal pouze se sliby. Ale oni se jako záruky dají brát
+</I>&gt;<i> i nejen slova, ale chování lidí. Což jste také  nastínil. Právě třeba u
+</I>&gt;<i> Guida mohu očekávat záruku, že se mi jazyk nebude parchantit, a případné
+</I>&gt;<i> nelogičnosti se prostě odstraní. Můžete se na záruku dívat i v tomto.
+</I>&gt;<i> Představa, že na fungující kód se nehrabe je sice pěkná, ale ve
+</I>&gt;<i> skutečnosti to je přeci jen jinak.
+</I>&gt;<i>   
+</I>
+Naprostý souhlas - záruky jsou buzzword. Nicméně já třeba ze svého 
+pohledu dvacet let tvrdých zkušeností v IT sektoru vidím v Guidovi právě 
+tu záruku parchantění jazyka. A představa, že na fungující kód se 
+nehrabe je nejen velice reálná, ale ono se to ani jinak nedá - a 
+minimálně 80% programátorských věcí takto funguje. Ono totiž rozorávat 
+kód je nejen velice drahé z hlediska nákladů, ale také rapidně snižuje 
+spolehlivost - a v mnoha oblastech jsou ztráty v důsledku jediné chyby v 
+sw astronomické.
+
+Zkuste si třeba představit, že děláte firmware do libovolného zařízení, 
+kterého prodáte milióny kusů. A vývoj Vám bude řídit člověk s teorií, že 
+&quot;vše přepíše&quot;. Po půl roce se ovšem objeví několik závažných chyb ve 
+firmware - naštěstí je jde přeplácnost změnou firmware, ale i tak to 
+Vaší firmu a servis stojí milióny. Pak se objeví další chyba, která 
+bohužel už jde řešit pouze výměnou celého zařízení, nebo základní desku 
+- a Vy zjišťujete, že jste si stačil udělat špatné jméno, na opravách a 
+servisech jste prodělal více, než jste vydělal a cena akcií Vaší firmy 
+jde dolů. Konkurence se ovšem podobným excesům vyhla, vydělává, udělala 
+si dobré jméno, v podvědomí lidí získala povědomí spolehlivosti, a mohla 
+dokonce zdražit. Vy ovšem musíte investovat do mohutné P.R. kampaně a 
+zlevnit, aby Vaše výrobky lidé kupovali. Velmi běžný scénář.
+
+A teď si představte, že děláte sw pro letadla (při chybě škoda rovná se 
+až zdemolování letadla a pár stovek mrtvol), do auta (škoda trochu 
+menší), do lékařských zařízení (to osobně dělám já třeba řadu let), do 
+bank, či do důležitých částí firem.
+
+Představte si to třeba tak, že cena Vaší chyby v programu prudce roste s 
+počtem prodaných kusů. A ona Vás chyba může i zruinovat, jednak 
+finančně, a jednak poškozením jména. Velmi mnoho firem zkrachovalo 
+následkem chyby puštěné ven. Često to projde, a velmi často také ne.
+
+
+&gt;<i> Nic nemíchám.
+</I>&gt;<i> Je to mé tvrzení, tak neprskejte :-)
+</I>&gt;<i> Cílem Microsoftu bylo najít skulinu v trhu. Hold business. A tak to
+</I>&gt;<i> vzala hezky od podlahy a vytvořila C#. Na základě Javy, Ady, a dalšího
+</I>&gt;<i> mraku jazyků jako inspirace.
+</I>&gt;<i>   
+</I>
+Cílem Microsoftu nebylo najít skulinu na trhu. Cílem Microsoftu bylo 
+zbavit se a kopnout do čumáku Sun, který si začal moc vyskakovat s Javou 
+- a neuvědomil si, že proti němu nestojí bezmocný Jouda z vesnice. Do té 
+chvíle Microsoft udělal nejrychlejší existující implementaci Javy co 
+existovala a rozvíjel svoje Microsoft Visual J++.
+
+Následkem toho se Microsoft rozhodl udělat .NET projekt, který se 
+inspiroval asi tak miliónem věcí, nicméně není žádnou z tou věcí. Já 
+jsem se třeba inspiroval názory své ženy v některých věcech, nestal jsem 
+se ale tím ženou, ani následovníkem své ženy. A stejně tak se C# 
+inspiroval mnoha věcmi, ale není nutně následovníkem.
+
+&gt;<i> Pro pochopení mé argumentace: Mezi C a C++ je relativně malý rozdíl,
+</I>&gt;<i> protože to byla jen naroubovat třídy do procedurálního jazyka.
+</I>&gt;<i> Naopak, mezi Javou a C# je ten rozdíl už mnohem větší, protože se v něm
+</I>&gt;<i> promítlo a je zabudováno mnohem více moderních vlastností jazyka.
+</I>&gt;<i>   
+</I>Asi stokrát jsem napsal jako odpověď na dotaz toto:
+
+Otázka: Jak poznám člověka, který skutečně umí C++?
+
+Odpověď: Pokud tvrdí, že C++ je stejné jako C, nebo je mezi těmito dvěma 
+jazyka jen malý rozdíl, zcela jistě máte vedle sebe člověka, který C++ 
+neovládá jinak, než maximálně v začátečníckém levelu.
+
+&gt;<i> A podobně, mezi pythonem a pythonem 3000 je podobný rozdíl. Že to jsou
+</I>&gt;<i> stejné jazyky? Nebo nejsou? To je otázka optiky. Ono lze brát i rozdíl
+</I>&gt;<i> mezi K&amp;C C a C99 za různé jazyky. (S trochou nadsázky, samozřejmě.)
+</I>&gt;<i>   
+</I>
+Dáváte do souvislostí a analogií věci,  u kterých to nejde. Jazyky C a 
+C++ jsou skutečně odlišné jazyky. Vznikem C++ se nepřestal vyvíjet jazyk 
+C - a oba jazyky se intenzívně stále vyvíjejí, používají, a nikdo 
+nepredikuje, že buď jazyk C, nebo jazyk C++ skončí a přestane se 
+vyvíjet. Všechny dnešní kompilátory berou za samozřejmost, že budou 
+podporovat všechny dialekty C, a hodlají to tak dělat i nadále. (Pro 
+rejpaly: Podpora C99 je u mnoha kompilátorů v plenkách.).
+
+Zatímco Python starý a Python 3000 je jeden jazyk, přičemž starý 
+postupně umře, pokud Python 3000 prorazí. Dáváte do analogií věci, které 
+srovnávat nejsou - proto Vám píšu, že srovnáváte hrušky s jablky.
+
+&gt;<i> Vy chcete, aby se jazyk neměnil, někdo jiný chce, aby se s ním dobře
+</I>&gt;<i> pracovalo. Vývoj.
+</I>&gt;<i>   
+</I>
+Kdybych byl ironický, něco bych napsal. Ale namísto toho napíšu, dnes je 
+momentální móda několik jazyků někompatibilně syntakticky překopat - 
+tato nemoc postihla současně Perl, Python, Ruby. Jenže móda je vrtkavá, 
+a co je dnes v módě za pár let se může ukázat totálně out. Ale výsledky 
+už se projevují - Perl jde postupně do pozadí, Python opouští spousta 
+vývojářů, kteří chtějí dělat programy, a ne rozorávat co funguje. Oba 
+jazyky si tímto podepíší postupně ortel na přechod do jazyků druhé až 
+třetí kategorie z původně nadějných kandidátů na mainstream jazyky. 
+Nejlépe se podle mě vzpamatuje Ruby, protože je to styl jazyka, který 
+dnes chybí (funkcionální plně OOP jazyk ve stylu Smalltalku), a taky si 
+přiznejme, že nadšení Rubystů je tak mohutné, že to snesou. Navíc v Ruby 
+není moc aplikací zatím.
+
+&gt;<i> Tato naivní představa tu nebyla. Vždyť jsem to tam psal: &quot;A to hlavně
+</I>&gt;<i> díky SUNu a IBM, které na něm založili část své existence.&quot;
+</I>&gt;<i>   
+</I>
+Ok, omlouvám se, moje chyba, že jsem plně nepochopil všechny aspekty 
+toho, co jste psal. Dávám Vám za pravdu.
+
+
+&gt;<i>
+</I>&gt;<i> Jediná záruka, kterou Java dává, je ta, že se jí SUN nevzdá, a že se jí
+</I>&gt;<i> nevzdá její obrovská komunita. Tudíž vždycky se ní bude někdo starat.
+</I>&gt;<i> Jakékoliv hledání jiné záruky je obávám se naivní zase od vás. I když
+</I>&gt;<i> přístup je to jistě rozumný.
+</I>&gt;<i>   
+</I>
+Ale no tak. Za prvé vývoj Javy neurčuje jenom Sun, za druhé vývoj Javy 
+je především v rukách firem, které jsou navýsost praktické. Nikdy by je 
+ani v nejmenší nenapadlo hazardovat s jazykem jako Rossum třeba. To by 
+nikdy v Javě neprošlo, a člověka, který by to chtěl udělat by považovali 
+za blázna první kategorie. To píšu zcela chladně a bez emocí. A toto 
+jsou ty záruky, byť nepsané, ale obrovské.
+
+Upřímně, Java není moc dobrý jazyk. Ale vynikající na něm je praktičnost 
+lidí kolem ní a obrovská motivace po výsledcích a po nasazení v praxi. A 
+to z ní dělá obrovsky silného koně.
+
+
+&gt;<i> Chachá, otázka je, zda to ten profesionál opravdu udělá desetkrát lépe.
+</I>&gt;<i> Řeknu vám, co udělám. Najmu si partu cigánů. Ne pro jejich barvu kůže,
+</I>&gt;<i> ale protože oni rozumí svému řemeslu (mluvím teď o konkrétní partě). A
+</I>&gt;<i> vím, že oni mi postaví barák, který bude stát za to.
+</I>&gt;<i>   
+</I>
+Otázka je, zda to ten nadšenec udělá léep, než profesionál. A v mnoha 
+případech (samozřejmě zdaleka ne vždy) je odpověď neudělá. Jinak máte 
+pocit, že parta cigánů bude pracovat spíše z nadšení pro zedničinu, a 
+nebo spíše pro ty prachy, což odsuzujete (jako příznak &quot;profesionálů&quot;).
+
+&gt;<i> Když si postavím barák od &quot;profesionální&quot; firmy, přijde za mnou
+</I>&gt;<i> kravaťák, a řekne, ano ano, tohle tohle, tady máme tabulku. Bude to stát
+</I>&gt;<i> tolik. A postaví mi barák za dva měsíce. Jenže ten cigán z předchozí
+</I>&gt;<i> party by mi řekl, že je to blbost, protože jen měsíc tvrdne lepidlo na
+</I>&gt;<i> cihlách... Řekne mi to, protože nechce dělat nekvalitní práci. Zatímco
+</I>&gt;<i> kravaťák chce vydělat peníze
+</I>
+Já s Vámi souhlasím, ale co tu řešíte je slovíčkaření. První Vaše 
+definice byla v rozlišení podle toho, kdo to dělá pro prachy. Ok, já sám 
+mohu říci, že programuji pro peníze. Nejsem ochoten se věnovat 
+nadšeneckým projektům - i když kdysi ano, ale zjistil jsem, že lidé, 
+když je to nic nestojí - tak je ani nenapadne, že by šlo problém vyřešit 
+za třetinu času, je to přeci Váš čas, a nic je to nestojí. Takže kam 
+byste mě zařadil? Programuji za peníze, nejsem ochoten dělat zadarmo - a 
+zároveň chci, abych se za svou práci nemusel stydět a tak mnohdy radím i 
+tam, kde si trochu finančně škodím.
+
+Jinak já kravaťáka nepovažuji za profesionála, myslel jsem, že mluvíme 
+ne o obchodních zástupcích, ani managerech.
+
+
+&gt;<i> .
+</I>&gt;<i> To jsou ty záruky a to je můj pohled.
+</I>&gt;<i>   
+</I>
+Ano, to jsou správné záruky. A přesně stejným zárukám rozumím i já.
+
+Miloslav Ponkrác
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007897.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007904.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7900">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7900">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7900">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7900">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007900.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:06 GMT -->
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004983.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:18 GMT -->
+<HEAD>
+   <TITLE> [python] Statické metody v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FStatick%3DC3%3DA9_metody_v_Pythonu%3F%3D&In-Reply-To=45520324.2070703%40gentoo.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004982.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004997.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Statické metody v Pythonu</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FStatick%3DC3%3DA9_metody_v_Pythonu%3F%3D&In-Reply-To=45520324.2070703%40gentoo.org"
+       TITLE="[python] Statické metody v Pythonu">feed na centrum.cz
+       </A><BR>
+    <I>Středa Listopad  8 17:45:55 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004982.html">[python] Statické metody v Pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004997.html">[python] Dekorátory
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4983">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4983">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4983">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4983">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> &gt;&gt;jazycích bylo v pořádku. Never is perfect :-)))
+ &gt;&gt;[myšleno asi Nobody is perfect -- Někdo to rád horké]
+
+Přesně tak :-) Díky za opravu, příště si dám pozor na cizí termity :-)
+
+ &gt; je dekorátor zapoznámkovaný, takže je to stejné, jako kdybych
+ &gt; napsal
+ &gt;
+ &gt;  class zemepisny_uhel(uhel):
+ &gt;       def static(a):
+ &gt;           print &quot;trida2.static(): &quot;, a
+ &gt;
+ &gt; Což je stejné jako
+ &gt;
+ &gt;  class zemepisny_uhel(uhel):
+ &gt;       def static(self):
+ &gt;           print &quot;trida2.static(): &quot;, self
+ &gt;
+ &gt; Jenom jsi porušil konvenci, že první argument metody se má
+ &gt; pojmenovat self. No a druhý argument tam není. Myslím,
+ &gt; že interpret Pythonu v tom docela jasno MÁ ;o)
+
+Má, tohle je opravdu moje chyba. Už mě na to upozornil člověk z
+předchozího mailu.
+
+Jen prostě mě nenadchlo, že v předchozí třídě to byla statická metoda,
+počítalo se s ní jako se statickou metodou a pokud to v potomkovi změním
+na dynamickou, že to má zpětné důsledky i do předka nejen ohledně
+chování, ale vlastně i z hlediska interface. Ale to je otázkou toho, že
+jsme v dynamickém jazyce. Takže je to asi v pořádku.
+
+ &gt; A ještě k tomu použití statické metody. Možná máš znalosti
+ &gt; C++, kde se zápis typu
+ &gt;
+ &gt; zem_uhel + &quot;30N54&quot;
+ &gt;
+ &gt; typicky dosahuje přetížením operátoru +  a typicky se
+ &gt; implementuje tak, že se na místě druhého argumentu očekává
+ &gt; konstantní reference a třídu zemepisny_uhel. Jenže
+ &gt; u třídy zemepisny_uhel by se v takovém případě typicky
+ &gt; definoval konstruktor, který bere odkaz na konstantní string
+ &gt; a může se tam tedy dosadit i literál. Překladač pak automaticky
+ &gt; udělá tohle:
+ &gt;
+ &gt; zem_uhel + zemepisny_uhel(&quot;30N54&quot;)
+ &gt;
+ &gt; tj. nejdříve zkonstruuje pomocný objekt pro druhý argument.
+ &gt; Dále se to dá rozepsat jako
+ &gt;
+ &gt; zem_uhel.operator+(zemepisny_uhel((&quot;30N54&quot;)))
+
+No, C++ je velmi flexibilní jazyk, takže buď C++ zavolá konstruktor, a
+nebo operátor +, kde druhý parametr je string, pokud takový existuje. Ta
+první varianta s voláním konstruktoru je &quot;drahá&quot;, tedy z nouze ctnost,
+protože se zbytečně vytváří dočasná instance, a pak zase ruší. Operátor
++ to většinou dokáže efektivněji s mnohem menší režií.
+
+ &gt; Python ale implicitně podobný konstruktor nezavolá. Podle
+ &gt; mého by tedy měla být třída uhel vytvořena tak, aby její
+ &gt; složka __radians jednoduše obsahovala platnou hodnotu, nebo
+ &gt; by se měla definovat metoda, která hodnotu v radiánech
+ &gt; vrací. Metoda __add__ by jako argument měla brát instanci
+ &gt; třídy uhel a udělat jednoduše
+ &gt;
+ &gt; class uhel:
+ &gt;     def __init__(self, radian):
+ &gt;         self.__rad = radian
+ &gt;
+ &gt;     def __add__(self, u):
+ &gt;         return self.__rad + u.__rad
+ &gt;
+ &gt;     def __str__(self):
+ &gt;         return str(self.__rad)
+ &gt;
+ &gt;
+ &gt; u1 = uhel(1.0)
+ &gt; u2 = uhel(2.0)
+ &gt;
+ &gt; print u1
+ &gt; print u2
+ &gt;
+ &gt; u3 = u1 + u2
+ &gt; u4 = u1 + uhel(3.0)
+ &gt;
+ &gt; print u3
+ &gt; print u4
+
+To je přesně stejný případ jako s tím C++. Tohle řešení, které uvádíte
+je naprosto nejelegantnější a nejčistější. Myslím, že nic lepšího asi
+nelze vymyslet, ale vzniká tu instance třídy uhel, která vlastně
+vzniknout nemusí. Řekněme, že je to takový relikt v mém myšlení, který
+mě nutí se občas zabývat efektivitou programu a který mi říká, že
+vytvoření instance třídy uhel není potřeba. Proto jsem zavedl tu
+statickou metodu a upravil jsem __add__ tak, aby přijímal i čísla a stringy.
+
+Tohle spočte součet bez toho, aniž by se vytvřila dočasná instance třídy
+uhel:
+
+u4 = u1 + 3.0
+
+A tohle udělá to samé, ale vytvoří se (a pak posléze zruší) navíc
+instance třidy uhel:
+
+u4 = u1 + uhel(3.0)
+
+Prostě nevím a netuším, jestli tuhle režii vytvoření instance navíc mám
+vzít v úvahu. Pokud jí připustím, mám asi čistější kód, pokud zase
+pomůžu metodě __add__, aby uměla sečíst číslo přímo, mám efektivnější
+kód. Naproti tomu zase hrozí, že sečtu něco, co se jako číslo bude
+tvářit a významově to nemá s úhlem nic společného a můžu hledat chyby.
+Nevím, který postup je správný, asi každý má něco.
+
+ &gt; Třída zemepisny_uhel by byla odvozená v tom smyslu,
+ &gt; že by měla jinou implementaci __init__(), ve které
+ &gt; by se mohly rozpoznávat různé formy předaného argumentu.
+ &gt; Pak by to mohlo vypadat takhle:
+ &gt;
+ &gt; class uhel:
+ &gt;     def __init__(self, radian):
+ &gt;         self.__rad = radian
+ &gt;
+ &gt;     def __add__(self, u):
+ &gt;         return self.__rad + u.__rad
+ &gt;
+ &gt;     def __str__(self):
+ &gt;         return str(self.__rad)
+ &gt;
+ &gt;
+ &gt; class zemepisny_uhel(uhel):
+ &gt;     def __init__(self, s):
+ &gt;         uhel.__init__(self, float(s))
+ &gt;
+ &gt; u1 = uhel(1.0)
+ &gt; u2 = uhel(2.0)
+ &gt;
+ &gt; print u1
+ &gt; print u2
+ &gt;
+ &gt; u3 = u1 + u2
+ &gt; u4 = u1 + uhel(3.0)
+ &gt;
+ &gt; print u3
+ &gt; print u4
+ &gt;
+ &gt; z = zemepisny_uhel('4.0')
+ &gt;
+ &gt; print z
+ &gt; print u1 + z
+ &gt; print z + u2
+ &gt;
+ &gt; Uplatnění pro statické metody jsem v tom příkladu
+ &gt; zatím nenašel.
+
+Já také ne. Jenže u mě ta statická metoda pro vytvoření úhlu vypadá
+takto a taky sežere až neuvěřitelně divoké definice úhlů od zadání úhlu
+v radiánech až po různé se stupni, minutami, atd.. Skoro jsem na svojí
+metodu hrdý :-))):
+
+_MathAngleRegExpStr = \
+      u'(^\\s*' + \
+      u'([0-9]*[.]?[0-9]*)\\s*' + \
+      u'((?:[Rr](?:[Aa][Dd](?:[Ss]|[Ii][Aa][Nn][Ss])?))\\s*)*' + \
+      u'\\s*$)' + \
+      u'|' + \
+      u'(^\\s*' + \
+      u'([0-9]*[.]?[0-9]*)\\s*' + \
+
+u'(?:(?:[°]|[Dd](?:[Ee][Gg](?:[Rr]|(?:[Ee][Ee]))?[Ss]?)?)\\s*)*\\s*' + \
+      u'([0-9]*[.]?[0-9]*)\\s*' + \
+ 
+u'(?:(?:[\']|(?:[Mm](?:[Ii][Nn](?:[Uu][Tt][Ee])?[Ss]?)))\\s*)*\\s*' + \
+      u'([0-9]*[.]?[0-9]*)\\s*' + \
+
+u'(?:(?:[\&quot;]|(?:[Ss](?:[Ee][Cc](?:[Oo][Nn][Dd])?[Ss]?)?))\\s*)*\\s*' + \
+      u'[.]?([0-9]*)' + \
+      u'\\s*$)'
+
+
+_MathAngleRegExp = re.compile(_MathAngleRegExpStr, re.UNICODE)
+
+
+class Angle(object):
+
+    @staticmethod
+    def _s_ConvertStringToRadians(angle_string):
+      angle_string = unicode(angle_string)
+      reg_exp_result = _MathAngleRegExp.findall(angle_string)
+      if (not isinstance(reg_exp_result, list)) \
+        or (len(reg_exp_result) &lt;= 0):
+        raise ValueError
+      reg_exp_result = reg_exp_result[0]
+      if not isinstance(reg_exp_result, tuple):
+        raise ValueError
+       # atd.
+
+A pak máte potomky, které jsou schopny sežrat ještě další konkrétní
+formáty stringy odle určení.
+
+ &gt; Poznámka: kromě staticmethod() a příslušného
+ &gt; dekorátoru existuje i classmethod(), ke které
+ &gt; jsme se zatím nedostali.
+
+Uf, dekorátory mě zajímají. V manuálu jsem našel tak akorát velké nic,
+takže informace na toto téma vítám. Co dělá classmethod?
+
+Miloslav Ponkrác
+
+
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004982.html">[python] Statické metody v Pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004997.html">[python] Dekorátory
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4983">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4983">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4983">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4983">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004983.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:18 GMT -->
+</html>

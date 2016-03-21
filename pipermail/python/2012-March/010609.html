@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010609.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:37 GMT -->
+<HEAD>
+   <TITLE> [python] Parsování PNG
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FUGFyc292w6Fuw60gUE5H%3F%3D&In-Reply-To=%3C4F687393.60707%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-March/010608.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-March/010610.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Parsování PNG</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FUGFyc292w6Fuw60gUE5H%3F%3D&In-Reply-To=%3C4F687393.60707%40seznam.cz%3E"
+       TITLE="[python] Parsování PNG">jakohv na seznam.cz
+       </A><BR>
+    <I>Úterý Březen 20 13:09:55 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010608.html">[python] Jak získat název procesu když znám PID procesu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010610.html">[python] Parsování PNG
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10609">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10609">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10609">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10609">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+
+pracuji na parseru PNG obrázků a narazil jsem na pár problémů s filtry. 
+Postouji podle návodu <A HREF="http://www.root.cz/clanky/radkove-filtry-v-png/">http://www.root.cz/clanky/radkove-filtry-v-png/</A> a 
+zasekl jsem se hned u prvního (sub) filtru. Nevím, jak mám reagovat to, 
+když mi výsledek po odečtení podteče (například 128-255). RGB nemůže mít 
+záporné hodnoty, mám tedy na výsledek zavolat funkci abs? Podobný 
+problém nastává, pokud výsledek přeteče (je vyšší než 255). Mám vše 
+vyšší než 255 zaokrouhlovat na 255? Nebo mám použít modulo 256? Ani 
+jedno z vyše uvedených mi myslím nefunguje správně, protože složky RGB 
+by měly nabývat pouze hodnot 0, 128, 255 (jedná se o interpet jazkyka 
+brainloller) a mně tam vznikají složky jako 1, 254, 127, ...
+
+Nadefinoval jsem si třídu Pixel, na které provádím ty operaci +, - a 
+pořeboval bych nějak upravit metodu adjust, která myslím nevrací správné 
+výsledky.
+
+class Pixel:
+     def __init__(self, r, g = 0, b = 0):
+
+         if type(r) in [list, bytes, tuple]:
+             self.r = r[0]
+             self.g = r[1]
+             self.b = r[2]
+             self.sum = self.r + self.g + self.b
+             return
+         self.r = r
+         self.g = g
+         self.b = b
+         self.sum = self.r + self.g + self.b
+     def adjust(self, r, g, b):
+         return r % 256, g % 256, b % 256
+     def __sub__(self, obj):
+         if not isinstance(obj, Pixel):
+             raise(TypeError, &quot;Unsupported operation&quot;)
+         return Pixel(self.adjust(self.r - obj.r, self.g - obj.g, self.b 
+- obj.b))
+     def __add__(self, obj):
+         if not isinstance(obj, Pixel):
+             raise(TypeError, &quot;Unsupported operation&quot;)
+         return Pixel(self.adjust(self.r + obj.r, self.g + obj.g, self.b 
++ obj.b))
+     def __repr__(self):
+         return &quot;P(%d, %d, %d)&quot; % (self.r, self.g, self.b)
+     def __abs__(self):
+         return Pixel(abs(self.r), abs(self.g), abs(self.b))
+     def __rshift__(self, shift):
+         return Pixel(self.r &gt;&gt; shift, self.g &gt;&gt; shift, self.g &gt;&gt; shift)
+     def __lt__(self, obj):
+         if self.sum &lt; obj.sum:
+             return True
+         return False
+     def __le__(self, obj):
+         if self.sum &lt;= obj.sum:
+             return True
+         return False
+     def __gt__(self, obj):
+         if self.sum &gt; obj.sum:
+             return True
+         return False
+     def __gt__(self, obj):
+         if self.sum &gt;= obj.sum:
+             return True
+         return False
+
+Také bych měl dotaz na čtvrtý filtr (filtr s paeth prediktorem). Mají se 
+tam porovnávat pixely, ale jediný způsob, na který jsem přišel, jak 
+porovnat pixely je sečíst všechny složky rgb (self.sum) a porovnávat je. 
+Je to tak správně?
+
+Děkuji za Váš čas,
+
+Jakub Vojáček
+
+
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20120320/b63ea5ca/attachment.html">http://www.py.cz/pipermail/python/attachments/20120320/b63ea5ca/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010608.html">[python] Jak získat název procesu když znám PID procesu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010610.html">[python] Parsování PNG
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10609">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10609">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10609">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10609">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010609.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:37 GMT -->
+</html>

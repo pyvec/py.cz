@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011716.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:07 GMT -->
+<HEAD>
+   <TITLE> [python] Paměťově náročné řazení
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUGFtxJvFpW92xJsgbsOhcm/EjW7DqSDFmWF6ZW7DrQ%3D%3D%3F%3D&In-Reply-To=%3CCA%2B%3D%2BwqCLH8tGQ%3DRix%3DoLmTwVxtPD3bTn2L7fAP4CjW%2BWf9sjdw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-June/011715.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-June/011717.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Paměťově náročné řazení</H1>
+    <B>Petr Viktorin</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUGFtxJvFpW92xJsgbsOhcm/EjW7DqSDFmWF6ZW7DrQ%3D%3D%3F%3D&In-Reply-To=%3CCA%2B%3D%2BwqCLH8tGQ%3DRix%3DoLmTwVxtPD3bTn2L7fAP4CjW%2BWf9sjdw%40mail.gmail.com%3E"
+       TITLE="[python] Paměťově náročné řazení">encukou na gmail.com
+       </A><BR>
+    <I>Úterý Červen 16 10:25:15 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011715.html">[python] Paměťově náročné řazení
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011717.html">[python] Paměťově náročné řazení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11716">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11716">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11716">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11716">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2015-06-15 22:36 GMT+02:00 Lumír Balhar &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">frenzy.madness na gmail.com</A>&gt;:
+&gt;<i> Ahoj všem.
+</I>&gt;<i>
+</I>&gt;<i> Řeším s kamarádem jeden jeho projekt, jehož součástí je i Burrows-Wheelerova transformace, která se používá před kompresí dat společně s Move to Front transformací pro snížení entropie vstupních dat a tím zvýšení efektivity kompresního algoritmu, kterému tyto dvě transformace předcházejí.
+</I>&gt;<i>
+</I>&gt;<i> Pochopení transformací není potřeba. U BWT se využívá tzv, buffer, který obsahuje všechny možné rotace vstupních dat, takže například pro &quot;ema má maso&quot; vypadá takto:
+</I>&gt;<i>
+</I>&gt;<i>  0 ema ma maso
+</I>&gt;<i>  1 ma ma masoe
+</I>&gt;<i>  2 a ma masoem
+</I>&gt;<i>  3  ma masoema
+</I>&gt;<i>  4 ma masoema
+</I>&gt;<i>  5 a masoema m
+</I>&gt;<i>  6  masoema ma
+</I>&gt;<i>  7 masoema ma
+</I>&gt;<i>  8 asoema ma m
+</I>&gt;<i>  9 soema ma ma
+</I>&gt;<i> 10 oema ma mas
+</I>&gt;<i>
+</I>&gt;<i> Pro malá data je to dobré, ale pro velká nelze mít celý buffer v paměti, protože se pro každý vstupní znak navíc rozšíří o řádek i sloupec zároveň.
+</I>&gt;<i> Napsal jsem tedy pro Buffer samostatnou třídu, kde pomocí __getitem__ vygeneruji potřebný řádek posunem až ve chvíli, kdy je jeho obsah potřeba.
+</I>
+
+Ahoj,
+sort() používá jen operátor &quot;&lt;&quot;, takže stačí naimplementovat ten (i
+když s functools.total_ordering [0] není problém naimplementovat ty
+ostatní).
+Jen je potřeba mít objekt pro každý řádek. Když takový objekt obsahuje
+jen odkaz na původní řetězec, a číslo řádku, tak se ti snad všechny do
+paměti vejdou.
+Přikládám nástin toho, jak bych to řešil já (v py3).
+(Jestli se vyplatí při porovnávání generovat oba řádky a porovnat ty,
+nebo jako já porovnávat jednotlivé znaky v Pythonu, záleží na tom jak
+často ty řetězce mají dlouhé shodné prefixy.)
+
+[0] <A HREF="https://docs.python.org/3/library/functools.html#functools.total_ordering">https://docs.python.org/3/library/functools.html#functools.total_ordering</A>
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: rad.py
+Type: text/x-python
+Size: 871 bytes
+Desc: [žádný popis není k dispozici]
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150616/ac5e5f0c/attachment.py">http://www.py.cz/pipermail/python/attachments/20150616/ac5e5f0c/attachment.py</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011715.html">[python] Paměťově náročné řazení
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011717.html">[python] Paměťově náročné řazení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11716">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11716">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11716">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11716">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011716.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:07 GMT -->
+</html>

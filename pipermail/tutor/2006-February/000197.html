@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000197.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Dalsi problem s Livewires
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Dalsi%20problem%20s%20Livewires&In-Reply-To=ca0bf9ff0602280509n41900616m%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000196.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000198.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Dalsi problem s Livewires</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Dalsi%20problem%20s%20Livewires&In-Reply-To=ca0bf9ff0602280509n41900616m%40mail.gmail.com"
+       TITLE="[Tutor PyCZ] Dalsi problem s Livewires">geon na post.cz
+       </A><BR>
+    <I>Úterý Únor 28 14:32:38 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000196.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000198.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#197">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#197">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#197">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#197">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tomáš Bělonožník napsal(a):
+&gt;<i> Moc díky za rady, konečně už jsem pochopil to &quot;xh, yh, Hrac_telo =
+</I>&gt;<i> vyrobHrace()&quot;.  Narazil jsem ale na další problém, který souvisí s
+</I>&gt;<i> prvním. Snažil jsem se funkci posunHrace napsat takhle:
+</I>&gt;<i>
+</I>&gt;<i> def posunHrace():
+</I>&gt;<i>     stisky = keys_pressed()
+</I>&gt;<i>     if &quot;2&quot; in stisky:
+</I>&gt;<i>         yh = yh - 10
+</I>&gt;<i>         move_to(Hrac_telo, xh, yh)
+</I>&gt;<i>         return yh
+</I>&gt;<i>
+</I>&gt;<i> Mělo to fungovat tak, abych změnil yh, pak posunul hráče podle na
+</I>&gt;<i> novou hodnotu, a pak si nechal vrátit yh v nové formě. Hází mi to ale
+</I>&gt;<i> chybu &quot;local variable 'yh' referenced before assignment&quot;. Chápu to
+</I>&gt;<i> tak, že jsem proměnnou yh zmínil ještě předtím, než jsem jí přiřadil
+</I>&gt;<i> nějakou hodnotu. Ale proč si tu hodnotu nevezme sám z vyšších pater
+</I>&gt;<i> programu, jako to udělal, když řádek move_to vypadal
+</I>&gt;<i> &quot;move_to(Hrac_telo, xh, yh-10)&quot;. To totiž hráčem opravdu posunul o 10
+</I>&gt;<i> pixelů. Potřeboval bych tedy prosím vědět, jak říci funkci, aby si
+</I>&gt;<i> vzala potřebné hodnoty &quot;zeshora&quot;
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Potřebnou teorii jistě dodá pepr :-) , já jen za sebe:
+
+To je to, o čem jsem psal ve svém druhém mailu. Musíš této funkci 
+potřebné parametry *předat* a ona je musí umět *přijímat*.
+Předávání se děje při volání funkce, tedy:
+posunHrace(xh, yh)  [1]
+
+a v definici funkce se nadefinuje, že musí přijímat 2 parametry:
+def posunHrace(xh,yh):
+   ....
+
+Nesmíš ovšem zapomenou, že funkce bude ty dvě proměnné vracet (nebo tam 
+máš 3 - no to je ostatně jedno, to již si uděláš podle své aktuální 
+situace). Takže někde ve funkci je radka:
+return xh, yh
+
+No a nakonec tedy musím opravit svůj [1] takto:
+xh, yh = posunHrace(xh, yh)
+
+Snad jsem na nic nezapomněl. Trocha teorie ode mne: některé proměnné 
+skutečně funkce dokáže brát zezhora - zde třeba Hrac_telo nebo tvůj výše 
+uváděný move_to(Hrac_telo, xh, yh-10) . Jsou to ale vzdy jen ty 
+proměnné, které se ve funkci nemění - jsou tam jen jakoby read-only. 
+Proto ti to házelo tu chybu, protože jsi chtěl změnit read-only 
+proměnnou. (jinak se toto právě dá řešit pomocí zglobalizování proměnné, 
+ale to je fuj :-) ,  to už jsme se dohodli...)
+
+-- 
+geon
+Vyjímka je pravidlo.
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000196.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000198.html">[Tutor PyCZ] Dalsi problem s Livewires
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#197">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#197">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#197">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#197">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000197.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

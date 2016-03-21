@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000085.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Regularni vyrazy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Regularni%20vyrazy&In-Reply-To=43313A3C.8050008%40rokyta.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-September/000084.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-September/000086.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Regularni vyrazy</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Regularni%20vyrazy&In-Reply-To=43313A3C.8050008%40rokyta.cz"
+       TITLE="[Tutor PyCZ] Regularni vyrazy">geon na post.cz
+       </A><BR>
+    <I>Středa Září 21 13:50:49 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000084.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000086.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#85">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#85">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#85">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#85">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Sladecek Lukas napsal(a):
+
+&gt;<i>Zdravim,
+</I>&gt;<i>
+</I>&gt;<i>v pythonu jsem novacek a momentalne resim problem jak dosadit za text 
+</I>&gt;<i>ktery najdu (pomoci regularniho vyrazu) jakykoliv svuj vlastni text. 
+</I>&gt;<i>Cili mam nejakej log ve kterm si najdu urcita klicova slova za ktera pak 
+</I>&gt;<i>pridam napr. text &quot;pokus&quot; a tak pokracuji az do konce logu...
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>import sys
+</I>&gt;<i>import os
+</I>&gt;<i>import re
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>bin = &quot;/sbin/ifconfig&quot;
+</I>&gt;<i>iface = str(raw_input(&quot;\nZadejte interface: &quot;))
+</I>&gt;<i>
+</I>&gt;<i>shell = bin+&quot; &quot;+iface
+</I>&gt;<i>opensh = os.popen(shell)
+</I>&gt;<i>for lineout in opensh.readlines():
+</I>&gt;<i>	mode = re.match('\w+\s+Link\s+encap:(?P&lt;MODE&gt;\w+)\s+HWaddr', lineout)
+</I>&gt;<i>	print mode.group('MODE')
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Tohle je jen priklad jak hledam klicove slovo (neni to navazane na zadne 
+</I>&gt;<i>logy). Potreboval bych jen nasmerovat jak spavne zapsat do logu presne 
+</I>&gt;<i>na to urcite misto a pokracovat dale (dokud je za co dopisovat)...
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>Nevím jestli jsem zcela pochopil, napíši tedy čistě teoreticky, jak bych 
+to řešil já:
+
+1/ načíst soubor do jedné textové proměnné a pak
+ * pomocí reg. výrazů  - funkce &quot;nový log&quot;=sub( pattern, repl, string[, 
+count]) )
+ * nebo pomocí pozice= &quot;log&quot;.find(&quot;něco&quot;) a pak &quot;nový log&quot; = 
+log[0:pozice] + &quot;nový text&quot; + log[pozice:-1].
+* přídadně kombinací obou, kdy reg. výraz bude vracet pozici prvního 
+písmene z hledaného výrazu a pomocí druhého postupu to zaměníš ....
+
+2/ řetězce jsou v Pythonu neměnné, takže se nedá měnit na místě. Už jsem 
+o tom taky přemýšlel, jak to udělat - snad jedině si vytvořit svojí 
+vlastní třídu, a tam si to nadefinovat. Nebo sehnat nějaký modul, který 
+ale bude asi řešit podobně...
+
+Nevím jestli to je ono a jestli to stačí.... ;-)
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000084.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000086.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#85">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#85">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#85">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#85">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000085.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+</html>

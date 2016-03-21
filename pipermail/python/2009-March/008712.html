@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008712.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:44 GMT -->
+<HEAD>
+   <TITLE> [python] Optimalizace vicenasobneho spousteni skriptu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Optimalizace%20vicenasobneho%20spousteni%20skriptu&In-Reply-To=%3C49B044D6.5010108%40sendmail.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-March/008710.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-March/008711.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Optimalizace vicenasobneho spousteni skriptu</H1>
+    <B>sebastian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Optimalizace%20vicenasobneho%20spousteni%20skriptu&In-Reply-To=%3C49B044D6.5010108%40sendmail.cz%3E"
+       TITLE="[python] Optimalizace vicenasobneho spousteni skriptu">sebastian na sendmail.cz
+       </A><BR>
+    <I>Čtvrtek Březen  5 22:32:06 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008710.html">[python] Optimalizace vicenasobneho spousteni skriptu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008711.html">[python] Optimalizace vicenasobneho spousteni skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8712">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8712">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8712">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8712">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>K dispozici je 64MB RAM pricemz system v klidu spotrebovava max. 10MB - 
+zbytek je k dispozici.
+
+Na D-bus se podivam. Vsiml jsem si ze pro OpenWrt (tuto distribuci tam 
+provozuji) je podpora k dispozici.
+
+Seb.
+
+slush wrote:
+&gt;<i> Interpreter Pythonu by mel byt v pameti pouze jednou, kazdopadne 
+</I>&gt;<i> separatni budou hlavne pametove prostory - a garbage collectory deseti 
+</I>&gt;<i> instanci muzou zabrat peknych par mega. Jen tak pro zajimavost - kolik 
+</I>&gt;<i> RAM bude k dispozici?
+</I>&gt;<i>
+</I>&gt;<i> Osobne bych to resil na urovni threadu. Tedy jeden proces a pro kazdy 
+</I>&gt;<i> port separatni vlakno. Chova se to prakticky stejne jako Vami popsane 
+</I>&gt;<i> procesy, ale takove reseni sdili pametovy prostor.
+</I>&gt;<i>
+</I>&gt;<i> Ohledne komunikace bych pravdepodobne zvolil D-bus. Vyvolavani metod 
+</I>&gt;<i> (prikazu) jednotlivych vlaken je tak velmi jednoduche (jednim prikazem 
+</I>&gt;<i> v shellu, pripadne mala ovladaci aplikace, co provede dbus prikaz na 
+</I>&gt;<i> zaklade cmd parametru a ukonci se). Nelekejte se, dbus demon sam o 
+</I>&gt;<i> sobe zabira par kilobytu pameti (konkretne na mem desktopu s desitkami 
+</I>&gt;<i> dbus sluzeb 1MB) a jedna se o velmi elegantni reseni i na takove nasazeni.
+</I>&gt;<i>
+</I>&gt;<i> Marek
+</I>&gt;<i>
+</I>&gt;<i> 2009/3/5 sebastian &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">sebastian na sendmail.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">sebastian na sendmail.cz</A>&gt;&gt;
+</I>&gt;<i>
+</I>&gt;<i>     Zdravim,
+</I>&gt;<i>     resim takovy &quot;problem&quot; a nevim jakou cestou se dat. Dovolim si Vas
+</I>&gt;<i>     uvest do obrazu: v miniaturni embedded desce (RouterStation od
+</I>&gt;<i>     UBNT) mam funkcni Python 2.5 - k teto desce mam pripojeno nekolik
+</I>&gt;<i>     seriovych portu (mam funkcni pyserial); na portech budou pripojeny
+</I>&gt;<i>     ruzne periferie; puvodni idea byla ze pro kazdou periferii
+</I>&gt;<i>     vytvorim skript kteremu pomoci parametru pridam pri spusteni co ma
+</I>&gt;<i>     delat; pokud by skripty spoustela obsluha rucne urcite by to
+</I>&gt;<i>     fungovalo dobre; v budoucnu je ale bude volat aplikace provozovana
+</I>&gt;<i>     na jinem stroji pomoci ssh, bude je volat pomerne casto a navic
+</I>&gt;<i>     bude mit aplikace v jednom okamziku otevreno vice ssh spojeni v
+</I>&gt;<i>     kterych bude volat vice techto skriptu; co mne trochu trapi je
+</I>&gt;<i>     efektivnost vyse popsaneho; chapu to spravne tak, ze pro kazde
+</I>&gt;<i>     spusteni skriptu se nejdrive nahraje do pameti samostatna instance
+</I>&gt;<i>     Pythona? Cili pokud spustim treba pet skriptu budu mit zaroven v
+</I>&gt;<i>     pameti pet interpretu Pythona a zaroven pokud v jeden okamzik
+</I>&gt;<i>     spustim dva ruzne skripty budou se do pameti natahovat dva interpreti?
+</I>&gt;<i>
+</I>&gt;<i>     Obavam se, ze to chapu spravne :-(
+</I>&gt;<i>
+</I>&gt;<i>     Mohl bych cele ovladani prepsat do jednoho skriptu ale nevim jak
+</I>&gt;<i>     bych potom resil situaci kdy jeste jeden skript respektive funkce
+</I>&gt;<i>     obsluhujici jednu periferii neskoncila a ja potreboval ovladat jinou.
+</I>&gt;<i>
+</I>&gt;<i>     A proto bych uvital nazor nekoho dalsiho jakou cestou se vydat.
+</I>&gt;<i>
+</I>&gt;<i>     Predem diky za reakce.
+</I>&gt;<i>
+</I>&gt;<i>     Sebastian
+</I>&gt;<i>     _______________________________________________
+</I>&gt;<i>     Python mailing list
+</I>&gt;<i>     <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;
+</I>&gt;<i>     <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008710.html">[python] Optimalizace vicenasobneho spousteni skriptu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-March/008711.html">[python] Optimalizace vicenasobneho spousteni skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-March/date.html#8712">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/thread.html#8712">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/subject.html#8712">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-March/author.html#8712">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-March/008712.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:44 GMT -->
+</html>

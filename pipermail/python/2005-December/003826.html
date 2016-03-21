@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003826.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:14 GMT -->
+<HEAD>
+   <TITLE> [python] Zope: Vlastne vynimky v Python script-e
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zope%3A%20Vlastne%20vynimky%20v%20Python%20script-e&In-Reply-To=cdbd01810512220128j22588d85s343de6af0ab270c%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-December/003814.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-December/003827.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zope: Vlastne vynimky v Python script-e</H1>
+    <B>Martin Stofcik</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zope%3A%20Vlastne%20vynimky%20v%20Python%20script-e&In-Reply-To=cdbd01810512220128j22588d85s343de6af0ab270c%40mail.gmail.com"
+       TITLE="[python] Zope: Vlastne vynimky v Python script-e">martin.stofcik na pwc.sk
+       </A><BR>
+    <I>Čtvrtek Prosinec 22 14:04:18 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003814.html">[python] Zope: Vlastne vynimky v Python script-e
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003827.html">[python] Zope: Vlastne vynimky v Python script-e
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3826">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3826">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3826">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3826">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Takze nakoniec som nasiel nieco krajsie (aspon pre mna):
+
+Enabling additional libraries
+<A HREF="http://zopewiki.org/PythonScript">http://zopewiki.org/PythonScript</A>
+
+
+
+On Št, 2005-12-22 at 10:28 +0100, Radim Novotny wrote:
+&gt;<i> Podle mne musis nekde explicitne povolit import z tveho produktu.
+</I>&gt;<i> Obecne totiz python scripty nedovoluji importovat nic co neni
+</I>&gt;<i> explitine uvedene ze ma jit. Zkus do tveho produktu (nekam do
+</I>&gt;<i> __init__.py) napsat toto:
+</I>&gt;<i> 
+</I>&gt;<i> from AccessControl import ModuleSecurityInfo
+</I>&gt;<i> ModuleSecurityInfo('Products.TVUJPRODUKT').declarePublic('NAZEV_VYJIMKY')
+</I>&gt;<i> 
+</I>&gt;<i> Cerpal jsem z produktu <A HREF="http://www.simplistix.co.uk/software/zope/zdb/">http://www.simplistix.co.uk/software/zope/zdb/</A>
+</I>&gt;<i> 
+</I>&gt;<i> Radim Novotny
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> On 12/22/05, Martin Stofcik &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">martin.stofcik na pwc.sk</A>&gt; wrote:
+</I>&gt;<i> &gt; Zdravim,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; v produkte na filesysteme mam zadefinovane vlastne vynimky a tie by som
+</I>&gt;<i> &gt; chcel pouzivat v python scriptoch v zope.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Da sa to vobec?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Lebo ak ich pouzijem tak vyhlasi NameError, a nemam sajnu ako ich
+</I>&gt;<i> &gt; naimportovat.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt; Martin Stofcik
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> --
+</I>&gt;<i> Radim Novotny
+</I>&gt;<i> +420 776 122 997
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003814.html">[python] Zope: Vlastne vynimky v Python script-e
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003827.html">[python] Zope: Vlastne vynimky v Python script-e
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3826">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3826">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3826">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3826">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003826.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:14 GMT -->
+</html>

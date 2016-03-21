@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010301.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:59 GMT -->
+<HEAD>
+   <TITLE> [python] Nastavení default kódování print-u (je?t? jednou)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FTmFzdGF2ZW7DrSBkZWZhdWx0IGvDs2RvdsOhbsOtIHBy%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fint-u_%3D28je%3D3Ft%3D3F_jednou%3D29%3F%3D&In-Reply-To=%3C20110419165951.A5991CAD%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-April/010300.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-April/010302.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Nastavení default kódování print-u (je?t? jednou)</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FTmFzdGF2ZW7DrSBkZWZhdWx0IGvDs2RvdsOhbsOtIHBy%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fint-u_%3D28je%3D3Ft%3D3F_jednou%3D29%3F%3D&In-Reply-To=%3C20110419165951.A5991CAD%40atlas.cz%3E"
+       TITLE="[python] Nastavení default kódování print-u (je?t? jednou)">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Duben 19 16:59:51 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010300.html">[python] Nastavení default kódování print-u (je?t? jednou)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010302.html">[python] Nastavení default kódování print-u (je?t? jednou)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10301">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10301">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10301">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10301">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ať se na to díváš jak chceš, vždycky někde nastane nějaká 
+komplikace. Problém je v tom, že string v Pythonu 2.x je posloupnost
+bajtů a informace o kódování u toho není zachycena.
+
+Nakonec jsem dospěl k tomu, že je nutné používat unicode řetězce
+(i v Pythonu 2). Zatím to může být v reálném provozu utopie, ale 
+je dobré se pomalu přeorientovávat na Python 3.
+
+Petr
+ 
+ ______________________________________________________________
+ &gt; zu1234 napsal
+ &gt;
+ Děkuji za krásné uvedení do problému!!
+ 
+ K obsluze kódování na výstupu z programů
+ jsem začal používat codecs.getwriter(...)
+ jak mi zde bylo poraděno.
+ 
+ Pod windows mi to například umožňuje nastavit
+ stdout (který jde do souboru) na cp1250
+ a strerr (který jde na terminál) na cp852.
+ 
+ Je to dobré řešení až na jeden problém:
+ Pokud nastavím kódování i na stderr a nastane
+ chyba při běhu programu na řádku obsahujícím
+ české znaky, nezobrazí se popis chyby.
+ To trochu komplikuje ladění programu.
+ 
+ Nevím jak to odstranit.
+ 
+ Například:
+ 
+ -----------
+ Varianta s sys.stderr = codecs.getwriter ....
+ #!/usr/bin/python
+ # -*- coding: utf-8 -*-
+ 
+ import sys
+ import codecs
+ 
+ sys.stderr = codecs.getwriter('cp852')(sys.stderr)
+ 
+ print &quot;ššš %s&quot; % ()
+ 
+ -----------
+ Chybové hlášení částečné:
+ Traceback (most recent call last):
+   File &quot;x.py&quot;, line 10, in 
+ 
+ ------------
+ Varianta bez sys.stderr = codecs.getwriter ....
+ #!/usr/bin/python
+ # -*- coding: utf-8 -*-
+ 
+ import sys
+ import codecs
+ 
+ # sys.stderr = codecs.getwriter('cp852')(sys.stderr)
+ 
+ print &quot;ššš %s&quot; % ()
+ 
+ 
+ -----------
+ Chybové hlášení úplné:
+ Traceback (most recent call last):
+   File &quot;x.py&quot;, line 9, in 
+ &#160; &#160; print &quot;&#9532;&#237;&#9532;&#237;&#9532;&#237; %s&quot; % ()
+ TypeError: not enough arguments for format string
+ 
+ 
+ 
+ Dne 19.4.2011 12:30, Filip Štědronský napsal(a):
+ &gt; Dne 22.3.2011 14:38:22 napsal zu1234:
+ &gt;&gt; Ale mohl by mi někdo vysvětlit proč to nejde bez reload?
+ &gt;&gt;
+ &gt;&gt; #!/usr/bin/python
+ &gt;&gt; # -*- coding: utf-8 -*-
+ &gt;&gt;
+ &gt;&gt; import sys
+ &gt;&gt; reload(sys)
+ &gt;&gt;
+ &gt;&gt; if sys.stdout.isatty():
+ &gt;&gt;       # Výstup jde na terminál:
+ &gt;&gt;       sys.setdefaultencoding('cp852')
+ &gt;&gt; else:
+ &gt;&gt;       # Výstup jde do souboru:
+ &gt;&gt;      sys.setdefaultencoding('cp1250')
+ &gt;&gt;
+ &gt;&gt; print u'šílené'
+ &gt;
+ &gt; Ahoj,
+ &gt; tohle všechno je způsobeno tím, že funkce setdefaultencoding
+ &gt; není tak úplně určena pro uživatele. Při startu Pythonu se
+ &gt; automaticky importuje modul site.py, který se stará o všechny
+ &gt; možné druhy nastavení a inicializací a který je podle potřeby
+ &gt; možné přizpůsobit podle potřeb cílové platformy a/nebo
+ &gt; administrátora. Tam se mimo jiné volá funkce setdefaultencoding
+ &gt; s nějakou hodnotou, kterou to považuje za &quot;rozumnou&quot; pro dané
+ &gt; prostředí (v linuxu se to snaží uhodnout podle locale, na oknech
+ &gt; to nejspíš bude vždy ascii). A poté, co to udělá, prostě funkci
+ &gt; setdefaultencoding z modulu sys smaže (aby si s ní nehráli
+ &gt; programátoři --- neboť v dobré víře je nastavení kódování
+ &gt; považováno za věc prostředí, do které Pythoní program, kterýžto
+ &gt; by měl být na prostředí nezávislý, nemá co mluvit). Reloadem
+ &gt; se sys vrátí do původního stavu, tedy včetně metody, kterou
+ &gt; původně site smazal. Pro podrobnější informace doporučuji projít
+ &gt; site.py někde v knihovních adresářích pythonu.
+ &gt;
+ &gt; Snad to dává aspoň trochu smysl
+ &gt; Filip Štědronský
+ &gt;
+ &gt;
+ _______________________________________________
+ Python mailing list
+ <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+ <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20110419/78fb1501/attachment.html">http://www.py.cz/pipermail/python/attachments/20110419/78fb1501/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010300.html">[python] Nastavení default kódování print-u (je?t? jednou)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010302.html">[python] Nastavení default kódování print-u (je?t? jednou)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10301">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10301">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10301">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10301">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010301.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:59 GMT -->
+</html>

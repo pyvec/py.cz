@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007308.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+<HEAD>
+   <TITLE> [python] Ukončení zaneprázdněného threadu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FUkon%3DE8en%3DED_zanepr%3DE1zdn%3DECn%3DE9ho_thread%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007313.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007312.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Ukončení zaneprázdněného threadu</H1>
+    <B>Jakub Lužný</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FUkon%3DE8en%3DED_zanepr%3DE1zdn%3DECn%3DE9ho_thread%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fu%3F%3D&In-Reply-To="
+       TITLE="[python] Ukončení zaneprázdněného threadu">limoto94 na gmail.com
+       </A><BR>
+    <I>Čtvrtek Duben 24 18:32:51 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007313.html">[python] for-else -&gt; wtf?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007312.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7308">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7308">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7308">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7308">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdarec :-)
+
+Vytvořím vedlejší thread pomocí modulu threading a dám mu za úkol čekat. 
+Spustím ho, a v hlavním threadu dám pořád dokola něco vypisovat. Když potom 
+ale dám KeyboardInterrupt, tak se hlavní thread ukončí, ale vedlejší zůstane 
+viset na tom čekání. Je nějakej způsob, jak thread ukončit i s tím čekáním?
+
+#!/usr/bin/env python
+import threading
+
+def thread1():
+	while(1):
+		čekej_do_nekonečna()
+
+t1 = threading.Thread(target = thread1)
+t1.start()
+
+while(1):
+	print &quot;blbnu :)&quot;
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007313.html">[python] for-else -&gt; wtf?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007312.html">[python] Ukončení zaneprázdněného threadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7308">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7308">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7308">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7308">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007308.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:33 GMT -->
+</html>

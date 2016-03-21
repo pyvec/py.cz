@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003440.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:29 GMT -->
+<HEAD>
+   <TITLE> [python] MySQLdb a znaková sada - problém
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fwindows-1250%3Fq%3FMySQLdb_a_znakov%3DE1_sada_-_probl%3DE9m%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003446.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003441.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] MySQLdb a znaková sada - problém</H1>
+    <B>triton29a na atlas.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fwindows-1250%3Fq%3FMySQLdb_a_znakov%3DE1_sada_-_probl%3DE9m%3F%3D&In-Reply-To="
+       TITLE="[python] MySQLdb a znaková sada - problém">triton29a na atlas.cz
+       </A><BR>
+    <I>Čtvrtek Říjen  6 20:59:54 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003446.html">[python] Diskuse: &quot;Strucny seznam&quot;
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003441.html">[python] MySQLdb a znaková sada - problém
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3440">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3440">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3440">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3440">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Python 2.4.1, MySQL 4.1, mysql-python 1.2
+
+1) vytvořím tabulku, která obsahuje textové pole s latin2 kódováním
+create table adresy (..., mesto varchar(64) character set latin2 collate latin2_czech_cs, ...)
+
+2) vložím záznam
+insert into adresy (name) values(&quot;Děčín&quot;)
+
+3) provedu select 
+mydb = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DBNAME, read_default_file='/etc/my.cnf')
+MyCursor = mydb.cursor()
+MyCursor.execute('select mesto from adresy where name like &quot;d%&quot;')
+print MyCursor.fetchall()
+
+ale místo očekávaného &quot;Děčín&quot; se vypíše &quot;D\xec\xe8\xedn&quot; :-(
+Přitom ten samý select v mysql klientovi vrací výsledek se správnou diakritikou.
+
+Proč se vrací výsledek v unicode escape sekvencích ? Kde dělám chybu ?
+
+Předem díky za odpověď
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003446.html">[python] Diskuse: &quot;Strucny seznam&quot;
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003441.html">[python] MySQLdb a znaková sada - problém
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3440">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3440">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3440">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3440">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003440.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:29 GMT -->
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009976.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:21 GMT -->
+<HEAD>
+   <TITLE> [python] jmeno pro [neco for neco] (bylo nechtene propojeni mnozin)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20jmeno%20pro%20%5Bneco%20for%20neco%5D%20%28bylo%20nechtene%20propojeni%20mnozin%29&In-Reply-To=%3C1287559958.441606.3197.nullmailer%40mail1001.cent%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-October/009981.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-October/009977.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] jmeno pro [neco for neco] (bylo nechtene propojeni mnozin)</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20jmeno%20pro%20%5Bneco%20for%20neco%5D%20%28bylo%20nechtene%20propojeni%20mnozin%29&In-Reply-To=%3C1287559958.441606.3197.nullmailer%40mail1001.cent%3E"
+       TITLE="[python] jmeno pro [neco for neco] (bylo nechtene propojeni mnozin)">prikryl na atlas.cz
+       </A><BR>
+    <I>Středa Říjen 20 09:32:38 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009981.html">[python] Generator prvku ridke matice (bylo ... nechtene	propojenimnozin)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009977.html">[python] Proces vs. vlakno
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9976">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9976">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9976">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9976">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+ MICHÁLEK Jan Mgr. napsal
+ &gt;
+ &gt; [...]
+ &gt; 
+ &gt; Jde tedy to nějak vymyslet, abych udělal ten generátor, kterej si bude pamatovat 
+&gt;<i> jen aktuální hodnoty x a y, aniž bych musel použít smyčku?? 
+</I>
+&gt;<i> Ta věc [něco for něco] (menuje se to generátor pole??) 
+</I> 
+Anglicky se to jmenuje &quot;list comprehension&quot;, čili &quot;skládač seznamu&quot;.
+V překladu Dive Into Python 3 jsem ve spolupráci se zdejšími borci dospěl
+k českému...
+
+5.3 GENERÁTOROVÁ NOTACE SEZNAMU
+Generátorová notace seznamu (anglicky list comprehension [list
+komprihenšn]) umožňuje stručný zápis vytvoření seznamu z jiného
+seznamu aplikováním funkce na všechny prvky zdrojového seznamu.
+(Pozn&#225;mka p&#345;ekladatele: Pojem &#8222;list comprehension&#8220; je zn&#225;m z
+deklarativních jazyků a má charakter syntaktické konstrukce. V jazyce
+Python se &#8222;vnit&#345;ku&#8220; deklarativn&#237;ho z&#225;pisu podob&#225; gener&#225;torov&#253; v&#253;raz.
+T&#237;mto zp&#367;sobem byl odvozen &#269;esk&#253; pojem &#8222;gener&#225;torov&#225; notace&#8220;.
+N&#283;kdy je pojem &#8222;list comprehension&#8220; pou&#382;it v procedur&#225;ln&#237;m,
+dynamickém smyslu. V takové situaci můžeme uvažovat o pojmu
+&#8222;gener&#225;tor seznamu&#8220;. Pokud se bav&#237;me o jeho v&#253;sledku, m&#367;&#382;eme
+uva&#382;ovat i o pojmu &#8222;generovan&#253; seznam&#8220;. Vzhledem k tomu, &#382;e
+zaveden&#253; &#269;esk&#253; pojem pro tuto konstrukci asi neexistuje &#8212;
+studentům příslušných oborů vysokých škol přijde po krátké 
+chv&#237;li anglick&#253; pojem srozumiteln&#253; &#8212;, budu voln&#283;ji
+používat některou z uvedených variant. Někdy budu poněkud 
+dlouh&#253; pojem &#8222;gener&#225;torov&#225; notace seznamu&#8220;
+zkracovat. Kritériem volby bude dobrá srozumitelnost.)
+
+Podobně existuje &quot;dictionary comprehension&quot; a &quot;set comprehension&quot;.
+
+&gt;<i> Nebo to jde nějak občůrat (například použít místo range() generátor)??
+</I>
+Už jsem to posílal jako reakci na odpověď Jirky, ale ono Ctrl-V zase tolik
+práce nedá ;)
+
+g = ((a,b) for a in xrange(1,10,2) for b in xrange(5,20,5))
+
+def genFunc(x, y):
+    for a in xrange(1, x, 2):
+        for b in xrange(5, y, 5):
+            yield (a, b)
+            
+for t in g:
+    print t,
+    
+print    
+print '-' * 60
+
+for t in genFunc(10, 20):
+    print t,
+
+
+Petr
+
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20101020/8c4c569f/attachment.html">http://www.py.cz/pipermail/python/attachments/20101020/8c4c569f/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009981.html">[python] Generator prvku ridke matice (bylo ... nechtene	propojenimnozin)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009977.html">[python] Proces vs. vlakno
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9976">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9976">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9976">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9976">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009976.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:21 GMT -->
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003081.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:03 GMT -->
+<HEAD>
+   <TITLE> [python] GUI - GTK
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20GUI%20-%20GTK&In-Reply-To=42D75494.6090904%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-July/003080.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-July/003088.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] GUI - GTK</H1>
+    <B>Ivo Štolpa</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20GUI%20-%20GTK&In-Reply-To=42D75494.6090904%40seznam.cz"
+       TITLE="[python] GUI - GTK">pussa na pussa.cz
+       </A><BR>
+    <I>Pátek Červenec 15 08:41:48 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003080.html">[python] GUI - GTK
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003088.html">[python] GUI - GTK
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3081">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3081">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3081">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3081">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Petr Mach napsal(a):
+
+&gt;<i> VANĚK Petr napsal(a):
+</I>&gt;<i>
+</I>&gt;&gt;&gt;<i> Osobně se mi zdá Tk uz ponekud zastarale. Neni prinosnejsi 
+</I>&gt;&gt;&gt;<i> investovat do uceni se neceho modernejsiho? Osobne doporucuji GTK. 
+</I>&gt;&gt;&gt;<i> Tim ze clovek pozna
+</I>&gt;&gt;&gt;<i> tutuo knihovnu nic neztrati ani kdyz pak zacne pouzivat treba jazyk C a
+</I>&gt;&gt;&gt;<i> muze ji bez problemu pouzivat pod Linuxem i Windows, a i na dalsich
+</I>&gt;&gt;&gt;<i> platformach, ale s tim nemam osobni zkusenosti.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> inu. v jadru s tim souhlasim. Je tu ale jedna, vlastne dve, 
+</I>&gt;&gt;<i> zaludnost. Tk je - buhvi proc -
+</I>&gt;&gt;<i> stale standardni GUI toolkit v Pythonu [1]. A druha, osobni, Gtk je 
+</I>&gt;&gt;<i> skoro stejne peklo.
+</I>&gt;&gt;<i> Konec invektivy. ;)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> poznamka [1] - sice to vyvojari tvrdi, ale na macu uz treba Tk 
+</I>&gt;&gt;<i> implicitne neni...
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> No, proc je TK standardni toolkit v Pythonu nechapu. Evidentne se nikomu
+</I>&gt;<i> nelibi, protoze navzdory tomu, ze je standardni soucasti a jeho pouzti
+</I>&gt;<i> je tak nejmene problemove, tak se temer nepouziva. Imho by se mel
+</I>&gt;<i> vyradit, jen zbytecne Python nafukuje.
+</I>&gt;<i>
+</I>&gt;<i> Co se ti nelibi na GTK? Ja jsem koukal na vic toolkitu a GTK mi vychazi
+</I>&gt;<i> jednoznacne nejlepe. Urcite to neni zadne peklo. Je schopny, dobre
+</I>&gt;<i> se v nem programuje, je dobre zdokumentovany, je dobre podporovany a 
+</I>&gt;<i> multiplatformni, je rozsireny, ma dobrou licenci. Aktivne ho pouzivam
+</I>&gt;<i> a nejsem si vedom zadneho nedostatku.
+</I>&gt;<i>
+</I>&gt;<i> Jen pro srovnani, tady je kompletni priklad demonstracni ukazky 
+</I>&gt;<i> zachazeni s CheckBoxy v PyGTK.
+</I>&gt;<i>
+</I>&gt;<i> = BEGIN =============================================================
+</I>&gt;<i>
+</I>&gt;<i> #!/usr/bin/python
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i> import gtk
+</I>&gt;<i>
+</I>&gt;<i> # obsluha udalosti
+</I>&gt;<i>
+</I>&gt;<i> def printStatus(button, checks):
+</I>&gt;<i>     for check in checks:
+</I>&gt;<i>         if  check.get_active():
+</I>&gt;<i>             stat = &quot;je zatržen.&quot;
+</I>&gt;<i>         else:
+</I>&gt;<i>             stat = &quot;není zatžen.&quot;
+</I>&gt;<i>
+</I>&gt;<i>         print check.get_label(), stat
+</I>&gt;<i>
+</I>&gt;<i> def quit( event, data=None ):
+</I>&gt;<i>     gtk.main_quit()
+</I>&gt;<i>
+</I>&gt;<i> # GUI
+</I>&gt;<i>
+</I>&gt;<i> checks = []
+</I>&gt;<i> checks.append( gtk.CheckButton( label=&quot;První&quot;  ))
+</I>&gt;<i> checks.append( gtk.CheckButton( label=&quot;Druhý&quot;  ))
+</I>&gt;<i> checks.append( gtk.CheckButton( label=&quot;Třetí&quot;  ))
+</I>&gt;<i> checks.append( gtk.CheckButton( label=&quot;Čtvrtý&quot; ))
+</I>&gt;<i> checks.append( gtk.CheckButton( label=&quot;Pátý&quot;   ))
+</I>&gt;<i>
+</I>&gt;<i> button = gtk.Button( label=&quot;Vytiskni stav&quot; )
+</I>&gt;<i> button.connect( 'clicked', printStatus, checks )
+</I>&gt;<i>
+</I>&gt;<i> vbox = gtk.VBox()
+</I>&gt;<i> for check in checks: vbox.pack_start( check )
+</I>&gt;<i> vbox.pack_start( button )
+</I>&gt;<i>
+</I>&gt;<i> win = gtk.Window()
+</I>&gt;<i> win.set_border_width( 10 )
+</I>&gt;<i> win.connect( 'destroy', quit )
+</I>&gt;<i> win.add( vbox )
+</I>&gt;<i> win.show_all()
+</I>&gt;<i>
+</I>&gt;<i> # cekani na udalost
+</I>&gt;<i>
+</I>&gt;<i> gtk.main()
+</I>&gt;<i>
+</I>&gt;<i> = END ===============================================================
+</I>&gt;<i>
+</I>&gt;<i> Vystup je takovy:
+</I>&gt;<i>
+</I>&gt;<i> [<A HREF="http://www.py.cz/mailman/listinfo/python">wraith na frodo</A> ~]$ python checks.py
+</I>&gt;<i> První je zatržen.
+</I>&gt;<i> Druhý není zatžen.
+</I>&gt;<i> Třetí je zatržen.
+</I>&gt;<i> Čtvrtý není zatžen.
+</I>&gt;<i> Pátý je zatržen.
+</I>&gt;<i>
+</I>&gt;<i> Obrazek aplikace posilam prilohou. Vskutku si myslim, ze GTK toolkit
+</I>&gt;<i> je snadny na pouzivani (a to nezminuji glade, v kterem si GUI navrhnes
+</I>&gt;<i> vizualne a v pythonu dopises obsluhu udalosti) i nauceni se.
+</I>&gt;<i>
+</I>&gt;<i>------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>Já používám GTK teď již více jak rok a mohu potvrdit Petrova slova. Na 
+GTK se mi líbí mnoho věcí nejvíce však wrapper PyGTK. Ten je opravdu 
+pytonní. GTK se díky jemu stává opravdovou součástí Pythonu a ne jen 
+nějakou externí knihovnou. Když jsem začínal, tak Tk jsem zavrhl vlastně 
+ihned. Qt jsem kvůli nešťastnému licencování pod Windows musel vynechat 
+taky. Asi nejrozsáhlejší wx jsem nakonec zavrhl protože práce s ní i v 
+pythonu je moc C++ (toto je prosím jen můj názor člověka, který prostě 
+nemá rád C++) a tak nakonec vyhrálo menší a jednodušší GTK. Za celý rok 
+jsem nelitoval. Na GTK mne mrzí jen dvě věci. 1. že neumí (nebo jsem na 
+to nepřišel) zobrazit html stránku v okně GTK.  2. že nemá svůj vlastní 
+tiskový mechanismus s preview (wx ho má). Kolem druhého bodu se poslední 
+dobou něco děje, ale zatím je brzy na nějaké závěry. Teď to řeším 
+knihovnou reportlab a zobrazením výsledného pdf v externím programu.
+
+Kdyby bylo na mě, tak bych Tkiner z Pythonu vyřadil. Jeho přítomnost je 
+čistě historická. I když mě nevadí, protože na disku mám místa dost a 
+pro distribuci uživatelům používám McMillan Install a tam se Tkiner 
+nepřibalí, pokud jej nepoužiji.
+
+Pokud na wiki vznikne nejaký základ o používání GTK, rád jej doplním i 
+svými poznatky.
+
+Ivo
+
+-- 
+Ing. Ivo Štolpa
+
+***********************************************
+PUSSA software, Žižkova 13, 58601 Jihlava
+e-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">pussa na pussa.cz</A>, <A HREF="http://www.py.cz/mailman/listinfo/python">ivo.stolpa na seznam.cz</A>
+stránky: <A HREF="http://www.pussa.cz/">http://www.pussa.cz</A>
+mobilní telefon: 602 735 124
+pevná linka: 567 320 386
+fax: 602 783 071
+***********************************************
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003080.html">[python] GUI - GTK
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003088.html">[python] GUI - GTK
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3081">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3081">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3081">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3081">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003081.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:03 GMT -->
+</html>

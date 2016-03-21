@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-November/003664.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:22 GMT -->
+<HEAD>
+   <TITLE> [python] Volani okna s tabulkou
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Volani%20okna%20s%20tabulkou&In-Reply-To=000901c5e9dc%2419cd2980%242f00a8c0%40orangutan">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-November/003658.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-November/003659.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Volani okna s tabulkou</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Volani%20okna%20s%20tabulkou&In-Reply-To=000901c5e9dc%2419cd2980%242f00a8c0%40orangutan"
+       TITLE="[python] Volani okna s tabulkou">geon na post.cz
+       </A><BR>
+    <I>Úterý Listopad 15 13:24:09 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003658.html">[python] Volani okna s tabulkou
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003659.html">[python] ANN: Nový web o Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-November/date.html#3664">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/thread.html#3664">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/subject.html#3664">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/author.html#3664">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Martin Jedlička napsal(a):
+
+&gt;<i> diky...
+</I>&gt;<i> ta druha varianta me taky napadla, ale nevim jak tu existenci 
+</I>&gt;<i> testovat... mam tam:
+</I>&gt;<i>  
+</I>&gt;<i>     self.frame = tk.Toplevel(relief='ridge', borderwidth=2)
+</I>
+napadí mě dvě věci. Ta první je taková ošklivější:
+
+try:
+  print self.frame #
+  # pryč, protože existuje
+else:
+  # neexistuje, vytvořit
+
+a pak v &quot;zavírací&quot; funkci musíš zajistit:
+del self.frame
+# self.frame.destroy() - nestačí
+
+Nebo použít self.frame.withdraw() někde na začátku, a pak jen testovat
+self.frame.state()
+
+a zobrazovat self.frame.deiconify() nebo schovávat self.frame.withdraw()
+
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20051115/34db4c15/attachment.htm">http://www.py.cz/pipermail/python/attachments/20051115/34db4c15/attachment.htm</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003658.html">[python] Volani okna s tabulkou
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003659.html">[python] ANN: Nový web o Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-November/date.html#3664">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/thread.html#3664">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/subject.html#3664">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/author.html#3664">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-November/003664.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:22 GMT -->
+</html>

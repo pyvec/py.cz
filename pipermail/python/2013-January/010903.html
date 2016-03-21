@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010903.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:16 GMT -->
+<HEAD>
+   <TITLE> [python] otázka ohladom mojho štýlu písania v OOP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fot%3DE1zka_ohladom_mojho_%3DB9t%3DFDlu_p%3DEDsani%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fa_v_OOP%3F%3D&In-Reply-To=%3CCABfjP1%2BYqoiUN43bZuyrJqaQ%3DWGvSqP_GQsCQTiV8ucm2Qn%3DCA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010902.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010908.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] otázka ohladom mojho štýlu písania v OOP</H1>
+    <B>Roman Beno</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fot%3DE1zka_ohladom_mojho_%3DB9t%3DFDlu_p%3DEDsani%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fa_v_OOP%3F%3D&In-Reply-To=%3CCABfjP1%2BYqoiUN43bZuyrJqaQ%3DWGvSqP_GQsCQTiV8ucm2Qn%3DCA%40mail.gmail.com%3E"
+       TITLE="[python] otázka ohladom mojho štýlu písania v OOP">romanbeno273 na gmail.com
+       </A><BR>
+    <I>Pondělí Leden 14 19:18:35 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010902.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010908.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10903">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10903">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10903">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10903">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Na to už som natrafil.
+Čo sa týka Raiczeho kritiky, podobný systém s &quot;odkazom na metódy jednej
+konkrétnej instancie&quot; je uplatnený v module random.
+
+Ešte by som mal jednu otázku, je to skôr vec názoru.. Nakoľko vyššie
+spomínané príklady sa toho nejak veľmi netýkajú.
+
+Tak napríklad ten triviálny príklad s triedou PrikazovyRiadok :-)
+
+V časti
+
+if __name__=&quot;__main__&quot;:
+    # čo robit s instaciou(ami) po spustení z termu..
+    ....
+
+by mohlo byť:
+
+A)
+inst=PrikazovyRiadok()
+inst.proces()
+
+alebo
+B)
+urobit metodu proces  tak aby sa self.proces() robil len raz, napr:
+def proces(self):
+   self.prikaz=input(&quot;Zadajte: &quot;&quot;)
+   if self.prikaz.startswith(&quot;cd&quot;):
+        .....
+   elif self.prikaz.startswith(&quot;pwd&quot;):
+        .....
+   else:
+       os.system(self.prikaz)
+
+a potom už v časti if __name__ ....
+inst=PrikazovyRiadok()
+while True:
+   inst.proces()
+   if self.prikaz==&quot;0&quot;:
+        break
+
+atd atd proste v triede stanovit iba to nevyhnutné a prácu s metodami
+instancie nechat do tohto bloku.
+Skor sa však priklanam k možnosti A.
+
+Ďakujem za odpoved
+Roman
+
+
+
+
+
+Dňa 14. január 2013 18:14, Hynek Fabian
+&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">hynek.fabian na firma.seznam.cz</A>&gt;napísal(-a):
+
+&gt;<i> Tak s timnhle bych byl opatrny. Vetsina filozofovani o OOP je psana s
+</I>&gt;<i> ohledem na C++/Javu a kdyz dojde na prakticke rady nebo dokonce ukazky
+</I>&gt;<i> zacnou se objevovat veci jako singletony, gettery/settery, fabricke
+</I>&gt;<i> metody a podobne radosti, ktere jsou v pythonu bud zbytecne nebo
+</I>&gt;<i> vyslovene skodlive.
+</I>&gt;<i> Nic proti filozofovani, naopak, Design Patterns by mela byt povinna
+</I>&gt;<i> cetba :-) ale porad plati ze by clovek mel znat dobre jazyk o kterem je
+</I>&gt;<i> rec, aby rozeznal co je obecny princip a co jen vlastnost jazyka.
+</I>&gt;<i> Pak jsou tu samozrejme takove ty uplne akademicke pojednani ve kterych
+</I>&gt;<i> neni ani radka kodu, ale z tech se imo zacatecnik nedozvi nic prakticky
+</I>&gt;<i> uzitecneho.
+</I>&gt;<i> Spis nez nejake dalekosahle zvaneni, uplne zakladni &quot;ustava&quot; kodu v
+</I>&gt;<i> pythonu je pro me modul this.
+</I>&gt;<i>
+</I>&gt;<i> On 01/13/13 18:48, Róbert Čerňanský wrote:
+</I>&gt;<i> &gt; On Sat, 12 Jan 2013 18:46:35 +0100
+</I>&gt;<i> &gt; Roman Beno &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">romanbeno273 na gmail.com</A>&gt; wrote:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt; V mojej otázke som mal viac na mysli, či je vhodné písat jednu velkú
+</I>&gt;<i> &gt;&gt; metódu bez atribútov ako program, prípadne viac metód na
+</I>&gt;<i> &gt;&gt; rozkúskovanie a trochu sprehladnenie programu, resp. sa snažit aby
+</I>&gt;<i> &gt;&gt; čast kódu pri vytváranií instancie triedy (čiže už za dokončením
+</I>&gt;<i> &gt;&gt; definície triedy) bola čo najstručnejšia?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Tu vlastne pýtaš, ako najlepšie navrhnúť program.  Aké triedy bude
+</I>&gt;<i> &gt; mať, aké metódy budú tieto triedy obsahovať a pod.  Tu sa pri hľadaní
+</I>&gt;<i> &gt; návodov nemusíš držať Python-u (a v niektorých prípadoch ani objektovo
+</I>&gt;<i> &gt; orientovaného programovania), ale hľadaj skôr informácie o objektovo
+</I>&gt;<i> &gt; orientovanom (alebo všeobecnom) návrhu.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Napr. na stránke
+</I>&gt;<i> &gt; <A HREF="http://c2.com/cgi/wiki?PrinciplesOfObjectOrientedDesign">http://c2.com/cgi/wiki?PrinciplesOfObjectOrientedDesign</A> sa nachádzajú
+</I>&gt;<i> &gt; základné princípy objektovo orientovaného návrhu.  Hneď prvý (Single
+</I>&gt;<i> &gt; Responsibility Principle) Ti dáva odpoveď na to, či je lepšia jedna
+</I>&gt;<i> &gt; veľká metóda (či trieda) alebo viac malých.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Čo sa týka návrhu a písania programu všeobecne, (ale aj objektového),
+</I>&gt;<i> &gt; tak je výborná kniha Dokonalý kód
+</I>&gt;<i> &gt; (<A HREF="http://www.martinus.sk/?uItem=24387">http://www.martinus.sk/?uItem=24387</A>).  Dáva odpovede na podobné otázky
+</I>&gt;<i> &gt; ako sa tu pýtaš.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Robo
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130114/4d03189f/attachment.html">http://www.py.cz/pipermail/python/attachments/20130114/4d03189f/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010902.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010908.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10903">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10903">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10903">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10903">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010903.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:16 GMT -->
+</html>

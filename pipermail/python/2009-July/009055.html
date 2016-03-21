@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-July/009055.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:24 GMT -->
+<HEAD>
+   <TITLE> [python] sprava pameti,trida
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20sprava%20pameti%2Ctrida&In-Reply-To=%3C913F77222E913C49A057FDD7BBDEAAA3018E31BF%40br-dc.uhul.wan%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-July/009054.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-July/009058.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sprava pameti,trida</H1>
+    <B>MICHÁLEK Jan Mgr.</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20sprava%20pameti%2Ctrida&In-Reply-To=%3C913F77222E913C49A057FDD7BBDEAAA3018E31BF%40br-dc.uhul.wan%3E"
+       TITLE="[python] sprava pameti,trida">Michalek.Jan na uhul.cz
+       </A><BR>
+    <I>Čtvrtek Červenec  9 10:28:52 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-July/009054.html">[python] sprava pameti,trida
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-July/009058.html">[python] vypis promennych dane instance
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-July/date.html#9055">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-July/thread.html#9055">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-July/subject.html#9055">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-July/author.html#9055">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No, já na o používám fintu:
+def __del__ (self):
+	print: 'je to smazany'
+
+Takže vim, kdy to zmizlo
+
+-----Original Message-----
+From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of Petr Messner
+Sent: Wednesday, July 08, 2009 4:19 PM
+To: Konference PyCZ
+Subject: Re: [python] sprava pameti,trida
+
+2009/7/8 Petr Zlamal &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt;:
+&gt;<i> Pratele,
+</I>&gt;<i> Potreboval bych poradit jak uvolnit pamet v pythonu, respektive jak 
+</I>&gt;<i> odstranit nepotrebnou instanci tridy z pameti. Zkousel jsem prikaz 
+</I>&gt;<i> del. Po provedeni &quot;del&quot; na instanci tridy je vsak pamet zaplnena furt 
+</I>&gt;<i> stejne (sledovano pomoci top v linuxu). Mozna na to jdu uplne spatne. 
+</I>&gt;<i> Vi nekdo jak provest uvolneni?
+</I>
+Po použití del se jen &quot;smaže&quot; proměnná a tím odstraní reference na daný objekt. Objekt se uvolní až pokud na něj nejsou žádné reference (ihned nebo až si toho všimne garbage collector, záleží na implementaci a okolnostech). Ale dejme tomu, že se objekt skutečně smaže, protože jste zavolal del na jedinou referenci. Pak se paměť uvolní, jenže se jedná o paměť, kterou má python alokovanou právě pro objekty, tedy se uvolní místo třeba pro nový objekt; paměť není vrácena operačnímu systému (= žádná změna ve výpisu top), bylo by to neefektivní vždy vracet každý kousek uvolněné paměti a pak zase alokovat další (vlastně celý tenhle problém je o kompromisech mezi výkonem a zabranou pamětí, i volání malloc/free je dost drahé).
+
+Pokud se ale takto nastřádá hodně nevyužité paměti, interpreter se může rozhodnout tuto paměť vrátit operačnímu systému. Ale záleží, jak bylo tato paměť od operačního systému získána (pokud je použita funkce malloc, záleží na implementaci v libc). Pokud se jedná o namapovanou paměť (mmap) a celý blok paměti (přinejmenším celá stránka) je nepotřebný, lze ho vrátit a hodnota v top se - konečně - sníží. Paměť lze od operačního systému získat i jinými způsoby, to bych zde ale už raději nerozváděl.
+
+V důsledku toho se může stát, že při smazání velkého objektu se nemusí uvolnit tolik paměti, kolik ten objekt zabíral. Pokud si s tím chcete hrát, doporučuji strace :-)
+
+To, co jsem teď napsal, je dost zjednodušené a zobecněné, napsal jsem to bez konkrétní znalosti vnitřností Pythonu, které se navíc s vývojem Pythonu a jeho interpreterů mění. Možná se pletu. V průběhu psaní této odpovědi Dan Pressl poslal odkaz na článek &quot;Python Memory Management&quot;, tam je detailů více, třeba že pro různé typy objektů existují různé alokátory a některé z nich dokonce zabranou paměť nevrací.
+
+Mimochodem, nedávno se na Python mailing-listu ozval někdo s dotazem, jestli nelze mít objekt naalokovaný řekněme dokud je volná paměť, že by pak třeba sám zmizel. Nelze :-) Lze ale použít třeba memcache.
+
+PM
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+ 
+
+__________ Informace od ESET NOD32 Antivirus, verze databaze 4224 (20090708) __________
+
+Tuto zpravu proveril ESET NOD32 Antivirus.
+
+<A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+ 
+
+__________ Informace od ESET NOD32 Antivirus, verze databaze 4227 (20090709) __________
+
+Tuto zpravu proveril ESET NOD32 Antivirus.
+
+<A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+ 
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-July/009054.html">[python] sprava pameti,trida
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-July/009058.html">[python] vypis promennych dane instance
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-July/date.html#9055">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-July/thread.html#9055">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-July/subject.html#9055">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-July/author.html#9055">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-July/009055.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:24 GMT -->
+</html>

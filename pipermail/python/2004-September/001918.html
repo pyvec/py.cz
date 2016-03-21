@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-September/001918.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:15 GMT -->
+<HEAD>
+   <TITLE> [python] Serverless DB, sort podle encoding (cestina)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Serverless%20DB%2C%20sort%20podle%20encoding%20%28cestina%29&In-Reply-To=20040908004821.GA22810%40birko.cjb.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-September/001912.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-September/001949.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Serverless DB, sort podle encoding (cestina)</H1>
+    <B>Ivo Štolpa</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Serverless%20DB%2C%20sort%20podle%20encoding%20%28cestina%29&In-Reply-To=20040908004821.GA22810%40birko.cjb.net"
+       TITLE="[python] Serverless DB, sort podle encoding (cestina)">pussa na pussa.cz
+       </A><BR>
+    <I>Středa Září  8 12:41:38 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-September/001912.html">[python] Serverless DB, sort podle encoding (cestina)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-September/001949.html">[python] Serverless DB, sort podle encoding (cestina)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-September/date.html#1918">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/thread.html#1918">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/subject.html#1918">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/author.html#1918">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dave Lister napsal(a):
+
+&gt;<i>Potrebuji databazi, ktera pracuje primo nad soubory, bez potreby
+</I>&gt;<i>serveru - neco jako dBase. Z prehrsle co je na vyber mi nejlepe 
+</I>&gt;<i>vyhovuje (Py)Sqlite, nebot splnuje predchozi pozadavky, ba co vic,
+</I>&gt;<i>zachazi se s ni pohodlne pres SQL. Nicmene bez namitek zmenim svou
+</I>&gt;<i>volbu, pokud mi to pomuze dosahnout kyzeneho cile: 
+</I>&gt;<i>  - aby ORDER BY vracel zaznamy setridene podle nastaveneho kodovani,
+</I>&gt;<i>    tedy ISO-8859-2.
+</I>&gt;<i>
+</I>&gt;<i>Zkousel jsem ukladat retezce jak v ISO, tak UTF-8, ale nijak se mi
+</I>&gt;<i>nepodarilo spravneho trideni dosahnout. Zadam tedy o radu, zda-li
+</I>&gt;<i>nekdo nevi jak s Sqlite na to, nebo jak toho dosahnout vubec, pomoci
+</I>&gt;<i>cehokoli jineho.
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>SQLite to do nedávna vůbec neuměla. Od verze 3.0 je zavedená podpora 
+tzv. &quot;user collating&quot;. Což je věc typu &quot;dodělej si sám&quot;, ale pak 
+funguje. Collating je založeno na porovnání dvou stringů. Tvá funkce pak 
+musí vrátit  záporné číslo, nulu nebo kladné číslo pro případy kdy první 
+string je menší, shodný nebo větší než druhý string. Více k tomu najdeš 
+na adrese www.sqlite.org/version3.html
+
+Já ale raději používám Firebird (www.firebird.org) kde je čeština již 
+léta vychytaná a jedinou chybičku ve třídění, kterou měla InterBase, tak 
+Firebird již opravil. Nově je k dispozici i embended varianta, která 
+nepotřebuje server a pracuje se s ní stejně jako s SQLite. Já ale tuto 
+variantu nepoužívám, takže nemám praktické zkušenosti.
+
+S pozdravem
+
+Ivo
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-September/001912.html">[python] Serverless DB, sort podle encoding (cestina)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-September/001949.html">[python] Serverless DB, sort podle encoding (cestina)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-September/date.html#1918">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/thread.html#1918">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/subject.html#1918">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/author.html#1918">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-September/001918.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:15 GMT -->
+</html>

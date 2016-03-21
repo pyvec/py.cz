@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006213.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:37 GMT -->
+<HEAD>
+   <TITLE> [python] programujte.com Kurz Python - Lekce 9. - sort (key=...)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20programujte.com%20Kurz%20Python%20-%20Lekce%209.%20-%20sort%20%28key%3D...%29&In-Reply-To=495.2020-24839-659075437-1183744481%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006211.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006215.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] programujte.com Kurz Python - Lekce 9. - sort (key=...)</H1>
+    <B>regnarG</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20programujte.com%20Kurz%20Python%20-%20Lekce%209.%20-%20sort%20%28key%3D...%29&In-Reply-To=495.2020-24839-659075437-1183744481%40seznam.cz"
+       TITLE="[python] programujte.com Kurz Python - Lekce 9. - sort (key=...)">regnarg na seznam.cz
+       </A><BR>
+    <I>Pátek Červenec  6 21:02:32 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006211.html">[python] programujte.com Kurz Python - Lekce 9. - sort (key=...)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006215.html">[python] programujte.com Kurz Python - Lekce 9. - sort (key=...)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6213">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6213">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6213">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6213">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Happy Day napsal(a):
+&gt;<i> Dobrý den,
+</I>&gt;<i> v kurzu Python od geona - Lekce 9. jsem se zarazil u úlohy:
+</I>&gt;<i> # Jinak fakt skvělý kurz, moc mě to baví :)
+</I>&gt;<i>
+</I>&gt;<i> def porovnej(mestoSeznam):
+</I>&gt;<i>     # definice funkce, která bude spolupracovat se sort()
+</I>&gt;<i>     return mestoSeznam[1] # zde vracíme tu položku, podle které chceme
+</I>&gt;<i> řadit
+</I>&gt;<i>
+</I>&gt;<i> mesta=[['Praha', 1000000], ['Brno', 350000], ['Ostrava', 300000],
+</I>&gt;<i> ['Zlin', 80000]]
+</I>&gt;<i> mesta.sort(key=porovnej) # serad podle klice (= funkce) &quot;porovnej&quot;
+</I>&gt;<i> print &quot;Serazeno podle poctu obyvatel: &quot;, mesta
+</I>&gt;<i>
+</I>&gt;<i> V předposlednim řádku se pomoci metody sort() seřazuje seznam mesta
+</I>&gt;<i> podle argumentu key=porovnej - dělá co má.
+</I>&gt;<i>
+</I>&gt;<i> 1) Jaktože arg mestoSeznam neni definovan a přece to bez něj nejde =
+</I>&gt;<i> 3. řádek nemůžu prostě nahradit return [1]
+</I>&gt;<i> 2) Proč najednou taková komplikace, doted se mi zdál Python jako
+</I>&gt;<i> jednoduchý, &quot;intuitivní&quot; jazyk :(
+</I>&gt;<i>     Mnohem elegantnější mi přijde: mesta.sort(key=[1]) :) ach jo.
+</I>&gt;<i>
+</I>&gt;<i> Koukal jsem na <A HREF="http://docs.python.org/lib/">http://docs.python.org/lib/</A> a nenašel jsem nic co by to
+</I>&gt;<i> vysvětlovalo. Špatně jsem koukal?
+</I>&gt;<i> Snad někdo zná odpověd :) Děkuju za všechny reakce.
+</I>&gt;<i>
+</I>&gt;<i> P.S.: Nevíte někdo jak bych se mohl &quot;podívat do útrob&quot; metody sort() a
+</I>&gt;<i> vidět co tenhle kód dělá s argumentem key?
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>Nevidím jediný důvod, proč by ten argument neměl být definován. Jinak by
+se to neseřadilo. Ta syntaxe není složitá ani nelogická, je to funkce,
+protože často je třeba dělat složitější věci, než jen vybrat jeden prvek
+z n-tice. Tato funkce může položky pro účel řazení libovolně
+transformovat. Systém je jednoduchý, logický a přehledný. V Pythonu není
+nic jen tak.
+
+-- 
+
+                                                  regnarG
+<A HREF="http://regnarg.kx.cz/">http://regnarg.kx.cz</A>
+
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006211.html">[python] programujte.com Kurz Python - Lekce 9. - sort (key=...)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006215.html">[python] programujte.com Kurz Python - Lekce 9. - sort (key=...)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6213">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6213">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6213">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6213">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006213.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:37 GMT -->
+</html>

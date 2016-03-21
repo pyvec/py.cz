@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003116.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:06 GMT -->
+<HEAD>
+   <TITLE> [python] Ja prekodovat retezec.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Ja%20prekodovat%20retezec.&In-Reply-To=42DD007F.4010504%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-July/003115.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-July/003118.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Ja prekodovat retezec.</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Ja%20prekodovat%20retezec.&In-Reply-To=42DD007F.4010504%40seznam.cz"
+       TITLE="[python] Ja prekodovat retezec.">geon na post.cz
+       </A><BR>
+    <I>Úterý Červenec 19 18:58:27 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003115.html">[python] Ja prekodovat retezec.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003118.html">[python] Ja prekodovat retezec.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3116">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3116">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3116">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3116">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>David Michal napsal(a):
+
+&gt;<i>Zdravim,
+</I>&gt;<i>prosim napada vas nekoho kod ktery by mi z tohoto vstupu:
+</I>&gt;<i>u'Příliš' , vstup bude soubor v iso-8859-2
+</I>&gt;<i>udelal vystup do jineho souboru s timto obsahem:
+</I>&gt;<i>u'P\u0159\xedli\u0161'
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>místo raw_unicode_escape můžete použít i jiné, viz: # 
+<A HREF="http://docs.python.org/lib/standard-encodings.html">http://docs.python.org/lib/standard-encodings.html</A> (třebas jsem zkoušel 
+unicode_escape)
+
+Všechny 3 ukázky jsou víceméně rovnocené. První 2 ukázky jsou na námět 
+JF a 3 ukázka je na námět JP. Druhá je snad nejtransparentnější. Snad je 
+to ono ;-)
+
+vstup = file(&quot;vstup.txt&quot;, &quot;r&quot;)
+vystup = file(&quot;vystup.txt&quot;, &quot;w&quot;)
+
+for radek in vstup:
+  radek = radek.decode('iso-8859-2').encode('raw_unicode_escape')
+  print radek,
+  vystup.write(radek)
+
+vstup.close()
+vystup.close()
+
+# ---------------------------------------------
+
+
+import codecs
+
+vstup = codecs.open(&quot;vstup.txt&quot;, &quot;r&quot;, &quot;iso-8859-2&quot;)
+vystup = codecs.open(&quot;vystup.txt&quot;,&quot;w&quot;,&quot;raw_unicode_escape&quot;)
+
+for radek in vstup:
+  print radek,
+  vystup.write(radek)
+
+vstup.close()
+vystup.close()
+
+# ---------------------------------------------
+
+vstup = file(&quot;vstup.txt&quot;, &quot;r&quot;)
+vystup = file(&quot;vystup.txt&quot;, &quot;w&quot;)
+
+for radek in vstup:
+  radek = radek.decode('iso-8859-2')
+  print radek,
+  vystup.write(repr(radek))
+  vystup.write('\n')
+
+vstup.close()
+vystup.close()
+
+
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003115.html">[python] Ja prekodovat retezec.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003118.html">[python] Ja prekodovat retezec.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3116">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3116">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3116">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3116">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003116.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:06 GMT -->
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000647.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fdaj%3DED_se_n%3DECjak_vlo%3DBEit_v%3DFDb%3DECry%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_z_OptionMenu_jako_polo%3DBEky_do_seznamu%3D3F%3F%3D&In-Reply-To=200610311549.41686.jsim%40med.muni.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000646.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000648.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fdaj%3DED_se_n%3DECjak_vlo%3DBEit_v%3DFDb%3DECry%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_z_OptionMenu_jako_polo%3DBEky_do_seznamu%3D3F%3F%3D&In-Reply-To=200610311549.41686.jsim%40med.muni.cz"
+       TITLE="[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?">geon na post.cz
+       </A><BR>
+    <I>Úterý Říjen 31 17:07:28 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000646.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000648.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#647">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#647">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#647">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#647">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Šimůnek napsal(a):
+&gt;<i> Já bych potřeboval, aby byla změněna určitá konkrétní položka seznamu.
+</I>&gt;<i> Dá se napsat:
+</I>&gt;<i>     seznam[1]=promenna.get()
+</I>&gt;<i> ale nedokážu přijít na to,  jak funkci ok předat ještě další hodnotu, aby ji 
+</I>&gt;<i> jedno udělátko volalo, že chce uložit hodnotu na seznam[0], další na 
+</I>&gt;<i> seznam[1] atd. 
+</I>Lambda + atribut instance jako globální proměnná?
+
+# -*- coding: utf-8 -*-
+from Tkinter import *
+
+def ok(hodnota, neco):
+    u&quot;Volaná funkce při změně hodnoty udělátka 'option'&quot;
+    print u&quot;hodnota je:&quot;, promenna.get(), hodnota
+    okno.neco=okno.neco+1
+    print okno.neco
+    seznam[okno.neco]=promenna.get()
+    print seznam
+  
+okno = Tk()
+
+seznam=[1]*10
+okno.neco=0
+
+promenna = StringVar(okno)  # tkinterovská proměnná
+promenna.set(u&quot;jedna&quot;)      # počáteční hodnota
+
+option = OptionMenu(okno, promenna, u&quot;jedna&quot;, u&quot;dva&quot;, u&quot;tři&quot;, u&quot;čtyři&quot;, 
+command=lambda x:ok(x, okno.neco))
+option.pack()
+
+mainloop()
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000646.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000648.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#647">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#647">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#647">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#647">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000647.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

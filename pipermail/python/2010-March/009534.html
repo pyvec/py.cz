@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009534.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:53 GMT -->
+<HEAD>
+   <TITLE> [python] nevznik objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nevznik%20objektu&In-Reply-To=%3C0d996a508b0d40cf86f7b39d1280ddba%40pobox.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009537.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009540.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] nevznik objektu</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nevznik%20objektu&In-Reply-To=%3C0d996a508b0d40cf86f7b39d1280ddba%40pobox.sk%3E"
+       TITLE="[python] nevznik objektu">azurit na pobox.sk
+       </A><BR>
+    <I>Čtvrtek Březen 18 17:46:38 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009537.html">[python] nevznik objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009540.html">[python] nevznik objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9534">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9534">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9534">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9534">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Skor by som to urobil cez vynimku - konstruktor v pripade zlej IPcky vyvola nejaku vynimku a objekt vytvoris takto:
+
+try:
+  ipaddr = IP(&quot;192.1023.neco.1&quot;)
+except tvoja_vynimka:
+  print &quot;zadavas blby vstup&quot;
+
+
+Ak 'ipaddr' potrebujes mat na None aj dalej v kode, tak este do except prihod:
+ipaddr = None
+
+
+&gt;<i>-----Pôvodná správa-----
+</I>&gt;<i>Od: David Rohleder [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>]
+</I>&gt;<i>Komu: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i>Predmet: [python] nevznik objektu
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Ahoj,
+</I>&gt;<i>
+</I>&gt;<i>je možné, aby nevznikl objekt, který zrovna vytvářím? Příklad - mám
+</I>&gt;<i>třídu typu IP adresa, v konstruktoru předávám řetězec IPadresy. Chtěl
+</I>&gt;<i>bych, aby v případě, že IP adresa není validní, objekt vůbec nevznikl.
+</I>&gt;<i>Tj. aby konstruktor vrátil None:
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> ipaddr = IP(&quot;192.1023.neco.1&quot;)
+</I>&gt;&gt;&gt;&gt;<i> ipaddr
+</I>&gt;<i>None
+</I>&gt;<i>
+</I>&gt;<i>chtěl jsem pak třeba udělat:
+</I>&gt;<i>
+</I>&gt;<i>if not ipaddr:
+</I>&gt;<i>print &quot;zadavas blby vstup&quot;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>chtěl jsem to vyřešit asi takto:
+</I>&gt;<i>
+</I>&gt;<i>class IP(object):
+</I>&gt;<i>def __init__(self, IPadresa):
+</I>&gt;<i>.....
+</I>&gt;<i>if chyba: return None
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Jenomže konstruktor vrací vždycky None, tj. touto cestou to nejde.
+</I>&gt;<i>
+</I>&gt;<i>Zatím jediné, co mne napadlo, je vyřešit to pomocí výjimky, tj.např
+</I>&gt;<i>
+</I>&gt;<i>try:
+</I>&gt;<i>ipaddr = IP(&quot;192.168.34536.45&quot;)
+</I>&gt;<i>except ValueError:
+</I>&gt;<i>ipaddr = None
+</I>&gt;<i>
+</I>&gt;<i>Ale myslím, že kdyby objekt vůbec nevznikl, tak by to bylo lepší. Jde
+</I>&gt;<i>to, nebo to nejde?
+</I>&gt;<i>
+</I>&gt;<i>D.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>--
+</I>&gt;<i>David Rohleder &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>&gt;
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009537.html">[python] nevznik objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009540.html">[python] nevznik objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9534">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9534">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9534">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9534">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009534.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:53 GMT -->
+</html>

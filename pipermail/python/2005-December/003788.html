@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003788.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:12 GMT -->
+<HEAD>
+   <TITLE> [python] Kódování souborů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FK%3DF3dov%3DE1n%3DED_soubor%3DF9%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-December/003787.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-December/003789.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Kódování souborů</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FK%3DF3dov%3DE1n%3DED_soubor%3DF9%3F%3D&In-Reply-To="
+       TITLE="[python] Kódování souborů">geon na post.cz
+       </A><BR>
+    <I>Neděle Prosinec 18 20:27:49 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003787.html">[python] email.Header bug? P2.4
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003789.html">Re: [python] Kódování souborů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3788">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3788">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3788">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3788">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+Tak začnu tím co jsem zplodil a pak se zeptám, jestli něco takového 
+existuje v lepší formě.
+
+Chci &quot;odhadnout&quot; v jakém kodovani je uložen text v souborech. S pomocí 
+<A HREF="http://cthedot.de/encutils/">http://cthedot.de/encutils/</A> jsem vyvtořil následující funkci, která 
+odhaduje všechna možná kodování souborů v aktuálním adresáři:
+
+# -*- coding: cp1250 -*-
+
+def tryEncodings(text):
+    encodings = (
+        'ascii',
+        'iso-8859-2',
+        'cp1250',
+        'utf-8'
+        )
+    encoding = []
+    for e in encodings:
+        try:
+            text.decode(e) # fungovalo by i unicode(text,e)
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            pass
+        else:
+            encoding.append(e)
+    return encoding
+
+import os, sys
+seznam =[jmeno for jmeno in os.listdir('.') if os.path.isfile(jmeno)]
+
+for jmeno in seznam:
+    text=file(jmeno).read()
+    print jmeno, tryEncodings(text)
+
+Díky ViNilovi již znám i unixový příkaz/program  file, který umí to 
+samé, ale asi mnohem lépe. Zná někdo nějaký takový i pro windows - nebo 
+ještě lépe modul, který by to zvládal?
+
+Díky
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003787.html">[python] email.Header bug? P2.4
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003789.html">Re: [python] Kódování souborů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3788">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3788">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3788">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3788">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003788.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:12 GMT -->
+</html>

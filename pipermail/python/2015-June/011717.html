@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011717.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:07 GMT -->
+<HEAD>
+   <TITLE> [python] Paměťově náročné řazení
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUGFtxJvFpW92xJsgbsOhcm/EjW7DqSDFmWF6ZW7DrQ%3D%3D%3F%3D&In-Reply-To=%3C20150616104213.F5B0C063%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-June/011716.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-June/011718.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Paměťově náročné řazení</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUGFtxJvFpW92xJsgbsOhcm/EjW7DqSDFmWF6ZW7DrQ%3D%3D%3F%3D&In-Reply-To=%3C20150616104213.F5B0C063%40atlas.cz%3E"
+       TITLE="[python] Paměťově náročné řazení">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Červen 16 10:42:13 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011716.html">[python] Paměťově náročné řazení
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011718.html">[python] Paměťově náročné řazení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11717">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11717">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11717">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11717">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+ 
+Doporučil bych ještě jeden úhel pohledu -- před rozhodnutím o způsobu implementaci. Neznám detaily řešeného problému, takže spíš obecně. Já vím, že je to jasné, ale někdy si neškodí zopaovat zásady ;)
+ 
+U každého řešeného problému lze analyzovat složitost -- časovou a paměťovou. Nejdříve je nutné rozhodnout, jaká z nich je u řešeného problému důležitější, případně jestli někde existují limity (velikost pamět, počet procesorů, praktická doba řešení). Nakonec se to vždy plácne jen tak (pokud je to malý problém a nemá cenu se tím zabývat), nebo se hledá kompromis -- optimalizuje se. Ale před optimalizací je nutné zvolit správný přístup.
+ 
+Mnohé implementační počiny vycházejí z naivního přístupu, který se pak těžko převrací do něčeho použitelného. Buď se každá část navrhne správně už od začátku, nebo se to musí dát snadno přepsat. Pokud něco z toho není splněno, jde to do kopru.
+ 
+Mnohá řešení tratí na tom, že se od začátku upneme na nějaký konkrétní způsob řešení (konkrétní způsob implementace). Často používáme &quot;Nic mi neříkejte, já na to přijdu sám!&quot; místo toho, abychom použili prozkoumané (i když nám zatím neznámé) techniky.
+ 
+Když to shrnu:
+ 
+- Nemístné šetření prostorem většinou sníží rychlost řešení.
+- Nemístné plýtvání prostorem většinou dále nezvýší rychlost řešení.
+- Neexistuje jediné nejlepší řešení pro všechny situace. Vždy je to kompromis.
+- Mohou existovat rozpoznatelné situace, kdy je výhodnější jedno z více známých řešení. Celkové řešení může být například zdvojené s tím, že se to lepší vybírá dynamicky.
+ 
+(Vezměte si například &quot;hloupý&quot; SQL serve s SQL dotazovacím jazykem. Tam se napřelo už tolik úsilí, že stěží sami přijdete na něco lepšího při optimalizaci dotazu.)
+ 
+Pokud je nutné řadit, pak nejlepší sekvenční algoritmus má teoretickou časovou složitost O(n log n). Tolikrát se budou muset transformovat data, pokud nebudou uložena. Příprava před řazením může věci urychlit.
+ 
+Nechtěl jsem napsat vyčerpávající odpověď ;)
+ 
+Mějte se fajn,
+    Petr
+ 
+______________________________________________________________
+&gt;<i> Od: &quot;Lumír Balhar&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">frenzy.madness na gmail.com</A>&gt;
+</I>&gt;<i> Komu: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> Datum: 15.06.2015 22:36
+</I>&gt;<i> Předmět: [python] Paměťově náročné řazení
+</I>&gt;<i>
+</I>Ahoj všem.
+
+Řeším s kamarádem jeden jeho projekt, jehož součástí je i Burrows-Wheelerova transformace, která se používá před kompresí dat společně s Move to Front transformací pro snížení entropie vstupních dat a tím zvýšení efektivity kompresního algoritmu, kterému tyto dvě transformace předcházejí.
+
+Pochopení transformací není potřeba. U BWT se využívá tzv, buffer, který obsahuje všechny možné rotace vstupních dat, takže například pro &quot;ema má maso&quot; vypadá takto:
+
+ 0 ema ma maso
+ 1 ma ma masoe
+ 2 a ma masoem
+ 3  ma masoema
+ 4 ma masoema 
+ 5 a masoema m
+ 6  masoema ma
+ 7 masoema ma 
+ 8 asoema ma m
+ 9 soema ma ma
+10 oema ma mas
+
+Pro malá data je to dobré, ale pro velká nelze mít celý buffer v paměti, protože se pro každý vstupní znak navíc rozšíří o řádek i sloupec zároveň.
+Napsal jsem tedy pro Buffer samostatnou třídu, kde pomocí __getitem__ vygeneruji potřebný řádek posunem až ve chvíli, kdy je jeho obsah potřeba.
+
+Základní buffer jsem tím vyřešil a ušetřil hromadu paměti. Problém ale je, že v dalším kroku potřebuji tento buffer lexikograficky seřadit. Abych jej opět nemusel cpát do paměti, vytvořil jsem pole indexů, kde každý index reprezentuje jeden řádek bufferu a řadím jen toto pole (čímž získám přeskládané pořadí řádků původního bufferu), ale jako klíč používám právě obsah řádku pro daný index.
+
+Konkrétně:
+
+class Buffer():
+    def __init__(self, input):
+        self.input = input
+        self.indexes = [x for x in range(len(input))]
+
+    def __getitem__(self, index):
+        return self.input[index:] + self.input[0:index]
+
+    def sort(self):
+        self.indexes.sort(key=lambda x: self[x])
+
+
+A teď jsme se dostali k jádru problému. I když se obsah jednotlivých řádků generuje až ve chvíli, kdy jsou potřeba, a řadit by se mělo jen relativně malé pole indexů, při volání funkce .sort() se jakoby stejně celé to pole nejdříve vytvoří v paměti, seřadí a pak se seřadí to cílové pole s indexy na základě obsahu bufferu.
+
+Existuje způsob, jak implementovat takovýto řadící algoritmus pro velký objem dat, aniž bych je měl v jednu chvíli všechny v paměti?
+
+Předem díky za nakopnutí tím správným směrem.
+Lumír
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>&gt;
+
+Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A> &lt;<A HREF="http://www.py.cz/">http://www.py.cz</A>&gt;
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150616/3249f742/attachment.html">http://www.py.cz/pipermail/python/attachments/20150616/3249f742/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011716.html">[python] Paměťově náročné řazení
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011718.html">[python] Paměťově náročné řazení
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11717">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11717">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11717">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11717">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011717.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:07 GMT -->
+</html>

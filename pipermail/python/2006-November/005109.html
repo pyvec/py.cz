@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005109.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:24 GMT -->
+<HEAD>
+   <TITLE> [python] Buducnost Pythonu: lambda, map, filter
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%20filter&In-Reply-To=OF28354073.AD7CE668-ONC1257226.002F963C-C1257226.00306736%40pds.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005108.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005112.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Buducnost Pythonu: lambda, map, filter</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%20filter&In-Reply-To=OF28354073.AD7CE668-ONC1257226.002F963C-C1257226.00306736%40pds.sk"
+       TITLE="[python] Buducnost Pythonu: lambda, map, filter">devel na atlas.sk
+       </A><BR>
+    <I>Úterý Listopad 14 11:24:59 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005108.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005112.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5109">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5109">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5109">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5109">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Roman Miklos wrote:
+&gt;<i> for line in file('data.txt'):
+</I>&gt;<i>      print line
+</I>&gt;<i> 
+</I>&gt;<i> Mhm, to vyzera naozaj super, na moje pocudovanie tam netreba ani 
+</I>&gt;<i> otvarat/zatvarat file. 
+</I>&gt;<i> Len neviem ako to funguje. Nie je to nahodou to iste ako 
+</I>&gt;<i> 
+</I>&gt;<i> f = open(&quot;data.txt&quot;)
+</I>&gt;<i> for line in f.readlines():
+</I>&gt;<i>      print line
+</I>&gt;<i> f.close()
+</I>&gt;<i> 
+</I>&gt;<i> t. j., ze vsetky riadky sa nacitaju naraz do zoznamu a potom sa cez ten 
+</I>&gt;<i> zoznam iteruje? 
+</I>&gt;<i> To by bolo potom z hladiska vyuzitia pamati nieco uplne ine ako ten 
+</I>&gt;<i> priklad co som uviedol dole, 
+</I>&gt;<i> kde citam subor riadok po riadku.
+</I>
+Pozeral som do zdrojakov pythonu, __iter__ vracia sam seba. Potom metoda 
+next() file objectu vola priamo Cckova fcia readahead_get_line_skip, 
+ktora nacita riadok.
+
+Co sa tyka otvarania suboru, open je len alias na file, takze otvarat ho 
+treba :)
+
+A co sa tyka zatvarania suboru (tiez som pozeral v zdrojakoch - pre 
+istotu), ked zrusis referenciu na subor, tak sa automaticky zavrie.
+Teda:
+
+f = open(&quot;data.txt&quot;)
+del f
+
+a
+
+f = open(&quot;data.txt&quot;)
+f.close()
+
+spravia to iste: zavru subor.
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005108.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005112.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5109">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5109">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5109">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5109">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005109.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:24 GMT -->
+</html>

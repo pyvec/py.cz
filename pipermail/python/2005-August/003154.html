@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003154.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:47 GMT -->
+<HEAD>
+   <TITLE> [python] apache a python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20apache%20a%20python&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-August/003153.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-August/003155.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] apache a python</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20apache%20a%20python&In-Reply-To="
+       TITLE="[python] apache a python">azurit na pobox.sk
+       </A><BR>
+    <I>Pondělí Srpen  1 11:37:05 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003153.html">[python] apache a python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003155.html">[python] Short term project
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3154">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3154">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3154">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3154">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+este som zabudol, aby ti ten .htaccess fungoval, tak musi byt na
+adresar kde je web v apachi nastavene toto:
+AllowOverride FileInfo
+
+samozrejme v AllowOverride mozu byt aj ine veci ale FileInfo tam byt MUSI
+
+teda napr. by to mohlo vyzerat takto:
+
+&lt;Directory /home/*/public_html&gt;
+    AllowOverride FileInfo AuthConfig Limit
+...
+... # dalej rozne ine veci :)
+...
+&lt;/Directory&gt;
+
+
+azurIt
+
+
+&gt;<i> ahoj,
+</I>&gt;<i> 
+</I>&gt;<i> no uz je to lepsie :) neviem o aku verziu mod_pythonu ide, takze ti
+</I>&gt;<i> napisem to co pouzivam ja (apache 1.3.33, mod_python 2.7.11):
+</I>&gt;<i> 
+</I>&gt;<i> v apachi mam tieto veci:
+</I>&gt;<i> LoadModule python_module      libexec/apache/mod_python.so
+</I>&gt;<i> 
+</I>&gt;<i> AddModule mod_python.c
+</I>&gt;<i> 
+</I>&gt;<i> samozrejme cestu si musis prisposobit na tvoj system (toto je pre
+</I>&gt;<i> slackware 10.0)
+</I>&gt;<i> 
+</I>&gt;<i> potom v adresari, kde mam web (teda python skripty) mam subor
+</I>&gt;<i> .htaccess a v nom tieto 3 riadky (da sa to presunut aj do apacheovho
+</I>&gt;<i> konfigu):
+</I>&gt;<i> 
+</I>&gt;<i> AddHandler python-program .py .pyc
+</I>&gt;<i> PythonHandler mod_python.publisher
+</I>&gt;<i> PythonDebug On
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> prava by mali byt taketo:
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">azurit na azurit</A>:~/public_html$ ls -la .htaccess
+</I>&gt;<i> -rw-r--r--  1 azurit users 85 2005-02-21 17:05 .htaccess
+</I>&gt;<i> 
+</I>&gt;<i> mno a ked to vsetko takto budes mat tak skus spravit pokusny skript,
+</I>&gt;<i> napr. subor test.py a do neho daj toto:
+</I>&gt;<i> 
+</I>&gt;<i> def test(req):
+</I>&gt;<i>  return &quot;ok&quot;
+</I>&gt;<i> 
+</I>&gt;<i> a potom chod na <A HREF="http://localhost/test.py/test">http://localhost/test.py/test</A>
+</I>&gt;<i> 
+</I>&gt;<i> ak ti to vypise 'ok' tak setko funguje :)
+</I>&gt;<i> 
+</I>&gt;<i> azurIt
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> &gt; tak to rozepisuji.
+</I>&gt;<i> &gt; podle navodu v python_mod pre apache som sa snazil rozchodit
+</I>python pod
+&gt;<i> &gt; apachem .Slo mi o to se naucit python aj na web-severu.No ak vyplnim
+</I>&gt;<i> &gt; formular ktery se odesila pythonovemu skriptku/ten nejjednoduchsi/ tak
+</I>&gt;<i> &gt; mi akorat vyskoci stahovani a ten skript se mi ukaze v
+</I>editoru,Vubec se
+&gt;<i> &gt; teda neprovede.Rad bych vedel ako nastavit direktivy v apachu aby sa
+</I>&gt;<i> &gt; pythonove skrypty prevadely.Nejlip aby vsechni skrypty v danem
+</I>&gt;<i> &gt; adresary/napr localhost/python/.
+</I>&gt;<i> &gt; Ako vy riesite spajanie apache s pythonem a ako nastavujete apache
+</I>na to
+&gt;<i> &gt; aby to slapalo.
+</I>&gt;<i> &gt; Dufam ze som to akotak rozepsal.Proste nedokazem sprovoznit apache tak
+</I>&gt;<i> &gt; aby mi zpracovaval python skrypty
+</I>&gt;<i> &gt; dik
+</I>&gt;<i> &gt; rudo
+</I>&gt;<i> &gt; 
+</I>&gt;<i> 
+</I>&gt;<i>
+</I>___________________________________________________________________________
+&gt;<i> Podte na navstevu k Wande - k najlepsej priatelke kazdej zeny na
+</I>internete.
+&gt;<i> <A HREF="http://www.wanda.sk/">http://www.wanda.sk/</A>
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+___________________________________________________________________________
+Podte na navstevu k Wande - k najlepsej priatelke kazdej zeny na internete.
+<A HREF="http://www.wanda.sk/">http://www.wanda.sk/</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003153.html">[python] apache a python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-August/003155.html">[python] Short term project
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-August/date.html#3154">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/thread.html#3154">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/subject.html#3154">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-August/author.html#3154">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-August/003154.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:47 GMT -->
+</html>

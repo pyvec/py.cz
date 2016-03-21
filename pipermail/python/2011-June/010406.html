@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010406.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+<HEAD>
+   <TITLE> [python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fq%3FTisk_unicode_%3DC5%3D99et%3DC4%3D9Bzce_a_tisk_seznamu_%3F%3D%0A%20%3D%3Futf-8%3Fb%3FdW5pY29kZSDFmWV0xJt6Y8Wv%3F%3D&In-Reply-To=%3C1307463203.2431.355.camel%40amandil%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010403.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010408.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Tisk unicode řetězce a tisk seznamu unicode řetězců</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fq%3FTisk_unicode_%3DC5%3D99et%3DC4%3D9Bzce_a_tisk_seznamu_%3F%3D%0A%20%3D%3Futf-8%3Fb%3FdW5pY29kZSDFmWV0xJt6Y8Wv%3F%3D&In-Reply-To=%3C1307463203.2431.355.camel%40amandil%3E"
+       TITLE="[python] Tisk unicode řetězce a tisk seznamu unicode řetězců">davro na ics.muni.cz
+       </A><BR>
+    <I>Úterý Červen  7 18:13:23 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010403.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010408.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10406">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10406">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10406">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10406">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Petr Přikryl píše v Út 07. 06. 2011 v 14:07 +0200:
+&gt;<i> &gt; &quot;David Rohleder&quot; 
+</I>&gt;<i> &gt; Petr Přikryl píše
+</I>&gt;<i>  &gt; &gt; Jak píše Tomáš. Jakmile si začneš s texty s diakritikou, 
+</I>&gt;<i>  &gt; &gt; vždycky je lepší používat Unicode řetězce (i když je otrava
+</I>&gt;<i> &gt; &gt; psát před literály u a dávat [...]
+</I>&gt;<i>  &gt; 
+</I>&gt;<i>  &gt; a není ta definice na začátku
+</I>&gt;<i>  &gt; # -*- coding: utf-8 -*-
+</I>&gt;<i>  &gt; ekvivalentní u&quot;řetězec&quot;?
+</I>&gt;<i>  
+</I>&gt;<i> Není. Ta definice na začátku souboru jen říká interpretu, jak
+</I>&gt;<i> má interpretovat znaky ve zdrojovém textu. Neříká nic dalšího
+</I>&gt;<i> o tom, co se s nimi děje u starých řetězců (bez u na začátku). 
+</I>&gt;<i> Pokud je zdrojový text v utf-8, pak i v paměti bude v řetězcovém
+</I>&gt;<i> objektu stejná posloupnost bajtů, jako v souboru. V řetězcovém
+</I>&gt;<i> objektu ale není nikde informace o kódování -- ta existuje
+</I>&gt;<i> mimo objekty a má charakter dohody. (Každý soubor může 
+</I>&gt;<i> používat jiný způsob kódování. Nevím o způsobu, jak by se dalo
+</I>&gt;<i> v pythonovském programu zpětně zjistit, v jakém kódování 
+</I>&gt;<i> byl uveden zdrojový text -- ale možná něco takového je.)
+</I>&gt;<i> 
+</I>&gt;<i> Teprve když použiteš unicode řetězec, přehrká interpret
+</I>&gt;<i> při překladu posloupnost bajtů z literálu za pomocí informace
+</I>&gt;<i> z # -*- coding: ... -*- na posloupnost abstraktních unicode znaků.
+</I>
+
+Když už jsme u těch řetězců: jak se udělá raw unicode řetězec, tj.
+interpret neinterpretuje uvnitř? Generuju si latexový dokument a on se
+přirozeně vzteká na:
+
+hlavicka = ur&quot;&quot;&quot;
+\documentclass[a4,landscape]{article}
+\usepackage{graphicx}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\begin{document}
+\thispagestyle{empty}
+
+&quot;&quot;&quot;
+
+print hlavicka
+
+SyntaxError: (unicode error) 'rawunicodeescape' codec can't decode bytes
+in position 39-40: truncated \uXXXX
+
+
+
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010403.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010408.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10406">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10406">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10406">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10406">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010406.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+</html>

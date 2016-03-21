@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009473.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:50 GMT -->
+<HEAD>
+   <TITLE> [python] xlrd a py2exe
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xlrd%20a%20py2exe&In-Reply-To=%3C4B90BF45.9040703%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009472.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009479.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] xlrd a py2exe</H1>
+    <B>vepro</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xlrd%20a%20py2exe&In-Reply-To=%3C4B90BF45.9040703%40gmail.com%3E"
+       TITLE="[python] xlrd a py2exe">p.zlamal na gmail.com
+       </A><BR>
+    <I>Pátek Březen  5 09:22:29 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009472.html">[python] xlrd a py2exe
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009479.html">[python] xlrd a py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9473">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9473">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9473">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9473">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>S podobnym problemem se potykam take, avsak jde o jine knihovny.
+Vepro
+
+MaReK Olšavský wrote:
+&gt;<i> Dobrý den,
+</I>&gt;<i> páni kolegové Pythonýři, mám jednu malou záludnou otázku. Používáte
+</I>&gt;<i> někdo knihovny xlrd a xlwt, přičemž pak vyrábíte binárku pomocí py2exe?
+</I>&gt;<i>
+</I>&gt;<i> Když zkusím spustit vygenerovaný program, v logu najdu chybu:
+</I>&gt;<i> &quot;
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;frmMain.py&quot;, line 13, in &lt;module&gt;
+</I>&gt;<i> ImportError: No module named xlrd
+</I>&gt;<i> &quot;
+</I>&gt;<i>
+</I>&gt;<i> Posílám ukázky zdrojových kódů:
+</I>&gt;<i>
+</I>&gt;<i> *Setup.py*:
+</I>&gt;<i> #! /usr/bin/python
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i>
+</I>&gt;<i> from distutils.core import setup
+</I>&gt;<i> import py2exe
+</I>&gt;<i>
+</I>&gt;<i> setup(
+</I>&gt;<i> options = {
+</I>&gt;<i> &quot;py2exe&quot;: {
+</I>&gt;<i> &quot;compressed&quot;: 1,
+</I>&gt;<i> &quot;optimize&quot;: 2,
+</I>&gt;<i> &quot;packages&quot;: [&quot;Pmw&quot;],
+</I>&gt;<i> &quot;excludes&quot;: [],
+</I>&gt;<i> }
+</I>&gt;<i> },
+</I>&gt;<i> name=&quot;Docházky Splirec&quot;,
+</I>&gt;<i> version=&quot;1.0 B1&quot;,
+</I>&gt;<i> description=&quot;Převod docházky firmy Splirec z XLS do Amzdy&quot;,
+</I>&gt;<i> author=&quot;C.A.C spol. s r. o.&quot;,
+</I>&gt;<i> author_email=&quot;<A HREF="http://www.py.cz/mailman/listinfo/python">m.olsavsky na amzdy.cz</A>&quot;,
+</I>&gt;<i> windows=[{&quot;script&quot;: &quot;frmMain.py&quot;}],
+</I>&gt;<i> )
+</I>&gt;<i>
+</I>&gt;<i> *Begin of frmMain.py*
+</I>&gt;<i> #! /usr/bin/python
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i>
+</I>&gt;<i> #system imports
+</I>&gt;<i> from Tkinter import *
+</I>&gt;<i> import tkMessageBox, tkFileDialog
+</I>&gt;<i> import os, fnmatch
+</I>&gt;<i> from time import localtime, strftime
+</I>&gt;<i>
+</I>&gt;<i> #other imports
+</I>&gt;<i> import Pmw
+</I>&gt;<i> import xlrd
+</I>&gt;<i> from clsConvert import *
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> def __init__(self,master,ar,xy,flex):
+</I>&gt;<i>
+</I>&gt;<i> *Begin of clsConvert:*
+</I>&gt;<i> #! /usr/bin/python
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i>
+</I>&gt;<i> import xlrd
+</I>&gt;<i>
+</I>&gt;<i> import os
+</I>&gt;<i> import re
+</I>&gt;<i>
+</I>&gt;<i> class clsConvertAll:
+</I>&gt;<i> 	#bof convert class
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009472.html">[python] xlrd a py2exe
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009479.html">[python] xlrd a py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9473">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9473">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9473">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9473">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009473.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:50 GMT -->
+</html>

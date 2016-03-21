@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005298.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:46 GMT -->
+<HEAD>
+   <TITLE> [python] mod_python Templating System
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20mod_python%20Templating%20System&In-Reply-To=11140361796.20070101213927%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005294.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005300.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] mod_python Templating System</H1>
+    <B>smoke</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20mod_python%20Templating%20System&In-Reply-To=11140361796.20070101213927%40atlas.cz"
+       TITLE="[python] mod_python Templating System">konfera na rokyta.cz
+       </A><BR>
+    <I>Středa Leden  3 23:17:29 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005294.html">[python] mod_python Templating System
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005300.html">[python] mod_python Templating System
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5298">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5298">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5298">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5298">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>mtip napsal(a):
+&gt;<i> Zdravim,
+</I>&gt;<i> mam mod_python na Apache s nastavenim jako Templating System
+</I>&gt;<i> (PythonHandler mod_python.publisher)
+</I>&gt;<i> v dokumentaci je popsano pouze jak odeslat na vystup zkompilovanou
+</I>&gt;<i> sablonu :
+</I>&gt;<i> tmpl = psp.PSP(req, filename='hello.tmpl')
+</I>&gt;<i> tmpl.run(vars = { 'greet': s })
+</I>&gt;<i> Ale ja bych potreboval tuhle sablonu jen zkompilovat a ulozit do
+</I>&gt;<i> promenne k dalsimu pouziti jako podokno stranky. Nevite nekdo jak na
+</I>&gt;<i> to ? Diky.
+</I>&gt;<i> 
+</I>
+Zdravim,
+
+ja pouzivam tento zpusob:
+-------------------------
+
+title = &quot;muj web&quot;
+
+menu_psp = psp.PSP(req, &quot;menu_tmpl.html&quot;, vars = {})
+
+content_psp = psp.PSP(req, &quot;content_tmpl.html&quot;,
+			vars = {'obsah': &quot;nejaky obsah&quot;})
+
+web = psp.PSP(req, &quot;web_tmpl.html&quot;, vars={'menu_tmpl':menu_psp,
+			'content':content_psp,
+                        'title':title})
+
+
+
+p.s. take teprve pronikam do taju tohoto modu ;)
+-- 
+       _                _
+ ___ _| |_ ____ __  ___| |_____ ___
+|<i>___|_   _(_-&lt; '  \/ _ \ / / -_)___|
+</I>      |_| /__/_|_|_\___/_\_\___|
+       JID: <A HREF="http://www.py.cz/mailman/listinfo/python">smoke na njs.netlab.cz</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005294.html">[python] mod_python Templating System
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005300.html">[python] mod_python Templating System
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5298">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5298">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5298">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5298">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005298.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:46 GMT -->
+</html>

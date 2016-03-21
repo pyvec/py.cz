@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004583.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:10 GMT -->
+<HEAD>
+   <TITLE> [python] Chyby při vytváření exe pomocí py2exe
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FChyby_p%3DF8i_vytv%3DE1%3DF8en%3DED_exe_pomoc%3DED_%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fpy2exe%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-September/004575.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-September/004584.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Chyby při vytváření exe pomocí py2exe</H1>
+    <B>Vladimír Náchodský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FChyby_p%3DF8i_vytv%3DE1%3DF8en%3DED_exe_pomoc%3DED_%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fpy2exe%3F%3D&In-Reply-To="
+       TITLE="[python] Chyby při vytváření exe pomocí py2exe">feed na centrum.cz
+       </A><BR>
+    <I>Pátek Září 15 12:25:49 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004575.html">[python] os.popen vs. os.system
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004584.html">[python] Znate tohle... &quot;&gt;&gt;&gt; import this&quot;   ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4583">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4583">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4583">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4583">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Chtěl jsem se zeptat, jestli nemáte zkušenosti s tím, že py2exe občas 
+nevloží vše, co je potřeba. Když se pak pokusím spustit výsledný program 
+někde jinde, tak si stěžuje, že nějaký modul mu chybí.
+
+Například Python 2.4.2 při vytváření exe pomocí py2exe fungoval bez 
+problémů. Při pokusu přeinstalovat python na verzi 2.4.3 zapomínal 
+vkládat modul pro mysql databázi, ačkoli naoinstalovaný byl. Musel jsem 
+se vrátit ke starší verzi, kde to bylo bez problému.
+
+Teď jsem ale přidal modul logging a od té doby se zase py2exe nedaří vše 
+vložit. Už jsem z toho zoufalý, netušíte kd eby mohla být chyba?
+
+Skript setup.py vypadá takto:
+
+from distutils.core import setup
+import py2exe
+
+setup(
+   options = {&quot;py2exe&quot;:{&quot;compressed&quot;:1, &quot;optimize&quot;:2, &quot;ascii&quot;:0, 
+&quot;bundle_files&quot;:1}},
+
+   version = &quot;1.05&quot;,
+   name = &quot;LojzaDbCleaner&quot;,
+   description = &quot;LojzaDbCleaner&quot;,
+
+   zipfile=None,
+   console=[&quot;LojzaDbCleaner.py&quot;],
+   )
+
+  Děkuji
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004575.html">[python] os.popen vs. os.system
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004584.html">[python] Znate tohle... &quot;&gt;&gt;&gt; import this&quot;   ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4583">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4583">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4583">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4583">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004583.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:10 GMT -->
+</html>

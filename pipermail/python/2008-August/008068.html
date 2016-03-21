@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008068.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:25 GMT -->
+<HEAD>
+   <TITLE> [python] asynchronni programovani, stavovy stroj
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20asynchronni%20programovani%2C%20stavovy%20stroj&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008069.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008070.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] asynchronni programovani, stavovy stroj</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20asynchronni%20programovani%2C%20stavovy%20stroj&In-Reply-To="
+       TITLE="[python] asynchronni programovani, stavovy stroj">slush na centrum.cz
+       </A><BR>
+    <I>Sobota Srpen  2 13:28:53 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008069.html">[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008070.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8068">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8068">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8068">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8068">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+kdyz uz jsme u tech navrhovych vzoru a best practices, mam taky jednu
+lahudku, kterou v techto dnech resim. A protoze se mi vsechny me napady
+zdaji prilis komplikovane,obracim se na vas, jestli me treba nenakopnete
+nejakym smerem. Anebo si jen utridim myslenky...
+
+Delam program, ktery bude (silne zjednodusene) delat neustale dve veci
+dokola:
+
+a) Pripojit se socketem k serverum
+b) Poslat HTTP request a stahnout data
+
+Jsou zde tri problemy:
+*) Tech serveru je cca 1000 a requesty by mely byt vyslany v co nejmensim
+casovem rozestupu (idealne soucasne nebo s rozestupem par sekund).
+
+*) Nejedna se o klasicke socketove spojeni, to navazovani kazdeho spojeni ma
+mnoho stavu (cca 5), ktere nejsou v pevne definovanem sledu. Tj. nekdy se
+spojeni zdari, nekdy jsou problemy, takze dochazi k vetveni (napriklad 3x
+pokus o pripojeni, nasledne ignorace spojeni v tomto cyklu + zapis do
+binlogu, ze se spojeni nepovedlo, pro dalsi analyzu).
+
+*) Navic knihovna realizujici spojeni je programovana asynchronne (coz muze
+byt vyhoda, ale take komplikace) a informace o stavu mi jsou vraceny pomoci
+callbackovych funkci, ktere ale bezi v prostredi vlakna te knihovny. Takze
+ikdyz bych se rad vyhnul thread programmingu, v pripade zpracovavani tech
+callbacku musim vyuzit nejake zamky apod.
+
+Vidim zde nasledujici varianty reseni:
+1) Jednovlaknovy proces, postupne vytvori spojeni (tj. synchronni bridge te
+asynchronni knihovny) a postupne posle pozadavky. Vyhody: Velmi jednuduche
+ba trivialni. Nevyhody: Zpracovani jednoho pozadavku cca 5-10 sekund,tj.
+casovy rozestup od prvniho a posledniho requestu 1 - 3 hodiny. Neprijatelne.
+
+2) Kazdy server bude mit sve vlakno, tj. 1000x jednoducha operace spojeni +
+requestu. Pred samotnym vyslanim requestu by vlakna cekaly na nejaky
+spolecny signal, kvuli synchronizaci. Vyhody: Jednoduche, requesty okamzite
+(jedine omezeni je cca 100Mbit linka serveru, tj. ocekavam vyrizeni behem
+max 30 sekund). Nevyhody: Nemam tuseni, jak se bude tvarit proces s 1000
+vlakny, co to udela se serverem.Navic se bojim managementu vlaken, deadlocku
+apod....Navic ciste dlouhodobe muze pocet serveru/vlaken rust do nekonecna.
+
+3) Zcela asynchronni proces. Velmi elegantni reseni jednim vlaknem.
+Vytvareni okruhu a samotne requesty by kvuli jednoduchosti byly separatni
+kroky (tj. metoda startujici stahovani by se spoustela az po vytvoreni vsech
+spojeni, resp. po dostatecnem poctu odmitnuti nekterych spojeni). Problem
+je,ze v obou krocich se jedna o stavove stroje s mnoha stavy. S riziky
+asynchronnich procesu a s navrhem takovych uloh nemam zadne zkusenosti. Tj.
+v jakych datovych strukturach udrzovat jake informace o jednotlivych
+requestech apod.
+
+A vas se ptam - prehlednul jsem neco, co by cely proces zjednodusilo,
+doporucili byste mi neco jineho nebo mate zkusenosti s navrhem asynchronnich
+procesu?
+
+Diky,
+Marek
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080802/9d788c7f/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080802/9d788c7f/attachment.htm</A> 
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008069.html">[python] Tipy na n&#65533;vrh t&#65533;&#65533;dy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008070.html">[python] asynchronni programovani, stavovy stroj
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8068">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8068">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8068">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8068">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008068.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:25 GMT -->
+</html>

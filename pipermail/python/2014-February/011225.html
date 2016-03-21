@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011225.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:47 GMT -->
+<HEAD>
+   <TITLE> [python] Entry čtení vstupu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FEntry_%3DC4%3D8Dten%3DC3%3DAD_vstupu%3F%3D&In-Reply-To=%3C20140210130539.62D52803%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-February/011224.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-February/011226.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Entry čtení vstupu</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FEntry_%3DC4%3D8Dten%3DC3%3DAD_vstupu%3F%3D&In-Reply-To=%3C20140210130539.62D52803%40atlas.cz%3E"
+       TITLE="[python] Entry čtení vstupu">prikryl na atlas.cz
+       </A><BR>
+    <I>Pondělí Únor 10 13:05:39 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011224.html">[python] Entry čtení vstupu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011226.html">[python] Entry čtení vstupu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11225">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11225">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11225">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11225">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Projdi si následující řádek po řádku (spusť to)
+
+#!python3
+
+x = 16
+print(bin(x))
+print(bin(x)[2:])
+print(bin(x)[2:].rjust(32))
+s = bin(x)[2:].rjust(32, '0')
+print(s)
+lst = [i for i in range(0,len(s),4)]
+print(lst)
+lst2 = [s[i:i+4] for i in range(0,len(s),4)]
+print(lst2)
+print(' '.join(lst2))
+print('-' * 50)
+
+# Takže ne tak polopaticky...
+s = bin(x)[2:].rjust(32, '0')
+print(' '.join(s[i:i+4] for i in range(0,len(s),4)))
+
+Mělo by to vytisknout:
+
+0b10000
+10000
+                           10000
+00000000000000000000000000010000
+[0, 4, 8, 12, 16, 20, 24, 28]
+['0000', '0000', '0000', '0000', '0000', '0000', '0001', '0000']
+0000 0000 0000 0000 0000 0000 0001 0000
+--------------------------------------------------
+0000 0000 0000 0000 0000 0000 0001 0000
+
+______________________________________________________________
+&gt;<i> Od: &quot;Roman Zbořil&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">sewerman.cz na gmail.com</A>&gt;
+</I>&gt;<i> Komu: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> Datum: 10.02.2014 11:25
+</I>&gt;<i> Předmět: Re: [python] Entry čtení vstupu
+</I>&gt;<i>
+</I>&gt;<i>Děkuji, to bude ono.
+</I>&gt;<i>
+</I>&gt;<i>Ale na to abych to pochopil si budu muset dát večer panáka a nastudovat přádně regulerní výrazy.
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011224.html">[python] Entry čtení vstupu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011226.html">[python] Entry čtení vstupu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11225">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11225">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11225">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11225">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011225.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:47 GMT -->
+</html>

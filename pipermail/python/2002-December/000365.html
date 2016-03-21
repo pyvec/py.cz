@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2002-December/000365.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:39 GMT -->
+<HEAD>
+   <TITLE> [python] globalni a lokalni promenne
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20a%20lokalni%20promenne&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2002-December/000367.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2002-December/000372.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] globalni a lokalni promenne</H1>
+    <B>Petr Vaněk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20a%20lokalni%20promenne&In-Reply-To="
+       TITLE="[python] globalni a lokalni promenne">petr.vanek na ika.cz
+       </A><BR>
+    <I>Úterý Prosinec 10 10:53:50 CET 2002</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000367.html">[python] globalni a lokalni promenne
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000372.html">[python] kodovani stringu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-December/date.html#365">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/thread.html#365">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/subject.html#365">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/author.html#365">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>dd.
+
+&gt;<i> dobre se maj
+</I>
+hm, to musej mit ramena jako &quot;schwarzgreen&quot;, kdyz
+musej v kanade uklizet kvanta snehu... :)
+
+
+&gt;<i> def connect(self,db,dir):
+</I>&gt;<i> 	import gadfly
+</I>&gt;<i> 	conn=gadfly.gadfly()
+</I>&gt;<i> 	conn.startup=(db,dir)
+</I>&gt;<i> 	return conn
+</I>
+&gt;<i> co musim udelat, abych mohl v cele aplikaci pouzivat tuhle connekci? ted
+</I>
+no, pouzivat... jak tuhle metodu volaj? co kdyby to udelal
+tak, ze do jednoho modulu by dal tohle:
+
+import gadfly
+conn=gadfly.gadfly()
+conn.startup=(db,dir)
+
+a v ostatnich by volal:
+import muj_konekti_modulek
+...
+...
+def nejaka_slaka_funkce:
+	global conn
+	...
+...
+
+nemam to vyzkousene, takze jim to mozna bude
+pekne nadavat.
+
+<A HREF="http://www.pasteur.fr/recherche/unites/sis/formation/python/ch04.html">http://www.pasteur.fr/recherche/unites/sis/formation/python/ch04.html</A>
+
+doufam, ze si to uzijou.
+
+-- 
+  ----------------------------
+         Petr Vanek
+      <A HREF="http://www.py.cz/mailman/listinfo/python">petr.vanek na ika.cz</A>
+  ----- www.yarpen.cz --------
+Kuolema Kaikille (Paitsi Meille)
+
+Today is good day to end it all
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000367.html">[python] globalni a lokalni promenne
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-December/000372.html">[python] kodovani stringu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-December/date.html#365">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/thread.html#365">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/subject.html#365">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-December/author.html#365">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2002-December/000365.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:39 GMT -->
+</html>

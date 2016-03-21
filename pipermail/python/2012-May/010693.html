@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010693.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:32 GMT -->
+<HEAD>
+   <TITLE> [python] chyba kódování MySQL
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fchyba_k%3DF3dov%3DE1n%3DED_MySQL%3F%3D&In-Reply-To=%3C4FBB9CC7.6070306%40ludik.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-May/010692.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-May/010694.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] chyba kódování MySQL</H1>
+    <B>&quot;Ing. Vladislav Ludík&quot;</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fchyba_k%3DF3dov%3DE1n%3DED_MySQL%3F%3D&In-Reply-To=%3C4FBB9CC7.6070306%40ludik.cz%3E"
+       TITLE="[python] chyba kódování MySQL">vlada na ludik.cz
+       </A><BR>
+    <I>Úterý Květen 22 16:03:51 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010692.html">[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010694.html">[python] chyb?==?UTF-8?Q?a kódování MySQL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10693">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10693">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10693">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10693">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím všechny,
+
+nevím si rady s kódováním v MySQL:
+
+Tabulka má strukturu:/
+
+-- phpMyAdmin SQL Dump
+-- version 3.3.10deb1
+-- <A HREF="http://www.phpmyadmin.net/">http://www.phpmyadmin.net</A>
+--
+-- Počítač: localhost
+-- Vygenerováno: Pondělí 21. května 2012, 14:02
+-- Verze MySQL: 5.1.54
+-- Verze PHP: 5.3.5-1ubuntu7.2
+
+SET SQL_MODE=&quot;NO_AUTO_VALUE_ON_ZERO&quot;;
+
+--
+-- Databáze: `brazda`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `zavodnici`
+--
+
+CREATE TABLE IF NOT EXISTS `zavodnici` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `prijmeni` varchar(25) COLLATE latin2_czech_cs NOT NULL,
+   `jmeno` varchar(25) COLLATE latin2_czech_cs NOT NULL,
+   `rok_narozeni` int(4) NOT NULL,
+   `pohlavi` enum('M','Ž') COLLATE latin2_czech_cs NOT NULL DEFAULT 'M',
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin2 COLLATE=latin2_czech_cs 
+AUTO_INCREMENT=1 ;
+/
+
+Dále ve sloupci `prijmeni` je příjmení a jméno, sloupec `jmeno` je prazdny.
+
+V programu,  uloženém v kódování latin2 provedu načtení:
+
+/'SELECT prijmeni, rok_narozeni, pohlavi FROM zavodnici WHERE 1 ORDER BY 
+jmeno ASC;'/
+
+a rozdělení  na:
+
+/PRIJMENI, Jmeno = string.split(jmeno, ' ', 1)/
+
+Potom provedu zápis do nové tabulky zavodnici1 se stejnou strukturou 
+jako má původní tabulka zavodnici:
+
+/'INSERT INTO zavodnici1 (id, prijmeni, jmeno, rok_narozeni, pohlavi) 
+VALUES(Null, &quot;%s&quot;, &quot;%s&quot;, %d, &quot;%s&quot;)' % (PRIJMENI, Jmeno, rok_narozeni, 
+pohlavi)/
+
+Ve výsledku je v tabulce závodníci1 zmršená čeština některých znaků:
+
+Ň, Ř, ř, Ě, Č apod., kde je znak `?`
+
+Může mi prosím někdo dát tip na vyřešení ? Dost mě to irituje.
+
+Děkuji
+
+Vlada
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20120522/aebf7d87/attachment.html">http://www.py.cz/pipermail/python/attachments/20120522/aebf7d87/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010692.html">[python] Dekorátor - prosím pěkně o konzultaci a vysvětlení
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010694.html">[python] chyb?==?UTF-8?Q?a kódování MySQL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10693">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10693">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10693">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10693">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010693.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:32 GMT -->
+</html>

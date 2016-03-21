@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002468.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:35 GMT -->
+<HEAD>
+   <TITLE> [python] tlac z pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20tlac%20z%20pythonu&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-April/002466.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-April/002470.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] tlac z pythonu</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20tlac%20z%20pythonu&In-Reply-To="
+       TITLE="[python] tlac z pythonu">Prikryl na skil.cz
+       </A><BR>
+    <I>Pondělí Duben  4 15:21:14 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002466.html">[python] tlac z pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002470.html">[python] tlac z pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2468">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2468">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2468">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2468">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> &gt; Martin Herceg napisal...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; [...] nevie mi niekto poradit ako poslat zo skriptu
+</I>&gt;<i> &gt; &gt; nieco tlacit na tlaciaren?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Chtělo by to trochu podrobněji
+</I>&gt;<i> &gt; vylíčit, čeho potřebuješ dosáhnout
+</I>&gt;<i> &gt; a zda to má fungovat v Unixu nebo
+</I>&gt;<i> &gt; pod Windows. Tak například poslat
+</I>&gt;<i> &gt; hotový textový soubor na tiskárnu je
+</I>&gt;<i> &gt; relativně jednoduché. Nějak zpracovat
+</I>&gt;<i> &gt; text a vytisknout jej různým písmem
+</I>&gt;<i> &gt; může dát dost práce.
+</I>&gt;<i> &gt;
+</I>&gt;<i> len linux
+</I>&gt;<i> a momentalne to robim tak ze vygenerujem 
+</I>&gt;<i> cez reportlab subor, cez command to dam 
+</I>&gt;<i> do PS a potom priamo cez command to 
+</I>&gt;<i> posielam na tlaciaren leze mi na nervy 
+</I>&gt;<i> ze musim tieto veci riesit externe a nie 
+</I>&gt;<i> priamo z pythonu.
+</I>
+Pokud jde o pomocný nástroj, který
+se nebude šířit a podporovat u více
+uživatelů, pak doporučuji programově
+simulovat ruční postup. 
+
+V Pythonu k tomu lze výhodně použít os.popen(),
+případně některou z variant. Ten umožňuje provést 
+příkaz, který by se jinak zadával na příkazovém
+řádku. Varianty popen2() až popen4()
+se liší v přesměrování standardních 
+souborů (stdin, stdout, stderr). Přes
+příslušné handle můžu simulovat přesměrování
+vstupů a výstupů z command line a reagovat
+na případná chybová hlášení vypisovaná
+příkazem na stderr...
+
+Není to určitě nejelegantnější řešení, 
+ale u jinak ručně prováděného (a vyzkoušeného)
+postupu to většinou funguje velmi dobře.
+A co je hlavní, lze to velmi rychle implementovat.
+
+Doporučuji definovat funkci, která celý postup 
+tisku obalí. V místech, kde potřebuji tisknout,
+by se pak měla volat jen a jen tato funkce. 
+V budoucnu lze pak měnit její implementaci.
+Specifický postup při tisku se tím oddělí 
+od zbytku funkčnosti.
+
+Petr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002466.html">[python] tlac z pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-April/002470.html">[python] tlac z pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-April/date.html#2468">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/thread.html#2468">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/subject.html#2468">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-April/author.html#2468">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-April/002468.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:35 GMT -->
+</html>

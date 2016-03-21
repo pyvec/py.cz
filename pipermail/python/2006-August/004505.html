@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004505.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:20 GMT -->
+<HEAD>
+   <TITLE> [python] najdi, nahrad, uloz v ascii subore
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20najdi%2C%20nahrad%2C%20uloz%20v%20ascii%20subore&In-Reply-To=mailman.6.1156337507.5830.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004504.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004506.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] najdi, nahrad, uloz v ascii subore</H1>
+    <B>peter</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20najdi%2C%20nahrad%2C%20uloz%20v%20ascii%20subore&In-Reply-To=mailman.6.1156337507.5830.python%40py.cz"
+       TITLE="[python] najdi, nahrad, uloz v ascii subore">borique na gmail.com
+       </A><BR>
+    <I>Středa Srpen 23 15:18:53 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004504.html">[python] Zope a přístup k systémovým modulům
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004506.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4505">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4505">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4505">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4505">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Diky moc,
+
+pokial som dobre pochopil z manualu tak
+
+content = fd.read()
+
+nacita cely obsah suboru do cache alebo bufferu, a to je prave to co ja
+nechcem, pretoze pracujem s velkymi subormi. Chcem sa vyhnut tomu ze
+nacitam vsetko do pamate, nahradim co potrebujem a potom to zase vsetko
+ulozim. Ale neviem ci je to vobec mozne, nie som az taky velky
+specialista v pythone. V mojom kode idem po jednotlivych riadkoch
+suboru....
+
+
+Leos Pol wrote:
+&gt;<i> Ahoj,
+</I>&gt;<i> omlouvam se, ale nedokazal jsem tvuj kod opravit, tak posilam alespon
+</I>&gt;<i> svoje reseni:
+</I>&gt;<i>
+</I>&gt;<i>     import re
+</I>&gt;<i>     fd = open('data.txt', 'r+')
+</I>&gt;<i>     content = fd.read()
+</I>&gt;<i>     delimiter = re.search('\$-+', content).group()
+</I>&gt;<i>     blocks = re.split('\$-+', content)
+</I>&gt;<i>     for idx in range(len(blocks)):
+</I>&gt;<i>         if 'NAME=\'ALFA\'' in blocks[idx]:
+</I>&gt;<i>             code = re.search('CODE=\'(.*)\'', blocks[idx]).groups()
+</I>&gt;<i>             blocks[idx] = blocks[idx].replace('NAME=\'ALFA\'',
+</I>&gt;<i>     'NAME=\'BETA%s\'' % code)
+</I>&gt;<i>     fd.seek(0)
+</I>&gt;<i>     fd.write(delimiter.join(blocks))
+</I>&gt;<i>     fd.close()
+</I>&gt;<i>
+</I>&gt;<i> Doufam, ze to pomuze,
+</I>&gt;<i> Leo
+</I>&gt;<i> PS: nejspise ale asi hledas &quot;seek&quot; a &quot;tell&quot;.
+</I>&gt;<i>
+</I>&gt;<i> peter wrote:
+</I>&gt;<i> &gt; Zdravim,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; potreboval by som poradit.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Priklad (jeden blok v subore):
+</I>&gt;<i> &gt; $------------------------
+</I>&gt;<i> &gt; NAME='ALFA'
+</I>&gt;<i> &gt; CODE='x'
+</I>&gt;<i> &gt; $------------------------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Takychto blokov je v subore vela s roznymi menami a kodmi. Potrebujem
+</I>&gt;<i> &gt; naprogramovat skript ktory prehlada cely subor a najde vyrazy s menami
+</I>&gt;<i> &gt; ALFA a podla toho co za kazdou ALFOU bude nasledovat (napr. x,y,z)
+</I>&gt;<i> &gt; zmeni meno ALFA na BETAx,BETAy, BETAz a zemeneny subor ulozi.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Dostal som sa k tomu ze najdem vsetky vyrazy ktore potrebujem, podla
+</I>&gt;<i> &gt; kodu zmenim meno na BETAx,y alebo z ale uz neviem ako zapisat nove
+</I>&gt;<i> &gt; nazvy na rovnake miesto ako bola dana ALFA. Vzdy mi to zapise na koniec
+</I>&gt;<i> &gt; suboru. Tu je moj kod.
+</I>&gt;<i> &gt; Dakujem vopred za akukolvek pomoc.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Moj kod:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;  import shutil
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; NamFile=&quot;test2.nam&quot;
+</I>&gt;<i> &gt; BackupNamFile = 1
+</I>&gt;<i> &gt; if BackupNamFile == 1:
+</I>&gt;<i> &gt;      shutil.copyfile(NamFile,NamFile.replace(&quot;.nam&quot;,&quot;.nam.bak&quot;))
+</I>&gt;<i> &gt; LineNum=1
+</I>&gt;<i> &gt; LineNumQuantity=0
+</I>&gt;<i> &gt; ArrayCount=0
+</I>&gt;<i> &gt; LineNumArray=[]
+</I>&gt;<i> &gt; ReqArray=[]
+</I>&gt;<i> &gt; ReqName=&quot;&quot;
+</I>&gt;<i> &gt; NamFileOpen=file(NamFile,&quot;r+&quot;)
+</I>&gt;<i> &gt; for line in NamFileOpen:
+</I>&gt;<i> &gt;      LineTextFound1 = line.find(&quot;bk&quot;)
+</I>&gt;<i> &gt;      LineTextFound2 = line.find(&quot;_results&quot;)
+</I>&gt;<i> &gt;      if LineTextFound1 != -1 and LineTextFound2 != -1:
+</I>&gt;<i> &gt;           ReqName=line.split(&quot;'&quot;)[1]
+</I>&gt;<i> &gt;           print &quot;Line: \t\t\t&quot;+ str(LineNum)
+</I>&gt;<i> &gt;           print &quot;Request Name: \t\t&quot;+ ReqName
+</I>&gt;<i> &gt;           LineNumQuantity = LineNum + 2
+</I>&gt;<i> &gt;           ReqArray=[LineNum-2,ReqName]
+</I>&gt;<i> &gt;      if LineNum == LineNumQuantity:
+</I>&gt;<i> &gt;           QuantityName=line.split(&quot;'&quot;)[1]
+</I>&gt;<i> &gt;           print &quot;Quantity Type: \t\t&quot;+QuantityName
+</I>&gt;<i> &gt;           if QuantityName == &quot;dx&quot;:
+</I>&gt;<i> &gt;                Suffix = &quot;_disp&quot;
+</I>&gt;<i> &gt;           elif QuantityName == &quot;vx&quot;:
+</I>&gt;<i> &gt;               Suffix = &quot;_velo&quot;
+</I>&gt;<i> &gt;           elif QuantityName == &quot;fx&quot;:
+</I>&gt;<i> &gt;                Suffix = &quot;_force&quot;
+</I>&gt;<i> &gt;           else:
+</I>&gt;<i> &gt;                Suffix = &quot;_results&quot;
+</I>&gt;<i> &gt;           print &quot;Suffix: \t\t&quot;+Suffix
+</I>&gt;<i> &gt;           NewReqName=ReqName.replace(&quot;_results&quot;,Suffix,1)
+</I>&gt;<i> &gt;           ReqArray.append(NewReqName)
+</I>&gt;<i> &gt;           LineNumArray.insert(ArrayCount,ReqArray)
+</I>&gt;<i> &gt;           ArrayCount+=1
+</I>&gt;<i> &gt;           print &quot;New Request Name: \t&quot;+NewReqName
+</I>&gt;<i> &gt;           print &quot;-----------------------&quot;
+</I>&gt;<i> &gt;      LineNum = LineNum+1
+</I>&gt;<i> &gt; print LineNumArray
+</I>&gt;<i> &gt; print len(LineNumArray)
+</I>&gt;<i> &gt; NamFileOpen.close()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; NamFileOpen2=file(NamFile,&quot;r+&quot;)
+</I>&gt;<i> &gt; LineNum=1
+</I>&gt;<i> &gt; for i in LineNumArray:
+</I>&gt;<i> &gt;      print i
+</I>&gt;<i> &gt;      for line in NamFileOpen2:
+</I>&gt;<i> &gt;           print line
+</I>&gt;<i> &gt;           print LineNum
+</I>&gt;<i> &gt;           print i[1]
+</I>&gt;<i> &gt;           if i[0]== LineNum:
+</I>&gt;<i> &gt;                print i[0]
+</I>&gt;<i> &gt;                print LineNum
+</I>&gt;<i> &gt;                print line
+</I>&gt;<i> &gt;                Temp=line.replace(line.split(&quot;'&quot;)[1],i[2],1)
+</I>&gt;<i> &gt;                print Temp
+</I>&gt;<i> &gt;                NamFileOpen2.write(Temp)
+</I>&gt;<i> &gt;           LineNum=LineNum+1
+</I>&gt;<i> &gt; NamFileOpen2.close()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> ----
+</I>&gt;<i> Leos Pol
+</I>&gt;<i> SW Engineer
+</I>&gt;<i> Radiante Corp.
+</I>&gt;<i> 
+</I>&gt;<i> If it can be imagined,
+</I>&gt;<i> we can implement it
+</I>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004504.html">[python] Zope a přístup k systémovým modulům
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004506.html">[python] najdi, nahrad, uloz v ascii subore
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4505">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4505">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4505">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4505">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004505.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:20 GMT -->
+</html>

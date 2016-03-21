@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008159.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:31 GMT -->
+<HEAD>
+   <TITLE> [python] Jak na instalaci jakehokoliv modulu do ActivePython 2.4
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20na%20instalaci%20jakehokoliv%20modulu%20do%20ActivePython%202.4&In-Reply-To=e69d6b95-73e3-45df-93a9-e10ad086922e%40m44g2000hsc.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008163.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008170.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak na instalaci jakehokoliv modulu do ActivePython 2.4</H1>
+    <B>Petr Nesladek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20na%20instalaci%20jakehokoliv%20modulu%20do%20ActivePython%202.4&In-Reply-To=e69d6b95-73e3-45df-93a9-e10ad086922e%40m44g2000hsc.googlegroups.com"
+       TITLE="[python] Jak na instalaci jakehokoliv modulu do ActivePython 2.4">petr.nesladek na seznam.cz
+       </A><BR>
+    <I>Neděle Srpen 24 17:29:42 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008163.html">[python] Jak na instalaci jakehokoliv modulu do ActivePython 2.4
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008170.html">[python] Jak na instalaci jakehokoliv modulu do ActivePython 2.4
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8159">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8159">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8159">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8159">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+v prvním případě bych zkusil instalaci z platform independent  zdroje - zcela pravděpodobně Active Python nezanechava v registrech takove stopy jako bežná distribuce pro windows.
+
+ V tom druhem případě nevím konkrétně co může způsobit chybu - bude to asi něco obdobného
+- hledal bych v C:\Python24\lib\distutils\msvccompiler.py nad řádkou 133
+co vlastně způsobuje o rozhodnutí volání    raise DistutilsPlatformError
+
+
+s podobnými porblémy jsem se potýkal pokud jsem nepoužil normální (čti Win-exe installer) a provozoval jsem python z Flashky jak je popsano např na  wraith.iglu.cz 
+
+instalace pomocí vlastního setup.py v balíčku je v tomto případě asi jediná spolehlivá - nezkoumal jsem nikdy , zda se dá win installeru 
+jako parametr zadat cesta - do  site-packages - což bych viděl jako druhou potencionální možnost.
+
+
+Petr
+
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: PetrZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.zloty na gmail.com</A>&gt;
+</I>&gt;<i> Předmět: [python] Jak na instalaci jakehokoliv modulu do ActivePython 2.4
+</I>&gt;<i> Datum: 24.8.2008 17:08:21
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Pokud se pokusim doinstalovat napr. numpy-1.1.1-win32-superpack-
+</I>&gt;<i> python2.4.exe, nebo hashlib-20060408a.win32-py2.4-builtin.exe zahlasi
+</I>&gt;<i> mi to tuhle chybu:
+</I>&gt;<i> 
+</I>&gt;<i> &quot;Python version 2.4 required, which was no found in registry.&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Pouzivam ActivePython-2.4.3.12-win64-x64-nopywin32.msi na Win xp64.
+</I>&gt;<i> 
+</I>&gt;<i> A netusim co musim pridat do registru aby instalace z exe balicku
+</I>&gt;<i> probehla bez problemu. Diky predem
+</I>&gt;<i> S &quot;normalni&quot; distribuci z python.org vse funguje.
+</I>&gt;<i> 
+</I>&gt;<i> + python setup.py install (konkretne na hashlib) mi hlasi:
+</I>&gt;<i> 
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;setup.py&quot;, line 181, in ?
+</I>&gt;<i>     main()
+</I>&gt;<i>   File &quot;setup.py&quot;, line 175, in main
+</I>&gt;<i>     ext_modules = prepare_hashlib_Extensions(),
+</I>&gt;<i>   File &quot;setup.py&quot;, line 33, in prepare_hashlib_Extensions
+</I>&gt;<i>     compiler = new_compiler()
+</I>&gt;<i>   File &quot;C:\Python24\lib\distutils\ccompiler.py&quot;, line 1177, in
+</I>&gt;<i> new_compiler
+</I>&gt;<i>     return klass (None, dry_run, force)
+</I>&gt;<i>   File &quot;C:\Python24\lib\distutils\msvccompiler.py&quot;, line 211, in
+</I>&gt;<i> __init__
+</I>&gt;<i>     self.__macros = MacroExpander(self.__version)
+</I>&gt;<i>   File &quot;C:\Python24\lib\distutils\msvccompiler.py&quot;, line 112, in
+</I>&gt;<i> __init__
+</I>&gt;<i>     self.load_macros(version)
+</I>&gt;<i>   File &quot;C:\Python24\lib\distutils\msvccompiler.py&quot;, line 133, in
+</I>&gt;<i> load_macros
+</I>&gt;<i>     raise DistutilsPlatformError, \
+</I>&gt;<i> distutils.errors.DistutilsPlatformError: The .NET Framework SDK needs
+</I>&gt;<i> to be inst
+</I>&gt;<i> alled before building extensions for Python.
+</I>&gt;<i> 
+</I>&gt;<i> Pricemz .NET Framework SDK 2.0 mam nainstalovano
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008163.html">[python] Jak na instalaci jakehokoliv modulu do ActivePython 2.4
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008170.html">[python] Jak na instalaci jakehokoliv modulu do ActivePython 2.4
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8159">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8159">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8159">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8159">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008159.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:31 GMT -->
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004323.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+<HEAD>
+   <TITLE> [python] ukončení interpretu, zničení objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=20060606042542.GC2325%40rk.uh.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004322.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004324.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ukončení interpretu, zničení objektu</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=20060606042542.GC2325%40rk.uh.cz"
+       TITLE="[python] ukončení interpretu, zničení objektu">devel na atlas.sk
+       </A><BR>
+    <I>Úterý Červen  6 09:00:24 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004322.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004324.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4323">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4323">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4323">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4323">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ja viem, ze globalne objekty uz mozu byt zrusene garbage collectorom,
+ale ja som sa prave snazil ukazat ze u tej classy to tak nieje. Prave to
+sa mi zda zvlastne, ze premenna ma nastavenu hodnotu None, ale objekt
+triedy este existuje v pamati a moze byt referencovany... okrem toho,
+pri tom ako je python spraveny si neviem predstavit ako by niekto chcel
+zrusit najskor instanciu class objektu a az potom instanciu danej triedy...
+
+Janko
+
+Radek Kaňovský wrote:
+&gt;<i> On Sun, Jun 04, 2006 at 11:43:56PM +0200, Jan Janech wrote:
+</I>&gt;<i> 
+</I>&gt;&gt;<i> Objekt triedy este nieje odstraneny, ale iba symbol M je nastaveny na
+</I>&gt;&gt;<i> hodnotu None...
+</I>&gt;&gt;<i> Dost zaujimave spravanie, po tom ako som si po dvoch rokoch zvykol, ze v
+</I>&gt;&gt;<i> pythone vsetko ide ako ma :)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class M:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     b = 0
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     def __del__(self):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>         print &quot;self.class =&quot;, self.__class__
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>         print &quot;M =&quot;, M
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>         print &quot;M2 =&quot;, M2
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> a2 = M()
+</I>&gt;&gt;<i> M2 = M
+</I>&gt;<i> 
+</I>&gt;<i> Ja myslim, ze tohle chovani je v poradku. Metoda __del__ se muze
+</I>&gt;<i> spolehnout v podstate jenom na jmeno `self'. Globalni objekty uz mohou
+</I>&gt;<i> byt odalokovane. Pokud potrebuju nejaky externi objekt v metode __del__,
+</I>&gt;<i> je potreba pouzit nejaky trik a objekt si &quot;pribalit&quot; k funkci:
+</I>&gt;<i> 
+</I>&gt;<i>     import sys
+</I>&gt;<i> 
+</I>&gt;<i>     class M:
+</I>&gt;<i>         
+</I>&gt;<i>         def __del__():
+</I>&gt;<i>             _sys = sys # _sys je cellvar
+</I>&gt;<i>             def __del__(self):
+</I>&gt;<i>                 print 'SYS', _sys
+</I>&gt;<i>         __del__ = __del__()
+</I>&gt;<i> 
+</I>&gt;<i> Radek Kaňovský
+</I>
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004322.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004324.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4323">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4323">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4323">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4323">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004323.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+</html>

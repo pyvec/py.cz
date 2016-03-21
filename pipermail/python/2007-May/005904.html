@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005904.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:01 GMT -->
+<HEAD>
+   <TITLE> [python] Volání metody podle proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVol%3DE1n%3DED_metody_podle_prom%3DECnn%3DE9%3F%3D&In-Reply-To=2647.6299-16416-1769761246-1178392181%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005902.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005906.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Volání metody podle proměnné</H1>
+    <B>Michal Vyskocil</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVol%3DE1n%3DED_metody_podle_prom%3DECnn%3DE9%3F%3D&In-Reply-To=2647.6299-16416-1769761246-1178392181%40seznam.cz"
+       TITLE="[python] Volání metody podle proměnné">michal.vyskocil na gmail.com
+       </A><BR>
+    <I>Sobota Květen  5 21:25:56 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005902.html">[python] Volání metody podle proměnné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005906.html">[python] Volání metody podle proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5904">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5904">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5904">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5904">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Saturday 05 of May 2007 21:09:41 Jakub Vojáček wrote:
+&gt;<i>
+</I>&gt;<i> No, jedno řešení by bylo použít exec:
+</I>&gt;<i> exec(&quot;return %s.udelejneco()&quot;%(promennaSnazvemMetody))
+</I>&gt;<i>
+</I>&gt;<i> ale není to hezké řešení, chtělo by to použít slovníky atd...
+</I>
+To neni hezke, ale ani bezpecne reseni.
+
+1.) exec(&quot;return ...&quot;) vyvola chybu SyntaxError: 'return' outside function
+2.) zadna kontrola parametru z POSTu, takze takto davame uzivatelum moznost 
+sahat primo do strev aplikace
+3.) eval je daleko pomalejsi, nez pristup do slovniku a v pripade vytizenejsi 
+aplikace to bude dost znat ...
+
+Lepsi je pouzit slovnik
+
+neco jako
+handler_list = { &quot;handler1&quot; : funkce1, &quot;handler2&quot; : funkce2 }
+
+a
+return handler_list[handler]()
+
+-- 
+best regards
+Michal Vyskocil
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005902.html">[python] Volání metody podle proměnné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005906.html">[python] Volání metody podle proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5904">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5904">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5904">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5904">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005904.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:01 GMT -->
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-August/010476.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:46 GMT -->
+<HEAD>
+   <TITLE> [python] cgi
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20cgi&In-Reply-To=%3CCAK9Q5BTAGOy4HROt5HQupoeNt-9HzFHpANLH1M-FOmS_fZji0Q%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-August/010475.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-August/010477.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cgi</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20cgi&In-Reply-To=%3CCAK9Q5BTAGOy4HROt5HQupoeNt-9HzFHpANLH1M-FOmS_fZji0Q%40mail.gmail.com%3E"
+       TITLE="[python] cgi">petr.messner na gmail.com
+       </A><BR>
+    <I>Čtvrtek Srpen  4 10:30:47 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-August/010475.html">[python] cgi
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-August/010477.html">[python] cgi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-August/date.html#10476">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/thread.html#10476">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/subject.html#10476">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/author.html#10476">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+tento problém řeší snad každý webový framework, takže možnosti existují.
+
+Třeba Werkzeug se dá pod CGI rozjet takto:
+<A HREF="http://werkzeug.pocoo.org/docs/deployment/cgi/">http://werkzeug.pocoo.org/docs/deployment/cgi/</A>
+POSTnutá data jsou k dispozici v MultiDictu Request.form, soubory jsou
+zvlášť v Request.files:
+<A HREF="http://werkzeug.pocoo.org/docs/wrappers/#werkzeug.wrappers.BaseRequest.files">http://werkzeug.pocoo.org/docs/wrappers/#werkzeug.wrappers.BaseRequest.files</A>
+Werkzeug má na to vlastní FileStorage:
+<A HREF="http://werkzeug.pocoo.org/docs/datastructures/#werkzeug.datastructures.FileStorage">http://werkzeug.pocoo.org/docs/datastructures/#werkzeug.datastructures.FileStorage</A>
+
+Podobně ve WebOb jsou POSTnutá data v req.POST, opět v nějakém
+multidictu jako FieldStorage. Ale nevím, jaký přesně FieldStorage to
+je.
+
+Django zase ukládá POST data do Request.POST (což je QueryDict) nebo
+Request.FILES jako UploadedFile:
+<A HREF="https://docs.djangoproject.com/en/dev/ref/request-response/">https://docs.djangoproject.com/en/dev/ref/request-response/</A>
+
+A takhle by se dalo pokračovat. Jak je vidět, nějakou vlastní
+abstrakci nad daty z HTTP POST si dělá snad každý :) Udělat si jen
+vlastní objekt (fasádu) nad cgi.FieldStorage s hezčím API by také bylo
+možná řešení.
+
+Snad jsem odpověděl správně. Mimochodem, CGI bych dnes už
+nedoporučoval, snad jen kromě studijních účelů. Aplikace pod CGI jsou
+pomalé, protože při každém HTTP požadavku se musí celá aplikace
+spustit znovu.
+
+PM
+
+
+2011/8/4 Martin Beran &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">info na berycz.net</A>&gt;:
+&gt;<i> zdravím, jsem tu novej...
+</I>&gt;<i> a zajímalo by mě, jestli existuje pohodlnější možnost načítání dat z cgi,
+</I>&gt;<i> než je cgi.FieldStorage, protože ten mi přijde naprosto nepohodlnej. (když
+</I>&gt;<i> python běží pod cgi)
+</I>&gt;<i>
+</I>&gt;<i> Díky
+</I>&gt;<i> MB
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-August/010475.html">[python] cgi
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-August/010477.html">[python] cgi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-August/date.html#10476">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/thread.html#10476">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/subject.html#10476">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/author.html#10476">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-August/010476.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:46 GMT -->
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-November/003571.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:16 GMT -->
+<HEAD>
+   <TITLE> [python] unicode
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-November/003572.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] unicode</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To="
+       TITLE="[python] unicode">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Listopad  1 10:19:12 CET 2005</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003572.html">[python] Python XML Editor/designer
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-November/date.html#3571">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/thread.html#3571">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/subject.html#3571">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/author.html#3571">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ViNiL napsal
+&gt;<i> [...]Je to otazka jednoho kazdeho autora, kolik je do sveho dila
+</I>&gt;<i> ochoten/schopen investovat prace &quot;navic&quot; a neomezovat okruh
+</I>&gt;<i> (potencialnich) uzivatelu.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; Implementační problém s &quot;čínštinou&quot; nastane tedy jen v případě,
+</I>&gt;<i> &gt; kdy fyzicky spoléháme na to, že jeden znak zabírá v souboru
+</I>&gt;<i> &gt; přesně dva bajty. Bude to problém chybného předpokladu o počtu
+</I>&gt;<i> &gt; bajtů na znak v souboru, nikoliv problém samotného kódování
+</I>&gt;<i> &gt; Unicode.
+</I>&gt;<i> 
+</I>&gt;<i> Coz je u dotazu na zaruceni pevne sirky znaku vada dosti podstatna.
+</I>&gt;<i> Taky bych opatrneji zachazel s terminem &quot;kodovani Unicode.&quot;
+</I>&gt;<i> Uf, tak si nejsem jist, jestli to melo byt zaverecne shrnuti nebo
+</I>&gt;<i> zmateni ;-)))
+</I>
+Omlouvám se, jestli moje dřívější poznámka byla málo
+srozumitelná. Jako autor programu nemůžu ovlivnit,
+jaký si uživatel nainstaluje Python. Můžu to jen 
+otestovat a případně varovat.
+
+Pokud potřebuju pevnou šířku na znak, musím
+použít UTF-32. Nejsem si vědom, že bych nějak
+mátl pojmy kolem &quot;kódování Unicode&quot;. Myslel jsem
+tím skutečně přiřazení čísla znaku v abstraktním
+smyslu, které je vždy jednoznačné. Při ukládání
+do souboru jsem použil &quot;způsob kódování Unicode&quot;,
+což byl možná neobratný překlad anglického
+&quot;encoding form&quot;.
+
+Souhlasím s tím, že aplikaci by měla být věnována
+náležitá péče, aby nebyla omezující. Odhaduji ale,
+že většina uživatelů software vytvořeného zde 
+nebude sedět na židli v teoretické zemi, kde
+se používají znaky s kódem větším, než 64k. 
+Pro většinu uživatelů může být naopak vynucené 
+použití UTF-32 chápáno jako omezující, protože 
+UTF-8 i UTF-16 poskytují z abstraktního hlediska 
+naprosto stejnou funkčnost a UTF-8 je navíc 
+kompatibilní s ASCII.
+
+Ještě jednou chci zdůraznit, že samotné použití
+&quot;formy kódování Unicode&quot; UTF-16 není nijak omezující
+(narozdíl od ASCII vs. 8bitové kódování). Omezení
+do toho všeho -- co může ovlivnit programátor -- vnáší
+zase jen programátor.
+
+Můžu se rozhodnout. Buď budu šetřit kódem programu,
+nebo datovým prostorem. V tomto případě bych se 
+přimlouval za to, aby aplikace nevyžadovala
+konkrétní způsob ukládání do souborů. Od programátora
+se pak vyžaduje, aby více přemýšlel nad tím, zda 
+je opravdu nutné soubory ukládat ve formě UTF-32.
+Otázkou taky zůstává, do jaké míry mi skutečnost,
+že jeden znak je uložen vždy na pevný počet bajtů,
+vlastně může pomoci.
+
+Původní dotaz Martina Blažíka se netýkal zaručení 
+pevného počtu bajtů na znak v souboru. Teprve v druhém
+dotazu upřesnil, že potřebuje dva bajty na znak.
+V třetím dotazu upřesňuje, že se jedná o malá data.
+V tom případě bych dal přednost načtení souboru
+do paměti a jednoduché práci přes unicode řetězce.
+
+Další zmatek může vyplývat z mírné odlišnosti
+UTF-16 a Martinem zmiňovaného kódování UCS-2. 
+UCS-2 je méně obecný, protože neumožňuje vůbec 
+uložit znaky s kódem větším, než 64k. Znak 
+v UCS-2 tedy vždy zabírá 2 bajty.
+
+V tomto smyslu pokládám použití UTF-16 za mocnější,
+perspektivnější, i když mírně komplikovanější. 
+UTF-32 a UCS-4 se nyní pokládají za prakticky 
+identické, ale velmi zřídka používané. Na druhou 
+stranu UTF-16 se pokládá za přirozenou interní 
+reprezentaci textu v různých operačních systémech 
+a programátorských prostředcích.
+
+A taky bych se nejdříve zajímal o to, jaké lidské
+jazyky vůbec potřebují znaky mimo BMP (tj. kód na více,
+než dva bajty). Tu &quot;čínštinu&quot; jsem minule střelil
+jen od boku. Tipnul bych si, že pro ni BMP stačí 
+A taky bych se zajímal, jestli si vůbec můžu 
+dovolit spoléhat na to, že jedno písmeno na papíře
+znamená jeden unicode znak (zda není nutné slepovat
+více částí písmene z několika unicode znaků). 
+Tím pádem nemusí být poskakování v souboru pomocí
+seek na n-tý znak od začátku principiálně vůbec 
+použitelné.
+
+&gt;<i> A vetsine lidi staci heterosexualni manzelstvi.
+</I>
+Z mého pohledu si můžeš založit klidně bisexuální
+manželství. Já s tím problém mít nebudu. ;)
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-November/003572.html">[python] Python XML Editor/designer
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-November/date.html#3571">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/thread.html#3571">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/subject.html#3571">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-November/author.html#3571">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-November/003571.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:16 GMT -->
+</html>

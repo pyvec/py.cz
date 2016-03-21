@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000549.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] spousteni externich programu a vstupu a vystupy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20spousteni%20externich%20programu%20a%20vstupu%20a%20vystupy&In-Reply-To=452BC246.3030701%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000548.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000550.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] spousteni externich programu a vstupu a vystupy</H1>
+    <B>Jiří Popek</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20spousteni%20externich%20programu%20a%20vstupu%20a%20vystupy&In-Reply-To=452BC246.3030701%40seznam.cz"
+       TITLE="[Tutor PyCZ] spousteni externich programu a vstupu a vystupy">jiri.popek na gmail.com
+       </A><BR>
+    <I>Úterý Říjen 10 17:07:12 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000548.html">[Tutor PyCZ] spousteni externich programu a vstupu a vystupy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000550.html">[Tutor PyCZ] spousteni externich programu a vstupu a vystupy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#549">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#549">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#549">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#549">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>myslim, ze budem muset komunikovat konkretneji - rozepis se vice o problemu
+
+std vstup i vystup si muzes predstavit jako normalni soubor -
+funkce print napr. posila svuj vystup na stdout - nastavenim stdout do
+souboru bude do neho zapsan vsechen std vystup, ktery bude vysledkem souboru
+spusteneho napr. pomoci execfile()
+
+stejne by mel fungovat i stdin, ze ktereho bude externi program cist tak,
+jako bychom to psali pomoci klavesnice - je-li tedy ocekavam vstup pomoci
+raw_input(), bude tento nacten defaultne ze sys.stdin.read()
+
+Problem ktery popisujes ty ale spise vypada na to, ze chces, aby dva
+programy komunikovaly pomoci &quot;roury&quot;, coz by se mnout naznacenym zpusobem
+melo taky dat realizovat.
+J.
+
+On 10/10/06, Karel Srot &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">karel.do.pekla.zajel na seznam.cz</A>&gt; wrote:
+&gt;<i>
+</I>&gt;<i> Asi jsem to nepochopil. Tim sys.stdout mohu napriklad nastavit, aby
+</I>&gt;<i> standardni vystup meho programu sel do souboru. Ale ja chci zpracovavat
+</I>&gt;<i> vystup externiho programu, ktery z programu teprve poustim. To jde takto
+</I>&gt;<i> take? A jak tedy nastavim vstup/vystup pro externi program?
+</I>&gt;<i>
+</I>&gt;<i> Karel
+</I>&gt;<i>
+</I>&gt;<i> JiĹĂ­ Popek napsal(a):
+</I>&gt;<i> &gt; k tomu slouzi
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; import sys
+</I>&gt;<i> &gt; sys.stdout
+</I>&gt;<i> &gt; sys.stderr
+</I>&gt;<i> &gt; sys.stdin
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; temto objektum muzes priradit napr. StringIO objekt nebo nejaky soubor
+</I>&gt;<i> &gt; a tvuj program ktery spoustis jej bude pouzivat jako klasicky
+</I>&gt;<i> &gt; vystup/vstup. Na konci nezapomen nastavit tyto hodnoty na puvodni.
+</I>&gt;<i> &gt; J.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; On 10/10/06, *Karel Srot* &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">karel.do.pekla.zajel na seznam.cz</A>
+</I>&gt;<i> &gt; &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/tutor">karel.do.pekla.zajel na seznam.cz</A>&gt;&gt; wrote:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     Zdravim vsechny,
+</I>&gt;<i> &gt;     mam nasledujici dotaz. zkousel jsem najit odpoved v nejake
+</I>&gt;<i> dokumentaci
+</I>&gt;<i> &gt;     ci prikladech, ale jsem z toho tulpachovej.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     Mam externi program. Ten chci z pythonu spustit, posilat mu neco na
+</I>&gt;<i> &gt;     vstup a prebirat vystup. Zatim jsem pouzil funkci popen4. Vim, ze
+</I>&gt;<i> &gt;     vhodnejsi by bylo pouzit modul subprocess, ale v tom se moc
+</I>&gt;<i> &gt;     neorientuju.
+</I>&gt;<i> &gt;       Navic mi jde o to, najit funkcni reseni a pochopit ho, takze
+</I>&gt;<i> klidne
+</I>&gt;<i> &gt;     piste reseni pomoci subprocess.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     Problem je v tom, ze ten program ne vzdy da vystup. Takze ja mu muzu
+</I>&gt;<i> &gt;     poslat data a on nemusi vubec odpoved. Upravit tento program nelze,
+</I>&gt;<i> &gt;     proste to tak funguje. Jak zjistim, ze program neco poslal na
+</I>&gt;<i> vystup?
+</I>&gt;<i> &gt;     Nelze pouzit readline ci read, protoze to zpusobi cekani na konec
+</I>&gt;<i> &gt;     radku/souboru. Jak tedy provest kontrolu toho, ze muzu neco cist a
+</I>&gt;<i> &gt;     pak
+</I>&gt;<i> &gt;     to teprve nacist.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     Dalsi dotaz je podobny. Kdybych presmeroval vystup externiho
+</I>&gt;<i> &gt;     programu do
+</I>&gt;<i> &gt;     souboru a v pythonu pak z toho souboru cetl, tak fungovalo by to?
+</I>&gt;<i> Tedy
+</I>&gt;<i> &gt;     ja bych programu neco poslal, on by to vypsal do souboru a ja bych
+</I>&gt;<i> &gt;     ten
+</I>&gt;<i> &gt;     soubor prubezne cetl? Resp. jak bych ho mel cist?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     Diky za odpoved, snad jsem to napsal srozumitelne.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     Karel
+</I>&gt;<i> &gt;     _______________________________________________
+</I>&gt;<i> &gt;     Tutor mailing list
+</I>&gt;<i> &gt;     <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>&gt;
+</I>&gt;<i> &gt;     <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; ------------------------------------------------------------------------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Tutor mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML pĹĂ­loha byla odstranÄna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061010/88a362e9/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20061010/88a362e9/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000548.html">[Tutor PyCZ] spousteni externich programu a vstupu a vystupy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000550.html">[Tutor PyCZ] spousteni externich programu a vstupu a vystupy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#549">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#549">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#549">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#549">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000549.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

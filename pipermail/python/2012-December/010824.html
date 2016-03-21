@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-December/010824.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:19 GMT -->
+<HEAD>
+   <TITLE> [python] PodivnĂŠ: MySQLdb pod Windows 7 nezapisuje do tabulky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FPodivn%3DC4%3D82%3DC5%3DA0%3D3A_MySQLdb_pod_Windows_7_ne%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fzapisuje_do_tabulky%3F%3D&In-Reply-To=%3C20121209102810.2614C09A%40pobox.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-December/010823.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-December/010825.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PodivnĂŠ: MySQLdb pod Windows 7 nezapisuje do tabulky</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FPodivn%3DC4%3D82%3DC5%3DA0%3D3A_MySQLdb_pod_Windows_7_ne%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fzapisuje_do_tabulky%3F%3D&In-Reply-To=%3C20121209102810.2614C09A%40pobox.sk%3E"
+       TITLE="[python] PodivnĂŠ: MySQLdb pod Windows 7 nezapisuje do tabulky">azurit na pobox.sk
+       </A><BR>
+    <I>Neděle Prosinec  9 10:28:10 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010823.html">[python] PodivnĂŠ: MySQLdb pod Windows 7 nezapisuje do tabulky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010825.html">[python] PodivnÄĹ : MySQLdb pod Windows 7 nezapisuje do ta  bulky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-December/date.html#10824">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/thread.html#10824">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/subject.html#10824">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/author.html#10824">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ak budes stale robit commit, tak sa skor oplati:
+
+db_conn = MySQLdb.connect(...)
+db_conn.autocommit(True)
+
+
+azur
+
+
+______________________________________________________________
+&gt;<i> Od: &quot;Vladislav Ludík&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;
+</I>&gt;<i> Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> Dátum: 09.12.2012 09:38
+</I>&gt;<i> Predmet: Re: [python] PodivnĂŠ: MySQLdb pod Windows 7 nezapisuje do tabulky
+</I>&gt;<i>
+</I>&gt;<i>COMMIT; po zápisu zabral.
+</I>&gt;<i>
+</I>&gt;<i>Děkuju za radu.
+</I>&gt;<i>
+</I>&gt;<i>V.L.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Dne 9 Prosinec 2012, 8:26, Petr Messner napsal(a):
+</I>&gt;&gt;<i> Děláte po zápisu commit?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Petr Messner
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 9. 12. 2012 v 8:07, &quot;Ing. Vladislav Ludík&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Zdravím všechny.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Narazil jsem na podivné chování modulu MySQLdb.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Nainstaloval jsem ComplexWebServer.1.4.14.msi na Windows 7 - x64.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> V počítači je Python 2.7.3.msi + modul
+</I>&gt;&gt;&gt;<i> MySQL-python-1.2.3.win32-py2.7.exe
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Problém:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Pokud čtu data z tabulky z localhost je vše v pořádku.
+</I>&gt;&gt;&gt;<i> Pokud ale zapisuju data do téže tabulky na localhost, data se nezapíšou,
+</I>&gt;&gt;&gt;<i> ale co je podivné, index v tabulce se incrementuje.
+</I>&gt;&gt;&gt;<i> Chyby syntaxe a jiné chyby jsou ověřením vyloučené.
+</I>&gt;&gt;&gt;<i> Přitom SQL příkaz pro výmaz dat tabulky projde a data vymaže.
+</I>&gt;&gt;&gt;<i> Pokud zapisuju data do tabulky na jiném serveru (s velmi starou
+</I>&gt;&gt;&gt;<i> databází), data se zapíšou.
+</I>&gt;&gt;&gt;<i> Pokud použiju PHP skript, data se na localhost zapisují.
+</I>&gt;&gt;&gt;<i> Zkoušel jsem jiné moduly, jiné instalace, mazání příznaku read only v
+</I>&gt;&gt;&gt;<i> adresářích, kam mysql píše, spouštět jako správce a všude se to chová
+</I>&gt;&gt;&gt;<i> stejně.
+</I>&gt;&gt;&gt;<i> I na Windows XP 32bit a VirtualBox se stejnými moduly.
+</I>&gt;&gt;&gt;<i> Se zápisem dat do tabulek instalovaných na jiných serverech s instalací
+</I>&gt;&gt;&gt;<i> modulu MySQLdb (debian) tento problém neexistuje.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Jsem z toho dost smutný. Poradí mi někdo ?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> V.L.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Zdraví
+</I>&gt;<i>Vladislav Ludík
+</I>&gt;<i>Rožnov pod Radhoštěm
+</I>&gt;<i>telefon: +420 572 151 334
+</I>&gt;<i>mobil: +420 608 777 525
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010823.html">[python] PodivnĂŠ: MySQLdb pod Windows 7 nezapisuje do tabulky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010825.html">[python] PodivnÄĹ : MySQLdb pod Windows 7 nezapisuje do ta  bulky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-December/date.html#10824">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/thread.html#10824">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/subject.html#10824">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/author.html#10824">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-December/010824.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:19 GMT -->
+</html>

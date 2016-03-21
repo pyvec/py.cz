@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009495.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:51 GMT -->
+<HEAD>
+   <TITLE> [python] Problém s subprocess
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FProbl%3DE9m_s_subprocess%3F%3D&In-Reply-To=%3Ce03762f51003131021n2c8f4b24j1e504cf1c1ee2d4f%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009532.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009496.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problém s subprocess</H1>
+    <B>Radek Holý</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FProbl%3DE9m_s_subprocess%3F%3D&In-Reply-To=%3Ce03762f51003131021n2c8f4b24j1e504cf1c1ee2d4f%40mail.gmail.com%3E"
+       TITLE="[python] Problém s subprocess">radekholypublic na gmail.com
+       </A><BR>
+    <I>Sobota Březen 13 19:21:13 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009532.html">[python] py2exe
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009496.html">[python] Problém s subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9495">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9495">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9495">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9495">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+chtěl bych se Vás zeptat, zda byste mi neuměli poradit s mým problémem
+s voláním externího programu.
+Používám Python 2.5.4 (věřím, že kvůli kompatibilitě s Jython 2.5.1)
+na Windows 7.
+
+Snažím se o spuštění &quot;překladače&quot; &quot;javac.exe&quot;:
+
+------------------------------------------------
+...
+javac = subprocess.Popen(u&quot;C:\\java\\bin\\javac.exe Main.java -d .&quot;)
+javac.communicate()
+------------------------------------------------
+
+Zjistil jsem ale, že takto volaný externí program (nebo alepoň
+&quot;javac.exe&quot;) s následným voláním &quot;communicate()&quot; (ale nemusí to být
+jen volání této metody - může to být jakýkoliv další kód) mi nevypíše
+na chybový výstup žádné informace (pokud je chyba v &quot;Main.java&quot;), i
+když při volání ze systémové příkazové řádky se informace vypíší.
+Dále jsem zjistil, že když můj program skončí ihned po
+&quot;...subprocess.Popen...&quot; (tedy vynechám &quot;communicate()&quot;), tak se na
+chybový výstup vypíše, co má. Jenže já tímto samozřejmě nechci
+končit...
+Zkoušel jsem i použití funkce &quot;time.sleep()&quot;, ale bez úspěchu.
+Pokud v &quot;Main.java&quot; chyba není, má &quot;javac.exe&quot; vygenerovat soubor
+&quot;Main.class&quot;, jenže chování je podobné... Tedy, pokud se pod voláním
+&quot;javac.exe&quot; vyskytuje ještě další kód, soubor &quot;Main.class&quot; se
+vygeneruje až po skončení mého programu. (Ověřeno pomocí
+&quot;os.path.exists()&quot; i &quot;os.listdir()&quot;)
+Přitom návratový kód je již nastaven...
+
+Předem děkuji za pomoc, Radek Holý
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009532.html">[python] py2exe
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009496.html">[python] Problém s subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9495">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9495">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9495">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9495">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009495.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:51 GMT -->
+</html>

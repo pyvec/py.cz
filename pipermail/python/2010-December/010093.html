@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-December/010093.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:13 GMT -->
+<HEAD>
+   <TITLE> [python] xml.etree.ElementTree a parsovani souboru s namespace.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xml.etree.ElementTree%20a%20parsovani%20souboru%20s%20namespace.&In-Reply-To=%3C20101221104233.1e9e5f66%40tbs-software.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-December/010091.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-December/010087.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] xml.etree.ElementTree a parsovani souboru s namespace.</H1>
+    <B>M.B.</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xml.etree.ElementTree%20a%20parsovani%20souboru%20s%20namespace.&In-Reply-To=%3C20101221104233.1e9e5f66%40tbs-software.com%3E"
+       TITLE="[python] xml.etree.ElementTree a parsovani souboru s namespace.">spooky.ln na tbs-software.com
+       </A><BR>
+    <I>Úterý Prosinec 21 10:42:33 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-December/010091.html">[python] xml.etree.ElementTree a parsovani souboru s namespace.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-December/010087.html">[python] vytvoření proměnných
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-December/date.html#10093">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-December/thread.html#10093">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-December/subject.html#10093">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-December/author.html#10093">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>V Tue, 21 Dec 2010 09:32:56 +0100
+Petr Přikryl &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prikryl na atlas.cz</A>&gt; napsáno:
+
+Díky to pomohlo.
+
+&gt;<i> Doporučuji přečíst kapitolu 12 z Dive Into Python 3, konkrétně 
+</I>&gt;<i> 12.4. Parsing XML <A HREF="http://diveintopython3.org/xml.html#xml-parse">http://diveintopython3.org/xml.html#xml-parse</A>
+</I>&gt;<i> 12.5. Searching for nodes within an XML document
+</I>&gt;<i> a konečně 12.6. Going further with LXML (plná podpora XPath 1.0).
+</I>&gt;<i>  
+</I>&gt;<i> Petr
+</I>&gt;<i>  ______________________________________________________________
+</I>&gt;<i>  &gt; Od: &quot;M.B.&quot; 
+</I>&gt;<i>  &gt; Komu: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i>  &gt; Datum: 20.12.2010 22:31
+</I>&gt;<i>  &gt; Předmět: [python] xml.etree.ElementTree a parsovani souboru s
+</I>&gt;<i>  &gt; namespace.
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  Zdravím,
+</I>&gt;<i>  Začal jsem z nudy přepisovat starší Gtk programy s pomoci GObject
+</I>&gt;<i>  Introspection. Jsem ale líný hledat neustále v XML souborech tak jsem
+</I>&gt;<i>  si chtěl napsat jednoduchý skript na vyparsování informací do
+</I>&gt;<i> nějakého mě příjemnějšího formátu.Bohužel jsem XML soubory parsoval
+</I>&gt;<i> jen zřídka a tyhle namespaces mi dělají potíže. Nemůžu z nich nic
+</I>&gt;<i> dostat. 
+</I>&gt;<i>  Př:
+</I>&gt;<i>  ---------------------------
+</I>&gt;<i>  #encoding: utf-8
+</I>&gt;<i>  from xml.etree import ElementTree as XML
+</I>&gt;<i>  root = XML.parse('/usr/share/gir-1.0/Avahi-0.6.gir').getroot()
+</I>&gt;<i>  print root
+</I>&gt;<i>  
+</I>&gt;<i>  def normalize(name):
+</I>&gt;<i>     if name[0] == '{':
+</I>&gt;<i>         uri, tag = name[1:].split('}')
+</I>&gt;<i>         return uri, tag
+</I>&gt;<i>     else:
+</I>&gt;<i>         return name
+</I>&gt;<i>     
+</I>&gt;<i>  namespace = normalize(root.tag)[0]
+</I>&gt;<i>  print namespace
+</I>&gt;<i>  clases = root.findall('{' + namespace + '}' + 'namespace/class')
+</I>&gt;<i>  print clases
+</I>&gt;<i>  
+</I>&gt;<i>  Prosil bych o nějaké nakopnutí správným směrem.
+</I>&gt;<i>  Díky.
+</I>&gt;<i>  _______________________________________________
+</I>&gt;<i>  Python mailing list
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i>  <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-December/010091.html">[python] xml.etree.ElementTree a parsovani souboru s namespace.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-December/010087.html">[python] vytvoření proměnných
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-December/date.html#10093">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-December/thread.html#10093">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-December/subject.html#10093">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-December/author.html#10093">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-December/010093.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:13 GMT -->
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009024.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:31 GMT -->
+<HEAD>
+   <TITLE> [python] XMLRPC a unicode
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20XMLRPC%20a%20unicode&In-Reply-To=%3Cbd9056300906111658u49f720bfy338011e7da84f048%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-June/009023.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-June/009025.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] XMLRPC a unicode</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20XMLRPC%20a%20unicode&In-Reply-To=%3Cbd9056300906111658u49f720bfy338011e7da84f048%40mail.gmail.com%3E"
+       TITLE="[python] XMLRPC a unicode">slush na slush.cz
+       </A><BR>
+    <I>Pátek Červen 12 01:58:04 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009023.html">[python] PIL: open BMP s RLE kompresí
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009025.html">[python] XMLRPC a unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9024">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9024">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9024">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9024">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+potrebuji pristupovat k seriovemu portu pocitace A z pocittace B na
+lokalni siti. Napadlo me pouzit XML-RPC jako transparentni mezivrstvu
+k pyserial tak, ze se klientska aplikace (puvodne bezici na A, nyni
+nove na B) temer nemusi upravovat - pouze misto lokalni instance
+pyserial vytvorim klienta XMLRPC.
+
+Zda se, ze by to i mohlo fungovat, bohuzel na port potrebuji posilat
+binarni data. A zde jsem narazil na problem s kodovanim znaku u
+knihovny xmlrpclib. Pri snaze zapsat binarni data mi to vrati tento
+traceback:
+
+  File &quot;/usr/lib/python2.6/encodings/utf_8.py&quot;, line 16, in decode
+    return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xff in position 0:
+unexpected code byte
+
+Data skladam nasledujicim zpusobem:
+ data = chr(255)+'a'+chr(e.axis)+chr(mapped)
+kde e.axis i mapped jsou 1B cisla. Jedna se tedy o obycejne ASCII.
+
+S tim si bohuzel nevim rady, UTF jsem se v pythonu vzdy vyhybal, jako
+cert krizi. Nedokaze nekdo poradit, prosim?
+
+
+S pozdravem
+Marek
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009023.html">[python] PIL: open BMP s RLE kompresí
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009025.html">[python] XMLRPC a unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9024">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9024">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9024">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9024">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009024.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:31 GMT -->
+</html>

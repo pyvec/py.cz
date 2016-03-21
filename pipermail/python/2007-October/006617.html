@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006617.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:16 GMT -->
+<HEAD>
+   <TITLE> [python] Client+Server - povodne: subprocess, pipes
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Client%2BServer%20-%20povodne%3A%20subprocess%2C%20pipes&In-Reply-To=77c3131a0710101202x6e3c8a5dt931682ecfa9f1b94%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-October/006616.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-October/006618.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Client+Server - povodne: subprocess, pipes</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Client%2BServer%20-%20povodne%3A%20subprocess%2C%20pipes&In-Reply-To=77c3131a0710101202x6e3c8a5dt931682ecfa9f1b94%40mail.gmail.com"
+       TITLE="[python] Client+Server - povodne: subprocess, pipes">RMiklos na pss.sk
+       </A><BR>
+    <I>Čtvrtek Říjen 11 09:38:06 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006616.html">[python] subprocess, pipes
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006618.html">[python] Client+Server - povodne: subprocess, pipes
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6617">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6617">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6617">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6617">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>Já bych ale potřeboval,
+</I>&gt;<i>aby se &quot;server&quot; nezapínal jako podproces, ale aby například oba
+</I>&gt;<i>programy zapnul uživatel a oni se sami poznaly a začaly spolu
+</I>&gt;<i>komunikovat.
+</I>
+Tak to urob ako client-server. Uzivatel spusti server, spusti client, 
+server prijme data od klienta a vrati mu data.
+
+Tu je maly priklad, ktory som si odlozil - najdes ho niekde na webe: 
+Server prijima data od clienta, transformuje ich na uppercase a posiela 
+naspat clientovi.
+
+--------------------------- server.py ------------------------
+#!/usr/bin/env python
+
+&quot;&quot;&quot;
+A simple echo server
+&quot;&quot;&quot;
+
+import socket, string 
+
+host = ''
+port = 50000
+backlog = 5
+size = 1024
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((host,port))
+s.listen(backlog)
+while 1:
+    client, address = s.accept()
+    data = client.recv(size)
+    if data:
+        print &quot;Receiving data from client: %s&quot; % data
+        data = string.upper(data)
+        print &quot;Sending data to client    : %s&quot; % data
+        client.send(data)
+    client.close()
+
+--------------------------- client.py ---------------------------
+#!/usr/bin/env python
+
+&quot;&quot;&quot;
+A simple echo client
+&quot;&quot;&quot;
+
+import socket
+
+host = 'localhost'
+port = 50000
+size = 1024
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((host,port))
+data = 'Hello, world'
+print &quot;Sending data to server    : %s&quot; % data
+s.send(data)
+data = s.recv(size)
+print 'Receiving data from server: %s' % data
+s.close()
+
+
+
+
+
+
+Koumes21 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">koumes21 na gmail.com</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+10.10.2007 21:02
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+&quot;Konference PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+[python] subprocess, pipes
+
+
+
+
+
+
+Dobrý den, 
+udělal jsem si dva jednoducé prográmky abych si vyzkouše
+komunikaci mezi procesy. Jeden z nich jednoduše vypisuje to, co do něj 
+napíšete: 
+
+import sys 
+
+while 1: 
+    c1=sys.stdin.read(1) 
+    sys.stdout.write(c1) 
+    sys.stdout.flush() 
+
+Tento první jsem změnil na exe soubor modulem py2exe. 
+Druhý program spustí ten první a posílá do něj to co uživatel
+napíše a to co se vrátí tiskne na obrazovku: 
+
+import subprocess,sys,thread 
+
+pipe = subprocess.Popen(&quot;server.exe&quot;,
+stdin=subprocess.PIPE,
+stdout=subprocess.PIPE) 
+
+def reciever(): 
+    while 1: 
+        c1=pipe.stdout.read(1) 
+        sys.stdout.write(c1) 
+
+thread.start_new(reciever,()) 
+
+while 1: 
+....c1=sys.stdin.read(1) 
+....pipe.stdin.write(c1) 
+
+Je mi jasné, že program není ještě dokončený, ale jde o princip.
+V tomto okamžiku vše správně funguje. Já bych ale potřeboval,
+aby se &quot;server&quot; nezapínal jako podproces, ale aby například oba
+programy zapnul uživatel a oni se sami poznaly a začaly spolu
+komunikovat. Kdyby někdo věděl a poradil mi, budu mu jistě vděčný. 
+
+Koumes21_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006616.html">[python] subprocess, pipes
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006618.html">[python] Client+Server - povodne: subprocess, pipes
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6617">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6617">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6617">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6617">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006617.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:16 GMT -->
+</html>

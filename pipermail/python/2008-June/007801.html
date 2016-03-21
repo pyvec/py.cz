@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007801.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+<HEAD>
+   <TITLE> [python] Getters and Setters.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Getters%20and%20Setters.&In-Reply-To=D65DE45E9DB07C43B4F5210329E41BE6614865%40londinium.hq.altien.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007799.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007792.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Getters and Setters.</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Getters%20and%20Setters.&In-Reply-To=D65DE45E9DB07C43B4F5210329E41BE6614865%40londinium.hq.altien.com"
+       TITLE="[python] Getters and Setters.">regnarg na seznam.cz
+       </A><BR>
+    <I>Sobota Červen 21 20:13:21 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007799.html">[python] Getters and Setters.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007792.html">[python] praca s textom
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7801">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7801">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7801">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7801">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On So, čen 21, 2008 at 07:20:22 +0200, David Michal wrote:
+&gt;<i> Ta promena x je pak promenou tridy, nebo instance? Co se stane kdyz
+</I>&gt;<i> upravim __init__ takto:
+</I>&gt;<i> def __init__(self):
+</I>&gt;<i>     self.x = 0
+</I>&gt;<i>     self.x = property(self.get_x, self.set_x)
+</I>
+Property je určena k tomu, aby byla uložena v proměnné
+třídy, i když slouží jako proměnná instance. Efekty v
+jiném případě by mohly být nepředvídatelné. Chování
+property() bylo takhle navrženo naschvál, aby připomínalo
+něco jako &quot;deklaraci&quot; v rámci definice třídy. Ale samotná
+vlastnost reprezentuje hodnotu vztahující se k instanci.
+
+Vzhledem ke složité sémantice ohledně parametru self si
+nejsem jist, zda by bylo property možno použít jinak, než
+jak bylo zamýšleno, protože parametry funkce property()
+předávané v těle třídy jsou ještě holé funkce,
+očekávající explicitní parametr self a ne &quot;magické&quot;
+metody instance.
+
+Property vytváří tzv. deskriptor, tedy objekt s metodami
+__get__, __set__, etc. Tyto metody teprve dostanou jako
+parametr aktuální instanci (automaticky, když Python
+zjistí, že jde o deskriptor) a zavolají holou funkci s
+parametrem této instance, případně u setteru nové
+hodnoty. Pro funkci samotnou je to nerozeznatelné od
+použití jako instanční metody: self dostane, parametry
+dostane, tak si nemá co stěžovat.
+
+Z uvedeného jasně vyplývá, že se nemusíme omezovat na
+property. Můžeme si napsat vlastní deskriptory, stačí,
+aby implementovali __get__, příp. __set__. Já osobně
+doporučuji můj deskriptor prop(), který neuchovává odkaz
+na funkci, ale její název, takže může být předefinována
+v podtřídě, aniž by se musela předefinovat vlastnost
+samotná.
+
+Kód přikládám také pro představu, jak deskriptory vlastně
+vypadají. Parametry __get__ jsou instance (None při použití
+jako proměnná třídy) a třída objektu, jehož atributem
+deskriptor je. U ostatních netřeba vysvětlovat. Magické
+chování deskriptorů funguje jen v rámci objektů, tzn. v
+obyčejné proměnné uvidíme vždy deskriptor samotný.
+
+class prop(object):
+    &quot;&quot;&quot;A replacement of `property' that work correctly with subclasses
+and manages that by name-based remembering of accessor methods (aka
+getters and setters) in contrast to property's method object storing.
+If the accessors are redefined in a subclass, the prop object can be
+left intact, whereas a property requires to be redefined each time an
+accessor is overriden.&quot;&quot;&quot;
+    def __init__(self,fget=None,fset=None,fdel=None):
+        if fget is None:
+            self.fget=None
+        else:
+            self.fget=fget.__name__
+        if fset is None:
+            self.fset=None
+        else:
+            self.fset=fset.__name__
+        if fdel is None:
+            self.fdel=None
+        else:
+            self.fdel=fdel.__name__
+    def __get__(self,i,o):
+        if self.fget is None: return
+        if i is None:
+            return getattr(o,self.fget)()
+        else:
+            return getattr(i,self.fget)()
+    def __set__(self,i,v):
+        if self.fset is None: return
+        getattr(i,self.fset)(v)
+    def __delete__(self,i):
+        if self.fdel is None: return
+        getattr(i,self.fdel)()
+
+Pokud definujeme:
+
+class A(object):
+    def myget(self):
+        return 0
+    a=property(myget)
+    b=prop(myget)
+class B(A):
+    def myget(self):
+        return 1
+
+Dostáváme:
+&gt;&gt;&gt;<i> b=B()
+</I>&gt;&gt;&gt;<i> b.a
+</I>0
+&gt;&gt;&gt;<i> b.b
+</I>1
+
+Doufám, že jsem to vysvětlil dost jasně a neudělal moc
+chyb (případně nechť mě opraví jiní). 
+Přeji hezký zbytek večera,
+regnarg
+    
+-- 
+regnarg --- <A HREF="http://rg.pretel.cz/">http://rg.pretel.cz</A> -- JID: <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>
+V péči o štěstí druhých nacházíme své vlastní.   --Platón
+Přátelství může trvat jedině mezi dobrými lidmi. --Cicero
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007799.html">[python] Getters and Setters.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007792.html">[python] praca s textom
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7801">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7801">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7801">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7801">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007801.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+</html>

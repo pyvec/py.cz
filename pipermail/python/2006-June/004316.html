@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004316.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+<HEAD>
+   <TITLE> [python] ukončení interpretu, zničení objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4481F6BE.7050407%40inmail.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004315.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004317.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ukončení interpretu, zničení objektu</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4481F6BE.7050407%40inmail.cz"
+       TITLE="[python] ukončení interpretu, zničení objektu">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Neděle Červen  4 00:36:53 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004315.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004317.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4316">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4316">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4316">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4316">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Dle meho skromneho nazoru M.b chybou je, ale z jineho duvodu.
+</I>&gt;<i> Dovolim si civotat Python reference manual:
+</I>&gt;<i> 
+</I>&gt;<i> Variables defined in the class definition are class variables; they are 
+</I>&gt;<i> shared by all instances. To define instance variables, they must be 
+</I>&gt;<i> given a value in the __init__() method or in another method. Both class 
+</I>&gt;<i> and instance variables are accessible through the notation 
+</I>&gt;<i> ``self.name'', and an instance variable hides a class variable with the 
+</I>&gt;<i> same name when accessed in this way.
+</I>&gt;<i> 
+</I>&gt;<i> Dulezita je veta &quot;Jak tridni, tak i instancni promenne jsou pristupne 
+</I>&gt;<i> pomoci zapisu ''self.jmeno'' ...
+</I>&gt;<i> 
+</I>&gt;<i> Takze, kdyz zmenite M.b na self.b, docilite pozadovaneho efektu.
+</I>&gt;<i> 
+</I>&gt;<i> slacker
+</I>&gt;<i> 
+</I>
+Nemůžu změnit M.b na self.b především kvůli tomu, že bych pak nemohl 
+demonstrovat to podivné chování v Pythonu ;-)
+
+Nevím, jestli si rozumíme, ale odkaz na M.b určitě není nesprávný zápis, 
+jedná se o objekt patřící ke třídě. Není to totéž co self.b, ačkoli se 
+to tak zezačátku (kvůli prohledávání jmenných prostorů) může zdát. 
+Například tento program
+
+class M:
+   b = 10
+   def __init__(self):
+     self.b += 1         # což není totéž co self.b.__add__(1)
+   def __del__(self):
+     print self.b        # Objekt instance
+     print M.b           # Objekt třídy
+
+a1 = M()
+
+
+by měl vypsat
+
+11
+10
+
+ale místo toho napíše 11 a pak spadne. Tedy alespoň u mě ;-)
+
+--
+Jan Martinek
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004315.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004317.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4316">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4316">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4316">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4316">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004316.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009882.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:29 GMT -->
+<HEAD>
+   <TITLE> [python] =?iso-8859-2?q?=5Bpython=5D=09T=  =?utf-8?q?F8=3DEDda=3F=3D?=, která vytvoøí instanci jen pokud tam u¾ není instance se stejnými parametry
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3FPT9pc28tODg1OS0yP3E/PTVCcHl0aG9uPTVEPTA5VD0g%3F%3D%0A%20%3D%3Futf-8%3Fb%3FID0/dXRmLTg/cT9GOD0zREVEZGE9M0Y9M0Q/PSwga3RlcsOhIHZ5dHZvxZk%3D%3F%3D%0A%20%3D%3Futf-8%3Fq%3F%3DC3%3DAD_instanci_jen_pokud_tam_u%3DC5%3DBE_nen%3DC3%3DAD_instance_se_ste%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fjn%3DC3%3DBDmi_parametry%3F%3D&In-Reply-To=%3C201007221629.11987.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009878.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009884.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] =?iso-8859-2?q?=5Bpython=5D=09T=  =?utf-8?q?F8=3DEDda=3F=3D?=, která vytvoøí instanci jen pokud tam u¾ není instance se stejnými parametry</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3FPT9pc28tODg1OS0yP3E/PTVCcHl0aG9uPTVEPTA5VD0g%3F%3D%0A%20%3D%3Futf-8%3Fb%3FID0/dXRmLTg/cT9GOD0zREVEZGE9M0Y9M0Q/PSwga3RlcsOhIHZ5dHZvxZk%3D%3F%3D%0A%20%3D%3Futf-8%3Fq%3F%3DC3%3DAD_instanci_jen_pokud_tam_u%3DC5%3DBE_nen%3DC3%3DAD_instance_se_ste%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fjn%3DC3%3DBDmi_parametry%3F%3D&In-Reply-To=%3C201007221629.11987.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] =?iso-8859-2?q?=5Bpython=5D=09T=  =?utf-8?q?F8=3DEDda=3F=3D?=, která vytvoøí instanci jen pokud tam u¾ není instance se stejnými parametry">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Ètvrtek Èervenec 22 16:29:11 CEST 2010</I>
+    <P><UL>
+        <LI>Pøedchozí pøíspìvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009878.html">[python] =?iso-8859-2?q?=5Bpython=5D=09T=F8=EDda?=, která vytvoøí instanci jen pokud tam u¾ není instance se stejnými parametry
+</A></li>
+        <LI>Následující pøíspìvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009884.html">[python] =?iso-8859-2?q?=5Bpython=5D=09T=  =?utf-8?q?F8=3DEDda=3F=3D?=, která vytvoøí instanci jen pokud tam u¾ není instance se stejnými parametry
+</A></li>
+         <LI> <B>Zprávy tøídìné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9882">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9882">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9882">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9882">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tomá¹ Drenèák (ètvrtek 22 Èervenec 2010 16:17:29):
+&gt;<i> __new__ vrati hotovu instanciu, 
+</I>&gt;<i> __init__ sa vola vramci standardnej implementacie __new__ 
+</I>Ne. __init__ se vola automagicky zevnitr interpretru az pote co se __new__ 
+vrati, nad jeho vysledkem. Nebo taky ne, podle toho vysledku jak jsem to 
+popsal drive. __init__ potrebuje mit v self uz hotovou instanci a ta je 
+produktem __new__, cili nemuze init bezet dokud new neskonci.
+
+&gt;<i> ktora sa overriduje. Takze je lepsie pouzit ten __new__
+</I>A taky z toho nepodstatnyho duvodu ze class dekoratory jsou az v pyhonu 3 :-)
+
+ 
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Pøedchozí pøíspìvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009878.html">[python] =?iso-8859-2?q?=5Bpython=5D=09T=F8=EDda?=, která vytvoøí instanci jen pokud tam u¾ není instance se stejnými parametry
+</A></li>
+	<LI>Následující pøíspìvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009884.html">[python] =?iso-8859-2?q?=5Bpython=5D=09T=  =?utf-8?q?F8=3DEDda=3F=3D?=, která vytvoøí instanci jen pokud tam u¾ není instance se stejnými parametry
+</A></li>
+         <LI> <B>Zprávy tøídìné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9882">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9882">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9882">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9882">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Dal¹í informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009882.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:29 GMT -->
+</html>

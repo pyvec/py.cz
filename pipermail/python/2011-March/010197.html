@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-March/010197.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:01 GMT -->
+<HEAD>
+   <TITLE> [python] omezeni globalniho slovniku
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20omezeni%20globalniho%20slovniku&In-Reply-To=%3C20110304084524.599006e7%40tbs-software.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-March/010194.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-March/010198.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] omezeni globalniho slovniku</H1>
+    <B>Martin B.</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20omezeni%20globalniho%20slovniku&In-Reply-To=%3C20110304084524.599006e7%40tbs-software.com%3E"
+       TITLE="[python] omezeni globalniho slovniku">spooky.ln na tbs-software.com
+       </A><BR>
+    <I>Pátek Březen  4 08:45:24 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010194.html">[python] Python SimleXMLRPCServer a register_instance
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010198.html">[python] omezeni globalniho slovniku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-March/date.html#10197">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/thread.html#10197">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/subject.html#10197">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/author.html#10197">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+hraju si ted se slovníky a zde oblíbenou fcí exec() :).
+Hned uvedu příklad, sice blbej ale vysvětluje vše.
+
+script = &quot;&quot;&quot;if prodano == 10:celkem = 90;mleko -= 1;kafe += 1;print(mleko, kafe)&quot;&quot;&quot;
+
+script2 = &quot;&quot;&quot;f = open(__file__, 'rb'); print(f.read());f.close()&quot;&quot;&quot;
+
+mleko = 5
+kafe  = 10
+
+def kokos():
+    celkem  = 100 
+    prodano = 10
+    print(locals())
+    
+    try:
+        exec(script, globals(), locals())
+        
+    except NameError, err:
+        print err
+        raise SystemExit
+    
+    print(locals())
+    
+kokos()
+
+1. dá se nějak definovat globalní slovník na 'safe use' hodnoty?
+   chci třeba jen kafe a nechci definovat jiny slovník na použití
+   exec(script, my_globals, my_locals) čistě povolit jen něco.
+
+2. Zde ošetruju jen NameError při skriptu který bude obsahovat neplatnou
+   proměnnou.Jde i nějak jinak zjistit jestli ten python skript je
+   platný? teda bez syntax error? eval() mi ho hazí neustále.
+
+Použití bude v programu kde budu globalni a lokalni hodnoty
+upravovat podle udalostí skriptem uloženým v sqlite databázi.
+omezeni tam chci kvuli nechtenemu spusteni treba open() fci.
+Vim ze tohle slovniky neresi ale pro zacatek chci zacit s temi
+promennymi :)
+
+diky za kazde nakopnuti.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010194.html">[python] Python SimleXMLRPCServer a register_instance
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010198.html">[python] omezeni globalniho slovniku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-March/date.html#10197">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/thread.html#10197">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/subject.html#10197">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/author.html#10197">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-March/010197.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:01 GMT -->
+</html>

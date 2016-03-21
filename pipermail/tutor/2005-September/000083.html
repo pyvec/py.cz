@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000083.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] time diff
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20time%20diff&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-September/000082.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-September/000084.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] time diff</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20time%20diff&In-Reply-To="
+       TITLE="[Tutor PyCZ] time diff">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Září  9 07:48:45 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000082.html">[Tutor PyCZ] time diff
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000084.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#83">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#83">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#83">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#83">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>geon napsal...
+[...]
+&gt;<i> c1D=datetime.datetime(*c1)
+</I>&gt;<i> c2D=datetime.datetime(*c2)
+</I>&gt;<i> 
+</I>&gt;<i> print c1D-c2D
+</I>
+... vytiskne se 
+1585 days, 0:56:00
+
+&gt;<i> ta *c1 jistě znamená samorozbalení tuple c1, jen nevím, kde je to v 
+</I>&gt;<i> helpu popisované....
+</I>
+Přesněji by se to dalo označit jako dosazení pozičních
+argumentů funkce z posloupnosti (zde c1 je konkrétně tuple).
+Zmiňuje se o tom referenční příručka v části &quot;5.3.4 Calls&quot;.
+
+Konkrétně c1D-c2D vyjadřuje použití operátoru mínus
+nad objekty třídy datetime.datetime. Vznikne objekt
+třídy datetime.timedelta. Příkaz print volá jeho metodu
+__str__(), která zajistí převod do řetězcové reprezentace.
+Pokud potřebujeme něco jiného, než řetězcovou reprezentaci,
+můžeme se odkázat na read-only vlastnosti objektu:
+
+d = c1D-c2D
+print d.days
+print d.seconds
+print d.microseconds
+print d.resolution
+print repr(d.resolution)
+
+Vytiskne se něco takového:
+
+1585
+3360
+0
+0:00:00.000001
+datetime.timedelta(0, 0, 1)
+
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000082.html">[Tutor PyCZ] time diff
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000084.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#83">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#83">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#83">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#83">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000083.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+</html>

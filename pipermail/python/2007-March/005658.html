@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005658.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:19 GMT -->
+<HEAD>
+   <TITLE> [python] Vlastní vlákno pro dlouhý výpočet.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FVlastn%3DED_vl%3DE1kno_pro_dlouh%3DFD_v%3DFDpo%3DE8%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fet%3D2E%3F%3D&In-Reply-To=489.3944-20850-425352538-1172847947%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005657.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005654.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vlastní vlákno pro dlouhý výpočet.</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FVlastn%3DED_vl%3DE1kno_pro_dlouh%3DFD_v%3DFDpo%3DE8%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fet%3D2E%3F%3D&In-Reply-To=489.3944-20850-425352538-1172847947%40seznam.cz"
+       TITLE="[python] Vlastní vlákno pro dlouhý výpočet.">fuky na sunstel.asu.cas.cz
+       </A><BR>
+    <I>Pátek Březen  2 17:14:02 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005657.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005654.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5658">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5658">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5658">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5658">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+tady máš příklad:
+
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import sys
+import thread
+import time
+import Tkinter
+  
+def refresh(a):
+  global platno, obrazek
+
+  while (1):
+    try:
+      obrazek = Tkinter.PhotoImage(file = sys.argv[3])
+      platno.create_image(0, 0, image = obrazek, anchor=Tkinter.NW)
+      time.sleep(60)
+    except:
+      time.sleep(5)
+  
+def main():
+  global platno, obrazek
+  
+  if (len(sys.argv) != 4):
+    print &quot;pocasi.py sirka vyska obrazek.gif&quot;
+    sys.exit(1)
+  
+  okno = Tkinter.Tk()
+  okno.wm_title(&quot;Pocasi&quot;)
+  okno.resizable(0, 0)
+  
+  platno = Tkinter.Canvas(okno, width = sys.argv[1], height = sys.argv[2], background = &quot;white&quot;)
+  platno.pack()
+
+  thread.start_new(refresh, (okno,))
+
+  okno.mainloop()
+
+if __name__ == '__main__':
+  main()
+
+       Měj se fajn Honza
+
+-- 
+
+/**************************************************************
+*   _    Žádný program není bezchybný, dokonalý ani nejlepší, *
+*  °v°   to samé platí i o lidech a nejen o nich.             *
+* /(_)\                                      -- Jan Fuchs --  *
+*  ^ ^                                                        *
+*        <A HREF="http://www.fuky.org/">http://www.fuky.org</A>                 ICQ: 200692177   *
+**************************************************************/
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005657.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005654.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5658">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5658">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5658">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5658">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005658.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:19 GMT -->
+</html>

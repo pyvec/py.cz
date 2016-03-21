@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009041.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:32 GMT -->
+<HEAD>
+   <TITLE> [python] Fork - problém s přístupem k rodičovské proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FFork_-_probl%3DE9m_s_p%3DF8%3DEDstupem_k_rodi%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DE8ovsk%3DE9_prom%3DECnn%3DE9%3F%3D&In-Reply-To=%3C67c97cd90906300305y7751c70dm712c51c86d2ba187%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-June/009040.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-June/009042.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Fork - problém s přístupem k rodičovské proměnné</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FFork_-_probl%3DE9m_s_p%3DF8%3DEDstupem_k_rodi%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DE8ovsk%3DE9_prom%3DECnn%3DE9%3F%3D&In-Reply-To=%3C67c97cd90906300305y7751c70dm712c51c86d2ba187%40mail.gmail.com%3E"
+       TITLE="[python] Fork - problém s přístupem k rodičovské proměnné">petr.messner na gmail.com
+       </A><BR>
+    <I>Úterý Červen 30 12:05:02 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009040.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009042.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9041">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9041">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9041">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9041">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>V půlce programu si to klidně forkneš a očekáváš, že z potomka si v
+pohodě můžeš měnit proměnné v rodičkovském procesu, navíc z obou
+procesů saháš do GTK? No fuj :-) GTK je myslím thread-safe (po nějaké
+inicializaci, pokud si dobře vzpomínám), ale že by i
+multiprocess-safe, to pochybuji :-)
+
+Doporučuji použít místo podprocesů vlákna nebo zařídit nějakou
+meziprocesovou komunikaci - nejjednodušeji asi rouru/socketpair - tak
+aby s GUI manipuloval jen jeden proces.
+
+PM
+
+2009/6/30 Filip Bartmann &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">filbar na centrum.cz</A>&gt;:
+&gt;<i> V této části kódu:
+</I>&gt;<i> ----------------------------------------------------------------------------------
+</I>&gt;<i> def __init__(self):
+</I>&gt;<i>                self.mixer=alsa.Mixer();
+</I>&gt;<i>                if self.mixer.getmute()[0]==0:
+</I>&gt;<i>                        self.icon=gtk.status_icon_new_from_stock(gtk.STOCK_YES);
+</I>&gt;<i>                else:
+</I>&gt;<i>                        self.icon=gtk.status_icon_new_from_stock(gtk.STOCK_NO);
+</I>&gt;<i>
+</I>&gt;<i>                pid=os.fork();
+</I>&gt;<i>                if pid==0:
+</I>&gt;<i>                        while True:
+</I>&gt;<i>                                mixer=alsa.Mixer();
+</I>&gt;<i>                                if mixer.getmute()[0]==0:
+</I>&gt;<i>                                        print &quot;UNMUTED&quot;;
+</I>&gt;<i>                                        self.icon.set_from_stock(gtk.STOCK_YES);
+</I>&gt;<i>                                elif mixer.getmute()[0]==1:
+</I>&gt;<i>                                        print &quot;MUTED&quot;;
+</I>&gt;<i>                                        self.icon.set_from_stock(gtk.STOCK_NO);
+</I>&gt;<i>                                time.sleep(1);
+</I>&gt;<i>
+</I>&gt;<i>                self.icon.connect(&quot;popup-menu&quot;,self.show_controls);
+</I>&gt;<i> ----------------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> mám problém v přístupem k self.icon v potomkovi. Na CMDLině mi to sice
+</I>&gt;<i> správně hlási MUTED/UNMUTED ale ikona se nemění. Nevíte kde mám chybu?
+</I>&gt;<i>
+</I>&gt;<i> Za rady předem děkuji.
+</I>&gt;<i>
+</I>&gt;<i> Filip Bartmann
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009040.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009042.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9041">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9041">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9041">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9041">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009041.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:32 GMT -->
+</html>

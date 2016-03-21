@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-September/000404.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] event, interrup,	listener..proste asynchronni udalost v pythonu..
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20event%2C%20interrup%2C%0A%09listener..proste%20asynchronni%20udalost%20v%20pythonu..&In-Reply-To=63b313040609181022m4e0cce12l14ff818864cf6a5e%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-September/000403.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-September/000400.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] event, interrup,	listener..proste asynchronni udalost v pythonu..</H1>
+    <B>rajcze</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20event%2C%20interrup%2C%0A%09listener..proste%20asynchronni%20udalost%20v%20pythonu..&In-Reply-To=63b313040609181022m4e0cce12l14ff818864cf6a5e%40mail.gmail.com"
+       TITLE="[Tutor PyCZ] event, interrup,	listener..proste asynchronni udalost v pythonu..">rajcze na gmail.com
+       </A><BR>
+    <I>Pondělí Září 18 19:29:58 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000403.html">[Tutor PyCZ] event, interrup,	listener..proste asynchronni udalost v pythonu..
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000400.html">[Tutor PyCZ] event, interrup,	listener..proste asynchronni udalost v pythonu..
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/date.html#404">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/thread.html#404">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/subject.html#404">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/author.html#404">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>naznak reseni:
+
+import serial
+import time
+import threading
+
+def scan_COM_ports():
+  &quot;&quot;&quot;scan for available ports. return a list of tuples (num, name)&quot;&quot;&quot;
+  available = []
+  for i in range(256):
+      try:
+          s = serial.Serial(i)
+          available.append( (i, s.portstr))
+          s.close()   #explicit close 'cause of delayed GC in java
+      except serial.SerialException:
+          pass
+  print &quot;nalezene com porty:&quot;
+  for n,s in available:
+    print &quot;(%d) %s&quot; % (n,s)
+
+
+class Timer(threading.Thread):
+  def __init__(self,sleep,port,action):
+    self.sleep=sleep
+    self.port=port
+    self.action=action
+    threading.Thread.__init__(self)
+
+  def run(self):
+    while 1:
+      time.sleep(self.sleep)
+      buff=self.port.inWaiting()
+      if buff&gt;0:
+        data=self.port.read(buff)
+        self.action(data)
+
+def zpracuj_packet(data):
+  print &quot;zpracovavam packet:&quot;,data
+
+def main():
+  scan_COM_ports()
+  a=raw_input(&quot;vyber COM port: &quot;)
+  ser=serial.Serial(a,baudrate=1200)
+
+  my_timer=Timer(0.01,ser,zpracuj_packet)
+  my_timer.start()
+
+
+
+On 9/18/06, rajcze &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">rajcze na gmail.com</A>&gt; wrote:
+&gt;<i> vytvor si timer, kterej bude v nejakym dosatatecne kratkym intervalu
+</I>&gt;<i> kontrolovat, jestli nema nejaky znaky k precteni, a kdyz jo, tak si z
+</I>&gt;<i> neho zavolej metodu, ve ktere to prectes a zpracujes.
+</I>&gt;<i>
+</I>&gt;<i> On 9/18/06, Luboš Melichar &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">lubos.melichar na gmail.com</A>&gt; wrote:
+</I>&gt;<i> &gt; experimentuju se seriovym portem..
+</I>&gt;<i> &gt; umim prijmou i poslat znak..
+</I>&gt;<i> &gt; u prijmu mam zatim nasledujici problem..
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;  fce read() mi proste ceka nez prijde nejaky znak do prijimaciho bufferu a
+</I>&gt;<i> &gt; nevykonava se do te doby nic jineho..program stoji..
+</I>&gt;<i> &gt;  mam sice fci inWaiting() ktera mi vraci kolik znaku je v prijimacim
+</I>&gt;<i> &gt; bufferu..
+</I>&gt;<i> &gt;  takze bych ho mohl sem tam skenovat a teprve pokud neni prazdny tak pomoci
+</I>&gt;<i> &gt; read() precist znak..
+</I>&gt;<i> &gt;  ..
+</I>&gt;<i> &gt;  to mi ale na python prijde krkolomne..u mikrocipu jsou interrupty, u javy
+</I>&gt;<i> &gt; listenery(listenery), jak si s tim poradit v pythonu???
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Tutor mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Linux je user friendly, ale pratele si vybira
+</I>&gt;<i>
+</I>
+
+-- 
+Linux je user friendly, ale pratele si vybira
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000403.html">[Tutor PyCZ] event, interrup,	listener..proste asynchronni udalost v pythonu..
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-September/000400.html">[Tutor PyCZ] event, interrup,	listener..proste asynchronni udalost v pythonu..
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/date.html#404">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/thread.html#404">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/subject.html#404">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-September/author.html#404">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-September/000404.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

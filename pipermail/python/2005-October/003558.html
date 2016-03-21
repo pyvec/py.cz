@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003558.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:36 GMT -->
+<HEAD>
+   <TITLE> [python] unicode
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003555.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003559.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] unicode</H1>
+    <B>Pavel Reznicek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To="
+       TITLE="[python] unicode">pavel.jindrich na tiscali.cz
+       </A><BR>
+    <I>Neděle Říjen 30 15:42:19 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003555.html">[python] unicode
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003559.html">[python] unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3558">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3558">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3558">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3558">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> geon napsal(a):
+</I>&gt;<i> 
+</I>&gt;&gt;<i> Martin Blazik napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Cau,
+</I>&gt;&gt;&gt;<i> jakym zpusobem muzu prevest unicode string do bytove reprezentace 
+</I>&gt;&gt;&gt;<i> (retezcove podoby) tak, abych data mohl ulozit do souboru (rekneme v 
+</I>&gt;&gt;&gt;<i> notaci little endian)?
+</I>&gt;&gt;&gt;<i> Tu prevodni funkci si dokazu napsat sam na par radek, spis by me 
+</I>&gt;&gt;&gt;<i> zajimalo, jestli uz neexistuje v pythonu nejaky standartni nastroj. 
+</I>&gt;&gt;&gt;<i> Zkousel jsem najit nejaky default konvertor 
+</I>&gt;&gt;&gt;<i> (<A HREF="http://python.org/doc/2.4.2/lib/standard-encodings.html#standard-encodings">http://python.org/doc/2.4.2/lib/standard-encodings.html#standard-encodings</A>), 
+</I>&gt;&gt;&gt;<i> ale taky nic nebo ho jen nevidim :)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>  
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> tutorial:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> To convert a Unicode string into an 8-bit string using a specific 
+</I>&gt;&gt;<i> encoding, Unicode objects provide an encode() method that takes one 
+</I>&gt;&gt;<i> argument, the name of the encoding. Lowercase names for encodings are 
+</I>&gt;&gt;<i> preferred.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> u&quot;äöü&quot;.encode('utf-8')
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> '\xc3\xa4\xc3\xb6\xc3\xbc'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> je to ono?
+</I>&gt;&gt;<i>
+</I>
+Martin Blazik napsal(a):
+ &gt; No neni, UTF-8 uklada kazdy znak do promenne delky (1 az 3 znaky
+ &gt; myslim). Ja chci aby se kazdy znak prelozil presne na dva bajty
+ &gt; (potrebuju aby z dat sla primo poznat delka retezce).
+ &gt; Takze u'\uFEFFAhoj' =&gt; '\xff\xfe\x41\x00\x68\x00\x6f\x00\x6a\x00'
+ &gt;
+ &gt; lachtan
+
+Kódování utf-16le (low-endian) nebo utf-16be (big-endian) by snad mohlo 
+odpovídat Vašim potřebám. Obě kódují každý znak pravidelně po dvou 
+bytech (16 bitů). Low-endian se typicky používá na počítačích s 
+procesory řady PC x86; big-endian je doma především na Motorolách 
+(tuším, že se také značí 68x; typicky Apple MacIntosh). Jde o rozdíl v 
+interním pořadí byteů při representaci číselných hodnot: Motorola začíná 
+vyššími číselnými řády (jako při psaní našich číslic), x86 začíná 
+nižšími (takže obráceně); toto pořadí se pak odráží i v kódování 
+Unikódu. Záleží na Vás, který způsob si vyberete, ale pro PC (budete-li 
+chtít výsledek číst něčím jiným, než Pythonem) je rozhodně výhodnější 
+kódovat stylem low-endian.
+Také existují 32-bitová kódování, ale s těmi zatím nemám zkušenosti. 
+Také zabírají zase dvakrát tolik místa a existují hlavně kvůli nové 
+indexové oblasti Unikódu nad 0xffff.
+Takové znaky však nejspíše
+nikdo z nás každý den nepíše.
+
+ &gt;&gt;&gt; s=u&quot;Ještě&quot;
+ &gt;&gt;&gt; s.encode('utf-16le')
+'J\x00e\x00a\x01t\x00\x1b\x01'
+ &gt;&gt;&gt; s.encode('utf-16be')
+'\x00J\x00e\x01a\x00t\x01\x1b'
+
+Pavel
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003555.html">[python] unicode
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003559.html">[python] unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3558">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3558">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3558">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3558">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003558.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:36 GMT -->
+</html>

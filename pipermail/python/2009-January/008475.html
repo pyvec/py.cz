@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008475.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:58 GMT -->
+<HEAD>
+   <TITLE> [python] xml parove a neparove tagy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xml%20parove%20a%20neparove%20tagy&In-Reply-To=%3Cfcba3d560901080037w6cddc725ld75615d9a56da4b1%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008469.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008478.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] xml parove a neparove tagy</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xml%20parove%20a%20neparove%20tagy&In-Reply-To=%3Cfcba3d560901080037w6cddc725ld75615d9a56da4b1%40mail.gmail.com%3E"
+       TITLE="[python] xml parove a neparove tagy">rainbof na gmail.com
+       </A><BR>
+    <I>Čtvrtek Leden  8 09:37:08 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008469.html">[python] vypis adresare a podadresaru podle masky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008478.html">[python] xml parove a neparove tagy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8475">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8475">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8475">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8475">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>mam dokument
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;info&gt;
+    &lt;name&gt;test&lt;/name&gt;
+    &lt;description/&gt;
+    &lt;directory&gt;/&lt;/directory&gt;
+  &lt;/info&gt;
+
+a rad bych modifikoval hodnotu description takze vysledek by pak vypadal
+takto:
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;info&gt;
+    &lt;name&gt;test&lt;/name&gt;
+    &lt;description&gt;popisek&lt;/description&gt;
+    &lt;directory&gt;/&lt;/directory&gt;
+  &lt;/info&gt;
+
+
+tady jsem nejak zamrznul. Pokud je description ve tvaru &lt;description/&gt; tak
+do nej nemuzu mimo atributu zaboha nic vlozit..
+
+import xml.dom.minidom
+from xml.dom.minidom import Node
+
+doc = xml.dom.minidom.parse('c:\\devel\\test\\pokus.xml')
+for step in doc.getElementsByTagName(&quot;info&quot;):
+    x = step.getElementsByTagName(&quot;description&quot;)[0]
+    try:
+     x.nodeValue('popisek')
+    except:
+     print &quot;a co ted ?&quot;
+
+print doc.toxml('utf-8')
+
+
+Ondřej Beránek
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090108/68b347f5/attachment.htm">http://www.py.cz/pipermail/python/attachments/20090108/68b347f5/attachment.htm</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008469.html">[python] vypis adresare a podadresaru podle masky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008478.html">[python] xml parove a neparove tagy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8475">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8475">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8475">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8475">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008475.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:58 GMT -->
+</html>

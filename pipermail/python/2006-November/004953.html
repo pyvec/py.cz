@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004953.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:15 GMT -->
+<HEAD>
+   <TITLE> [python] Statické metody v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA1F5%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004952.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004954.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Statické metody v Pythonu</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA1F5%40skil01.skil.mistni"
+       TITLE="[python] Statické metody v Pythonu">feed na centrum.cz
+       </A><BR>
+    <I>Středa Listopad  8 12:11:18 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004952.html">[python] Statické metody v Pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004954.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4953">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4953">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4953">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4953">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Stejně je ale otázka, jestli opravdu chci používat
+</I>&gt;<i> statické metody třídy. V podstatě jsou elegantní jen
+</I>&gt;<i> v případě, kdy používají proměnné stejné třídy. 
+</I>&gt;<i> A zavádění proměnných třídy v Pythonu asi taky 
+</I>&gt;<i> není moc časté.
+</I>
+&gt;<i> Odhaduji, že požadavek na použití statické metody
+</I>&gt;<i> třídy může být zlozvyk z Javy, kde to jinak nejde.
+</I>&gt;<i> V jazycích, které to umožňují, je lepší zavést
+</I>&gt;<i> pro zvláštní skupinu funkcí oddělený prostor jmen.
+</I>&gt;<i> V Pythonu se to dělá založením souboru-modulu.
+</I>&gt;<i> Zápis pak vypadá úplně stejně. 
+</I>
+Ne, tohle je zlozvyk z dynamicky typovaných jazyků, alespoň ten účel, 
+kde to chci použít. O Javě raději ani nemluvím, to je jazyk, který si na 
+objektové programování jenom hraje a kde se musíte neustále drbat levou 
+rukou za pravým uchem a obcházet nedokonalosti a nedomyšlenosti toho jazyka.
+
+Uvědomte si, že statická metoda patří do prostoru jmen třídy a její 
+potomek jí může předefinovat. Jediným rozdílem je, že statická metoda 
+nezná konkrétní instanci třídy. Takže klidně můžete udělat toto:
+
+def uhel:
+   @staticmethod
+   def static_str_na_radiany(s):
+     # tato metoda umi konvertovat matematicky
+     # uhel zapsany ve stringu na radiany
+     return blablabla;
+
+   def __add__(self, other):
+     if isinstance(other, basestring):
+       return uhel(self.__radians + self.static_str_na_radiany(other));
+     elseif:
+       # a tak dale
+
+def zemepisny_uhel(uhel):
+   def static_str_na_radiany(s):
+     # tato metoda umi konvertovat zemepisny
+     # uhel zapsany ve stringu na radiany
+     # na rozdil od stejne metody v predkovi
+     # umi konvertovat i GPS souradnice
+     return blablabla;
+
+zem_uhel = zemepisny_uhel(30.0)
+zem_uhel = zem_uhel + &quot;30N54&quot;
+
+Tohle je velmi blízké tomu co chci udělat a díky statické metodě vím, že 
+metoda __add__ ve třídě uhel bude naprosto správně fungovat i pro 
+potomky, tedy pro třídu zemepisny_uhel i jakékoli další. Stačí 
+předefinovat prostě jen statickou metodu na konverzi stringu v potomkovi 
+a všechny metody ve třídě uhel budou pracovat naprosto správně a není 
+třeba přepisovat řadu dalších metod.
+
+Pokud znáte lepší řešení, než s použitím statických metod, sem s ním.
+
+Miloslav Ponkrác
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004952.html">[python] Statické metody v Pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004954.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4953">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4953">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4953">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4953">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004953.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:15 GMT -->
+</html>

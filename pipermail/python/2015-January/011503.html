@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-January/011503.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:25 GMT -->
+<HEAD>
+   <TITLE> [python] Pozor na potize s paralelnim bzip2 (pbzip2, lbzip2)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Pozor%20na%20potize%20s%20paralelnim%20bzip2%20%28pbzip2%2C%20lbzip2%29&In-Reply-To=%3CCA%2B%3D%2BwqAQOjvLtKDEyzDyzjBVSi-DYAO7Q0YJrspOrsDxP6dgDg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-January/011502.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-January/011505.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Pozor na potize s paralelnim bzip2 (pbzip2, lbzip2)</H1>
+    <B>Petr Viktorin</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Pozor%20na%20potize%20s%20paralelnim%20bzip2%20%28pbzip2%2C%20lbzip2%29&In-Reply-To=%3CCA%2B%3D%2BwqAQOjvLtKDEyzDyzjBVSi-DYAO7Q0YJrspOrsDxP6dgDg%40mail.gmail.com%3E"
+       TITLE="[python] Pozor na potize s paralelnim bzip2 (pbzip2, lbzip2)">encukou na gmail.com
+       </A><BR>
+    <I>Úterý Leden  6 09:51:11 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-January/011502.html">[python] Pozor na potize s paralelnim bzip2 (pbzip2, lbzip2)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-January/011505.html">[python] Únorové Ostravské Pyvo s Rubači
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-January/date.html#11503">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-January/thread.html#11503">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-January/subject.html#11503">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-January/author.html#11503">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2015-01-06 9:34 GMT+01:00 Vladimir Macek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">macek na sandbox.cz</A>&gt;:
+&gt;<i> Ahoj, varovani:
+</I>&gt;<i>
+</I>&gt;<i> Zacali jsme pred casem na logy pouzivat paralelni kompresor pbzip2.
+</I>&gt;<i> Nadherne zrychli kompresi!
+</I>&gt;<i>
+</I>&gt;<i> Z principu ale vytvari tzv. multi-stream tvar, tedy vice bzip2 proudu v
+</I>&gt;<i> serii. Proto jeho format neni zcela kompatibilni s puvodnim bzip2.
+</I>&gt;<i> Dekomprese v shellu nicmene nevykazuje problemy, napriklad pomoci
+</I>&gt;<i> standardniho bzip2, bzcat).
+</I>&gt;<i>
+</I>&gt;<i> Dnes jsem se ale spalil, protoze modul bz2 z Pythonu 2.6 ani 2.7 tento
+</I>&gt;<i> multi-stream bzip2 neumi nacist:
+</I>&gt;<i>
+</I>&gt;<i> BEZ INDIKACE CHYBY (!) skonci dekompresi po n-stovkach tisic bajtu (zalezi
+</I>&gt;<i> na tom, jak byl pbzip2 spusten). Je to znamy problem, jehoz reseni se
+</I>&gt;<i> vyvojari rozhodli nebackportovat z Python 3, pouze ho zdokumentovat:
+</I>&gt;<i> <A HREF="http://bugs.python.org/issue1625.">http://bugs.python.org/issue1625.</A>
+</I>
+Backportoval to někdo jiný, jak už to u vylepšených/nových py3 modulů
+bývá: <A HREF="https://github.com/nvawda/bz2file">https://github.com/nvawda/bz2file</A>
+
+pip install bz2file
+
+
+&gt;<i> Obejdu to pomozi os.popen('bzcat ...').
+</I>&gt;<i>
+</I>&gt;<i> Takze, na bz2 nespolehat! Neni vsechno ruzove...
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-January/011502.html">[python] Pozor na potize s paralelnim bzip2 (pbzip2, lbzip2)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-January/011505.html">[python] Únorové Ostravské Pyvo s Rubači
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-January/date.html#11503">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-January/thread.html#11503">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-January/subject.html#11503">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-January/author.html#11503">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-January/011503.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:25 GMT -->
+</html>

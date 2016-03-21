@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000497.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+<HEAD>
+   <TITLE> [python] globalni promenne
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20promenne&In-Reply-To=Pine.LNX.4.33.0302111300030.31824-100000%40satyr1.zcu.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-February/000494.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-February/000499.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] globalni promenne</H1>
+    <B>Petr Mach</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20promenne&In-Reply-To=Pine.LNX.4.33.0302111300030.31824-100000%40satyr1.zcu.cz"
+       TITLE="[python] globalni promenne">gsl na seznam.cz
+       </A><BR>
+    <I>Úterý Únor 11 23:40:06 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000494.html">[python] igui - Independent GUI
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000499.html">[python] globalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#497">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#497">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#497">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#497">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+z PHP jsem zvykly mit globalni promenne v jednom
+souboru a ten pak includovat do funkci. Takze pak
+mam jednoduchou spravu techto promenych. Kdyz
+potrebuju dalsi, jednoduse ji pridam do toho souboru
+a je pristupna automaticky ve vsech funkcich.
+
+Nemusim pak jak osel do vsech funkci predavat
+handler na databazi, informace o uzivateli jako
+jeho id nebo ty nejcasteji pouzivane datove
+promenne.
+
+V pythonu mi to ale nefunguje, mam soubory
+
+*** glob.py ***
+global globVar
+globVar=&quot;set from glob&quot;
+
+*** fun1.py ***
+def fun1():
+   global globVar
+   globVar=&quot;set from fun1()&quot;
+
+*** main.py ***
+from glob import *
+
+from fun1 import *
+from fun2 import *
+
+def main():
+   global globVar
+   globVar='set from main()'
+
+print globVar
+main()
+print globVar
+fun1()
+print globVar
+
+********************
+Kdyz spustim ten main.py soubor, dostanu tento
+vysledek:
+set from glob
+set from main()
+set from main()
+
+A ja bych si predstavoval a potreboval, aby ten
+posledni radek byl set from fun1(). Zkousel jsem
+dat ten from global import * i do soubory fun1.py,
+ale nicemu to nepomohlo, takze nevim, jak se
+mezi funkcemi predavat globalni data.
+
+Jak toho mam dosahnout?
+Idealni by bylo, kdybych mohl psat:
+
+def fun1():
+   from global import *
+   globVar=&quot;set from fun1()&quot;
+
+tedy obdobu toho co se v PHP dela takto:
+function fun1(){
+   include &quot;global.php&quot;;
+   globVar=&quot;set from fun1()&quot;;
+}
+Coz mi zpristupni ve funkci vsechny globalni promm.
+at uz jsou kdekoliv, ale to Python zrejme nezvlada.
+Tak doufam ze aspon zvlada sdileni globalnich promennych
+mezi funkcemi z ruznych souboru, protoze psat vsechny
+funkce do jednoho megoveho souboru je tezce neprehledny
+a predavat je vsechny jako argument funkcce taky neni
+zrovna to nejlepsi. Kazdopadne, jestlize v jednom
+souboru nadefinuji nejaka staticka data, treba rozsahle
+pole nejakych hodnot, tak k nemu potrebuju mit pristup
+z ruznych funkci definovanych v ruznych souborech.
+
+Petr Mach
+
+
+
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000494.html">[python] igui - Independent GUI
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000499.html">[python] globalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#497">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#497">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#497">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#497">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000497.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+</html>

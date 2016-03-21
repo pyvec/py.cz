@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007559.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:41 GMT -->
+<HEAD>
+   <TITLE> [python] Vytváření textových souborů, prosím, poraďte
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVytv%3DE1%3DF8en%3DED_textov%3DFDch_soubor%3DF9%3D2C_%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fpros%3DEDm%3D2C_pora%3DEFte%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007562.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vytváření textových souborů, prosím, poraďte</H1>
+    <B>Jarek Krcmar</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVytv%3DE1%3DF8en%3DED_textov%3DFDch_soubor%3DF9%3D2C_%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fpros%3DEDm%3D2C_pora%3DEFte%3F%3D&In-Reply-To="
+       TITLE="[python] Vytváření textových souborů, prosím, poraďte">krcmar1 na volny.cz
+       </A><BR>
+    <I>Neděle Červen  1 17:29:03 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007562.html">[python] Vytváření textových souborů, prosím, poraďte
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7559">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7559">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7559">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7559">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+Zdravím,
+
+omlouvám se za to, že jsem skopíroval obsah desáté lekce.  Mě, jakožto 
+nevidomého zajímá text a nikoli grafika, proto bych rád vytvořil textový 
+soubor, který by bylo možné číst přímo z klávesnice.
+
+Nevím ale, jak to mám udělat, protože popis zadání se nái zdá poněkud 
+nejasný.
+
+Jakmile jsem si totiž vytvořil textový soubor, který je v té lekci zmíněn, 
+tak mi vyskočí hláška o tom, že jde o Syntax error.
+
+Jarek
+
+Tak, konečně se dostáváme k práci se soubory. Ukážeme si, jak ukládat a 
+načítat data
+do a ze souborů.
+Telefonní seznam 3.
+T
+ak, konečně se dostáváme k práci se soubory. Ukážeme si, jak ukládat a 
+načítat data
+do a ze souborů.
+Trocha teorie
+Soubory na disku nejsou nic jiného než skládka čísel a znaků. Téměř všechny 
+programovací
+jazyky defaultně pracují s obyčejnými textovými soubory bez češtiny. I v
+Python
+u existují funkce na vytvoření souboru nebo složky, přejmenování, kopie, 
+přesun,
+zjištění data a velikosti, apod. O těch ale někdy jindy.
+Začínáme
+Vyzkoušejte:
+nazev='MujPrvniSoubor.txt'
+soubor=file(nazev,'w')
+vstup=raw_input('Zadej text: ')
+soubor.write(vstup)
+soubor.close()
+Následně si v adresáři, kde máte tento script uložen, najděte soubor s 
+nazvem 'MujPrvniSoubor.txt'
+a prohlédněte si jeho obsah. Vyzkoušejte několikrát. Ten původní obsah by se 
+měl
+vždy ztratit a bude tam jen to poslední, co jste zadali....
+Pokud zadáte české znaky, soubor se pak uloží v tom kódovaní, ve kterém jste 
+to zadávali.
+Lépe řečeno, které máte nastaveno ve vašem prostředí. Já konkrétně mám Latin 
+II (cp852)
+pod černým pythonovským shellem. Při prohlížení PSPadem (na Linuxu a Macu 
+vhodným
+editorem, který umí s různými kódování pracovat), když si nastavíte správně 
+kodovaní
+češtiny, uvidíte správný zápis.
+Tři druhy přístupu
+Obecně mohou být soubory otevřeny ve třech režimech: pro čtení, pro zápis 
+(nový soubor)
+a pro přidávání. Jednotlivé režimy se od sebe odlišují druhým parametrem ve 
+funkci
+file(). První parametr je samozřejmě název souboru.
+čtení: 'r' jako 'read'
+zápis: 'w' jako 'write' (vznikne vždy nový soubor, pokud již existoval, 
+přepíše se)
+přidání: 'a' jako 'append' (pokud neexistuje, vytvoří se nový)
+Metody souborů
+Jak jsem již v předchozích lekcích naznačoval, metoda je funkce přiřazená 
+vždy k
+proměnné (objektu). Zápis je objekt tečka metoda (případné parametry).
+soubor.read() - přečtení celého souboru (samozřejmě v režimu 'r')
+soubor.write(řetězec) - zápis na disk (v režimu 'w')
+soubor.flush() - vynucený zápis na disk ještě před close()
+soubor.close() - uzavření souboru
+Upozorňuji, že všechna data se
+fyzicky
+ do souboru zapíšou až s metodou close(). Předtím zůstávají ve vnitřní 
+paměti - je
+to z důvodu rychlosti. Chceteli donutit zápis na disk před close(), použijte 
+flush().
+Čtení souboru řádek po řádku
+Cyklus for se v
+Python
+u uplatní velmi názorně i u souborů. Přidejte si ručně do vašeho souboru 
+několik
+řádek textu. Nezapomeňte uložit a vyzkoušejte:
+soubor=file('MujPrvniSoubor.txt','r')
+cisloRadku=0
+for radek in soubor:
+cisloRadku=cisloRadku+1
+print &quot;Radek&quot;, cisloRadku,&quot;:&quot;, radek,
+soubor.close()
+Čárku za 'radek' jsem udělal schválně. Víte proč? Vyzkoušejte...
+Ukládání čísel
+Chceme-li uložit obyčejná čísla, musíme je převést na text, protože funkce 
+write()
+přijímá jen textové proměnné. Vyzkoušejte:
+soubor=file('MujPrvniSoubor.txt','a')
+posloupnost=[5,48,74,89,544]
+for cislo in posloupnost:
+cisloText=str(cislo)
+soubor.write(cisloText+', ')
+soubor.write('\n')
+soubor.close()
+Toto je základ pro práci se soubory. Je třeba si to řádně několikrát 
+vyzkoušet a
+pochopit. Když něco nefunguje tak to nesmí být důvod k tomu &quot;já na to 
+kašlu!&quot;, ale
+spíše &quot;sakra, to by bylo abych na to nepřišel!&quot;. Zkoušejte, experimentujte, 
+ptejte
+se a čtěte chybové hlášky. O těch by mohla být jedna z dalších lekcí.
+Úkol
+Zadání
+Úkol je více než jasný. Uložte data z Vašeho telefonního seznamu do souboru. 
+Pošlete
+mi program i uložená data. Uložená data vložte jako komentář na konec 
+scriptu.
+Extra pro pokročilé
+Načtěte se souboru data vašeho telefonního seznamu. Je to mnohem složitější 
+než pouhé
+uložení. Budete muset číst řádku po řádce a v řádku nějak od sebe oddělovat 
+hodnoty,
+které tam jsou. Připomínám, že načtený řádek není nic jiného, než jeden 
+řetězec.
+Poznámka
+Úkoly známkuji a opravuji skutečně rád a nevím, jestli úkoly, které dávám 
+jsou moc
+těžké, nebo moc lehké, nebo to nikdo nečte, protože žádné vypracované úkoly 
+nedostávám.
+Pavel Kosina
+Autor programuje v Pythonu.
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007562.html">[python] Vytváření textových souborů, prosím, poraďte
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7559">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7559">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7559">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7559">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007559.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:42 GMT -->
+</html>

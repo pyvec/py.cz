@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000509.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+<HEAD>
+   <TITLE> [python] mini web server
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20mini%20web%20server&In-Reply-To=20030212022720.GB22044%40penguin.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-February/000506.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-February/000480.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] mini web server</H1>
+    <B>Jarda Pachola</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20mini%20web%20server&In-Reply-To=20030212022720.GB22044%40penguin.cz"
+       TITLE="[python] mini web server">j_p_misc na centrum.cz
+       </A><BR>
+    <I>Středa Únor 12 10:08:17 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000506.html">[python] mini web server
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000480.html">[python] Re: Movies
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#509">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#509">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#509">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#509">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A nestacilo by to udelat pres dva thready?
+
+J.
+
+&gt;<i> javorove listy se opet hlasi ke slovu ;-)
+</I>&gt;<i>
+</I>&gt;<i> v emailove adrese nepouziva diakritiku, tak nas lehce rozeznate ;-),
+</I>&gt;<i> krome toho javoru, of course...a ted proc pisu:
+</I>&gt;<i>
+</I>&gt;<i> toz chlapi, cozpak nikdo nevi, jak toto udelat? oni, takove kapacity? ;-)
+</I>&gt;<i>
+</I>&gt;<i> On Sun, Feb 09, 2003 at 08:30:29PM +0100, Petr Vanek wrote:
+</I>&gt;<i> &gt; On Mon, Feb 03, 2003 at 09:12:01PM +0100, Michal Molhanec wrote:
+</I>&gt;<i> &gt; &gt; On Mon, 3 Feb 2003 20:47:26 +0100 Petr Vanek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vanous na penguin.cz</A>&gt; wrote:
+</I>&gt;<i> &gt; &gt; jiste viz dokumentace - moduly: SimpleHTTPServer, CGIHTTPServer,
+</I>&gt;<i> &gt; &gt; BaseHTTPServer, SocketServer atd. dle libosti
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; diky vsem, uz mi to beha, jeste mam jeden dotaz:
+</I>&gt;<i> &gt; potrebuji spustit z jednoho scriptu dva servery (jeden httpd, druhy pro
+</I>&gt;<i> &gt; sql server), nicmene po spusteni jednoho se na ten druhy uz nedostane
+</I>&gt;<i> &gt; rada...musim pouzit fork (popr. popen), nebo to jde i jinak? nechci
+</I>&gt;<i> &gt; spoustet dva scripty...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; prikladam onen proklad:
+</I>&gt;<i> &gt; PORT = 2222
+</I>&gt;<i> &gt; #DB = &quot;test&quot;
+</I>&gt;<i> &gt; DB = &quot;books&quot;
+</I>&gt;<i> &gt; #DBDIR = &quot;/home/vanous/htbin/db&quot;
+</I>&gt;<i> &gt; DBDIR = &quot;/home/dokumenty/python/bookshelve/bookdb&quot;
+</I>&gt;<i> &gt; PW = &quot;admin&quot;
+</I>&gt;<i> &gt; STARTUP = &quot;servers&quot;
+</I>&gt;<i> &gt; doc_root = ('/home/vanous/htbin/')
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; import sys, socket
+</I>&gt;<i> &gt; from gadfly.server import Server, Policy
+</I>&gt;<i> &gt; from gadfly.client import gfclient
+</I>&gt;<i> &gt; import BaseHTTPServer, SimpleHTTPServer, CGIHTTPServer
+</I>&gt;<i> &gt; import os
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; def run(HandlerClass = CGIHTTPServer.CGIHTTPRequestHandler, ServerClass =
+</I>&gt;<i> &gt; BaseHTTPServer.HTTPServer): server_address=('',7000)
+</I>&gt;<i> &gt;     httpd=ServerClass(server_address, HandlerClass)
+</I>&gt;<i> &gt;     os.chdir(doc_root)
+</I>&gt;<i> &gt;     httpd.serve_forever()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; def main():
+</I>&gt;<i> &gt;     machine = 'localhost' #socket.gethostname()
+</I>&gt;<i> &gt;     port = PORT
+</I>&gt;<i> &gt;     print &quot;attempting to start the server&quot;
+</I>&gt;<i> &gt;     print &quot;making a server on&quot;, PORT, DB, DBDIR, PW, STARTUP
+</I>&gt;<i> &gt;     S = Server(PORT, DB, DBDIR, PW, STARTUP)
+</I>&gt;<i> &gt;     print &quot;initializing the server&quot;
+</I>&gt;<i> &gt;     S.init()
+</I>&gt;<i> &gt;     print &quot;starting the server&quot;, S.connection
+</I>&gt;<i> &gt;     S.start()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; def startup(admin_policy, connection, Server_instance):
+</I>&gt;<i> &gt;     print
+</I>&gt;<i> &gt; #    admin_policy[&quot;dumpwork&quot;] = &quot;select * from work&quot;
+</I>&gt;<i> &gt; #    test1 = Policy(&quot;test1&quot;, &quot;test1&quot;, connection, queries=0)
+</I>&gt;<i> &gt; #    test = Policy(&quot;test&quot;, &quot;test&quot;, connection, queries=0)
+</I>&gt;<i> &gt; #    test1[&quot;qlike&quot;] = &quot;select * from likes where drinker=?&quot;
+</I>&gt;<i> &gt; #    test[&quot;updatenan&quot;] = &quot;&quot;&quot;
+</I>&gt;<i> &gt; #      update likes
+</I>&gt;<i> &gt; #      set beer=?, perday=?
+</I>&gt;<i> &gt; #      where drinker='nan'
+</I>&gt;<i> &gt; #    &quot;&quot;&quot;
+</I>&gt;<i> &gt; #    test[&quot;getnan&quot;] = &quot;&quot;&quot;
+</I>&gt;<i> &gt; #    select * from likes where drinker='nan'
+</I>&gt;<i> &gt; #    &quot;&quot;&quot;
+</I>&gt;<i> &gt; #    from CGIHTTPServer import test
+</I>&gt;<i> &gt; #    test()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; if __name__==&quot;__main__&quot;:
+</I>&gt;<i> &gt;     main()
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000506.html">[python] mini web server
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000480.html">[python] Re: Movies
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#509">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#509">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#509">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#509">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000509.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+</html>

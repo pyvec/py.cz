@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-April/004250.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:41 GMT -->
+<HEAD>
+   <TITLE> [python] Zope a obrázek v MySQL
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZope_a_obr%3DE1zek_v_MySQL%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-April/004249.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-April/004251.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zope a obrázek v MySQL</H1>
+    <B>Vaclav Vais</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FZope_a_obr%3DE1zek_v_MySQL%3F%3D&In-Reply-To="
+       TITLE="[python] Zope a obrázek v MySQL">xeleos na gmail.com
+       </A><BR>
+    <I>Středa Duben 12 18:08:10 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-April/004249.html">[python] &quot;hibernacia&quot;
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-April/004251.html">[python] tkintercz
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-April/date.html#4250">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-April/thread.html#4250">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-April/subject.html#4250">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-April/author.html#4250">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+potřebuji ukládat obrázek v databázi MySQL. Našel jsem na Zope.org
+nějaké HowTo, ale ...(<A HREF="http://www.zope.org/Members/murphy/MySQL-BLOBs">http://www.zope.org/Members/murphy/MySQL-BLOBs</A>)
+V python scriptu načítám z databáze přes &quot;Z SQL Method&quot; obrázek z
+DB:
+
+photo = container.getPhoto(obr_id=obr_id)
+container.REQUEST.RESPONSE.setHeader('content-type', 'image/jpeg' )
+blob=photo[0].Pic
+return blob
+
+Tento script mi vrací: blob=array{'c','.......správná data......'}
+Když dám blob.[1] tak mi nahlásí chybu &quot;You are not allowed to
+access 'a particular str' in this context&quot;
+Našel jsem ve zdrojáku ovladače MySQL metodu, která to vypisuje a
+změnil jsem to tak, aby mi nedávala array, ale rovnou data.
+Obrázek se mi už načítá, ale pouze prvních 64Kb. Stejně tak i
+uploadu se uloží jen 64Kb. :(
+
+Používám:
+Zope 2.9.0
+MySQL 4.1.18
+ZMySQLDA 2.0.8
+MySQL-python.exe-1.2.0.win32-py2.4
+
+Poradí mi někdo prosím?
+
+Děkuji
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-April/004249.html">[python] &quot;hibernacia&quot;
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-April/004251.html">[python] tkintercz
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-April/date.html#4250">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-April/thread.html#4250">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-April/subject.html#4250">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-April/author.html#4250">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-April/004250.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:41 GMT -->
+</html>

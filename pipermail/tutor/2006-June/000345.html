@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-June/000345.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] zřetězení stringů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DF8et%3DECzen%3DED_string%3DF9%3F%3D&In-Reply-To=44984E92.8010205%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-June/000344.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-June/000347.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] zřetězení stringů</H1>
+    <B>Tomas Brabenec</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DF8et%3DECzen%3DED_string%3DF9%3F%3D&In-Reply-To=44984E92.8010205%40centrum.cz"
+       TITLE="[Tutor PyCZ] zřetězení stringů">konference na brabenec.net
+       </A><BR>
+    <I>Středa Červen 21 08:50:51 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000344.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000347.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/date.html#345">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/thread.html#345">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/subject.html#345">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/author.html#345">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ano presne tak.
+Jde o to, ze kdyz treba jen spojujete dve vety typu. &quot;Dnes je 
+hezky.&quot;+&quot;Karel je venku&quot; tak je to OK.
+
+Ale pokud tech vet mate treba dvacet, padesat ci vic, tak je dobre 
+pouzit napr.:
+
+text_celek = []
+text = text_celek.append
+
+text(&quot;Dnes je hezky&quot;)
+text(&quot;Karel je venku&quot;)
+...
+.
+..
+.
+.
+.
+.
+text(&quot;to uz by mohlo stacit&quot;)
+
+print &quot;\n&quot;.join(text_celek)
+
+
+Tomas Brabenec
+<A HREF="http://brabenec.net/">http://brabenec.net</A> | <A HREF="http://uzdroje.cz/">http://uzdroje.cz</A>
+ 
+
+
+
+Dne 20.6.2006 21:37, Bohumil Douša napsal(a):
+&gt;<i> Tak jsem odpověď dostal na stránkách www.py.cz:
+</I>&gt;<i>
+</I>&gt;<i> &quot;Pythonovské řetězce jsou totiž neměnné (immutable, narozdíl od 
+</I>&gt;<i> pascalovských). V každém cyklu se musí vytvořit nový řetězec (a starý 
+</I>&gt;<i> se zahazuje). To může vést k neočekávanému poklesu rychlosti 
+</I>&gt;<i> provádění. Spojování řetězců pomocí operátorů + nebo += je při 
+</I>&gt;<i> provádění několika změn v pořádku, ale při použití v cyklu se to 
+</I>&gt;<i> nedoporučuje.&quot;
+</I>&gt;<i>
+</I>&gt;<i> Bohumil Douša napsal(a):
+</I>&gt;&gt;<i> Dobrý den,
+</I>&gt;&gt;<i> začínám s pythonem a právě jsem si v jedné knize přečetl, že se nemá 
+</I>&gt;&gt;<i> pro zřetězení používat znaménko &quot;+&quot;, protože prý vytváří při každém 
+</I>&gt;&gt;<i> použití nový objekt a že je lépe použít funkci z modulu string 
+</I>&gt;&gt;<i> &quot;string.join&quot;.
+</I>&gt;&gt;<i> Jako příklad použití &quot;+&quot; je uvedeno(toto prý vytvoří dva objekty):
+</I>&gt;&gt;<i> x = &quot;ahoj &quot; + &quot;svete&quot;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Mohl bych poprosit o nastínění toho, že &quot;+&quot; vytváří nový objekt - jak 
+</I>&gt;&gt;<i> mám toto chápat?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Děkuji za info a jsem s pozdravem
+</I>&gt;&gt;<i> B. Douša
+</I>&gt;&gt;<i> ------------------------------------------------------------------------
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Tutor mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20060621/c5c464af/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20060621/c5c464af/attachment.htm</A> 
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000344.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-June/000347.html">[Tutor PyCZ] zřetězení stringů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/date.html#345">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/thread.html#345">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/subject.html#345">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-June/author.html#345">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-June/000345.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

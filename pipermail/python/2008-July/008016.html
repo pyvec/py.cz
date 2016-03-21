@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008016.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:38 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátor a přístup do jmenného prostoru třídy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FDekor%3DE1tor_a_p%3DF8%3DEDstup_do_jmenn%3DE9ho_p%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Frostoru_t%3DF8%3DEDdy%3F%3D&In-Reply-To=d2219e620807231122h51ab484p4a65ce1be984e885%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/008015.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/008017.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátor a přístup do jmenného prostoru třídy</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FDekor%3DE1tor_a_p%3DF8%3DEDstup_do_jmenn%3DE9ho_p%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Frostoru_t%3DF8%3DEDdy%3F%3D&In-Reply-To=d2219e620807231122h51ab484p4a65ce1be984e885%40mail.gmail.com"
+       TITLE="[python] Dekorátor a přístup do jmenného prostoru třídy">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Středa Červenec 23 20:31:14 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008015.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008017.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8016">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8016">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8016">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8016">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;&gt;&gt;<i> Potřeboval bych, aby dekorátor měl přístup k self.bar, aby mohl číst
+</I>&gt;&gt;&gt;<i> co je zrovna v té proměnné, na aktuální funkčnost nekoukejte, jenom
+</I>&gt;&gt;&gt;<i> jsem chtěl nastínit jak to vypadá. Nevím jak to napsat tak, aby se ten
+</I>&gt;&gt;&gt;<i> dekorátor k tomu dostal :( Potřeboval bych totiž uvnitř dekorátoru s
+</I>&gt;&gt;&gt;<i> onou self.bar pracovat ..
+</I>
+Nejak takhle?
+
+def dekorator():
+ def decorate(fce):
+   def wrapper(*args, **kwargs):
+     instance = args[0]
+     # moznost 1: print instance.__dict__['bar']
+     # moznost 2: print getattr(instance, 'bar')
+   return wrapper
+ return decorate
+
+class Foo:
+ def __init__(self):
+   self.bar = &quot;promenna&quot;
+
+ @dekorator()
+ def metoda(self):
+   print &quot;ja jsem metoda&quot;
+
+app = Foo()
+app.metoda()
+
+  Jirka
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008015.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008017.html">[python] Dekorátor a přístup do jmenného prostoru třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8016">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8016">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8016">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8016">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008016.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:38 GMT -->
+</html>

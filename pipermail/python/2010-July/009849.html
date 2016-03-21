@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009849.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:27 GMT -->
+<HEAD>
+   <TITLE> [python] Buffer overflow na Win7?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Buffer%20overflow%20na%20Win7%3F&In-Reply-To=%3CAANLkTimYbXaS0Q85isH6CQ6AU_mt3IBqQgnpbdHqLaI9%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009848.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009850.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Buffer overflow na Win7?</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Buffer%20overflow%20na%20Win7%3F&In-Reply-To=%3CAANLkTimYbXaS0Q85isH6CQ6AU_mt3IBqQgnpbdHqLaI9%40mail.gmail.com%3E"
+       TITLE="[python] Buffer overflow na Win7?">slush na centrum.cz
+       </A><BR>
+    <I>Středa Červenec 14 23:00:51 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009848.html">[python] nabidka prace django
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009850.html">[python] Buffer overflow na Win7?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9849">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9849">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9849">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9849">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+narazil jsem prave na situaci, ktere vubec nerozumim.
+
+Vyvijim par dni jeden projekt pro praci se soubory - na Linuxu funguje vse
+OK. Dnes jsem chtel pokracovat na vyvoji na svem druhem pocitaci s
+Win7 a python2.6, ale aplikace mi po spusteni misto ocekavaneho
+textoveho vystupu zobrazila nekolik kB binarnich dat. Nekolik hodin
+jsem stravil izolaci problemu, az jsem zjistil, ze mi na pocitaci
+nefunguje ani takovyto obycejny priklad:
+
+t = file('blabla.txt', 'a+')
+t.write(&quot;Lorem ipsum dolor sit amet&quot;)
+print t.read()
+t.close()
+
+Ocekaval jsem, ze se vypise prazdny retezec (vzhledem k tomu, ze se
+snazim cist na konci souboru). Tento priklad ale opakovane a bez
+vyjimky do konzole vypise nekolik kB binarnich dat, mezi kterymi
+dokazu identifikovat napriklad jmena ostatnich souboru v aktualnim
+adresari - predpokladam, ze mi python zobrazil cast surovych dat
+filesystemu.
+
+t = file('blabla.txt', 'a+')
+t.write(&quot;Lorem ipsum dolor sit amet&quot;)
+t.seek(0)
+print t.read()
+t.close()
+
+V teto verzi jsem pridal pred read seek. Zde bych ocekaval, ze print
+vypise tentyz text, ktery jsem do souboru zapsal. Skript ale vypise
+vyjimku IOError: [Errno 9] Bad file descriptor
+
+Zkousel jsem kde co - restart pocitace, zkopirovani skriptu do jine
+slozky - ale nic nepomohlo a predkladane dva skripty mi proste
+nefunguji. Je tady neco, co mi uniklo? Nebo se jedna opravdu o chybu v
+Pythonu? Podotykam, ze tyto skripty pod pythonem 2.6 na linuxu
+normalne funguji a ani ten pracovni pocitac s Win7 neprojevuje zadne
+priznaky jinych problemu.
+
+Diky za kazdy napad,
+Marek
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009848.html">[python] nabidka prace django
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009850.html">[python] Buffer overflow na Win7?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9849">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9849">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9849">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9849">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009849.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:27 GMT -->
+</html>

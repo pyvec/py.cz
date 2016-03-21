@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003449.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:30 GMT -->
+<HEAD>
+   <TITLE> [python] odstraneni radku v souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20odstraneni%20radku%20v%20souboru&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003448.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003450.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] odstraneni radku v souboru</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20odstraneni%20radku%20v%20souboru&In-Reply-To="
+       TITLE="[python] odstraneni radku v souboru">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Říjen  7 11:43:02 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003448.html">[python] Generator a generatorovy vyraz (bylo RE: Diskuse:
+	&quot;Strucnyseznam&quot;)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003450.html">[python] odstraneni radku v souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3449">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3449">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3449">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3449">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Řešení takových věcí je obtížné, když není přesně 
+známo, co se má řešit. Tak například:
+
+Může se opakovat definice se stejným názvem souboru?
+Má se to slívat dohromady (více definic pro jeden soubor)?
+Záleží nějak na pořadí? Má se zachovávat pořadí?
+Vyskytují se tam ještě nějaké složitější příklady?
+Může se tam něco složitějšího vyskytnout v budoucnu?
+
+Pokud to v budoucnu nebude komplikovanější, pak bych 
+doporučil při sbírání pro každou položku KOD...
+vytvořit řetězec ve stylu &quot;nazev souboru1|1.3|KOD-01-01-01-06&quot;
+a cpát to do množiny řetězců. Tu pak konvertovat
+na seřazený seznam a ten zpracovat při generování 
+výstupního souboru -- jak naznačil Petr Vaněk.
+
+pepr
+ 
+
+(původní text)
+	
+	jo, diky toto funguje super az na jednu vec. Pokud v tom souboru nejsou ty cisla za hvezdickou serazeny, tj. vypada to napr. takto:
+	 
+	nazev souboru1
+	 * 1.3:
+	     KOD-01-01-01-06
+	 * 1.4:
+	     KOD-01-01-01-04
+	 * 1.4:
+	     KOD-01-01-01-13
+	 * 1.3:
+	     KOD-01-01-01-01
+	 * 1.3:
+	     KOD-01-01-01-02
+	 * 1.3:
+	     KOD-01-01-01-05
+	 * 1.3:
+	     KOD-01-01-01-07
+	 
+	tak to udela toto:
+	 
+		nazev souboru1
+	 * 1.3:
+	     KOD-01-01-01-06
+	 * 1.4:
+	     KOD-01-01-01-04
+	     KOD-01-01-01-13
+	     KOD-01-01-01-01
+	     KOD-01-01-01-02
+	     KOD-01-01-01-05
+	     KOD-01-01-01-07
+	 
+	a melo to udelat tohle:
+	 
+	nazev souboru1
+	 * 1.3:
+	     KOD-01-01-01-06
+	     KOD-01-01-01-01
+	     KOD-01-01-01-02
+	     KOD-01-01-01-05
+	     KOD-01-01-01-07
+	 * 1.4:
+	     KOD-01-01-01-04
+	     KOD-01-01-01-13
+	
+		co s tim?
+	 
+	diky
+	
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003448.html">[python] Generator a generatorovy vyraz (bylo RE: Diskuse:
+	&quot;Strucnyseznam&quot;)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003450.html">[python] odstraneni radku v souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3449">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3449">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3449">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3449">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003449.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:30 GMT -->
+</html>

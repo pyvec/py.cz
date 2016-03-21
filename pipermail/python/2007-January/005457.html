@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005457.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:02 GMT -->
+<HEAD>
+   <TITLE> [python] Jak ukoncit podprogram po fatalnej chybe bez toho aby	sa ukoncil aj hlavny program
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20ukoncit%20podprogram%20po%20fatalnej%20chybe%20bez%20toho%20aby%0A%09sa%20ukoncil%20aj%20hlavny%20program&In-Reply-To=OF0C3E59E0.C4110C30-ONC1257274.00364F57-C1257274.00375ACD%40pds.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005455.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005459.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak ukoncit podprogram po fatalnej chybe bez toho aby	sa ukoncil aj hlavny program</H1>
+    <B>radek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20ukoncit%20podprogram%20po%20fatalnej%20chybe%20bez%20toho%20aby%0A%09sa%20ukoncil%20aj%20hlavny%20program&In-Reply-To=OF0C3E59E0.C4110C30-ONC1257274.00364F57-C1257274.00375ACD%40pds.sk"
+       TITLE="[python] Jak ukoncit podprogram po fatalnej chybe bez toho aby	sa ukoncil aj hlavny program">py.cz na svarz.cz
+       </A><BR>
+    <I>Středa Leden 31 11:14:33 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005455.html">[python] Jak ukoncit podprogram po fatalnej chybe bez toho aby sa ukoncil aj hlavny program
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005459.html">[python] Jak ukoncit podprogram po fatalnej chybe bez toho aby	sa ukoncil aj hlavny program
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5457">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5457">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5457">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5457">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ukonci se, protoze vse jede v jednom procesu.
+
+Importem se nevola program, ale importuje source do namespacu.
+
+Lek - nastartovat consolovy prg jako subproces.
+
+Radek
+
+On 1/31/07, <A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A> &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A>&gt; wrote:
+&gt;<i> Mam podprogram v module
+</I>&gt;<i> ----------- skript consolepgm.py ------------
+</I>&gt;<i> import sys
+</I>&gt;<i>
+</I>&gt;<i> class pgm:
+</I>&gt;<i>   def __init__(self):
+</I>&gt;<i>     pass
+</I>&gt;<i>
+</I>&gt;<i>   def cosi(self):
+</I>&gt;<i>     pass
+</I>&gt;<i>
+</I>&gt;<i>   def kdesi(self):
+</I>&gt;<i>     pass
+</I>&gt;<i>
+</I>&gt;<i>   def run(self):
+</I>&gt;<i>     for j in range(9):
+</I>&gt;<i>       if j!=7:
+</I>&gt;<i>         print &quot;running...&quot;
+</I>&gt;<i>       else:
+</I>&gt;<i>         print &quot;j = %d&quot; %j
+</I>&gt;<i>         print &quot;Stop&quot;
+</I>&gt;<i>         sys.exit()
+</I>&gt;<i>
+</I>&gt;<i> if __name__ == &quot;__main__&quot;:
+</I>&gt;<i>   mypgm=pgm()
+</I>&gt;<i>   mypgm.run()
+</I>&gt;<i> ---------------- koniec --------------------
+</I>&gt;<i>
+</I>&gt;<i> a hlavny program z ktoreho ho volam takto
+</I>&gt;<i> --------------- skript ---------------------
+</I>&gt;<i> from consolepgm import pgm
+</I>&gt;<i> #
+</I>&gt;<i> print &quot;spustam program...&quot;
+</I>&gt;<i> mypgm=pgm()
+</I>&gt;<i> mypgm.run()
+</I>&gt;<i> print &quot;koniec programu&quot;
+</I>&gt;<i> ---------------- koniec --------------------
+</I>&gt;<i>
+</I>&gt;<i> Problem: sys.exit() ukonci vsetko, t. j. nie len volany program, ale aj
+</I>&gt;<i> volajuci, t.j
+</I>&gt;<i> hlaska &quot;koniec programu&quot; sa nikdy nevypise. Rad by som ukoncil len volany
+</I>&gt;<i> podprogram tak,
+</I>&gt;<i> aby hlavny program pokracoval dalej. Ide to nejako?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Mgr. Ing. Roman MIKLÓŠ
+</I>&gt;<i> Prvá stavebná sporiteľňa a.s.
+</I>&gt;<i> Bajkalská 30, P. O. Box 48
+</I>&gt;<i> 829 48  Bratislava 25
+</I>&gt;<i> Tel.: +421/ 2 / 582 31 174
+</I>&gt;<i> Fax: +421/ 2 / 582 31 109
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005455.html">[python] Jak ukoncit podprogram po fatalnej chybe bez toho aby sa ukoncil aj hlavny program
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005459.html">[python] Jak ukoncit podprogram po fatalnej chybe bez toho aby	sa ukoncil aj hlavny program
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5457">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5457">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5457">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5457">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005457.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:02 GMT -->
+</html>

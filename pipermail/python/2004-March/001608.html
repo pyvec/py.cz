@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-March/001608.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:44 GMT -->
+<HEAD>
+   <TITLE> [python] import
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20import&In-Reply-To=200403102027.i2AKRnKa026351%40www1.pobox.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-March/001607.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-March/001612.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] import</H1>
+    <B>Zdenek Pavlas</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20import&In-Reply-To=200403102027.i2AKRnKa026351%40www1.pobox.sk"
+       TITLE="[python] import">pavlas na nextra.cz
+       </A><BR>
+    <I>Čtvrtek Březen 11 10:15:26 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001607.html">[python] import
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001612.html">[python] import
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-March/date.html#1608">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/thread.html#1608">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/subject.html#1608">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/author.html#1608">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>azurIt wrote:
+
+&gt;<i> potrebujem a pouzivam, cize ci je lepsje urobit 'import socket' 
+</I>&gt;<i> alebo 'from socket import socket, AF_INET, SOCK_STREAM, error' ?
+</I>
+Zalezi pripad od pripadu. Pokud z modulu pouzivate vice nez 2-4 
+symboly, nebo hrozi kolize jmen, je lepsi prvni pripad. Pokud 
+importujete jen jednu fuknci, je lepsi druhy pristup. Treti 
+varinata (from x import *) je v Pythonu omylem :P
+
+Pro modul 'socket' je urcite lepsi 'import socket', minimalne proto
+ze mit globalni symbol 'error' == 'socket.error' je pekna blbost.
+
+Nuti vas k tomu take dalsi chyba Pythonu, a sice select.error,
+ktery je nepochopitelne ruzny od socket.error, a ani jeden neni 
+podtridou toho druheho, takze v except: musite vzdy uvadet oba.
+
+&gt;<i> lepsi ten druhy sposob ale takmer vsade (napr. help ku pythonovi) sa 
+</I>&gt;<i> pouziva ten prvy ;)
+</I>
+Nejlepsi je pouzivat prvni zpusob, druhy pouze v pripade ze
+importujete symboly ktere soucasne 1) se nevyskytuji i v jinych 
+modulech, 2) nemeni se (tj nejde o globalni literal, ktery jine
+funkce nastavuji) 3) nedelate reload (modul). 
+
+Co do rychlosti je 'modul.symbol' o jeden dict lookup pomalejsi,
+ale pokud je to opravdu potreba urychlit (uvnitr opakovane smycky),
+muzete vzdy mimo smycku udelat symbol = modul.symbol, a pak 
+se odkazovat primo. Mnohem casteji ale volate metody objektu 
+nez globalni funkce v jinych modulech, takze to stejne
+nepotrebujete delat :)
+
+-- 
+Zdenek Pavlas
+Application Developer
+NEXTRA Czech Republic s.r.o.  <A HREF="http://www.nextra.cz/">http://www.nextra.cz</A>
+V Celnici 10 / CZ - 117 21 Praha 1 / Czech Republic
+Tel: +420/2/96 355 111
+E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">zdenek.pavlas na nextra.com</A>
+
+Contact address:
+Dům Scala / Moravské nám. 3 / 602 00 Brno, Czech Republic
+Tel: +420/5/43 554 170
+Fax: +420/5/43 554 112, 214
+See Disclaimer <A HREF="http://www.nextra.cz/disclaimer">http://www.nextra.cz/disclaimer</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001607.html">[python] import
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001612.html">[python] import
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-March/date.html#1608">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/thread.html#1608">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/subject.html#1608">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/author.html#1608">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-March/001608.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:44 GMT -->
+</html>

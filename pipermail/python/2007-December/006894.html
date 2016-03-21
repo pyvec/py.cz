@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-December/006894.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:57 GMT -->
+<HEAD>
+   <TITLE> [python] Počítání volání metod
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPo%3DE8%3DEDt%3DE1n%3DED_vol%3DE1n%3DED_metod%3F%3D&In-Reply-To=0792b2f4-a3a4-496f-a873-e29e6270907a%40s12g2000prg.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-December/006896.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-December/006895.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Počítání volání metod</H1>
+    <B>Michal Vyskocil</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPo%3DE8%3DEDt%3DE1n%3DED_vol%3DE1n%3DED_metod%3F%3D&In-Reply-To=0792b2f4-a3a4-496f-a873-e29e6270907a%40s12g2000prg.googlegroups.com"
+       TITLE="[python] Počítání volání metod">michal.vyskocil na gmail.com
+       </A><BR>
+    <I>Čtvrtek Prosinec 20 23:07:54 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-December/006896.html">[python] Počítání volání metod
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-December/006895.html">[python] Počítání volání metod
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-December/date.html#6894">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/thread.html#6894">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/subject.html#6894">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/author.html#6894">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne Thursday 20 of December 2007 22:40:57 <A HREF="http://www.py.cz/mailman/listinfo/python">martin.stiborsky na gmail.com</A> 
+napsal(a):
+&gt;<i> Zdravím, dneska budu ještě jednou otravovat.
+</I>&gt;<i> Michal Vyskočil mi poradil, jak přijít na jméno volané metody, za to
+</I>&gt;<i> mu díky, mně to hned posloužilo k realizování mého záměru, počítání
+</I>&gt;<i> kolikrát byla metoda zavolána, nevím jestli to neřeším úplně blbě.
+</I>
+No, zrovna modul inspect mi prijde jako kanon na vrabce. Daleko elegantnejsi 
+bude pouzit dekoratory a napsat neco podobneho, jako
+
+stats = {}
+
+def counter(func):
+  def wrapper(*args, **kwargs):
+    ret = func(*args, **kwargs)
+    if not func.__name__ in stats:
+        stats[func.__name__] = 0
+    stats[func.__name__] += 1
+  return wrapper
+
+@counter
+def foo():
+    return &quot;foo&quot;
+
+for i in xrange (5):
+    ret = foo()
+    print &quot;%d: %s&quot; % (stats[&quot;foo&quot;], ret)
+
+Pochopitelne to neni uplne hotove, bylo by vhodnejsi pouzivat nejaky 
+Singleton, misto globalni promenne a mohlo by to umet ukladat 
+modul.jmeno_funkce, pripadne modul.trida.jmeno_metody a pripadne i parametry 
+(napr id), ale pro prvni nastrel to snad staci. O serializaci hodnot na 
+vystup ani nemluve.
+
+Navic, neexistuje nejaka knihovna pro Python, ktera statistiky pristupu resi? 
+Pripadne nastroje pro analyzu logu webserveru?
+
+
+-- 
+best regards
+Michal Vyskocil
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-December/006896.html">[python] Počítání volání metod
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-December/006895.html">[python] Počítání volání metod
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-December/date.html#6894">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/thread.html#6894">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/subject.html#6894">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/author.html#6894">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-December/006894.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:57 GMT -->
+</html>

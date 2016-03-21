@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000523.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FPygame_-_zasahy_a_oto%3DE8ky_%3D28bylo%3D3A%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3FRe%3D3A__Fw%3D3A_HElP%3D29%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000511.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000524.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)</H1>
+    <B>petrik</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FPygame_-_zasahy_a_oto%3DE8ky_%3D28bylo%3D3A%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3FRe%3D3A__Fw%3D3A_HElP%3D29%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)">petrik na extel.sk
+       </A><BR>
+    <I>Pondělí Říjen  9 17:10:03 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000511.html">[Tutor PyCZ] Python, wxPython a databázová aplikace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000524.html">[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#523">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#523">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#523">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#523">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+  ----- Original Message ----- 
+  From: Pavel Kosina 
+  To: Konference Tutor portalu PyCZ 
+  Sent: Sunday, October 08, 2006 1:07 PM
+  Subject: Re: [Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re: Fw: HElP)
+
+
+  petrik napsal(a): 
+       Mno nevím,nevím teď se mi to všechno plete.
+       Tak rikas že tu: 
+
+     opicka = Opicka('opicka.bmp')
+
+      by měly být souradnice
+  ano měly, asi takhle:
+
+  opicka = Opicka('opicka.bmp',(61,70)) # třeba jako tuple
+
+  A pak musíš patřičně upravit i třídu Opička, metodu __init__, aby ta nový argument přijímala a aby ho na patřičném místě použila. Pak totiž můžeš použít krásné:
+
+  kladivo = Opicka('kladivo.bmp', (xx,yy))
+
+  Pojmenování třídy Opicka je v tomto případě zavádějící, ale je pravda, že Pythonu je zhola jedno, jak svoje třídy pojmenuješ ;-)
+
+
+    Ja už nevím ani kde hledat tyhle věci .. koukam do jiných zdrojáku ale nevím , nekdy tam neni to co ja potrebuji nebo nechapu ..
+    A tutorialy jsou o jinem co ja potrebuji.
+  Myslím že ne, Že všechny věci z tutoriálu o OOP se ti zde (i jinde) budou setsakramentsky hodit!
+
+
+
+-- 
+geon
+Pavel Kosina
+----------------------------------------------------------------------------------
+
+  Taže ... už ted chapu co přesne myslíš,snáď taky raz budu umět takhle chapat tyhle veci .
+
+  To je jedna věc že už zcela vím co to chce , jen nevim  jestly to správne napíšu.
+
+  tohle je třida opička ..
+
+  class Opicka(pygame.sprite.Sprite):
+      def __init__(self, image):
+          pygame.sprite.Sprite.__init__(self) 
+          souradnice = obrazovka.get_rect() //pridam tohle??
+          self.image, self.rect = nahrajObrazok(image(souradnice))
+          obrazovka = pygame.display.get_surface()
+          self.oblast = obrazovka.get_rect()   // tohle prič?
+          self.rect.topleft = 12, 70     // tohle prič?           
+          self.vrtenie = 0
+
+  Diky moc za trpělivost ja si to moc cením.. taky učim IK v 3D maxu a vim jak je obtížne nekomu neco vysvětlit kdiž mu to neco řika ale jeste neni 
+
+  samostatný aby neco delal .
+
+                                             WraCkeR
+
+
+
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061009/8a298856/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20061009/8a298856/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000511.html">[Tutor PyCZ] Python, wxPython a databázová aplikace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000524.html">[Tutor PyCZ] Pygame - zasahy a otočky (bylo:Re:  Fw: HElP)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#523">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#523">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#523">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#523">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000523.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

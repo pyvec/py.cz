@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-January/001493.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:49 GMT -->
+<HEAD>
+   <TITLE> [python] Py - IIS - ASP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Py%20-%20IIS%20-%20ASP&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-January/001494.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Py - IIS - ASP</H1>
+    <B>Lubomír Kamenský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Py%20-%20IIS%20-%20ASP&In-Reply-To="
+       TITLE="[python] Py - IIS - ASP">kamensky na promedia.cz
+       </A><BR>
+    <I>Pátek Leden  2 14:14:12 CET 2004</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001494.html">[python] gtk, locales a cestina
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-January/date.html#1493">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/thread.html#1493">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/subject.html#1493">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/author.html#1493">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Osobne toto spojeni pouzivam uz asi rok,
+ovsem misto ActivePython mam Python + Python for Win32 Extensions,
+jako editor mi nejvice vyhovuje TextPad, s diakritikou problemy absolutne
+nemam, nevim co jsou zaplaty a ke spolehlivosti a stabilite zadne vyhrady.
+
+Ostatni problemy tam skutecne jsou, jeste i dalsi, treba prakticky
+nepouzitelne cookies, atd..
+
+resim to uplnym oddelenim logiky zavisle na platforme ASP od ostatniho kodu,
+ktery zustava plne prenositelny a ktery mam zabaleny do klasickeho balicku.
+zavislou logiku mam v knihovne v asp souboru, kde jsou definovany objekty
+typu facade, prenositelny kod v balicku rovnez obsahuje obecne facade
+objekty, ktere pak  v asp strance prepisu temi platforme zavislymi a pak
+jenom volam z asp metody objektu z balicku.
+
+&lt;%@ Language = &quot;Python&quot; %&gt;
+&lt;!--#include file=&quot;zavislaLogikaNaAsp.py.asp&quot;--&gt;
+&lt;%
+import MujBalicek
+
+...
+
+pracuje se s tim velmi elegantne a spise ze zvedavosti se ted zabyvam prave
+opacnou myslenkou migrace na jinou platformu nez win,
+hodne vyuzivam XML a XSLT, prostrednictvim sdileni modulu Pythonu sdilim
+cele DOM objekty nad kterymi delam transformace a popravde pri testovani XML
+parseru, ktere aspon trochu implementuji DOM, vychazi microsofti parser z
+hlediska vykonu zdaleka nejlepe. Mate nekdo jinou zkusenost?
+
+----- Original Message ----- 
+From: &quot;Milan Rohr&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">m.rohr na centrum.cz</A>&gt;
+To: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+Sent: Wednesday, December 17, 2003 2:20 PM
+Subject: [python] Py - IIS - ASP
+
+
+&gt;<i> Máte někdo zkušenosti s kombinací Python &amp; IIS &amp; ASP?
+</I>&gt;<i> Používal jsem dříve Python jako scriptovací jazyk při správě rozsáhlejší
+</I>winNT sítě a tu a tam nějaké CGI.  Nyní jsem dostal za úkol naprogramovat
+www aplikaci - znalostní bázi pro několik zaměstnanců. Zvolil jsem Python a
+IIS/ASP. Narazil jsem na mnoho problémů a málo praktické nápovědy.
+&gt;<i> Používám ActivePython 2.3.2, Windows 2000 Server.
+</I>&gt;<i>
+</I>&gt;<i> - poprvé jsem narazil, když jsem v global.asa použil Python. Na to jsem
+</I>našel několik hacků (2?), takže to nakonec funguje, ale je to pěkná
+vocasárna.
+&gt;<i>
+</I>&gt;<i> - všechny příkazy print jsem musel přepsat na Response.Write() funkce.
+</I>Potíže při debugování mimo IIS, přenositelnost kódu se tím ukončila.
+&gt;<i>
+</I>&gt;<i> - některé chyby v kódu způsobí, že IIS vrací pouze chybu &quot;500 Server
+</I>Error&quot;, bez dalších podrobností. Pak se kód opravdu špatně debuguje. Mimo
+IIS se kód debugovat dá vcelku špatně, protože používám objekty Session,
+Application, Request, Response - ty jsou dostupné je při run-timu ASP. Takže
+pak v kódu hledám místo, kde _předpokládám_ chybu, sekci uzavřu do
+try-except konstrukce. No a když se strefím, tak se podrobnosti chyby
+konečně dozvím.
+&gt;<i>
+</I>&gt;<i> - kód na začátku obsahuje:
+</I>&gt;<i> &lt;%@LANGUAGE=Python
+</I>&gt;<i> což zamotává hlavu editorům - ani jednoduchý program pak neprojde syntax
+</I>checkem. Je pro Windows nějaký python editor, který by si s tím poradil?
+&gt;<i>
+</I>&gt;<i> - ani po sérii záplat a aktualizací (Python, WSH, MDAC) aplikace stejně
+</I>nefunguje spolehlivě. Podívám se na stránku, je OK, reload - ValueError:
+(22, 'Invalid argument'), reload - OK, reload - OK, reload - (A trappable
+error (C0000005) occurred in an external object. The script cannot continue
+running.), reload - OK...
+&gt;<i>
+</I>&gt;<i> - ActivePython od ActiveState - připadá mi, že v každém buildu se změní
+</I>chování editoru (PyWin, v Idle je to lepší) při vkládání českých znaků. V
+AP2-2.2.2-224 fungovala diakritika bez problémů, v AP-2.3.2-232 se při
+vkládání českých znaků do řetězce řetězec na konci umazává - někdy se pak
+takový řetězec vytiskne kompletní, někdy jen po poslední znak s
+diakritikou...
+&gt;<i>
+</I>&gt;<i> Dokud jsem aplikaci připravoval v Python &amp; Apache, šel vývoj jak po
+</I>drátkách, ale jak jsem ji začal přenášet na IIS... tak od té doby měsíc
+přepisuji kód, záplatuji a zoufám.
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --------------------
+</I>&gt;<i> Centrum.cz Reality: více než 50 000 aktuálních nabídek nemovitostí z celé
+</I>ČR! <A HREF="http://user.centrum.cz/redir.php?url=http://reality.centrum.cz">http://user.centrum.cz/redir.php?url=http://reality.centrum.cz</A>
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001494.html">[python] gtk, locales a cestina
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-January/date.html#1493">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/thread.html#1493">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/subject.html#1493">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/author.html#1493">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-January/001493.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:49 GMT -->
+</html>

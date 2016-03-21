@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005953.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:04 GMT -->
+<HEAD>
+   <TITLE> [python] Vykreslování grafů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVykreslov%3DE1n%3DED_graf%3DF9%3F%3D&In-Reply-To=001b01c79e12%242714c120%246e7ba8c0%40python00sz8iw8">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005952.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005954.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vykreslování grafů</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVykreslov%3DE1n%3DED_graf%3DF9%3F%3D&In-Reply-To=001b01c79e12%242714c120%246e7ba8c0%40python00sz8iw8"
+       TITLE="[python] Vykreslování grafů">leos na radiante-corp.com
+       </A><BR>
+    <I>Čtvrtek Květen 24 17:34:53 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005952.html">[python] Vykreslování grafů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005954.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5953">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5953">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5953">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5953">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jakub Vojacek wrote:
+&gt;<i> cislo=spodni_hranice
+</I>&gt;<i> while cislo &lt; horni_hranice:
+</I>&gt;<i>        x=cislo
+</I>&gt;<i>        y=eval(funkce.replace('x',cislo))
+</I>&gt;<i>        body.append([x,y])
+</I>&gt;<i>        cislo=cislo+preciznost
+</I>Jestli jsem to pochopil dobre, tak bych to napsal asi takhle:
+x = low
+while x &lt;= high:
+    try:
+        y = round(eval(function))
+        yield (x, y)
+    except:
+        # undeffined value -&gt; break drawing
+        yield None
+    x += precision
+
+Presto vsechno ale myslim, ze by nemel byt problem s vykonnosti. Jedina 
+moznost, co me napada je promenna precision. Pokud je meritko grafu 1:1, 
+tak by mela byt 1, 1:2 -&gt; 2, atd. Proste nevykreslovat body (cary) tam, 
+kde uz jsou. Volba spojovani bodu carou je asi nejvhodnejsi. Pokud je 
+hodnota nedefinovana, tak kod vyse vrati None a vykreslovani opet zacne 
+na dalsi not None hodnote.
+
+Leo
+
+-- 
+----
+Leos Pol
+Team Leader
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005952.html">[python] Vykreslování grafů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005954.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5953">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5953">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5953">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5953">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005953.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:04 GMT -->
+</html>

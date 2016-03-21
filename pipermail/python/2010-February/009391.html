@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009391.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:04 GMT -->
+<HEAD>
+   <TITLE> [python] Deferred output
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Deferred%20output&In-Reply-To=%3C177ccb3f1abbb29f05ebf418938a47f2%40host.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-February/009389.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-February/009392.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Deferred output</H1>
+    <B>matesfila</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Deferred%20output&In-Reply-To=%3C177ccb3f1abbb29f05ebf418938a47f2%40host.sk%3E"
+       TITLE="[python] Deferred output">matesfila na host.sk
+       </A><BR>
+    <I>Čtvrtek Únor 11 02:35:01 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009389.html">[python] Agregator (jenom pro Django)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009392.html">[python] Deferred output
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9391">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9391">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9391">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9391">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+ Zdravím, 
+
+mám taký trochu algoritmický problém! 
+
+Na adrese
+<A HREF="http://code.activestate.com/recipes/576961/">http://code.activestate.com/recipes/576961/</A> [1] som sa dopátral k pre mňa
+dosť záhadnej algoritmickej konštrukcii, ktorú tam autor nazýva zhruba ako
+deferred output. 
+
+Ide o tento algoritmus: 
+
+def fibonacci(): 
+ &quot;&quot;&quot; Funkcia
+na počítanie Fibonachiho čísiel &quot;&quot;&quot; 
+ def deferred_output(): 
+ for i in
+output: 
+ yield i 
+
+ result, c1, c2 = tee(deferred_output(), 3) 
+ paired =
+map(add, c1, islice(c2, 1, None)) 
+ output = chain([0, 1], paired) 
+ return
+result 
+
+#príklad použitia funkcie: 
+print(list(islice(fibonacci(), 50)))
+
+
+Sú mi jasné metódy ako list, islice, chain a myslím, že aj map, tee a
+využitie generátora. 
+
+Ale ako je možné, že v generátore sa využíva
+premenná, ktoré ešte nebola nikde definovaná? !!! Pravdepodobne sa tam
+nejako využíva vlastnosť generátora, ktorý premennnú 'output' využije
+vlastne až keď sa vyvolá next() na generátore a v tej dobe vlastne premenná
+už asi existuje... ale neviem, jaksik tie myšlienky tam využité neviem
+definovať a uchopiť  :-)  
+
+A vôbec ako je to tam celé prepojené dokopy, z
+toho som asi totálny magor... 
+
+To ako je to urobené, jedná sa o nejaký
+pattern, idióm alebo proste nejakú techniku, ktorá sa bežne používa? Autor
+na tej stránke píše, že je to technika, ktorá sa bežne používa v jazyku
+Haskell. Čiže je to asi prudko funkcionálne, ale aj tak by ma zaujímalo
+viac, čo je za tým, ak s tým teda máte niekto nejaké skúsenosti... 
+
+Matúš
+
+
+PS. Ten algoritmus by mal bežať na Python 2.6 aj 3, akurát pre 2.6 by sa
+namiesto map() muselo použiť imap(). 
+
+ 
+
+Links:
+------
+[1]
+<A HREF="http://code.activestate.com/recipes/576961/">http://code.activestate.com/recipes/576961/</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20100211/abce8e74/attachment.html">http://www.py.cz/pipermail/python/attachments/20100211/abce8e74/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009389.html">[python] Agregator (jenom pro Django)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009392.html">[python] Deferred output
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9391">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9391">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9391">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9391">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009391.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:04 GMT -->
+</html>

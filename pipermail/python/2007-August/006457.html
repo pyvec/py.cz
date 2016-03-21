@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006457.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:34 GMT -->
+<HEAD>
+   <TITLE> [python] cx_oracle GROUP BY
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cx_oracle%20GROUP%20BY&In-Reply-To=fapvvd%24sg0%241%40news.vol.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-August/006456.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-August/006458.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cx_oracle GROUP BY</H1>
+    <B>Petr Nesládek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cx_oracle%20GROUP%20BY&In-Reply-To=fapvvd%24sg0%241%40news.vol.cz"
+       TITLE="[python] cx_oracle GROUP BY">petr.nesladek na seznam.cz
+       </A><BR>
+    <I>Sobota Srpen 25 22:32:41 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006456.html">[python] cx_oracle
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006458.html">[python] cx_oracle GROUP BY
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6457">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6457">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6457">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6457">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj, 
+Zatím jsem nikde nenarazil na odpověď v žádném z manuálů a - tak zkusím štěstí - pokud nemáte někdo větší zkušenosti s cx_Oracle :
+
+při cursor.execute s klauzulí GROUP BY vyvolá vyjímku:
+
+konkrétně to vypadá nějak takhle:
+
+conn = cx_Oracle.connection(connectstring)
+cursor = conn.cursor()
+sqldotaz = &quot;SELECT * FROM DOP GROUP BY SERIAL_NO&quot;
+cursor.execute(sqldotaz)
+
+
+a na tom poslednim řádku to spadne na neregulérní zápis sql klauzuje - a pokud výraz vypadá bez toho BY:
+
+sqldotaz = &quot;SELECT * FROM DOP GROUP SERIAL_NO&quot; - tak vyvolá vyjímku, kde je výslovně, že mu za klíčovým slovem GROUP chybí 'BY'
+
+
+Oracle podle SQLPLus příručky samozřejmě implemenuje klauzuli 'GROUP BY'  a v zdojovém kodu cx_Oracle se mi nepodařilo najít frázi , kde parsuje předaný příkaz - takže toho víc nevím.
+
+Používám Python 2.4.4, cx_Oracle kompilované pro win325 verzi 4.1.2 a  Oracle 8i.
+
+Nesetkal jste se s tím už někdo?
+
+
+Za každou připomínku, kde hledat chybu (krom toho, že u mne) budu rád
+
+
+Petr
+
+Omlouvám se za formulaci dotazu Oracle mám přístupný jen v týdnu a píši to zpaměti.
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006456.html">[python] cx_oracle
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006458.html">[python] cx_oracle GROUP BY
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6457">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6457">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6457">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6457">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006457.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:34 GMT -->
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-May/004301.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:38 GMT -->
+<HEAD>
+   <TITLE> [python] Čtení z Excelu v češtině
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3F%3DC8ten%3DED_z_Excelu_v_%3DE8e%3DB9tin%3DEC%3F%3D&In-Reply-To=447AF609.1060207%40poll.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-May/004300.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-May/004302.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Čtení z Excelu v češtině</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3F%3DC8ten%3DED_z_Excelu_v_%3DE8e%3DB9tin%3DEC%3F%3D&In-Reply-To=447AF609.1060207%40poll.cz"
+       TITLE="[python] Čtení z Excelu v češtině">geon na post.cz
+       </A><BR>
+    <I>Pondělí Květen 29 15:40:57 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-May/004300.html">[python] Čtení z Excelu v češtině
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-May/004302.html">[python] Čtení z Excelu v češtině
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-May/date.html#4301">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/thread.html#4301">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/subject.html#4301">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/author.html#4301">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Martin Jedlička napsal(a):
+&gt;<i> Zdravim,
+</I>&gt;<i>   pracuju s excelem pres win32com a mam problem s textem v cestine. 
+</I>&gt;<i> Pokud mam text v excelu v cestine, tak mi to pri nacteni textu chodi chybu:
+</I>&gt;<i> UnicodeEncodeError: 'ascii' codec can't encode character u'\u010c' in 
+</I>&gt;<i> position 0: ordinal not in range(128)
+</I>&gt;<i> Cetl jsem clanek o cestine na <A HREF="http://www.py.cz/UnicodeEncodeError,">http://www.py.cz/UnicodeEncodeError,</A> ale 
+</I>&gt;<i> nevim jak pracovat s Unicode, kdyz mam ten nacteny text v nejake 
+</I>&gt;<i> promenne. Jak mam s tim ceskym textem pracovat?
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>Obecně: musíš nejdříve zjistit (třeba i metodou pokus omyl), v kterém 
+kodovaní je text v proměnné je uložen. No a pak to převedeš na 
+všeobjímající unicode, asi takto:
+
+x=unicode(tvuj_text, &quot;utf-8&quot;)
+nebo
+x=unicode(tvuj_text,&quot;cp1250&quot;)
+
+Pak by to mělo jít tisknout i zobrazovat. Pokud to budeš ukládat do 
+souboru, je lepší to převést na nějaké obyčejnější kodovani - třeba zpět 
+na utf-8 nebo cp1250. Mě to někdy, když jsem ukládal přímo v unicode, 
+pak vůbec nešel soubor zobrazit v editorech.
+
+Tipnul bych si u Excelu pod XP na utf-8...
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-May/004300.html">[python] Čtení z Excelu v češtině
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-May/004302.html">[python] Čtení z Excelu v češtině
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-May/date.html#4301">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/thread.html#4301">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/subject.html#4301">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/author.html#4301">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-May/004301.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:38 GMT -->
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004788.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:51 GMT -->
+<HEAD>
+   <TITLE> [python] Mobilni python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Mobilni%20python&In-Reply-To=2137.3593-25776-2106648165-1160945937%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004787.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004790.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Mobilni python</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Mobilni%20python&In-Reply-To=2137.3593-25776-2106648165-1160945937%40seznam.cz"
+       TITLE="[python] Mobilni python">feed na centrum.cz
+       </A><BR>
+    <I>Pondělí Říjen 16 00:16:02 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004787.html">[python] Mobilni python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004790.html">[python] Mobilni python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4788">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4788">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4788">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4788">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Takže mějme výchozí stav, python nainstalovaný ve windows a mobilní
+</I>&gt;<i> python na paměti flash. Můžeš mi prosím předvést ukázku programu, který 
+</I>&gt;<i> mi z  tebou uvedené příčiny nebude fungovat, když ho spustím mobilním
+</I>&gt;<i> pythonem? Jestli ano, pak je to věc na bugreport.
+</I>
+Já jsem to schválně zkusil. Tento pokus:
+
+1) Python má v registrech nastaveno, že má cestu na C:\Python24\
+
+2) Nastavil jsem PYTHONPATH na D:\@down\
+
+3) python.exe jsem přesunul do C:\SWAP\
+
+A spustil jsem nástroj, který ukazuje, kde bude pythonovský interpretr 
+hledat knihovny a jaké se pokusí otevírat soubory. Došel jsem k tomuto:
+
+a) nejdříve python prohledával adresáře zapsané v registrech
+
+0:05:34	python.exe:3064	OPEN	C:\PYTHON24\LIB\SITE.PYC	SUCCESS	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\OS.PYC	SUCCESS	Options: 0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\NTPATH.PYC	SUCCESS	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\STAT.PYC	SUCCESS	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\USERDICT.PYC	SUCCESS	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\COPY_REG.PYC	SUCCESS	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\TYPES.PYC	SUCCESS	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\LOCALE.PYC	SUCCESS	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\CODECS.PYC	SUCCESS	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\ENCODINGS\__INIT__.PYC	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\ENCODINGS\ALIASES.PYC	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\ENCODINGS\CP1250.PYC	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\WARNINGS.PYC	SUCCESS	0:05:34 
+python.exe:3064	OPEN	C:\PYTHON24\LIB\LINECACHE.PYC	SUCCESS	
+
+b) pak se přesunul do adresářů v PYTHONPATH:
+
+0:05:34	python.exe:3064	OPEN	D:\@down\site.pyd	NOT FOUND	0:05:34 
+python.exe:3064	OPEN	D:\@down\site.dll	NOT FOUND	0:05:34 
+python.exe:3064	OPEN	D:\@down\site.py	NOT FOUND	0:05:34 
+python.exe:3064	OPEN	D:\@down\site.pyw	NOT FOUND	0:05:34 
+python.exe:3064	OPEN	D:\@down\site.pyc	NOT FOUND	
+
+c) pak dokonce prohledával soubory v systémovém adresáři Windows !!!:
+
+0:05:34	python.exe:3064	OPEN	C:\WINDOWS\system32\python24.zip\ 
+0:05:34	python.exe:3064	OPEN	C:\WINDOWS\system32\python24.zip\site.pyd 
+PATH NOT FOUND	Options: 0:05:34	python.exe:3064	OPEN 
+C:\WINDOWS\system32\python24.zip\site.dll	PATH NOT FOUND	Options: 
+0:05:34	python.exe:3064	OPEN	C:\WINDOWS\system32\python24.zip\site.py 
+0:05:34	python.exe:3064	OPEN	C:\WINDOWS\system32\python24.zip\site.pyw 
+PATH NOT FOUND	Options: 0:05:34	python.exe:3064	OPEN 
+C:\WINDOWS\system32\python24.zip\site.pyc	PATH NOT FOUND	Options:
+
+d) pak se vrátil do registrů a našel knihovny site.pyc a os.pyc tam a 
+odtud je vzal, to už nebudu vypisovat
+
+e) Pak znovu projel to samé kolečko s dalšími kniovnami.
+
+Takže závěr je, že pokud Vám v PYTHONPATH nějaký modul chybí, klidně 
+python použije knihovny z registrového nastavení.
+
+Na mě to nepůsobí jako bezproblémově a rozhodně ne dobře, pokud bych se 
+měl na python spolehnout jako na něco co bych dával mimo svůj počítač.
+
+Miloslav Ponkrác
+
+P.S.: Tímto už to přestávám řešit, prostě tohle je prasečina.
+
+
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004787.html">[python] Mobilni python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004790.html">[python] Mobilni python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4788">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4788">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4788">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4788">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004788.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:51 GMT -->
+</html>

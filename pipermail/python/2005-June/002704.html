@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002704.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:11 GMT -->
+<HEAD>
+   <TITLE> [python] Posielanie emailu cez python znova
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Posielanie%20emailu%20cez%20python%20znova&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-June/002703.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-June/002705.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Posielanie emailu cez python znova</H1>
+    <B>Tomáš Babej</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Posielanie%20emailu%20cez%20python%20znova&In-Reply-To="
+       TITLE="[python] Posielanie emailu cez python znova">tomas na iol.sk
+       </A><BR>
+    <I>Sobota Červen  4 18:32:07 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002703.html">[python] Posielanie Emailu cez python znova
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002705.html">[python] Posielanie emailu cez python znova
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2704">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2704">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2704">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2704">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Neviem ako vám, ale mne to nefunguje. Nevie niekto kde je chyba?
+
+Zdrojový kód programu je:
+
+import smtplib
+
+odesilatel = &quot;<A HREF="http://www.py.cz/mailman/listinfo/python">tbabej na seznam.cz</A>&quot;
+prijemce  = &quot;<A HREF="http://www.py.cz/mailman/listinfo/python">tbabej na seznam.cz</A>&quot;   # sam sobe :-)
+predmet=&quot;ahoj&quot;
+
+# Add the From: and To: headers at the start!
+msg = &quot;From: %s\r\nSubject: %s\r\nTo: %s\r\n\r\n&quot; % (odesilatel, predmet, prijemce)
+zprava=&quot;Ahoj jak se mas. &quot;*500
+msg=msg+zprava
+print &quot;Zprava: \n\n&quot;, msg
+print &quot;\nZprava je dlouha&quot;, len(msg),&quot;bitu\n&quot;
+
+server = smtplib.SMTP('smtp.seznam.cz')  # protoze na post.cz mi nejak nefunguje smtp
+server.login('tbabej','tomas') # tvoje uz.jmeno a heslo na poste na seznamu
+server.sendmail(odesilatel, prijemce, msg)
+server.quit()
+
+A vypíše chybu:
+Traceback (most recent call last):
+  File &quot;C:\Python234\skuska.py&quot;, line 14, in -toplevel-
+    server = smtplib.SMTP('smtp.seznam.cz')  # protoze na post.cz mi nejak nefunguje smtp
+  File &quot;C:\Python234\lib\smtplib.py&quot;, line 240, in __init__
+    (code, msg) = self.connect(host, port)
+  File &quot;C:\Python234\lib\smtplib.py&quot;, line 302, in connect
+    raise socket.error, msg
+error: (10060, 'Operation timed out')
+
+Vypol som firewall aj firewall zabudovaný vo windowse.
+Pre vyskúšanie tohot programu som si založil úplne nové konto na
+sezname.
+
+___________
+S pozdravom,
+Tomáš<A HREF="http://www.py.cz/mailman/listinfo/python">,tomas na iol.sk</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002703.html">[python] Posielanie Emailu cez python znova
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002705.html">[python] Posielanie emailu cez python znova
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2704">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2704">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2704">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2704">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002704.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:11 GMT -->
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005854.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:15 GMT -->
+<HEAD>
+   <TITLE> [python] Trie
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Trie&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005853.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005855.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Trie</H1>
+    <B>filyph</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Trie&In-Reply-To="
+       TITLE="[python] Trie">filyph na gmail.com
+       </A><BR>
+    <I>Pondělí Duben 16 22:04:38 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005853.html">[python] Logovanie pristupu k suborom
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005855.html">[python] rozšírenie Pythonu v C++
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5854">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5854">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5854">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5854">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+presne o niečo podobné som sa zaujímal. Mohol by ti pomôcť modul pytst
+<A HREF="http://www.python.org/pypi/pytst/1.14,">http://www.python.org/pypi/pytst/1.14,</A> v ktorom sa dá vyrobiť v pamäti
+štruktúra trie a navonok sa javí skoro ako pythonovský dict, ale dajú
+sa z neho napríklad vyberať podstromy ak som dobre čítal, lebo som ho
+v praxi ešte nepoužil.
+Riešenie cez triedy, vnorené zoznamy (list, dict, tuple) je veľmi
+neefektívne. A už vôbec neuvažuj, že by si taký strom uložil cez
+pickle. Aj XML je v tomto prípade výhodnejšie.
+Ďalšie riešenie môže byť pomocou modulu ctypes, kde si vytvoríš
+vlastnú štruktúry pre uzly ako v C.
+Alebo iná možnosť by bola vytvoriť triu do stringu chápaného len ako
+lineárnu pamäť a naprogramovať si nízkoúrovňové funkcie na prístup ku
+nim. Teda niečo ako vlastnú správu pamäte.
+
+Ak potrebuješ iba zisťovať prítomnosť slov v slovníku hodí s na to typ
+set alebo frozenset, ktoré sú v pythone 2.5 optimalizovanejšie (v
+predchádzajúcich verziách boli nadstavbou slovníka dict) asi takto:
+
+mnozina = set()
+for slovo in file('milionyslov.txt','r').xreadlines():
+   mnozina.add(slovo[:-1]) # bez znaku konca riadku
+
+# alebo jednoriadkovo
+mnozina = frozenset(map(lambda x:x[:-1], file('milionyslov.txt')))
+
+# potom uz len zistujes pritomnost slova v mnozine slov
+if 'ahoj' in mnozina:
+   print 'ahoj je v slovniku'
+
+Pepa Hajek napsal:
+&gt;<i> snazim se ulozit slovnik ze souboru (cca 6milionu slov - soubor ma asi 80MB, kazde zvlast na kazdem radku), do struktury Trie (co pismeno, to uzel - spolecne prefixy slov). Cilem je redukovat pametovy prostor zabrany vlastnim slovnikem.
+</I>&gt;<i> At se vsak problem snazim vyresit jakkoli, stale narazim na nedostatek pameti. Zkousel jsem jiz vnorene seznamy, slovniky a naposledy strukturu, neco ve smyslu:
+</I>&gt;<i> Ovsem i pri pouziti teto struktury, nactu-li vice nez 350 000 slov tak se pamet zabrana programem vysplha na nejakych cca 100MB.
+</I>&gt;<i> Napadlo by nejake vhodne efektivni reseni?
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005853.html">[python] Logovanie pristupu k suborom
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005855.html">[python] rozšírenie Pythonu v C++
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5854">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5854">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5854">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5854">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005854.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:15 GMT -->
+</html>

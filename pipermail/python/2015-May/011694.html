@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011694.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:09 GMT -->
+<HEAD>
+   <TITLE> [python] UHF RFID čtečka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVUhGIFJGSUQgxI10ZcSNa2E%3D%3F%3D&In-Reply-To=%3CCAK9Q5BQ9rgHH4C6xeQGMg-FkfJ%2BZVoZJbN7tQQDi0%3DGjLkzX%2BQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-May/011693.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-May/011695.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] UHF RFID čtečka</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FVUhGIFJGSUQgxI10ZcSNa2E%3D%3F%3D&In-Reply-To=%3CCAK9Q5BQ9rgHH4C6xeQGMg-FkfJ%2BZVoZJbN7tQQDi0%3DGjLkzX%2BQ%40mail.gmail.com%3E"
+       TITLE="[python] UHF RFID čtečka">petr.messner na gmail.com
+       </A><BR>
+    <I>Neděle Květen 17 02:43:48 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011693.html">[python] UHF RFID čtečka
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011695.html">[python] UHF RFID čtečka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11694">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11694">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11694">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11694">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Njn, když chceš hackovat, tak na to musíš mít křídla :)
+
+Z chyby 'generator' object has no attribute 'set_configuration' je zřejmé,
+že to usb.core.find vrací iterátor. No a proč to vrací iterátor?
+Protože deklarace
+té funkce
+&lt;<A HREF="https://github.com/walac/pyusb/blob/a83f17e568bf893bed53fa984f00c1e168348cb9/usb/core.py#L1127">https://github.com/walac/pyusb/blob/a83f17e568bf893bed53fa984f00c1e168348cb9/usb/core.py#L1127</A>&gt;
+je
+
+def find(find_all=False, backend = None, custom_match = None, **args):
+
+a když to voláš bez keyword argumentů, tak se jako find_all nastaví to
+0x10C48, což se interpretuje podobně jako find_all=True.
+
+Takže o krok zpět k ValueError: No backend available.  Podívej se do
+zdrojáku, co to dělá. Prochází to moduly usb.backend.libusb1, u
+sb.backend.libusb0 a usb.backend.openusb a volá to jejich funkci
+get_backend(), která se snaží danou DLL (nebo .so) knihovnu načíst
+(protože usb.backend.*
+jsou jen ctypes wrappery &quot;céčkových&quot; knihoven). Takže problém je v tom, že
+žádnou z těch knihoven buď nemáš k dispozici, nebo ji pyusb nemůže najít.
+
+PM
+
+Dne 16. května 2015 16:28 &quot;Ing. Vladislav Ludík&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt; napsal(a):
+
+&gt;<i> Ještě chyby:
+</I>&gt;<i>
+</I>&gt;<i> dev = usb.core.find(idVendor=0x10C48, idProduct=0xEA60)
+</I>&gt;<i>
+</I>&gt;<i> hlásí chybu:
+</I>&gt;<i>
+</I>&gt;<i> dev = usb.core.find(idVendor=0x10C48, idProduct=0xEA60)
+</I>&gt;<i>   File &quot;build\bdist.win32\egg\usb\core.py&quot;, line 1199, in find
+</I>&gt;<i>     raise ValueError('No backend available')
+</I>&gt;<i> ValueError: No backend available
+</I>&gt;<i>
+</I>&gt;<i> Když jsem změnil řádek na:
+</I>&gt;<i>
+</I>&gt;<i> dev = usb.core.find(0x10C48, 0xEA60)
+</I>&gt;<i>
+</I>&gt;<i> program projde dále, ale hlásí chybu:
+</I>&gt;<i>
+</I>&gt;<i> dev.set_configuration()
+</I>&gt;<i> AttributeError: 'generator' object has no attribute 'set_configuration'
+</I>&gt;<i>
+</I>&gt;<i> Co s tím dále, nevím.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Díky Vláďa
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150517/f57160db/attachment.html">http://www.py.cz/pipermail/python/attachments/20150517/f57160db/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011693.html">[python] UHF RFID čtečka
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011695.html">[python] UHF RFID čtečka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11694">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11694">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11694">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11694">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011694.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:09 GMT -->
+</html>

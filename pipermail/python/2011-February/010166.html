@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010166.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:09 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátor
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FDekor%3DE1tor%3F%3D&In-Reply-To=%3C59028223-b8ea-445a-895b-2ef577f8864c%40u6g2000vbh.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-February/010165.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-February/010168.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátor</H1>
+    <B>Radek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FDekor%3DE1tor%3F%3D&In-Reply-To=%3C59028223-b8ea-445a-895b-2ef577f8864c%40u6g2000vbh.googlegroups.com%3E"
+       TITLE="[python] Dekorátor">radek.hnilica na gmail.com
+       </A><BR>
+    <I>Středa Únor 23 00:51:42 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010165.html">[python] Dekorátor
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010168.html">[python] (ne)logičnost .join() ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10166">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10166">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10166">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10166">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 22 ún, 21:34, &quot;Róbert Čerňanský&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">hsli... na zoznam.sk</A>&gt; wrote:
+&gt;<i> Ono, strptime naozaj konvertuje reťazec do datetime:
+</I>
+o tom není pochyb, tak to stojí v dokumentaci
+&gt;<i>  &gt;&gt;&gt; datetime.strptime(&quot;22. 2. 2011&quot;, &quot;%d. %m. %Y&quot;)
+</I>&gt;<i>  datetime.datetime(2011, 2, 22, 0, 0)
+</I>
+:<i>) perfektní přesná odpověď, ale na úplně jinou otázku ;)
+</I>
+&gt;<i> Ale možno si potreboval niečo sofistikovanejšie, čo odhadne formát
+</I>&gt;<i> automaticky a pod.
+</I>
+Přesně, nemohu předvídat co napíše uživatel do vstupu.
+Momentálně používám externí knihovnu dateutil.
+
+&gt;<i> Pythonovský shell IDLE vie po stlačení Ctrl+Medzerník za bodkou
+</I>&gt;<i> zobraziť zoznam členov daného objektu.
+</I>ehm.... ten seznam je jaksi velmi krátky.  odhadem mi zatajuje cca 80%
+metod.  nejspíš to bude tím že jejich jména začínají znakem _
+
+&gt;<i> Taktiež môžeš napísať
+</I>&gt;<i> help(&lt;objekt&gt;) a dostaneš výpis jeho členov aj so stručnými popismi.
+</I>
+to už vypadá líp.  dokonce to ukáže všechny metody.  A navíc ten
+příkaz funguje i v ipython
+
+&gt;<i> Prípadne help(&lt;funkcia&gt;) zobrazí jej, v drvivej väčšine bohužiaľ
+</I>&gt;<i> stručný, popis.  Klikať sa dá v browseri keď pustíš príkaz &quot;pydoc
+</I>&gt;<i> -g&quot;, ale sú to tie isté stručné popisy, čo pre help(). :-(  Tiež by
+</I>&gt;<i> som privítal aby API dokumentácia bola podrobnejšia.
+</I>
+jo pydoc ukazuje to samé co help() z ipython/idle.
+pydoc je sice hrůza, ale je to lepší než drátem do oka.
+
+&gt;<i> Ja rád používam shell PyCrust, ktorý je súčasťou wxPython.  Okrem
+</I>&gt;<i> dopĺňania (ponuky členov objektu) a tooltipov s helpom umožňuje
+</I>&gt;<i> zobraziť aj zdroják k objektu ak je v Pythone.
+</I>
+nainstaloval jsem, dík za dobrý tip.  Tedy na první pohled vypadá
+dobře.
+
+&gt;<i> Viac ma ale trápi to, že operácie, ktoré sa dajú s daným typom objektu
+</I>&gt;<i> robiť treba hľadať na niekoľkých miestach.  Hlavne je nevýhoda, že
+</I>&gt;<i> Python má kopec &quot;voľne pohodených&quot; built-in funkcií a keď chcem vedieť
+</I>&gt;<i> operácie napr. s listom, tak okrem jeho metód sa ešte musím prehrabať
+</I>&gt;<i> množstvom built-in funkcií, ktoré zďaleka nie sú všetky o liste.  Plus
+</I>&gt;<i> treba pozrieť modul itertools.
+</I>
+.... ani nekomentovat....  mám s tím stejný problém
+
+&gt;<i> &gt; Něco jak seznam.join(',').  Tohle je naštěstí tak profláknuté, že už
+</I>&gt;<i> &gt; jsem si zapamatoval že v Pythonu je join metoda toho ',' a ne toho
+</I>&gt;<i> &gt; pole.
+</I>&gt;<i>
+</I>&gt;<i> Tak nie som jedný, komu sa zdá, že to má Python opačne. :-)
+</I>
+já jsem stráášně rozmlsaný z Ruby kde všechno má svou logiku.  Po
+nějaké chvíli člověk začne psát příkazy/metody intuitivně bez
+konzultace s dokumentací a všechno funguje.
+
+&gt;<i> Robo
+</I>
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010165.html">[python] Dekorátor
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010168.html">[python] (ne)logičnost .join() ?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10166">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10166">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10166">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10166">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010166.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:09 GMT -->
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-October/001473.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:56 GMT -->
+<HEAD>
+   <TITLE> [python] Sdílení dokumentu mezi Zope a Plone
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Sd%EDlen%ED%20dokumentu%20mezi%20Zope%20a%20Plone&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-October/001466.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-October/001472.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Sdílení dokumentu mezi Zope a Plone</H1>
+    <B>Jaroslav Lukesh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Sd%EDlen%ED%20dokumentu%20mezi%20Zope%20a%20Plone&In-Reply-To="
+       TITLE="[python] Sdílení dokumentu mezi Zope a Plone">lukesh na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Říjen 23 10:27:48 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-October/001466.html">[python] rychlost python2.2 vs python2.3
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-October/001472.html">[python] Vykon Pythonu v praxi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-October/date.html#1473">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/thread.html#1473">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/subject.html#1473">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/author.html#1473">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>----------
+Odesílatel: czr00t &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">czr00t na golems.cz</A>&gt;
+Mám server Plone 1.0.5 (<A HREF="http://127.0.0.1/">http://127.0.0.1/</A> Plone; <A HREF="http://127.0.0.1:8080/">http://127.0.0.1:8080/</A>
+&quot;čisté&quot; Zope),
+
+dva uživatele Plone (czr00t <A HREF="http://127.0.0.1/Members/czr00t/;">http://127.0.0.1/Members/czr00t/;</A> bfu
+<A HREF="http://127.0.0.1/Members/bfu/">http://127.0.0.1/Members/bfu/</A>),
+
+a každý má u sebe dokument s určitou částí textu
+(<A HREF="http://127.0.0.1/Members/czr00t/text">http://127.0.0.1/Members/czr00t/text</A> a v tom &quot;Ahoj &quot;;
+<A HREF="http://127.0.0.1/Members/bfu/text">http://127.0.0.1/Members/bfu/text</A> a v něm &quot;světe&quot;).
+
+Já bych potřeboval udělat stránku (<A HREF="http://127.0.0.1:8080/vysledek">http://127.0.0.1:8080/vysledek</A>), která
+by měla vlastní vzhled a funkce (proto &quot;čisté&quot; Zope a ne Plone), a
+obsahovala by &quot;Ahoj světe&quot;.
+
+Jelikož jsem nikde nenašel český návod k Zope, a už vůbec ne k Zope/Plone,
+tak se obracím na tuhle konferenci.
+
+************
+vysledek (DTML Document či Method podle toho co potřebujete jak se má
+chovat)
+--------
+&lt;dtml-with Members&gt;
+	&lt;dtml-with czr00t&gt;
+		&lt;dtml-var text&gt;
+	&lt;/dtml-with&gt;
+
+	&lt;dtml-with bfu&gt;
+		&lt;dtml-var text&gt;
+	&lt;/dtml-with&gt;
+&lt;/dtml-with&gt;
+*************
+anebo ještě dalších min. 10 způsobů. Tak třeba za určitých podmínek by se
+dalo použít i tohle:
+
+&lt;dtml-var &quot;Members.czroot.text&quot;&gt;
+&lt;dtml-var &quot;Members.bfu.text&quot;&gt;
+
+Anebo bezpečněji zapsat jména foldrů př: _['Members']
+
+A pak by se to ještě několika málo způsoby dalo v ZPT, ale to i přes své
+fašoidní zastánce má mnoho nevýhod, proto setrvávám u DTML. (taky svoji
+roli hraje nedostatek času).
+
+
+
+Tak to vypadá, že Zope nepatří do rukou začátečníků, ale když se není z
+čeho učit, tak jak vznikají nový GURU?
+
+***** těžko, ale přeci :-)
+
+Díky za odpověď ((nebo odkaz na cs dokumentaci)).
+
+
+*********
+U zope platí - hlavně trpělivost. Představte si, že já se zope začínal když
+jsem o pythonu nevěděl zhola nic a objektové programování je pro mne dodnes
+velká neznámá neboť na učení pythonu nějak není čas.
+
+Sorry za pozdní odpověď, bylo moc práce.
+
+JL.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-October/001466.html">[python] rychlost python2.2 vs python2.3
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-October/001472.html">[python] Vykon Pythonu v praxi
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-October/date.html#1473">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/thread.html#1473">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/subject.html#1473">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-October/author.html#1473">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-October/001473.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:56 GMT -->
+</html>

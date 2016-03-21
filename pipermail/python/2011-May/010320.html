@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010320.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:54 GMT -->
+<HEAD>
+   <TITLE> [python] Django - AJAX &amp; vypisování textového streamu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FDjango_-_AJAX_%3D26_vypisov%3DE1n%3DED_textov%3F%3D%0A%09%3D%3Fiso-8859-1%3Fq%3F%3DE9ho_streamu%3F%3D&In-Reply-To=%3CBANLkTikz9a88C4qfuVEOrmsNwKJgSUvwRQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-May/010328.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-May/010324.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Django - AJAX &amp; vypisování textového streamu</H1>
+    <B>Martin Stiborský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FDjango_-_AJAX_%3D26_vypisov%3DE1n%3DED_textov%3F%3D%0A%09%3D%3Fiso-8859-1%3Fq%3F%3DE9ho_streamu%3F%3D&In-Reply-To=%3CBANLkTikz9a88C4qfuVEOrmsNwKJgSUvwRQ%40mail.gmail.com%3E"
+       TITLE="[python] Django - AJAX &amp; vypisování textového streamu">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Úterý Květen 10 22:25:50 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010328.html">[python] ako načítať tieto údaje z .bin súboru?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010324.html">[python] Django - AJAX &amp; vypisování textového streamu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10320">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10320">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10320">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10320">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+nevěděl jsem úplně jistě jak tohle vlákno nazvat, tak snad to bude tak
+nějak sedět.
+Chci v Djangu takovou věc. View provádí nějakou akci a v jejím průběhu
+vypisuje textový log o tom, jak mu to jde. Tyhle informace chci
+postupně zobrazovat v administraci.
+Ono to je celé jenom takový cukr, ale líbilo se mi to jako nápad,
+akorát jsem se se na tom docela zaseknul.
+Vymyslel jsem něco takového (a nakonec i vygooglil, že samozřejmě
+nejsem prvn&#237;&#8201;:) <A HREF="http://goo.gl/Pdpj0">http://goo.gl/Pdpj0</A> )...
+
+Takhle vypadá views.py:
+
+from django.shortcuts import render_to_response
+from django.http import HttpResponse
+from django.views.decorators.http import condition
+import time
+
+def index(request):
+  return render_to_response(&quot;foo/index.html&quot;, {})
+
+@condition(etag_func=None)
+def getData(request):
+  resp = HttpResponse(foo())
+  return resp
+
+def foo():
+    for x in range(1, 11):
+        yield &quot;%s &lt;br/&gt;&quot; % x
+        time.sleep(1)
+
+A v &#353;ablon&#283; m&#225;m jednoduch&#253; java script, vyu&#382;&#237;v&#225; JQuery&#8230;
+
+function getFooData() {
+    $.ajax({
+        type: 'POST',
+        url: 'getData/',
+        dataType: &quot;json&quot;,
+        success: function(data) {
+            var $container = $(&quot;#messages&quot;);
+
+            $container.append(&quot;Data: &quot; + data);
+            }
+            });
+
+    setTimeout(&quot;getFooData()&quot;, 2000);
+}
+
+Podobný postup jsem našel různě po internetu, blbé je, že to nefunguje
+tak, jak si představuju. Když to spustím, tak django na konzoli píše u
+/getData/ html kód 403/Forbidden...
+Myslel jsem, že je něco shnilého v django-nonrel, se kterým si hraju
+na google app engine, tak jsem to otestoval na django 1.3 a
+nefungovalo to úplně stejně :)
+Pokud máte někdo nápad, kde je problém, nebo proč je to principiálně
+blbě, dejte vědět.
+
+Děkuji.
+
+-- 
+S pozdravem
+Martin Stiborský
+
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010328.html">[python] ako načítať tieto údaje z .bin súboru?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010324.html">[python] Django - AJAX &amp; vypisování textového streamu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10320">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10320">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10320">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10320">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010320.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:54 GMT -->
+</html>

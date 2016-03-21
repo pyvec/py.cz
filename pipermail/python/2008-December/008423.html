@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008423.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s forkujicim serverem a SIGTERM signalem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20forkujicim%20serverem%20a%20SIGTERM%20signalem&In-Reply-To=%3C20081217161406.GZ19477%40q.uh.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008419.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008424.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s forkujicim serverem a SIGTERM signalem</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20forkujicim%20serverem%20a%20SIGTERM%20signalem&In-Reply-To=%3C20081217161406.GZ19477%40q.uh.cz%3E"
+       TITLE="[python] Problem s forkujicim serverem a SIGTERM signalem">rk na dat.cz
+       </A><BR>
+    <I>Středa Prosinec 17 17:14:06 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008419.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008424.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8423">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8423">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8423">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8423">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, Dec 17, 2008 at 03:01:50PM +0000, Jan Jakubuv wrote:
+
+&gt;<i> dobry den,
+</I>&gt;<i> 
+</I>&gt;<i> muzete zkusit budto os._exit() anebo, lepe, se zkuste podivat jestli
+</I>&gt;<i> vas problem neni stejny jako zde:
+</I>&gt;<i> 
+</I>&gt;<i> <A HREF="http://mail.python.org/pipermail/python-list/2004-January/243227.html">http://mail.python.org/pipermail/python-list/2004-January/243227.html</A>
+</I>&gt;<i> 
+</I>&gt;<i> Jak se tam muzete docist tak sys.exit() pouze vyvolava vyjimku
+</I>&gt;<i> SystemExit (proto neni nic videt na vystupu strace). Je mozne, ze ji
+</I>&gt;<i> nekde omylem odchytite..
+</I>
+Z vlastni zkusenosti vim, ze vetsinou je lepsi pouzit 
+
+    try:
+        .....
+    except Exception:
+        ....
+
+nez pouze
+
+    try:
+        .....
+    except:
+        ....
+
+protoze ta prvni varianta, propusti dve vyjimky, ktere temer nikdy
+nechci zachytavat a to KeyboardInterrupt a SystemExit. Tyto dve vyjimky
+maji bazovou tridu BaseException, takze je ``except Exception'' nezachyti.
+Vsechny ostatni vyjimky dedi az z Exception. Trida Exception je potomkem
+tridy BaseException.
+
+Radek Kaňovský, Dat, s.r.o.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008419.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008424.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8423">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8423">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8423">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8423">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008423.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+</html>

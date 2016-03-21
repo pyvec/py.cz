@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008855.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:41 GMT -->
+<HEAD>
+   <TITLE> [python]  Rozsireni datetime
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%20Rozsireni%20datetime&In-Reply-To=%3C14017934468.20090424125322%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-April/008854.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-April/008856.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python]  Rozsireni datetime</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%20Rozsireni%20datetime&In-Reply-To=%3C14017934468.20090424125322%40atlas.cz%3E"
+       TITLE="[python]  Rozsireni datetime">mtip na atlas.cz
+       </A><BR>
+    <I>Pátek Duben 24 12:53:22 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008854.html">[python] Rozsireni datetime
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008856.html">[python] statistiky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8855">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8855">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8855">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8855">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>To je presne to co jsem potreboval, Diky.
+
+Mirek.
+
+
+RK&gt; Metoda __init__ u datetime nedela nic. Vse se udela v metode __new__,
+RK&gt; coz plati pro vetsinu trid implementovanych v C. Je teda potreba
+RK&gt; prepsat __new__. Asi nejak takhle:
+
+RK&gt;     import datetime
+
+RK&gt;     class mydatetime(datetime.datetime):
+        
+RK&gt;         def __new__(klass, *args):
+RK&gt;             if not args:
+RK&gt;                 return datetime.datetime.now()
+RK&gt;             self = datetime.datetime.__new__(klass, *args)
+RK&gt;             return self
+
+RK&gt;     if __name__ == '__main__':
+RK&gt;         t = mydatetime()
+RK&gt;         print t
+RK&gt;         t = mydatetime(2000, 1, 12, 12, 44, 51)
+RK&gt;         print t
+
+
+RK&gt; Radek Kaňovský, Dat, s.r.o.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008854.html">[python] Rozsireni datetime
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008856.html">[python] statistiky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8855">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8855">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8855">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8855">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008855.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:41 GMT -->
+</html>

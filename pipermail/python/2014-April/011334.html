@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-April/011334.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:42 GMT -->
+<HEAD>
+   <TITLE> [python] dynamicke metody
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dynamicke%20metody&In-Reply-To=%3C535A5E33.106%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-April/011333.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-April/011335.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dynamicke metody</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dynamicke%20metody&In-Reply-To=%3C535A5E33.106%40firma.seznam.cz%3E"
+       TITLE="[python] dynamicke metody">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Pátek Duben 25 15:08:03 CEST 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011333.html">[python] dynamicke metody
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011335.html">[python] dynamicke metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-April/date.html#11334">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/thread.html#11334">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/subject.html#11334">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/author.html#11334">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jestli jsem ten puvodni priklad dobre pochopil tak chyba je tady:
+
+setattr(self, _func, self._sql(_sql = _sql))
+
+Pridas sice atribut se spravnym jmenem, ale nestrcis do nej referenci na
+tu funkci alebrz vysledek z jejiho zavolani.
+
+potrebujes neco _zhruba_ (strilim od boku, nevyzkouseno) takoveho:
+
+setattr(self, _func, lambda sql, params: self._sql(_sql, params))
+
+Mam-li to brat jako intelektualni cviceni, pripada mi to cely ponekud
+prekomplikovany, stacila by uplne jednoducha fabricka funkce ktera bude
+vracet uzaveru se vsim:
+
+def queryMaker(conn, query):
+  def queryStub(**params):
+    with conn as cur:
+      cur.execute(query, params)
+      return cur.fetchall()
+  return queryStub
+
+--- cut here ---
+addSpam = queryMaker(conn, &quot;INSERT ham = %(ham)s INTO spam&quot;)
+addSpam(ham = 42)
+
+Strkat to jeste do slovniku nema valny smysl &#8211; pokud ho budes bouchat
+rucne, je to zbytecny a pokud by tam byla nejaka dalsi abstrakce (jako
+treba ze by se ten slovnik odnekud nacital) tak nejde nejak rozume
+zajistit aby ocekavane parametry odpovidaly skutecnym a cely se to
+rozsype. (A proto se takovy vylomeniny ve skutecnosti nedelaji&#8230;)
+
+
+On 04/25/14 12:07, Marek Sirový wrote:
+&gt;<i> Ahoj,
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> diky za reakci, sqlalchemy znam a ORM taky, ale mam radeji ciste sql
+</I>&gt;<i> dotazy. Kazdopadne o to nejde.
+</I>&gt;<i> 
+</I>&gt;<i> Pravdepodobne jsem spatne popsal problem, me nejde o to pripojit se k
+</I>&gt;<i> databazi, me jde o to vyzkouset si napsat tu abstrakci.
+</I>&gt;<i> 
+</I>&gt;<i> Uplne konkretne, chci napsat tridu, ktera podle predaneho pole behem
+</I>&gt;<i> inicializace si vygeneruje metody dle slovniku. Nedelam to pro nic
+</I>&gt;<i> konkretniho, jen me bavi python a zkousim co vsechno jde a tim se
+</I>&gt;<i> ucim dalsi veci
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> #moje magicka trida class db: # nejaka magie
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> # mam slovnik: SQL = { 'addUser' : 'insert into users (name, email)
+</I>&gt;<i> VALUES ($name, $email);', 'delUser'  : 'delete from users where name
+</I>&gt;<i> = $name', }
+</I>&gt;<i> 
+</I>&gt;<i> # provedu si inicializaci data = db(SQL)
+</I>&gt;<i> 
+</I>&gt;<i> # a ted mam objekt data, ktery ma metodu addUser a delUser, # pricemz
+</I>&gt;<i> kazda z nich prebira **kwargs a podle toho doplni dotaz do db. #
+</I>&gt;<i> priklad:
+</I>&gt;<i> 
+</I>&gt;<i> data.addUser(name = 'karel', email = '<A HREF="http://www.py.cz/mailman/listinfo/python">karel na email.tld</A>')
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Toto pouziti je jen priklad, ktery me napadl pro vyzkouseni, SQL
+</I>&gt;<i> injection tam samozrejme hrozi, ale o bezpecnost tu nejde, tu bych
+</I>&gt;<i> stejne resil pravdepodobne uz na formularich pomoci validace a csrf,
+</I>&gt;<i> pak urcite na db kde z kodu volam stejne jedine procedury a pohledy,
+</I>&gt;<i> Ale ted si hraju s dymanickymi metodami a chci zkusit generovat je ze
+</I>&gt;<i> slovniku. Kod uplne v prvnim prispevku je pokus, ktery nefunguje
+</I>&gt;<i> protoze sem nejpis neco spatne pochopil.
+</I>&gt;<i> 
+</I>&gt;<i> Predem diky
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________ Python mailing list 
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i> 
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011333.html">[python] dynamicke metody
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011335.html">[python] dynamicke metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-April/date.html#11334">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/thread.html#11334">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/subject.html#11334">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/author.html#11334">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-April/011334.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:42 GMT -->
+</html>

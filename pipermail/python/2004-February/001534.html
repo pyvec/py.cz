@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-February/001534.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:48 GMT -->
+<HEAD>
+   <TITLE> [python] py2exe
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20py2exe&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-February/001536.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-February/001535.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] py2exe</H1>
+    <B>Gen2n</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20py2exe&In-Reply-To="
+       TITLE="[python] py2exe">gen2n na seznam.cz
+       </A><BR>
+    <I>Pondělí Únor 23 11:33:47 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-February/001536.html">[python] ako odovzdat premennu zpt
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-February/001535.html">[python] py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-February/date.html#1534">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/thread.html#1534">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/subject.html#1534">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/author.html#1534">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zde byl umístěn nepřijatelný obsah typu: multipart/alternative------------- další část ---------------
+ďťżfrom Tkinter import *
+import time, string, tkMessageBox
+DELKA=50
+KODOVANI='windows-1250'
+FONT=&quot;Helvetica 12 bold&quot;
+
+def evOK(aaa=1):
+    ## kontrola, 2xuloĹženĂ­
+    vstup=eText.get().encode(KODOVANI)
+    if len(vstup.split())&lt;3:
+        tkMessageBox.showwarning(&quot;UpozornÄnĂ­&quot;, &quot;MusĂ­ĹĄ zadat JmĂŠno PĹĂ­jmenĂ­ a TĹĂ­du&quot;)         
+        return
+    cas=time.strftime('%d.%m.%Y %a %X: ')
+    s=file('provozni_denik.lg','a')
+    s.write(cas+vstup+'\n')
+    s.close()
+    s=file('!'+vstup+'.lg','w'); s.close
+    top.destroy()
+
+def altf4(aaa=1):
+    ## zamezenĂ­ opuĹĄtÄnĂ­ okna jinak neĹž zadaĂĄnĂ­m 3 ĂşdajĹŻ
+	x = Tk()
+	x.withdraw()
+	x.bell()
+	x.destroy()
+
+def hlavni():
+    ## definice okna    
+    global top,eText
+    top=Tk()
+    top.title('ProvoznĂ­ denĂ­k')
+    top.geometry('+364+289')
+    top.protocol('WM_DELETE_WINDOW', altf4 ) 
+
+    fVstup=Frame(top, borderwidth=2, relief='ridge')
+    fVstup.pack(anchor='center', expand=1)
+
+    lText=Label(fVstup, text='ProvoznĂ­ denĂ­k\nZadej: \n\nJmĂŠno PĹĂ­jmenĂ­ TĹĂ­da', font=(FONT))
+    lText.pack()
+
+    eText=Entry(fVstup, font=(FONT))
+    eText.bind('&lt;Return&gt;',evOK)
+    eText.focus_force()
+    eText.pack(ipadx=DELKA, padx=10)
+
+    tlOK=Button(fVstup, text='OK' , command=evOK)
+    tlOK.pack(ipadx=DELKA, pady=5)
+
+hlavni()
+top.mainloop()
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-February/001536.html">[python] ako odovzdat premennu zpt
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-February/001535.html">[python] py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-February/date.html#1534">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/thread.html#1534">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/subject.html#1534">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-February/author.html#1534">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-February/001534.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:48 GMT -->
+</html>

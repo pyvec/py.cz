@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004993.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:19 GMT -->
+<HEAD>
+   <TITLE> [python] Statické metody v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004991.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004994.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Statické metody v Pythonu</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To="
+       TITLE="[python] Statické metody v Pythonu">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Listopad  9 12:05:51 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004991.html">[python] Statické metody v Pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004994.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4993">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4993">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4993">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4993">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> &gt; Ano. Ale toto je otázka návrhu. Typicky se definuje operátor
+</I>&gt;<i> &gt; pro sčítání (operator+() nebo __add__()), který pracuje s
+</I>&gt;<i> &gt; argumentem stejné třídy, jako je sám objekt. V budoucnu si můžu
+</I>&gt;<i> &gt; vymyslet další konverze, ze kterých vypadne úhel. Z hlediska
+</I>&gt;<i> &gt; údržby je lepší, když se speciality dělají zvenku. Je tedy
+</I>&gt;<i> &gt; lepší venku převést string zeměpisné šířky na úhel a
+</I>&gt;<i> &gt; dosadit.
+</I>&gt;<i> 
+</I>&gt;<i> A proč tedy můžu v Pytonu psát:
+</I>&gt;<i>      unicode_string + ansi_8_bit_string
+</I>&gt;<i> Proč v rámci tohoto pravdidla Python striktně netrvá na:
+</I>&gt;<i>      unicode_string + uniocde(ansi_8_bit_string)
+</I>&gt;<i> 
+</I>&gt;<i> Ono toto pravidlo, kdyby se mělo striktně dodržovat, 
+</I>&gt;<i> pak bude každý programovací jazyk včetně Pythonu ukecaný
+</I>&gt;<i> jako COBOL, nebo Ada.
+</I>
+Je to věc návrhu. Z logického hlediska unicode_string je
+řetězec a ansi_8bit_string je taky řetězec. Bylo to jasné
+už v okamžiku, kdy se ten operátor zaváděl. Taky bylo jasné,
+že řetězce se budou používat intenzivně. Ale taky platí,
+že žádný další typ se takto k řetězci přidat nedá! Nemůžu
+tedy udělat
+             unicode_string + 123
+
+I když nadefinovat příslušný operátor by bylo možné 
+a relativně snadné. Jenže za chvíli bych si mohl vymyslet,
+že chci k řetězci přidávat kde co. Pro objekty to jde
+vlastně podobně, jako kdyby se v C++ implicitně použil
+dříve zmíněný konstruktor (tentokrát řetězce), který by
+definoval konstruktor pro daný argument. Ale jde to jen
+pro objekty třídy, které definují metodu __str__(). 
+To je ale přístup z druhé strany. Jde to vlastně tehdy,
+když objekt EXPLICITNĚ definuje konverzi na řetězec. 
+Metoda __str__ je svým způsobem výjimečná -- cokoliv
+často potřebujeme převádět na řetězec.
+
+A to je podle mého názoru i odpověď na to, proč by se 
+němělo dělat něco jako 
+
+     uhel + &quot;30N54&quot;
+
+Řetězce mají přece jen výsadní postavení. Při jejich 
+vytváření se dokonce používá speciální syntaktická 
+konstrukce. Ale stejně mohou nastávat problémy, protože
+k ne-unicode řetězci musí někde existovat dodatečná 
+informace, jaké kódování je použito.
+
+&gt;<i>  &gt; Readability counts.
+</I>&gt;<i>  &gt; Special cases aren't special enough to break the rules.
+</I>&gt;<i>  &gt; In the face of ambiguity, refuse the temptation to guess.
+</I>&gt;<i>  &gt; If the implementation is hard to explain, it's a bad idea.
+</I>&gt;<i>  &gt; If the implementation is easy to explain, it may be a good idea.
+</I>&gt;<i> 
+</I>&gt;<i> Pod to se podepisuji.
+</I>
+To nemůžeš. Pod tím už je podepsaný Tim Peters ;)
+ 
+&gt;<i> [...] Já jsem taky původně váhal, jestli namísto 
+</I>&gt;<i> třídy Angle neudělat prostě pár normálních funkcí 
+</I>&gt;<i> a třídou se vůbec nezatěžovat. Na jednodušší věci 
+</I>&gt;<i> by to možná bylo lepší, prostě by zbytečně nevznikaly 
+</I>&gt;<i> instance, všechno by byl float. Ale nakonec jsem 
+</I>&gt;<i> se rozhodl pro komplexní řešení včetně operátorů, 
+</I>&gt;<i> property a dalších.
+</I>
+Je v tom skrytý určitý odpor k OOP (přílišný
+konzervatismus -- neber to jako výtku). Pokud 
+vyjádření &quot;zbytečný vznik instance&quot; nahradím
+vyjádřením &quot;zbytečný vznik proměnné&quot;, pak to vypadá
+divně. Přitom vznik instance třídy nemusí být
+v daném jazyce o moc náročnější, než vznik 
+proměnné (ve smyslu jak to chápou kompilované
+jazyky). Když použiji float, v Pythonu taky 
+vzniká instance nějakého objektu.
+
+pepr
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004991.html">[python] Statické metody v Pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004994.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4993">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4993">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4993">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4993">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004993.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:19 GMT -->
+</html>

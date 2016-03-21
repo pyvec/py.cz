@@ -1,0 +1,379 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000213.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3FISO-8859-2%3FQ%3FMilovan%3DE9_Livewires_-_A_%3F%3D%0A%09%3D%3FISO-8859-2%3FQ%3Fnajednou_tam_lezou_t%3DF8%3DEDdy%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC090813%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000212.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000214.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3FISO-8859-2%3FQ%3FMilovan%3DE9_Livewires_-_A_%3F%3D%0A%09%3D%3FISO-8859-2%3FQ%3Fnajednou_tam_lezou_t%3DF8%3DEDdy%3F%3D&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC090813%40skil01.skil.mistni"
+       TITLE="[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy">geon na post.cz
+       </A><BR>
+    <I>Pátek Březen  3 08:56:57 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000212.html">RE: [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000214.html">[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#213">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#213">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#213">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#213">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> &gt; [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+ &gt;
+ &gt; Ahoj,
+ &gt; tak jsem dále pokročil v tvorbě oné robotí hry a dostal jsem se do
+ &gt; části, kde by to chtělo přidat další roboty aby jich hráče honilo víc.
+ &gt; Autor tutoriálu se jal používat třídy a k úpravě programu poskytl
+ &gt; instrukce:
+
+Ahoj, autor (překladatel) jsem já ;-) a ty jsi asi první, kdo kurz 
+prochází celý. Kurz byl původně (v originále) myšlen jako kurz na Letním 
+pythonýrském táboře. Tak jsou dělané i ty listy --- nehotové, neříkající 
+vše -- protože žák má na kurzu kdykoliv možnost zvednout ruku a zeptat 
+se přímo. Offtopic - to je jeden z důvodů proč jsem proti zavádění 
+eLearningu na ZŠ.
+
+
+Třídy jsou zde použity jen ve svém velmi okrajovém významu. Žádná 
+dědičnost, dokonce žádné metody. Jen jakoby obal na všechny proměnné, 
+které k sobě patří. Abys nepsal např.:
+xh=10
+yh=20
+Hrac_telo = ...
+
+ale:
+
+hrac.xh=10
+hrac.yh=20
+hrac.Hrac_telo = .... (nebo lépe přejmenovat na hrac.telo = ...)
+
+V podstatě jen pro lepší přehled a následnou snažší manipulaci. Použití 
+je toto.
+
+class Hrac:
+   pass
+
+hrac=Hrac()
+# a pak již můžeš dělat:
+hrac.x=random(...)
+hrac.y=.....
+
+
+Udělal jsi ohromný kus práce, přesto bych bych nejdříve, abychom 
+společně tvůj program zprovoznili (nefunguje - zkus si zkoírovat co jsi 
+poslal a zkus to pustit) a okomonetovali (pokud chceš po ostatních, aby 
+ti pomáhali s programem, je lepší komentovat, alespon základní smysly 
+funkcí případně náročnějších míst).
+ 
+ &gt;
+ &gt; def vyrobRobota():
+ &gt;     xr=random.randint(8, 631)
+ &gt;     yr=random.randint(8, 471)
+ &gt;
+ &gt;     xr_round = xr / 10
+ &gt;     xh_round = xh / 10
+ &gt;     yr_round = yr / 10
+ &gt;     yh_round = yh / 10
+ &gt;     while xr_round == xh_round:
+ &gt;         while yr_round == yh_round:
+ &gt;             xr=random.randint(8, 631)
+ &gt;             yr=random.randint(8, 471)
+ &gt;
+
+&quot;nezamrzá&quot; ti to někdy? - může to být tímto cyklem - protože z něho není 
+cesty ven - musíš měnit i xh_round, ....
+a neni lepší (zkus přijít na rozdíl)??:
+while xr_round == xh_round and yr_round == yh_round:
+
+
+ &gt;     Robot_telo = box(xr-5,yr-5,xr+5,yr+5, filled=1, 
+colour=Colour.dark_blue)
+ &gt;     return xr, yr, Robot_telo
+ &gt;
+
+tady něco chybí, tady je chyba
+
+ &gt;         if &quot;2&quot; in klavesy:
+ &gt;             xh = xh + 0
+ &gt;             yh = yh - 10
+ &gt;             sleep(0.2)
+ &gt;             teleportace = teleportace + 0
+ &gt;             return xh, yh, teleportace
+ &gt;         elif &quot;8&quot; in klavesy:
+ &gt;             xh = xh + 0
+ &gt;             yh = yh + 10
+ &gt;             sleep(0.2)
+ &gt;             teleportace = teleportace + 0
+ &gt;             return xh, yh, teleportace
+ &gt;         elif &quot;4&quot; in klavesy:
+ &gt;             xh = xh - 10
+ &gt;             yh = yh + 0
+ &gt;             sleep(0.2)
+ &gt;             teleportace = teleportace + 0
+ &gt;             return xh, yh, teleportace
+ &gt;         elif &quot;6&quot; in klavesy:
+ &gt;             xh = xh + 10
+ &gt;             yh = yh + 0
+ &gt;             sleep(0.2)
+ &gt;             teleportace = teleportace + 0
+ &gt;             return xh, yh, teleportace
+ &gt;         elif &quot;1&quot; in klavesy:
+ &gt;             xh = xh - 10
+ &gt;             yh = yh - 10
+ &gt;             sleep(0.2)
+ &gt;             teleportace = teleportace + 0
+ &gt;             return xh, yh, teleportace
+ &gt;         elif &quot;3&quot; in klavesy:
+ &gt;             xh = xh + 10
+ &gt;             yh = yh - 10
+ &gt;             sleep(0.2)
+ &gt;             teleportace = teleportace + 0
+ &gt;             return xh, yh, teleportace
+ &gt;         elif &quot;7&quot; in klavesy:
+ &gt;             xh = xh - 10
+ &gt;             yh = yh + 10
+ &gt;             sleep(0.2)
+ &gt;             teleportace = teleportace + 0
+ &gt;             return xh, yh, teleportace
+ &gt;         elif &quot;9&quot; in klavesy:
+ &gt;             xh = xh + 10
+ &gt;             yh = yh + 10
+ &gt;             sleep(0.2)
+ &gt;             teleportace = teleportace + 0
+ &gt;             return xh, yh, teleportace
+ &gt;         elif teleportace &lt; 5:
+ &gt;             if &quot;t&quot; in klavesy:
+ &gt;                 xh = random.randint(8, 631)
+ &gt;                 yh = random.randint(8, 471)
+ &gt;                 teleportace = teleportace + 1
+ &gt;                 sleep(0.1)
+ &gt;                 return xh, yh, teleportace
+ &gt;             else:
+ &gt;                 xh = xh + 0
+ &gt;                 yh = yh + 0
+ &gt;                 teleportace = teleportace + 0
+ &gt;                 return xh, yh, teleportace
+ &gt;         else:
+ &gt;             xh = xh + 0
+ &gt;             yh = yh + 0
+ &gt;             teleportace = teleportace + 0
+ &gt;             return xh, yh, teleportace
+
+v této funkci se zbytečně stokrát opakuje return xh, .... Nešlo by to 
+dát až na konec funkce? Je tam dvakrát stejný else... myslím že 
+zbytečně... nemusí tam být ani jednou, nebo ano?
+
+
+
+ &gt;
+ &gt; def posunRobota(xr, xh, yr, yh, Robot_telo):
+ &gt;     if xr &lt; xh:
+ &gt;         if yr == yh:
+ &gt;             xr = xr+5
+ &gt;             yr = yr+0
+ &gt;             move_to(Robot_telo, xr, yr)
+ &gt;             sleep(0.2)
+ &gt;             return xr, yr
+ &gt;         elif yr &lt; yh:
+ &gt;             xr = xr+5
+ &gt;             yr = yr+5
+ &gt;             move_to(Robot_telo, xr, yr)
+ &gt;             sleep(0.2)
+ &gt;             return xr, yr
+ &gt;         elif yr &gt; yh:
+ &gt;             xr = xr+5
+ &gt;             yr = yr-5
+ &gt;             move_to(Robot_telo, xr, yr)
+ &gt;             sleep(0.2)
+ &gt;             return xr, yr
+ &gt;         else:
+ &gt;             return xr, yr
+ &gt;     elif xr &gt; xh:
+ &gt;         if yr == yh:
+ &gt;             xr = xr-5
+ &gt;             yr = yr+0
+ &gt;             move_to(Robot_telo, xr, yr)
+ &gt;             sleep(0.2)
+ &gt;             return xr, yr
+ &gt;         if yr &lt; yh:
+ &gt;             xr = xr-5
+ &gt;             yr = yr+5
+ &gt;             move_to(Robot_telo, xr, yr)
+ &gt;             sleep(0.2)
+ &gt;             return xr, yr
+ &gt;         if yr &gt; yh:
+ &gt;             xr = xr-5
+ &gt;             yr = yr-5
+ &gt;             move_to(Robot_telo, xr, yr)
+ &gt;             sleep(0.2)
+ &gt;             return xr, yr
+ &gt;         else:
+ &gt;             return xr, yr
+ &gt;     elif yr &lt; yh:
+ &gt;         yr = yr+5
+ &gt;         xr = xr+0
+ &gt;         move_to(Robot_telo, xr, yr)
+ &gt;         sleep(0.2)
+ &gt;         return xr, yr
+ &gt;     elif yr &gt; yh:
+ &gt;         yr = yr-5
+ &gt;         xr = xr+0
+ &gt;         move_to(Robot_telo, xr, yr)
+ &gt;         sleep(0.2)
+ &gt;         return xr, yr
+ &gt;     else:
+ &gt;         xr = xr+0
+ &gt;         yr = yr+0
+ &gt;         return xr, yr
+ &gt;
+
+nemám tady u sebe konečné řešení, ale tahle &quot;kalkulační matematika 
+přibližování&quot;
+by také měla jít zjednodušit, asi takto:
+Když bude souřasdnice hráče menší než souřadnice robota, přičti k 
+souřadnici robora nějaký krok. A to se musí udělat zvlášť pro x a y a 
+zvlášť pro menší a větší. Takže tohle je vlastně 1/4 této části
+
+    if robot.x &lt; hrac.x:
+        robot.x=robot.x+krok/2
+        
+
+
+ &gt;
+ &gt; def posunHrace():
+ &gt;     move_to(Hrac_telo, xh, yh)
+ &gt;
+ &gt; # Funkce znemožňující hráčův pohyb za okraj hrací plochy
+ &gt; def kontrola_plochy(xh, yh, Hrac_telo):
+ &gt;     if xh &lt; 8:
+ &gt;        xh = 8
+ &gt;        yh = yh+0
+ &gt;        move_to(Hrac_telo, xh, yh)
+ &gt;        return xh, yh
+ &gt;     elif xh &gt; 631:
+ &gt;        xh = 631
+ &gt;        yh = yh+0
+ &gt;        move_to(Hrac_telo, xh, yh)
+ &gt;        return xh, yh
+ &gt;     elif yh &lt; 8:
+ &gt;        yh = 8
+ &gt;        xh = xh+0
+ &gt;        move_to(Hrac_telo, xh, yh)
+ &gt;        return xh, yh
+ &gt;     elif yh &gt; 471:
+ &gt;        yh = 471
+ &gt;        xh = xh+0
+ &gt;        move_to(Hrac_telo, xh, yh)
+ &gt;        return xh, yh
+ &gt;     else:
+ &gt;        return xh, yh
+
+a tady podobně:
+  if hrac.x&lt;0:  hrac.x=0
+
+Stačí nastavit jen x-sovou souřadnici ne? Ostatní zůstaávají nemění se....  
+
+
+ &gt;
+ &gt; # Kontrola srážky s robotem
+ &gt; def kontrola_srazky(xr, xh, yr, yh, konec_sub):
+ &gt;     xr_round = xr / 10
+ &gt;     xh_round = xh / 10
+ &gt;     yr_round = yr / 10
+ &gt;     yh_round = yh / 10
+ &gt;     if xr_round == xh_round:
+ &gt;         if yr_round == yh_round:
+ &gt;             print &quot;Prohrál jsi!&quot;
+ &gt;             konec_sub = 1
+ &gt;             return konec_sub
+ &gt;         else:
+ &gt;             pass
+ &gt;     else:
+ &gt;         pass
+
+
+
+zase mi připadají ty dvě else: pass nějaké navíc ....
+
+ &gt;
+ &gt; box(3,3,636,476)                        # Vytváří okraj hrací plochy
+ &gt;
+ &gt; xh, yh, Hrac_telo = vyrobHrace()
+ &gt; xr, yr, Robot_telo = vyrobRobota()
+ &gt;
+ &gt; while konec != 2:
+ &gt;     while 1:
+
+není to while 1: zbytečné??
+
+ &gt;         klavesy = keys_pressed()
+ &gt;
+ &gt;         xh, yh, teleportace = zmena_XY_hr(xh, yh, teleportace)
+ &gt;         posunHrace()
+ &gt;
+ &gt;         xh, yh = kontrola_plochy(xh, yh, Hrac_telo)
+ &gt;         xr, yr = posunRobota(xr, xh, yr, yh, Robot_telo)
+ &gt;         konec_sub = kontrola_srazky(xr, xh, yr, yh, konec_sub)
+ &gt;         # Ukončení hry v případě kolize
+ &gt;         if konec_sub == 1:
+ &gt;             konec = 2
+ &gt;             break
+
+není to break zbytečné???
+
+ &gt;         # Přerušení hry ze strany uživatele
+ &gt;         if &quot;q&quot; in klavesy:
+ &gt;             konec = 2
+ &gt;             break
+ &gt;
+ &gt; end_graphics()
+ &gt;
+
+
+Možná budeš chtít se ptát na jednotlivé detaily, tak se ptej, dej sem 
+funkcční kousek kodu a můžeme to řešit. Dlouhé programy často odrazují 
+od odpovídání ;-) Zkus si vždy v malém programu nasimulovat svůj 
+problém, odprostit ho od věcí, které tam být nemusí a hurá s ním sem
+
+Určite jsem na něco zapomněl, jako vždy, ale alespoň doufám, že jsem 
+nikde neudělal chybu...
+
+geon
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000212.html">RE: [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000214.html">[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#213">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#213">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#213">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#213">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000213.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

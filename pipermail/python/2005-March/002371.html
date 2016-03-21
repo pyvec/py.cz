@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002371.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:47 GMT -->
+<HEAD>
+   <TITLE> [python] Re: download z netu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20download%20z%20netu&In-Reply-To=d1loq6%242oo9%241%40ns.felk.cvut.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-March/002370.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-March/002372.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Re: download z netu</H1>
+    <B>pavel.kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20download%20z%20netu&In-Reply-To=d1loq6%242oo9%241%40ns.felk.cvut.cz"
+       TITLE="[python] Re: download z netu">gen2n na seznam.cz
+       </A><BR>
+    <I>Pondělí Březen 21 07:20:26 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002370.html">[python] Re: download z netu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002372.html">[python] Zavretie okna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2371">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2371">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2371">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2371">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Beru zpět, už to jede ..... Byla tam malá chybka.
+
+gen2n
+ICQ 176015287
+
+
+
+
+pavel.kosina napsal(a):
+&gt;<i> Nevím proč, ale přes vytáčené i přes pevné připojení mi toto řešení 
+</I>&gt;<i> hlásá chybu:
+</I>&gt;<i> 
+</I>&gt;<i>   ....
+</I>&gt;<i>   File &quot;C:\PRG\PYTHON23\lib\httplib.py&quot;, line 564, in send
+</I>&gt;<i>     self.connect()
+</I>&gt;<i>   File &quot;C:\PRG\PYTHON23\lib\httplib.py&quot;, line 548, in connect
+</I>&gt;<i>     raise socket.error, msg
+</I>&gt;<i> IOError: [Errno socket error] (10061, 'Connection refused')
+</I>&gt;<i>  &gt;&gt;&gt;
+</I>&gt;<i> 
+</I>&gt;<i> To původní funguje v ten samý čas bez problémů.
+</I>&gt;<i> 
+</I>&gt;<i> PK
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Radim Novotný napsal(a):
+</I>&gt;<i> 
+</I>&gt;&gt;<i> import urllib
+</I>&gt;&gt;<i> fp = urllib.urlopen('<A HREF="http://www.geon.wz.cz/zip/livewires.zip'">http://www.geon.wz.cz/zip/livewires.zip'</A>)
+</I>&gt;&gt;<i> data = fp.read()
+</I>&gt;&gt;<i> fp.close()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ....
+</I>&gt;&gt;<i> ---------- Original Message ----------------------------------
+</I>&gt;&gt;<i> From: &quot;pavel.kosina&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">gen2n na seznam.cz</A>&gt;
+</I>&gt;&gt;<i> Reply-To: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;<i> Date:  Mon, 14 Mar 2005 18:54:28 +0100
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Už to mám:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> import httplib, os
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> www=&quot;www.geon.wz.cz&quot;
+</I>&gt;&gt;&gt;<i> souborNet=&quot;/zip/livewires.zip&quot;
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> # stazeni z Netu
+</I>&gt;&gt;&gt;<i> spojeni = httplib.HTTPConnection(www)
+</I>&gt;&gt;&gt;<i> spojeni.request(&quot;GET&quot;, souborNet)
+</I>&gt;&gt;&gt;<i> odpoved = spojeni.getresponse()
+</I>&gt;&gt;&gt;<i> print &quot;Odpoved od www: &quot;, odpoved.status, odpoved.reason
+</I>&gt;&gt;&gt;<i> data = odpoved.read()             # do promenne data nacti cely soubor
+</I>&gt;&gt;&gt;<i> spojeni.close()
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> # ulozeni na local
+</I>&gt;&gt;&gt;<i> souborLocal= os.path.basename(souborNet)# pouzijeme jen jmeno, ne cestu
+</I>&gt;&gt;&gt;<i> f=file(souborLocal,'wb')      # otevri soubor f pro BINARNI zapis
+</I>&gt;&gt;&gt;<i> f.write(data)
+</I>&gt;&gt;&gt;<i> f.close()
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> print &quot;Soubor&quot;, souborLocal, &quot;ulozen do&quot;, os.getcwd()
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Pavel
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> pavel.kosina napsal(a):
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Jak stáhnout nějaký zip nebo exe soubor z netu?
+</I>&gt;&gt;&gt;&gt;<i> Zkoušel jsem urllib2 a httplib, ale nějak se nevedlo....
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Díky
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://hugo.zagamma.cz/mailman/listinfo/python">http://hugo.zagamma.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002370.html">[python] Re: download z netu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002372.html">[python] Zavretie okna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2371">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2371">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2371">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2371">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002371.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:47 GMT -->
+</html>

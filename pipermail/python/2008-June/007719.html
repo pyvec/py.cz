@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007719.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:47 GMT -->
+<HEAD>
+   <TITLE> [python] Brainstorm request: Vyuka programovani na gymplu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Brainstorm%20request%3A%20Vyuka%20programovani%20na%20gymplu&In-Reply-To=484A6A15.8060200%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007645.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007723.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Brainstorm request: Vyuka programovani na gymplu</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Brainstorm%20request%3A%20Vyuka%20programovani%20na%20gymplu&In-Reply-To=484A6A15.8060200%40centrum.cz"
+       TITLE="[python] Brainstorm request: Vyuka programovani na gymplu">slush na centrum.cz
+       </A><BR>
+    <I>Sobota Červen 14 00:39:28 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007645.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007723.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7719">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7719">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7719">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7719">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2008/6/7 superman &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">feed na centrum.cz</A>&gt;:
+
+&gt;<i>
+</I>&gt;<i> &gt;     Globální proměnné nejsou prasení v rozumném počtu. Stejně tak jako
+</I>&gt;<i> &gt;     leccos dalšího.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; V tomhle si dovolim nesouhlasit. Pokud programator potrebuje pouzit
+</I>&gt;<i> &gt; globalni promennou, udelal v navrhu datovych struktur chybu.
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i> Já tenhle názor nesdílím. Globální proměnná je zkrátka jenom datová
+</I>&gt;<i> proměnná viditelná pro všechny moduly programy. Představte si třeba, že
+</I>&gt;<i> máte multithreadovou aplikaci, která po startu
+</I>&gt;<i>
+</I>neudělá nic jiného, než rozjede x threadů (třeba několik tisíc), a
+&gt;<i> všechny thready budou synchronizovány v určitých fázích pomocí jednoho
+</I>&gt;<i> synchronizačního objektu. Pak nevidím důvod, proč synchronizační objekt
+</I>&gt;<i> neprohlásit za globální proměnnou, byť uznávám, že je to věcí názoru.
+</I>
+
+Dispatcher (server), ktery spousti nekolik tisic vlaken si vytvori vlastni
+registracni strukturu metadat o kazdem z pustenych vlaken, kteremu pri
+startu (pokud je to nutne) preda referenci na jeho zaznam. Zde muze byt
+napriklad struktura semaforu, pripadne jineho synchronizacniho &quot;nastroje&quot;,
+ktery dane vlakno bude kontrolovat/ridit. Takova konstrukce je plne
+zapouzdrena (objekt dispatcheru si managuje sve ovecky, plus poskytuje
+interface k vlaknum pro sve okoli) a je umoznena absolutni prenositelnost /
+zapouzdreni do slozitejsich struktur aplikace. Nevidim zadnou potrebu, a uz
+vubec ne oduvodnenou, pro existenci globalni promenne.
+
+
+&gt;<i> Stejně tak jsou přirozené globální proměnné - například parametry
+</I>&gt;<i> procesu, nebo třeba časové pásmo používané vaším procesem, jazyk ve
+</I>&gt;<i> kterém pracuje proces, aktuální adresář procesu, stavy obsluh signálu a
+</I>&gt;<i> obslužné funkce, proměnné procesu (myšleno environment procesu), a řada
+</I>&gt;<i> dalších.
+</I>
+
+Priznavam, ze takove reseni mi nevadi, presto se mi vice libi konstrukt jako
+napr.
+
+import sys
+sys.path ....
+
+nez napriklad $PATH, jako ma BASH. Protoze nedelam slozite konstrukty v
+bashi casto, uz nekolikrat jsem si omylem prepsal systemove cesty ve skriptu
+jen nevhodnym pojmenovanim vnitrni promenne. Pak se divite, ze kdyz v bashi
+udelate napriklad
+
+PATH=$1
+....
+bash skript.sh $PATH
+
+skonci vam to s chybou, ze nelze najit interpreter bash :). Priznavam, moje
+blbost, ale to je dusledek pouzivani globalnich promennych :). Konec OT...
+
+Marek
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080614/5623b9bd/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080614/5623b9bd/attachment.htm</A> 
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007645.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007723.html">[python] Brainstorm request: Vyuka programovani na gymplu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7719">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7719">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7719">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7719">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007719.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:47 GMT -->
+</html>

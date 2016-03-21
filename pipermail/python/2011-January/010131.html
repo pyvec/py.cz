@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-January/010131.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:12 GMT -->
+<HEAD>
+   <TITLE> [python] sigint
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20sigint&In-Reply-To=%3C4D3F1330.80509%40post.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-January/010130.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-January/010132.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sigint</H1>
+    <B>geon na post.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20sigint&In-Reply-To=%3C4D3F1330.80509%40post.cz%3E"
+       TITLE="[python] sigint">geon na post.cz
+       </A><BR>
+    <I>Úterý Leden 25 19:15:12 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-January/010130.html">[python] sigint
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-January/010132.html">[python] sigint
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-January/date.html#10131">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/thread.html#10131">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/subject.html#10131">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/author.html#10131">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Díky, funguje. A dá se ve win odchytit i zavření okna, kde běží
+pythonovský script?
+
+
+Hynek Fabian napsal(a), dne 25.1.2011 11:36:
+&gt;<i> ^C ma  defaultni handler, odchyt vyjimku KeyboardInterrupt.
+</I>&gt;<i> Btw delat v kontextu signal handleru blokujici operace neni moc dobrej napad.
+</I>&gt;<i> 
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A> (Tuesday 25 January 2011 06:37:51):
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> v jedné části programu kopíruji soubory (obvykle velké) a chci mít
+</I>&gt;&gt;<i> zajištěno, že když dám ctrl+c tak že v cíli nezbude jen část souboru -
+</I>&gt;&gt;<i> chci zajistit jeho smazání přes odchycení sigint:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def signal_handler(signal, frame):
+</I>&gt;&gt;<i>         print 'You pressed Ctrl+C!'
+</I>&gt;&gt;<i>         print dest
+</I>&gt;&gt;<i>         if os.path.isdir(item):
+</I>&gt;&gt;<i>                 shutil.rmtree(dest)
+</I>&gt;&gt;<i>         if os.path.isfile(item):
+</I>&gt;&gt;<i>                 os. remove(dest)
+</I>&gt;&gt;<i>         sys.exit(0)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> signal.signal(signal.SIGINT, signal_handler)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> toto ale nefunguje, protože cíl je asi stále otevřen původním procesem
+</I>&gt;&gt;<i> kopírování. Díky za rady jak z toho ven.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> You pressed Ctrl+C!
+</I>&gt;&gt;<i> xyz.mkv
+</I>&gt;&gt;<i> Traceback (most recent call last):
+</I>&gt;&gt;<i>   File &quot;D:\Zaloha\W7610034.py&quot;, line 48, in &lt;module&gt;
+</I>&gt;&gt;<i>     shutil.copy(item, dest)
+</I>&gt;&gt;<i>   File &quot;C:\prg\Python26\lib\shutil.py&quot;, line 88, in copy
+</I>&gt;&gt;<i>     copyfile(src, dst)
+</I>&gt;&gt;<i>   File &quot;C:\prg\Python26\lib\shutil.py&quot;, line 54, in copyfile
+</I>&gt;&gt;<i>     copyfileobj(fsrc, fdst)
+</I>&gt;&gt;<i>   File &quot;C:\prg\Python26\lib\shutil.py&quot;, line 30, in copyfileobj
+</I>&gt;&gt;<i>     fdst.write(buf)
+</I>&gt;&gt;<i>   File &quot;D:\Zaloha\W7610034.py&quot;, line 11, in signal_handler
+</I>&gt;&gt;<i>     os. remove(dest)
+</I>&gt;&gt;<i> WindowsError: [Error 32] Proces nemß p°Ýstup k souboru, neboŁ jej prßvý
+</I>&gt;&gt;<i> vyu×Ývß
+</I>&gt;&gt;<i> jinř proces: 'xyz.mkv'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> xpsp3, py2.x
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Díky
+</I>&gt;&gt;<i> geon
+</I>&gt;&gt;<i> Pavel Kosina
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>
+
+-- 
+Náhodný citát:
+Přátelství mezi mužem a ženou nemůže existovati jako prvotní cit.
+		-- Lawrence
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-January/010130.html">[python] sigint
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-January/010132.html">[python] sigint
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-January/date.html#10131">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/thread.html#10131">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/subject.html#10131">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-January/author.html#10131">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-January/010131.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:12 GMT -->
+</html>

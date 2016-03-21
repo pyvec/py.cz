@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008534.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:59 GMT -->
+<HEAD>
+   <TITLE> [python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fmod%3D5Fpython_-_probl%3DE9m_s_v%3DEDcen%3DE1sobn%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DFDm_spu%3DB9t%3DECn%3DEDm_jednoho_skriptu%3F%3D&In-Reply-To=%3Cfcba3d560901140006i5c1dcc5bk61ce5660b3d9ad69%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008530.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008546.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fmod%3D5Fpython_-_probl%3DE9m_s_v%3DEDcen%3DE1sobn%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DFDm_spu%3DB9t%3DECn%3DEDm_jednoho_skriptu%3F%3D&In-Reply-To=%3Cfcba3d560901140006i5c1dcc5bk61ce5660b3d9ad69%40mail.gmail.com%3E"
+       TITLE="[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu">rainbof na gmail.com
+       </A><BR>
+    <I>Středa Leden 14 09:06:08 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008530.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008546.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8534">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8534">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8534">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8534">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>toto je zpusobeno http hlavickou, pokud nechces aby se to delo, mel by jsi
+to v http hlavicce rict
+pomoci no-cache
+
+Jinak velice praktickou veci na reseni problemu tohoto typu je program
+Wireshark (analyzator sitoveho provozu)
+nebo http filter (komercni ale lepsi)
+
+<A HREF="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html</A>
+
+
+Dne 13. leden 2009 22:40 Koumes21 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">koumes21 na gmail.com</A>&gt; napsal(a):
+
+&gt;<i> Problém &quot;vyřešen&quot;, připadám si jako hlupák. Nejdřív jsem si všiml, že se
+</I>&gt;<i> to nevztahuje jen na skripty Pythonu, ale na všechny soubory. Takže jsem
+</I>&gt;<i> si byl jist, že posílat to sem byl přinejmenším OT. No a pak jsem si
+</I>&gt;<i> všiml, že když změním URL třeba o jeden parametr (&quot;?n=1&quot;), který ani
+</I>&gt;<i> nevyužiji, tak to funguje tak, jak má. Takže si myslím, že pravdu měli
+</I>&gt;<i> Petr Messner a mtip, že je to prohlížečem. Prostě mě nenapadlo, že když
+</I>&gt;<i> by měl dvakrát stahovat to samé, tak že počká, až se stáhne ten první a
+</I>&gt;<i> pak teprv půjde na ten druhý (taky mě zmátlo, že to dělaly všechny
+</I>&gt;<i> prohlížeče), ačkoliv jinak to stahují najednou. Nejjednodušší řešení
+</I>&gt;<i> jsou často ta nejsprávnější. Proto se omlouvám za plýtvání Vaším časem.
+</I>&gt;<i>
+</I>&gt;<i> Koumes21
+</I>&gt;<i>
+</I>&gt;<i> Koumes21 napsal(a):
+</I>&gt;<i> &gt; Díky za snahu, ale tím to opravdu nejspíš nebude, chová se to stejně i
+</I>&gt;<i> &gt; když použiji vlastní handler, kde req.write() už použít musím.
+</I>&gt;<i> &gt; Každopádně, abych měl čisté svědomí, že jsem vyzkoušel všechno, tak až
+</I>&gt;<i> &gt; budu mít přístup k serveru, tak to otestuji.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Koumes21
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; 2009/1/13 Jan Bednařík &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jan.bednarik na gmail.com</A>
+</I>&gt;<i> &gt; &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">jan.bednarik na gmail.com</A>&gt;&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     No zkusil bych ten script napsat podle manuálu. V publisher handleru
+</I>&gt;<i> &gt;     se nepoužívá req.write(), ale na konci každé funkce použiješ return
+</I>&gt;<i> &gt;     kterým předáš celou stránku. Viz. mauál
+</I>&gt;<i> &gt;     <A HREF="http://www.modpython.org/live/current/doc-html/hand-pub.html">http://www.modpython.org/live/current/doc-html/hand-pub.html</A> nebo
+</I>&gt;<i> &gt;     pěkný tutoriál na
+</I>&gt;<i> &gt;     <A HREF="http://webpythohonzan.codepoint.net/mod_python_tutorial">http://webpythoHonzan.codepoint.net/mod_python_tutorial</A>
+</I>&gt;<i> &gt;     &lt;<A HREF="http://webpython.codepoint.net/mod_python_tutorial">http://webpython.codepoint.net/mod_python_tutorial</A>&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     Honza
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     &gt; Doufám, že se najde někdo, kdo něco takového již řešil. Ještě
+</I>&gt;<i> přidám
+</I>&gt;<i> &gt;     &gt; kód, který je potřeba k simulaci problému:
+</I>&gt;<i> &gt;     &gt;
+</I>&gt;<i> &gt;     &gt; def index(req):
+</I>&gt;<i> &gt;     &gt;    import time
+</I>&gt;<i> &gt;     &gt;    req.content_type=&quot;text/plain&quot;
+</I>&gt;<i> &gt;     &gt;    req.write(&quot;working...&quot;)
+</I>&gt;<i> &gt;     &gt;    time.sleep(10)
+</I>&gt;<i> &gt;     &gt;    req.write(&quot;\ndone&quot;)
+</I>&gt;<i> &gt;     &gt;
+</I>&gt;<i> &gt;     &gt; Předem děkuji za každou odpověď, která mi pomůže hnout se z místa.
+</I>&gt;<i> &gt;     &gt;
+</I>&gt;<i> &gt;     &gt; Koumes21
+</I>&gt;<i> &gt;     _______________________________________________
+</I>&gt;<i> &gt;     Python mailing list
+</I>&gt;<i> &gt;     <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;
+</I>&gt;<i> &gt;     <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090114/781f0e59/attachment.htm">http://www.py.cz/pipermail/python/attachments/20090114/781f0e59/attachment.htm</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008530.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008546.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8534">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8534">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8534">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8534">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008534.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:59 GMT -->
+</html>

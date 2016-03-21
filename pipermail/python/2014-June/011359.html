@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-June/011359.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:37 GMT -->
+<HEAD>
+   <TITLE> [python] tkinter, treeview, focus a scroll
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20tkinter%2C%20treeview%2C%20focus%20a%20scroll&In-Reply-To=%3C538DEFEC.9060201%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-June/011358.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-June/011360.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] tkinter, treeview, focus a scroll</H1>
+    <B>zu1234</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20tkinter%2C%20treeview%2C%20focus%20a%20scroll&In-Reply-To=%3C538DEFEC.9060201%40seznam.cz%3E"
+       TITLE="[python] tkinter, treeview, focus a scroll">zu1234 na seznam.cz
+       </A><BR>
+    <I>Úterý Červen  3 17:55:24 CEST 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-June/011358.html">[python] tkinter, treeview, focus a scroll
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-June/011360.html">[python] tkinter, treeview, focus a scroll
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-June/date.html#11359">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/thread.html#11359">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/subject.html#11359">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/author.html#11359">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Právě že chci aby se po spuštění programu
+zobrazila naposledy použitá položka.
+
+Proto mi to tlačítko nevyhovuje.
+Tak jsem vymyslel zavolání té funkce do_select()
+pomocí metody after() (viz příloha)
+
+Funguje to, jen mi to připadá dost podivné/amatérské.
+
+Nicméně děkuji za postrčení!!!!
+
+ZU
+
+
+Dne 3.6.2014 14:17, Petr Blahos napsal(a):
+&gt;<i> Ahoj, vypadá to, že na to je funkce see, jenže v tom __init__u to
+</I>&gt;<i> nefunguje. Patrně je
+</I>&gt;<i> potřeba, aby se to všechno vytvořilo a zobrazilo, a pak teprve to může
+</I>&gt;<i> fungovat. Ono
+</I>&gt;<i> to vlastně dá rozum, jak může see zobrazit něco v rámci něčeho, co vůbec
+</I>&gt;<i> není vidět?
+</I>&gt;<i>
+</I>&gt;<i> Když si do __init__u přidáš:
+</I>&gt;<i> *        self.btn = Button(self)*
+</I>&gt;<i> *        self.btn['text'] = 'select'*
+</I>&gt;<i> *        self.btn['command'] = self.do_select*
+</I>&gt;<i> *        self.btn.grid(row=2, column=0, sticky='ns')*
+</I>&gt;<i>
+</I>&gt;<i> a pak přidáš funkci
+</I>&gt;<i> *    def do_select(self):*
+</I>&gt;<i> *        self.tree.selection_set('I024')*
+</I>&gt;<i> *        self.tree.see('I024')*
+</I>&gt;<i>
+</I>&gt;<i> tak po stisku toho tlačítka už to tam nascrolluje.
+</I>&gt;<i> --
+</I>&gt;<i> Petr
+</I>&gt;<i>
+</I>&gt;<i> ____________________
+</I>&gt;<i> <A HREF="http://pysk.blog.root.cz/">http://pysk.blog.root.cz/</A>
+</I>&gt;<i>
+</I>&gt;<i> 2014-06-03 11:58 GMT+02:00 zu1234 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zu1234 na seznam.cz</A>
+</I>&gt;<i> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">zu1234 na seznam.cz</A>&gt;&gt;:
+</I>&gt;<i>
+</I>&gt;<i>     Zdravím vespolek.
+</I>&gt;<i>
+</I>&gt;<i>     Tvořím GUI aplikaci v tkinteru a je to pro mne docela zápas.
+</I>&gt;<i>
+</I>&gt;<i>     Narazil jsem na jednu nejasnost a nevím ani jak to na internetu hledat.
+</I>&gt;<i>
+</I>&gt;<i>     Mám treeview, v něm označím jeden prvek ('134'), on ale je za rohem
+</I>&gt;<i>     - není vidět.
+</I>&gt;<i>
+</I>&gt;<i>     Potřeboval bych aby se treeview samo odrolovalo tak, aby označený
+</I>&gt;<i>     prvek byl viditelný.
+</I>&gt;<i>
+</I>&gt;<i>     Jak na to? Příklad přikládám.
+</I>&gt;<i>
+</I>&gt;<i>     Alespoň nějakou nápovědu, prosím :-)
+</I>&gt;<i>
+</I>&gt;<i>     ZU
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>     _______________________________________________
+</I>&gt;<i>     Python mailing list
+</I>&gt;<i>     <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i>     <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>     Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+#!/usr/bin/python -u
+# -*- coding: utf-8 -*-
+
+import Tkinter as tkinter
+import ttk
+
+class app(tkinter.Frame):
+
+	def __init__(self, master):
+
+		tkinter.Frame.__init__(self, master)
+		self.tree = ttk.Treeview(self, selectmode = &quot;browse&quot;)
+		self.tree.grid(row=0, column=0)
+		ysb = ttk.Scrollbar(self, orient='vertical', command=self.tree.yview)
+		xsb = ttk.Scrollbar(self, orient='horizontal', command=self.tree.xview)
+		self.tree.configure(yscrollcommand=ysb.set, xscrollcommand=xsb.set)
+		ysb.grid(row=0, column=1, sticky='ns')
+		xsb.grid(row=1, column=0, sticky='ew')
+		self.grid()
+
+		for x in range(100, 300):
+			root_node = self.tree.insert('', 'end', text = str(x), open=True)
+
+		self.tree.after(10, self.do_select, 'I023')
+
+	def do_select(self, item):
+		self.tree.selection_set(item)
+		self.tree.see(item)
+		self.tree.focus(item)
+		self.tree.focus_set()
+
+root = tkinter.Tk()
+ap = app(root)
+root.mainloop()
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-June/011358.html">[python] tkinter, treeview, focus a scroll
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-June/011360.html">[python] tkinter, treeview, focus a scroll
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-June/date.html#11359">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/thread.html#11359">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/subject.html#11359">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/author.html#11359">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-June/011359.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:37 GMT -->
+</html>

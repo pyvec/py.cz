@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-January/001498.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:49 GMT -->
+<HEAD>
+   <TITLE> [python] jak tridit seznam dynamicky?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20jak%20tridit%20seznam%20dynamicky%3F&In-Reply-To=3FFD7948.4030907%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-January/001497.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-January/001499.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] jak tridit seznam dynamicky?</H1>
+    <B>tdc</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20jak%20tridit%20seznam%20dynamicky%3F&In-Reply-To=3FFD7948.4030907%40seznam.cz"
+       TITLE="[python] jak tridit seznam dynamicky?">tdc na phreaker.net
+       </A><BR>
+    <I>Čtvrtek Leden  8 20:00:31 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001497.html">[python] jak tridit seznam dynamicky?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001499.html">[python] jak tridit seznam dynamicky?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-January/date.html#1498">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/thread.html#1498">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/subject.html#1498">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/author.html#1498">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jaroslav Lukesh wrote:
+&gt;<i> Dobry den,
+</I>&gt;<i> 
+</I>&gt;<i> Mam takovy zacatecnicky dotaz - potrebuji v pythonu v Zope vytridit 
+</I>&gt;<i> seznam (obsahujici dalsi seznamy) co bude vracen v objectItems:
+</I>&gt;<i> 
+</I>&gt;<i> for i in self.objectItems('Folder')
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> a tridit podle hodnoty i[0]
+</I>&gt;<i> 
+</I>&gt;<i> Da se to tedy napsat nejak jako
+</I>&gt;<i> 
+</I>&gt;<i> for i in self.objectItems('Folder').sort(i[0])
+</I>&gt;<i> 
+</I>&gt;<i> ???
+</I>&gt;<i> 
+</I>
+neco jako:
+
+dirs=container.objectItems('Folder')
+return sequence.sort(dirs, (('id', 'cmp', 'desc'),))
+
+???
+
+pripadne 'id' nahradit 'i[0]' nebo cimkoliv, podle ceho se ma tridit,
+zbytek je asi zrejmy.
+
+&gt;<i> POtrebuji to tridit podle id, coz je v tomto pripade hodnota i[0]
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Pod zopem v DTML je to strasne jednoduche udelat:
+</I>&gt;<i> 
+</I>&gt;<i>     &lt;dtml-in &quot;objectItems('Folder')&quot; sort=id&gt;
+</I>&gt;<i> 
+</I>&gt;<i> ale ja mam pythonni skript, ktery si potrebuji &quot;ohnout&quot;. Da se to nejak 
+</I>&gt;<i> jednoduse?
+</I>&gt;<i> 
+</I>&gt;<i> Dik moc,
+</I>&gt;<i> 
+</I>&gt;<i> JL.
+</I>
+_tdc_
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001497.html">[python] jak tridit seznam dynamicky?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-January/001499.html">[python] jak tridit seznam dynamicky?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-January/date.html#1498">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/thread.html#1498">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/subject.html#1498">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-January/author.html#1498">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-January/001498.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:49 GMT -->
+</html>

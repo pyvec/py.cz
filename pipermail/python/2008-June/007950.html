@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007950.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:09 GMT -->
+<HEAD>
+   <TITLE> [python] MySQL - nativní rozhraní pro Python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-1%3Fq%3FMySQL_-_nativn%3DED_rozhran%3DED_pro_Python%3F%3D&In-Reply-To=4867F18F.3060202%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007949.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007942.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] MySQL - nativní rozhraní pro Python</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-1%3Fq%3FMySQL_-_nativn%3DED_rozhran%3DED_pro_Python%3F%3D&In-Reply-To=4867F18F.3060202%40seznam.cz"
+       TITLE="[python] MySQL - nativní rozhraní pro Python">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Pondělí Červen 30 23:21:35 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007949.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007942.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7950">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7950">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7950">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7950">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>O SQLAlchemy nic psat nemuzu, nikdy jsem s tim nepracoval.
+
+
+Django je framework pro psani webovych aplikaci (jeden z mnoha), ktery
+mimo jine obsahuje funkcnost pro praci s databazi &quot;pythonovskym
+zpusobem&quot;.
+Tj. misto toho abych pracoval primo v databazovem jazyce SQL a psal:
+  SELECT ulice FROM adresy WHERE ulice LIKE '%Sokolska%'
+nebo
+  INSERT INTO adresy (ulice) VALUES ('Sokolska')
+muzu pracovat primo s objekty v Pythonu, tj. pouziju:
+&gt;&gt;&gt;<i> from app.models import Adresa
+</I>&gt;&gt;&gt;<i> sokolska = Adresa.objects.filter(ulice__contains='Sokolska')
+</I>&gt;&gt;&gt;<i> prvni_sokolska = sokolska[0]
+</I>&gt;&gt;&gt;<i> posledni_sokolska = sokolska[-1]
+</I>
+Pokud chci neco ulozit do databaze, nemusim resit na urovni
+databazoveho SQL jestli budu delat INSERT nebo UPDATE, proste vezmu
+odpovidajici objekt a zavolam jeho metodu save()
+&gt;&gt;&gt;<i> prvni_sokolska.ulice = 'Sokolska_zmenena'
+</I>&gt;&gt;&gt;<i> prvni_sokolska.save()
+</I>
+(tohle jsou _hodne_ zjednodusene priklady, pochopitelne)
+
+Django umi pracovat s ruznymi databazemi na pozadi (predpokladam ze
+SQLAlchemy taky). Pokud byste chteli pouzit Django jenom pro
+zjednoduseni prace s databazi, je to asi spatny napad (ja to tak
+delam, ale mam i jine duvody). Pokud byste chteli vyvijed webovou
+aplikaci v Pythonu, stoji Django rozhodne za zvazeni (ale neni to
+jedina moznost).
+
+Vice se da najit na <A HREF="http://www.djangoproject.com/documentation/">http://www.djangoproject.com/documentation/</A> nebo
+na <A HREF="http://www.djangobook.com/en/1.0/">http://www.djangobook.com/en/1.0/</A> (ta se da koupit i v papirove
+podobe). I u nas se par lidi pouzivajicich Django najde, viz
+<A HREF="http://djangopeople.net/cz/.">http://djangopeople.net/cz/.</A>
+
+Tak, a ted si pripadam jako bych Django prodaval a mel z toho provize ;-)
+
+   Jirka
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007949.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007942.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7950">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7950">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7950">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7950">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007950.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:09 GMT -->
+</html>

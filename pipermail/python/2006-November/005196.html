@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005196.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:40 GMT -->
+<HEAD>
+   <TITLE> [python] cyklus for (bylo superman: zaporny systemovy cas)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cyklus%20for%20%28bylo%20superman%3A%20zaporny%20systemovy%20cas%29&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA4F7%40skil01.skil.mistni">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005194.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005202.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cyklus for (bylo superman: zaporny systemovy cas)</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cyklus%20for%20%28bylo%20superman%3A%20zaporny%20systemovy%20cas%29&In-Reply-To=E8AE1CAFC84D634A9CCC887B8AAB15EC0EA4F7%40skil01.skil.mistni"
+       TITLE="[python] cyklus for (bylo superman: zaporny systemovy cas)">feed na centrum.cz
+       </A><BR>
+    <I>Úterý Listopad 28 16:33:46 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005194.html">[python] cyklus for (bylo superman: zaporny systemovy cas)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005202.html">[python] zaporny systemovy cas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5196">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5196">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5196">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5196">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> GvR nikomu nebrání vytvořit mnohem dokonalejší
+</I>&gt;<i> odnož Pythonu. Čeká jen na tebe.
+</I>
+Existuje několik odnoží Pythonu, například JPython, ten od GvR je z nich 
+nejpomalejší.
+
+&gt;<i> Pokud jakákoliv konstrukce větvení nebo cyklu
+</I>&gt;<i> neprovádí testy a jiné příkazy způsobem, který
+</I>&gt;<i> by mohl mít za následek vedlejší efekt, a pokud
+</I>&gt;<i> je tělo takové konstrukce prázdné, dá se úplně
+</I>&gt;<i> vynechat.
+</I>
+Pokud testy volají funkci, pak jste s optimalizací skončil. A for cyklus 
+v Pythonu je veden tímto směrem, dokonce range má v budoucnu vracet 
+iterátor, tedy funkci.
+
+&gt;<i> Ani v jazycích C/C++ neexistuje klasický cyklus
+</I>&gt;<i> for. A co je to vůbec klasický cyklus for?
+</I>&gt;<i> Ten co zavedl (nebo převzal) Pascal? 
+</I>&gt;<i> Pro objektový přístup, který využívá různé
+</I>&gt;<i> typy kontejnerů (nejen pole) je průchod přes 
+</I>&gt;<i> indexy příliš speciální.
+</I>
+Python, který i pro cyklus přes lineární číselnou řadu musí vytvářet 
+sekvenci, nebo iterátor je jen překážkou pro optimalizaci. Samozřejmě to 
+jde optimalizovat, ale je potřeba vědět speciální objekty a sekvence a 
+vidět dovnitř, tedy je to špinavý přístup.
+
+&gt;<i> Pokud vím, je gramatika Pythonu LL(1) a v takovém
+</I>&gt;<i> případě může být pro interpret efektivnější 
+</I>&gt;<i> (z hlediska rychlosti tvorby a snadnosti údržby)
+</I>&gt;<i> použít překlad rekurzivním sestupem. Už jsem z toho
+</I>&gt;<i> trochu vypadl. Opravte mě, pokud se pletu.
+</I>
+Efektivnější z hlediska snadnosti údržby je vždycky použití speciálních 
+nástrojů pokud fungují dobře a vymýšlel je někdo kdo skutečně chce 
+usnadnit práci. Z hlediska rychlosti tvorby také.
+
+Dám jiný příklad, je efektivnější pro práci s daty, když chcete pracovat 
+s obrovským počtem údajů použít hotovou databázi, řekněme Oracle, nebo 
+si celou práci nabastlit sám? Včetně práci s diskovými stránkami, 
+tvorbou optimalizovaných dat, konstrukcí B stromů a indexů, a super 
+optimalizovanými algoritmy pro práci s daty? Na 100% zjistíte, že 
+použití hotové rozumné relační databáze znamená rychlejší práci s daty, 
+efektivnější využití místa na disku, větší možnosti a větší 
+spolehlivost. A to i kdybyste svojí práci s daty bastlil půl roku.
+
+Stejně tak je to s parserem a gramatikou psanou ručně. Znám dva jazyky o 
+kterých to vím, a oba trpí omezením pro zdrojový kód i jinde. Ani gcc 
+nemá pro všechny jazyky ručně psanou gramatiku a používá lex + yacc, a 
+to jsou naprosto nejhorší nástroje, existují mnohem lepší.
+
+A jak je to s efektivitou? Databáze sqlite se rozhodla, že nebude sql 
+příkazy parsovat ručně, ale použije hotový generátor gramatiky, nevím 
+ani jak se jmenuje. Problémy s tím nejsou, je to malé, rychlé, efektivní 
+a hlavně to funguje na 100%!!! A autor se mohl soustředit na to, aby 
+databáze byla lepší.
+
+Při prohlížení manuálu k Pythonu se nemůžu zbavit dojmu, že značný čas 
+věnuje GvR právě parseru plus gramatice. Namísto toho by mohl zlepšit 
+věci jinde. Nemusel by třeba vyhazovat konstrukce jen proto, že jeho 
+horší gramatika, nebo větší náročnost tvorby gramatiky už prostě 
+nestíhá. Všimněte si, že v Pythonu je dost knihoven pro spojení Pythonu 
+s vnitřním formátem pythonovské gramatiky - token a spol.. a to je 
+špatně. Protože až se změní vnitřní gramatika, tak co?
+
+Miloslav Ponkrác
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005194.html">[python] cyklus for (bylo superman: zaporny systemovy cas)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005202.html">[python] zaporny systemovy cas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5196">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5196">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5196">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5196">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005196.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:40 GMT -->
+</html>

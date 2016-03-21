@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-September/009954.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:24 GMT -->
+<HEAD>
+   <TITLE> [python] Upload velkeho souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Upload%20velkeho%20souboru&In-Reply-To=%3CAANLkTikxhSihtNabbvhBj3Q8Gj_wh25gqnfwNcByXz2L%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-September/009953.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Upload velkeho souboru</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Upload%20velkeho%20souboru&In-Reply-To=%3CAANLkTikxhSihtNabbvhBj3Q8Gj_wh25gqnfwNcByXz2L%40mail.gmail.com%3E"
+       TITLE="[python] Upload velkeho souboru">slush na centrum.cz
+       </A><BR>
+    <I>Úterý Září 28 20:09:44 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-September/009953.html">[python] Upload velkeho souboru
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-September/date.html#9954">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/thread.html#9954">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/subject.html#9954">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/author.html#9954">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj Jirko,
+
+pokud vim, tak Django resi pouze prijem souboru, ale nikde nevystupuje jako
+sitovy klient. Koukal jsem do django/core/files a nechal prohledat zdrojaky
+na PUT / POST a zadny relevantni kod jsem bohuzel opravdu nenasel.
+
+Kazdopadne jsem nasel jeden storage backend pro Django, ktery resi ten samy
+problem a nasel jsem modul &quot;Poster&quot; (
+<A HREF="http://pypi.python.org/pypi/poster/0.6.0">http://pypi.python.org/pypi/poster/0.6.0</A>). Takze jeste jsem to nezkousel,
+ale problem je zrejme vyresen. Jenom jsem rozcarovan, ze http streaming
+neresi pythoni standardni knihovna (co vim, tak ani nove moduly pro Python3)
+a ze budu nutit uzivatele instalovat dalsi externi balik. Pravdepodobne
+zkombinuju mmap a poster (&quot;chcete podporu extra velkych souboru?
+Doinstalujte si Poster&quot;).
+
+Marek
+
+2010/9/28 Jirka Vejrazka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jirka.vejrazka na gmail.com</A>&gt;
+
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i>  Ja ted nejsem u pocitace, ale podival bych se jak to resi Django a
+</I>&gt;<i> podobne. Jelikoz je pod BSD licenci, tak neni problem to reseni
+</I>&gt;<i> okopirovat, pokud bude pouzitelne.
+</I>&gt;<i>
+</I>&gt;<i>   Jirka
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On 28/09/2010, slush &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">slush na centrum.cz</A>&gt; wrote:
+</I>&gt;<i> &gt; Zdravim,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; resim uz pekelne dlouho problem, jak z Pythonu uploadovat velky soubor
+</I>&gt;<i> pres
+</I>&gt;<i> &gt; PUT/POST - pokud mozno nejakym standardnim zpusobem.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Problem jsem zatim vyresil pomoci mmap. Nelibi se mi ale, ze na 32bit
+</I>&gt;<i> &gt; systemech je maximalni velikost uploadovaneho souboru ~4GB. Zaroven jsem
+</I>&gt;<i> ale
+</I>&gt;<i> &gt; neprisel na to, jak donutit urllib2, aby s daty pracovala jako se
+</I>&gt;<i> streamem
+</I>&gt;<i> &gt; (file-like objektem) a ne jako se stringem. Posledni napad je napsat si
+</I>&gt;<i> &gt; 'string-like object', ktery bude doopravdy soubor a nemapovat cely jeho
+</I>&gt;<i> &gt; obsah na pamet (jako dela mmap), ale seekovat a nejak to cist do bufferu.
+</I>&gt;<i> &gt; Prijde mi ale dost divne, ze by neexistovalo jednodussi reseni.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Soucasna implementace je nasledujici:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;  from urllib2 import Request, urlopen
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;    @classmethod
+</I>&gt;<i> &gt;     def _f2b(cls, f, size=None):
+</I>&gt;<i> &gt;        '''
+</I>&gt;<i> &gt;             Map files into memory and act as buffer.
+</I>&gt;<i> &gt;        '''
+</I>&gt;<i> &gt;         if isinstance(f, basestring):
+</I>&gt;<i> &gt;            # No conversion needed
+</I>&gt;<i> &gt;             return f
+</I>&gt;<i> &gt;        elif getattr(f, 'fileno', None):
+</I>&gt;<i> &gt;             # Map to memory
+</I>&gt;<i> &gt;            if size == None:
+</I>&gt;<i> &gt;                 # When size is already known, skip this
+</I>&gt;<i> &gt;                f.seek(0, os.SEEK_END)
+</I>&gt;<i> &gt;                 size = f.tell()
+</I>&gt;<i> &gt;                f.seek(0)
+</I>&gt;<i> &gt;             return mmap.mmap(f.fileno(), size)
+</I>&gt;<i> &gt;        else:
+</I>&gt;<i> &gt;             raise fs.errors.UnsupportedError(&quot;Cannot handle type %s&quot; %
+</I>&gt;<i> &gt; type(f))
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; @classmethod
+</I>&gt;<i> &gt;     def put(cls, path, data, size=None):
+</I>&gt;<i> &gt;         class PutRequest(Request):
+</I>&gt;<i> &gt;             def __init__(self, *args, **kwargs):
+</I>&gt;<i> &gt;                 self.get_method = lambda: 'PUT'
+</I>&gt;<i> &gt;                 Request.__init__(self, *args, **kwargs)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;         data = cls._f2b(data, size=size)
+</I>&gt;<i> &gt;         req = PutRequest(''.join([cls.webapi, path]), data,
+</I>&gt;<i> &gt; headers=cls.headers)
+</I>&gt;<i> &gt;         return urlopen(req)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Diky za kazdou radu.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Marek
+</I>&gt;<i> &gt;
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- dal?í ?ást ---------------
+HTML p?íloha byla odstran?na...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20100928/1aaef23a/attachment.html">http://www.py.cz/pipermail/python/attachments/20100928/1aaef23a/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-September/009953.html">[python] Upload velkeho souboru
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-September/date.html#9954">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/thread.html#9954">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/subject.html#9954">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/author.html#9954">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-September/009954.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:24 GMT -->
+</html>

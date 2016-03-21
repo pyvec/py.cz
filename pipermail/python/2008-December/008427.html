@@ -1,0 +1,400 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008427.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+<HEAD>
+   <TITLE> [python] jak na xml
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20jak%20na%20xml&In-Reply-To=%3COFE9FD0731.2ED02325-ONC1257523.0070570A-C1257523.00705812%40ext.pss.sk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008426.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008428.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] jak na xml</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20jak%20na%20xml&In-Reply-To=%3COFE9FD0731.2ED02325-ONC1257523.0070570A-C1257523.00705812%40ext.pss.sk%3E"
+       TITLE="[python] jak na xml">RMiklos na pss.sk
+       </A><BR>
+    <I>Čtvrtek Prosinec 18 21:27:05 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008426.html">[python] jak na xml
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008428.html">[python] jak na xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8427">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8427">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8427">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8427">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+
+Cau,
+
+Parsovat mozes pouzitim SAX a DOM, co Python standardne umoznuje.
+
+Tu su nato priklady:
+
+Dany je XML-dokument books5.xml, ktory vypada takto:
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;windows-1250&quot;?&gt;
+&lt;catalog&gt;
+  &lt;book isbn=&quot;1-56592-724-9&quot;&gt;
+    &lt;title&gt;The Cathedral &amp;amp; the Bazaar&lt;/title&gt;
+    &lt;author&gt;Eric S. Raymond&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;1-56592-051-1&quot;&gt;
+    &lt;title&gt;Making TeX Work&lt;/title&gt;
+    &lt;author&gt;Norman Walsh&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-247-0367-X&quot;&gt;
+    &lt;title&gt;Naučte se Python&lt;/title&gt;
+    &lt;author&gt;Mark Lutz &amp;amp; David Ascher&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;63-558-81&quot;&gt;
+    &lt;title&gt;Kompilátory čislicových počítačov&lt;/title&gt;
+    &lt;author&gt;David Gries&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-05-00153-3&quot;&gt;
+    &lt;title&gt;Algoritmy a štruktúry údajov&lt;/title&gt;
+    &lt;author&gt;Niklaus Wirth&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-05-00153-3&quot;&gt;
+    &lt;title&gt;Algoritmy a štruktúry údajov&lt;/title&gt;
+    &lt;author&gt;Niklaus Wirth&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-7226-799-X&quot;&gt;
+    &lt;title&gt;Začínáme programovat v jazyce Python&lt;/title&gt;
+    &lt;author&gt;Daryl Harms &amp;amp; Kenneth McDonald&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-251-0343-9&quot;&gt;
+    &lt;title&gt;Algoritmy - Datové struktury a programovací techniky&lt;/title&gt;
+    &lt;author&gt;Piotr Wróblewski&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-86330-05-2&quot;&gt;
+    &lt;title&gt;Python - Podrobná referenční příručka pro programovací jazyk
+    Python&lt;/title&gt;
+    &lt;author&gt;David M. Beazley&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;x-y-z&quot;&gt;
+    &lt;title&gt;Průvodce jazykem SCHEME&lt;/title&gt;
+    &lt;author&gt;Skoupil, D., Kopka, M.&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;3-89319-744-3&quot;&gt;
+    &lt;title&gt;Einführung in die Automathentheorie, Formale Sprachen und
+    Komplexitätstheorie&lt;/title&gt;
+    &lt;author&gt;John E. Hopcroft, Jeffrey D. Ullman&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-247-0442-0&quot;&gt;
+    &lt;title&gt;PHP4 - Učebnice základů jazyka&lt;/title&gt;
+    &lt;author&gt;Jiří Bráza&lt;/author&gt;
+  &lt;/book&gt;
+  &lt;book isbn=&quot;80-247-0441-2&quot;&gt;
+    &lt;title&gt;PHP4 - Praktické příklady&lt;/title&gt;
+    &lt;author&gt;Jiří Bráza&lt;/author&gt;
+  &lt;/book&gt;
+&lt;/catalog&gt;
+
+
+Parsovanie pouzitim DOM: dombook.py
+
+import pprint
+import xml.dom.minidom
+from xml.dom.minidom import Node
+doc = xml.dom.minidom.parse(&quot;books5.xml&quot;)
+mapping = {}
+# Vratit vsetky prvky typu &quot;book&quot;
+# print doc.getElementsByTagName(&quot;book&quot;)
+# Pre kazdy prvok &quot;book&quot;
+for node in doc.getElementsByTagName(&quot;book&quot;):
+  #urcit hodnotu atributu &quot;isbn&quot;
+  isbn = node.getAttribute(&quot;isbn&quot;)
+  # Zoznam dat ku knihe bude tvorit nazov a autor
+  bookdata = []
+
+  # vratist vsetky prvky typu &quot;title&quot;
+  L = node.getElementsByTagName(&quot;title&quot;)
+  # pre kazdy prvok typu &quot;title&quot;
+  for node2 in L:
+    title = &quot;&quot;
+    #print node2.childNodes
+    for node3 in node2.childNodes:
+      if node3.nodeType == Node.TEXT_NODE:
+        title += node3.data
+    bookdata.append(title)
+  # vratist vsetky prvky typu &quot;author&quot;
+  L = node.getElementsByTagName(&quot;author&quot;)
+  # pre kazdy prvok typu &quot;author&quot;
+  for node2 in L:
+    author = &quot;&quot;
+    #print node2.childNodes
+    for node3 in node2.childNodes:
+      if node3.nodeType == Node.TEXT_NODE:
+        author += node3.data
+    bookdata.append(author)
+  # vytvorit polozku slovniku
+  mapping[isbn] = bookdata
+keys = mapping.keys()
+#keys.sort()
+# vytlacit kluce a polozky slovnika do suboru
+sf=open('knihy_DOM.txt','w')
+for key in keys:
+  s1=mapping[key][1].ljust(25)
+  s2=mapping[key][0].ljust(30)
+  # parsovane retazce su zakodovane do unicode, preto ich treba previest
+  # do cp1250
+  line = &quot;%s:  %s\n(ISBN %s)\n&quot;\
+     %(s1.encode('cp1250'), s2.encode('cp1250'), key.encode('cp1250'))
+  sf.write(line)
+sf.close()
+
+Vysledkom je subor knihy_DOM.txt, ktory vypada takto:
+
+David M. Beazley         :  Python - Podrobná referenční příručka pro
+programovací jazyk Python
+(ISBN 80-86330-05-2)
+Niklaus Wirth            :  Algoritmy a štruktúry údajov
+(ISBN 80-05-00153-3)
+Norman Walsh             :  Making TeX Work
+(ISBN 1-56592-051-1)
+Daryl Harms &amp; Kenneth McDonald:  Začínáme programovat v jazyce Python
+(ISBN 80-7226-799-X)
+John E. Hopcroft, Jeffrey D. Ullman:  Einführung in die Automathentheorie,
+Formale Sprachen und Komplexitätstheorie
+(ISBN 3-89319-744-3)
+Piotr Wróblewski         :  Algoritmy - Datové struktury a programovací
+techniky
+(ISBN 80-251-0343-9)
+Skoupil, D., Kopka, M.   :  Průvodce jazykem SCHEME
+(ISBN x-y-z)
+Jiří Bráza               :  PHP4 - Učebnice základů jazyka
+(ISBN 80-247-0442-0)
+Eric S. Raymond          :  The Cathedral &amp; the Bazaar
+(ISBN 1-56592-724-9)
+David Gries              :  Kompilátory čislicových počítačov
+(ISBN 63-558-81)
+Jiří Bráza               :  PHP4 - Praktické příklady
+(ISBN 80-247-0441-2)
+Mark Lutz &amp; David Ascher :  Naučte se Python
+(ISBN 80-247-0367-X)
+
+Parsovanie pouzitim SAX: saxbook.py
+
+import xml.sax.handler
+class BookHandler(xml.sax.handler.ContentHandler):
+  def __init__(self):
+    self.inTitle = 0
+    self.inAuthor = 0
+    self.mapping = {}
+  def startElement(self, name, attributes):
+    if name == &quot;book&quot;:
+      # Zoznam dat ku knihe bude tvorit nazov a autor
+      self.bookdata = []
+      self.title = &quot;&quot;
+      self.author = &quot;&quot;
+      self.isbn = attributes[&quot;isbn&quot;]
+    elif name == &quot;title&quot;:
+      self.inTitle = 1
+    elif name == &quot;author&quot;:
+      self.inAuthor = 1
+  def characters(self, data):
+    if self.inTitle:
+      self.title += data
+    elif self.inAuthor:
+      self.author +=data
+
+  def endElement(self, name):
+    if name == &quot;title&quot;:
+      self.inTitle = 0
+      self.bookdata.append(self.title)
+    elif name == &quot;author&quot;:
+      self.inAuthor = 0
+      self.bookdata.append(self.author)
+    self.mapping[self.isbn] = self.bookdata
+    # pre kontrolu
+    # print self.mapping
+import xml.sax
+import pprint
+parser = xml.sax.make_parser( )
+handler = BookHandler( )
+parser.setContentHandler(handler)
+parser.parse(&quot;books5.xml&quot;)
+# pre kontrolu
+# print handler.mapping
+# pprint.pprint(handler.mapping)
+keys = handler.mapping.keys()
+#keys.sort()
+# vytlacit kluce a polozky slovnika
+sf=open('knihy_SAX.txt','w')
+for key in keys:
+  s1=handler.mapping[key][1].ljust(25)
+  s2=handler.mapping[key][0].ljust(30)
+  # parsovane retazce su zakodovane do unicode, preto ich treba previest
+  # do cp1250
+  line = &quot;%s:  %s\n(ISBN %s)\n&quot;\
+     %(s1.encode('cp1250'), s2.encode('cp1250'), key.encode('cp1250'))
+  sf.write(line)
+sf.close()
+
+Vysledkom je subor knihy_SAX.txt, ktory vypada takisto ako knihy_DOM.txt
+
+(Vsetko pripajam v prilohe)
+
+
+S pozdravom
+
+Roman
+
+
+
+
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">-----python-bounces na py.cz</A> wrote: -----
+
+
+To: &quot;Konference PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+From: &quot;Ondrej Beranek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+Date: 18.12.2008 14:13
+Subject: [python] jak na xml
+
+Ahoj je tomu téměř přesně rok co jsem naposled sáhnul na python. Dneska
+jsem se dostal k tomu že bych znovu potřeboval
+jeho služby. Řeším úlohu jejíž součástí je přečtení XML souboru a změna
+(přesněji přepsání) některých hodnot (dat).
+
+například mám něco jako (ted sem to vymyslel konkretni priklad nemohu
+uvest):
+
+&lt;dokument&gt;
+ &lt;komponenta&gt;
+   &lt;typ&gt;auto_login&lt;/typ&gt;
+   &lt;jmeno&gt;prihlaseni&lt;/jmeno&gt;
+   &lt;username&gt;jmeno nekam&lt;/username&gt;
+   &lt;passwd&gt;heslo1&lt;passwd&gt;
+ &lt;/komponenta&gt;
+
+ &lt;komponenta&gt;
+   &lt;typ&gt;auto_login&lt;/typ&gt;
+   &lt;jmeno&gt;logovani&lt;/jmeno&gt;
+   &lt;username&gt;jmeno nekam&lt;/username&gt;
+   &lt;passwd&gt;heslo1&lt;passwd&gt;
+  &lt;/komponenta&gt;
+&lt;/dokument&gt;
+
+No a ja nekdy budu menit hodnotu &lt;username&gt; a &lt;password&gt; ovsem v zavislosti
+na typu a a nekdy i jmene.
+
+No chtel bych vas poprosit aby jste mi poradili nejakou komponentu se
+kterou mate zkusenosti ze by zvladla takove xml (1.0 utf8) precist a zas
+ulozit.
+
+Ondřej Beránek
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+(See attached file: books5.xml)(See attached file: dombook.py)(See attached
+file: saxbook.py)(See attached file: knihy_DOM.txt)(See attached file:
+knihy_SAX.txt)
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: books5.xml
+Type: application/octet-stream
+Size: 1880 bytes
+Desc: [žádný popis není k dispozici]
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20081218/0a830b79/attachment.obj">http://www.py.cz/pipermail/python/attachments/20081218/0a830b79/attachment.obj</A>&gt;
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: dombook.py
+Type: application/octet-stream
+Size: 1559 bytes
+Desc: [žádný popis není k dispozici]
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20081218/0a830b79/attachment-0001.obj">http://www.py.cz/pipermail/python/attachments/20081218/0a830b79/attachment-0001.obj</A>&gt;
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: saxbook.py
+Type: application/octet-stream
+Size: 1639 bytes
+Desc: [žádný popis není k dispozici]
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20081218/0a830b79/attachment-0002.obj">http://www.py.cz/pipermail/python/attachments/20081218/0a830b79/attachment-0002.obj</A>&gt;
+------------- další část ---------------
+David M. Beazley         :  Python - Podrobná referen?ní p?íru?ka pro programovací jazyk Python
+(ISBN 80-86330-05-2)
+Niklaus Wirth            :  Algoritmy a truktúry údajov  
+(ISBN 80-05-00153-3)
+Norman Walsh             :  Making TeX Work               
+(ISBN 1-56592-051-1)
+Daryl Harms &amp; Kenneth McDonald:  Za?ínáme programovat v jazyce Python
+(ISBN 80-7226-799-X)
+John E. Hopcroft, Jeffrey D. Ullman:  Einführung in die Automathentheorie, Formale Sprachen und Komplexitätstheorie
+(ISBN 3-89319-744-3)
+Piotr Wróblewski         :  Algoritmy - Datové struktury a programovací techniky
+(ISBN 80-251-0343-9)
+Skoupil, D., Kopka, M.   :  Pr?vodce jazykem SCHEME       
+(ISBN x-y-z)
+Ji?í Bráza               :  PHP4 - U?ebnice základ? jazyka
+(ISBN 80-247-0442-0)
+Eric S. Raymond          :  The Cathedral &amp; the Bazaar    
+(ISBN 1-56592-724-9)
+David Gries              :  Kompilátory ?islicových po?íta?ov
+(ISBN 63-558-81)
+Ji?í Bráza               :  PHP4 - Praktické p?íklady     
+(ISBN 80-247-0441-2)
+Mark Lutz &amp; David Ascher :  Nau?te se Python              
+(ISBN 80-247-0367-X)
+------------- další část ---------------
+David M. Beazley         :  Python - Podrobná referen?ní p?íru?ka pro programovací jazyk Python
+(ISBN 80-86330-05-2)
+Niklaus Wirth            :  Algoritmy a truktúry údajov  
+(ISBN 80-05-00153-3)
+Norman Walsh             :  Making TeX Work               
+(ISBN 1-56592-051-1)
+Daryl Harms &amp; Kenneth McDonald:  Za?ínáme programovat v jazyce Python
+(ISBN 80-7226-799-X)
+John E. Hopcroft, Jeffrey D. Ullman:  Einführung in die Automathentheorie, Formale Sprachen und Komplexitätstheorie
+(ISBN 3-89319-744-3)
+Piotr Wróblewski         :  Algoritmy - Datové struktury a programovací techniky
+(ISBN 80-251-0343-9)
+Skoupil, D., Kopka, M.   :  Pr?vodce jazykem SCHEME       
+(ISBN x-y-z)
+Ji?í Bráza               :  PHP4 - U?ebnice základ? jazyka
+(ISBN 80-247-0442-0)
+Eric S. Raymond          :  The Cathedral &amp; the Bazaar    
+(ISBN 1-56592-724-9)
+David Gries              :  Kompilátory ?islicových po?íta?ov
+(ISBN 63-558-81)
+Ji?í Bráza               :  PHP4 - Praktické p?íklady     
+(ISBN 80-247-0441-2)
+Mark Lutz &amp; David Ascher :  Nau?te se Python              
+(ISBN 80-247-0367-X)
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008426.html">[python] jak na xml
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008428.html">[python] jak na xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8427">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8427">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8427">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8427">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008427.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005071.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+<HEAD>
+   <TITLE> [python] class a subclass
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=ej2vn7%242mb2%241%40news.vol.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005077.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005072.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] class a subclass</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=ej2vn7%242mb2%241%40news.vol.cz"
+       TITLE="[python] class a subclass">RMiklos na pss.sk
+       </A><BR>
+    <I>Sobota Listopad 11 10:39:17 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005077.html">[python] class a subclass
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005072.html">[python] anonce překladu How to Think Like a Computer Scientist
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5071">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5071">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5071">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5071">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Musim sa pridat k supermanovi, ze ten priklad tata-synek je super. Aj som 
+si ho odlozil :-)
+
+
+
+
+&quot;Petr Přikryl&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prikryl na atlas.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+10.11.2006 23:50
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+cc
+
+Subject
+Re: [python] class a subclass
+
+
+
+
+
+
+mtip napsal(a):
+&gt;<i> RM&gt; Problem je asi niekde v tom, ze v potomku v metode ma() odovzdavas
+</I>&gt;<i> RM&gt; self t.j. referenciu na instanciu triedy b (potomka)
+</I>&gt;<i> RM&gt; super(b,self).ma()
+</I>&gt;<i> 
+</I>&gt;<i> RM&gt; Neviem naco by sa v tej funkcii super() mala davat referencia na 
+</I>potomka,
+&gt;<i> RM&gt; ked to ma ist do rodica.
+</I>&gt;<i> RM&gt; Ja som to skusal aj inac ale nejde mi to. Predtym som super() nikdy
+</I>&gt;<i> RM&gt; nepouzil. Podla mna tam niekde je problem.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> To je presne ono. Ja to taky tak chapu, jenze lze ziskat neco jako
+</I>&gt;<i> instanci rodice ? To asi ne, podle me vsechno bezi na jedne instanci a
+</I>&gt;<i> to self potomka.
+</I>&gt;<i> Navic sem to zkusil tak, ze misto self tam vytvorim novou instanci
+</I>&gt;<i> rodice a poslu a uz to funguje, jak ma. Jenze ta nova instance pred
+</I>&gt;<i> kazdym volanim predka nelze v praxi pouzit.
+</I>
+Možná je chyba v tom mentálním obraze rodič-potomek.
+Instance odvozené třídy je instance potomka. Žádná
+související instance rodičovské třídy neexistuje.
+Potomek se chová &quot;úplně jako tata&quot;, jenom některé
+věci dělá trošku jinak. Prober si tohle
+
+class tata(object):
+
+     def huli(self):
+         return 'smoke'
+
+     def chlasta(self):
+         return 'glgy glgy'
+
+     def nadava(self):
+         return 'do prdele'
+
+     def vlastnosti(self):
+         return '%s, %s, %s' % (self.huli(), self.chlasta(), 
+self.nadava())
+
+     def __str__(self):
+         return self.vlastnosti()
+
+
+class synek(tata):
+
+     def chlasta(self):
+         return 'lok lok'
+
+     def nemysli(self):
+         return 'to sem magor'
+
+     def vlastnosti(self):
+         # jako tata, trochu jinak, ale navic nemysli
+
+         return tata.vlastnosti(self) + ', ' + self.nemysli()
+
+
+fotr = tata()
+print fotr
+
+syn = synek()
+print syn
+
+
+Vypíše to:
+smoke, glgy glgy, do prdele
+smoke, lok lok, do prdele, to sem magor
+
+
+
+pepr
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+, P. O. Box 48 
+ 
+Tel.: 
+Fax: 
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005077.html">[python] class a subclass
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005072.html">[python] anonce překladu How to Think Like a Computer Scientist
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5071">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5071">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5071">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5071">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005071.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+</html>

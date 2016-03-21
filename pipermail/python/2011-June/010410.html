@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010410.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+<HEAD>
+   <TITLE> [python] pytho + php sifrovanie/desifrovanie
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pytho%20%2B%20php%20sifrovanie/desifrovanie&In-Reply-To=%3CBANLkTikrOMYLYKZBxGq7E6h%3DA4sHMYoc6Q%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010409.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010413.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pytho + php sifrovanie/desifrovanie</H1>
+    <B>rajcze</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pytho%20%2B%20php%20sifrovanie/desifrovanie&In-Reply-To=%3CBANLkTikrOMYLYKZBxGq7E6h%3DA4sHMYoc6Q%40mail.gmail.com%3E"
+       TITLE="[python] pytho + php sifrovanie/desifrovanie">rajcze na gmail.com
+       </A><BR>
+    <I>Středa Červen  8 09:17:52 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010409.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010413.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10410">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10410">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10410">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10410">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Preklep:
+
+&quot;... stejnych 16 _bytu_ dat ..&quot;
+
+2011/6/8 rajcze &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rajcze na gmail.com</A>&gt;:
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> me na tech &quot;stejnych prefixech&quot; nic divneho neprijde - naopak, kdyby
+</I>&gt;<i> to tak nebylo, tak bys ten text nikdy nemohl desifrovat ;-)
+</I>&gt;<i>
+</I>&gt;<i> Kdyz si aspon neco malo prectes o AES, zjistis, ze sifruje po 128
+</I>&gt;<i> bitovych blocich (tj. 16 bytu), takze kdyz vezmes &quot;stejnych 16 bitu
+</I>&gt;<i> dat&quot; a zasifrujes je pokazde &quot;stejnym klicem&quot;, tak neni snad nic
+</I>&gt;<i> prekvapiveho na tom, ze vychazi &quot;stejne vypadajici zasifrovany blok&quot;.
+</I>&gt;<i>
+</I>&gt;<i> J.
+</I>&gt;<i>
+</I>&gt;<i> 2011/6/8 miamia &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">peterirbizon na gmail.com</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ahoj Peťo,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> áno, potvrdzujem, že to ide v tej hombinácii ok. ďakujem za ukážku.
+</I>&gt;&gt;<i> Spravil som pokus:
+</I>&gt;&gt;<i> plain = &quot;Hello, World11&quot;
+</I>&gt;&gt;<i> ciphertext = AES.new(&quot;tajneheslo123456&quot;,
+</I>&gt;&gt;<i> AES.MODE_ECB).encrypt(resize(plain, AES.block_size))
+</I>&gt;&gt;<i> print ciphertext.encode('hex')  # adc1f6cd135accd4d3627083facc4074
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> plain = &quot;Hello, World111&quot;
+</I>&gt;&gt;<i> ciphertext = AES.new(&quot;tajneheslo123456&quot;,
+</I>&gt;&gt;<i> AES.MODE_ECB).encrypt(resize(plain, AES.block_size))
+</I>&gt;&gt;<i> print ciphertext.encode('hex')  # c29cfc58173b5a4f4ba6d397fe083600
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> plain = &quot;Hello, World1111111111&quot;
+</I>&gt;&gt;<i> ciphertext = AES.new(&quot;tajneheslo123456&quot;,
+</I>&gt;&gt;<i> AES.MODE_ECB).encrypt(resize(plain, AES.block_size))
+</I>&gt;&gt;<i> print ciphertext.encode('hex')  # napise
+</I>&gt;&gt;<i> a8ba9848cd563d3e762de25fffaf7aa46e7a5f28eae4e2f0684f8d9ef949869f
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> plain = &quot;Hello, World111111111111&quot;
+</I>&gt;&gt;<i> ciphertext = AES.new(&quot;tajneheslo123456&quot;,
+</I>&gt;&gt;<i> AES.MODE_ECB).encrypt(resize(plain, AES.block_size))
+</I>&gt;&gt;<i> print ciphertext.encode('hex')  # napise
+</I>&gt;&gt;<i> a8ba9848cd563d3e762de25fffaf7aa4e9277a3748ee1a6daf8f1d0e5fdfc026
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jediné, čo ma trápi je to, že pri posledných dvoch plainoch sú rovnaké
+</I>&gt;&gt;<i> začiatky. zaujímavé je, že pri &quot;Hello, World11&quot; a &quot;Hello, World111&quot;
+</I>&gt;&gt;<i> nie sú rovnaké začiatky. hm. Skúšal som zmeniť mód na CFB, CBC, ale
+</I>&gt;&gt;<i> vždy tie začiatky sú rovnaké. prečo tomu tak je? dúfal som, že by to
+</I>&gt;&gt;<i> nemalo byť rovnaké.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> On 4 čvn, 18:59, Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.mess... na gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> &gt; Ahoj,
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; jen ze zajímavosti jsem vyzkoušel AES a šlo to dobře, v PHP s nějakou
+</I>&gt;&gt;<i> &gt; knihovnou, co jsem našel na webu...
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Zašifrování v Pythonu:
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; #!/usr/bin/env python
+</I>&gt;&gt;<i> &gt; from Crypto.Cipher import AES
+</I>&gt;&gt;<i> &gt; def resize(s, blockSize):
+</I>&gt;&gt;<i> &gt;     if len(s) % blockSize == 0:
+</I>&gt;&gt;<i> &gt;         return s
+</I>&gt;&gt;<i> &gt;     else:
+</I>&gt;&gt;<i> &gt;         return s + &quot; &quot; * (blockSize - len(s) % blockSize)
+</I>&gt;&gt;<i> &gt; plain = &quot;Hello, World!&quot;
+</I>&gt;&gt;<i> &gt; ciphertext = AES.new(&quot;tajneheslo123456&quot;,
+</I>&gt;&gt;<i> &gt; AES.MODE_ECB).encrypt(resize(plain, AES.block_size))
+</I>&gt;&gt;<i> &gt; def to_hex(s):
+</I>&gt;&gt;<i> &gt;     return &quot; &quot;.join(hex(ord(c)).replace(&quot;0x&quot;, &quot;&quot;).rjust(2, &quot;0&quot;) for c in s)
+</I>&gt;&gt;<i> &gt; print to_hex(ciphertext)  # napise 3d e8 9f 9f 8d dc f1 ef 1c 6f fc 45
+</I>&gt;&gt;<i> &gt; c6 72 14 f7
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Dešifrování v PHP:
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; &lt;?php
+</I>&gt;&gt;<i> &gt; $ciphertext = &quot;3d e8 9f 9f 8d dc f1 ef 1c 6f fc 45 c6 72 14 f7&quot;;
+</I>&gt;&gt;<i> &gt; require(&quot;./AES.class.php&quot;);  //<A HREF="http://www.phpaes.com/">http://www.phpaes.com/</A>
+</I>&gt;&gt;<i> &gt; $aes = new AES('tajneheslo123456');
+</I>&gt;&gt;<i> &gt; $ciphertext = &quot;\x3d\xe8\x9f\x9f\x8d\xdc\xf1\xef\x1c\x6f\xfc\x45\xc6\x72\x14\xf7&quot;;
+</I>&gt;&gt;<i> &gt; echo &quot;'&quot; . $aes-&gt;decrypt($ciphertext) . &quot;'\n&quot;;
+</I>&gt;&gt;<i> &gt; ?&gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Problém je, že klíč pro AES musí mít délku 16, 24 nebo 32 bajtů a
+</I>&gt;&gt;<i> &gt; délka plaintextu musí být dělitelná 16, takže jsem na konec přidal
+</I>&gt;&gt;<i> &gt; patřičný počet mezer (v Pythonu funkcí resize). Správně bych měl asi
+</I>&gt;&gt;<i> &gt; místo mezer použít náhodné znaky a spolu se zprávou poslat i délku
+</I>&gt;&gt;<i> &gt; plaintextu a dešifrovaný text pak na tuto délku oříznout.
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; AES má různé módy, použil jsem ECB, protože phpAES umí (podle
+</I>&gt;&gt;<i> &gt; informací na phpaes.com) v neplacené verzi jen tento mód. Bohužel
+</I>&gt;&gt;<i> &gt; nevím v čem se tyto módy liší. U ostatních módů se musí kromě klíče
+</I>&gt;&gt;<i> &gt; určit i inicializační vektor.
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Jo a pokud by bylo potřeba binární řetězec (tedy zašifrovaný text)
+</I>&gt;&gt;<i> &gt; nějak rozumně čitelně vypsat, hodí se na to base64 (v ukázce jsem
+</I>&gt;&gt;<i> &gt; použil hexadecimální čísla).
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Petr Messner
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; 2011/6/4 miamia &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">peterirbi... na gmail.com</A>&gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; &gt; Dobry den,
+</I>&gt;&gt;<i> &gt; &gt; prosim Vas, potrebujem zasifrovat text v pythone a potom ho desifrovat
+</I>&gt;&gt;<i> &gt; &gt; v skripte PHP. Skusal som pycrypto a nejake aes php skripty, ale
+</I>&gt;&gt;<i> &gt; &gt; vysledky (zasefirovanie/desifrovanie) neboli rovnake - nepodarilo sa
+</I>&gt;&gt;<i> &gt; &gt; mi to rozchodit. Da sa niekde najst priamo nejaky priklad, ako toto
+</I>&gt;&gt;<i> &gt; &gt; spravit v pythone a desifrovat v PHP (najlepsie zdrojaky)?velka vdaka
+</I>&gt;&gt;<i> &gt; &gt; _______________________________________________
+</I>&gt;&gt;<i> &gt; &gt; Python mailing list
+</I>&gt;&gt;<i> &gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Pyt... na py.cz</A>
+</I>&gt;&gt;<i> &gt; &gt;<A HREF="http://www.py.cz/mailman/listinfo/python-">http://www.py.cz/mailman/listinfo/python-</A> Skrýt citovaný text -
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; - Zobrazit citovaný text -
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Rules of Optimization:
+</I>&gt;<i> Rule 1: Don't do it.
+</I>&gt;<i> Rule 2 (for experts only): Don't do it yet.
+</I>&gt;<i>
+</I>
+
+
+-- 
+Rules of Optimization:
+Rule 1: Don't do it.
+Rule 2 (for experts only): Don't do it yet.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010409.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010413.html">[python] pytho + php sifrovanie/desifrovanie
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10410">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10410">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10410">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10410">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010410.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:48 GMT -->
+</html>

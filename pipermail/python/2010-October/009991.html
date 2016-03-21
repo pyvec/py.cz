@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009991.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:22 GMT -->
+<HEAD>
+   <TITLE> [python] Stopky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Stopky&In-Reply-To=%3CAANLkTinDqFuO8hvB4Tsy6UJLuAqwjkzH89nDDUfgkY1h%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-October/009988.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-October/009992.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Stopky</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Stopky&In-Reply-To=%3CAANLkTinDqFuO8hvB4Tsy6UJLuAqwjkzH89nDDUfgkY1h%40mail.gmail.com%3E"
+       TITLE="[python] Stopky">petr.messner na gmail.com
+       </A><BR>
+    <I>Pátek Říjen 22 16:47:56 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009988.html">[python] Stopky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009992.html">[python] Stopky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9991">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9991">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9991">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9991">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+pokud chceš čekání na vstup omezit nějakým časovým intervalem, máš
+několik možností:
+
+1) nastavit si alarm(), operační systém (funguje to na unixech) ti po
+uplynutí zadané doby pošle SIGALRM, který nějak patřičně ošetříš,
+
+2) spustit další vlákno, to na danou dobu uspat (time.sleep()), které
+po probuzení případně přeruší to první vlákno; toto by bylo nejlepší
+řešení, protože by fungovalo i ve Windows - Python ovšem pokud vím (a
+co jsem byl schopen dohledat) neumožňuje přerušit vlákno a možná ani
+přerušit syscall, na kterém dané vlákno zrovna &quot;stojí&quot; (dá se to
+trochu obejít pomocí signal handlerů nebo hacků přes ctypes a C API,
+to už je ale lepší řešení 1)),
+
+3) použít neblokující čtení; to bys pak volal stále dokola, dokud by
+neuplynulo těch 5 minut (to není moc dobré, ale asi nejjednodušší na
+implementaci; opět zřejmě jen pro unix),
+
+4) použít něco jiného, nejspíš dost exotického, třeba pokud tvůj
+operační systém přímo nabízí nějaké asynchronní I/O,
+
+4.5) ve Windows: msvcrt
+(<A HREF="http://docs.python.org/library/msvcrt.html#console-i-o">http://docs.python.org/library/msvcrt.html#console-i-o</A>),
+
+ale nejelegantnější bude
+
+5) použít select nebo pollování (poll, epoll atd.), v tomto případě
+bohatě stačí select. Je to funkce, které dáš jako parametry file
+deskriptory (případně v Pythonu file objekty) a volitelným parametrem
+je čas, po který bude select čekat. Funkce se přeruší v případě, že
+uplyne daný timeout, nebo že se na daném vstupu objeví nějaká data. Je
+to široce používaná technika - od právě čekání na vstup od uživatele
+až po výkonné síťové servery. Je tu akorát problém s Windows a
+OpenVMS, kde select funguje jen na socketech. Možná ale půjde
+vygooglit, jak to obejít, případně pro Windows použít výše zmíněné
+msvcrt.
+
+Viz tedy pydoc select a také man select_tut. Zkusím uvést nějaký ukázkový kód:
+
+#!/usr/bin/env python
+
+import fcntl
+import os
+import select
+import sys
+
+timeout = 300  # 5 minut
+
+# make stdin a non-blocking file
+fl = fcntl.fcntl(sys.stdin.fileno(), fcntl.F_GETFL)
+fcntl.fcntl(sys.stdin.fileno(), fcntl.F_SETFL, fl | os.O_NONBLOCK)
+
+while True:
+   (rlist, wlist, xlist) = select.select([sys.stdin], [], [], timeout)
+   print rlist
+   if rlist:
+       print &quot;Bylo zadano: %r&quot; % sys.stdin.read()
+   else:
+       print &quot;Cas vyprsel&quot;
+       break
+
+Snad jsem odpověděl, na co jsi se ptal.
+
+
+Petr Messner
+
+2010/10/22 remixus79 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">remixus79 na gmail.com</A>&gt;:
+&gt;<i> Zdravím,
+</I>&gt;<i>
+</I>&gt;<i> potreboval by som poradiť. Mám program v ktorom je nekonečný cyklus.
+</I>&gt;<i> Tento cyklus stale caka na vstup od uzivatela. Potreboval by som to
+</I>&gt;<i> spraviť tak že by stále čakal na ten vstup ale zároveň by aj
+</I>&gt;<i> kontroloval čas a ak by užívateľ nič nezadal po 5minútach by sa
+</I>&gt;<i> vypol.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Ďakujem za každú radu.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009988.html">[python] Stopky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009992.html">[python] Stopky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9991">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9991">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9991">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9991">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009991.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:22 GMT -->
+</html>

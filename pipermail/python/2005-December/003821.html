@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003821.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:14 GMT -->
+<HEAD>
+   <TITLE> [python] for + eval()
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for%20%2B%20eval%28%29&In-Reply-To=43AA8A91.3030105%40brabenec.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-December/003820.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-December/003822.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] for + eval()</H1>
+    <B>Tomas Fulajtar</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20for%20%2B%20eval%28%29&In-Reply-To=43AA8A91.3030105%40brabenec.net"
+       TITLE="[python] for + eval()">ful_tom na yahoo.com
+       </A><BR>
+    <I>Čtvrtek Prosinec 22 12:38:55 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003820.html">[python] for + eval()
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003822.html">[python] for + eval()
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3821">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3821">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3821">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3821">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+  stejne ale myslim, ze logika uvnitr tohoto cyklu
+musi korespondovat s podminkou - uvedomme si ale, ze v
+pythonu je cyklus for urcen primarne pro prochazeni
+nejake sequence.
+Pokud v tomhle pripade chcete spis provadet nejaky
+cyklus zalozeny na podmince, volil bych spis while
+apod.
+
+dynamicky pomoci eval by to snad slo takhle:
+
+x=1
+y=2
+podminka = &quot;x&gt;y&quot;
+
+while eval(podminka)
+  necoudelej
+
+
+V tom neco udelej s samozrejme musi nec odit s
+promenyma pouzityma v podmince, jinka cyklus neskonci.
+
+
+jina varianta je pouzit ruzne iteratory, pripadne
+objekty a polymorfismus ....
+
+  Zdravim, Tomas Fulajtar 
+
+--- Tomas Brabenec &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A>&gt; wrote:
+
+&gt;<i> Pot&#248;ebuji dos&#225;hnout toho, &#190;e chci prov&#225;d&#236;t p&#248;&#237;kaz
+</I>&gt;<i> for, ale nev&#237;m na &#232;em 
+</I>&gt;<i> cyklus bude závislý.
+</I>&gt;<i> 
+</I>&gt;<i> M&#249;&#190;e to b&#253;t
+</I>&gt;<i> 
+</I>&gt;<i> for x in range(1,5)
+</I>&gt;<i> for x &gt; y:
+</I>&gt;<i> for x in [&quot;a&quot;,&quot;b&quot;]
+</I>&gt;<i> ...
+</I>&gt;<i> 
+</I>&gt;<i> Je to uz pochopitelnejsi ?
+</I>&gt;<i> 
+</I>&gt;<i> TB
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Petr Prikryl napsal(a):
+</I>&gt;<i> &gt; Taky mi to p&#248;ipad&#225; divn&#233;. 
+</I>&gt;<i> &gt; Pro&#232; se m&#225; ten eval v&#249;bec pou&#190;&#237;vat?
+</I>&gt;<i> &gt; Pokud z n&#236;jak&#233;ho d&#249;vodu ano, pro&#232; je v n&#236;m 
+</I>&gt;<i> &gt; &quot;for %s:&quot;? Je to jakoby za&#232;&#225;tek p&#248;&#237;kazu cyklu, 
+</I>&gt;<i> &gt; kter&#233;mu se mus&#237; spr&#225;vn&#236; dosadit &quot;x in cont&quot;,
+</I>&gt;<i> &gt; ale chyb&#237; tomu t&#236;lo cyklu. Pokud se nem&#253;l&#237;m, 
+</I>&gt;<i> &gt; eval() vy&#190;aduje zad&#225;n&#237; v&#253;razu a ne p&#248;&#237;kazu.
+</I>&gt;<i> &gt; Mo&#190;n&#225; by pomohlo m&#237;sto p&#248;&#237;kazu for pou&#190;&#237;t
+</I>&gt;<i> generátor
+</I>&gt;<i> &gt; seznamu (list comprehension). eval() m&#249;&#190;e dostat
+</I>&gt;<i> &gt; kontext v podob&#236; dal&#185;&#237;ch parametr&#249; globals
+</I>&gt;<i> &gt; a locals. Ka&#190;dop&#225;dn&#236; to chce m&#237;t jasno v tom,
+</I>&gt;<i> &gt; &#232;eho se m&#225; dos&#225;hnout.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; pepr
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> &gt;&gt; M&#236;lo by to vypadat napr. takhle:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; data = []              
+</I>&gt;<i> &gt;&gt; for x in range (1,5):
+</I>&gt;<i> &gt;&gt;    for sub_object in object.kids:
+</I>&gt;<i> &gt;&gt;        data.append(parsetag(self,sub_object))
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Je to jen vytazek z kodu.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; -- 
+</I>&gt;<i> &gt;&gt; Tomas Brabenec
+</I>&gt;<i> &gt;&gt; <A HREF="http://brabenec.net/">http://brabenec.net</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Jaroslav Pachola napsal(a):
+</I>&gt;<i> &gt;&gt;     
+</I>&gt;<i> &gt;&gt;&gt; No ja nevim, mohl bys prosim napsat 
+</I>&gt;<i> &gt;&gt;&gt; bez evalu priklad toho cyklu, jak 
+</I>&gt;<i> &gt;&gt;&gt; by to v praxi melo vypadat? Mne to 
+</I>&gt;<i> &gt;&gt;&gt; prijde nejake divne.
+</I>&gt;<i> &gt;&gt;&gt;       
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> Tomas Brabenec
+</I>&gt;<i> <A HREF="http://brabenec.net/">http://brabenec.net</A>
+</I>&gt;<i>  
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>
+
+__________________________________________________
+Do You Yahoo!?
+Tired of spam?  Yahoo! Mail has the best spam protection around 
+<A HREF="http://mail.yahoo.com/">http://mail.yahoo.com</A> 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003820.html">[python] for + eval()
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003822.html">[python] for + eval()
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3821">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3821">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3821">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3821">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003821.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:14 GMT -->
+</html>

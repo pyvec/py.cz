@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009892.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+<HEAD>
+   <TITLE> [python] pomoc v pythone
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pomoc%20v%20pythone&In-Reply-To=%3C0b2a5119-479f-4cc8-8669-d94ed03135b5%40r27g2000yqb.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009894.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009895.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pomoc v pythone</H1>
+    <B>iThomaas</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pomoc%20v%20pythone&In-Reply-To=%3C0b2a5119-479f-4cc8-8669-d94ed03135b5%40r27g2000yqb.googlegroups.com%3E"
+       TITLE="[python] pomoc v pythone">bielik.thomas na gmail.com
+       </A><BR>
+    <I>Sobota Červenec 24 21:29:07 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009894.html">[python] pomoc v pythone
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009895.html">[python] multiprocess manager
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9892">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9892">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9892">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9892">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 24. Júl, 20:07 h., Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.mess... na gmail.com</A>&gt; wrote:
+&gt;<i> Musíš si to odřádkovat :-)
+</I>&gt;<i>
+</I>&gt;<i> Před &quot;subor.close()&quot; napiš &quot;subor.write('\r\n')&quot; nebo, což je
+</I>&gt;<i> korektnější, &quot;subor.write(os.linesep)&quot;, nezapomeň někde nad tím uvést
+</I>&gt;<i> &quot;import os&quot;.
+</I>&gt;<i>
+</I>&gt;<i> os.linesep obsahuje oddělovač řádků - na Windows tam bude &quot;\r\n&quot;, na
+</I>&gt;<i> Unix-like systémech (tj. skoro všude jinde) &quot;\n&quot;. Mimochodem, existuje
+</I>&gt;<i> ještě jedna možnost - otevřít souboru v režimu  &quot;universal newline
+</I>&gt;<i> support&quot; a jako oddělovač řádku psát jen &quot;\n&quot;, ono by se to pak mělo
+</I>&gt;<i> na Windows na &quot;\r\n&quot; převést samo. (To, že jedeš na Windows, odvozuji
+</I>&gt;<i> ze sleepu na konci.)
+</I>&gt;<i>
+</I>&gt;<i> Petr Messner
+</I>&gt;<i>
+</I>&gt;<i> 2010/7/24 iThomaas &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">bielik.tho... na gmail.com</A>&gt;:
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> &gt; Zdravim. Zacinam sa ucit v pythone a spravil som si taky &quot;dotaznik&quot;
+</I>&gt;<i>
+</I>&gt;<i> &gt; pozdrav=&quot;Dobry den &quot;
+</I>&gt;<i> &gt; nazov='dotaznik.txt'
+</I>&gt;<i> &gt; subor=file(nazov,'a')
+</I>&gt;<i> &gt; meno=raw_input('Ako sa volas?: ')
+</I>&gt;<i> &gt; subor.write(&quot;meno: &quot;+meno)
+</I>&gt;<i> &gt; print(pozdrav+meno)
+</I>&gt;<i> &gt; farba=raw_input('Aka je tvoja oblubena farba?: ')
+</I>&gt;<i> &gt; subor.write(&quot; ,farba: &quot;+farba)
+</I>&gt;<i> &gt; print(&quot;Pekna farba&quot;)
+</I>&gt;<i> &gt; vek=raw_input('Kolko mas rokov?: ')
+</I>&gt;<i> &gt; subor.write(&quot; ,vek: &quot;+vek)
+</I>&gt;<i> &gt; email=raw_input('Zadajte Vas e-mail: ')
+</I>&gt;<i> &gt; subor.write(&quot; ,e-mail: &quot;+email)
+</I>&gt;<i> &gt; odkazy=raw_input('Chcete mi nieco odkazat?: ')
+</I>&gt;<i> &gt; subor.write(&quot; ,odkaz: &quot;+odkazy)
+</I>&gt;<i> &gt; subor.close()
+</I>&gt;<i> &gt; print(&quot;Dakujeme za vyplnenie dotaznika.&quot;)
+</I>&gt;<i> &gt; import time
+</I>&gt;<i> &gt; time.sleep(3)
+</I>&gt;<i>
+</I>&gt;<i> &gt; vypise mi to informacie do textoveho dokumentu takto:
+</I>&gt;<i>
+</I>&gt;<i> &gt; &quot; ,meno: tomas ,farba: modra ,vek: 20 ,e-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">t... na test.sk</A> ,odkaz:
+</I>&gt;<i> &gt; nie ,meno: tomas ,farba: modra ,vek: 20 ,e-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">t... na test.sk</A> ,odkaz:
+</I>&gt;<i> &gt; nie&quot;
+</I>&gt;<i>
+</I>&gt;<i> &gt; a stale za sebou to pise ale ja by som chcel vediet ci je mozne nejak
+</I>&gt;<i> &gt; nastavit aby sa to ukladalo pod seba pokazde ked vypisem ten
+</I>&gt;<i> &gt; &quot;dotaznik&quot; takto:
+</I>&gt;<i>
+</I>&gt;<i> &gt; &quot;meno: tomas ,farba: modra ,vek: 20 ,e-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">t... na test.sk</A> ,odkaz: nie&quot;
+</I>&gt;<i> &gt; &quot;meno: tomas ,farba: modra ,vek: 20 ,e-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">t... na test.sk</A> ,odkaz: nie&quot;
+</I>&gt;<i>
+</I>&gt;<i> &gt; Dakujem za pomoc.
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>
+super funguje to dakujem za pomoc.
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009894.html">[python] pomoc v pythone
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009895.html">[python] multiprocess manager
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9892">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9892">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9892">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9892">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009892.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+</html>

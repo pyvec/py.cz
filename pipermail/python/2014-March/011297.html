@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011297.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:44 GMT -->
+<HEAD>
+   <TITLE> [python] Gtk LED on/off (začiatočník)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FGtk_LED_on/off_%3D28za%3DE8iato%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3CCAE1QKmQTOm2CAdsvY4WurNR0aRPMdQza0HRoRpNfWEOULyj27g%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-March/011296.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-March/011298.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Gtk LED on/off (začiatočník)</H1>
+    <B>Petr Blahos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FGtk_LED_on/off_%3D28za%3DE8iato%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3CCAE1QKmQTOm2CAdsvY4WurNR0aRPMdQza0HRoRpNfWEOULyj27g%40mail.gmail.com%3E"
+       TITLE="[python] Gtk LED on/off (začiatočník)">petrblahos na gmail.com
+       </A><BR>
+    <I>Úterý Březen 18 08:04:02 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011296.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011298.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11297">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11297">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11297">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11297">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj, já v Gtk nedělám, ale aspoň tohle:
+
+v LED_OnOff je proměnná img_LED, která není nikde jinde.
+
+vůbec v tom kódu nevidím důvod, proč by se něco mělo rozsvítit, nebo
+zhasnout.
+
+img_LED_on a img_LED_off je widget - nějaký ten prvek, který se někam
+umístí. Je to
+jeden prvek, tak se umístí na jedno místo. Pokud jej chceš vícekrát, musíš
+jich vyrobit
+více, a každý z nich umístit. Jedna věc je, že si určitě můžeš nahrát
+obrázek jednou,
+a pak jej přiřadit více prvkům, jako třeba (pseudo kód, Gtk neumím)
+
+img_led_on = load_image(&quot;led_on.png&quot;)  # asi neco v gdk
+img_led_off = load_image(&quot;led_off.png&quot;)
+
+widget1 = Gtk.Image()
+widget2 = Gtk.Image()
+widget3 = Gtk.Image()
+
+button1 = Gtk.ToggleButton(...)
+button2 = Gtk.ToggleButton(...)
+button3 = Gtk.ToggleButton(...)
+
+# a napr:
+led_widgets = {
+    button1.id: widget1,
+    button2.id: widget2,
+    button3.id: widget3,
+}
+
+# nastavení obrázku:
+widget1.set_from_image(img_led_on)
+widget2.set_from_image(img_led_on)
+widget3.set_from_image(img_led_on)
+# ...
+
+No a pak bude handler:
+
+def LED_OnOff(self, okno, name):
+    if okno.get_active():
+        led_widgets[okno.id].set_from_image(img_led_on)
+    else:
+        led_widgets[okno.id].set_from_image(img_led_off)
+    # nektere frameworky vyzaduji volani nejakeho refresh
+
+Nevím, jak je to s ID okna v GTK, možná se identifikuje jinak než přes ID.
+Určitě je tu spousta lidí, kteří upřesní to GTK, ale takhle bych to
+vprincipu
+viděl jako jednoduše pochopitelné.
+
+--
+Petr
+
+
+
+2014-03-17 22:53 GMT+01:00 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lukas na sliacky.eu</A>&gt;:
+
+&gt;<i> Ahojte,
+</I>&gt;<i>
+</I>&gt;<i> v Pythone som úplný začiatočník a chcem urobiť program, ktorý simuluje
+</I>&gt;<i> zapínanie a vypínanie LEDiek v závislosti na ToggleButtonoch.
+</I>&gt;<i>
+</I>&gt;<i> Momentálne mám hotové toto:
+</I>&gt;<i>
+</I>&gt;<i> from gi.repository import Gtk
+</I>&gt;<i> import sys
+</I>&gt;<i>
+</I>&gt;<i> class LedControl(Gtk.Window):
+</I>&gt;<i>
+</I>&gt;<i>     def __init__(self):
+</I>&gt;<i>         Gtk.Window.__init__(self, title=&quot;LED Control&quot;)
+</I>&gt;<i>         self.set_border_width(6)
+</I>&gt;<i>         self.set_default_size(200, 250)
+</I>&gt;<i>
+</I>&gt;<i>         okno = Gtk.Table(4, 2, True)
+</I>&gt;<i>         self.add(okno)
+</I>&gt;<i>
+</I>&gt;<i>         img_LED_on = Gtk.Image()
+</I>&gt;<i>         img_LED_on.set_from_file(&quot;LED_on.png&quot;)
+</I>&gt;<i>         self.add(img_LED_on)
+</I>&gt;<i>
+</I>&gt;<i>         img_LED_off = Gtk.Image()
+</I>&gt;<i>         img_LED_off.set_from_file(&quot;LED_off.png&quot;)
+</I>&gt;<i>         self.add(img_LED_off)
+</I>&gt;<i>
+</I>&gt;<i>         button_LED_1 = Gtk.ToggleButton(&quot;LED 1&quot;)
+</I>&gt;<i>         button_LED_1.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;1&quot;)
+</I>&gt;<i>         button_LED_1.set_border_width(2)
+</I>&gt;<i>
+</I>&gt;<i>         button_LED_2 = Gtk.ToggleButton(&quot;LED 2&quot;)
+</I>&gt;<i>         button_LED_2.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;2&quot;)
+</I>&gt;<i>         button_LED_2.set_border_width(2)
+</I>&gt;<i>
+</I>&gt;<i>         button_LED_3 = Gtk.ToggleButton(&quot;LED 3&quot;)
+</I>&gt;<i>         button_LED_3.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;3&quot;)
+</I>&gt;<i>         button_LED_3.set_border_width(2)
+</I>&gt;<i>
+</I>&gt;<i>         button_LED_4 = Gtk.ToggleButton(&quot;LED 4&quot;)
+</I>&gt;<i>         button_LED_4.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;4&quot;)
+</I>&gt;<i>         button_LED_4.set_border_width(2)
+</I>&gt;<i>
+</I>&gt;<i>         okno.attach(button_LED_1, 0, 1, 0, 1)
+</I>&gt;<i>         okno.attach(button_LED_2, 0, 1, 1, 2)
+</I>&gt;<i>         okno.attach(button_LED_3, 0, 1, 2, 3)
+</I>&gt;<i>         okno.attach(button_LED_4, 0, 1, 3, 4)
+</I>&gt;<i>
+</I>&gt;<i>         okno.attach(img_LED_off, 1, 2, 0, 1)
+</I>&gt;<i>         okno.attach(img_LED_on, 1, 2, 1, 2)
+</I>&gt;<i>         #~ okno.attach(img_LED_off, 1, 2, 2, 3)
+</I>&gt;<i>         #~ okno.attach(img_LED_on, 1, 2, 3, 4)
+</I>&gt;<i>
+</I>&gt;<i>     def LED_OnOff(self, okno, name):
+</I>&gt;<i>         if okno.get_active():
+</I>&gt;<i>             status = &quot;on&quot;
+</I>&gt;<i>         else:
+</I>&gt;<i>             status = &quot;off&quot;
+</I>&gt;<i>             img_LED=0
+</I>&gt;<i>         print(&quot;Tlačítko LED&quot;, name, &quot;zmenilo stav na&quot;, status)
+</I>&gt;<i>
+</I>&gt;<i> app = LedControl()
+</I>&gt;<i> app.connect(&quot;delete-event&quot;, Gtk.main_quit)
+</I>&gt;<i> app.show_all()
+</I>&gt;<i> Gtk.main()
+</I>&gt;<i>
+</I>&gt;<i> ale nedarí sa mi rozchodiť svietenie LEDiek (LED_on.png / LED_off.png) na
+</I>&gt;<i> pozíciách vedľa jednotlivých tlačítok (LED 1 je vedľa tlačítka LED 1).
+</I>&gt;<i>
+</I>&gt;<i> Tiež sa chcem spýtať, prečo sa načítaný obrázok zobrazuje len jeden krát.
+</I>&gt;<i> Napr. keď chcem načítať obrázok LED_on.png 2x pod sebou, zobrazí sa vždy
+</I>&gt;<i> len raz:
+</I>&gt;<i>         okno.attach(img_LED_on, 1, 2, 0, 1)
+</I>&gt;<i>         okno.attach(img_LED_on, 1, 2, 1, 2)
+</I>&gt;<i> (Spodný obrázok sa nezobrazuje.)
+</I>&gt;<i>
+</I>&gt;<i> Našiel by sa niekto, kto by mi vedel poradiť? (Ak sú potrebné dodatočné
+</I>&gt;<i> informácie, rád ich obratom poskytnem.)
+</I>&gt;<i>
+</I>&gt;<i> Ďakujem.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+____________________
+<A HREF="http://pysk.blog.root.cz/">http://pysk.blog.root.cz/</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20140318/4bbbc3f2/attachment.html">http://www.py.cz/pipermail/python/attachments/20140318/4bbbc3f2/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011296.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011298.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11297">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11297">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11297">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11297">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011297.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:44 GMT -->
+</html>

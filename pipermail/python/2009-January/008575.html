@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008575.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:04 GMT -->
+<HEAD>
+   <TITLE> [python] Diakritika v stringu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Diakritika%20v%20stringu&In-Reply-To=%3C1232264539.3021.0%40klofy%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008574.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008576.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Diakritika v stringu</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Diakritika%20v%20stringu&In-Reply-To=%3C1232264539.3021.0%40klofy%3E"
+       TITLE="[python] Diakritika v stringu">regnarg na seznam.cz
+       </A><BR>
+    <I>Neděle Leden 18 08:42:19 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008574.html">[python] Diakritika v stringu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008576.html">[python] Unicode v databazi utf8
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8575">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8575">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8575">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8575">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne 18.1.2009 00:41:52 napsal Jan Bednařík:
+&gt;<i> Napadá mě že všechny základní ASCII znaky zabírají každý 8 bitů. 
+</I>&gt;<i> Pokud
+</I>&gt;<i> je tedy délka stringu v bitech větší než počet znaků ve stringu krát
+</I>&gt;<i> 8, pak tam bude nějaký znak co nepatří do ASCII (může to být znak s
+</I>&gt;<i> diakritikou, nebo nějaký úplně jiný). Jak zjistit délku stringu v
+</I>&gt;<i> bitech nevím, poradí strýček Google.
+</I>
+Vzhledem k tomu, že dotazující mluví o kódování stringu, má jej
+asi uložen v bajtové podobě (tedy objekt bytes, přip. str v 
+Py2.x), tedy délku v bytech vyjádří prostou funkcí len. Pro 
+počet znaků by byl nutný převod na str (unicode v Py2.x), který
+by byl trochu náročný. Pokud jde skutečně jen o test 
+ASCII/ne-ASCII (tzn nemusíme testovat přítomnost přímo české 
+diakritiky, ale vyhodnotíme třeba i čínštinu), stačí prostě pro
+každý znak testovat zda je ord(c) in range(128). To bude 
+fungovat jak v binárním, tak unicode stringu. Pro složitější 
+kontroly je nutnost převést na str (unicode) a použít třeba
+unicodedata.category pro zjištění příslušnosti znaku do určité
+skupiny.
+
+S pozdravem,
+Filip Štědronský
+
+
+
+-- 
+<A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na matfyz.cz</A> &#8226; <A HREF="http://regnarg.matfyz.cz/">http://regnarg.matfyz.cz</A> &#8226; <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
+Každý člověk je anděl s jedním křídlem a dva se musí pevně držet
+ spolu, aby mohli l&#233;tat  &#8226;  L&#225;ska a p&#345;&#225;telstv&#237; nikdy nezklamou,
+zklame v&#382;dy &#269;lov&#283;k &#8226; Jedin&#233;, co je kr&#225;sn&#283;j&#353;&#237;, ne&#382; d&#225;vat &#353;t&#283;st&#237;,
+je d&#225;vat l&#225;sku &#8226; I kdy&#382; lid&#233; nev&#283;d&#237;, co je dobro, maj&#237; ho v sob&#283;
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008574.html">[python] Diakritika v stringu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008576.html">[python] Unicode v databazi utf8
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8575">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8575">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8575">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8575">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008575.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:04 GMT -->
+</html>

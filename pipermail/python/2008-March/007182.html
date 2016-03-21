@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-March/007182.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:39 GMT -->
+<HEAD>
+   <TITLE> [python] Instalace mod_python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Instalace%20mod_python&In-Reply-To=009f01c88845%24904d11b0%246e7ba8c0%40kubuvpocitac">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-March/007181.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-March/007183.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Instalace mod_python</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Instalace%20mod_python&In-Reply-To=009f01c88845%24904d11b0%246e7ba8c0%40kubuvpocitac"
+       TITLE="[python] Instalace mod_python">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Pondělí Březen 17 17:11:16 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-March/007181.html">[python] Instalace mod_python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-March/007183.html">[python] Instalace mod_python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-March/date.html#7182">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-March/thread.html#7182">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-March/subject.html#7182">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-March/author.html#7182">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>
+</I>&gt;<i> Pokud spustím soubor soubor &quot;C:/dev/www/py/mptest.py&quot;, tak to funguje, ale
+</I>&gt;<i> pokud zkusím spostit cokoli jiného (např index.py) tak se skript nespustí.
+</I>&gt;<i> Asi bych měl nahradit řádku: &quot;PythonHandler mptest&quot; za něco jiného, ale
+</I>&gt;<i> nepodařilo se mi najít za co (na py.cz je použito &quot;PythonHandler
+</I>&gt;<i> mod_python.publisher&quot;, ale když to zkusím použít, tak mi vyskočí chyba 404
+</I>&gt;<i> (stránka nenalezena). Jak docílit správného fungování??
+</I>&gt;<i>
+</I>
+Ahoj,
+
+  PythonHandler neni nic jineho nez to co bys dal v interaktivnim pythonu do
+&quot;import&quot;, tj. nejdriv si zkontroluj jestli mas v site-packages
+mod-python/publisher.py.
+
+  Dalsi vec:
+
+ do konfigurace Apache si pridej
+&lt;Location /mpinfo&gt;
+  SetHandler mod_python
+  PythonHandler mod_python.testhandler
+&lt;/Location&gt;
+ ... a pak restartuj Apache a navstiv <A HREF="http://<mujweb/">http://&lt;mujweb</A>&gt;/mpinfo  - tim si
+overis funkcnost celeho mod_pythonu
+
+
+Co mas v chybovem logu Apache?
+
+  Jirka Vejrazka
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080317/c4f51c67/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080317/c4f51c67/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-March/007181.html">[python] Instalace mod_python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-March/007183.html">[python] Instalace mod_python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-March/date.html#7182">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-March/thread.html#7182">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-March/subject.html#7182">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-March/author.html#7182">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-March/007182.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:39 GMT -->
+</html>

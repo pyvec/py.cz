@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005803.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:10 GMT -->
+<HEAD>
+   <TITLE> [python] Modul Struct
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Modul%20Struct&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005804.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005806.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Modul Struct</H1>
+    <B>Jakub Vojacek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Modul%20Struct&In-Reply-To="
+       TITLE="[python] Modul Struct">jakohv na seznam.cz
+       </A><BR>
+    <I>Pondělí Duben  9 19:12:47 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005804.html">[python] Jakého typu je iterátor?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005806.html">[python] Modul Struct
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5803">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5803">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5803">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5803">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+DÄlĂĄm si takovou vlastnĂ­ verzi icq. UĹž to umĂ­ posĂ­lat zprĂĄvy, ale poĹĂĄd mi nefunguje pĹĂ­jĂ­mĂĄnĂ­ a fakt nevĂ­m jak to zprovoznit.
+KdyĹž mi nÄkdo poĹĄle zprĂĄvu, pĹijde mi to ve tvaru:
+
+âźĂÂ§ âÂś   âş      268803181   â  âş âť P â  âŚâş âş  âŁ âŚAÄÄ_ â âşâşĂŽĹdÄGVâŹUËÂ§âĂˇĂâ,C âź âŚ  &gt;Ĺ
+ âĽ âŚFâ4âŹ âť ââŁâş âşâşâşâş         funguj!  â   âŹ âŚFâsY âź âşâź
+
+a kod by mÄl bĂ˝t:
+
+def prijmi(self):
+        uin_len = struct.unpack('B', data[0x0a])[0]
+        msg_len = struct.unpack('!H', data[0x48:0x4a])[0] - 0x04
+        fmt  = self.fmt % (uin_len, msg_len)
+        u = struct.unpack(fmt, data)
+        self.uin    = u[2]
+        self.msg    = u[4]
+
+ale to mi vyhodĂ­ chybu:
+
+Traceback (most recent call last):
+  File &quot;C:\Documents and Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\main.py&quot;, l
+ine 379, in ?
+    sys.exit(start(sys.argv))
+  File &quot;C:\Documents and Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\main.py&quot;, l
+ine 332, in start
+    conn.main_loop()
+  File &quot;C:\Documents and Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\main.py&quot;, l
+ine 82, in main_loop
+    self.handle_server_cmd(snac)
+  File &quot;C:\Documents and Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\main.py&quot;, l
+ine 131, in handle_server_cmd
+    m = proto.CMsgIn(snac.data)
+  File &quot;C:\Documents and Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\proto.py&quot;,
+line 289, in __init__
+    u = struct.unpack(fmt, data)
+struct.error: unpack str size does not match format
+
+
+Vubec nevĂ­m jak to zprovoznit a jsem vdÄÄnĂ˝ za kaĹždou radu.
+
+
+Blujacker
+------------- další část ---------------
+HTML pĹĂ­loha byla odstranÄna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20070409/6a205235/attachment.htm">http://www.py.cz/pipermail/python/attachments/20070409/6a205235/attachment.htm</A> 
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005804.html">[python] Jakého typu je iterátor?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005806.html">[python] Modul Struct
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5803">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5803">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5803">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5803">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005803.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:10 GMT -->
+</html>

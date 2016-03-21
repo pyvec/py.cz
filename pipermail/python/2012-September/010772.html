@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010772.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+<HEAD>
+   <TITLE> [python] pygame
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pygame&In-Reply-To=%3C133765.18655.44277-14698-1293882758-1346927175%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-September/010771.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-September/010773.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pygame</H1>
+    <B>goddard na seznam.cz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20pygame&In-Reply-To=%3C133765.18655.44277-14698-1293882758-1346927175%40seznam.cz%3E"
+       TITLE="[python] pygame">goddard na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Září  6 12:26:15 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010771.html">[python] pygame
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010773.html">[python] pygame
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10772">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10772">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10772">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10772">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ahoj,
+
+tohle by melo fungovat diky pygame.key.set_repeat(delay, interval) (<A HREF="http://www.pygame.org/docs/ref/key.html#pygame.key.set_repeat">http://www.pygame.org/docs/ref/key.html#pygame.key.set_repeat</A>)
+
+import random, time, pygame, sys
+from pygame.locals import *
+
+FPS = 25
+W_HEIGHT = 480
+W_WIDTH = 640
+
+pygame.init()
+pygame.display.set_mode((W_WIDTH, W_HEIGHT))
+pygame.key.set_repeat(1, 25)
+
+while True:
+  for event in pygame.event.get():
+    if event.type == QUIT:
+      sys.exit(0)
+    if event.type == KEYDOWN:
+      if event.key == K_LEFT:
+        print &quot;go left&quot;
+
+pygame.dsplay.update()
+FPSCLOCK.tick(FPS)
+
+jiri
+
+------------ Původní zpráva ------------
+Od: Hynek Fabian &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">hynek.fabian at firma.seznam.cz</A>&gt;
+Předmět: Re: [python] pygame
+Datum: 05.9.2012 13:43:47
+----------------------------------------
+To IMO o moc lip vyresit nejde, pacz kdyz budes reagovat na kazdou
+udalost, tak panacek pujde tak rychle jak rychle bude masina stihat
+vyrabet udalosti. Cili tam stejne nekde budes muset mit casovac, v
+hlavni smycce postupne sbirat udalosti vcetne klaves a az kdyz prisel
+cas udelat dalsi krok tak na ne reagovat.
+
+On 09/05/12 12:36, Ctibor.Plasek wrote:
+&gt;<i> Ahoj. To jsem taky vyzkoušel akorát mi to přišlo takové kostrbaté
+</I>&gt;<i> řešení (permanentně kontrolovat, že je klávesa stisknutá a pak zas že
+</I>&gt;<i> je puštěná). Ale asi to asi jinak nepůjde :-(
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;&gt;<i> ------------ Původní zpráva ------------ Od: azurIt
+</I>&gt;&gt;<i> &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">azurit at pobox.sk</A>&gt; Předmět: Re: [python] pygame Datum: 05.9.2012
+</I>&gt;&gt;<i> 12:18:39 ---------------------------------------- Ahoj,
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> priamo skusenosti s tym nemam avsak co tak pri stlaceni nastavit
+</I>&gt;&gt;<i> nejaky priznak (nejaku premennu na True), ze klavesa je stlacena a
+</I>&gt;&gt;<i> nasledne pri pusteni ten priznak vynulovat? Dany priznak mozes
+</I>&gt;&gt;<i> niekde inde kontrolovat a ak je True, tak sa panacik bude
+</I>&gt;&gt;<i> pohybovat.
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> azur
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> ______________________________________________________________
+</I>&gt;&gt;&gt;<i> Od: &quot;Ctibor.Plasek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Ctibor.Plasek at seznam.cz</A>&gt; Komu:
+</I>&gt;&gt;&gt;<i> &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python at py.cz</A>&gt; Dátum: 05.09.2012 12:12 Predmet: [python] pygame
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> Ahoj. Nemáte někdo zkušenosti s Pygame? Mám takový problém : při
+</I>&gt;&gt;&gt;<i> stisku klávesy chci, aby 'panáček' šel tak dlouho,
+</I>&gt;&gt;<i> dokud klávesu nepustím ( což je zdá se logické).
+</I>&gt;&gt;&gt;<i> Jenže když použiji :
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> stisk = pygame.key.get_pressed() if stisk[K_UP]: print(&quot;ahoj
+</I>&gt;&gt;&gt;<i> UP&quot;) elif stisk[pygame.K_DOWN]: print(&quot;ahoj DOWN&quot;)
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> anebo :
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> for event in pygame.event.get():
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> if event.type == QUIT or (event.type == KEYUP and event.key ==
+</I>&gt;&gt;<i> K_ESCAPE):
+</I>&gt;&gt;&gt;<i> pygame.quit() sys.exit()
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> if event.type == KEYUP and event.key == K_RIGHT : klavesa = 1
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> if event.type == KEYUP and event.key == K_LEFT : klavesa = -1
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> Tak to vždy bere akorát jedno stisknutí. Nemůžete mi někdo
+</I>&gt;&gt;&gt;<i> poradit, jak to
+</I>&gt;&gt;<i> jednoduše vyřešit ?
+</I>&gt;&gt;&gt;<i> Děkuji Ctibor _______________________________________________ 
+</I>&gt;&gt;&gt;<i> Python mailing list <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A> 
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;<i> _______________________________________________ Python mailing
+</I>&gt;&gt;<i> list <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;<i> _______________________________________________ Python mailing list 
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010771.html">[python] pygame
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010773.html">[python] pygame
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10772">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10772">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10772">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10772">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010772.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+</html>

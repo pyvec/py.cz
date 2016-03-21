@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007797.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+<HEAD>
+   <TITLE> [python] Getters and Setters.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Getters%20and%20Setters.&In-Reply-To=D65DE45E9DB07C43B4F5210329E41BE661485E%40londinium.hq.altien.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007795.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007799.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Getters and Setters.</H1>
+    <B>rajcze</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Getters%20and%20Setters.&In-Reply-To=D65DE45E9DB07C43B4F5210329E41BE661485E%40londinium.hq.altien.com"
+       TITLE="[python] Getters and Setters.">rajcze na gmail.com
+       </A><BR>
+    <I>Sobota Červen 21 18:19:29 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007795.html">[python] Getters and Setters.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007799.html">[python] Getters and Setters.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7797">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7797">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7797">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7797">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+vec se ma tak, ze pokud pouzivas get/set metody explicitne, tak delas
+praci uplne zbytecnou.
+
+Jednoduchy priklad:
+
+# Trida
+class C(object):
+    def __init__(self):
+        self.x = 0
+
+    def magic(self):
+        self.x = self.x * 10
+
+# Program
+pom = C()
+pom.x = 11
+print pom.x
+pom.magic()
+print pom.x
+
+Vse je OK, ale z nejakeho obskurniho duvodu je najednou do x potreba
+ukladat dvojnasobek kladnych prirazovanych hodnot, misto zaporneho
+cisla nulu.
+
+Neni nic jednodussiho, nez zmenit atribut x na property x. Property v
+pythonu funguje tak, ze vytvorene property nadefinujes, jaka funkce se
+vola pri &quot;pristupu k property pro cteni (getter)&quot; a pri &quot;pristupu k
+property pro zapis (setter)&quot;
+
+class C(object):
+    def __init__(self):
+        self._x = 0;
+
+    def magic(self):
+        self.x = self.x * 10
+
+    def get_x(self):
+        return(self._x)
+
+    def set_x(self, value):
+        if value &gt;= 0:
+             self._x = value * 2
+        else:
+             self._x = 0
+
+    x = property(get_x, set_x)
+
+Nyni muzu bezproblemu provest puvodni program
+
+# Program
+pom = C()
+pom.x = 11
+print pom.x
+pom.magic()
+print pom.x
+
+a mam i pozadovane chovani. Vsimni si, ze pozadovana zmena chovani se
+projevila i ve funkci C.magic() ktera k property x taktez pristupuje.
+Pokud by ses tomuto chtel vyhnout, tak staci zmenit self.x na self._x
+
+Cili tim ze explicitne volas get_x a set_x tak sice nedelas chybu, ale
+delas zbytecnou praci a navic to vypada desne.
+
+Joza
+
+2008/6/21 David Michal &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">dmichal na altien.com</A>&gt;:
+&gt;<i> Asi je to jen mou neznalosti, ale preci kdyz budu dusledne pouzivat get a
+</I>&gt;<i> set metody, tak si pri pripadne zmene atributu ulehcim praci, jelikoz takova
+</I>&gt;<i> zmena bude znamenat editaci pouze samotne tridy a nebudu muset prochazet
+</I>&gt;<i> cely kod a hledat kde vsude se na tridu odvolavam.
+</I>
+
+
+
+-- 
+Rules of Optimization:
+Rule 1: Don't do it.
+Rule 2 (for experts only): Don't do it yet.
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007795.html">[python] Getters and Setters.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007799.html">[python] Getters and Setters.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7797">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7797">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7797">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7797">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007797.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:59 GMT -->
+</html>

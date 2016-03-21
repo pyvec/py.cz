@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010572.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:38 GMT -->
+<HEAD>
+   <TITLE> [python] socket + udp + vytváření paketů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%09%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C4F440053.9000106%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-February/010571.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-February/010573.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] socket + udp + vytváření paketů</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%09%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C4F440053.9000106%40seznam.cz%3E"
+       TITLE="[python] socket + udp + vytváření paketů">jakohv na seznam.cz
+       </A><BR>
+    <I>Úterý Únor 21 21:36:35 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010571.html">[python] socket + udp + vytváření paketů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010573.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10572">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10572">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10572">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10572">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>TCP/IP byl minulý úkol, nyní je to, pokud to dobře chápu doopravdy UDP, 
+viz. zadání: <A HREF="http://maths.cz/ukol.pdf">http://maths.cz/ukol.pdf</A>
+
+Spojení z wireshark je zde: <A HREF="http://maths.cz/test.pcap">http://maths.cz/test.pcap</A> (jedná se o to 
+spojení, které má destination 147.32.232.173).
+
+&gt;<i> A mimochodem, pokud mas zdrojovou adresu odchoziho paketu 127.0.0.1,
+</I>&gt;<i> tak ti zadny server neodpovi. Musis to poslat z rozhrani, ktere ma
+</I>&gt;<i> &quot;verejnou&quot; IP adresu, na kterou muze ten tvuj server zpatky odpovedet.
+</I>
+V adresách se moc nevyznám, ale když jsem testoval tcp/ip klienta 
+obdobným způsobem testoval, tak server normálně odpovídal. A pokud se 
+kouknu na odchozí adresu paketů, tak to není localhost ale 192.168.0.105
+
+&gt;<i> btw. nevím, jak moc je ten kód úplný, ale chybí tam
+</I>&gt;<i> s.bind((&quot;&quot;,0))
+</I>To v kódu mám, stejně to nefunguje.
+
+Děkuji za Váš čas,
+
+Jakub
+
+
+
+
+Dne 21.2.2012 21:17, Jirka Vejrazka napsal(a):
+&gt;<i> To trochu vypada, ze mas za ukol naprogramovat jednodussi verzi TCP 
+</I>&gt;<i> protokolu, ty priznaky jsou prakticky stejne, viz 
+</I>&gt;<i> <A HREF="http://en.wikipedia.org/wiki/Transmission_Control_Protocol#TCP_segment_structure">http://en.wikipedia.org/wiki/Transmission_Control_Protocol#TCP_segment_structure</A>
+</I>&gt;<i>
+</I>&gt;<i> Z tech dat mi neni uplne jasne, jestli je to jenom obsah paketu, nebo 
+</I>&gt;<i> i hlavicka. Muzes cele spojeni ulozit jako PCAP (viz Wireshark) a 
+</I>&gt;<i> nahrat to nekam, kde si ti muzeme stahnout?
+</I>&gt;<i>
+</I>&gt;<i>   Jirka
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20120221/3174b612/attachment.html">http://www.py.cz/pipermail/python/attachments/20120221/3174b612/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010571.html">[python] socket + udp + vytváření paketů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010573.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10572">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10572">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10572">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10572">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010572.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:38 GMT -->
+</html>

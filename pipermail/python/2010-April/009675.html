@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009675.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:45 GMT -->
+<HEAD>
+   <TITLE> [python] Python WSGI (začátečník)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPython_WSGI_%3D28za%3DE8%3DE1te%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3C9FFB44C5-4088-4E00-9968-233115A16A68%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009674.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009676.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Python WSGI (začátečník)</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FPython_WSGI_%3D28za%3DE8%3DE1te%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3C9FFB44C5-4088-4E00-9968-233115A16A68%40gmail.com%3E"
+       TITLE="[python] Python WSGI (začátečník)">petr.messner na gmail.com
+       </A><BR>
+    <I>Sobota Duben 24 17:34:51 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009674.html">[python] Python WSGI (začátečník)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009676.html">[python] Python WSGI (začátečník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9675">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9675">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9675">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9675">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+zkusím ti to nejdřív nějak vysvětlit, pak ti odpovím na tvé konkrétní otázky a závěr ještě něco přidám. Sorry, vzhledem k formulaci a vlastně samotné existenci dotazu jsem se trochu více rozepsal.
+
+Pro jistotu zde uvedu definici WSGI: je to lepidlo, pomocí kterého se slepí webový server a webový framework/webová aplikace; je to proto, aby každá aplikace/každý framework nemusel znovu a znovu implementovat HTTP, FastCGI, CGI atd. Místo toho jen webserver nebo FastCGI server nebo CGI handler (nebo cokoliv) jen poskytne WSGI rozhraní a aplikace/framework už se tím nemusí zabývat.
+
+Ale stále toho k zabývání se ještě spousta zbývá. WSGI je low-level a nedělá nic jiného, než co jsem právě popsal. Mohl bys WSGI vzít a přidat do něj nějaké hezčí zpracování uploadu souborů, mohl bys do něj přidat spojení do databáze, logování atd., ale to už by pak nebylo hezké rozhraní, ale pěkný moloch. Byl by to webový framework. Úkolem WSGI není být webovým frameworkem, ale umožnit webovým frameworkům fungovat nezávisle na tom, jestli budou spuštěny přes CGI, FastCGI nebo nějak jinak.
+
+Takže:
+
+1. pokud chceš v Pythonu dělat weby, nedělej je čistě ve WSGI, ale najdi si knihovnu nebo framework, která bude řešit ty nejotravnější věci (upload souborů apod.) Může to být buď full-stack framework jako třeba Django nebo Pylons, nebo to může být knihovna, která dělá primárně právě jen tohle, např. Werkzeug, Paste WebOb, yaro, ... Je toho mraky. Mezi tím jsou ještě další věci, např. CherryPy. A pak ještě speciality, jako Zope nebo Twisted.
+
+2. statistiky na webu bývají pochybné kvality, nejlepší je se o výkonu něčeho přesvědčit sám. Na co psát něco ultra-efektivně, když tam stejně poleze jen deset lidí denně - místo toho to dělej tak, abys z toho měl sám radost a měl s tím co nejméně práce. Na druhou stranu, pro jakýkoliv dobře nakonfigurovaný způsob nasazení webové aplikace by neměl být problém zvádnout stovky požadavků za sekundu, a pokud bude požadavků více, stejně při takovém provozu se už asi dávno budeš poohlížet po dalším železe.
+
+3. že nechceš používat mod_python já osobně chválím :) I když pro to mám jiné důvody, než statistiky na webu. WSGI je univerzálnější. (Ne že by v mod_pythonu nešel použít WSGI handler, věřím, že je zde řeč o standardním mod_python publisheru.) Mimochodem, abychom předešli obvyklému počátečnímu zádrhelu - WSGI není to samé, co mod_wsgi. Jedno je rozhraní a druhé je jedna z implementací tohoto rozhraní pro Apache.
+
+4. proč ti nefunguje ten print samozřejmě nevím, ale vzhledem k tomu, že print vypisuje na standardní výstup, asi to bude tím, že svoji aplikaci spouštíš pomocí něčeho, co ten standardní výstup zavírá. Třeba kdybych já pomocí printu něco napsal, tak se mi to vypíše rovnou do konzole, kde je webovka spuštěná (tedy ne uživateli do prohlížeče), a na serveru standardní výstup bývá (když není zavřený) přesměrovaný do /dev/null, takže se to zapíše víš kam. Používat print ve webové aplikaci lze jen na ladění, jinak je to asi stejný nesmysl jako používat ho v GUI aplikacích. Jo a jestli si chtěl napsat něco jako print(&quot;&lt;html&gt;... kilobajty balastu ...&lt;/html&gt;&quot;), tak použij šablonu, je to o dost jednodušší a přehlednější :)
+
+Co by měl být tvůj další krok - doporučuji se podívat na Django. Je tu dost příznivců a uživatelů Djanga, takže i z tohoto pohledu je to perspektivní.
+
+Kdybys nechtěl jít do Djanga, tak se zkus třeba podívat na <A HREF="http://werkzeug.pocoo.org/">http://werkzeug.pocoo.org/</A> a rozklikni si to &quot;click here to see ...&quot;, je tam docela pěkná ukázka. Jak vidíš, snadno získáš objekt Request, ve kterém je vše co potřebuješ, odpověď vracíš objektem třídy Response a co děláš mezi tím je na tobě, to ti jako PHP programátorovi přijde asi bližší. Werkzeug není zrovna hodně používaná věc, ale mě se líbí, lze na ni demonstrovat, jak to dělat snadno a bez frameworkového molochu, proto to zde uvádím. Takových podobných nástrojů jako Werkzeug je více.
+
+Vůbec pro PHP programátora bude asi největší problém to, že dělat něco v Pythonu nebo Ruby neznamená jen naučit se jazyk a třeba jen jeden způsob jak to zprovoznit, ale už při čtení prvního tutorialu se na tebe valí věci jako ORM, MVC, URL routing, testování, ideálně ještě základy Linuxu/BSD/.... Tím se nenech odradit.
+
+Takže přeji hodně štěstí, ale stojí to za to :)
+
+PM
+
+
+PS. předpokládám, že tvůj další dotaz do této konference bude, kde na to najít hosting :)
+
+On 24.4.2010, at 16:01, Thomix wrote:
+
+&gt;<i> Zdravím,
+</I>&gt;<i> 
+</I>&gt;<i> už několik let programuju v php. Poslední dobou šilhám po python pro
+</I>&gt;<i> web. Nainstaloval jsem si modul WSGI a zkusil si par tutoriálů. Ovšem
+</I>&gt;<i> mám problém.
+</I>&gt;<i> 
+</I>&gt;<i> Např.:
+</I>&gt;<i> 
+</I>&gt;<i> def application(environ, start_response):
+</I>&gt;<i>    status = '200 OK'
+</I>&gt;<i>    output = 'hl'
+</I>&gt;<i> 
+</I>&gt;<i>    response_headers = [('Content-type', 'text/plain'),
+</I>&gt;<i>                        ('Content-Length', str(len(output)))]
+</I>&gt;<i>    start_response(status, response_headers)
+</I>&gt;<i> 
+</I>&gt;<i>    return [output]
+</I>&gt;<i> 
+</I>&gt;<i> Tomuto celkem rozumím ale nechapu jak v tom více programovat ??? Když
+</I>&gt;<i> si napíšu print(&quot;neco&quot;); napiše to chybu a dále se to semnou nebaví.
+</I>&gt;<i> 
+</I>&gt;<i> Viz.:
+</I>&gt;<i> 
+</I>&gt;<i> def application(environ, start_response):
+</I>&gt;<i>    status = '200 OK'
+</I>&gt;<i>    output = 'hl'
+</I>&gt;<i>    print(&quot;neco&quot;);
+</I>&gt;<i> 
+</I>&gt;<i>    response_headers = [('Content-type', 'text/plain'),
+</I>&gt;<i>                        ('Content-Length', str(len(output)))]
+</I>&gt;<i>    start_response(status, response_headers)
+</I>&gt;<i> 
+</I>&gt;<i>    return [output]
+</I>&gt;<i> 
+</I>&gt;<i> Nějak nechápu v čem je problém. Mod_python nechci používat z důvodu
+</I>&gt;<i> slabé odezvialesponň dle statistik co jsem četl na internetu. Mohl by
+</I>&gt;<i> mě prosím někdo objasnit alespoň základ psaní ve WSGI ?
+</I>&gt;<i> 
+</I>&gt;<i> Děkuji :)
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009674.html">[python] Python WSGI (začátečník)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009676.html">[python] Python WSGI (začátečník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9675">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9675">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9675">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9675">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009675.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:45 GMT -->
+</html>

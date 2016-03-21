@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-April/011330.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:41 GMT -->
+<HEAD>
+   <TITLE> [python] dynamicke metody
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dynamicke%20metody&In-Reply-To=%3Cf6bc0fea-f1b8-4dac-8637-59dd0bfdd2fe%40googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-April/011329.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-April/011331.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dynamicke metody</H1>
+    <B>Marek Sirový</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dynamicke%20metody&In-Reply-To=%3Cf6bc0fea-f1b8-4dac-8637-59dd0bfdd2fe%40googlegroups.com%3E"
+       TITLE="[python] dynamicke metody">msirovy na gmail.com
+       </A><BR>
+    <I>Pátek Duben 25 00:23:09 CEST 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011329.html">[python] Projekt: open source BitTorrent tracker pro americkou	vedeckou komunitu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011331.html">[python] dynamicke metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-April/date.html#11330">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/thread.html#11330">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/subject.html#11330">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/author.html#11330">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+behem studia pythonu a hrani si s Flaskem a databazemi obecne me napadla abstrakce nad sql, kterou bych si rad zkusil vytvorit, tusim, ze nejde o nic efektivniho, nebo noveho, ale nejsem programator a python mam jako konicek a toto me zajima ciste ze studijnich duvodu, rad bych vedel, jak se to da vyresit, proto prosim nevymlouvejte mi to, ale poradte  cestu... Nebo ukazte kde mam chybu
+
+Predstava:
+
+mam tridu db, ktere dam jako slovnik jmeno metody a sql dotaz, tim se mi vytvori objekt s metodami, kterym bude stacit jen predavat parametry a vrati se mi data z databaze. cili melo by fungovat neco takoveho:
+
+
+#!/usr/bin/env python3
+from string import Template
+import psycopg2
+
+
+### trida s dynamickymi metodami
+class db:
+    &quot;&quot;&quot; test dynamickych metod
+    &quot;&quot;&quot;
+    
+    def _sql(self, _sql = None, **kwargs):
+        &quot;&quot;&quot; predloha pro dynamicke funkce
+        &quot;&quot;&quot;
+        query = Template(_sql).substitute(**kwargs)
+        print(query)
+        _self._CUR.execute( query )
+        return _self._conn.commit()
+        
+    
+    def __init__(self, SQL = None):
+        if SQL is None:
+            raise(KeyError(&quot;Musite definovat slovni SQL&quot;))
+        
+        # DB CONNECT
+        self._conn = psycopg2.connect(&quot;dbname=mail user=marek&quot;, cursor_factory= psycopg2.extras.DictCursor)
+        self._CUR = self._conn.cursor()
+        
+        # create methods by SQL dict
+        for _func, _sql in SQL.items():
+            setattr(self, _func, self._sql(_sql = _sql))
+    
+    
+    def close(self):
+        return(True)
+    
+
+
+if __name__ == '__main__':
+    '''Priklad pouziti
+    - pridam zaznam pepa
+    - smazu zaznam pepa
+    '''
+    _SQLS = {
+            'add' : 'insert into tabulka (name, age, email) VALUES ($name, $age, $email);',
+            'edit' : 'update tabulka set age = $age, email = $email where name = $name;',
+            'del' : 'remove from tabulka where name = $name;',
+            }
+
+    data = db(_SQLS)
+    data.add(name = 'Pepa', age = '12', email = '<A HREF="http://www.py.cz/mailman/listinfo/python">pepa12 na gmail.fi</A>')
+    data.del(name = 'Pepa')
+    data.close()
+
+Omlouvam se za nedodrzovani PEP, skutecne nejsem moc programator a obcas docela prasim v zapalu boje.
+
+Predem diky za vysvetleni, pomoc, nasmerovani...
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011329.html">[python] Projekt: open source BitTorrent tracker pro americkou	vedeckou komunitu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011331.html">[python] dynamicke metody
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-April/date.html#11330">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/thread.html#11330">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/subject.html#11330">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/author.html#11330">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-April/011330.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:41 GMT -->
+</html>

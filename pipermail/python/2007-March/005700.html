@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005700.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:23 GMT -->
+<HEAD>
+   <TITLE> [python] Vyreseno: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vyreseno%3A%20Cteni%20unicode%20retezcu%20ze%20souboru%20UTF-8%20s%20BOM%3F&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005699.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005701.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vyreseno: Cteni unicode retezcu ze souboru UTF-8 s BOM?</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vyreseno%3A%20Cteni%20unicode%20retezcu%20ze%20souboru%20UTF-8%20s%20BOM%3F&In-Reply-To="
+       TITLE="[python] Vyreseno: Cteni unicode retezcu ze souboru UTF-8 s BOM?">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Březen 16 11:41:01 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005699.html">[python] SQLAlchemy - select s určením tabulky z proměnn
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005701.html">[python] Jak nastavit locale aby \w zahrnoval i české znaky?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5700">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5700">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5700">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5700">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tak nakonec jsem to s dopomocí a se studiem PEP
+vyřešil principiálně takto:
+
+===================================================
+import codecs
+f = codecs.open('soubor.txt', 'rU', 'utf-8-sig')
+for line in f:
+    print repr(line)
+f.close()
+===================================================
+
+Funguje to i pro soubory bez BOM a na konci řádků
+z windowsového textového souboru to nenechává \r.
+
+pepr
+
+
+&gt;<i> -----Original Message-----
+</I>Petr Prikryl
+&gt;<i> Díky. Tušil jsem nějakou zradu. Nakonec jsem to principiálně
+</I>&gt;<i> napsal takto.
+</I>&gt;<i> 
+</I>&gt;<i> ===================================================
+</I>&gt;<i> import codecs
+</I>&gt;<i> bom = unicode(codecs.BOM_UTF8, 'utf8')
+</I>&gt;<i> f = codecs.open('soubor.txt', 'r', 'utf-8')
+</I>&gt;<i> for line in f:
+</I>&gt;<i>     line = line.rstrip() + u'\n'
+</I>&gt;<i>     if line.startswith(bom):
+</I>&gt;<i>         line = line.lstrip(bom)
+</I>&gt;<i>     print line,
+</I>&gt;<i> f.close()
+</I>&gt;<i> ===================================================
+</I>&gt;<i> 
+</I>&gt;<i> To znamená, že z trojbajtové sekvence codecs.BOM_UTF8,
+</I>&gt;<i> která má hodnotu '\xef\xbb\xbf' vyrobím neexistující
+</I>&gt;<i> unicode znak u'\ufeff', který zahazuju, protože
+</I>&gt;<i> neexistuje :-)
+</I>&gt;<i> 
+</I>&gt;<i> Není další chyba v tom, že při čtení v textovém režimu
+</I>&gt;<i> dostávám na konci řádku '\r\n'? (... pod Windows, neprovádí
+</I>&gt;<i> se unifikace konců řádků.)
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> RMiklos <A HREF="http://www.py.cz/mailman/listinfo/python">napsal... na pss.sk</A>
+</I>&gt;<i> &gt; Je to zjavne bug - tu sa o tom docitas: <A HREF="http://evanjones.ca/python-">http://evanjones.ca/python-</A>
+</I>&gt;<i> utf8.html
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Takze BOM treba odrezat rucne:
+</I>&gt;<i> &gt; --------------------------------------------------
+</I>&gt;<i> &gt; # -*- coding: cp1250 -*-
+</I>&gt;<i> &gt; import codecs
+</I>&gt;<i> &gt; bom = unicode( codecs.BOM_UTF8, &quot;utf8&quot; )
+</I>&gt;<i> &gt; print &quot;BOM = %s&quot; %  repr(bom)
+</I>&gt;<i> &gt; f = codecs.open('soubor.txt', 'r', 'utf-8')
+</I>&gt;<i> &gt; for line in f:
+</I>&gt;<i> &gt;    #print &quot;line[0]= %s&quot; % repr(line[0])
+</I>&gt;<i> &gt;    if line[0] == unicode( codecs.BOM_UTF8, &quot;utf8&quot; ):
+</I>&gt;<i> &gt;       l=line.lstrip(unicode( codecs.BOM_UTF8, &quot;utf8&quot; ))
+</I>&gt;<i> &gt;    else:
+</I>&gt;<i> &gt;       l = line
+</I>&gt;<i> &gt;    print repr(l)
+</I>&gt;<i> &gt;    print l[1:]
+</I>&gt;<i> &gt; f.close()
+</I>&gt;<i> &gt; --------------------------------------------------
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005699.html">[python] SQLAlchemy - select s určením tabulky z proměnn
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005701.html">[python] Jak nastavit locale aby \w zahrnoval i české znaky?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5700">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5700">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5700">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5700">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005700.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:23 GMT -->
+</html>

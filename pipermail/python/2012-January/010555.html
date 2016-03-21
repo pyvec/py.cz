@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010555.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:42 GMT -->
+<HEAD>
+   <TITLE> [python] PYTHONPATH
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3CCAE1QKmQ-axUzxjNWF053O6we8BPB0DBuUZE3jBUt4btzA7q1Fw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-January/010554.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-January/010550.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PYTHONPATH</H1>
+    <B>Petr Blahos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3CCAE1QKmQ-axUzxjNWF053O6we8BPB0DBuUZE3jBUt4btzA7q1Fw%40mail.gmail.com%3E"
+       TITLE="[python] PYTHONPATH">petrblahos na gmail.com
+       </A><BR>
+    <I>Úterý Leden 24 21:34:26 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010554.html">[python] PYTHONPATH
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010550.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10555">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10555">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10555">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10555">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;&gt;<i> Ale jasne,
+</I>&gt;&gt;<i> Resit, jak to delaji jine unixove programy je sice zajimavy, ale cekal bych, ze na python ml se bude radit standardni reseni pythonu, ne miliony ostatnich.
+</I>&gt;<i> To je špatně na tolik způsobů že ani nevím kde začít...
+</I>&gt;<i>
+</I>&gt;<i> Za prvé, standartní pythoní způsob je PYTHONPATH (a .pth, ale to je spíš
+</I>&gt;<i> bokovka), to je zdokumentovaná součást interpretru. Virtualenv je zvlášt
+</I>&gt;<i> balený wrapper, který dokonce ani není ve standartní knihovně.
+</I>
+Mě mate, že tomu říkáš wrapper. Virtualenv nikde nic neobaluje. Virtualenv
+nastaví prostředí, vpodstatě udělá PYTHONHOME=&quot;&quot; PYTHONPATH=&quot;&quot;, a spustí
+interpreter na jisté cestě, což implikuje hledání lib na určité cestě.
+Tam se opět nic
+ničím neobaluje, jenom se nastaví cesty, na kterých se hledají
+knihovny. Podle mě
+virtualenv můžeme nazýval lecjak, ale rozhodně ve mě neevokuje wrapper.
+
+&gt;<i> Za druhé, nejsou žádné miliony ostatních, ale jen jeden způsob který
+</I>&gt;<i> používají miliony programů: cesty oddělené dvojtečkou v proměnné
+</I>&gt;<i> prostředí. Dokonce i Java se toho drží, a to už je tedy něco!
+</I>&gt;<i>
+</I>&gt;<i> Za třetí to celé má důvod, pokud &quot;standardni reseni pythonu&quot;  nebude
+</I>&gt;<i> totéž jako &quot;jak to delaji jine unixove programy&quot; tak máš zásadní
+</I>
+Bude podle Tebe vpořádku (myslím dostatečně unixové), když udělám
+        PYTHONHOME=cesta_nekam python mujskript.py
+? Protože tohle je jeden ze způsobů, jak virtualenv použít.
+
+&gt;<i> problémy s interoperatibilitou. Představ si to naopak - když ty budeš
+</I>&gt;<i> potřebovat z pythonu spustit program v javě nebo ruby, je jednodušší
+</I>&gt;<i> sáhnout známým způsobem do prostředí nebo zkoumat jaký speciální nástroj
+</I>&gt;<i> si jeho autoři zase vymysleli? (nápověda: je to chyták)
+</I>
+Hmm, programy v javě, které jsem před lety potkával já (ant, tomcat,
+...), k tomu
+přistupovaly tak, že měly spouštěcí shell script, který nastavil JAVA_HOME,
+k tomu ANT_HOME nebo tak něco, zpravidla si z ANT_HOME nebo tak něčeho
+posbíral knihovny z lib/ext, vytvořil z nich parametr pro -classpath a
+spustil javu
+z JAVA_HOME. Když bych to dělal z programu a nechtěl spouštět ten skript,
+tak bych tohle všechno musel řešit sám. Za domácí úkol si zkusím najít deb
+balíček. Každopádně, nejjednodušší je spustit pomocí systémovýho shellu
+skript, kterej má na první řádce napsaný, čím se má provést. Např. tím
+interpreterem pythonu ve virtualenv.
+
+Aha, když je to chyták, tak správná odpověď je: Je mi jedno, jaký spec. nástroj
+si jeho autoři vymysleli, protože spouštím &quot;program&quot;, ne &quot;interpreter
+s parametrem
+jméno skriptu&quot;, a ten program se o obstarání toho spec. nástroje postará sám.
+
+[...]
+&gt;<i> soudů: IMO Python deployment je totéž jako Java deployment nebo PHP
+</I>&gt;<i> deployment - nesmysl.
+</I>Tady se asi něco ztratilo?
+
+Totiž, aby vám nepřipadalo, že tady jenom zbytečně otravuju. Pokud si dobře
+vzpomínám, v jakém duchu byla vedená celá tahle diskuze, a to v duchu správného
+nastavování environment variables, tak nevidím rozdíl mezi tím, že
+použiju virtualenv
+(což vpodstatě jen nastaví, kde se hledají knihovny), a nepoužiju
+virtualenv, jenom si
+nastavím, kde se hledají knihovny. Nadruhou stranu, to, jak se tady
+objevilo nastavit
+PYTHONPATH systemwide, a ještě k tomu na svoje moduly, mi přijde jako mnohem
+větší prasárna, než všechny virtualenvy dohromady.
+
+Kde rozdíl vidím je:
+Pro balíčkovací systém:
++ snadná aktualizace všech balíčků
++ bude to fungovat, ikdyž se zaktualizuje python
+Pro virtualenv:
++ možnost mít různá prostředí s různými verzemi či sadami knihoven -
+umíte to balíčkovacím systémem?
++ možnost použití v OS, kde není balíčkovací systém
++ vlastní balíčkovací systém (pip nebo easy_install) pro případ, že
+zrovna pro knihovnu, kterou potřebuju, není rpm/deb
+
+--
+Petr
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010554.html">[python] PYTHONPATH
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010550.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10555">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10555">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10555">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10555">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010555.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:42 GMT -->
+</html>

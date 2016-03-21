@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011282.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:42 GMT -->
+<HEAD>
+   <TITLE> [python] Překódování textových souborů z DOSu.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUMWZZWvDs2RvdsOhbsOtIHRleHRvdsO9Y2ggc291Ym9y%3F%3D%0A%09%3D%3Futf-8%3Fq%3F%3DC5%3DAF_z_DOSu%3D2E%3F%3D&In-Reply-To=%3CCA%2B%3D%2BwqDDmD0V98WnnzpVctmREjj35SVCNzEpN%2B9jFgb2SNuJqw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-March/011281.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-March/011283.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Překódování textových souborů z DOSu.</H1>
+    <B>Petr Viktorin</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3FUMWZZWvDs2RvdsOhbsOtIHRleHRvdsO9Y2ggc291Ym9y%3F%3D%0A%09%3D%3Futf-8%3Fq%3F%3DC5%3DAF_z_DOSu%3D2E%3F%3D&In-Reply-To=%3CCA%2B%3D%2BwqDDmD0V98WnnzpVctmREjj35SVCNzEpN%2B9jFgb2SNuJqw%40mail.gmail.com%3E"
+       TITLE="[python] Překódování textových souborů z DOSu.">encukou na gmail.com
+       </A><BR>
+    <I>Pondělí Březen  3 16:59:55 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011281.html">[python] Překódování textových souborů z DOSu.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011283.html">[python] Překódování textových souborů z DOSu.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11282">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11282">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11282">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11282">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Aha, už jsem si to přečetl trochu líp :)
+
+Probl&#233;m je v tom, &#382;e znaky v cp852 jsou, ale v cp1250 ne. P&#345;&#237;klad je &#9617;
+(U+2591 LIGHT SHADE, v cp852 '\xbf').
+Takové znaky samozřejmě převést nejde. Co bys chtěl, aby s nimi tvůj
+program dělal?
+
+Jinak doporučuju kódovat do UTF-8, které umí všechny znaky na které si
+vzpomeneš.
+
+On Mon, Mar 3, 2014 at 3:51 PM, Jiří Nekolný &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jnekolny na centrum.cz</A>&gt; wrote:
+&gt;<i> To už jsem zkoušel, také to nejde. Mohu případně zalat soubor zn852.txt.
+</I>&gt;<i> Nechci to zapisovat binárně skutečně se jedná o čistě textové soubory.
+</I>&gt;&gt;&gt;&gt;<i> ================================ RESTART ================================
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;C:\apy\apy.py&quot;, line 7, in &lt;module&gt;
+</I>&gt;<i>     f1.write(obsah)
+</I>&gt;<i>   File &quot;C:\Python33\lib\encodings\cp1250.py&quot;, line 19, in encode
+</I>&gt;<i>     return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+</I>&gt;<i> UnicodeEncodeError: 'charmap' codec can't encode characters in position 178-182: character maps to &lt;undefined&gt;
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011281.html">[python] Překódování textových souborů z DOSu.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011283.html">[python] Překódování textových souborů z DOSu.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11282">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11282">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11282">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11282">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011282.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:42 GMT -->
+</html>

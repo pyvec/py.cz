@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011692.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:09 GMT -->
+<HEAD>
+   <TITLE> [python] UHF RFID čtečka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FUHF_RFID_%3DE8te%3DE8ka%3F%3D&In-Reply-To=%3C55574E8F.600%40ludik.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-May/011691.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-May/011693.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] UHF RFID čtečka</H1>
+    <B>&quot;Ing. Vladislav Ludík&quot;</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FUHF_RFID_%3DE8te%3DE8ka%3F%3D&In-Reply-To=%3C55574E8F.600%40ludik.cz%3E"
+       TITLE="[python] UHF RFID čtečka">vlada na ludik.cz
+       </A><BR>
+    <I>Sobota Květen 16 16:05:03 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011691.html">[python] pywaw summit
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011693.html">[python] UHF RFID čtečka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11692">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11692">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11692">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11692">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím všechny,
+
+přivítal bych pomoc s oživením velmi chytré USB čtečky čipů, viz:
+<A HREF="http://www.security-warehouse.com/index.php/rfid-860-925-mhz-equipment/rfid-uhf-860-960-mhz-iso-18000-6b-6c-desktop-reader-writrer-ultra-thin-usb-with-sdk.html">http://www.security-warehouse.com/index.php/rfid-860-925-mhz-equipment/rfid-uhf-860-960-mhz-iso-18000-6b-6c-desktop-reader-writrer-ultra-thin-usb-with-sdk.html</A>
+Jsou tam i dema a ovladače, unzip heslo je securitywarehouse
+
+Můj problém spočívá v tom, že se mi nedaří s čtečkou navázat spojení.
+Prostředí je Windows 7, Apache, Cherrypy a MySQLdb.
+
+Nahrál jsem modul pyusb, ale ten USB s čtečkou nevidí.
+
+Konstrukce:
+
+import usb.core
+import usb.util
+
+# find our device
+dev = usb.core.find(idVendor=0x10C48, idProduct=0xEA60)
+
+# was it found?
+if dev is None:
+     raise ValueError('Device not found')
+
+# set the active configuration. With no arguments, the first
+# configuration will be the active one
+dev.set_configuration()
+
+# get an endpoint instance
+cfg = dev.get_active_configuration()
+intf = cfg[(0,0)]
+
+ep = usb.util.find_descriptor(
+     intf,
+     # match the first OUT endpoint
+     custom_match = \
+     lambda e: \
+         usb.util.endpoint_direction(e.bEndpointAddress) == \
+         usb.util.ENDPOINT_OUT)
+
+assert ep is not None
+
+# write the data
+ep.write('test')
+
+
+Správce zařízení Windows rozpoznal čtečku jako Silicon Labs CP210x USB 
+UART Bridge (COM4)
+a identifikoval VID=0x10C48, PID=0xEA60
+
+Čtečka se ale nepřipojí.
+Pomůže někdo ?
+
+Díky
+Vláďa
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011691.html">[python] pywaw summit
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011693.html">[python] UHF RFID čtečka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11692">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11692">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11692">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11692">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011692.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:09 GMT -->
+</html>

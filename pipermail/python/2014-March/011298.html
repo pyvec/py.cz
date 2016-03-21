@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011298.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:44 GMT -->
+<HEAD>
+   <TITLE> [python] Gtk LED on/off (začiatočník)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FGtk_LED_on/off_%3D28za%3DE8iato%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3C3f821de4-60ab-4fd9-9c50-346e691c8163%40googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-March/011297.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-March/011299.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Gtk LED on/off (začiatočník)</H1>
+    <B>Lukáš Sliacky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FGtk_LED_on/off_%3D28za%3DE8iato%3DE8n%3DEDk%3D29%3F%3D&In-Reply-To=%3C3f821de4-60ab-4fd9-9c50-346e691c8163%40googlegroups.com%3E"
+       TITLE="[python] Gtk LED on/off (začiatočník)">lukas na sliacky.eu
+       </A><BR>
+    <I>Úterý Březen 18 18:19:27 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011297.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011299.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11298">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11298">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11298">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11298">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj Petr, 
+
+ďakujem za ochotu. Rozumiem tomu, čo si chcel &quot;povedať&quot;, ale žiaľ, toto je môj prvý program, takže sa s tým celkom dobre trápim. (Hotovým zdrojákom ako tak rozumiem, ale ak mám vyprodukovať niečo z hlavy, je to problém)
+
+Snažil som sa Tvoj pseudokód preložiť do reálneho kódu, ale na to mám príliš málo vedomostí a skúseností.
+
+&quot;Výsledok&quot; je tu:
+
+from gi.repository import Gtk
+import sys
+
+class LedControl(Gtk.Window):
+
+    def __init__(self):
+        Gtk.Window.__init__(self, title=&quot;LED Control&quot;)
+        self.set_border_width(6)
+        self.set_default_size(200, 250)
+        
+        okno = Gtk.Table(4, 2, True)
+        self.add(okno)
+
+        img_LED_on = Gtk.Image()
+        img_LED_on.set_from_file(&quot;LED_on.png&quot;)
+        #~ self.add(img_LED_on)
+      
+        img_LED_off = Gtk.Image()
+        img_LED_off.set_from_file(&quot;LED_off.png&quot;)
+        #~ self.add(img_LED_off)
+        
+        widget_LED1 = Gtk.Image()
+        widget_LED2 = Gtk.Image()
+        widget_LED3 = Gtk.Image()
+        widget_LED4 = Gtk.Image()
+        
+        widget1 = Gtk.Image()
+        widget2 = Gtk.Image()
+        widget3 = Gtk.Image()
+        widget4 = Gtk.Image()
+
+        button_LED_1 = Gtk.ToggleButton(&quot;LED 1&quot;)
+        button_LED_1.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;1&quot;)
+        button_LED_1.set_border_width(2)
+
+        button_LED_2 = Gtk.ToggleButton(&quot;LED 2&quot;)
+        button_LED_2.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;2&quot;)
+        button_LED_2.set_border_width(2)
+
+        button_LED_3 = Gtk.ToggleButton(&quot;LED 3&quot;)
+        button_LED_3.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;3&quot;)
+        button_LED_3.set_border_width(2)
+
+        button_LED_4 = Gtk.ToggleButton(&quot;LED 4&quot;)
+        button_LED_4.connect(&quot;toggled&quot;, self.LED_OnOff, &quot;4&quot;)
+        button_LED_4.set_border_width(2)
+
+        led_widgets = {
+            button_LED_1.id: widget1,
+            button_LED_2.id: widget2,
+            button_LED_3.id: widget3,
+            button_LED_4.id: widget4
+        }
+
+        okno.attach(button_LED_1, 0, 1, 0, 1)
+        okno.attach(button_LED_2, 0, 1, 1, 2)
+        okno.attach(button_LED_3, 0, 1, 2, 3)
+        okno.attach(button_LED_4, 0, 1, 3, 4)
+
+        #~ widget1.set_from_image(img_LED_off)
+        #~ widget1.set_from_image(img_LED_off)
+        #~ widget1.set_from_image(img_LED_off)
+        #~ widget1.set_from_image(img_LED_off)
+        
+        okno.attach = (widget_LED1, 1, 2, 2, 3)
+        okno.attach = (widget_LED2, 1, 2, 0, 1)
+        okno.attach = (widget_LED3, 1, 2, 1, 2)
+        okno.attach = (widget_LED4, 1, 2, 2, 3)
+        
+    def LED_OnOff(self, okno, name):
+        if okno.get_active():
+            status = &quot;on&quot;
+            led_widgets[okno.id].set_from_image(img_LED_on)
+        else:
+            status = &quot;off&quot;
+            led_widgets[okno.id].set_from_image(img_LED_off)
+        print(&quot;Tlačítko LED&quot;, name, &quot;zmenilo stav na&quot;, status)
+
+            
+app = LedControl()
+app.connect(&quot;delete-event&quot;, Gtk.main_quit)
+app.show_all()
+Gtk.main()
+
+Našiel by sa niekto ochotný a hlavne trpezlivý, kto by ma posunul kúsok ďalej?
+Ďakujem.
+
+Lukáš
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011297.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-March/011299.html">[python] Gtk LED on/off (začiatočník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-March/date.html#11298">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/thread.html#11298">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/subject.html#11298">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-March/author.html#11298">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-March/011298.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:44 GMT -->
+</html>

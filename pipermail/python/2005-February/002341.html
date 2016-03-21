@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002341.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:55 GMT -->
+<HEAD>
+   <TITLE> [python] Přístup k lokálním proměnným ve funkcích při chybě aned pdb v akci
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FP%3DF8%3DEDstup_k_lok%3DE1ln%3DEDm_prom%3DECnn%3DFDm%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_ve_funkc%3DEDch_p%3DF8i_chyb%3DEC_aned_pdb_v_akci%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-February/002340.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Přístup k lokálním proměnným ve funkcích při chybě aned pdb v akci</H1>
+    <B>pkosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FP%3DF8%3DEDstup_k_lok%3DE1ln%3DEDm_prom%3DECnn%3DFDm%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_ve_funkc%3DEDch_p%3DF8i_chyb%3DEC_aned_pdb_v_akci%3F%3D&In-Reply-To="
+       TITLE="[python] Přístup k lokálním proměnným ve funkcích při chybě aned pdb v akci">gen2n na seznam.cz
+       </A><BR>
+    <I>Úterý Únor 22 11:22:28 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002340.html">[python] Jak zavrit okno prohlizece?
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2341">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2341">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2341">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2341">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Vždy, když jsem chtěl při krachu programu získat výpis proměnných z 
+funkcí, zjistit v jakém stavu se nacházejí, tak jsem vkládal do funkcí 
+print. Někdy jsem globalizoval. Méně často jsem pak používal interní 
+debugger IDLE, protože jsem musel znovu projíždět celý program. Dají se 
+sice nastavit zarážky ale není tam ta interaktivita, možnost výpisu 
+proměnných různými způsoby.
+
+Až &quot;včera&quot; jsem objevil *pdb*. Pythonýrský vestavěný řádkový debugger. 
+Na začátek programu dám import pdb a pak když zhavaruje program (nebo ho 
+pomocí úmyslné chyby zastavím sám), tak se napíše pdb.pm() a člověk se 
+dostane přímo dovnitř poslední funkce a může vypisovat proměnné! Co víc 
+- já se mohu pohybovat po nadřazených funkcích a bez problému vypisovat 
+jejich proměnné, které nejsou &quot;vidět&quot; v ostatních funkcích!!
+
+Objevil jsem jistě dávno objevené, přesto mi to nedalo, abych to sem 
+nenapsal, protože to může spoustě lidem ušetřit spoustu práce. To je 
+přesně ten způsob, který jsem dávno hledal a kterým bych se dostal do 
+žaludků funkcí i tříd, a mohl konverzovat přímo s jejich vnitřními 
+proměnnými.
+
+Na co jsem nepřišel:
+
+* nejde náhodou přímo opravit &quot;špatnou&quot; proměnnou a pustit program dále?
+* nepodařilo se mi udělat &quot;dvouřádkový výpis&quot;, protože po prvním enteru 
+to hned píše chybu, např:
+for i in range:  # zde to již hází chybu
+  print i
+* má někdo ještě něco lepšího?
+
+
+Pavel
+
+
+-- 
+gen2n  
+ICQ 176015287
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002340.html">[python] Jak zavrit okno prohlizece?
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2341">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2341">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2341">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2341">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002341.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:55 GMT -->
+</html>

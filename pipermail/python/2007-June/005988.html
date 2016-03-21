@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/005988.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:45 GMT -->
+<HEAD>
+   <TITLE> [python] získání IP adresy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_IP_adresy%3F%3D&In-Reply-To=4662AEC1.2000408%40gentoo.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-June/005987.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-June/005980.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] získání IP adresy</H1>
+    <B>Vladislav Ludík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_IP_adresy%3F%3D&In-Reply-To=4662AEC1.2000408%40gentoo.org"
+       TITLE="[python] získání IP adresy">vlada na ludik.cz
+       </A><BR>
+    <I>Neděle Červen  3 14:20:07 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/005987.html">[python] získání IP adresy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/005980.html">[python] získání IP adresy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#5988">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#5988">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#5988">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#5988">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Kundrát napsal(a):
+
+Pokud je to na druhou stranu treba z nejakeho jineho stroje, zrejme
+sessions pouzivas spatne.
+
+
+VL:
+Ano. Asi používám sessions špatně:
+
+/class Login:
+    def check(cls, fn):
+        def _check(self, *args, **kwargs):
+            if cherrypy.session.has_key('userid'):
+                # Uživatel je zalogován; povol přístup
+        return fn(self, *args, **kwargs)
+        else:
+                # Uživatel není zalogován.
+                # Podívej se, zda se zrovna nepokouší připojit
+        try:
+                    submit = kwargs['login']
+                    user = kwargs['loginUser']
+                    password = kwargs['loginPassword']
+                except KeyError:
+                    # Ne, to nebyl pokus o zalogování. Pusť uživatele
+                    # na stránku.
+                    return self.loginPage(cherrypy.url())
+      
+        # Nyní zkontroluj user id podle user a password
+        userrights = self.getUserId(user, password)
+        if userrights is None:
+                    # Chybný username nebo password
+                    return self.loginPage(cherrypy.url(), 'Neplatné 
+jméno nebo heslo.')
+                # Uživatel je zalogován, uložím userid v sessions
+                cherrypy.session['userid'] = user
+       
+                return fn(self, *args, **kwargs)
+       
+    return _check
+    check = classmethod(check)
+/
+Tohoto mechanizmu používám při volání zabezpečených stránek, kde 
+příchozího a jeho oprávnění ověřuji v modulu /getUserId(user, password)
+/
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20070603/4ed23e37/attachment.htm">http://www.py.cz/pipermail/python/attachments/20070603/4ed23e37/attachment.htm</A> 
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/005987.html">[python] získání IP adresy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-June/005980.html">[python] získání IP adresy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-June/date.html#5988">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/thread.html#5988">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/subject.html#5988">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-June/author.html#5988">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-June/005988.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:45 GMT -->
+</html>

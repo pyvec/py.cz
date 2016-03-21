@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-September/001404.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:01 GMT -->
+<HEAD>
+   <TITLE> [python] Vykon Pythonu v praxi
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vykon%20Pythonu%20v%20praxi&In-Reply-To=20030925133145.GA25856%40home">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-September/001402.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-September/001407.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vykon Pythonu v praxi</H1>
+    <B>Jan Matejka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vykon%20Pythonu%20v%20praxi&In-Reply-To=20030925133145.GA25856%40home"
+       TITLE="[python] Vykon Pythonu v praxi">matejka na cat.cz
+       </A><BR>
+    <I>Čtvrtek Září 25 19:40:58 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001402.html">[python] Vykon Pythonu v praxi
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001407.html">[python] Vykon Pythonu v praxi = psyco
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-September/date.html#1404">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/thread.html#1404">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/subject.html#1404">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/author.html#1404">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zkuste si jeste puthon JIT
+<A HREF="http://psyco.sourceforge.net/">http://psyco.sourceforge.net/</A>
+JM
+
+
+-----Original Message-----
+From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of
+Radim Kolar
+Sent: Thursday, September 25, 2003 3:32 PM
+To: Ceska Pytoni konference
+Subject: [python] Vykon Pythonu v praxi
+
+
+Udelal jsem si test vykonu Pythonu v real-world byznis aplikaci. V mem
+pripade to byl davkovy import dat do databaze. 
+
+Abych to napsal co mozna nejpytonstejsi napsal jsem to co mozna nejvice
+objektove. Vytvoril jsem objekt a ten mel jednotlive polozky oznacujici
+jednotlive priznaky. objekt mel metody nacti ze souboru, nacti z
+database a protoze vim z Javy ze procedure call je expesive, udelal jsem
+jeste metody nastav atribut ze soubory (jmeno, hodnota) nastav atribut z
+databaze(jmeno, hodnota) mapovani atributu mezi souborem a databazi neni
+1:1. Pak jsem si vytvoril jeste funkce eskepujsql, eskejpuj radku atd,
+ktere jsem take volal vsude kde to bylo mozne.
+
+Zde bych jeste dodal ze predchozi importer byl v Jave, database je
+postgresql 7.2.
+
+Vysledky byly nejenze dobre ale primo vynikajici:
+
+Import 30M souboru trval na P2/266 1 minutu. Pricemz CPU cas mezi
+databazi a pythonem se delil v pomeru 80:20 (databaze sezrala tech 80),
+v pripade Javy importeru to bylo asi 86:XX.
+
+Pythonsky zdrojak byl tretinovy co do delky oproti Java zdrojaku, kdyz
+se k tomu pripocte srozumitelnost, snadnejsi udrzba tak z toho vyplyva
+ze se tohleto v Jave psat zkratka nevyplati - neprinese to nic
+podstatneho navic. Kdyz je to kratsi, maji bugy mene prostoru na to aby
+se poschovavaly.
+
+Zkusil jsem jeste rozdil python2.1 a python2.2 a zadnou meritelnou zmenu
+v rychlosti jsem nezjistil; casove rozdily byly mensi nez chyba mereni.
+
+Co ale bylo zajimave, ze Python jede velice podstatne rychleji na
+Pentiu2 narozdil od Javy, kde je rozdil mezi stejne rychlym p1 a p2 nic
+moc. Takze doporucuju psat pythonskym programatorum min. cpu=pentium2.
+
+Jeste by mne zajimalo za nekdo zkousel prelozit python s optimalizaci
+pro i686 a i386 a porovnal vysledky pod windows a linuxem. V debian
+mailing listu byla diskuze zda kompilovat debian pro 386 a 686 a vyslo
+najevo ze vysledky testu neukazuji zadne podstatne zrychleni.
+
+c/
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001402.html">[python] Vykon Pythonu v praxi
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-September/001407.html">[python] Vykon Pythonu v praxi = psyco
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-September/date.html#1404">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/thread.html#1404">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/subject.html#1404">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-September/author.html#1404">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-September/001404.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:01 GMT -->
+</html>

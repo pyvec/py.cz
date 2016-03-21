@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007332.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:30 GMT -->
+<HEAD>
+   <TITLE> [python] Parsování emailu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007261.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007335.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Parsování emailu</H1>
+    <B>Jakub Vojácek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To="
+       TITLE="[python] Parsování emailu">jakohv na seznam.cz
+       </A><BR>
+    <I>Úterý Duben 29 18:38:09 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007261.html">[python] Parsování emailu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007335.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7332">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7332">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7332">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7332">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+Opet se na vás obracím s nekterými mými problémy. Tentokrát se jedná o takovou spíse teoretickou otázku. Jiz mám naprogramovaného &quot;relativne&quot; fungujícího postovního klienta (prijímání, psaní mailu, pravidla pro zprávy, skupiny, kontakty, rss ctecka apod...). Pokud pracuji s databází, která obsahuje 100 e-mailu, zádný problém nenastane, ale jelikoz e-maily nemazu, tak je pocet e-mailu o neco vyssí (pres 4000). A v tom je práve ten problém. Pokud mám napríklad slozku, ve které je 500 e-mailu, tak se nacítá asi 5 sekund. V jiných aplikacích (Outlook Express je tato doba 10 kratsí). A moje otázka je: Jak by se tato doba dala zkrátit?
+Jako knihovnu pro tvorbu Gui pouzívám WxPython a jako databázi, kam ukládám e-maily pouzívám modul shelve. E-maily ukládám následovne:
+
+def prijmi_email(self):
+    email = pop.retr(x)
+    email = &quot;\n&quot;.join(email[1])
+    kategorie = 0
+    precteno = 0
+    self.uloz_db(kategorie, [email, precteno])
+def uloz_db(self, kategorie, email):
+    s=shelve.open(&quot;Db/%s.db&quot;%kategorie)
+    id=s[&quot;id&quot;]
+    s[str(id)] = email
+    s[&quot;id&quot;] = id +1
+    s.close()
+    return id
+
+Kazdý e-mail (v rámci jedné slozky) má tedy svoje vlastní unikátní id. Nacítání funguje následujícím zpusobem:
+
+def nacti_emaily(self, kategorie=0, strana = 0):
+        self.listbox.DeleteAllItems()
+        s=shelve.open(&quot;Db/%s.db&quot;%kategorie)
+        rozsah= []
+        for x in range(strana*100, strana*100 + 100):
+            rozsah.append(str(x))
+        for prvek in s:
+            if prvek == &quot;id&quot;: continue
+            if prvek in rozhrani:
+                self.pridej_zaznam(s[prvek][0], prvek, precteny=s[prvek][1])
+        s.close()
+
+Aby nacítání trvalo alespon o trochu méne, rozhodl jsem zavést stránkování (na jedné strane pouze 100 mailu), ale moc jsem si nepomohl, protze stejne musím procházet vsemi e-maily a zobrazovat pouze ty z daného rozsahu. Ve funkci pridej_zaznam jeste musím získat odesílatele, predmet a cas prijetí, coz zabere taky relativne dost casu. 
+Jak by se dal celý postup zefektivnit?
+
+Dekuji za kazdou odpoved
+
+Jakub Vojácek
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080429/1c09ac21/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080429/1c09ac21/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007261.html">[python] Parsování emailu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007335.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7332">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7332">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7332">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7332">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007332.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:30 GMT -->
+</html>

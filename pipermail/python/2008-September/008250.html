@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008250.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:23 GMT -->
+<HEAD>
+   <TITLE> [python] freeze,kodovani
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20freeze%2Ckodovani&In-Reply-To=%3C48D4F90F.6020606%40post.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-September/008249.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-September/008251.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] freeze,kodovani</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20freeze%2Ckodovani&In-Reply-To=%3C48D4F90F.6020606%40post.cz%3E"
+       TITLE="[python] freeze,kodovani">geon na post.cz
+       </A><BR>
+    <I>Sobota Září 20 15:22:23 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008249.html">[python] freeze,kodovani
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008251.html">[python] freeze,kodovani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8250">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8250">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8250">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8250">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Petr Zlamal napsal(a):
+&gt;<i> Diky za nakopnuti. Bylo to opravdu tim, avsak mam s tim jeste potize. 
+</I>&gt;<i> Konkretne se syntaxi takoveho typu:
+</I>&gt;<i>
+</I>&gt;<i> print u&quot;data v konfiguračním souboru %s jsou ve špatném formátu 
+</I>&gt;<i> &quot;.encode(&quot;utf-8&quot;) %(self.path)
+</I>&gt;<i>
+</I>&gt;<i> chybova hlaska (v nativnim pythonovskem skriptu, ne ve zmrazenem!!!):
+</I>
+Otázka je, co je v self.path? Podle toho jak jsem to zkoušel, tak by tam 
+mělo být utf-8:
+
+# -*- coding: utf-8 -*-
+print u&quot;data v konfiguračním souboru %s jsou ve špatném 
+formátu&quot;.encode(&quot;utf8&quot;) % &quot;ěščř&quot;  # funguje
+print u&quot;data v konfiguračním souboru %s jsou ve špatném 
+formátu&quot;.encode(&quot;utf8&quot;) % u&quot;ěščř&quot; # chyba
+
+Pravděpodobně se nejdřív základní řetězec převede na utf8 a teprve pak 
+se slučuje s tím, co je za % .
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008249.html">[python] freeze,kodovani
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-September/008251.html">[python] freeze,kodovani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-September/date.html#8250">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/thread.html#8250">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/subject.html#8250">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-September/author.html#8250">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-September/008250.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:23 GMT -->
+</html>

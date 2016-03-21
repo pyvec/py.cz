@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005657.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:19 GMT -->
+<HEAD>
+   <TITLE> [python] Vlastní vlákno pro dlouhý výpočet.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FVlastn%3DED_vl%3DE1kno_pro_dlouh%3DFD_v%3DFDpo%3DE8%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fet%3D2E%3F%3D&In-Reply-To=45E843E2.70805%40radiante-corp.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005656.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005658.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vlastní vlákno pro dlouhý výpočet.</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FVlastn%3DED_vl%3DE1kno_pro_dlouh%3DFD_v%3DFDpo%3DE8%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fet%3D2E%3F%3D&In-Reply-To=45E843E2.70805%40radiante-corp.com"
+       TITLE="[python] Vlastní vlákno pro dlouhý výpočet.">Jakohv na seznam.cz
+       </A><BR>
+    <I>Pátek Březen  2 16:46:08 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005656.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005658.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5657">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5657">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5657">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5657">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos na radiante-corp.com</A>&gt;
+</I>&gt;<i> Předmět: Re: [python] Vlastní vlákno pro dlouhý výpočet.
+</I>&gt;<i> Datum: 02.3.2007 16:34:54
+</I>
+
+&gt;<i> Ja myslel, ze to pisete ve wxPythonu, tam se to da udelat velice hezky a 
+</I>&gt;<i> bez pouziti threadu. Nasledujici priklad je opis vaseho prikladu:
+</I>&gt;<i> 
+</I>&gt;<i> class Trida:
+</I>&gt;<i>    
+</I>&gt;<i>     def __init__(self):
+</I>&gt;<i>         Button(text=&quot;zacni&quot;,command=self.ok)
+</I>&gt;<i>         Button(text=&quot;stpL&quot;,command=self.stop)
+</I>&gt;<i>         self.p = True
+</I>&gt;<i> 
+</I>&gt;<i>     def ok(self):
+</I>&gt;<i>         while self.p:
+</I>&gt;<i>             print 'sss'
+</I>&gt;<i>             wx.Yield()
+</I>&gt;<i>    
+</I>&gt;<i>     def stop(self):
+</I>&gt;<i>         self.p = False
+</I>&gt;<i> 
+</I>&gt;<i> Priklad je jen nazorny zpusob, jak to jde udelat. Jinak tento priklad 
+</I>&gt;<i> jste mel v te referenci, kterou jste uvedl:
+</I>&gt;<i>     <A HREF="http://wiki.wxpython.org/index.cgi/LongRunningTasks">http://wiki.wxpython.org/index.cgi/LongRunningTasks</A>
+</I>&gt;<i>   
+</I>&gt;<i> Doporucuji take poradne nastudovat fci wx.Yield, protoze muze dochazet 
+</I>&gt;<i> treba k opetovnemu kliknuti na stejny button, takze se tam musi dodelat 
+</I>&gt;<i> disable apod. Mimo jine, vyuziti tohoto zpusobu dojde k i tomu, ze 
+</I>&gt;<i> nebude aplikace &quot;zamrzavat&quot; po dobu vypoctu, pokud tedy nebude trvat 
+</I>&gt;<i> jeden cyklus ve while dlouho.
+</I>&gt;<i> 
+</I>&gt;<i> Leo
+</I>&gt;<i>
+</I>
+Děkuju, už sem to nějak udělal:
+
+# -*- coding: cp1250 -*-
+import wx
+def dlouha_funkce(cislo):
+    while cislo != 50:
+        if not vypocet:return &quot;Přerušeno&quot;
+        cislo=cislo+1
+        print cislo
+        wx.Yield()
+    return &quot;Výpočet dokončen&quot;
+class Okno:
+    def __init__(self):
+        
+        self.okno=wx.Frame(None)
+        button=wx.Button(self.okno,label=&quot;Počítej&quot;)
+        button.Bind(wx.EVT_BUTTON, self.pocitej)
+        button2=wx.Button(self.okno,label=&quot;Stop&quot;,pos=(40,40))
+        button2.Bind(wx.EVT_BUTTON, self.stop)
+        self.okno.Show(True)
+    def pocitej(self,akce):
+        global vypocet
+        vypocet=True
+        vysledek=dlouha_funkce(0)
+        dlg = wx.MessageDialog(self.okno,vysledek, '', wx.OK | wx.ICON_INFORMATION)
+        dlg.ShowModal()
+    def stop(self,akce):
+        global vypocet
+        vypocet=False
+if __name__ == &quot;__main__&quot;:
+    vypocet=True
+    p = wx.App(0)
+    Okno()
+    p.MainLoop()
+
+
+Dělal sem to hodně narychlo, takže se omlouvám za to hnusný global ve třídě;) 
+
+Ještě jednou dík!!
+
+Blujacker
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005656.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005658.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5657">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5657">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5657">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5657">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005657.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:19 GMT -->
+</html>

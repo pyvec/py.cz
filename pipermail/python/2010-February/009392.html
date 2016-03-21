@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009392.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:04 GMT -->
+<HEAD>
+   <TITLE> [python] Deferred output
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Deferred%20output&In-Reply-To=%3CA6B27B66-D249-4B01-8575-B225F3918E94%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-February/009391.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-February/009393.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Deferred output</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Deferred%20output&In-Reply-To=%3CA6B27B66-D249-4B01-8575-B225F3918E94%40gmail.com%3E"
+       TITLE="[python] Deferred output">petr.messner na gmail.com
+       </A><BR>
+    <I>Čtvrtek Únor 11 03:22:47 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009391.html">[python] Deferred output
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009393.html">[python] Deferred output
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9392">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9392">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9392">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9392">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>(odpověď je dole)
+
+On 11.2.2010, at 2:35, matesfila wrote:
+&gt;<i> 
+</I>&gt;<i> Zdravím, 
+</I>&gt;<i> 
+</I>&gt;<i> mám taký trochu algoritmický problém! 
+</I>&gt;<i> 
+</I>&gt;<i> Na adrese <A HREF="http://code.activestate.com/recipes/576961/">http://code.activestate.com/recipes/576961/</A> som sa dopátral k pre mňa dosť záhadnej algoritmickej konštrukcii, ktorú tam autor nazýva zhruba ako deferred output.  
+</I>&gt;<i> 
+</I>&gt;<i> Ide o tento algoritmus: 
+</I>&gt;<i> 
+</I>&gt;<i> def fibonacci(): 
+</I>&gt;<i>     &quot;&quot;&quot; Funkcia na počítanie Fibonachiho čísiel &quot;&quot;&quot; 
+</I>&gt;<i>     def deferred_output(): 
+</I>&gt;<i>         for i in output: 
+</I>&gt;<i>             yield i 
+</I>&gt;<i> 
+</I>&gt;<i>     result, c1, c2 = tee(deferred_output(), 3) 
+</I>&gt;<i>     paired = map(add, c1, islice(c2, 1, None)) 
+</I>&gt;<i>     output = chain([0, 1], paired) 
+</I>&gt;<i>     return result 
+</I>&gt;<i> 
+</I>&gt;<i> #príklad použitia funkcie: 
+</I>&gt;<i> print(list(islice(fibonacci(), 50))) 
+</I>&gt;<i> 
+</I>&gt;<i> Sú mi jasné metódy ako list, islice, chain a myslím, že aj map, tee a využitie generátora. 
+</I>&gt;<i> 
+</I>&gt;<i> Ale ako je možné, že v generátore sa využíva premenná, ktoré ešte nebola nikde definovaná? !!! Pravdepodobne sa tam nejako využíva vlastnosť generátora, ktorý premennnú 'output' využije vlastne až keď sa vyvolá next() na generátore a v tej dobe vlastne premenná už asi existuje... ale neviem, jaksik tie myšlienky tam využité neviem definovať a uchopiť :-) 
+</I>&gt;<i> 
+</I>
+
+Ano, výraz deferred_output() nespustí kód uvnitř funkce deferred_output; protože je to generátor (to se pozná už při parsování kódu), vrátí se iterátor a teprve při procházení iterátoru se spustí kód uvnitř deferred_output. A v tom okamžiku už &quot;volná proměnná&quot; output existuje.
+
+Takovéto techniky bych rozhodně neoznačil za běžně používané v Pythonu.
+
+Zrovna tento kód mi nefungoval, ale asi tuším, co to dělá - deferred_output() představuje nějaký iterátor; vytvoří se &quot;nad ním&quot; tři nezávislé iterátory, jeden z nich se vrátí, další dva slouží ke sčítání (posledního a předposledního prvku), které je vyjádřeno iterátorem paired, a ten se (spolu s počátečními prvky - 0 a 1) vloží do deferred_output.
+
+Takže co se děje, když máš iterátor fibonacci() a zavoláš na něj next(): to, co máš, je vlastně iterátor z tee, to tee uchovává potřebnou historii (předposlední a poslední prvek, diky tomu, že další dva iterátory vzniklé z tee() právě na tyto prvky ukazují). Když chceš další prvek z result, vezme se další prvek z iterátoru vzniklého z map(), který je zadán jako součet hodnoty toho druhého a třetího iterátoru z tee(). Tedy součet předposledního a posledního čísla. Tento součet se zároveň uloží (funkcionalita tee). Asi jsem to popsal trochu zmateně, je prostě nutné se do toho kódu delší chvíli dívat :) 
+
+PM
+
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009391.html">[python] Deferred output
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009393.html">[python] Deferred output
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9392">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9392">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9392">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9392">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009392.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:04 GMT -->
+</html>

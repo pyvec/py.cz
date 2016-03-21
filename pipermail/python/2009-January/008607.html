@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008607.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:07 GMT -->
+<HEAD>
+   <TITLE> [python] upper a lower
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20upper%20a%20lower&In-Reply-To=%3C14112591234.20090128130332%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008605.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008608.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] upper a lower</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20upper%20a%20lower&In-Reply-To=%3C14112591234.20090128130332%40atlas.cz%3E"
+       TITLE="[python] upper a lower">mtip na atlas.cz
+       </A><BR>
+    <I>Středa Leden 28 13:03:32 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008605.html">[python] upper a lower
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008608.html">[python] upper a lower
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8607">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8607">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8607">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8607">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+PK&gt; možná pomůže <A HREF="http://www.py.cz/Cestina2X#azen-po-esku.">http://www.py.cz/Cestina2X#azen-po-esku.</A>
+
+PK&gt; Jinak funguje toto:
+
+PK&gt; # -*- coding: cp1250 -*-
+
+PK&gt; import locale
+PK&gt; # print locale.setlocale(locale.LC_ALL, 'Czech_Czech Republic.1250')
+PK&gt; print u'ž', u'ž'.upper()
+
+PK&gt; i toto:
+
+PK&gt; # -*- coding: cp1250 -*-
+
+PK&gt; import locale
+PK&gt; print locale.setlocale(locale.LC_ALL, 'Czech_Czech Republic.1250')
+PK&gt; print u'ž'.encode(&quot;cp1250&quot;), u'ž'.upper().encode(&quot;cp1250&quot;)
+
+PK&gt; Asi ne všude (myslím Linux), ale na win jo.
+
+Tohle opravdu nefunguje/funguje, akorát nevím proč.
+
+Zkusil jsem tohle:
+# -*- coding: cp1250 -*-
+#predchozi radek rika v jakem kodovani je muj modul ulozen
+import locale
+print locale.setlocale(locale.LC_ALL, 'Czech_Czech Republic.1250') #nastavuje locale, mimo jine rozsiruje string o znaky narodni abecedy (treba i ž)
+
+print 'ž', 'ž'.upper()   #chybuje - ale proč ???
+print u'ž'.encode('cp1250'), u'ž'.upper().encode('cp1250')    #spravne - to chapu vystup je treba prevest do ASCII v kodovani kteremu rozumi zobrazovac
+print 'ž', unicode('ž','cp1250').upper().encode('cp1250') #takhle si ten prevod vynutim sam, to mi prijde ale ze by to nemuselo byt nutne
+
+
+
+Může mi někdo vysvětlit, proč 'ž'.upper() chybuje, když podle locale
+by měl vědět, jak najít velké Ž a jak zdrojový soubor, tak locale je
+nastaveno shodně ?
+A proč to dokonce funguje, když neni locale nastavené ?
+
+Přeci locale nastavuje i jiné národní zvyklosti (datum apod), tak proč
+mě nutí, abych ho najednou vypnul, když chci porovnat str řetězce ?
+
+-- 
+Mirek N.
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008605.html">[python] upper a lower
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008608.html">[python] upper a lower
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8607">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8607">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8607">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8607">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008607.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:07 GMT -->
+</html>

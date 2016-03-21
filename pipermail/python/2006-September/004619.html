@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004619.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:12 GMT -->
+<HEAD>
+   <TITLE> [python] py2exe problém
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fpy2exe_probl%3DE9m%3F%3D&In-Reply-To=OF8EC171A6.DC79C211-ONC12571EE.002ADAD2-C12571EE.002F6E54%40pds.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-September/004612.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-September/004636.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] py2exe problém</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fpy2exe_probl%3DE9m%3F%3D&In-Reply-To=OF8EC171A6.DC79C211-ONC12571EE.002ADAD2-C12571EE.002F6E54%40pds.sk"
+       TITLE="[python] py2exe problém">feed na centrum.cz
+       </A><BR>
+    <I>Úterý Září 19 13:01:03 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004612.html">[python] py2exe problém
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004636.html">[python] py2exe problém
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4619">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4619">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4619">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4619">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+
+nevidím problém v nutnosti instalaci pythonu, ale v tom, že chci 
+vytvořit samostatný program, který je ve svém adresáři, nejsou v něm 
+přímo zdrojové kódy (čímž už máte problémy s verzí globálně 
+instalovaného pythonu) a není závislý na ničem mimo svůj adresář snad 
+kromě systémových souborů a api.
+
+A hlavně, chci se spolehnout, že když takový program odzkouším na třech 
+počítačích s různou konfigurací, že budu mít velkou šanci, že pojede i 
+na čtvrtém se stejnou konfigurací. A to se bohužel po použití py2exe 
+neděje, a je dost náhoda, jaké chybějící moduly ohlásí.
+
+Mě by bohatě stačilo, kdyby fungovala py2exe fungovala jak má. Kdybych 
+věděl, že když nahlásí, že vše je v pořádku, a žádné moduly nechybí, tak 
+abych pak nedostával výjimky na chybějící moduly na jiných počítačích. 
+Já vlastně jenom chci, aby to plnilo základní funkčnost, protože pokud 
+py2exe nedokáže vytvořit bezchybnou binárku, pak je jeho existence 
+trochu zbytečná.
+
+Té chybě s ntdll.dll se nedivím, protože windows mají kernelové api, 
+kterým se říká native api a ntdll.dll není nic jiného, než vyvedení 
+některých funkcí z kernelu ven. Ale protože je to nízká kernelová 
+záležitost, může to být (i když zatím moc není) silně windows version 
+depended a naprostá většina funkcí z ntdll.dll jsou nedokumentované a 
+pouze pro vnitřní použití microsoftem. Každý modul, který to používá by 
+měl mít sakra pádný důvod proč použít ntdll.dll a ne standardní api 
+operačního systému. Bohužel stejný nešvar je v CygWin, kde používají 
+ntdll.dll na naprosto běžné souborové operace. Navíc si málokdo, kdo se 
+pustí do použití ntdll odpustí používání nedokumentovaných funkcí a pak 
+je to prasečina. Prostě používání ntdll.dll pro normální programy je 
+pitomost.
+
+
+
+
+Roman Miklos napsal(a):
+
+&gt;<i> 
+</I>&gt;<i> I ja som pouzival Py2exe. Robil maly program, ktory pristupoval z PC na 
+</I>&gt;<i> AS/400 a robil tam nejake SQL-statistiky. Nepouzival som ziadne exoticke 
+</I>&gt;<i> moduly, ale len to co je dodavane s ActivePythonom (Tkinter ...atd). 
+</I>&gt;<i> Vysledok bol, ze na pojom pocitaci a niektorym kolegom to bezalo ok, ale 
+</I>&gt;<i> asi dvom dalsim kolegom to vyhadzovalo vo Windowse chybu &quot;...faulting 
+</I>&gt;<i> module ntdll.dll...fault address 0x00011e58&quot;. Zatial sa to nepodarilo 
+</I>&gt;<i> vyriesit...
+</I>&gt;<i>  
+</I>&gt;<i> Podobne ako ViNiL ale nechapem, preco v nutnosti instalacie Pythonu 
+</I>&gt;<i> vidis nejaky problem.
+</I>&gt;<i> Je to presne to iste, ako s inymi nastrojmi: ked robis v Jave musis 
+</I>&gt;<i> instalovat Javu, ked robis v Perle musis instalovat Perl, ..atd
+</I>&gt;<i> Exe je i tak obmedzene iba na jednu platformu. Naproti tomu ked napises 
+</I>&gt;<i> skript v Pythone univerzalne, moze ti bezat bezo zmeny na viacerych 
+</I>&gt;<i> platformach. Nemusis k programu takisto davat zdrojak, len skript 
+</I>&gt;<i> skompilujes na kazdej platforme cez py2exe do bytecodu (.pyc)
+</I>&gt;<i> Mne sa v mojej firme (banka) takisto pred nejakym casom podarilo ukazat, 
+</I>&gt;<i> ze Python je na urcite veci velmi uzitocny a zaviest ho tu do produkcie :-)
+</I>&gt;<i> Pythonovske programy bezia u nas na AS/400 v produkcnom prostredi 
+</I>&gt;<i> skompilovane do bytecodu. Bolo to myslene povodne kvoli bezpecnosti, aby 
+</I>&gt;<i> pritom nebol zdrojak a dalo sa zistit, kedy bol dany pyc-subor 
+</I>&gt;<i> skompilovany atd... Ale nakoniec aj toto vedie len k problemom, lebo pri 
+</I>&gt;<i> zmene programu treba vzdy prekompilovat aj bytekod. Podobne je to i so 
+</I>&gt;<i> zmenou verziu Pythonu, lebo inak mozes dostat chybu &quot;RuntimeError: Bad 
+</I>&gt;<i> magic number in .pyc file&quot;
+</I>&gt;<i> Najlepsie je pouzivat rovno zdrojaky a zabezpecit system tak, aby k 
+</I>&gt;<i> zdrojakom nemali pristup nekompetetne osoby.
+</I>&gt;<i> 
+</I>&gt;<i> Roman
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> *superman &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">feed na centrum.cz</A>&gt;*
+</I>&gt;<i> Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+</I>&gt;<i> 
+</I>&gt;<i> 19.09.2006 08:00
+</I>&gt;<i> Please respond to
+</I>&gt;<i> Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 	
+</I>&gt;<i> To
+</I>&gt;<i> 	Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> cc
+</I>&gt;<i> 	
+</I>&gt;<i> Subject
+</I>&gt;<i> 	Re: [python] py2exe problém
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 	
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Pokud Vás to ještě zajímá, nakonec jsem program s py2exe rozchodil a
+</I>&gt;<i> přeložil, ale musel jsem vyhodit modul logger a napsat si jednoduché
+</I>&gt;<i> logování vlastními silami. Modul logger měl totiž v handlerech odkazy na
+</I>&gt;<i> import řady různých věcí, které se sice normálně vůbec neuplatnily, ale
+</I>&gt;<i> při přeložení do exe se všechny hledaly. A řadu z nich jsem neměl ani
+</I>&gt;<i> nainstalovanou.
+</I>&gt;<i> 
+</I>&gt;<i> Pochopil jsem dvě věci, že python je prostě interpretr a překlad do exe
+</I>&gt;<i> je z nouze ctnost kde mnoho modulů začne být problematických. A také to,
+</I>&gt;<i> že py2exe prostě jen hloupě prochází příkazy import a co tam najde to se
+</I>&gt;<i> snaží připojit a pak na tom trvá uvnitř exe. Jenže dost často to
+</I>&gt;<i> nedokáže moc dobře a pak jsou problémy.
+</I>&gt;<i> 
+</I>&gt;<i> Trochu mě to zklamalo, protože ne vždy člověk chce distribuovat zdrojové
+</I>&gt;<i> kódy a ne vše chce dávat jako open source. A hlavně potřebujete něco co
+</I>&gt;<i> je nezávislé na tom, jestli je, nebo není naintalován interpretr pythonu.
+</I>&gt;<i> 
+</I>&gt;<i> Jak tyto problémy vlastně řešíte vy? Jak vyrábíte verze, které
+</I>&gt;<i> nepotřebují nainstalovaný python? Já bych hrozně rád vyvíjel v pythonu a
+</I>&gt;<i> nahradil tak částečně vývoj v C++, prostě python se mi zdá velmi dobrý.
+</I>&gt;<i> Děkuji za podněty, rád bych python používal v maximální míře, ale tyhle
+</I>&gt;<i> věci mi dost brání.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Mgr. Ing. Roman MIKLÓŠ
+</I>&gt;<i> Prvá stavebná sporiteľňa a.s.
+</I>&gt;<i> Bajkalská 30, P. O. Box 48
+</I>&gt;<i> 829 48  Bratislava 25
+</I>&gt;<i> Tel.: +421/ 2 / 582 31 174
+</I>&gt;<i> Fax: +421/ 2 / 582 31 109
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004612.html">[python] py2exe problém
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004636.html">[python] py2exe problém
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4619">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4619">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4619">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4619">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004619.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:12 GMT -->
+</html>

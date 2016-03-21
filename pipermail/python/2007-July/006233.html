@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006233.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:39 GMT -->
+<HEAD>
+   <TITLE> [python] Nesrozumitelne prirazovaci prikazy zamichane mezi definice standalone funkci v modulu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Nesrozumitelne%20prirazovaci%20prikazy%20zamichane%20mezi%0A%20definice%20standalone%20funkci%20v%20modulu&In-Reply-To=238b0bad0707082343p7010250ci31996d8300388562%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006232.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006235.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Nesrozumitelne prirazovaci prikazy zamichane mezi definice standalone funkci v modulu</H1>
+    <B>regnarG</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Nesrozumitelne%20prirazovaci%20prikazy%20zamichane%20mezi%0A%20definice%20standalone%20funkci%20v%20modulu&In-Reply-To=238b0bad0707082343p7010250ci31996d8300388562%40mail.gmail.com"
+       TITLE="[python] Nesrozumitelne prirazovaci prikazy zamichane mezi definice standalone funkci v modulu">regnarg na seznam.cz
+       </A><BR>
+    <I>Pondělí Červenec  9 09:01:54 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006232.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006235.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6233">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6233">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6233">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6233">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Petra Javornicka napsal(a):
+&gt;<i> On 7/9/07, Karel Šrot &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">karel.do.pekla.zajel na seznam.cz</A>&gt; wrote:
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Treba necht je neco_udelam_s_funkci diferencialni operator D, ktery
+</I>&gt;&gt;<i> funkci derivuje. Potom
+</I>&gt;&gt;<i> g = D(f)
+</I>&gt;&gt;<i> definuji funkci g, ktera je derivaci funkce f
+</I>&gt;&gt;<i>     
+</I>&gt;<i> [...]
+</I>&gt;<i>   
+</I>&gt;&gt;<i> d = D(f)(1)  urcime hodnotu derivace funkce f v bode 1, coz je totez jako
+</I>&gt;&gt;<i> d = g(1)
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> To je jasny, ale porad nevim, odkud bere interpretr informaci, aby mohl odlisit
+</I>&gt;<i> g=D   # pointer
+</I>&gt;<i> d=D(f) # taky pointer :-O
+</I>&gt;<i> d=D(n) # dereference - call
+</I>&gt;<i>
+</I>&gt;<i> U syntaxe dekoratoru s prefixem '@' se to zda byt jasny. Ale u funkce
+</I>&gt;<i> utrousene nekde mezi definicemi?
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>d=D(f) a d=D(n) je přece pořád to samé (až na název proměnné :D).
+Pokaždé když je použita syntaxe funkce(parametry), jedná se o volání.
+Funkce zrovnatak jako parametry může být i výrazem, takže lze např.
+polefunkci[0](). Ale návratovou hodnotou tohoto volání může být taky
+funkce, kterou lze poté dál využít. Dekorátor je v podstatě funkce,
+která příjmá funkci jako parametr a vrací funkci. A s touto vrácenou
+funkcí lze potom dále pracovat, nebo ji zavolat.
+takže
+f2=f uloží do f2 odkaz na funkci f
+h=f(2) uloží do h návratovou hodnotu volání funkce f pro dva
+g=D(f) uloží do g odkaz na novou funkci obalující f
+a=g(1) tuto funkci zavolá
+b=D(f)(1) oba předchozí příkazy najednou -- D(f) vrací funkci, která je
+v tom samém výrazu volána s paprametrem 1
+
+-- 
+
+                                                  regnarG
+<A HREF="http://regnarg.kx.cz/">http://regnarg.kx.cz</A>
+
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006232.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006235.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6233">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6233">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6233">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6233">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006233.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:39 GMT -->
+</html>

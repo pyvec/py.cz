@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-August/001886.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:23 GMT -->
+<HEAD>
+   <TITLE> [python] hledani konkretnich souboru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20hledani%20konkretnich%20souboru&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-August/001885.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-August/001887.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] hledani konkretnich souboru</H1>
+    <B>Radek Svarz</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20hledani%20konkretnich%20souboru&In-Reply-To="
+       TITLE="[python] hledani konkretnich souboru">py.cz na svarz.cz
+       </A><BR>
+    <I>Úterý Srpen 10 16:13:04 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-August/001885.html">[python] pristup k promennym uvnitr fce
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-August/001887.html">[python] hledani konkretnich souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-August/date.html#1886">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-August/thread.html#1886">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-August/subject.html#1886">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-August/author.html#1886">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Vážení,
+
+koketuju s Pythonem nekolik mesicu. Nedavno jsem narazil na ulohu na
+spocitani narocnosti prekladu jednoho softu. Primarne jsem chtel
+spocitat, kolik buttonu (gif) bude treba prelozit a kolik frazi (v
+ruznych mnoha souborech, fraze je urcena zacatkem &quot;define('&quot; na radce)
+se ve zdrojacich nachazi.
+
+Rekl jsem si, fajn, vezmu Python, kouknu na knihovny, tam bude neco
+jako findandcount(startdir, filenamepattern, textpattern). Jenze nikde
+nic. Tak jsem udelal tenhle skript, ale vubec se mi nelibi - prijde mi
+prilis dlouhy, na to ze to je v pythonu pro tak trivialni task.
+
+Mohl by nekdo napsat, jak tenhle kod zjednodusit? cekal bych neco na 3
+radky ;)
+
+Diky,
+
+Radek
+
+howmany.py
+
+import os, glob
+from os.path import join
+
+numbuttons = 0
+numdefines = 0
+numphps = 0
+numtextphps = 0
+
+print os.path.abspath(''), &quot; &gt;&gt; searching through...&quot;
+for root, dirs, files in os.walk('./'):
+    for dir in dirs:
+        dirdefines = 0
+        dirname=join(root, dir)
+        buttons=glob.glob1(dirname, 'button*.gif')
+        numbuttons+=len(buttons)
+        phps = glob.glob1(dirname, '*.php')
+        numphps += len(phps)
+        for fname in phps:
+            filedefines = 0
+            fullname=join(dirname, fname)
+            f = file(fullname)
+            for line in f.readlines():
+                filedefines += line.count(&quot;define('&quot;)
+            f.close()
+            if filedefines&gt;0:
+                numtextphps+=1
+                print fullname, filedefines
+            dirdefines+=filedefines
+        numdefines+=dirdefines
+        print &quot;----------------- sum for dir:&quot;
+        print &quot;%s: %s buttons %s texts in %s files&quot;%(dirname, len(buttons), dirdefines, len(phps))
+        print &quot;------------------------------&quot;
+
+print &quot; Sum ====================&quot;, os.path.abspath('')
+print &quot; Buttons %s, Texts %s in %s/%s files/allphps&quot;%(numbuttons, numdefines, numtextphps, numphps) 
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-August/001885.html">[python] pristup k promennym uvnitr fce
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-August/001887.html">[python] hledani konkretnich souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-August/date.html#1886">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-August/thread.html#1886">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-August/subject.html#1886">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-August/author.html#1886">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-August/001886.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:23 GMT -->
+</html>

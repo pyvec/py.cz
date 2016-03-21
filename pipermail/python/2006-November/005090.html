@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005090.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:25 GMT -->
+<HEAD>
+   <TITLE> [python] Buducnost Pythonu: lambda, map, filter
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%20filter&In-Reply-To=20061113174857.GE30427%40q.uh.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005088.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005094.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Buducnost Pythonu: lambda, map, filter</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%20filter&In-Reply-To=20061113174857.GE30427%40q.uh.cz"
+       TITLE="[python] Buducnost Pythonu: lambda, map, filter">RMiklos na pss.sk
+       </A><BR>
+    <I>Pondělí Listopad 13 19:06:17 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005088.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005094.html">[python] super příklady v Pythonu pro začátečníky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5090">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5090">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5090">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5090">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Mas pravdu, ze je to otazka vkusu, ale ja osobne si myslim, ze tento 
+list-comprehention
+[f for a in arguments for f in glob.glob(a)]
+je krkolomnejsi ako tento reduce 
+filez = reduce(operator.add, map(glob.glob, arguments))
+
+
+
+
+Radek Kanovsky &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rk na dat.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+13.11.2006 18:48
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+Re: [python] Buducnost Pythonu: lambda, map, filter
+
+
+
+
+
+
+On Mon, Nov 13, 2006 at 06:14:26PM +0100, Roman Miklos wrote:
+
+&gt;<i> Kazdopadne si myslim. ze reduce() ma opodstatnenie, kto tomu rozumie, 
+</I>moze 
+&gt;<i> robit veci elegantnejsie. 
+</I>
+To je asi otazka vkusu. Osobne nic proti funkci reduce nemam, ale uznavam,
+ze patri spis do nejake pomocne knihovny nez do __builtins__.
+
+&gt;<i> # suma 1,..,n
+</I>&gt;<i> suma1=lambda n: reduce(lambda x,y: x+y, range(n+1))
+</I>&gt;<i> print &quot;suma(%d)=%d&quot; %(5, suma1(5))
+</I>
+sum(range(n+1))
+
+&gt;<i> # suma zoznamu
+</I>&gt;<i> suma2=lambda l:  reduce(lambda x,y: x+y, l)
+</I>&gt;<i> l = range(6)
+</I>&gt;<i> print &quot;suma(%s)=%d&quot; % (l, suma2(l))
+</I>
+sum(l)
+
+&gt;<i> # faktorial
+</I>&gt;<i> faktorial=lambda n: reduce(lambda x,y: x*y, range(2, n+1), 1)
+</I>&gt;<i> print &quot;faktorial(%d)=%d&quot; % (0, faktorial(0))
+</I>&gt;<i> print &quot;faktorial(%d)=%d&quot; % (5, faktorial(5))
+</I>
+Faktorial se prakticky pocita pouze v prvnich lekcich vyuky Pythonu
+a tam se to kvuli nazornosti dela rekurzivni funkci :-)
+
+&gt;<i> # Globbing - rozvinut wildcards ?, * v cestach k suborom
+</I>&gt;<i> import sys, operator, glob
+</I>&gt;<i> arguments = sys.argv[1:]
+</I>&gt;<i> # ak su zadane nejake command-line argumenty (napr. editor.py oop1*.* 
+</I>&gt;<i> *.py~)
+</I>&gt;<i> if arguments:
+</I>&gt;<i> 
+</I>&gt;<i>   # pouzitie reduce()
+</I>&gt;<i>   filez = reduce(lambda x,y: x+y, map(glob.glob, arguments))
+</I>
+[f for a in arguments for f in glob.glob(a)]
+
+Radek Kaňovský
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005088.html">[python] Buducnost Pythonu: lambda, map, filter
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005094.html">[python] super příklady v Pythonu pro začátečníky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5090">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5090">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5090">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5090">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005090.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:25 GMT -->
+</html>

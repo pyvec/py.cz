@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009771.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:34 GMT -->
+<HEAD>
+   <TITLE> [python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fprinty_v_%3DE8e%3DB9tin%3DEC_na_WINDOWS/cmd_kon%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fzoli_ne%3DE8iteln%3DE9%3F%3D&In-Reply-To=%3C2d7736a4-eb17-41e8-b1e3-0834a722f3ff%40r11g2000yqa.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-May/009731.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-May/009772.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] printy v češtině na WINDOWS/cmd konzoli nečitelné</H1>
+    <B>petrofF</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fprinty_v_%3DE8e%3DB9tin%3DEC_na_WINDOWS/cmd_kon%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fzoli_ne%3DE8iteln%3DE9%3F%3D&In-Reply-To=%3C2d7736a4-eb17-41e8-b1e3-0834a722f3ff%40r11g2000yqa.googlegroups.com%3E"
+       TITLE="[python] printy v češtině na WINDOWS/cmd konzoli nečitelné">petr0ff na seznam.cz
+       </A><BR>
+    <I>Neděle Květen  9 08:01:35 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009731.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009772.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9771">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9771">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9771">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9771">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Do toho sitecustomize.py bych to necpal. Je to soubor v podstatě
+</I>&gt;<i> vázaný na počítač. Pokud by aplikace na něco takového spoléhala,
+</I>&gt;<i> nedala by se rozumně instalovat jinde.
+</I>Přenositelnost zatím ještě neřeším. Šlo o to přechodně zajistit
+fungování (konkrétní comp/verze Pythonu) (raw_)input i na win-konzole
+(pro studijní/testovací účely).
+
+&gt;<i> Přimlouvám se o naprostý přechod k Unicode -- jinak s tím bude
+</I>&gt;<i> problém vždycky. Nebo se musí přinejmenším neunicodový řetězec
+</I>&gt;<i> převést na Unicode řetězec (v kódování podle zdrojového textu)
+</I>&gt;<i> a při výstupu určit kódování přes sys.stdout.encoding nebo
+</I>&gt;<i> sys.stderr.encoding.
+</I>Problém s Unicode v IDLE:
+(Coby beginner) si cením možnosti v IDLE-konzoli editovat definice
+(function,class) jako celek a hlavně jednoduchého copy-paste mezi
+editorem .py modulu a konzolí
+(jiné IDE toto bez dodatečných úprav neumožňují, protože používají
+výpustku &quot;... &quot; )
+Bohužel:
+   print u&quot;české_unicode&quot;
+se zobrazí správně jen pokud je vykonán spuštěním modulu (kde se
+vyskytuje)
+Pokud zadám přímo v IDLE-příkazovém interpretu např.:
+   uDia = u'ěščřžýáíéóúůďťňĚŠČŘŽÝÁÍÉÓÚŮĎŤŇ'
+   print uDia
+výsledek je:
+&#160;&#160;&#160;&#236;&#154;&#232;&#248;&#158;&#253;&#225;&#237;&#233;&#243;&#250;&#249;&#239;&#157;&#242;&#204;&#138;&#200;&#216;&#142;&#221;&#193;&#205;&#201;&#211;&#218;&#217;&#207;&#141;&#210;
+Nevím proč tomu tak je:
+   getdefaultencoding()    ascii
+   sys.stdin.encoding      cp1250
+   sys.stdout.encoding     cp1250
+(platí jak v interaktivním režimu tak i při Run Module)
+[IDLE version 1.2 Python version 2.5]
+A zda se s tím nedá něco udělat - konfigurace, nová verze...
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009731.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009772.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9771">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9771">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9771">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9771">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009771.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:34 GMT -->
+</html>

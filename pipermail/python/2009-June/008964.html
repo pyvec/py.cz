@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/008964.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:27 GMT -->
+<HEAD>
+   <TITLE> [python] Shortcut v tkinteru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Shortcut%20v%20tkinteru&In-Reply-To=%3C4A25364D.2080706%40post.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-June/008963.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-June/008990.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Shortcut v tkinteru</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Shortcut%20v%20tkinteru&In-Reply-To=%3C4A25364D.2080706%40post.cz%3E"
+       TITLE="[python] Shortcut v tkinteru">geon na post.cz
+       </A><BR>
+    <I>Úterý Červen  2 16:25:17 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/008963.html">[python] Shortcut v tkinteru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/008990.html">[python] OT: Re:  vtip pro rozehrati konference
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#8964">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#8964">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#8964">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#8964">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zkus to ořezat, aby zůstaly jen nezbytné věci pro demonstraci problému. 
+Hlavně pryč s win32, nechce se mi to instalovat ...
+
+Jinak obecně: použití command je rychlejší, má však méně voleb a 
+možností, použití bind je universálnější.
+
+command: <A HREF="http://tkinter.programujte.com/button.htm">http://tkinter.programujte.com/button.htm</A>
+bind: <A HREF="http://tkinter.programujte.com/tkinter-events-and-bindings.htm">http://tkinter.programujte.com/tkinter-events-and-bindings.htm</A>
+
+
+-- 
+geon
+Pavel Kosina
+
+
+
+MICHÁLEK Jan Mgr. napsal(a), dne 2.6.2009 15:37:
+&gt;<i> Dík
+</I>&gt;<i> Je to takhle správně??
+</I>&gt;<i>
+</I>&gt;<i> import string
+</I>&gt;<i> from win32clipboard import *
+</I>&gt;<i> from Tkinter import*
+</I>&gt;<i> import sys,os,re
+</I>&gt;<i>  
+</I>&gt;<i> def mwhere():
+</I>&gt;<i>     f=open('D:\\temp\\dotaz.sql','w')
+</I>&gt;<i>     OpenClipboard()
+</I>&gt;<i>     strLHC=GetClipboardData()
+</I>&gt;<i>     #print repr(strLHC)
+</I>&gt;<i>     text=&quot;&quot;&quot;lhc_kod=%s and u_lhc_stav=%s and odd=%s and dil='%s'
+</I>&gt;<i>     and por ='%s' and bzl=%s and katuze_kod=%s&quot;&quot;&quot;%\
+</I>&gt;<i>     tuple(string.split(strLHC))
+</I>&gt;<i>     EmptyClipboard()
+</I>&gt;<i>     #SetClipboardText(text)
+</I>&gt;<i>     CloseClipboard()
+</I>&gt;<i>     f.write('select bzl_V, bzl_p0, area from f_A_BZL_PUV where '+text+'\n')
+</I>&gt;<i>     f.write('select bzl_V, bzl_p0, bzl_P from T_BZL where '+text)            
+</I>&gt;<i>     print text
+</I>&gt;<i>     f.close()
+</I>&gt;<i>     os.startfile('D:\\temp\\dotaz.sql')
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> from Tkinter import*
+</I>&gt;<i> okno=Tk()
+</I>&gt;<i> cudlik=Button(okno,text='clip',command=mwhere,takefocus='a')
+</I>&gt;<i> cudlik2=Button(okno,text='konec',command=okno.destroy)
+</I>&gt;<i> okno.attributes('-topmost',1) 
+</I>&gt;<i> cudlik.pack()
+</I>&gt;<i> cudlik2.pack()
+</I>&gt;<i> okno.bind(&quot;&lt;Return&gt;&quot;,mwhere)
+</I>&gt;<i> mainloop() 
+</I>&gt;<i>
+</I>&gt;<i> -----Original Message-----
+</I>&gt;<i> From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of Pavel Kosina
+</I>&gt;<i> Sent: Tuesday, June 02, 2009 3:30 PM
+</I>&gt;<i> To: Konference PyCZ
+</I>&gt;<i> Subject: Re: [python] Shortcut v tkinteru
+</I>&gt;<i>
+</I>&gt;<i> MICHÁLEK Jan Mgr. napsal(a), dne 2.6.2009 15:17:
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Jestli je tu ještě někdo, kdo používá tkinter a ne wx, nevíte, jak přidám k tkinterovýmu čudlíku shortcut??
+</I>&gt;&gt;<i> Díky Jelen
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   
+</I>&gt;&gt;<i>     
+</I>&gt;<i> bind přidá cokoliv k čemukoliv
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> geon
+</I>&gt;<i> Pavel Kosina
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;<i> __________ Informace od ESET NOD32 Antivirus, verze databaze 4122 (20090602) __________
+</I>&gt;<i>
+</I>&gt;<i> Tuto zpravu proveril ESET NOD32 Antivirus.
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+</I>&gt;<i>  
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;<i> __________ Informace od ESET NOD32 Antivirus, verze databaze 4122 (20090602) __________
+</I>&gt;<i>
+</I>&gt;<i> Tuto zpravu proveril ESET NOD32 Antivirus.
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://www.eset.cz/">http://www.eset.cz</A>
+</I>&gt;<i>  
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/008963.html">[python] Shortcut v tkinteru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/008990.html">[python] OT: Re:  vtip pro rozehrati konference
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#8964">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#8964">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#8964">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#8964">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/008964.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:27 GMT -->
+</html>

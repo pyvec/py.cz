@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010299.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:59 GMT -->
+<HEAD>
+   <TITLE> [python] Nastavení default kódování print-u (je?t? jednou)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-1%3Fq%3FNastaven%3DED_default_k%3DF3dov%3DE1n%3DED_print-%3F%3D%0A%20%3D%3Fiso-8859-1%3Fq%3Fu_%3D28je%3D3Ft%3D3F_jednou%3D29%3F%3D&In-Reply-To=%3C1303209010.2236.0%40klofy%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-April/010303.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-April/010300.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Nastavení default kódování print-u (je?t? jednou)</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-1%3Fq%3FNastaven%3DED_default_k%3DF3dov%3DE1n%3DED_print-%3F%3D%0A%20%3D%3Fiso-8859-1%3Fq%3Fu_%3D28je%3D3Ft%3D3F_jednou%3D29%3F%3D&In-Reply-To=%3C1303209010.2236.0%40klofy%3E"
+       TITLE="[python] Nastavení default kódování print-u (je?t? jednou)">regnarg na seznam.cz
+       </A><BR>
+    <I>Úterý Duben 19 12:30:10 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010303.html">[python] Vytvoreni obrazovky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010300.html">[python] Nastavení default kódování print-u (je?t? jednou)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10299">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10299">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10299">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10299">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne 22.3.2011 14:38:22 napsal zu1234:
+&gt;<i> Ale mohl by mi někdo vysvětlit proč to nejde bez reload?
+</I>&gt;<i> 
+</I>&gt;<i> #!/usr/bin/python
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i> 
+</I>&gt;<i> import sys
+</I>&gt;<i> reload(sys)
+</I>&gt;<i> 
+</I>&gt;<i> if sys.stdout.isatty():
+</I>&gt;<i>      # Výstup jde na terminál:
+</I>&gt;<i>      sys.setdefaultencoding('cp852')
+</I>&gt;<i> else:
+</I>&gt;<i>      # Výstup jde do souboru:
+</I>&gt;<i>     sys.setdefaultencoding('cp1250')
+</I>&gt;<i> 
+</I>&gt;<i> print u'šílené'
+</I>
+Ahoj,
+tohle všechno je způsobeno tím, že funkce setdefaultencoding
+není tak úplně určena pro uživatele. Při startu Pythonu se 
+automaticky importuje modul site.py, který se stará o všechny
+možné druhy nastavení a inicializací a který je podle potřeby
+možné přizpůsobit podle potřeb cílové platformy a/nebo 
+administrátora. Tam se mimo jiné volá funkce setdefaultencoding
+s nějakou hodnotou, kterou to považuje za &quot;rozumnou&quot; pro dané
+prostředí (v linuxu se to snaží uhodnout podle locale, na oknech
+to nejspíš bude vždy ascii). A poté, co to udělá, prostě funkci
+setdefaultencoding z modulu sys smaže (aby si s ní nehráli 
+programátoři --- neboť v dobré víře je nastavení kódování 
+považováno za věc prostředí, do které Pythoní program, kterýžto
+by měl být na prostředí nezávislý, nemá co mluvit). Reloadem
+se sys vrátí do původního stavu, tedy včetně metody, kterou
+původně site smazal. Pro podrobnější informace doporučuji projít
+site.py někde v knihovních adresářích pythonu.
+
+Snad to dává aspoň trochu smysl
+Filip Štědronský
+
+
+-- 
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
+<A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na seznam.cz</A>  <A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na jabber.cz</A>  <A HREF="http://regnarg.ofight.org/">http://regnarg.ofight.org/</A>
+&quot;V upřímné lásce nezáleží na tom, jak úžasného člověka potkáte;
+důležité je, aby vám spolu bylo fajn.&quot; --anonym
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010303.html">[python] Vytvoreni obrazovky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010300.html">[python] Nastavení default kódování print-u (je?t? jednou)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10299">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10299">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10299">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10299">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010299.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:59 GMT -->
+</html>

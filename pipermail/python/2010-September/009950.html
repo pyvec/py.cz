@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-September/009950.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:23 GMT -->
+<HEAD>
+   <TITLE> [python] update gui,vlakno
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20update%20gui%2Cvlakno&In-Reply-To=%3C4C989D4E.9030409%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-September/009949.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-September/009951.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] update gui,vlakno</H1>
+    <B>vepro</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20update%20gui%2Cvlakno&In-Reply-To=%3C4C989D4E.9030409%40gmail.com%3E"
+       TITLE="[python] update gui,vlakno">p.zlamal na gmail.com
+       </A><BR>
+    <I>Úterý Září 21 13:55:58 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-September/009949.html">[python] update gui,vlakno
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-September/009951.html">[python] update gui,vlakno
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-September/date.html#9950">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/thread.html#9950">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/subject.html#9950">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/author.html#9950">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tak jsem zkusil pomoci signalu a slotu (nejprve jsem chtel odskouset 
+funkcnost) a opet mam problem. Mam naspano:
+
+class Transducer(QtGui.QWidget):
+         def __init__(self):
+                 QtGui.QWidget.__init__(self)
+                 self.ui=Ui_silomer()        #imprtovane gui
+                 self.show_win()
+         def show_win(self):
+             self.connect(self.ui.tara, QtCore.SIGNAL('clicked()'), 
+self.set_tara)        #self.ui.tara is button
+             
+self.connect(self,QtCore.SIGNAL(&quot;updateGui()&quot;),self,QtCore.SLOT(&quot;redraw_gui&quot;))
+             self.show()
+
+         def set_tara(self):
+                 self.tara=self.value_level
+                 print &quot;tara set:&quot;,self.tara
+                 self.emit(QtCore.SIGNAL(&quot;updateGui()&quot;))
+         def redraw_gui(self,value):
+                 print &quot;redraw&quot;
+
+
+Pokud zmacknu button tara dojde k vypsani self.tara ale uz ne k vypsani 
+&quot;redraw&quot;. Tak nejak bych ocekaval, ze se aktivuje metoda redraw_gui, 
+kdyz byl emitovan signal (do teto metody pak chci implementovat obnoveni 
+prvku v gui, kde signal bude emitovan prave z vlakna). Nebo se pletu? 
+Pro formu jsem odskousel napojeni signalu na zavreni okna:
+self.connect(self,QtCore.SIGNAL(&quot;updateGui()&quot;),self,QtCore.SLOT(&quot;close()&quot;))
+A tento signal funguje (okno se zavre), tudiz nerozumim proc s close() 
+napojeni funguje a s moji metodou ne.
+Vepro
+
+On 09/20/2010 03:12 PM, <A HREF="http://www.py.cz/mailman/listinfo/python">petr na scribus.info</A> wrote:
+&gt;<i> On Mon, 20 Sep 2010 13:35:30 +0200, vepro&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt;  wrote:
+</I>&gt;<i>    
+</I>&gt;&gt;<i> Zkousim napsat aplikaci, ktera prijma data po seriove lince a ty pak
+</I>&gt;&gt;<i> zobrazuje v gui (qt4). Prijmaci cast resim jako smycku v samostatnem
+</I>&gt;&gt;<i> vlakne a narazil jsem na problem v obnoveni gui (bezici v &quot;hlavnim
+</I>&gt;&gt;<i> vlakne&quot;). Pokud zapisu novou hodnotu v mericim vlakne na nejaky gui
+</I>&gt;&gt;<i> prvek (konkretne QLCDNumber.display()) dojde k jeho aktualizaci jen v
+</I>&gt;&gt;<i> nejakych pripadech a ne vzdy, tak jak bych potreboval. Lze toto resit
+</I>&gt;&gt;<i> nejak elegatne?
+</I>&gt;&gt;<i>      
+</I>&gt;<i> jak prijimaci vlakno komunikuje s gui casti?
+</I>&gt;<i>
+</I>&gt;<i> Pokud s Qt4 pouzivas vlakna, pak tato vlakna nesmi nastavovat gui
+</I>&gt;<i> primo, ale treba pomoci signalu a slotu. Tj. nelze (pseudokod):
+</I>&gt;<i>
+</I>&gt;<i> # class Worker
+</I>&gt;<i> ...
+</I>&gt;<i>     def foo():
+</I>&gt;<i>        mylcd.display(bar)
+</I>&gt;<i>
+</I>&gt;<i> protoze mylcd je alokovane v gui event loopu, tudiz se data sice
+</I>&gt;<i> zobrazit mohou, ale take nemusi, anebo to cely zbuchne na rypak.
+</I>&gt;<i>
+</I>&gt;<i>     def foo():
+</I>&gt;<i>        emit dataAvailable(bar)
+</I>&gt;<i>
+</I>&gt;<i> # class Gui
+</I>&gt;<i>     conect(worker, SIGNAL(dataAvailable(int)), self,
+</I>&gt;<i> SLOT(&quot;worker_dataAvailable(int)))
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>     def worker_dataAvailable(value):
+</I>&gt;<i>        mylcd.display(value)
+</I>&gt;<i>
+</I>&gt;<i> p.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>    
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-September/009949.html">[python] update gui,vlakno
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-September/009951.html">[python] update gui,vlakno
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-September/date.html#9950">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/thread.html#9950">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/subject.html#9950">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-September/author.html#9950">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-September/009950.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:23 GMT -->
+</html>

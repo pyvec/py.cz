@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004627.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:13 GMT -->
+<HEAD>
+   <TITLE> [python] IronPython &amp; ADO.NET
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20IronPython%20%26%20ADO.NET&In-Reply-To=11cddb00609190729t3c1d14a3u9f0a1659556549da%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-September/004625.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-September/004630.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] IronPython &amp; ADO.NET</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20IronPython%20%26%20ADO.NET&In-Reply-To=11cddb00609190729t3c1d14a3u9f0a1659556549da%40mail.gmail.com"
+       TITLE="[python] IronPython &amp; ADO.NET">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Září 19 17:10:19 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004625.html">[python] event, interrup,	listener..proste asynchronni udalost v pythonu..
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004630.html">[python] Python 2.5 (Final)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4627">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4627">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4627">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4627">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den, 
+
+Skusal ste niekto pristup do databazy ADO.NET a IronPython? 
+
+Napr. toto citanie pomocou Readeru mi funguje:
+
+----- priklad -----
+...
+### Pouzitie ADO.NET
+import clr
+import System
+clr.AddReference(&quot;System.Data&quot;)
+import System.Data
+from System.Data.OleDb import OleDbConnection as dbconnection
+
+# Connection String
+connectstr='PROVIDER=IBMDA400.DataSource.1;DATA SOURCE='+csebk+'; USER 
+ID='+userid+'; PASSWORD='+pwd
+
+# Vytvorit spojenie
+dbcon=dbconnection(connectstr)
+dbcon.Open()
+
+# Vytvorit SQL Command
+dbcmd = dbcon.CreateCommand()
+dbcmd.CommandText = &quot;SELECT * FROM r000100T.r000270V&quot;
+
+# Citat data
+reader = dbcmd.ExecuteReader()
+
+count=0
+while reader.Read():
+  count +=1 
+  print &quot;%10s %10s %10s %10s&quot; % (reader[0], reader[1], reader[2], 
+reader[3]) 
+
+print &quot;pocet viet v tabulke je: %d&quot; % count
+
+# zavret reader
+reader.Close()
+ 
+# Ukoncit spojenie
+dbcon.Close()
+----- koniec prikladu -----
+
+
+
+Ked ale skusim pouzit dataadapter a dataset, t.j. zhruba takto 
+
+----- priklad -----
+
+...
+from System.Data.OleDb import OleDbConnection as dbconnection
+from System.Data.OleDb import OleDbDataAdapter as dbdataadapter
+from System.Data import DataSet as dataset
+
+# Connection String
+DSN='PROVIDER=IBMDA400.DataSource.1;DATA SOURCE='+csebk+'; USER 
+ID='+userid+'; PASSWORD='+pwd
+print DSN
+conn=dbconnection(DSN)
+conn.Open()
+
+dataadapter = dbdataadapter(&quot;SELECT * FROM r000100T.r000270V&quot;, conn)
+#rs = System.Data.DataSet(&quot;MyDataSet&quot;)
+rs=dataset(&quot;MyDataSet&quot;)
+dataadapter.Fill(rs,&quot;MyTable&quot;)
+#print rs
+row= rs.Tables(0).Rows(0)
+...
+----- koniec prikladu -----
+
+dostanem na poslednom uvedenom riadku chybu 
+&quot;DataTableCollection object is not callable&quot;
+
+Mate niekto funkcny priklad jak pouzit DataSet v IronPythone?
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20060919/142ca46c/attachment.htm">http://www.py.cz/pipermail/python/attachments/20060919/142ca46c/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004625.html">[python] event, interrup,	listener..proste asynchronni udalost v pythonu..
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004630.html">[python] Python 2.5 (Final)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4627">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4627">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4627">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4627">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004627.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:13 GMT -->
+</html>

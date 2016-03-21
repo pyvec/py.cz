@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009674.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:45 GMT -->
+<HEAD>
+   <TITLE> [python] Python WSGI (začátečník)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FUHl0aG9uIFdTR0kgKHphxI3DoXRlxI1uw61rKQ%3D%3D%3F%3D&In-Reply-To=%3C1272122298.25860.0%40klofy%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009673.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009675.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Python WSGI (začátečník)</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FUHl0aG9uIFdTR0kgKHphxI3DoXRlxI1uw61rKQ%3D%3D%3F%3D&In-Reply-To=%3C1272122298.25860.0%40klofy%3E"
+       TITLE="[python] Python WSGI (začátečník)">regnarg na seznam.cz
+       </A><BR>
+    <I>Sobota Duben 24 17:18:18 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009673.html">[python] Python WSGI (začátečník)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009675.html">[python] Python WSGI (začátečník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9674">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9674">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9674">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9674">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne 24.4.2010 16:01:47 napsal Thomix:
+&gt;<i> def application(environ, start_response):
+</I>&gt;<i>     status = '200 OK'
+</I>&gt;<i>     output = 'hl'
+</I>&gt;<i>     print(&quot;neco&quot;);
+</I>&gt;<i> 
+</I>&gt;<i>     response_headers = [('Content-type', 'text/plain'),
+</I>&gt;<i>                         ('Content-Length', str(len(output)))]
+</I>&gt;<i>     start_response(status, response_headers)
+</I>&gt;<i> 
+</I>&gt;<i>     return [output]
+</I>&gt;<i> 
+</I>&gt;<i> Nějak nechápu v čem je problém. Mod_python nechci používat z důvodu
+</I>&gt;<i> slabé odezvialesponň dle statistik co jsem četl na internetu. Mohl by
+</I>&gt;<i> mě prosím někdo objasnit alespoň základ psaní ve WSGI ?
+</I>
+Ahoj,
+
+no, ono pro začátečníky možná lepší než psát v čistém WSGI 
+je zkusit nějaký framework, tedy sadu knihoven a skriptů, která
+dá webové aplikaci nějaký řád. Kromě těch známých a obrovských
+jako Django, TurboGears, etc., za sebe mohu doporučit docela 
+minimalistickou hračku jménem web.py [<A HREF="http://webpy.org/">http://webpy.org</A>], která
+se svou jednoduchostí blíží čistému WSGI (nepotřebuje 
+pětimegovou referenčku), jen se v tom o něco příjemněji píše
+a existuje spousta hezkých návodů a tutoriálů (v angličtině).
+
+Ale k Tvému problému: ona ta proměnná output tam není jen tak
+pro srandu králíkům. Do ní patří to, co se vypisuje, printy 
+skončí někde v logu webserveru, či spíše v /dev/null. Takže 
+třeba by se pro začátek dal ten print nahradit něčím jako 
+output+=&quot;neco\n&quot;. Ale takhle ručně se text obvykle nevypisuje.
+Pokud chceš generovat složitější stránky, je lepší poohlédnout
+se po nějakém šablonovacím systému (který typicky vezme nějakou
+textovou předlohu uloženou ve zvláštním souboru a doplní do ní
+z programu data - tak je ve zdrojáku méně nepřehledného maglajzu
+generujícího výstup) - ale to jen tak na okraj.
+
+S pozdravem
+Filip Štědronský
+
+-- 
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
+<A HREF="http://regnarg.matfyz.cz/">http://regnarg.matfyz.cz</A>  &#9788;  Nen&#237; d&#367;le&#382;it&#233; milovat fajn &#269;lov&#283;ka, 
+                            je důležité, aby vám spolu bylo fajn
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009673.html">[python] Python WSGI (začátečník)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009675.html">[python] Python WSGI (začátečník)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9674">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9674">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9674">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9674">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009674.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:45 GMT -->
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009831.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:33 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorovana funkce
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Dekorovana%20funkce&In-Reply-To=%3C2b61c7c8-6195-4e0d-939a-4b2412c32e57%40x27g2000yqb.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-June/009834.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-June/009835.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorovana funkce</H1>
+    <B>mykhal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Dekorovana%20funkce&In-Reply-To=%3C2b61c7c8-6195-4e0d-939a-4b2412c32e57%40x27g2000yqb.googlegroups.com%3E"
+       TITLE="[python] Dekorovana funkce">michal.bozon na gmail.com
+       </A><BR>
+    <I>Středa Červen 23 12:18:56 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009834.html">[python] Dekorovana funkce
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009835.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9831">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9831">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9831">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9831">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>v prvnim priblizeni by mohlo jit pouzit neco takoveho:
+
+def decorator(func):
+  def wrap(*args, **kwargs):
+      return func(*args, **kwargs)
+  return wrap
+
+def isDecorated(func):
+    import types
+    clo = getattr(func, 'func_closure', None)
+    if not clo:
+        clo = getattr(func, '__closure__', None) # py3k
+    return bool(clo and isinstance(clo[0].cell_contents,
+types.FunctionType))
+
+def f1(): pass
+
+@decorator
+def f2(): pass
+
+print(isDecorated(f1))
+print(isDecorated(f2))
+
+
+On Jun 23, 9:14 am, Martin Blažík &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lach... na fnet.cz</A>&gt; wrote:
+&gt;<i> us k,
+</I>&gt;<i> nem te n kdo p edstavu, jak zjistit za b hu programu, zda funkce i
+</I>&gt;<i> metoda byla obalena konkr tn m dekor torem? M jme tento uk zkov k d
+</I>&gt;<i>
+</I>&gt;<i> def decorator(func):
+</I>&gt;<i>   def wrap(*args, **kwargs):
+</I>&gt;<i>       return func(*args, **kwargs)
+</I>&gt;<i>   return wrap
+</I>&gt;<i>
+</I>&gt;<i> def test1():
+</I>&gt;<i>   return 'test1'
+</I>&gt;<i>
+</I>&gt;<i> @decorator
+</I>&gt;<i> def test2():
+</I>&gt;<i>   return 'test2'
+</I>&gt;<i>
+</I>&gt;<i> @decorator
+</I>&gt;<i> def test3():
+</I>&gt;<i>   return 'test3'
+</I>&gt;<i>
+</I>&gt;<i> a j bych r d m l funkci
+</I>&gt;<i>
+</I>&gt;<i> def isDecorated(function, decor):
+</I>&gt;<i>   pass
+</I>&gt;<i>
+</I>&gt;<i> kter vr t True, pokud function vznikla tak, e n jak jin funkce
+</I>&gt;<i> (nez le na tom jak ) byla obalena dekor torem decor. Mohl bych napsat
+</I>&gt;<i> t eba
+</I>&gt;<i>
+</I>&gt;<i> lst = [test1, test2, test3]
+</I>&gt;<i> for function in lst:
+</I>&gt;<i>   if isDecorated(function, decorator):
+</I>&gt;<i>     print function.__name__, 'YES'
+</I>&gt;<i>   else:
+</I>&gt;<i>     print function.__name__, 'NO'
+</I>&gt;<i>
+</I>&gt;<i> Sna il jsem se o tom n co naj t na inetu i jsem provedl hromadu
+</I>&gt;<i> testov n za pou t r zn ch atributu funkce, ale po d nem u naj t e en .
+</I>&gt;<i>
+</I>&gt;<i> Za v echny n pady p edem d k
+</I>&gt;<i> lachtan
+</I>
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009834.html">[python] Dekorovana funkce
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009835.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9831">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9831">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9831">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9831">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009831.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:33 GMT -->
+</html>

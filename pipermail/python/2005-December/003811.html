@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003811.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:14 GMT -->
+<HEAD>
+   <TITLE> [python] python &amp; SOAP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20python%20%26%20SOAP&In-Reply-To=mailman.52.1135027977.32266.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-December/003810.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-December/003813.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] python &amp; SOAP</H1>
+    <B>roman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20python%20%26%20SOAP&In-Reply-To=mailman.52.1135027977.32266.python%40py.cz"
+       TITLE="[python] python &amp; SOAP">R.Hujer na sh.cvut.cz
+       </A><BR>
+    <I>Úterý Prosinec 20 17:13:16 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003810.html">[python] Re: Kódování souborů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003813.html">[python] Zope: Vlastne vynimky v Python script-e
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3811">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3811">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3811">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3811">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>SOAP potrebuju nutne, protoze to vyzaduje zadani(preddiplomniho 
+projektu). vysledkem moji prace by melo byt napsani nejakeho interface 
+pro komunikaci prez SOAP pro postgresql v cecku s vyuzitim knihovny 
+SOAPlib. implementace SOAPu v pythonu by mela byt jen takova mala 
+predehra, urcena k tomu abych zjistil o cem SOAP vlastne je. dostal jsem 
+za ukol nekolik cviceni v pythonu jako treba poslat SOAP obsah 
+/etc/passwd nebo obsah databazove tabulky. tj. vyuziti ruznych datovych 
+typu nebo posilani vetsiho mnozstvi dat jednou funkci.
+od vcerejska jsem se ZSI dosahl toho pokroku, ze se mi povedlo prez 
+navratovou hodnotu poslat &quot;hello world&quot;. ale uz nedokazu poslat treba 
+seznam, nebo posilat data jinak nez prez naratovou hodnotu. proto by se 
+mi hodilo nekolik funkcnich prikladu na ZSI. bohuzel se mi nedari najiit 
+googlem neco prinosneho.
+
+Viktor Lacina wrote:
+&gt;<i> AFAIK SOAPpy je mrtvola a ZSI ma trosku problemy s komunikaci se svetetem(v 
+</I>&gt;<i> dobe meho vyberu nemel ani WSDL parser), hlavne s temi castmi, co si ohybaji 
+</I>&gt;<i> SOAP jak se jim to hodi :-)
+</I>&gt;<i> Stal jsem pred nejakou dobou pred stejnym problemem, bud si patchnout ZSI, 
+</I>&gt;<i> nebo si napsat vlastni &quot;SOAP&quot;, zjistil jsem, ze varianta c. 2 je nejen 
+</I>&gt;<i> vyhodnejsi ale alespon jsem zjistil o cem SOAP je :-) 
+</I>&gt;<i> Doporucuji taktez, je to vlastne jen trocha XML a jedno WSDL se specifikaci, 
+</I>&gt;<i> docela jednoducha a citelna zalezitost... BTW na pouzivani ZSI stejne musite 
+</I>&gt;<i> strukturu SOAP znat :-)
+</I>&gt;<i> Jestli nutne nepotrebujete zrovna SOAP, proto, ze by ho vyzadovala nejaka 
+</I>&gt;<i> druha strana, ci zadani, vrele doporucuji na nej zapomenout a pouzivat 
+</I>&gt;<i> XML-RPC. V pythonu je pro nej supr(funkcni) knihovna a nema takovy overload 
+</I>&gt;<i> jako SOAP.
+</I>&gt;<i> 
+</I>&gt;<i> &lt;?xml version=&quot;1.0&quot;?&gt;
+</I>&gt;<i> &lt;soap:Envelope
+</I>&gt;<i> xmlns:soap=&quot;<A HREF="http://www.w3.org/2001/12/soap-envelope"">http://www.w3.org/2001/12/soap-envelope&quot;</A>
+</I>&gt;<i> soap:encodingStyle=&quot;<A HREF="http://www.w3.org/2001/12/soap-encoding"">http://www.w3.org/2001/12/soap-encoding&quot;</A>&gt;
+</I>&gt;<i>   &lt;soap:Body xmlns:m=&quot;<A HREF="http://www.tempuri.org/flame"">http://www.tempuri.org/flame&quot;</A>&gt;
+</I>&gt;<i>     &lt;m:vote&gt;
+</I>&gt;<i>       &lt;m:option&gt;nemam rad SOAP&lt;/m:option&gt;
+</I>&gt;<i>     &lt;/m:vote&gt;
+</I>&gt;<i>   &lt;/soap:Body&gt;
+</I>&gt;<i> &lt;/soap:Envelope&gt;
+</I>&gt;<i> 
+</I>&gt;<i> VL.
+</I>&gt;<i> 
+</I>&gt;<i> Dne pondělí 19 prosince 2005 21:11 roman napsal(a):
+</I>&gt;<i> 
+</I>&gt;&gt;<i>ma tu nekdo nejake zkusenosti se SOAPem. nejak se v tom topim. zatim se
+</I>&gt;&gt;<i>snazim rozjet SOAP v pythonu pomoci ZSI pozdeji se budu muset seznamit
+</I>&gt;&gt;<i>se SOAPlib v cecku. pres ZSI se mi zatim nepodarilo poslat ani hello
+</I>&gt;&gt;<i>world. jeste jsem zkousel SOAPpy, to je sice napsane o trochu logicteji,
+</I>&gt;&gt;<i>ale zase je to v pomerne rane fazi vyvoje, takze dokumentace nula a
+</I>&gt;&gt;<i>celkove omezene moznosti. umi to komunikovat jen pres navratovou hodnotu
+</I>&gt;&gt;<i>funkce spustene na serveru, coz je pro me docela malo.
+</I>&gt;&gt;<i>pokud by nekdo mel nejake dobre linky nebo nejake zkusenosti, tak sem s
+</I>&gt;&gt;<i>nimi (<A HREF="http://pywebsvcs.sourceforge.net/zsi.html">http://pywebsvcs.sourceforge.net/zsi.html</A> a
+</I>&gt;&gt;<i><A HREF="http://www-128.ibm.com/developerworks/webservices/library/ws-pyth6">http://www-128.ibm.com/developerworks/webservices/library/ws-pyth6</A> jsem
+</I>&gt;&gt;<i>uz videl, a moc mi to nepomohlo :-( )
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003810.html">[python] Re: Kódování souborů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003813.html">[python] Zope: Vlastne vynimky v Python script-e
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3811">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3811">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3811">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3811">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003811.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:14 GMT -->
+</html>

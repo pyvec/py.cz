@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011517.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:19 GMT -->
+<HEAD>
+   <TITLE> [python] Lock
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3C445086602.20150209114235%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011556.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011518.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Lock</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3C445086602.20150209114235%40atlas.cz%3E"
+       TITLE="[python] Lock">mtip na atlas.cz
+       </A><BR>
+    <I>Pondělí Únor  9 11:42:35 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011556.html">[python] Seznamy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011518.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11517">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11517">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11517">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11517">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+narazil jsem na problém se zámkem.
+
+Mám  aplikaci  na web serveru, která ukládá příznak booolean Zaplaceno
+do MySQL databáze.
+Občas  se ale stane, že potvrzení platby přijde najednou ve stejný čas
+ze dvou zdrojů. Chtěl jsem to vyřešit zámkem, což ale nepomůže.
+
+Princip kódu:
+
+from threading import Lock
+lock = Lock()
+lock.acquire()
+try:
+    mysql_cursor.execute(&quot;SELECT Zaplaceno FROM platby WHERE Id=%s&quot;, (1,))
+    if mysql_cursor.fetchall()[0]['Zaplaceno'] == 0:
+        mysql_cursor.execute(&quot;UPDATE Zaplaceno=1 FROM platby WHERE Id=%s&quot;, (1,))
+        mysql_connection.commit()
+        # dalsi zpracovani platby...
+finally:
+    lock.release()
+
+
+
+Pokud je request spuštěn 2x ve stený čas provede se zpracování platby 2x.
+Přičemž ale SELECT je pod zámkem, takže by se neměl provést mezi SELECT a UPDATE druhého threadu.
+Netušíte, kde může být problém?
+
+Díky za odpovědi.
+
+Mirek
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011556.html">[python] Seznamy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011518.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11517">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11517">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11517">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11517">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011517.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:19 GMT -->
+</html>

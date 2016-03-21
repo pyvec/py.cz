@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009288.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:11 GMT -->
+<HEAD>
+   <TITLE> [python] python subprocess vraci porad 1
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20python%20subprocess%20vraci%20porad%201&In-Reply-To=%3C4B5857A0.3030603%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-January/009287.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-January/009289.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] python subprocess vraci porad 1</H1>
+    <B>Tomas Pelka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20python%20subprocess%20vraci%20porad%201&In-Reply-To=%3C4B5857A0.3030603%40gmail.com%3E"
+       TITLE="[python] python subprocess vraci porad 1">tompelka na gmail.com
+       </A><BR>
+    <I>Čtvrtek Leden 21 14:33:20 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009287.html">[python] python subprocess vraci porad 1
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009289.html">[python] knihovna PYSERIAL pro PYTHON3.1
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9288">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9288">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9288">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9288">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 01/21/2010 11:52 AM, Jan Jakubuv wrote:
+&gt;<i> zdravim,
+</I>&gt;<i>
+</I>&gt;<i> On Thu, Jan 21, 2010 at 09:44:55AM +0100, Tomas Pelka wrote:
+</I>&gt;&gt;<i> Dobry napad, predelal sem tedy na:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --------------------------------------------------
+</I>&gt;&gt;<i> cmd = &quot;/usr/bin/locate&quot;
+</I>&gt;&gt;<i> arg1 = &quot; -i&quot;
+</I>&gt;&gt;<i> arg2 = &quot; -d /var/www/books/mlocate.db&quot;
+</I>&gt;&gt;<i> arg3 = str(&quot; &quot; + pattern)
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Chyba je formatu argumentu arg1, atd.  Ta mezera na zacatku tam nesmi byt.
+</I>&gt;<i> Zkuste:
+</I>&gt;<i>
+</I>&gt;<i> arg1 = &quot;-i&quot;
+</I>&gt;<i> arg2a = &quot;-d&quot;
+</I>&gt;<i> arg2a = &quot;/var/www/books/mlocate.db&quot;
+</I>&gt;<i> arg3 = str(pattern)
+</I>&gt;<i>
+</I>&gt;<i> p1 = subprocess.Popen([cmd, arg1, arg2a, arg2b, arg3], shell=False, ...)
+</I>&gt;<i>
+</I>&gt;<i> Zbytek uz je spravne, pokud argumenty predavate jako list pak je skutecne
+</I>&gt;<i> treba zadat je oddelene.
+</I>&gt;<i>
+</I>&gt;<i> Pokud chcete zadat prikaz jako jeden string pak pouzijte `shell=True` a
+</I>&gt;<i> namistu listu zadejte string:
+</I>&gt;<i>
+</I>&gt;<i> p1 = subprocess.Popen(&quot;/usr/bin/locate -i -d file pattern&quot;, shell=True, ...)
+</I>&gt;<i>
+</I>&gt;&gt;<i> (stdoutdata, stderrdata) = p1.communicate()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> print p1.returncode
+</I>&gt;&gt;<i> print &quot;%s -- %s&quot; % (stdoutdata, stderrdata)
+</I>&gt;&gt;<i> --------------------------------------------------
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ale stale vraci 1 a zadny vysledek.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> honza.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+Diky za radu ale stale se nedokazu dobrat nejakemu vysledku.
+Skript je vlastne CGI spoustene z apache, divne ale je, ze kdyz spustim 
+z shellu:
+
+----------------
+# su -s /bin/bash -c &quot;/usr/bin/locate -i -d /var/www/books/mlocate.db 
+python; echo $?&quot; apache
+0
+---------------
+tak vzdy dostanu 0 ale zadny vysledek, pritom CGI vraci 1. Kdyz to same 
+spustim jako bezny uzivatel (ne apache) tak dostanu 0 a nenulovy tedy 
+spravny vysledek.
+
+Problem s mlocate.db by byt nemel, protoze je citelny pro apache (ten je 
+ve skupine books) a vlastne i pro ostatni, viz:
+----------------
+# su -s /bin/bash -c &quot;ls -l /var/www/books/mlocate.db&quot; apache
+-rw-rw-r-- 1 tom books 1465653 Jan 20 13:33 /var/www/books/mlocate.db
+----------------
+
+Cely CGI v priloze.
+
+-- 
+Tom
+
+------------- další část ---------------
+#!/usr/bin/python
+
+import cgi
+import cgitb; cgitb.enable()  # for troubleshooting
+import subprocess
+import sys
+import os
+sys.stderr = sys.stdout
+
+command = &quot;&quot;
+result = &quot;&quot;
+stdoutdata = &quot;&quot;
+stderrdata = &quot;&quot;
+
+# Create instance of FieldStorage
+form = cgi.FieldStorage()
+
+# Get data from field 'pattern'
+pattern = form.getvalue('pattern', 'None')
+# Get data from field 're'
+re = form.getvalue('re')
+
+cmd = &quot;/usr/bin/locate&quot;
+arg1 = &quot;-i&quot;
+arg2a = &quot;-d&quot;
+arg2b = &quot;/var/www/books/mlocate.db&quot;
+arg3 = &quot;-r&quot;
+arg4 = str(pattern)
+p1 = None
+
+if re == &quot;re&quot;:
+	p1 = subprocess.Popen([cmd, arg1, arg2a, arg2b, arg3, arg4], shell=False, \
+		stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	command = &quot;%s %s %s %s %s %s&quot; % (cmd, arg1, arg2a, arg2b, arg3, arg4)
+else:
+	p1 = subprocess.Popen([cmd, arg1, arg2a, arg2b, arg4], shell=False, \
+		stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	command = &quot;%s %s %s %s %s &quot; % (cmd, arg1, arg2a, arg2b, arg4)
+
+(stdoutdata, stderrdata) = p1.communicate()
+
+print &quot;Content-type: text/html&quot;
+print
+
+# debug
+print &quot;UID: %i &lt;br&gt;&quot; % os.getuid()
+print &quot;Search pattern: %s &lt;br&gt;&quot; % pattern
+print &quot;&quot;&quot;stdout: %s &lt;br&gt;
+stderr: %s &lt;br&gt;
+&quot;&quot;&quot; % (stdoutdata, stderrdata)
+print &quot;Return code: %i&quot; % p1.returncode
+
+print &quot;&quot;&quot;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Hledej v books&lt;/title&gt;&lt;/head&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;form name=&quot;input&quot; action=&quot;search.py&quot; method=&quot;get&quot;&gt;
+Hledany vyraz:
+&lt;input type=&quot;text&quot; name=&quot;pattern&quot; /&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Hledej&quot; /&gt;
+&lt;br /&gt;
+Hledat pomoci regularniho vyrazu?
+&lt;input type=&quot;checkbox&quot; name=&quot;re&quot; value=&quot;re&quot; /&gt;
+&lt;br /&gt;
+&lt;/form&gt;
+&lt;/p&gt;
+&lt;hr&gt;
+&lt;br /&gt;
+&quot;&quot;&quot;
+if p1.returncode == 0:
+	if stdoutdata:
+                result = stdoutdata
+        else:
+                result = &quot;Nic takoveho sem nenasel :/&quot;
+
+else:
+	result = '&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Chyba&lt;/b&gt;&lt;/font&gt;: \
+		index souboru je bud zastaraly nebo doslo \
+		k chybe pri vyhledavani.&lt;br \&gt;&lt;small&gt;&lt;code&gt;%s&lt;/code&gt; \
+		&lt;br \&gt;&lt;code&gt;%s&lt;/code&gt;&lt;/small&gt;' % (command, stderrdata)
+
+print &quot;&quot;&quot;
+&lt;h1&gt;Hledany vyraz &quot;%s&quot; se nachazi v nasledujicich adresarich&lt;/h1&gt;
+%s
+&lt;/html&gt; 
+&quot;&quot;&quot; % (pattern, result)
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009287.html">[python] python subprocess vraci porad 1
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009289.html">[python] knihovna PYSERIAL pro PYTHON3.1
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9288">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9288">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9288">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9288">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009288.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:11 GMT -->
+</html>

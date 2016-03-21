@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002339.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:55 GMT -->
+<HEAD>
+   <TITLE> [python] Jak zavrit okno prohlizece?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20zavrit%20okno%20prohlizece%3F&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-February/002338.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-February/002340.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak zavrit okno prohlizece?</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20zavrit%20okno%20prohlizece%3F&In-Reply-To="
+       TITLE="[python] Jak zavrit okno prohlizece?">Prikryl na skil.cz
+       </A><BR>
+    <I>Pondělí Únor 21 09:12:51 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002338.html">[python] Jak zavrit okno prohlizece?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002340.html">[python] Jak zavrit okno prohlizece?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2339">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2339">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2339">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2339">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Matějka napsal...
+&gt;<i> Petr Přikryl napsal...
+</I>&gt;<i> &gt; V MS Windows se browser spouští v podstatě voláním 
+</I>&gt;<i> &gt; os.startfile(), která je implementována voláním systémové 
+</I>&gt;<i> &gt; funkce ShellExec(). [...]
+</I>&gt;<i> 
+</I>&gt;<i> Myslím, že na win je řešení prostřednictvím rozšířené 
+</I>&gt;<i> funkce ShellExecuteEx. U ní lze stanovit, že má být 
+</I>&gt;<i> navrácen handle spuštěného procesu, jehož prostřednictím
+</I>&gt;<i> lze dohledat okno aplikace, poslat WM_CLOSE, či rovnou 
+</I>&gt;<i> proces odstřelit.
+</I>
+V Python 2.4 (Modules/posixmodule.c, řádek cca 7188)
+se os.startfile() implementuje jako
+
+  ShellExecute((HWND)0, NULL, filepath, 
+                NULL, NULL, SW_SHOWNORMAL);
+
+To ale není podstatné. Podstatné je to, že se
+_z Pythonu_ k informaci o spuštěném procesu browseru
+jednoduše a jednoznačně nedostanu.
+
+Petr
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002338.html">[python] Jak zavrit okno prohlizece?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002340.html">[python] Jak zavrit okno prohlizece?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2339">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2339">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2339">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2339">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002339.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:55 GMT -->
+</html>

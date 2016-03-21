@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006305.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:43 GMT -->
+<HEAD>
+   <TITLE> [python] Unicode - TypeError
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Unicode%20-%20TypeError&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006302.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006306.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Unicode - TypeError</H1>
+    <B>^nu.friX</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Unicode%20-%20TypeError&In-Reply-To="
+       TITLE="[python] Unicode - TypeError">nu.frix na email.cz
+       </A><BR>
+    <I>Středa Červenec 25 01:12:57 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006302.html">[python] Menici se text v Labelu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006306.html">[python] Unicode - TypeError
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6305">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6305">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6305">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6305">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hujec všem,
+dělám jeden program a v něm mám část, kdy potřebuju provést zápis do
+.txt souboru, ale tak, aby se četl jen při otevření přes program a 
+ne normálně (pomocí pickle). Jelikož potřebuju zachovat diakritiku, 
+používám kodování Unicode. Ale když jsem se snažil provéct 
+následující operaci, program skončil (kod zkrácen jen na to 
+nejnutnější):
+# -*- coding: cp1250 -*-
+promenna=u&quot;p\u0159edm\u011bt&quot;
+pole=[]
+print type(promenna)
+print u&quot;předmět: %s&quot; % (promenna)
+pole.append(u&quot;předmět: %s&quot;) % (promenna)
+
+Po spuštění tohoto scriptu se mi vyvolá výjimka:
+
+&lt;type 'unicode'&gt;
+předmět: předmět
+Traceback (most recent call last):
+ File &quot;C:\Python24\Lib\site-packages\pythonwin\pywin\framework\
+scriptutils.py&quot;, line 310, in RunScript
+   exec codeObject in __main__.__dict__
+ File &quot;C:\Documents and Settings\nu.frix\Plocha\^nu.friX\unicode_
+error.py&quot;, line 6, in ?
+   pole.append(u&quot;předmět: %s&quot;) % (promenna)
+TypeError: unsupported operand type(s) for %: 'NoneType' and 
+'unicode'
+
+Jak vidíte tak type je opravdu unicode a pokud je chci pouze 
+vytisknout, tak problém není, ale pokud chci vytvořit řetězec a ten 
+následně přidat do pole, program končí. Absolutně nevím co s tím, 
+asi je to dotaz lamy, ale prosil bych o radu.
+
+
+Dan Pressl 
+... aka ^nu.friX 
+R34l17y 1s us3l3ss &amp; F4Q DMNC!!!
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20070725/d7f28c17/attachment.htm">http://www.py.cz/pipermail/python/attachments/20070725/d7f28c17/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006302.html">[python] Menici se text v Labelu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006306.html">[python] Unicode - TypeError
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6305">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6305">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6305">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6305">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006305.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:43 GMT -->
+</html>

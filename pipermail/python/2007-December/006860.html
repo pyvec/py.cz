@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-December/006860.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:56 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátory, jak na ně ?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDekor%3DE1tory%3D2C_jak_na_n%3DEC_%3D3F%3F%3D&In-Reply-To=51040dab-212c-4666-ad85-6e0de878420e%40e23g2000prf.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-December/006858.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-December/006914.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátory, jak na ně ?</H1>
+    <B>Jan Jakubuv</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDekor%3DE1tory%3D2C_jak_na_n%3DEC_%3D3F%3F%3D&In-Reply-To=51040dab-212c-4666-ad85-6e0de878420e%40e23g2000prf.googlegroups.com"
+       TITLE="[python] Dekorátory, jak na ně ?">jakubuv na gmail.com
+       </A><BR>
+    <I>Neděle Prosinec  9 11:36:25 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-December/006858.html">[python] Dekorátory, jak na ně ?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-December/006914.html">[python] Dekorátory, jak na ně
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-December/date.html#6860">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/thread.html#6860">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/subject.html#6860">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/author.html#6860">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>zdravim,
+
+&gt;<i> volat s proměnnou = @muj_dekorator('moje_promenna') ?
+</I>&gt;<i> Nebo, má dekorátor přístup s proměnným metody kterou dekoruje ?
+</I>
+samozrejme ma pokud to spravne naprogramujete. ja dekorator s
+promennou pisu takto (okoukano z tutorialu genshi ;-) :
+
+def muj_dekorator(moje_promenna):
+    def decorate(dekorovana_funkce):
+        def wrapper(*args, **kwargs):
+            ...
+            result = dekorovana_funkce(*args, **kwargs)
+            ...
+            return vysledek
+        return wrapper
+    return decorate
+
+coz ma tu vyhodu, ze je to obecne pouzitelne, cili nezavisi na jmenech
+parametru funkce kterou dekorujete. hodnoty parametru dekorovane
+funkce pak mate ulozeny ve slovniku kwargs pripadne v tuple args.
+
+pokud znate pocet a poradi argumentu dekorovanych funkci a vite ze
+budete dekorovat pouze funkce s takto urcenymi parametry, muzete vse
+zjednodusit napriklad takto (rekneme ze dekorovana funkce ma jediny
+argument):
+
+def muj_dekorator(moje_promenna):
+    return (lambda dekorovana_funkce: lambda argument:
+vypocet(dekorovana_funkce, argument)
+
+tento priklad je spise pro ujasneni principu, snad pomuze. obecne
+muj_dekorator musi vratit funkci ktera prijima jeden parametr a to
+dekorovanou funkci. v prvnim prikladu je to funkce decorate. tato
+funkce (decorate) ma za ukol provest cinnost dekoratoru, tj. &quot;obalit&quot;
+dekorovanou funkci a vratit ji jako vysledek. v prvnim priklade je tim
+obalenim funkce wrapper. argumenty funkce wrapper jsou argumenty
+dekorovane funkce a v jejim tele muzete samozrejme pouzit i promennou
+moje_promenna. mozna to zni trochu komplikovane, ale zcela jiste
+rychle pochopite prvni priklad na nejakem konkretnim pouziti.
+
+staticke tridy souvisi s dekoratory pouze tak, ze se pro jejich zapis
+pouzivaji dekoratory.
+
+honza.
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-December/006858.html">[python] Dekorátory, jak na ně ?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-December/006914.html">[python] Dekorátory, jak na ně
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-December/date.html#6860">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/thread.html#6860">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/subject.html#6860">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-December/author.html#6860">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-December/006860.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:56 GMT -->
+</html>

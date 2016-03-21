@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/002994.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:58 GMT -->
+<HEAD>
+   <TITLE> [python] Slovniky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Slovniky&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-July/002998.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-July/002995.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Slovniky</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Slovniky&In-Reply-To="
+       TITLE="[python] Slovniky">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Červenec  7 14:09:43 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002998.html">[python] Slovniky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002995.html">[python] Slovniky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#2994">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#2994">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#2994">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#2994">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+Radko Šubert...
+&gt;<i> [...]mam treba ini soubor:
+</I>&gt;<i> 
+</I>&gt;<i> [sekceA]
+</I>&gt;<i> aaa=a
+</I>&gt;<i> bbb=c
+</I>&gt;<i> [sekceB]
+</I>&gt;<i> ccc=c
+</I>&gt;<i> ddd=d
+</I>&gt;<i> 
+</I>&gt;<i> a potreboval bych vytvorit slovniky, ktere se budou jmenovat 
+</I>&gt;<i> podle sekci [...] a ty naplnit obsahem sekci. Ini soubor ctu v 
+</I>&gt;<i> cyklu prez readline().Druhou cast zvladnu, zjistit zda dany radek je 
+</I>&gt;<i> nazvem sekce, nebo jejim obsahem, to taky umim, nazev sekce 
+</I>&gt;<i> umim dat do promenne, ale potreboval bych pomoct s tim pojmenovanim 
+</I>&gt;<i> daneho slovniku.
+</I>
+Dal bych asi přednost hotovému ConfigParser, ale principiálně
+by se to dalo udělat takto:
+
+f = file('moje.ini')
+
+x = {}      # prázdný slovník sekcí
+
+for line in f:
+    # rozpoznání řádku
+    # pokud je to sekce, pak
+         sekce = ...   # identifikace nové sekce
+         secDic = {}   # prázdný slovník symbolů sekce
+         x[sekce] = secDic  # zařadíme novou sekci do slovníku sekcí 
+    # pokud je to symbol sekce
+         symbolId = ...     # identifikace symbolu
+         hodnota = ...      # hodnota symbolu
+         
+         # předpokládám, že secDic odkazuje na slovník aktuální sekce.
+         secDic[symbolId] = hodnota
+    # else:  
+         # ignorovat prázdné řádky a komentáře,
+         # hlásit chybné řádky
+
+f.close()
+
+Pak můžu odkaz na slovník 'sekceA' získat (za předpokladu,
+že existuje):
+
+  sekceA = x['sekceA'] 
+
+Hodnotu symbolu 'aaa' z této sekce 
+
+  hodnota = sekceA['aaa'] 
+
+nebo přímo
+  
+  hodnota = x['sekceA']['aaa']
+
+Musí se ale ošetřit přístup k neexistujícím sekcím a symbolům.
+Prakticky to znamená implementovat vše jako třídu a stejně
+by se skončilo u podobného řešení, jako je ConfigParser.
+ConfigParser.py se standardně nachází v podadresáři Python/Lib/
+a má jen asi 650 řádků. Asi to stojí za nahlédnutí. (Sekci 
+se v něm říká rovněž sekce a symbolu se říká option.)
+
+pepr
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002998.html">[python] Slovniky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002995.html">[python] Slovniky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#2994">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#2994">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#2994">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#2994">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/002994.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:58 GMT -->
+</html>

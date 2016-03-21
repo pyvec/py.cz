@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003067.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:03 GMT -->
+<HEAD>
+   <TITLE> RE: [python] problém s Tk
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_probl%3DE9m_s_Tk%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-July/003066.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-July/003070.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] problém s Tk</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_probl%3DE9m_s_Tk%3F%3D&In-Reply-To="
+       TITLE="RE: [python] problém s Tk">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Červenec 14 11:34:17 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003066.html">RE: [python] problém s Tk
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003070.html">[python] problém s Tk
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3067">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3067">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3067">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3067">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Vita Titl...
+&gt;<i> Vytvářím zaškrtávací políčka a nevím kolik jich bude, počet 
+</I>&gt;<i> načítám ze seznamu, tedy zdroj vypadá nějak takto:
+</I>&gt;<i> a=0
+</I>&gt;<i> policka = [&quot;policko1&quot;, &quot;policko2&quot;, &quot;policko3&quot;, &quot;atd&quot;]
+</I>&gt;<i> while 1:
+</I>&gt;<i>     try:       
+</I>&gt;<i>         ch = Checkbutton(okno, text=policka[a])
+</I>&gt;<i>         ch.pack()
+</I>&gt;<i>         a=a+1
+</I>&gt;<i>     except:
+</I>&gt;<i>         break
+</I>&gt;<i> 
+</I>&gt;<i> Můj problém: nevím jak potom přistupovat k hodnotám, které 
+</I>&gt;<i> nabývá Checkbutton? Můžete mi poradit?
+</I>
+I kdyby ty objekty šly dohledat, zkusil bych spíš něco
+takového:
+
+policka = [&quot;policko1&quot;, &quot;policko2&quot;, &quot;policko3&quot;, &quot;atd&quot;]
+chbox = []
+
+for txt in policka:
+    ch = Checkbutton(okno, text=txt)
+    ch.pack()
+    chbox.append(ch)
+
+Případně by to mohlo vypadat i takto (symbolická identifikace navíc):
+
+policka = [('chboxA', 'policko1'),
+           ('chboxB', 'policko2'), 
+           ('chboxC', 'policko3'),
+          ]
+chbox = {}
+
+for (symId, txt) in policka:
+    ch = Checkbutton(okno, text=txt)
+    ch.pack()
+    chbox[symId] = ch
+
+To jen pro inspiraci. Musí se to domyslet.
+
+pepr
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003066.html">RE: [python] problém s Tk
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003070.html">[python] problém s Tk
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3067">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3067">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3067">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3067">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003067.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:03 GMT -->
+</html>

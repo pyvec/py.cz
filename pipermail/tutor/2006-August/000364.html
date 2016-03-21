@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000364.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] vytvoření serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000363.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000365.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] vytvoření serveru</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] vytvoření serveru">Jakohv na seznam.cz
+       </A><BR>
+    <I>Pondělí Srpen 14 20:31:31 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000363.html">[Tutor PyCZ] ftplib
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000365.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#364">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#364">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#364">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#364">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+vytvářím něco jako chat přes modul socket
+server má takovýto kód:
+# -*- coding: cp1250 -*-
+import socket
+import sys
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host =  ''
+port = 3503
+s.bind((host, port))
+s.listen(1)
+print &quot;On-line&quot;
+while 1:  
+    conn, addr = s.accept()
+    data = conn.recv(100000)
+    print data
+    conn.send(data)
+conn.close()
+s.close()
+
+klient vypadá takto:
+# -*- coding: cp1250 -*-
+import socket
+while 1: 
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host = &quot;192.168.123.110&quot;
+    port = 3503
+    s.connect((host, port))
+    s.send(raw_input('Zprava:'))
+    data = s.recv(1000000)
+    print data
+    s.close()
+
+1) proč nemůžu pustit více klientů najednou? když to pustím, tak mi to vrátí chybu connection refused
+2)když už teda bude fungovat těch více klientů tak bych chtěl vytvořit &quot;posluchac.py&quot;. Rekneme, že by to bylo okno v Tk () s Text() a kdyby nějaký klient něco odeslal, tak by se to co odeslal vložilo do Textu(). 
+dík
+
+
+Blujacker
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000363.html">[Tutor PyCZ] ftplib
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000365.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#364">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#364">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#364">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#364">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000364.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009043.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:32 GMT -->
+<HEAD>
+   <TITLE> [python] Fork - problém s přístupem k rodičovské proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FFork_-_probl%3DE9m_s_p%3DF8%3DEDstupem_k_rodi%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DE8ovsk%3DE9_prom%3DECnn%3DE9%3F%3D&In-Reply-To=%3C67c97cd90906300405r593143b0u4fbd09b91c9a6adf%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-June/009042.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-June/009044.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Fork - problém s přístupem k rodičovské proměnné</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FFork_-_probl%3DE9m_s_p%3DF8%3DEDstupem_k_rodi%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DE8ovsk%3DE9_prom%3DECnn%3DE9%3F%3D&In-Reply-To=%3C67c97cd90906300405r593143b0u4fbd09b91c9a6adf%40mail.gmail.com%3E"
+       TITLE="[python] Fork - problém s přístupem k rodičovské proměnné">petr.messner na gmail.com
+       </A><BR>
+    <I>Úterý Červen 30 13:05:17 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009042.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009044.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9043">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9043">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9043">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9043">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ano, základem GUI v GTK (a i jinde) je smyčka - main event loop.
+Mimochodem, tato smyčka se dá udělat i ručně, pomocí
+gtk.events_pending() a gtk.main_iteration(block=True).
+
+To mě vlastně přivedlo na myšlenku, můžeš si nastavit pravidelné
+volání nějakého kódu a v něm si tu hlasitost z Alsy zjišťovat -
+glib.timeout_add(interval, callback, ...). To už vypadá elegantně.
+Samozřejmě že ten volaný kód (callback) nesmí trvat moc dlouho, jinak
+bude GUI zamrzávat. Toto řešení mě mělo napadnout hned...
+
+2009/6/30 Filip Bartmann &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">filbar na centrum.cz</A>&gt;:
+&gt;<i> gtk.main() je co jsem prozatím ze zkoušení zjistil nekonečná smyčka a
+</I>&gt;<i> jakmile spustím gtk.main(), tak se už žádný další kód, který není
+</I>&gt;<i> vyvolán něcím v GUI nespustí, do ukončení gtk.main().
+</I>&gt;<i>
+</I>&gt;<i> Proto to zkouším řešit přes podprocesy/vlákna. A kdybych to hlavního
+</I>&gt;<i> procesu dal monitorování roury, tak bych to zase musel mít ve while
+</I>&gt;<i> True, ne?
+</I>&gt;<i>
+</I>&gt;<i> Jde to v Pythonu řešit nějak elegantněji?
+</I>&gt;<i>
+</I>&gt;<i> Děkuji.
+</I>&gt;<i>
+</I>&gt;<i> Dne Tue, 30 Jun 2009 12:05:02 +0200
+</I>&gt;<i> Petr Messner &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.messner na gmail.com</A>&gt; napsal(a):
+</I>&gt;<i>
+</I>&gt;&gt;<i> V půlce programu si to klidně forkneš a očekáváš, že z potomka si v
+</I>&gt;&gt;<i> pohodě můžeš měnit proměnné v rodičkovském procesu, navíc z obou
+</I>&gt;&gt;<i> procesů saháš do GTK? No fuj :-) GTK je myslím thread-safe (po nějaké
+</I>&gt;&gt;<i> inicializaci, pokud si dobře vzpomínám), ale že by i
+</I>&gt;&gt;<i> multiprocess-safe, to pochybuji :-)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Doporučuji použít místo podprocesů vlákna nebo zařídit nějakou
+</I>&gt;&gt;<i> meziprocesovou komunikaci - nejjednodušeji asi rouru/socketpair - tak
+</I>&gt;&gt;<i> aby s GUI manipuloval jen jeden proces.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> PM
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2009/6/30 Filip Bartmann &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">filbar na centrum.cz</A>&gt;:
+</I>&gt;&gt;<i> &gt; V této části kódu:
+</I>&gt;&gt;<i> &gt; ----------------------------------------------------------------------------------
+</I>&gt;&gt;<i> &gt; def __init__(self):
+</I>&gt;&gt;<i> &gt;                self.mixer=alsa.Mixer();
+</I>&gt;&gt;<i> &gt;                if self.mixer.getmute()[0]==0:
+</I>&gt;&gt;<i> &gt;                        self.icon=gtk.status_icon_new_from_stock(gtk.STOCK_YES);
+</I>&gt;&gt;<i> &gt;                else:
+</I>&gt;&gt;<i> &gt;                        self.icon=gtk.status_icon_new_from_stock(gtk.STOCK_NO);
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;                pid=os.fork();
+</I>&gt;&gt;<i> &gt;                if pid==0:
+</I>&gt;&gt;<i> &gt;                        while True:
+</I>&gt;&gt;<i> &gt;                                mixer=alsa.Mixer();
+</I>&gt;&gt;<i> &gt;                                if mixer.getmute()[0]==0:
+</I>&gt;&gt;<i> &gt;                                        print &quot;UNMUTED&quot;;
+</I>&gt;&gt;<i> &gt;                                        self.icon.set_from_stock(gtk.STOCK_YES);
+</I>&gt;&gt;<i> &gt;                                elif mixer.getmute()[0]==1:
+</I>&gt;&gt;<i> &gt;                                        print &quot;MUTED&quot;;
+</I>&gt;&gt;<i> &gt;                                        self.icon.set_from_stock(gtk.STOCK_NO);
+</I>&gt;&gt;<i> &gt;                                time.sleep(1);
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;                self.icon.connect(&quot;popup-menu&quot;,self.show_controls);
+</I>&gt;&gt;<i> &gt; ----------------------------------------------------------------------------------
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; mám problém v přístupem k self.icon v potomkovi. Na CMDLině mi to
+</I>&gt;&gt;<i> &gt; sice správně hlási MUTED/UNMUTED ale ikona se nemění. Nevíte kde
+</I>&gt;&gt;<i> &gt; mám chybu?
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Za rady předem děkuji.
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Filip Bartmann
+</I>&gt;&gt;<i> &gt; _______________________________________________
+</I>&gt;&gt;<i> &gt; Python mailing list
+</I>&gt;&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009042.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009044.html">[python] Fork - problém s přístupem k rodičovské proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9043">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9043">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9043">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9043">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009043.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:32 GMT -->
+</html>

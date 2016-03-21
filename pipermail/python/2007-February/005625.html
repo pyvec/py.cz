@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005625.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:44 GMT -->
+<HEAD>
+   <TITLE> [python] Vracení dat se jménem.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVracen%3DED_dat_se_jm%3DE9nem%3D2E%3F%3D&In-Reply-To=603.3677-22950-1334225183-1172430127%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005620.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005630.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vracení dat se jménem.</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVracen%3DED_dat_se_jm%3DE9nem%3D2E%3F%3D&In-Reply-To=603.3677-22950-1334225183-1172430127%40seznam.cz"
+       TITLE="[python] Vracení dat se jménem.">leos na radiante-corp.com
+       </A><BR>
+    <I>Neděle Únor 25 23:17:08 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005620.html">[python] Vracení dat se jménem.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005630.html">[python] Vracení dat se jménem.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5625">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5625">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5625">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5625">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+Jakub Vojáček napsal(a):
+&gt;<i> Ale těch &quot;if&quot; by bylo spoustu a mohl bych v nich udělat chybu. Spíš by to chtělo něco funkci:
+</I>&gt;<i> def usu(self,uhel1,strana,uhel2):
+</I>&gt;<i>     #pocitani
+</I>&gt;<i>     #return hodnoty
+</I>&gt;<i>   
+</I>Ano, ve fci &quot;pocitej&quot; by mel byt slozeny if, ktery by rozdelil problem a 
+volal by jednotlive fce pro sss, sus, a usu. Nebo mozna neco podobneho 
+tomuto:
+
+    class triangle:
+        def sss(self, input):
+            ...
+            return input
+           
+        def sus(self, input):
+            ...
+            return input
+           
+        def usu(self, input):
+            ...
+            return input
+       
+        def pocitej(self, input, typ):
+            if typ in ('sss', 'sus', 'usu'):
+                return getattr(self, typ)(input)
+            else:
+                raise InvalidType('something')
+
+
+&gt;<i> tato funkce může spočítat velikosti zbývajicích stran, ale neví, jestli je tohle strana &quot;a&quot;, nebo &quot;b&quot;. Proto bych potřeboval poradit jakým způsobem tohleto řešit, jestli nakonec nebudu muset psát řešení pro každou možnou variantu. Snad jsem to vysvětlil dobře .
+</I>&gt;<i>   
+</I>Priklad pro usu:
+
+    from math import sin, radians
+
+    #setup
+    sides = ('a', 'b', 'c')
+    angles = ('alpha', 'beta', 'gamma')
+    mapping = {}
+    for i in range(len(sides)):
+        mapping[sides[i]] = angles[i]
+
+    #input
+    data = {'b': 5, 'beta': 15, 'gamma': 60}
+
+    #filtering
+    inpSide = filter(lambda x:x in data, sides)[0]
+    inpAngles = filter(lambda x:x in data, angles)
+    remSides = filter(lambda x:x not in data, sides)
+    remAngle = filter(lambda x:x not in data, angles)[0]
+
+    #calculating
+    data[remAngle] = 180 - sum(map(lambda x:data[x], inpAngles))
+    for side in remSides:
+        inpSideSin = sin(radians(data[mapping[inpSide]]))
+        sideSin = sin(radians(data[mapping[side]]))
+        data[side] = round(data[inpSide]/inpSideSin * sideSin, 2)
+
+    #printing
+    print 'Input:\n\tSide: %s\n\tAngles: %s' % (repr(inpSide), inpAngles)
+    print 'Calc:\n\tSides: %s\n\tAngle: %s' % (remSides, repr(remAngle))
+    print 'Result:\n\t%s' % data
+
+Myslim, ze by to chtelo pridat jeste nejake kontroly, jestli je vsechno 
+zadano jak ma.
+&gt;<i> Děkuju za každou pomoc a sory že otravuju, ale už fakt nevim:(:(
+</I>&gt;<i>   
+</I>
+Doufam, ze jsem trosku pomohl. Je mozne, ze by slo vse spojit do jedne 
+fce, ale uz je moc pozde a mne se nechce premyslet ;-).
+Leo
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005620.html">[python] Vracení dat se jménem.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005630.html">[python] Vracení dat se jménem.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5625">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5625">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5625">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5625">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005625.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:44 GMT -->
+</html>

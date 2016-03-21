@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005846.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:14 GMT -->
+<HEAD>
+   <TITLE> [python] Logovanie pristupu k suborom
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Logovanie%20pristupu%20k%20suborom&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005845.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005848.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Logovanie pristupu k suborom</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Logovanie%20pristupu%20k%20suborom&In-Reply-To="
+       TITLE="[python] Logovanie pristupu k suborom">azurit na pobox.sk
+       </A><BR>
+    <I>Neděle Duben 15 18:27:43 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005845.html">[python] Logovanie pristupu k suborom
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005848.html">[python] Logovanie pristupu k suborom
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5846">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5846">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5846">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5846">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>mas nejaky napad, ako dosiahnut aby sa to automaticky importovalo do _kazdeho_ skriptu ? ide mi proste o logovanie, ludia vobec nemusia (ani by vlastne nemali) vediet, ze sa nieco taketo deje. musi to byt uplne transparentne.
+
+
+&gt;<i>-----Pôvodná správa-----
+</I>&gt;<i>Od: Jan Janech [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">devel na atlas.sk</A>]
+</I>&gt;<i>Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i>Predmet: Re: [python] Logovanie pristupu k suborom
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>azurIt wrote:
+</I>&gt;&gt;<i> Zdravim,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> chcel by som logovat vsetky pristupy k suborom vykonane cez python, da sa to nejako ? Pripadne, existuje nejaky rozumny a efektivny sposob ako toto dosiahnut ? Log by som si predstavoval nejako takto:
+</I>&gt;&gt;<i> Datum /cesta/k/skript.py otvoril /ceska/k/suboru
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ide mi o globalne logovanie na urovni interpreteru (teda nie v danom skripte).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> azur
+</I>&gt;<i>
+</I>&gt;<i>To by ti malo stacit prekryt si builtin funkciu open a builtin objekt
+</I>&gt;<i>file nejakym vlastnym objektom... nie ?
+</I>&gt;<i>
+</I>&gt;<i>teda nieco taketo:
+</I>&gt;<i>
+</I>&gt;<i>~~~~~~~~~~~~~~~~~~~~~~~~~~~~ filelog.py ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+</I>&gt;<i>import sys
+</I>&gt;<i>import time
+</I>&gt;<i>
+</I>&gt;<i>logfileobj = None
+</I>&gt;<i>classicfile = file
+</I>&gt;<i>
+</I>&gt;<i>class logfile(classicfile):
+</I>&gt;<i>def __init__(self, filepath, mode):
+</I>&gt;<i>t = time.strftime('%Y-%m-%d %H:%M:%S')
+</I>&gt;<i>p = sys._getframe().f_back.f_code.co_filename
+</I>&gt;<i>l = sys._getframe().f_back.f_lineno
+</I>&gt;<i>print&gt;&gt;logfileobj, &quot;%s %s(%d) otvoril %s (mod '%s')&quot;%(t, p, l,
+</I>&gt;<i>filepath, mode)
+</I>&gt;<i>classicfile.__init__(self, filepath, mode)
+</I>&gt;<i>
+</I>&gt;<i>def install(logpath):
+</I>&gt;<i>global logfileobj
+</I>&gt;<i>logfileobj = classicfile(logpath, 'wt')
+</I>&gt;<i>import __builtin__
+</I>&gt;<i>__builtin__.file = __builtin__.open = logfile
+</I>&gt;<i>
+</I>&gt;<i>__all__ = ['install']
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>~~~~~~~~~~~~~~~~~~~~~~~~~~~~ test.py ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+</I>&gt;<i>import filelog
+</I>&gt;<i>filelog.install('log.log')
+</I>&gt;<i>
+</I>&gt;<i>file('ahoj', 'w')
+</I>&gt;<i>file('caw', 'w')
+</I>&gt;<i>open('ahoj', 'r')
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005845.html">[python] Logovanie pristupu k suborom
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005848.html">[python] Logovanie pristupu k suborom
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5846">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5846">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5846">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5846">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005846.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:14 GMT -->
+</html>

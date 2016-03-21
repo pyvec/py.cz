@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-May/008922.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:36 GMT -->
+<HEAD>
+   <TITLE> [python] Zvláštní chování regulárnich výrazů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FWnZsw6HFoXRuw60gY2hvdsOhbsOtIHJlZ3Vsw6Fybmlj%3F%3D%0A%20%3D%3Futf-8%3Fb%3FaCB2w71yYXrFrw%3D%3D%3F%3D&In-Reply-To=%3C4A112A6E.3030706%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-May/008920.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-May/008923.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zvláštní chování regulárnich výrazů</H1>
+    <B>Vasco</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FWnZsw6HFoXRuw60gY2hvdsOhbsOtIHJlZ3Vsw6Fybmlj%3F%3D%0A%20%3D%3Futf-8%3Fb%3FaCB2w71yYXrFrw%3D%3D%3F%3D&In-Reply-To=%3C4A112A6E.3030706%40gmail.com%3E"
+       TITLE="[python] Zvláštní chování regulárnich výrazů">vasco.vls na gmail.com
+       </A><BR>
+    <I>Pondělí Květen 18 11:29:18 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008920.html">[python] &gt;&gt;&gt;&gt;&gt;&gt; RAPED GIRLS &lt;&lt;&lt;&lt;&lt;&lt;
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008923.html">[python] Zvláštní chování regulárnich výrazů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-May/date.html#8922">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/thread.html#8922">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/subject.html#8922">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/author.html#8922">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+měl bych dotaz na zvláštní chování regulárních výrazů, které si neumím
+vysvětlit.
+
+Mám následující kód:
+
+# -*- coding: utf-8 -*-
+import re
+
+flags = re.UNICODE | re.LOCALE | re.MULTILINE | re.DOTALL
+text = u'Příšerně **žluťoučký\nkůň úpěl ďábelské\ntóny!**'
+text2 = u'Příšerně **žluťoučký kůň úpěl ďábelské tóny!**'
+print 'Text\t', re.sub(r'\*\*(.+?)\*\*', r'&lt;strong&gt;\1&lt;/strong&gt;', text,
+flags)
+print 'Text2\t', re.sub(r'\*\*(.+?)\*\*', r'&lt;strong&gt;\1&lt;/strong&gt;', text2,
+flags)
+
+I přes to, že jsem nastavil MULTILINE a DOTALL, se první text, který
+obsahuje \n nezobrazí správně. Když ale z řetězce vymažu znaky pro nový
+řádek, regulární výraz funguje.
+
+Přitom v dokumentaci je napsáno, že pokud je nastaven DOTALL, bude '.'
+brát všechny znaky, včetně \n.
+
+Jak by tedy měl správně vypadat výše napsaný regulární výraz?
+
+A ještě jeden dotaz. V dokumentaci se zmiňují o metodě 'compile()', díky
+níž se budou výrazy provádět rychleji. Jak moc se aplikace zrychlí,
+případně jak to použít?
+
+Díky,
+Vlastimil S.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008920.html">[python] &gt;&gt;&gt;&gt;&gt;&gt; RAPED GIRLS &lt;&lt;&lt;&lt;&lt;&lt;
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-May/008923.html">[python] Zvláštní chování regulárnich výrazů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-May/date.html#8922">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/thread.html#8922">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/subject.html#8922">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-May/author.html#8922">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-May/008922.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:36 GMT -->
+</html>

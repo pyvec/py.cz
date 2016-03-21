@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010315.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:53 GMT -->
+<HEAD>
+   <TITLE> [python] Nastavení default kódování print-u (je?t? jednou)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FNastaven%3DED_default_k%3DF3dov%3DE1n%3DED_print-%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fu_%3D28je%3D3Ft%3D3F_jednou%3D29%3F%3D&In-Reply-To=%3C4DC29712.4030600%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-May/010314.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-May/010316.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Nastavení default kódování print-u (je?t? jednou)</H1>
+    <B>zu1234</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FNastaven%3DED_default_k%3DF3dov%3DE1n%3DED_print-%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fu_%3D28je%3D3Ft%3D3F_jednou%3D29%3F%3D&In-Reply-To=%3C4DC29712.4030600%40seznam.cz%3E"
+       TITLE="[python] Nastavení default kódování print-u (je?t? jednou)">zu1234 na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Květen  5 14:24:50 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010314.html">[python] Optimalizace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010316.html">[python] nechodí py.cz
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10315">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10315">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10315">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10315">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ještě další komplikace při použití
+sys.stdout = codecs.getwriter('iso-8859-2')(sys.stdout)
+Rutina optparse na linuxu (python 2.5.2) omdlí kvůli zmatkům v 
+decode/encode .
+
+Musel jsem si napsat vlastní zpracování vstupních parametrů.
+
+ZU
+
+Dne 19.4.2011 17:15, zu1234 napsal(a):
+&gt;<i> 1) O verzi pythonu nerozhoduji já, ale
+</I>&gt;<i> tvůrci knihoven typu pymssql aj.
+</I>&gt;<i>
+</I>&gt;<i> 2) Ani když nepoužiju string, ale unicode
+</I>&gt;<i> tak se problém neodstraní, chybová hláška není kompletní:
+</I>&gt;<i>
+</I>&gt;<i> #!/usr/bin/python
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i>
+</I>&gt;<i> import sys
+</I>&gt;<i> import codecs
+</I>&gt;<i>
+</I>&gt;<i> sys.stderr = codecs.getwriter('cp852')(sys.stderr)
+</I>&gt;<i>
+</I>&gt;<i> print u&quot;ššš %s&quot; % ()
+</I>&gt;<i>
+</I>&gt;<i> sys.exit(0) #^^^^^^^^^^^^^^^^^^^^
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Dne 19.4.2011 16:59, Petr Přikryl napsal(a):
+</I>&gt;&gt;<i> Ať se na to díváš jak chceš, vždycky někde nastane nějaká
+</I>&gt;&gt;<i> komplikace. Problém je v tom, že string v Pythonu 2.x je posloupnost
+</I>&gt;&gt;<i> bajtů a informace o kódování u toho není zachycena.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Nakonec jsem dospěl k tomu, že je nutné používat unicode řetězce
+</I>&gt;&gt;<i> (i v Pythonu 2). Zatím to může být v reálném provozu utopie, ale
+</I>&gt;&gt;<i> je dobré se pomalu přeorientovávat na Python 3.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Petr
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010314.html">[python] Optimalizace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-May/010316.html">[python] nechodí py.cz
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-May/date.html#10315">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/thread.html#10315">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/subject.html#10315">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-May/author.html#10315">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-May/010315.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:53 GMT -->
+</html>

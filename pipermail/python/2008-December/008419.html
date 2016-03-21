@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008419.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s forkujicim serverem a SIGTERM signalem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20forkujicim%20serverem%20a%20SIGTERM%20signalem&In-Reply-To=%3Cd4a7b1730812170701x656f78a0s97e976a7b07c6717%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008418.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008423.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s forkujicim serverem a SIGTERM signalem</H1>
+    <B>Jan Jakubuv</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20forkujicim%20serverem%20a%20SIGTERM%20signalem&In-Reply-To=%3Cd4a7b1730812170701x656f78a0s97e976a7b07c6717%40mail.gmail.com%3E"
+       TITLE="[python] Problem s forkujicim serverem a SIGTERM signalem">jakubuv na gmail.com
+       </A><BR>
+    <I>Středa Prosinec 17 16:01:50 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008418.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008423.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8419">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8419">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8419">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8419">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>dobry den,
+
+muzete zkusit budto os._exit() anebo, lepe, se zkuste podivat jestli
+vas problem neni stejny jako zde:
+
+<A HREF="http://mail.python.org/pipermail/python-list/2004-January/243227.html">http://mail.python.org/pipermail/python-list/2004-January/243227.html</A>
+
+Jak se tam muzete docist tak sys.exit() pouze vyvolava vyjimku
+SystemExit (proto neni nic videt na vystupu strace). Je mozne, ze ji
+nekde omylem odchytite..
+
+honza.
+
+
+2008/12/17 Lumír Jasiok &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lumir.jasiok na vsb.cz</A>&gt;:
+&gt;<i> Dobry den,
+</I>&gt;<i>
+</I>&gt;<i> potreboval bych poradit s nasledujicim problemem. Mam napsany jednoduchy
+</I>&gt;<i> forkujici TCP/IP server. Server jako takovy funguje, child procesy se
+</I>&gt;<i> vytvareji i ukoncuji korektne, jediny probleme mam s ukoncenim parent
+</I>&gt;<i> procesu v okamziku, kdy z (napriklad shellu) zavolam signal SIGTERM. Mam
+</I>&gt;<i> osetreno zachyceni signalu a funkci, ktera zajisti, ze se pocka na ukonceni
+</I>&gt;<i> vsech child procesu a pak by se mel ukoncit i parent proces pomoci
+</I>&gt;<i> sys.exit(0). To se ale nestane, parent proces (server) se neukonci, ale
+</I>&gt;<i> skoci do nadrazene while smycky a dale ceka na spojeni a je schopen
+</I>&gt;<i> obsluhovat prichozi spojeni. Relevantni kod:
+</I>&gt;<i>
+</I>&gt;<i> def cleanup(signal,frame):
+</I>&gt;<i>   &quot;&quot;&quot;Clean up the server before shutdown.
+</I>&gt;<i>   &quot;&quot;&quot;
+</I>&gt;<i>   # SIGTERM signal
+</I>&gt;<i>   if signal == 15:
+</I>&gt;<i>       print &quot;Received SIGTERM signal, waiting for clients termination&quot;
+</I>&gt;<i>       while True:
+</I>&gt;<i>           # In case that there isn't any active clients
+</I>&gt;<i>           if not clients:
+</I>&gt;<i>               break
+</I>&gt;<i>       print &quot;toto se vypise&quot;
+</I>&gt;<i>       sys.exit(0)
+</I>&gt;<i>       print &quot;toto se nevypise&quot;
+</I>&gt;<i>
+</I>&gt;<i> # Nadrazena smycka:
+</I>&gt;<i> while True:
+</I>&gt;<i>       # Handle the child temination
+</I>&gt;<i>       signal.signal(signal.SIGCHLD,reap)
+</I>&gt;<i>
+</I>&gt;<i>       # Catch the SIGTERM signal
+</I>&gt;<i>       signal.signal(signal.SIGTERM, cleanup)
+</I>&gt;<i>       #signal.pause()
+</I>&gt;<i>       try:
+</I>&gt;<i>           connection,address = sock.accept()
+</I>&gt;<i> ...
+</I>&gt;<i>
+</I>&gt;<i> sys.exit(0) se proste neprovede, preskoci se a skoci do nadrazene smycky.
+</I>&gt;<i> Kdyz zkusim pouzit strace, vidim, ze se provedou print prikazy, ale
+</I>&gt;<i> sys.exit(0) uz ne.
+</I>&gt;<i>
+</I>&gt;<i> Zkousel jsem i terminaci parent procesu pomoci:
+</I>&gt;<i>
+</I>&gt;<i> os.kill (pid, signal.SIGKILL), kde pid je PID parent procesu, ale bez
+</I>&gt;<i> uspechu.
+</I>&gt;<i>
+</I>&gt;<i> Nevite co muze byt pricinou problemu?
+</I>&gt;<i>
+</I>&gt;<i> Lumir
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Lumír Jasiok
+</I>&gt;<i> VSB-TU Ostrava - Computer centre
+</I>&gt;<i> E-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">lumir.jasiok na vsb.cz</A>
+</I>&gt;<i> <A HREF="http://www.vsb.cz/">http://www.vsb.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008418.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008423.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8419">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8419">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8419">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8419">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008419.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+</html>

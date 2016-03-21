@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-April/011006.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:09 GMT -->
+<HEAD>
+   <TITLE> [python] Suma podle klice slovniku v seznamu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FSuma_podle_klice_slovniku_v_seznamu%3F%3D&In-Reply-To=%3C20130416153504.2EBDEC3A%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-April/011008.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-April/011007.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Suma podle klice slovniku v seznamu</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FSuma_podle_klice_slovniku_v_seznamu%3F%3D&In-Reply-To=%3C20130416153504.2EBDEC3A%40atlas.cz%3E"
+       TITLE="[python] Suma podle klice slovniku v seznamu">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Duben 16 15:35:04 CEST 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-April/011008.html">[python] Suma podle klice slovniku v seznamu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-April/011007.html">[python] Suma podle klice slovniku v seznamu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-April/date.html#11006">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/thread.html#11006">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/subject.html#11006">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/author.html#11006">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Je to tím, že tam nedoplňuješ aktuální hodnotu toho c. Musí se zapamatovat
+pro každé a. Může se zapamatovat třeba tak, že se do pomocného slovníku bude 
+ukládat spolu se sumovanou hodnotou. Třeba takto:
+
+lst1 = [{'a':4,'b':3,'c':9},{'a':4,'b':5,'c':9},{'a':1,'b':3,'c':7},{'a':3,'b':2,'c':6}]
+print('puvodni seznam slovniku:', lst1)
+
+lst2 = [(x['a'], x['b'], x['c']) for x in lst1]
+print('seznam trojic hodnot:', lst2)
+
+d = {}
+for a, b, c in lst2:
+    sum_lst = d.setdefault(a, [0, c]) # seznam, kde k prvnímu prvku se přičítá...
+    sum_lst[0] += b                   # ... hodnota b
+print('slovnik sum:', d)
+
+lst3 = [{'a': a, 'b': b, 'c': c} for a, (b, c) in d.items()]
+print('vysledny seznam:', lst3)
+
+(Ono se to formátování zase zprasí, takže ty dva řádky se sum_lst jsou odsazené
+pod for.)
+
+Petr
+______________________________________________________________
+&gt;<i> Od: &quot;Jaroslav Lukesh&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lukesh na seznam.cz</A>&gt;
+</I>&gt;<i> Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i> Datum: 16.04.2013 15:06
+</I>&gt;<i> Předmět: Re: [python] Suma podle klice slovniku v seznamu
+</I>&gt;<i>
+</I>&gt;<i>Ahoj a díky za rozšíření obzorů.
+</I>&gt;<i>
+</I>&gt;<i>Jsou to data ne zrovna jednoduše vycucaná z databáze, o nějaké dočasné 
+</I>&gt;<i>tabulcev sqlu  jsem uvažoval protože je nad tímto selektivně sečteným 
+</I>&gt;<i>výsledkem víc operací, ale připadalo mi to jako ne příliš čisté řešení. 
+</I>&gt;<i>Otrocky s pomocnýma proměnnýma to taky jde, ale chtěl jsem vědět, jeslti na 
+</I>&gt;<i>to není nějaký fígl, protože mi připadalo logické, aby pro práci nad poli a 
+</I>&gt;<i>slovníky bylo aspoň trochu něco jako je v sql.
+</I>&gt;<i>
+</I>&gt;<i>Ale mám s tím trošku problém, izoloval jsem problém pro tento příklad až 
+</I>&gt;<i>příliš moc, protože se mi nedaří jej rozšířit o 'c', tedy pro tento vstup 
+</I>&gt;<i>(podotýkám jen, že hodnota 'c' je stejná pro všechny 'a'):
+</I>&gt;<i>
+</I>&gt;<i>[{'a':4,'b':3,'c':9},{'a':4,'b':5,'c':9},{'a':1,'b':3,'c':7},{'a':3,'b':2,'c':6}]
+</I>&gt;<i>
+</I>&gt;<i>chtěl tento výstup:
+</I>&gt;<i>
+</I>&gt;<i>[{'a': 4, 'b': 8, 'c':9}, {'a': 1, 'b': 3, 'c':7}, {'a': 3, 'b': 2, 'c':6}]
+</I>&gt;<i>
+</I>&gt;<i>Tady je přehled co jsem zkoušel, tyhle dvě jdou, ale vrací špatné 'c'
+</I>&gt;<i>
+</I>&gt;<i>=========
+</I>&gt;<i>
+</I>&gt;<i>lst1 = 
+</I>&gt;<i>[{'a':4,'b':3,'c':9},{'a':4,'b':5,'c':9},{'a':1,'b':3,'c':7},{'a':3,'b':2,'c':6}]
+</I>&gt;<i>lst2 = [(x['a'], x['b'], x['c']) for x in lst1]
+</I>&gt;<i>d = {}
+</I>&gt;<i>for a, b,c in lst2:
+</I>&gt;<i>    d[a] = d.get(a, 0) + b  # dosavadní součet nebo nula plus nová hodnota
+</I>&gt;<i>lst3 = [{'a': a, 'b': b, 'c': c} for a, b in d.items()]
+</I>&gt;<i>print('vysledny seznam:', lst3)
+</I>&gt;<i>
+</I>&gt;<i>======
+</I>&gt;<i>
+</I>&gt;<i>from itertools import groupby
+</I>&gt;<i>def summarize(data):
+</I>&gt;<i>    get_b = lambda x: x['b']
+</I>&gt;<i>    get_a = lambda x: x['a']
+</I>&gt;<i>    get_c = lambda x: x['c']
+</I>&gt;<i>    return (
+</I>&gt;<i>        {'a': val, 'b': sum(map(get_b, group)),'c':val}
+</I>&gt;<i>        for (val, group)
+</I>&gt;<i>        in groupby(data, key=get_a)
+</I>&gt;<i>    )
+</I>&gt;<i>data= 
+</I>&gt;<i>[{'a':4,'b':3,'c':9},{'a':4,'b':5,'c':9},{'a':1,'b':3,'c':7},{'a':3,'b':2,'c':6}]
+</I>&gt;<i>print list(summarize(data))
+</I>&gt;<i>
+</I>&gt;<i>=======
+</I>&gt;<i>
+</I>&gt;<i>A toto už háže chybu
+</I>&gt;<i>
+</I>&gt;<i>from itertools import groupby
+</I>&gt;<i>from operator import itemgetter
+</I>&gt;<i>def summarize(data):
+</I>&gt;<i>    get_a = itemgetter('a')
+</I>&gt;<i>    get_b = itemgetter('b')
+</I>&gt;<i>    get_c = itemgetter('c')
+</I>&gt;<i>    return (
+</I>&gt;<i>        {'a': val, 'b': sum(map(get_b, group)),'c':valc}
+</I>&gt;<i>        for (val, group,valc)
+</I>&gt;<i>        in groupby(data, key=get_a)
+</I>&gt;<i>    )
+</I>&gt;<i>data= 
+</I>&gt;<i>[{'a':4,'b':3,'c':9},{'a':4,'b':5,'c':9},{'a':1,'b':3,'c':7},{'a':3,'b':2,'c':6}]
+</I>&gt;<i>print list(summarize(data))
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-April/011008.html">[python] Suma podle klice slovniku v seznamu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-April/011007.html">[python] Suma podle klice slovniku v seznamu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-April/date.html#11006">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/thread.html#11006">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/subject.html#11006">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/author.html#11006">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-April/011006.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:09 GMT -->
+</html>

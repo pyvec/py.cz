@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006843.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:13 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=20071128192713.GA8793%40sirius">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006842.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006844.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Jan Kundrát</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=20071128192713.GA8793%40sirius"
+       TITLE="[python] sockety - problem s HTTP spojenim">jkt na gentoo.org
+       </A><BR>
+    <I>Středa Listopad 28 21:22:14 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006842.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006844.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6843">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6843">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6843">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6843">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Filip Ĺ tÄdrosnkĂ˝ wrote:
+&gt;<i> 1) myslel jsem, Ĺže se nejednĂĄ o threaded aplikaci ale asyncore/asynchat,
+</I>&gt;<i>    alespoĹ jsem to tak z kontextu pochopil
+</I>
+Aha, ja jsem tak nejak predpokladal, ze asyncore.loop() pobezi ve svem
+threadu, pardon.
+
+&gt;<i> 2) stringy jsou nemÄnitelnĂŠ, takĹže to nenĂ­ append, ve skuteÄnosti se
+</I>&gt;<i>    spojĂ­, vytvoĹĂ­ se novĂ˝ string a ten se teprve pĹiĹadĂ­, to uĹž atomickĂĄ
+</I>&gt;<i>    operace je
+</I>
+No, mohl bych poprosit o referenci na nejaky zdroj, ktery tvrdi, ze od
+zacatku provadeni vyrazu &quot;buffer += foo&quot; az po jeho dokonceni se
+nedostane ke slovu jiny thread?
+
+Problemem v dane situaci je prave moznost prepnuti do jineho threadu
+mezi &quot;spojenim stringu&quot; a &quot;prirazenim do promenne&quot;. Netvrdim, ze to
+shodi interpret, ale ze v promenne buffer mohou byt necekana data.
+
+Vzhledem k tomu, ze se celkem bezne [1] tvrdi, ze += 1 na int *neni*
+atomicke, tak soudim, ze append na (immutable) stringy rovnez nebude.
+
+&gt;<i> 3) vzhledem k pythonĂ­mu GIL je vĹĄe (mnohdy aĹž pĹĂ­liĹĄ) thread-safe a pokud
+</I>&gt;<i>    nepouĹžĂ­vĂĄte nÄjakĂŠ neobvyklĂŠ C extenze, nemusĂ­te zamykat skoro nic
+</I>
+Silne nesouhlasim, viz znovu [1]. Dalsi vygoogleny odkaz je thread [2].
+
+
+[1] <A HREF="http://effbot.org/zone/thread-synchronization.htm">http://effbot.org/zone/thread-synchronization.htm</A>
+[2] <A HREF="http://mail.python.org/pipermail/python-list/2000-April/030896.html">http://mail.python.org/pipermail/python-list/2000-April/030896.html</A>
+
+Hezky vecer,
+-jkt
+
+-- 
+cd /local/pub &amp;&amp; more beer &gt; /dev/mouth
+
+------------- další část ---------------
+NetextovĂĄ pĹĂ­loha byla odstranÄna...
+JmĂŠno: signature.asc
+Typ: application/pgp-signature
+Velikost: 252 bytes
+Popis: OpenPGP digital signature
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20071128/dfa078a5/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20071128/dfa078a5/attachment.pgp</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006842.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006844.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6843">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6843">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6843">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6843">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006843.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:13 GMT -->
+</html>

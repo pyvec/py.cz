@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004470.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:17 GMT -->
+<HEAD>
+   <TITLE> [python] subprocess.Popen a GTK
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20subprocess.Popen%20a%20GTK&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004469.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004471.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] subprocess.Popen a GTK</H1>
+    <B>Juraj Michalek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20subprocess.Popen%20a%20GTK&In-Reply-To="
+       TITLE="[python] subprocess.Popen a GTK">juraj.michalek na asinus.org
+       </A><BR>
+    <I>Čtvrtek Srpen  3 09:58:39 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004469.html">[python] WxPython - listCtrl a scrollbary
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004471.html">[python] subprocess.Popen a GTK
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4470">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4470">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4470">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4470">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj.
+
+Mam jeden drobny problem a uz dlhsie sa mi ho nedari vyriesit.
+Mam GUI aplikaciu, ktora robi klikaci frontend k programom, ktore spusta
+&quot;na pozadi&quot;.
+
+Proces spusti nasledovne:
+handle = subprocess.Popen(cmd,bufsize=16384,stdout=subprocess.PIPE)
+
+Nasledne mam v GTK zaregistrovany timeout, ktoreho ulohou by malo byt
+nacitanie informacii, ktore vykonavany proces dava na standardny vystup a
+zobrazit ich v GUI.
+
+Problem nastava u dlhsie beziacich procesov. Pokial zacnem pomocou read a
+readline nacitavat data zo standardneho vystupu procesu. GUI vytuhne.
+Dospel som k zaveru, ze problem je v readline, pretoze tato metoda caka,
+kym dojde k naplneniu bufferu aspon jednym riadkom.
+
+Tu je ukazka kodu, ktory je v timenout metode:
+
+while gtk.events_pending():
+    gtk.main_iteration()
+line = self.handle.stdout.readline()
+while line:
+    while gtk.events_pending():
+        gtk.main_iteration()
+    print line
+    line = self.handle.stdout.readline()
+
+Akym sposobom mam nacitavat zo standardneho vystupu procesov, tak aby
+metoda  nacitavania neblokovala aplikaciu? Pripadne, ako je mozne zistit
+zaplenie bufferu?
+
+Dakujem.
+
+
+S pozdravom a prianim pekneho dna
+
+   Juraj Michalek
+
+-- 
+Asinus IT group - <A HREF="https://www.asinus.org/">https://www.asinus.org</A>
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004469.html">[python] WxPython - listCtrl a scrollbary
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004471.html">[python] subprocess.Popen a GTK
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4470">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4470">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4470">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4470">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004470.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:17 GMT -->
+</html>

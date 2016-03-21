@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011731.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:08 GMT -->
+<HEAD>
+   <TITLE> [python] unicode 2.7
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20unicode%202.7&In-Reply-To=%3C558D7426.1070403%40post.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-June/011730.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] unicode 2.7</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20unicode%202.7&In-Reply-To=%3C558D7426.1070403%40post.cz%3E"
+       TITLE="[python] unicode 2.7">geon na post.cz
+       </A><BR>
+    <I>Pátek Červen 26 17:47:50 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011730.html">[python] unicode 2.7
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11731">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11731">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11731">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11731">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>to s.decode('encoding') nefunguje ani s utf8, cp1250, cp852, mbcs
+Bude asi nějak složitěji.
+
+from __future__ import unicode_literals funguje, nicméně stejně by mi 
+zajímalo, jak by to nmělo jít s decode, encode, unicode ;-)
+
+
+
+Honza Král napsal(a) dne 26.6.2015 v 14:25:
+&gt;<i> s.decode('encoding') by melo fungovat, kde 'encoding' je napriklad
+</I>&gt;<i> 'utf-8' (vubec netusim jaky ma windows encoding na FS).
+</I>&gt;<i>
+</I>&gt;<i> dalsi moznost je proste nahoru do souboru dat:
+</I>&gt;<i>
+</I>&gt;<i> from __future__ import unicode_literals
+</I>&gt;<i>
+</I>&gt;<i> a nebo (idealne :) ) prejit na python3
+</I>&gt;<i> Honza Král
+</I>&gt;<i> E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>
+</I>&gt;<i> Phone:  +420 606 678585
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2015-06-26 14:12 GMT+02:00  &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A>&gt;:
+</I>&gt;&gt;<i> Když mám ve složce soubor s unicode znaky, tak tohle mi ho spolehlivě maže:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> import os
+</I>&gt;&gt;<i> for s in os.listdir(u&quot;.&quot;):
+</I>&gt;&gt;<i>      os.remove(s)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Protože ale proceduru mazání / přesouvání mám hluboko ve funkci a nechce se
+</I>&gt;&gt;<i> mi měnit její vstup &quot;.&quot; ---&gt;u&quot;.&quot;, abych nerozhodil něco jiného, rád bych to
+</I>&gt;&gt;<i> udělal nějak takhle:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> import os
+</I>&gt;&gt;<i> for s in os.listdir(&quot;.&quot;):
+</I>&gt;&gt;<i>      os.remove(unicode(s,&quot;...&quot;))
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jak? Zkoušel jsem různé varianty pokus-omyl, ale bez výsledku a pak už mě to
+</I>&gt;&gt;<i> přestalo bavit, tak jsem si říkal, že bude rychlejší se tady někoho zeptat.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Díky :-)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> winxp+win7, python2.7
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-June/011730.html">[python] unicode 2.7
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-June/date.html#11731">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/thread.html#11731">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/subject.html#11731">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-June/author.html#11731">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-June/011731.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:08 GMT -->
+</html>

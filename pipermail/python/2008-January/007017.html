@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/007017.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:50 GMT -->
+<HEAD>
+   <TITLE> [python] Jak nahradit incremental codecs z Pythonu 2.5 v Pythonu 2.4
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20nahradit%20incremental%20codecs%20z%20Pythonu%202.5%20v%20Pythonu%202.4&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-January/007020.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-January/007021.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak nahradit incremental codecs z Pythonu 2.5 v Pythonu 2.4</H1>
+    <B>Ondrej Beran</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20nahradit%20incremental%20codecs%20z%20Pythonu%202.5%20v%20Pythonu%202.4&In-Reply-To="
+       TITLE="[python] Jak nahradit incremental codecs z Pythonu 2.5 v Pythonu 2.4">ondrej.beran na gmail.com
+       </A><BR>
+    <I>Úterý Leden 22 18:05:52 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007020.html">[python] GTK a thready
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007021.html">[python] dotaz  začátečníka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#7017">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#7017">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#7017">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#7017">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj vsichni,
+
+
+V aplikaci pro Python 2.5 jsem pouzil podobny UnicodeWriter, jako je
+popsan v Python Library reference v kapitole 9.1.15 Examples na export
+dat ve formatu CSV, kde tomu predhodim seznam hodnot, stream, dialekt,
+kodovani, oddelovac, uvozovky a rezim quotovani.
+
+ted bych ten kod potreboval portovat pod Python 2.4(.4), kde ty
+inkrementalni kodeky nejsou. Jak se to tam dela?
+
+Mam to udelany takhle:
+
+    def __init__(self, f, dialect=csv.excel, encoding=&quot;utf-8&quot;, **kwds):
+        # Redirect output to a queue
+        self.queue = cStringIO.StringIO()
+        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
+        self.stream = f
+        self.encoder = codecs.getincrementalencoder(encoding)()
+
+    def writerow(self, row):
+        self.writer.writerow([s.encode(&quot;utf-8&quot;) for s in row])
+        # Fetch UTF-8 output from the queue ...
+        data = self.queue.getvalue()
+        data = data.decode(&quot;utf-8&quot;)
+        # ... and reencode it into the target encoding
+        data = self.encoder.encode(data)
+        # write to the target stream
+        self.stream.write(data)
+        # empty queue
+        self.queue.truncate(0)
+
+
+
+Diky za pomoc
+Ondrej
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007020.html">[python] GTK a thready
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007021.html">[python] dotaz  začátečníka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#7017">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#7017">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#7017">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#7017">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/007017.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:50 GMT -->
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007668.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:52 GMT -->
+<HEAD>
+   <TITLE> [python] Zobrazení výsledku ve PSPadu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FZobrazen%3DC3%3DAD_v%3DC3%3DBDsledku_ve_PSPadu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007671.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007669.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zobrazení výsledku ve PSPadu</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FZobrazen%3DC3%3DAD_v%3DC3%3DBDsledku_ve_PSPadu%3F%3D&In-Reply-To="
+       TITLE="[python] Zobrazení výsledku ve PSPadu">azurit na pobox.sk
+       </A><BR>
+    <I>Úterý Červen 10 14:08:51 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007671.html">[python] Zobrazení výsledku ve PSPadu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007669.html">[python] Zobrazení výsledku ve PSPadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7668">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7668">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7668">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7668">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tak to by si urobil zle :) raw_input vracia string, cize:
+
+answer = raw_input('1 + 1 = ')
+if answer == &quot;2&quot;:
+ ...
+
+
+
+&gt;<i>-----Pôvodná správa-----
+</I>&gt;<i>Od: Vítězslav Titl [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">v.titl na hotmail.com</A>]
+</I>&gt;<i>Komu: &quot;Konference PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i>Predmet: Re: [python] Zobrazení výsledku ve PSPadu
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Já bych to udělal takhle:
+</I>&gt;<i>answer = raw_input('1 + 1 = ')
+</I>&gt;<i>if answer == 2:
+</I>&gt;<i>print 'Spravne'¨
+</I>&gt;<i>else:
+</I>&gt;<i>print 'Spatne'
+</I>&gt;<i>
+</I>&gt;<i>Funguje to takto tedy, po otázce 1+1 se uloží odpověd do proměnné answer.
+</I>&gt;<i>Poté pomocí podmínky if zkontrolujeme jestli je v proměnné answer zapsaná
+</I>&gt;<i>správná odpověd tedy hodnota 2. Pokud ano vypíše se správně, pokud ne vypíše
+</I>&gt;<i>se Špatně.
+</I>&gt;<i>
+</I>&gt;<i>Pokud v tomto příkladu, jak ho máte teď zadáte odpověd 2 nebo 10 na oboje
+</I>&gt;<i>odpoví správně, jiank špatně. Ta 10 tam IMHO nemá, co dělat.
+</I>&gt;<i>
+</I>&gt;<i>Pro sprovoznění &quot;funkce&quot; není potřeba 10, vlastně se v té podmínce ptáte,
+</I>&gt;<i>jestli se hodnota proměnné answer nachází ve slovníku (slovník (2, 10) ve
+</I>&gt;<i>které jsou dvě hodnoty).
+</I>&gt;<i>Nerozumím proč Vám to někdo radil a doporučil bych Vám podívat se na tenhle
+</I>&gt;<i>článek:
+</I>&gt;<i><A HREF="http://programujte.com/index.php?akce=clanek&amp;cl=2005052101-python-2-lekce">http://programujte.com/index.php?akce=clanek&amp;cl=2005052101-python-2-lekce</A> je
+</I>&gt;<i>to tam velmi pěkně vysvětleno.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>PS: Dnes se již píši pouze s jedním t, tedy Titl, ale to je jedno.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Víťa
+</I>&gt;<i>--------------------------------------------------
+</I>&gt;<i>From: &quot;Jarek Krcmar&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">krcmar1 na volny.cz</A>&gt;
+</I>&gt;<i>Sent: Tuesday, June 10, 2008 1:25 PM
+</I>&gt;<i>To: &quot;Konference PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i>Subject: Re: [python] Zobrazení výsledku ve PSPadu
+</I>&gt;<i>
+</I>&gt;&gt;<i> Zdravím pane Tittle a děkuji za zprávu.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Domnívám se, že to číslo 10 je ke sprovoznění funkce, ale nevím, zda je
+</I>&gt;&gt;<i> tomu
+</I>&gt;&gt;<i> tak, neboť jsem dostal radu, abych tam dal to číslo.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jarek
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ----- Original Message -----
+</I>&gt;&gt;<i> From: &quot;Vítězslav Titl&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">v.titl na hotmail.com</A>&gt;
+</I>&gt;&gt;<i> To: &quot;Konference PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;<i> Sent: Tuesday, June 10, 2008 1:08 PM
+</I>&gt;&gt;<i> Subject: Re: [python] Zobrazení výsledku ve PSPadu
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Také zdravím,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> když poradím tuhle stránku: <A HREF="http://www.py.cz/PSPad">http://www.py.cz/PSPad</A> stejně asi moc
+</I>&gt;&gt;<i> neporadím.
+</I>&gt;&gt;<i> Mám pocit, že pokud se Vám otevře okno Pythonu stejné jako když otevíráte
+</I>&gt;&gt;<i> script ze složky, tak by to mělo stejný průběh. To se tedy děje?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Mimochodem, proč tam máte jako výsledek 1+1 jako správě i výsledek 10? :)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> S pozdravem
+</I>&gt;&gt;<i> Vítězslav Titl
+</I>&gt;&gt;<i> <A HREF="http://anylog.titl.name/">http://anylog.titl.name/</A>
+</I>&gt;&gt;<i> --------------------------------------------------
+</I>&gt;&gt;<i> From: &quot;Jarek Krcmar&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">krcmar1 na volny.cz</A>&gt;
+</I>&gt;&gt;<i> Sent: Tuesday, June 10, 2008 9:46 AM
+</I>&gt;&gt;<i> To: &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;<i> Subject: [python] Zobrazení výsledku ve PSPadu
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Zdravím vás pythonýři,
+</I>&gt;&gt;&gt;<i> posílám vám kopii příkladu, který se mi podařilo zapsat právě tímto
+</I>&gt;&gt;&gt;<i> způsobem.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Psal jsem jej ve Pspad editoru a po jeho dokončení jsem tento program
+</I>&gt;&gt;&gt;<i> také
+</I>&gt;&gt;&gt;<i> ve PSpadu spustil.
+</I>&gt;&gt;&gt;<i> Problém však je, že se mi nechce zobrazit výsledek, jímž je dotaz
+</I>&gt;&gt;&gt;<i> Pythonu,
+</I>&gt;&gt;&gt;<i> který zní: 1 + 1.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Místo toho mi Pspad říká: Line 1 SyntaxError. Non ascii charakter.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Když však spustím program s příkladem ve složce, kde jej mám uložený,
+</I>&gt;&gt;&gt;<i> situace je naprosto jiná.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Mohli byste mi prosím poradit, jak bych si měl Pspad nastavit, aby mi
+</I>&gt;&gt;&gt;<i> zobrazoval výsledek mé práce správně?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Díky moc.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Jarek
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> answer = raw_input('1 + 1 = ')
+</I>&gt;&gt;&gt;<i> if answer in ('2', '10'):
+</I>&gt;&gt;&gt;<i>    print 'Spravne'
+</I>&gt;&gt;&gt;<i> else:
+</I>&gt;&gt;&gt;<i>        print 'Spatne'
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007671.html">[python] Zobrazení výsledku ve PSPadu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007669.html">[python] Zobrazení výsledku ve PSPadu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7668">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7668">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7668">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7668">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007668.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:52 GMT -->
+</html>

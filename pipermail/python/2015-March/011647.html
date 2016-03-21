@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-March/011647.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:16 GMT -->
+<HEAD>
+   <TITLE> [python] změna hodnoty v modulu v inicializaci def __init__ (self)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fzm%3DECna_hodnoty_v_modulu_v_inicializaci_d%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fef_%3D5F%3D5Finit%3D5F%3D5F_%3D28self%3D29%3F%3D&In-Reply-To=%3C5512E5EF.8050709%40ludik.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-March/011645.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-March/011646.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] změna hodnoty v modulu v inicializaci def __init__ (self)</H1>
+    <B>&quot;Ing. Vladislav Ludík&quot;</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fzm%3DECna_hodnoty_v_modulu_v_inicializaci_d%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fef_%3D5F%3D5Finit%3D5F%3D5F_%3D28self%3D29%3F%3D&In-Reply-To=%3C5512E5EF.8050709%40ludik.cz%3E"
+       TITLE="[python] změna hodnoty v modulu v inicializaci def __init__ (self)">vlada na ludik.cz
+       </A><BR>
+    <I>Středa Březen 25 17:44:31 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-March/011645.html">[python] změna hodnoty v modulu v inicializaci def __init__ (self)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-March/011646.html">[python] změna hodnoty v modulu v inicializaci def __init__ (self)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-March/date.html#11647">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-March/thread.html#11647">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-March/subject.html#11647">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-March/author.html#11647">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>T = Trida(var=500) nefunguje.
+Hlásí:
+
+TypeError: __init__() got an unexpected keyword argument 'var'
+
+Ale zjistil jsem, že funguje jednoduché:
+
+T.var = 500
+
+Vlada
+
+Dne 25.3.2015 v 17:17 Daniel Milde napsal(a):
+&gt;<i> Ahoj,
+</I>&gt;<i> jj, jde.
+</I>&gt;<i>
+</I>&gt;<i> T = Trida()
+</I>&gt;<i> T.var = 50
+</I>&gt;<i> T.program()
+</I>&gt;<i>
+</I>&gt;<i> Instancni promenna v pythonu neni privatni, muzes do ni volne zapisovat.
+</I>&gt;<i> Pouze pokud nazev promenne zacina na podtrzitko, tak Ti tim vyvojar 
+</I>&gt;<i> rika, ze to je neco interniho a nemel bys s tim pracovat naprimo.
+</I>&gt;<i>
+</I>&gt;<i> Dan
+</I>&gt;<i>
+</I>&gt;<i> Dne 25.3.2015 v 17:13 &quot;Ing. Vladislav Ludík&quot; napsal(a):
+</I>&gt;&gt;<i> Bez úpravy modulu to asi nejde, že ?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Vlada
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dne 25.3.2015 v 17:06 starenka . napsal(a):
+</I>&gt;&gt;&gt;<i> class Trida:
+</I>&gt;&gt;&gt;<i>      def __init__(self, var=100):
+</I>&gt;&gt;&gt;<i>          self.var = var
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>      def program(self):
+</I>&gt;&gt;&gt;<i>          print self.var
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> T = Trida(var=500)
+</I>&gt;&gt;&gt;<i> T.program()
+</I>&gt;&gt;&gt;&gt;<i> 500
+</I>&gt;&gt;&gt;<i> ---
+</I>&gt;&gt;&gt;<i> In Perl you shoot yourself in the foot, but nobody can understand how
+</I>&gt;&gt;&gt;<i> you did it. Six months later, neither can you. | print
+</I>&gt;&gt;&gt;<i> 'aknerats'[::-1]
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 2015-03-25 16:29 GMT+01:00 &quot;Ing. Vladislav Ludík&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;:
+</I>&gt;&gt;&gt;&gt;<i> Zdravím všechny,
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> prosím o radu, jak změnit hodnotu v modulu:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> class Trida:
+</I>&gt;&gt;&gt;&gt;<i>      def __init__(self):
+</I>&gt;&gt;&gt;&gt;<i>          self.var = 100
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>      def program(self):
+</I>&gt;&gt;&gt;&gt;<i>          print self.var
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Naimportuju modul a zavolám:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> T = Trida()
+</I>&gt;&gt;&gt;&gt;<i> T.program()
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> vytiskne 100
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Jak nastavím hodnotu self.var ?
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Děkuji Vlada
+</I>&gt;&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-March/011645.html">[python] změna hodnoty v modulu v inicializaci def __init__ (self)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-March/011646.html">[python] změna hodnoty v modulu v inicializaci def __init__ (self)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-March/date.html#11647">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-March/thread.html#11647">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-March/subject.html#11647">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-March/author.html#11647">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-March/011647.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:16 GMT -->
+</html>

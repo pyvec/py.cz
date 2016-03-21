@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-April/000255.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Zachytavani udalosti v cyklu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Zachytavani%20udalosti%20v%20cyklu&In-Reply-To=op.s7ejkbvmixoxh5%40notes">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-April/000254.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-April/000257.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Zachytavani udalosti v cyklu</H1>
+    <B>Martin Petr</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Zachytavani%20udalosti%20v%20cyklu&In-Reply-To=op.s7ejkbvmixoxh5%40notes"
+       TITLE="[Tutor PyCZ] Zachytavani udalosti v cyklu">martin261 na gmail.com
+       </A><BR>
+    <I>Pondělí Duben  3 13:26:52 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-April/000254.html">[Tutor PyCZ] Zachytavani udalosti v cyklu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-April/000257.html">[Tutor PyCZ] Zachytavani udalosti v cyklu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-April/date.html#255">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-April/thread.html#255">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-April/subject.html#255">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-April/author.html#255">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dekuju za podrobny komentar. Je fakt, ze jsem se snazil premyslet tak 
+&quot;realne&quot; a tak objektove az jsem to asi prehnal :o) Jak rikam, v OOP 
+jsem naprostej zacatecnik...
+Vsechno si to prostuduju a uvidim, jak to zvladnu...taky diky za odkaz.
+
+Martin
+
+Jiri Vit napsal(a):
+&gt;<i> Jinak osobne si myslim, ze ten problem s otockou je problemem struktury
+</I>&gt;<i> trid, kterou sis zvolil. Vetsinou se podobne koncepce doporucuji resit  
+</I>&gt;<i> nejakym zavedenym objektovym
+</I>&gt;<i> schematem. V tomto pripade by slo zvolit klasicke schema  
+</I>&gt;<i> Model-Controller-View.
+</I>&gt;<i> 
+</I>&gt;<i> Podle meho nazoru pricina tvych problemu tkvi v tom, ze je tam prima  
+</I>&gt;<i> zavislost na aktualizaci
+</I>&gt;<i> herni plochy, aktualizace hada a vstupem z klavesnice. Jak si spravne  
+</I>&gt;<i> vypozoroval, to vse se odehrava v
+</I>&gt;<i> jednom stejnem cyklu a proto se to zpracovava najednou a otocka nefunguje.
+</I>&gt;<i> 
+</I>&gt;<i> Pokud pouzijes schema MVC pak oddelis data od vlastni prezentace, coz je  
+</I>&gt;<i> asi to, co potrebujes.
+</I>&gt;<i> 
+</I>&gt;<i> Ja osobne bych v objektu tridy Snake rozhodne nezachytaval prime  
+</I>&gt;<i> keyEventy. Snake by mel
+</I>&gt;<i> prezentovat skutecne jen informace o hadovi jako souradnice, velikost,  
+</I>&gt;<i> rychlost a nemel by nic vedet
+</I>&gt;<i> o nejakych klavesach nebo dokonce o tom, ze se ma na obrazovce sam  
+</I>&gt;<i> posunout a toto posunuti i sam provest!
+</I>&gt;<i> Samotne stisky klaves by mohla zachytavat nejaka pomocna trida  
+</I>&gt;<i> Controlleru, ktery by jen zaslal zaregistrovanym
+</I>&gt;<i> hernim objektum (v tomto pripade hadovi Pythonovi :-)) zpravu o tom, ze se  
+</I>&gt;<i> neco bylo stiknuto. Herni plocha si jen bude v pravidelnych intervalech  
+</I>&gt;<i> refreshovat Pythonova data a menit jeho pozici na obrazovce podle dat,  
+</I>&gt;<i> ktere aktualne ziska od Pythona. Vyhodou je, ze ten refresh je jiz v ciste  
+</I>&gt;<i> rezii tridy Herni plochy.
+</I>&gt;<i> 
+</I>&gt;<i> Takto se ti budou lepe implementovat dalsi objekty do hry az se veci  
+</I>&gt;<i> zacnou komplikovat (vice hadu, jidla, zdi apod.)
+</I>&gt;<i> 
+</I>&gt;<i> Jinak vice k MVC je na:
+</I>&gt;<i> <A HREF="http://cs.wikipedia.org/wiki/Model-view-controller">http://cs.wikipedia.org/wiki/Model-view-controller</A>
+</I>&gt;<i> 
+</I>&gt;<i> Jirka
+</I>
+-- 
+To follow the path:
+look to the master,
+follow the master,
+walk with the master,
+see through the master,
+become the master.
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-April/000254.html">[Tutor PyCZ] Zachytavani udalosti v cyklu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-April/000257.html">[Tutor PyCZ] Zachytavani udalosti v cyklu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-April/date.html#255">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-April/thread.html#255">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-April/subject.html#255">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-April/author.html#255">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-April/000255.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

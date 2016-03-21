@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010761.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:24 GMT -->
+<HEAD>
+   <TITLE> [python] multiprocess problem se sirotkem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20problem%20se%20sirotkem&In-Reply-To=%3CCAPy44ZVWNDUy9VKGabE8s%2BOzjUDHjSzPKk3UAJB7z1sTobVjXQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-September/010760.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-September/010762.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multiprocess problem se sirotkem</H1>
+    <B>Visgean Skeloru</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20problem%20se%20sirotkem&In-Reply-To=%3CCAPy44ZVWNDUy9VKGabE8s%2BOzjUDHjSzPKk3UAJB7z1sTobVjXQ%40mail.gmail.com%3E"
+       TITLE="[python] multiprocess problem se sirotkem">visgean na gmail.com
+       </A><BR>
+    <I>Středa Září  5 10:08:00 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010760.html">[python] multiprocess problem se sirotkem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010762.html">[python] multiprocess problem se sirotkem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10761">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10761">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10761">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10761">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A neslo by pouzit neco jako Celery? celeryproject.org/ Mozna je to trochu
+overkill ale co jsem s tim delal naposledy tak se to osvedcilo...
+
+2012/9/5 Tomas Pelka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">tompelka na gmail.com</A>&gt;
+
+&gt;<i> Aha takze ani daemon = True nepomuze, chjo tak to budu muset udelat jinak.
+</I>&gt;<i> Ale zatim me nenapada jak :/
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Wed 05 Sep 2012 09:56:08 AM CEST, azurIt wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> proces je ukonceny pretoze jeho parent skoncil (proces web serveru -&gt;
+</I>&gt;&gt;<i>  CGI skript). Ak si na linuxe, tak toto nie je mozne takymto sposobom
+</I>&gt;&gt;<i> urobit (resp. nie je mi znamy sposob). Ine OS neviem.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> azur
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ______________________________**______________________________**__
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Od: &quot;Tomas Pelka&quot;&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">tompelka na gmail.com</A>&gt;
+</I>&gt;&gt;&gt;<i> Komu:&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;
+</I>&gt;&gt;&gt;<i> Dátum: 05.09.2012 09:51
+</I>&gt;&gt;&gt;<i> Predmet: [python] multiprocess problem se sirotkem
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Zdravim vsechny,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> resim nasledujici problem a verim, ze mi nekdo z vas pomuze.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Potrebuji z cgi skriptu (interpretuje jej jednoduchy httpserver) pustit
+</I>&gt;&gt;&gt;<i> dlouho bezici ulohu ale tak abych nemusel volat mutiprocess.join(),
+</I>&gt;&gt;&gt;<i> protoze pak stranka zustane viset. Jak jsem zminil pouzivam k tomu
+</I>&gt;&gt;&gt;<i> multiprocess, ktery pouze nastartuji ale nejoinu. Vse ale nasvercuje
+</I>&gt;&gt;&gt;<i> tomu, ze proces je zabyt i kdyz by mel byt daemonem.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> import multiprocess
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> mp = Process(target=__handle_**execution, args=(args,))
+</I>&gt;&gt;&gt;<i> mp.daemon = True
+</I>&gt;&gt;&gt;<i> mp.start()
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> -- zde je konec cgi skriptu --
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Ma nekdo s podobnym chovanim zkusenosti?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Diky
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> --
+</I>&gt;&gt;&gt;<i> Tomas Pelka
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> ----------
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> ______________________________**_________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/**listinfo/python<http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/**listinfo/python&lt;http://www.py.cz/mailman/listinfo/python</A>&gt;
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>  ______________________________**_________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/**listinfo/python<http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/**listinfo/python&lt;http://www.py.cz/mailman/listinfo/python</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Tomas Pelka
+</I>&gt;<i>
+</I>&gt;<i> ______________________________**_________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/**listinfo/python<http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/**listinfo/python&lt;http://www.py.cz/mailman/listinfo/python</A>&gt;
+</I>&gt;<i>
+</I>
+
+
+-- 
+GPG pub key&lt;<A HREF="http://keyserver.pgp.com/vkd/SubmitSearch.event?SearchCriteria=visgean%40gmail.com">http://keyserver.pgp.com/vkd/SubmitSearch.event?SearchCriteria=visgean%40gmail.com</A>&gt;
+ | github/visgean &lt;<A HREF="http://github.com/Visgean">http://github.com/Visgean</A>&gt; | jabber &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">visgean na jabber.cz</A>&gt;
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20120905/97e86f8a/attachment.html">http://www.py.cz/pipermail/python/attachments/20120905/97e86f8a/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010760.html">[python] multiprocess problem se sirotkem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010762.html">[python] multiprocess problem se sirotkem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10761">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10761">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10761">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10761">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010761.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:24 GMT -->
+</html>

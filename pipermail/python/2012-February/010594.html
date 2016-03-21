@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010594.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+<HEAD>
+   <TITLE> [python] Problém s českými  znaky v cgi scriptu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_%3DC4%3D8Desk%3DC3%3DBDmi__znaky_v_cgi_%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fscriptu%3F%3D&In-Reply-To=%3C20120228222629.3E58037B%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-February/010589.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-February/010590.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problém s českými  znaky v cgi scriptu</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_%3DC4%3D8Desk%3DC3%3DBDmi__znaky_v_cgi_%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fscriptu%3F%3D&In-Reply-To=%3C20120228222629.3E58037B%40atlas.cz%3E"
+       TITLE="[python] Problém s českými  znaky v cgi scriptu">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Únor 28 22:26:29 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010589.html">[python] Problém s českými  znaky v cgi scriptu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010590.html">[python] Dive Into Pyton 3 cesky -- opraveno, sbiram chyby...
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10594">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10594">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10594">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10594">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Tomáš Kácel napsal...
+&gt;<i>[...] Myslel jsem, že python3 funguje na utf-8 a neměl by mít s
+</I>&gt;<i>čekými znaky problém, stejně tak prohlížeč je nastaven na utf-8.
+</I>
+Python 3 pracuje s unicode řetězci. UTF-8 je jedno z možných
+kódování unicode řetězců, když je potřeba je za fyzicky zaznamenat
+a nepracovat s nimi jako s posloupnostmi znaků v abstraktním 
+smyslu. To znamená, že před odeslání mimo vnitřní paměť
+pythonovského procesu musí dojít k převodu na posloupnost
+bajtů (například metodou .encode()). Funkce print() je ale napojená
+na výstupní stream (standardně sys.stdout), který rovněž používá 
+nějaké kódování řetězců (v závislosti na OS a jeho konfiguraci).
+Funkce print() se ale sama snaží převést unicode řetězec do 
+onoho (skrytého) výstupního kódování.
+
+Z těchto důvodů není ke generování výstupního HTML souboru
+vhodné používat funkci print(). Lepší je otevřít výstupní textový
+soubor f pro kódování UTF-8 a zapisovat do něj metodou 
+f.write(s)
+
+Doporučuji si přečíst <A HREF="http://diveintopython3.py.cz/strings.html">http://diveintopython3.py.cz/strings.html</A>
+a <A HREF="http://diveintopython3.py.cz/files.html">http://diveintopython3.py.cz/files.html</A>
+
+P.
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010589.html">[python] Problém s českými  znaky v cgi scriptu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010590.html">[python] Dive Into Pyton 3 cesky -- opraveno, sbiram chyby...
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10594">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10594">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10594">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10594">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010594.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+</html>

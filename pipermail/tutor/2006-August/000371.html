@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000371.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] vytvoření serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=44E16F17.2060200%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000370.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000372.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] vytvoření serveru</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=44E16F17.2060200%40post.cz"
+       TITLE="[Tutor PyCZ] vytvoření serveru">Jakohv na seznam.cz
+       </A><BR>
+    <I>Úterý Srpen 15 09:47:29 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000370.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000372.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#371">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#371">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#371">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#371">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zatím jsem přišl na tohle:
+from Tkinter import*
+import socket
+okno=Tk()
+
+
+text=Text()
+text.pack()
+def prijmi():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host = &quot;localhost&quot;
+    port = 1000
+    s.connect((host, port))
+    s.setblocking(0)
+    try:
+        print s.recv(102)
+        text.insert(END,data)
+    except:
+        pass
+
+    
+    s.close()
+prijmi()
+mainloop()
+
+metoda s.setblocking(0) dela non-blocking server jak jsi říkal a proto když pak zavolám recv() tak mi to vrátí chybu a už se to nesekne jako předtím. Teď jeětě dodělat tamtu drobnost s tím automatickým přijímáním...        
+
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Pavel Kosina &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">geon na post.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [Tutor PyCZ] vytvoření serveru
+</I>&gt;<i> Datum: 15.8.2006 08:52:10
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Jakub Vojáček napsal(a):
+</I>&gt;<i> &gt; Já vím, ale těch posluchačů bude tolik jako klientů
+</I>&gt;<i> &gt;   
+</I>&gt;<i> jeden server a 10 posluchačů. Když jeden něco napíše, pošle to na server 
+</I>&gt;<i> a ten to rozešle všem. Tak to asi je, že jo?
+</I>&gt;<i> 
+</I>&gt;<i> Ty to ted máš, že se pokaždé vytvoří nové spojení. Tak to ale fungovat 
+</I>&gt;<i> ne,ůže, protože clineti musí na server napojeni furt. Tedy přichází do 
+</I>&gt;<i> úvahu dvě řešení (ani jedno jsem nezkoušel, budeš muset hodně laborovat 
+</I>&gt;<i> nebo ti někdo zkušenější poradí - mě by to taky zajímalo):
+</I>&gt;<i> 
+</I>&gt;<i> 1/ pro každého klienta udělat speciální PORT a ten udržovat v chodu 
+</I>&gt;<i> (tedy žádné xxx.close() ). A mít je nějak v seznamu a když jeden něco 
+</I>&gt;<i> pošlě, tak server všem ze seznamu odešle co dostal
+</I>&gt;<i> 
+</I>&gt;<i> 2/ Snad je možné : 
+</I>&gt;<i> <A HREF="http://heather.cs.ucdavis.edu/~matloff/Python/PyNet.pdf">http://heather.cs.ucdavis.edu/~matloff/Python/PyNet.pdf</A>  udělat 
+</I>&gt;<i> Non-blocking socket, což znamená, že by ti na jeden PORT se přihlásilo 
+</I>&gt;<i> jich víc klientů (ti ostaní by již nepsaly, že to nejde, že je to 
+</I>&gt;<i> obsazené). No a když by jeden něco poslat, tak by to server poslal zpět 
+</I>&gt;<i> a dostaly by to všichni.
+</I>&gt;<i> 
+</I>&gt;<i> Zkus si projít zmíněné funkce v dokumentaci Python. Nejlepší přehled 
+</I>&gt;<i> tutoriálů o síťovém programování jsem našel tady: 
+</I>&gt;<i> <A HREF="http://www.awaretek.com/tutorials.html#int">http://www.awaretek.com/tutorials.html#int</A> .
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> geon
+</I>&gt;<i> Pavel Kosina
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Tutor mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+Blujacker
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000370.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000372.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#371">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#371">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#371">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#371">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000371.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005859.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:15 GMT -->
+<HEAD>
+   <TITLE> [python] cherrypy + autorizace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cherrypy%20%2B%20autorizace&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005858.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005866.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cherrypy + autorizace</H1>
+    <B>Vladislav Ludík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cherrypy%20%2B%20autorizace&In-Reply-To="
+       TITLE="[python] cherrypy + autorizace">vlada na ludik.cz
+       </A><BR>
+    <I>Středa Duben 18 13:00:55 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005858.html">[python] Dll
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005866.html">[python] cherrypy + autorizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5859">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5859">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5859">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5859">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hledám jednoduchou možnost ověřeného přístupu na mnou vytvářený web. 
+Přístupů může být současně více. Našel jsem například:
+
+/import userauth
+from userauth import authorize, UserAuth
+import cherrypy
+import os
+
+class Root:
+    @cherrypy.expose
+    def index(self):
+        return &quot;This is always accessible by anyone.&quot;
+
+class Members(UserAuth):
+    &quot;&quot;&quot; Unless otherwise stated (secret()), no pages under this
+        module will be viewable by any member outside of the
+        members and admins groups.
+    &quot;&quot;&quot;
+_db = 'sqlite:' + os.path.abspath('filename.db')
+_authorized = ['members', 'admins']
+_unauthorized = '/login'
+@cherrypy.expose
+def index(self):
+    return &quot;You're only here if you are a member!&quot;
+@authorize(['secret'], '/nowhere')
+@cherrypy.expose
+def secret(self):
+    # It would work to just make this another section all-together, but
+    # it could be useful...
+    return &quot;Only members of secret can access this...&quot;
+cherrypy.root = Root()
+cherrypy.root.members = Members()
+
+/Nenašel jsem však modul userauth. Pomůže mi někdo s tímto problémem?
+
+Používám Linux s právy root + Appache + mysql
+
+Díky
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005858.html">[python] Dll
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005866.html">[python] cherrypy + autorizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5859">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5859">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5859">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5859">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005859.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:15 GMT -->
+</html>

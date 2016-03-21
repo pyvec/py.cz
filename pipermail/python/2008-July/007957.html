@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007957.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:34 GMT -->
+<HEAD>
+   <TITLE> [python] Guido o funkcich reduce(), filter() a map() v Python 3000
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=486972EE.5030908%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/007953.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/007954.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Guido o funkcich reduce(), filter() a map() v Python 3000</H1>
+    <B>Martin Blazik</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=486972EE.5030908%40centrum.cz"
+       TITLE="[python] Guido o funkcich reduce(), filter() a map() v Python 3000">martin.blazik na premiumsms.cz
+       </A><BR>
+    <I>Úterý Červenec  1 09:43:16 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007953.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007954.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7957">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7957">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7957">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7957">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Opravdu dlouho jsem odolaval, abych do teto diskuze nezasahl, ale nyni 
+se opravdu uz neudrzim. Chca nechca musim dat za pravdu supermanovi. 
+Nevim kolik lidi z tech co tu tak jasaj nad Pythonem 3000 psali nebo 
+ridili nejakej vetsi projekt. Ja par takovych projektu tvoril nebo 
+ridil. Bavime se o statisicich radku kodu. Kodu ktery pilujeme uz 
+nekolik let. V jadru se zmeny delaji jen minimalne a spis se rozsiruje  
+funkcnost, presne jak psal superman. Opravdu si nedokazu predstavit, ze 
+by se mi pod rukama zmenila syntax jazyka a ja musel se svym tymem 
+prochazet stovky zdrojaku a opravovat je. Co na tom, ze mi nejakej tool 
+praci ulehci a nejaky zakladni konstrukce prevede. Porad jich zbyde 
+dost, s kterymi si neporadi. Nechci znova prochazet veskery jiz odladeny 
+kod a ladit ho znovu. Co je na tom tak tezce pochopitelnyho? Nejake 
+zmeny v jazyce muzou byt urcite bezva. Ovsem poruseni zpetne 
+kompatibility v takovem meritku je proste neakceptovatelne.
+
+lachtan
+
+
+superman napsal(a):
+&gt;&gt;<i> Stále mě nabádáte, abych si našel nějaká fakta. Taky byste to měl
+</I>&gt;&gt;<i> někdy zkusit. Ale souhlasím s tím, že by Python mohl běžet ještě
+</I>&gt;&gt;<i> rychleji, což dokazuje třeba Psyco.
+</I>&gt;&gt;<i>   
+</I>&gt;<i>
+</I>&gt;<i> Já to zkusil, právě proto píšu to co píšu. Navíc pomalost Pythonu je 
+</I>&gt;<i> logická už z principu jazyka a z principu runtime. Nicméně pomalost 
+</I>&gt;<i> neznamená vadu, je to daň za jiné pěkné vlastnosti, za které se platí 
+</I>&gt;<i> rychlostí. A pak také daň za neustálé překopávání jazyka - to je další 
+</I>&gt;<i> negativní důsledek Rossumových akcí - kdyby Python byl stálý, věřím, že 
+</I>&gt;<i> by někomu stálo za to vyvinout dobrý runtime pro Python spolu s 
+</I>&gt;<i> dynamickou optimalizací (které v Pythonu není) a možná i JITem (která je 
+</I>&gt;<i> nesplnitelným snem).
+</I>&gt;<i>
+</I>&gt;<i> Taková Java například to z velké pomalosti dotáhla na to, že v rychlosti 
+</I>&gt;<i> čistého kódu se blíží rychlosti jazyka C. Je to důsledek vývoje runtimu, 
+</I>&gt;<i> který trval mnoho let.
+</I>&gt;<i>
+</I>&gt;<i> Ale Python prostě musí mít špatný a pomalý runtime, protože při 
+</I>&gt;<i> neustálém překopávání jazyka nelze naprogramovat nic složitějšího, než v 
+</I>&gt;<i> podstatě primitivní runtime prakticky bez optimalizací. Lidé pořád 
+</I>&gt;<i> zapomínají, že změna v jazyce znamená změny v obrovském množství kódu a 
+</I>&gt;<i> nástrojů.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> U hotové aplikace není důvod ani potřeba nic přepisovat. Nevím, jakou
+</I>&gt;&gt;<i> máte představu o tom, jak přejít na Python 3000, ale nikdo netvrdí, že
+</I>&gt;&gt;<i> musíte ze dne na den přejít z Pythonu 2.5 na Python 3000 (klidně
+</I>&gt;&gt;<i> můžete zůstat na Pythonu 2.5 až do smrti, přítomnost Pythonu 3000 ho
+</I>&gt;&gt;<i> nezruší). U většiny aplikací, u kterých probíhá vývoj, při plynulém
+</I>&gt;&gt;<i> přechodu na Python 2.6 a pak na Python 3000 s využitím připravených
+</I>&gt;&gt;<i> nástrojů, žádné extra náklady navíc nevzniknou.
+</I>&gt;&gt;<i>   
+</I>&gt;<i>
+</I>&gt;<i> Jednou Vás to donutí přejít - pokud jste trochu zběhlý v praxi, tak se 
+</I>&gt;<i> prostě nedá časem nepřejít. Jednoho dne se objeví něco - nepodpora 
+</I>&gt;<i> něčeho v okolí programu, která je jenom v nové verzi a přejít prostě 
+</I>&gt;<i> musíte chca nechca. Proč nutně musí u aplikací probíhat vývoj? A to s 
+</I>&gt;<i> těmi žádnými extra náklady je dobrá věta - na prvního Apríla.
+</I>&gt;<i>
+</I>&gt;<i> Ono totiž i když probéhá vývoj, tak v aplikaci jsou obrovské části kódu, 
+</I>&gt;<i> na které se nesahá. To může být klidně i 90% kódu, které zůstávají beze 
+</I>&gt;<i> změny. Mění se jen část projektu. Ty nezměněné části jsou odladěné, a je 
+</I>&gt;<i> na ně spolehnutí. Ovšem při změně syntaxe jazyka musíte sáhnout na vše - 
+</I>&gt;<i> na 100% kódu. Minimálně je otestovat - a jestli to neznamená dodatečné 
+</I>&gt;<i> náklady navíc, pak jsem čínský papež.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> Takže je těch vlivů tolik, že stejně nelze určit, proč je Python někdy
+</I>&gt;&gt;<i> populární více a jindy méně.
+</I>&gt;&gt;<i>   
+</I>&gt;<i>
+</I>&gt;<i> S tím nesouhlasím. Je rozdíl mezi tvrzením &quot;je tam hodně vlivů&quot; a 
+</I>&gt;<i> tvrzení &quot;nelze určit, které vlivy to jsou&quot;. Vy jste dost nekorektně bez 
+</I>&gt;<i> důkazu tato dvě tvrzení zaměnil.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> I v případě Hitlera byla drtivá většina lidí, kterých se jeho činy
+</I>&gt;&gt;<i> dotýkaly, proti. V demokratické společnosti platí názor většiny, a
+</I>&gt;&gt;<i> pokud je většina pro změny, nic s tím nezmůžete. Je to blbej systém,
+</I>&gt;&gt;<i> ale ty ostatní jsou jenom horší.
+</I>&gt;&gt;<i>   
+</I>&gt;<i>
+</I>&gt;<i> Ano? Zkuste si vzít obrovský prostor zvaný Německo a zkuste si zjistit 
+</I>&gt;<i> jak moc lidí bylo proti.
+</I>&gt;<i>
+</I>&gt;<i> Demokracii sem netahejte - navíc znovu - dokažte tvrzení &quot;že všechny 
+</I>&gt;<i> ostatní systémy jsou horší, než demokracie&quot; - měl byste logický problém.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007953.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007954.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7957">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7957">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7957">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7957">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007957.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:34 GMT -->
+</html>

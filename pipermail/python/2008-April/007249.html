@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007249.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+<HEAD>
+   <TITLE> [python] Parsování emailu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007257.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007250.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Parsování emailu</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To="
+       TITLE="[python] Parsování emailu">jakohv na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Duben 17 16:21:39 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007257.html">[python] HTTP Autorizace + metoda post
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007250.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7249">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7249">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7249">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7249">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+Již podruhé během dvou dnů jsem se zasekl. Pracuji na takovém svém e-mailovém klientu. Můj problém spočívá v rozparsování emailu. K přijmu zpráv používám modul poplib. Ten vrací zprávy ve tvaru:
+
+('+OK Message follows (1562 bytes).', ['Reply-To: =?iso-8859-2?Q?Jakub=20Voj=E1=E8ek?= &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt;', 'Received: from kubuvpocitac (r3ai164.net.upc.cz [213.220.226.164])', '\tby email-relay2.go.seznam.cz (Seznam SMTPD <A HREF="http://www.py.cz/mailman/listinfo/python">1.0.36 na 12969</A>) with ESMTP;', '\tWed, 16 Apr 2008 18:46:52 +0200 (CEST)  ', 'Message-Id: &lt;004f01c89fe1$7b567220$<A HREF="http://www.py.cz/mailman/listinfo/python">6e7ba8c0 na kubuvpocitac</A>&gt;', 'From: =?iso-8859-2?Q?Jakub=20Voj=E1=E8ek?= &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt;', 'To: <A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>', 'Subject: predemr', 'Date: Wed, 16 Apr 2008 18:46:52 +0200 (CEST)', 'Mime-Version: 1.0', 'Content-Type: multipart/alternative;', '\tboundary=&quot;----=_NextPart_000_004A_01C89FF2.3C51E080&quot;', 'X-Priority: 3', 'X-Msmail-Priority: Normal', 'X-Mailer: Microsoft Outlook Express 6.00.2900.3138', 'X-Mimeole: Produced By Microsoft MimeOLE V6.00.2900.3198', 'X-Smtpd: <A HREF="http://www.py.cz/mailman/listinfo/python">1.0.36 na 12969</A>', 'X-Seznam-User: <A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>', 'X-Qm-Mark: email-qm1&lt;17546722&gt;', 'X-Seznam-Ffp: 680759260', '', 'This is a multi-part message in MIME format.', '', '------=_NextPart_000_004A_01C89FF2.3C51E080', 'Content-Type: text/plain;', '\tcharset=&quot;iso-8859-2&quot;', 'Content-Transfer-Encoding: quoted-printable', '', 'hhahsd', '------=_NextPart_000_004A_01C89FF2.3C51E080', 'Content-Type: text/html;', '\tcharset=&quot;iso-8859-2&quot;', 'Content-Transfer-Encoding: quoted-printable', '', '&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;', '&lt;HTML&gt;&lt;HEAD&gt;', '&lt;META http-equiv=3DContent-Type content=3D&quot;text/html; =', 'charset=3Diso-8859-2&quot;&gt;', '&lt;META content=3D&quot;MSHTML 6.00.2900.3314&quot; name=3DGENERATOR&gt;', '&lt;STYLE&gt;&lt;/STYLE&gt;', '&lt;/HEAD&gt;', '&lt;BODY bgColor=3D#ffffff&gt;', '&lt;DIV&gt;&lt;FONT face=3DArial size=3D2&gt;hhahsd&lt;/FONT&gt;&lt;/DIV&gt;&lt;/BODY&gt;&lt;/HTML&gt;', '', '------=_NextPart_000_004A_01C89FF2.3C51E080--'], 1562)
+
+Existuje nějaký modul, který by dovedl e-mail rozparsovat? V základní distribuci je modul email, který obsahuje funkci &quot;email.message_from_string(r)&quot;. Tato funkce vrací všechno až na tu nejdůležitější věc: samotný obsah zpávy...
+['Reply-To', 'Received', 'X-Spam-Checker-Version', 'X-Spam-Status', 'Received', 'Received', 'Received', 'Message-Id', 'From', 'To', 'Subject', 'Date', 'Mime-Version', 'Content-Type', 'X-Priority', 'X-Msmail-Priority', 'X-Mailer', 'X-Mimeole', 'X-Smtpd', 'X-Seznam-User', 'X-Smtpd', 'X-Nod32result', 'X-Seznam-Ffp']
+
+Děkuji za každé postrčení...
+
+Jakub Vojáček
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080417/1899f65d/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080417/1899f65d/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007257.html">[python] HTTP Autorizace + metoda post
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007250.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7249">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7249">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7249">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7249">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007249.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+</html>

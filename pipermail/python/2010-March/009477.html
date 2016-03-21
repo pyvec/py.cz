@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009477.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:49 GMT -->
+<HEAD>
+   <TITLE> [python] dokumentace k novejsim rysum jazyka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dokumentace%20k%20novejsim%20rysum%20jazyka&In-Reply-To=%3C1267789541.5811.18.camel%40amandil.ics.muni.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009474.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009478.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dokumentace k novejsim rysum jazyka</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dokumentace%20k%20novejsim%20rysum%20jazyka&In-Reply-To=%3C1267789541.5811.18.camel%40amandil.ics.muni.cz%3E"
+       TITLE="[python] dokumentace k novejsim rysum jazyka">davro na ics.muni.cz
+       </A><BR>
+    <I>Pátek Březen  5 12:45:41 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009474.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009478.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9477">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9477">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9477">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9477">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE><A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A> píše v Pá 05. 03. 2010 v 10:31 +0100:
+&gt;<i> &gt;problém je v tomto:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;sum je standardní funkce:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt;&gt;&gt; sum(i**i for i in range(10))
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;tady mně to prostě uniká - když závorky patří funkci sum, tak vnitřek
+</I>&gt;<i> by
+</I>&gt;<i> &gt;měl být uzavřený do závorek taky.
+</I>&gt;<i> 
+</I>&gt;<i> funguje to takto 
+</I>&gt;<i> &gt;&gt;&gt; sum(i*i for i in range(3)) 
+</I>&gt;<i> 5 
+</I>&gt;<i> alebo aj takto ked je vnutrajsok funkcie sum() uzavrety do zatvoriek: 
+</I>&gt;<i> &gt;&gt;&gt; sum((i*i for i in range(3))) 
+</I>&gt;<i> 5 
+</I>&gt;<i> 
+</I>
+v tom případě by mělo fungovat i
+
+&gt;&gt;&gt;<i> a=i*i for i in range(3)
+</I>
+jinak je to chaos
+
+&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> From:        David Rohleder &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>&gt; 
+</I>&gt;<i> To:        Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt; 
+</I>&gt;<i> Date:        05.03.2010 08:00 
+</I>&gt;<i> Subject:        Re: [python] dokumentace k novejsim rysum jazyka 
+</I>&gt;<i> Sent by:        <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> 
+</I>&gt;<i> 
+</I>&gt;<i> ______________________________________________________________________
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Jirka Vejrazka píše v Pá 05. 03. 2010 v 01:01 +0100:
+</I>&gt;<i> &gt; &gt; čili se to chová jinak než standardní tuple, je to spíš něco, čemu
+</I>&gt;<i> se říká generátor.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Nojo, vida - to jsem nevedel, ze s kulatymi zavorkami to vytvori
+</I>&gt;<i> &gt; generator, diky :)
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Generator ma tu vyhodu, ze se nic nevytvari v pameti. Zrejme je to,
+</I>&gt;<i> &gt; kdyz se pouzije misto range (ktery interne dela list) funkce xrange
+</I>&gt;<i> &gt; (coz je taky generator) - tohle plati pro Python 2.4 ktery ted mam
+</I>&gt;<i> &gt; spusteny, v novejsich uz je to mozna jinak)
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt;&gt;&gt; a = [x for x in xrange(100000000)]  # vytvori v pameti list,
+</I>&gt;<i> ktery ma 100 milionu prvku (bude chvili trvat)
+</I>&gt;<i> &gt; &gt;&gt;&gt; a = (x for x in xrange(100000000)]  # bleskove vytvori
+</I>&gt;<i> generator, ktery po zavolani a.next() najde a vrati &quot;dalsi prvek v
+</I>&gt;<i> poradi&quot;
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt;&gt;&gt;&gt; b=(1,2,3)
+</I>&gt;<i> &gt; &gt;&gt;&gt;&gt; b.next()
+</I>&gt;<i> &gt; &gt; Traceback (most recent call last):
+</I>&gt;<i> &gt; &gt;  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+</I>&gt;<i> &gt; &gt; AttributeError: 'tuple' object has no attribute 'next'
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Tohle uz je logicke, to je normalni tuple.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; Mně se takové věci celkem líbí, ale připadne mně to nějak
+</I>&gt;<i> nedomyšlené,
+</I>&gt;<i> &gt; &gt; protože by celý ten generátor měl tvořit samostatnou syntaktickou
+</I>&gt;<i> &gt; &gt; jednotku, tj. interpret by měl nějak sežrat zápis
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt;&gt;&gt;&gt; i*i for i in range(10)
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Proc, tady nejsou okolo zavorky, je to syntakticky neco uplne
+</I>&gt;<i> jineho...
+</I>&gt;<i> &gt; 
+</I>&gt;<i> 
+</I>&gt;<i> problém je v tomto:
+</I>&gt;<i> 
+</I>&gt;<i> sum je standardní funkce:
+</I>&gt;<i> 
+</I>&gt;<i> &gt;&gt;&gt; sum(i**i for i in range(10))
+</I>&gt;<i> 
+</I>&gt;<i> tady mně to prostě uniká - když závorky patří funkci sum, tak vnitřek
+</I>&gt;<i> by
+</I>&gt;<i> měl být uzavřený do závorek taky.
+</I>&gt;<i> 
+</I>&gt;<i> D.
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009474.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009478.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9477">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9477">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9477">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9477">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009477.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:49 GMT -->
+</html>

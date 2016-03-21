@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-March/001568.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:42 GMT -->
+<HEAD>
+   <TITLE> [python] volanie skriptov
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20volanie%20skriptov&In-Reply-To=200403031034.12245.martin%40ufon.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-March/001563.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-March/001577.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] volanie skriptov</H1>
+    <B>tdc</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20volanie%20skriptov&In-Reply-To=200403031034.12245.martin%40ufon.sk"
+       TITLE="[python] volanie skriptov">tdc na phreaker.net
+       </A><BR>
+    <I>Středa Březen  3 11:32:22 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001563.html">[python] volanie skriptov
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001577.html">[python] volanie skriptov
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-March/date.html#1568">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/thread.html#1568">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/subject.html#1568">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/author.html#1568">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Martin Herceg wrote:
+&gt;<i> Dobry den
+</I>&gt;<i> ma niekto skusenosti s volanim skriptu z Page Template?
+</I>&gt;<i> mne to stale nechce vratit povodnu URL 
+</I>&gt;<i> teda zavolam tento skript a poslem mu udaje z formulara
+</I>&gt;<i> ---------------------------------------------------------------------------------
+</I>&gt;<i> PAGE TEMPLATE
+</I>&gt;<i> ---------------------------------------------------------------------------------
+</I>&gt;<i>     &lt;form name=&quot;pokus&quot; method=&quot;post&quot; action=&quot;skript&quot;&gt;&lt;input type=&quot;submit&quot;                                                  
+</I>&gt;<i>      name=&quot;submit&quot; value=&quot;odosli&quot;&gt; 
+</I>&gt;<i>     &lt;input type=&quot;text&quot; name=&quot;orders.premenna:records&quot;&gt;&lt;/form&gt;
+</I>&gt;<i>     &lt;span tal:define=&quot;global items here/skript&quot; tal:condition=&quot;items&quot;&gt;
+</I>&gt;<i>     &lt;table&gt;&lt;tr&gt;&lt;td tal:content=&quot;items/prva&quot;&gt;pokus&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/span&gt;
+</I>&gt;<i> 
+</I>&gt;<i> ---------------------------------------------------------------------------------
+</I>&gt;<i> SKRIPT
+</I>&gt;<i> ---------------------------------------------------------------------------------
+</I>&gt;<i> session=context.REQUEST.SESSION
+</I>&gt;<i> items=session.get('items',{})
+</I>&gt;<i> if order['premenna']=='1': 
+</I>&gt;<i>    item = {'prva': '0258'}
+</I>&gt;<i>    session['items']=item
+</I>&gt;<i>    return container.index_html(REQUEST)
+</I>&gt;<i> else:
+</I>&gt;<i>    item = {'prva': '2582'}
+</I>&gt;<i>    session['items']=item
+</I>&gt;<i>    return container.index_html(REQUEST)
+</I>&gt;<i> 
+</I>&gt;<i> a podla vsetkeho by mal vratit stranke index_html
+</I>&gt;<i> updatnute items co aj urobi a ona ich pouzije 
+</I>&gt;<i> problem je v tom ze url uz nieje .....:8080/index_html
+</I>&gt;<i> ale  .....:8080/skript
+</I>&gt;<i> neviete niekto co s tym ?
+</I>&gt;<i> 
+</I>
+Dle me to dela spravne. Tedy pokud tomu spravne rozumim. Zadats script, 
+aby ti vratil (v ramci SVEHO contextu) vyrenderovanou PageTemplate 
+'index_html'. Takze script ji spusti, vyrendruje a vrati ji jako SVUJ 
+vysledek. Pokud chces na tu sablonu presmerovat, tak tusim pres:
+
+return RESPONSE.redirect(url)
+
+coz plati v pripade, ze mas bindnutou RESPONSE do toho scriptu. Pokud ne 
+a mas bindnutej jen REQUEST, tak:
+
+return REQUEST.RESPONSE.redirect(url)
+
+jinak (pokud mas bindnutej jen context :))
+
+return context.REQUEST.RESPONSE.redirect(url)
+
+Vysledkem tohohle volani je Location HTTP hlavicka, takze pozor na to 
+(nemuzes do te sablony nic predat - leda tak pres GET).
+
+_tdc_
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001563.html">[python] volanie skriptov
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001577.html">[python] volanie skriptov
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-March/date.html#1568">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/thread.html#1568">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/subject.html#1568">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/author.html#1568">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-March/001568.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:42 GMT -->
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-September/009119.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:20 GMT -->
+<HEAD>
+   <TITLE> [python] python ast.literal_eval a čeština
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fpython_ast%3D2Eliteral%3D5Feval_a_%3DE8e%3DB9tina%3F%3D&In-Reply-To=%3C200909151809.34819.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-September/009118.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-September/009122.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] python ast.literal_eval a čeština</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fpython_ast%3D2Eliteral%3D5Feval_a_%3DE8e%3DB9tina%3F%3D&In-Reply-To=%3C200909151809.34819.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] python ast.literal_eval a čeština">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Úterý Září 15 18:09:34 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009118.html">[python] python ast.literal_eval a čeština
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009122.html">[python] Program vlastni env
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-September/date.html#9119">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/thread.html#9119">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/subject.html#9119">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/author.html#9119">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Chyba je v pouziti ast.literal_eval(). Hle:
+
+&gt;&gt;&gt;<i> type(ast.literal_eval(unicode(&quot;'a'&quot;)))
+</I>&lt;type 'str'&gt;
+
+Z typu unicode se stane typ string, coz je naprosto spravne, protoze modul ast 
+vidi pythoni syntaxi 'a' coz je string. To ze parsovany retezec je unicode s 
+tim nema nic moc spolecneho a informace o kodovani se ztrati, resp. z pohledu 
+pythonu nikdy neexistovala. Predpoklada se tedy, ze zdrojovy retezec je ve 
+stejnem kodovani jako program, cili dostanete nikoliv predpokladany unicode 
+ale string v systemovem kodovani - je lehke si toho nevsimnout.
+
+Primitivni reseni by bylo nastavit explicitne kodovani programu -*- deklaraci 
+v hlavicce a odstranit nadbytecne explictni prekodovani na vystupu.
+
+Spravne reseni by bylo neprasit to modulem ktery je urcen na neco uplne 
+jineho. A brat s rezervou tutorialy psane stastlivci z ASCII zemi.
+
+Osobne bych se klonil k reseni pomoci prevence - sestrojit stroj casu a 
+vysvetlit Janu Husovi co si o tech jeho novotach myslime. Nanestesti
+&quot;import timemachine&quot; nefunguje, quido si tenhle modul nechava pro sebe :-(
+
+
+Luboš Melichar (15.9.09):
+&gt;<i> Zdravim,
+</I>&gt;<i> jsem začátečník a tak dopředu prosím o trpělivost..
+</I>&gt;<i>
+</I>&gt;<i> Zkouším toto, v souboru mít uložený slovník, případně pole slovníků..
+</I>&gt;<i>
+</I>&gt;<i> {'cz': 'hezký', 'en': 'nice', 'de': 'schön'}
+</I>&gt;<i>
+</I>&gt;<i> vyčíst ze souboru, převést na slovník, pracovat s ním, uložit
+</I>&gt;<i>
+</I>&gt;<i> #VYCTENI ZE SOUBORU
+</I>&gt;<i> f = open(&quot;db.db&quot;)
+</I>&gt;<i> text = unicode(f.read(),('cp1250'))
+</I>&gt;<i> f.close()
+</I>&gt;<i>
+</I>&gt;<i> #PRACE S DB
+</I>&gt;<i> db =  ast.literal_eval(text)       #prevod stringu na seznam slovniku
+</I>&gt;<i> db['maďarština'] = 'keřmideretvář'
+</I>&gt;<i>
+</I>&gt;<i> #ZAPIS DO SOUBORU
+</I>&gt;<i> text2 = str(db)
+</I>&gt;<i> f = open(&quot;db2.db&quot;)
+</I>&gt;<i> f.write(text2.encode('cp1250'))  #ulozeni
+</I>&gt;<i> f.close()
+</I>&gt;<i>
+</I>&gt;<i> bohuzel s cestinou mam neprekonatelny problem, ve vystupnim souboru se
+</I>&gt;<i> mi to uklada v unicodu.
+</I>&gt;<i> kodovani v obou souborech mam samozrejme cp1250.
+</I>&gt;<i>
+</I>&gt;<i> diky za popostrceni
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009118.html">[python] python ast.literal_eval a čeština
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009122.html">[python] Program vlastni env
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-September/date.html#9119">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/thread.html#9119">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/subject.html#9119">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/author.html#9119">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-September/009119.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:20 GMT -->
+</html>

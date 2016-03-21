@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003022.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:00 GMT -->
+<HEAD>
+   <TITLE> [python] raw_input() bug  (bylo ... vyvoj Pythonu, jimavy pribeh)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20raw_input%28%29%20bug%20%20%28bylo%20...%20vyvoj%20Pythonu%2C%20jimavy%20pribeh%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-July/003021.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-July/003023.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] raw_input() bug  (bylo ... vyvoj Pythonu, jimavy pribeh)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20raw_input%28%29%20bug%20%20%28bylo%20...%20vyvoj%20Pythonu%2C%20jimavy%20pribeh%29&In-Reply-To="
+       TITLE="[python] raw_input() bug  (bylo ... vyvoj Pythonu, jimavy pribeh)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Červenec 12 12:19:24 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003021.html">[python] [TALK] vyvoj Pythonu, jimavy pribeh
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003023.html">[python] Hledani v souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3022">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3022">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3022">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3022">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>pavel.kosina
+&gt;<i> [...] Mě zase rozčiluje, že nejde 
+</I>&gt;<i> raw_input s unicodem - už tu 
+</I>&gt;<i> jednou bylo, od pepra, že hlásil  bug:
+</I>&gt;<i> 
+</I>&gt;<i> [ 1099364 ] raw_input() displays wrong unicode prompt
+</I>&gt;<i> <A HREF="https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1099364&amp;group_id=5470&amp;atid=105470">https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1099364&amp;group_id=5470&amp;atid=105470</A>
+</I>&gt;<i> 
+</I>&gt;<i> ale ted jsem ho tam hledal a vůbec tam není. Taky nechápu, 
+</I>&gt;<i> proč tam nejde vyhledávat podle ID.
+</I>
+Je to tam, ale je mezi uzavřenými (kliknutím na link 
+se tam dá dostat). Mezi tím došlo k určitému posunu,
+ale nejsem s tím tak docela spokojený. Částečné řešení
+lze nalézt u poslední poznámky by birkenfeld, tj. explicitně
+
+    raw_input(s.encode(sys.stdout.encoding))
+
+Dá se to vyřešit centralizovaně například definicí vlastní funkce:
+
+def my_input(s):
+    import sys
+    return raw_input(s.encode(sys.stdout.encoding))
+
+Ale moc se mi to nelíbí, protože takhle by měla fungovat
+raw_input() už &quot;od narození&quot;.
+
+Aby to celé nezapadlo, přidal jsem výzvu ke komentářům
+níže zmíněného patch
+
+<A HREF="https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1214889&amp;group_id=5470&amp;atid=305470">https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1214889&amp;group_id=5470&amp;atid=305470</A>
+
+pepr
+
+--------------------------------------------------------------------------------
+
+Date: 2005-06-26 13:34
+Sender: birkenfeld
+Logged In: YES 
+user_id=1188172
+
+Actually, your sys.stdout.encoding is set to something
+different than cp1250, which is why the result of DOS type
+looks the same as the one of print.
+
+This is because print observes sys.stdout.encoding, while
+sys.stdout.write uses the system default encoding, which is,
+as you set it, cp1250 and is displayed wrong on the console.
+
+Closing this bug, as it is currently expected behaviour (but
+will perhaps change when patch #1214889 is accepted).
+ 
+--------------------------------------------------------------------------------
+
+Date: 2005-06-27 22:56
+Sender: prikryl
+Logged In: YES 
+user_id=771873
+
+Should I understand it that there is no bug, but I do use it 
+incorrectly? I cannot agree that this is expected behaviour. (I 
+am not the only one who found this strange.) 
+
+Of course, the sys.stdout.encoding is different for a DOS 
+window (cp852) than the default encoding (cp1250). Windows 
+simply behaves this way when working with DOS window 
+(because of legacy DOS applications).
+
+I do not complain on behaviour of sys.stdout.write() but on 
+behaviour of raw_input(). The output of raw_input() prompt 
+should be displayed the same way as the print diplays the 
+results to the user. The raw_input() is used for building user 
+interface. Its prompt should not be displayed differently in 
+windows that use different encoding (i.e. DOS console vs. 
+say IDLE console).
+
+In other words, how should I use raw_input() to make it 
+working correctly?
+ 
+--------------------------------------------------------------------------------
+
+Date: 2005-06-27 23:40
+Sender: birkenfeld
+Logged In: YES 
+user_id=1188172
+
+You'll have to explicitly encode the unicode string using
+raw_input(s.encode(sys.stdout.encoding)).
+
+As said, this behaviour will change if the patch mentioned
+is accepted.
+ 
+--------------------------------------------------------------------------------
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003021.html">[python] [TALK] vyvoj Pythonu, jimavy pribeh
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003023.html">[python] Hledani v souboru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3022">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3022">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3022">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3022">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003022.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:00 GMT -->
+</html>

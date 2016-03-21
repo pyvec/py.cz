@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009964.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:20 GMT -->
+<HEAD>
+   <TITLE> [python] nechtene propojeni mnozin
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nechtene%20propojeni%20mnozin&In-Reply-To=%3CAANLkTinPjs03ALHerBNa%2Bikrq57G_9Xt2DsRjWvur1nE%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-October/009963.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-October/009965.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] nechtene propojeni mnozin</H1>
+    <B>rajcze</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nechtene%20propojeni%20mnozin&In-Reply-To=%3CAANLkTinPjs03ALHerBNa%2Bikrq57G_9Xt2DsRjWvur1nE%40mail.gmail.com%3E"
+       TITLE="[python] nechtene propojeni mnozin">rajcze na gmail.com
+       </A><BR>
+    <I>Čtvrtek Říjen 14 12:44:09 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009963.html">[python] nechtene propojeni mnozin
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009965.html">[python] nechtene propojeni mnozin
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9964">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9964">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9964">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9964">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Problem je v tom, ze seznam (list) je neco, cemu se v pythonu rika
+&quot;Mutable&quot; - tj. menitelny objekt.
+
+V praxi to znamena, ze pokud si vytvoris promennou R0 a priradis ji
+prazdny seznam, tak ve skutecnosti _nastavujes ukazatel R0 na misto
+pameti, kde se nachazi ten seznam_. Potom kdyz do toho seznamu neco
+pridas pomoci append, nevytvori se novy seznam, ale jen se zmeni obsah
+toho mista v pameti.
+
+Potom kdyz udelas R0work = R0, tak nekopirujes cely ten seznam, ale
+jen hodnotu toho ukazatele. Tj. R0 i R0work ukazuji na stejne misto v
+pameti -&gt; je to &quot;jakoby&quot; ta stejna promenna.
+
+Takze pokud ches pracovat s R0work, aniz bys menila R0, je potreba ho
+zkopirovat. (Predpokladam, ze ta inicializace byl prostre trivialni
+priklad, ne zpusob, jak to ve skutecnosti inicializujes. Pokud ano,
+tak je zbytecne &quot;neoptimalni&quot;.)
+
+R0=[]
+for x in range (8):
+   R0.append(x)
+R0work=R0
+print id(R0), id(R0work)
+R0work[-1]=0
+print id(R0), id(R0work)
+print(R0)
+print (R0work)
+
+
+tady vidis, ze to je porad ten stejny kus pameti. (kdyz si neco
+takoveho zkusis s retezci, uvidis, ze pri druhem vypisu budou id()
+ruzna - string je totiz immutable - s kazdou zmenou se vytvari jeho
+nova instance).
+
+Takze tvuj kus kodu, ve funkcni podobe, by byl asi takovyto
+
+from copy import deepcopy
+
+R0 = range(8)
+R0work = deepcopy(R0)
+R0work[-1] = 0
+print R0, R0work
+
+Nevim, jake mas zkusenosti s programovanim v jinych jazycich, takze se
+omlouvam, pokud to bylo prilis detailni/strucne - klidne se ptej dal,
+pokud ti neco neni jasne :)
+
+joza
+
+2010/10/14 Charlotte van Leeweneck &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vanleeweneck.charlotte na gmail.com</A>&gt;:
+&gt;<i> Dobry den,
+</I>&gt;<i>
+</I>&gt;<i> potrebovala bych pomoci s nasledujicim problemem.
+</I>&gt;<i>
+</I>&gt;<i> R0=[]
+</I>&gt;<i> for x in range (8):
+</I>&gt;<i>    R0.append(x)
+</I>&gt;<i> R0work=R0
+</I>&gt;<i> R0work[-1]=0
+</I>&gt;<i>
+</I>&gt;<i> print(R0)
+</I>&gt;<i> print (R0work)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Cílem bylo, aby mi to nahradilo posledni prvek v mnozine R0work prvkem 0,
+</I>&gt;<i> ale mozinu R0 nechalo nedotcenou
+</I>&gt;<i> tj. pozadovaný vysledek R0=[0, 1, 2, 3, 4, 5, 6, 7], R0work=[0, 1, 2, 3, 4,
+</I>&gt;<i> 5, 6, 0]
+</I>&gt;<i> Bohuzel to tak nefunguje a nahrazuje posledni prvek v obou mnozinach. Kde
+</I>&gt;<i> delam chybu?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Dekuji za odpoved.
+</I>&gt;<i> Sarka
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+Rules of Optimization:
+Rule 1: Don't do it.
+Rule 2 (for experts only): Don't do it yet.
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009963.html">[python] nechtene propojeni mnozin
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009965.html">[python] nechtene propojeni mnozin
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9964">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9964">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9964">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9964">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009964.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:20 GMT -->
+</html>

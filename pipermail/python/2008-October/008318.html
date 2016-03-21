@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-October/008318.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:18 GMT -->
+<HEAD>
+   <TITLE> [python] PyQt &amp; SIGSEDV
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PyQt%20%26%20SIGSEDV&In-Reply-To=%3C200810221242.55349.radek.machulka%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-October/008317.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-October/008319.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PyQt &amp; SIGSEDV</H1>
+    <B>Radek Machulka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PyQt%20%26%20SIGSEDV&In-Reply-To=%3C200810221242.55349.radek.machulka%40gmail.com%3E"
+       TITLE="[python] PyQt &amp; SIGSEDV">radek.machulka na gmail.com
+       </A><BR>
+    <I>Středa Říjen 22 12:42:55 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008317.html">[python] Tkinter; Linux; GNOME;
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008319.html">[python] PyQt &amp; SIGSEDV
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-October/date.html#8318">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/thread.html#8318">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/subject.html#8318">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/author.html#8318">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+hraju si ted se signaly a narazil jsem na tohle:
+
+Python 2.5.2 (r252:60911, Aug  1 2008, 00:43:38) 
+[GCC 4.3.1 20080507 (prerelease) [gcc-4_3-branch revision 135036]] on linux2
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.      
+&gt;&gt;&gt;<i> from PyQt4 import QtCore                                     
+</I>&gt;&gt;&gt;<i> class b(QtCore.QObject):                                                
+</I>...    def __init__(self):                                                  
+...       QtCore.QObject.__init__(self)                                     
+...
+&gt;&gt;&gt;<i> class a(QtCore.QObject):
+</I>...    def __init__(self):
+...       QtCore.QObject.__init__(self)
+...       self.signal = QtCore.SIGNAL(&quot;data(PyQt_PyObject)&quot;)
+...       QtCore.QObject.connect(e, self.signal, self.data)
+...    def data(inp):
+...       print self, inp
+...
+&gt;&gt;&gt;<i> e = b()
+</I>&gt;&gt;&gt;<i> q = a()
+</I>&gt;&gt;&gt;<i> w = a()
+</I>&gt;&gt;&gt;<i> e.emit(q.signal)
+</I>Neoprávněný přístup do paměti (SIGSEGV)
+
+Co delam spatne?
+Dik Radek
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008317.html">[python] Tkinter; Linux; GNOME;
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-October/008319.html">[python] PyQt &amp; SIGSEDV
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-October/date.html#8318">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/thread.html#8318">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/subject.html#8318">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-October/author.html#8318">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-October/008318.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:18 GMT -->
+</html>

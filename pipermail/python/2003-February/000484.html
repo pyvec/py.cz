@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000484.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+<HEAD>
+   <TITLE> [python] mini web server
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20mini%20web%20server&In-Reply-To=Mahogany-0.64.2-1760-20030203-211201.00%40MICHAL.mshome.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-February/000478.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-February/000506.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] mini web server</H1>
+    <B>Petr Vanek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20mini%20web%20server&In-Reply-To=Mahogany-0.64.2-1760-20030203-211201.00%40MICHAL.mshome.net"
+       TITLE="[python] mini web server">vanous na penguin.cz
+       </A><BR>
+    <I>Neděle Únor  9 20:30:29 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000478.html">[python] mini web server
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000506.html">[python] mini web server
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#484">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#484">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#484">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#484">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, Feb 03, 2003 at 09:12:01PM +0100, Michal Molhanec wrote:
+&gt;<i> On Mon, 3 Feb 2003 20:47:26 +0100 Petr Vanek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vanous na penguin.cz</A>&gt; wrote:
+</I>&gt;<i> jiste viz dokumentace - moduly: SimpleHTTPServer, CGIHTTPServer,
+</I>&gt;<i> BaseHTTPServer, SocketServer atd. dle libosti
+</I>
+
+diky vsem, uz mi to beha, jeste mam jeden dotaz:
+potrebuji spustit z jednoho scriptu dva servery (jeden httpd, druhy pro
+sql server), nicmene po spusteni jednoho se na ten druhy uz nedostane
+rada...musim pouzit fork (popr. popen), nebo to jde i jinak? nechci
+spoustet dva scripty...
+
+prikladam onen proklad:
+PORT = 2222
+#DB = &quot;test&quot;
+DB = &quot;books&quot;
+#DBDIR = &quot;/home/vanous/htbin/db&quot;
+DBDIR = &quot;/home/dokumenty/python/bookshelve/bookdb&quot;
+PW = &quot;admin&quot;
+STARTUP = &quot;servers&quot;
+doc_root = ('/home/vanous/htbin/')
+
+import sys, socket
+from gadfly.server import Server, Policy
+from gadfly.client import gfclient
+import BaseHTTPServer, SimpleHTTPServer, CGIHTTPServer
+import os
+
+def run(HandlerClass = CGIHTTPServer.CGIHTTPRequestHandler, ServerClass = BaseHTTPServer.HTTPServer):
+    server_address=('',7000)
+    httpd=ServerClass(server_address, HandlerClass)
+    os.chdir(doc_root)
+    httpd.serve_forever()
+
+def main():
+    machine = 'localhost' #socket.gethostname()
+    port = PORT
+    print &quot;attempting to start the server&quot;
+    print &quot;making a server on&quot;, PORT, DB, DBDIR, PW, STARTUP
+    S = Server(PORT, DB, DBDIR, PW, STARTUP)
+    print &quot;initializing the server&quot;
+    S.init()
+    print &quot;starting the server&quot;, S.connection
+    S.start()
+
+
+def startup(admin_policy, connection, Server_instance):
+    print
+#    admin_policy[&quot;dumpwork&quot;] = &quot;select * from work&quot;
+#    test1 = Policy(&quot;test1&quot;, &quot;test1&quot;, connection, queries=0)
+#    test = Policy(&quot;test&quot;, &quot;test&quot;, connection, queries=0)
+#    test1[&quot;qlike&quot;] = &quot;select * from likes where drinker=?&quot;
+#    test[&quot;updatenan&quot;] = &quot;&quot;&quot;
+#      update likes
+#      set beer=?, perday=?
+#      where drinker='nan'
+#    &quot;&quot;&quot;
+#    test[&quot;getnan&quot;] = &quot;&quot;&quot;
+#    select * from likes where drinker='nan'
+#    &quot;&quot;&quot;
+#    from CGIHTTPServer import test
+#    test()
+
+
+if __name__==&quot;__main__&quot;:
+    main()
+
+diky
+
+-- 
+
+bye
+
+Vanous
+-------------------------------------------------
+Petr Vanek                       ..... ./\.  ....
+Debian GNU Linux                 .. _|\|  |/|_ ..
+<A HREF="http://www.py.cz/mailman/listinfo/python">vanous na penguin.cz</A>                .. \        /...
+<A HREF="http://www.penguin.cz/~vanous">http://www.penguin.cz/~vanous</A>    ... &gt;______&lt; ...
+Angus, Ontario, CANADA           ...... / .......
+-------------------------------------------------
+Registered linux user #217487
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: [žádný popis není k dispozici]
+Typ: application/pgp-signature
+Velikost: 232 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20030209/49e38e6b/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20030209/49e38e6b/attachment.pgp</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000478.html">[python] mini web server
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000506.html">[python] mini web server
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#484">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#484">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#484">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#484">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000484.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+</html>

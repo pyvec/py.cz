@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011537.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:20 GMT -->
+<HEAD>
+   <TITLE> [python] Lock
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3CCAMmgUkNPP0Fe6s5GS0yzqbsQjYSYbSHXagYHC2KF2R730sZChQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011536.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011538.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Lock</H1>
+    <B>Jan Bednařík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3CCAMmgUkNPP0Fe6s5GS0yzqbsQjYSYbSHXagYHC2KF2R730sZChQ%40mail.gmail.com%3E"
+       TITLE="[python] Lock">jan.bednarik na gmail.com
+       </A><BR>
+    <I>Pondělí Únor  9 18:37:12 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011536.html">[python] Lock
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011538.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11537">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11537">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11537">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11537">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jestli potřebuješ aplikaci, která je nezávislá na druhu databáze, použij
+SQLAlchemy, která ti poskytne abstrakci nad různými databázovými backendy.
+
+Jinak na myisam i innodb je špatné to, že nejsou ACID a dříve nebo později
+tě někde pořádně vypečou. Jak už psal Honza Král, 99% problémů s databází
+je MySQL. Jestli neděláš jen nějaký hobby projektík pro sebe, použij raději
+PostgreSQL.
+
+Honza
+
+
+2015-02-09 17:36 GMT+01:00 mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt;:
+
+&gt;<i>  Já tedy nevím, co je třeba na myisam špatného pro práci s penězi.
+</I>&gt;<i> 1. Potřebuju aplikaci, která je více nezávislá na druhu databáze.
+</I>&gt;<i> 2. Transakce pro write to neřeší, jedině read a tu vzhledem k možné době
+</I>&gt;<i> trvání zámku nechci použít
+</I>&gt;<i>
+</I>&gt;<i> Nicméně už sem to vyřešil jednoduše viz tip Honzy:
+</I>&gt;<i>
+</I>&gt;<i> &gt;A samozrejme, jako vzdy, je lepsi varianta bezzamkova:
+</I>&gt;<i> &gt;&quot;UPDATE Zaplaceno = 1 FROM platby WHERE id=%s AND Zaplaceno = 0&quot;
+</I>&gt;<i>
+</I>&gt;<i> Mirek
+</I>&gt;<i> --------------------------------
+</I>&gt;<i> 9. února 2015, 17:10:21, napsal jste:
+</I>&gt;<i>
+</I>&gt;<i>  Transakce jsem použít nechtěl, protože databáze nemusí být innodb
+</I>&gt;<i> dokonce ani mysql.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Takové databáze jsou pro aplikace pracující s penězi nejlepší. Už chybí
+</I>&gt;<i> jen náhodné mazání uložených dat.
+</I>&gt;<i>
+</I>&gt;<i> PM
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150209/e730f446/attachment.html">http://www.py.cz/pipermail/python/attachments/20150209/e730f446/attachment.html</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011536.html">[python] Lock
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011538.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11537">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11537">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11537">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11537">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011537.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:20 GMT -->
+</html>

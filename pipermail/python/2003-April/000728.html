@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-April/000728.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+<HEAD>
+   <TITLE> [python] Re: igui2
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20igui2&In-Reply-To=Pine.LNX.4.33.0304011049280.9681-100000%40satyr2.zcu.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-April/000696.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-April/000729.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Re: igui2</H1>
+    <B>Petr Michalec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Re%3A%20igui2&In-Reply-To=Pine.LNX.4.33.0304011049280.9681-100000%40satyr2.zcu.cz"
+       TITLE="[python] Re: igui2">azzi na centrum.cz
+       </A><BR>
+    <I>Pátek Duben  4 18:15:45 CEST 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000696.html">[python] Re: igui2
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000729.html">[python] Re: igui2
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-April/date.html#728">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/thread.html#728">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/subject.html#728">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/author.html#728">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, Apr 01, 2003 at 10:50:15AM +0200, Jan Svec wrote:
+&gt;<i> On Tue, 1 Apr 2003, Zdenek Pavlas wrote:
+</I>&gt;<i> 
+</I>&gt;<i> &gt; Mate pravdu ze kdyz 90% casu program stravi v POLLu tak je z hlediska
+</I>&gt;<i> &gt; vykonu je celkem jedno jak neefektivne travi tech 10%. Jenze je to potreba
+</I>&gt;<i> &gt; pro ergonomii ovladani- kdyz kliknu na menu, chci dialog videt co nejdriv,
+</I>&gt;<i> &gt; ne ze system bude nekolik vterin swapovat, pak se objevi canvas a pak vidim
+</I>&gt;<i> &gt; jak se lenive vykreslujou widgety.
+</I>&gt;<i> 
+</I>&gt;<i> No a to potom dozeneme silnejsim strojem :)
+</I>
+Torochu dele.. 
+Naprosto souhlasim.. za dva roky budou pocitace zase jednou tak rychle,
+netrapil bych se s s pomalosti onech 10-ti %.
+
+k Xlib.. sam jsem nic takoveho neprogramoval ale co jsem mohl videt v jedne
+knizce co vlastnim tak je to des. Ne ze by to bylo nerealny, ale pocet
+radku proste neodpovida vysledku. Jak uz tu nekdo psal Xlib je strasne
+narozny na cas/delka kodu &lt;=&gt; pocet chyb. Budme radi ze ty neco jako GTK
+je..
+
+Chtel jsem se jeste optat Honzy Svece, pises to primo v PyGTK cili
+vsechny widgety tvoris rucne? a nebo pouzivas glade a  XML output pak
+zpracujes pomoci libglade takhe pres wraper
+
+237 class WidgetsWrapper:
+238     def __init__(self):
+239         self.widgets = libglade.GladeXML('cabric.glade', &quot;cabric&quot;)
+240         self.widgets.signal_autoconnect(GladeHandlers.__dict__)
+246 
+247     # Gives us the ability to do: widgets['widget_name'].action()
+248     def __getitem__(self, key):
+249         return self.widgets.get_widget(key)
+250 
+
+Psat pak cokoli je snadny asi jako psat to v delphi. Pro jednotlivy
+volani/handlery udalosti mam pak tridu a jeji metody to obslouzej.. 
+Nevsim jsem si ze by se tu nekdo o podobnym prisupu zminil. Pokud ano,
+sorry. 
+
+253 class Application:
+254     def __init__(self):
+255         #PRIPOJIT HANDLERY
+256         widgets['cabric'].connect(&quot;destroy&quot;, mainquit)
+
+
+
+
+286 if __name__ == '__main__': # Here starts the dynamic part of the program 
+287 
+288 
+289 #zkusit sem dat update a nakupy.. ???
+290    widgets = WidgetsWrapper()
+291    cabric = Application()    # Instancing of the GUI   
+292    mainloop()
+
+
+-- 
+Petr Michalec, <A HREF="http://www.py.cz/mailman/listinfo/python">petr.michalec na centrum.cz</A>, Jaselska 959 Celakovice 25088, CR
+		    'FreeBSD - mam's know what's the best for their children'
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000696.html">[python] Re: igui2
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-April/000729.html">[python] Re: igui2
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-April/date.html#728">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/thread.html#728">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/subject.html#728">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-April/author.html#728">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-April/000728.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+</html>

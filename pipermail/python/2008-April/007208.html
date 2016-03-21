@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007208.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:26 GMT -->
+<HEAD>
+   <TITLE> [python] Funkce getattr, eval, vhodnost jejich použití
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FFunkce_getattr%3D2C_eval%3D2C_vhodnost_jejich%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_pou%3DBEit%3DED%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007207.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007209.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Funkce getattr, eval, vhodnost jejich použití</H1>
+    <B>Martin Stiborský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FFunkce_getattr%3D2C_eval%3D2C_vhodnost_jejich%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_pou%3DBEit%3DED%3F%3D&In-Reply-To="
+       TITLE="[python] Funkce getattr, eval, vhodnost jejich použití">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Pátek Duben  4 23:32:31 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007207.html">[python] barvy textu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007209.html">[python] Funkce getattr, eval, vhodnost jejich použití
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7208">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7208">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7208">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7208">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý večer.
+Ve svém programu jsem potřeboval volat jednu z několika tříd, kterou,
+to záviselo na volbě uživatele v GUI.
+Chtěl bych poprosit o kritiku mého rešení.
+
+Všechny třídy jsem měl po kupě v jednom adresáři, ten jsem si naimportoval.
+Do proměnné se uloží název proměnné, podle volby z GUI.
+Pomocí getattr se zavolá třída + metoda.
+
+import balicek
+choice = button.objectName()
+foo = getattr(balicek , str(choice))
+print foo().bar()
+
+Vše funguje bez problémů. Ještě před tímto jsem to samé dal do kupy pomocí eval.
+
+print eval(&quot;%s().foo()&quot; % choice)
+
+V tomto případě jsem si v __init__.py v adresáři s třídami
+naimportoval všechny třídy.
+
+Jaké jsou nevýhody eval() ? Je to celé vůbec košér, prosím o Vaše názory.
+
+Děkuji velice.
+-- 
+S pozdravem
+Martin Stiborský
+
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+ICQ: 224-065-849
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007207.html">[python] barvy textu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007209.html">[python] Funkce getattr, eval, vhodnost jejich použití
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7208">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7208">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7208">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7208">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007208.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:26 GMT -->
+</html>

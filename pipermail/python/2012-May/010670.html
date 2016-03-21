@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010670.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:30 GMT -->
+<HEAD>
+   <TITLE> [python] Unicode/ne-unicode problem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode/ne-unicode%20problem&In-Reply-To=%3C0bd901cd2842%24e0593e30%246164a8c0%40IBMXP%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-May/010668.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-May/010672.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Unicode/ne-unicode problem</H1>
+    <B>Jaroslav Lukesh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode/ne-unicode%20problem&In-Reply-To=%3C0bd901cd2842%24e0593e30%246164a8c0%40IBMXP%3E"
+       TITLE="[python] Unicode/ne-unicode problem">lukesh na seznam.cz
+       </A><BR>
+    <I>Středa Květen  2 11:06:35 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010668.html">[python] Unicode/ne-unicode problem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010672.html">[python] Unicode/ne-unicode problem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10670">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10670">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10670">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10670">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jenže právě toto nějak nejde, řve na tom &quot;ř&quot;:
+
+&gt;&gt;&gt;<i> s='Ă˝ Ăˇ Ă­ Ă.'
+</I>&gt;&gt;&gt;<i> u = s.decode(&quot;utf8&quot;)
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  File &quot;/var/zope/python/lib/python2.4/encodings/utf_8.py&quot;, line 16, in 
+decode
+    return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode bytes in position 9-10: 
+invalid data
+&gt;&gt;&gt;<i>
+</I>
+Tohle je převod &quot;znaků&quot;:
+ě š č ř ž ý á í é ď ť ň ó ú ů ĺ ľ ŕ ö ë ä ü
+
+&#196;&#8250; &#313;&#711; &#196;&#356; &#313;&#8482; &#313;&#318; &#258;&#733; &#258;&#711; &#258;&#173; &#258;&#169; &#196;&#377; &#313;&#260; &#313;? &#258;&#322; &#258;&#351; &#313;&#379; &#196;&#351; &#196;&#318; &#313;&#8226; &#258;&#182; &#258;&#171; &#258;&#164; &#258;&#317;
+
+Ě Š Č Ř Ž Ý Á Í É Ď Ť Ň Ó Ú Ů Ĺ Ľ Ŕ Ö Ë Ä Ü
+
+&#196;&#353; &#313;  &#196;&#346; &#313;? &#313;&#733; &#258;&#357; &#258;? &#258;&#356; &#258;&#8240; &#196;&#381; &#313;&#164; &#313;&#8225; &#258;&#8220; &#258;&#353; &#313;&#174; &#196;&#261; &#196;&#733; &#313;&#8221; &#258;&#8211; &#258;&#8249; &#258;&#8222; &#258;&#347;
+
+vypadá to teda asi na mohutný replace, co?
+
+
+----- Původní zpráva ----- 
+Od: &quot;Petr Messner&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr.messner na gmail.com</A>&gt;
+
+pokud v proměnné s máte 'Ă˝ Ăˇ Ă­ Ă.', pak zavoláním u = s.decode(&quot;utf8&quot;) z 
+toho dostanete unicode řetězec. S ním pak můžete dále pracovat nebo ho 
+převést do jiného kódování. Pokud ho chcete zobrazit na Windows v kódování 
+cp1250, zkuste u.encode(&quot;cp1250&quot;).
+
+Je nutné si uvědomit, ze unicode řetězec nejde přímo zobrazit - vždy to bude 
+jen nejaká jeho podoba v některém kódování. Třeba print v 2.x automaticky 
+použije kódování např. z LANG. Je dobré v programu vždy pracovat s unicode, 
+mit správně nastavené vstupy a výstupy tak, aby unicode správně kódovaly a 
+dekódovaly, a pak se o nějaké kódování už vůbec nestarat. Samozřejmě pokud 
+máte nejaky vstup, u kterého jste si jistý, že vám bude dodávat řetězce v 
+utf-8, první (a jediné), co uděláte, je decode(&quot;utf-8&quot;) :)
+
+Petr Messner
+
+2. 5. 2012 v 10:16, &quot;Jaroslav Lukesh&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lukesh na seznam.cz</A>&gt;:
+
+&gt;<i> Děkuji, ale nechápu, jak proměnné říct, že už obsahuje text v kódování 
+</I>&gt;<i> UTF8.
+</I>&gt;<i>
+</I>&gt;<i> Mám proměnnou, která obsahuje 'Ă˝ Ăˇ Ă­ Ă.' tedy přesněji, toto je ve 
+</I>&gt;<i> windowsech vidět, když si zobrazíte utf8 v cp1250. Python mám ale na 
+</I>&gt;<i> Linuxu v LANG=cs_CZ.iso8859-2. Ty znaky v UTF8 tam jdou binárně zvenčí a 
+</I>&gt;<i> nevím jak pythonu říct, že to má považovat za utf8.
+</I>&gt;<i>
+</I>&gt;<i> Chtěl bych to udělat systémově, než na ten vstup poštvat 50x replace.
+</I>&gt;<i>
+</I>&gt;<i> Děkuji, JL.
+</I>&gt;<i>
+</I>&gt;<i> ----- Původní zpráva ----- Od: &quot;Petr Přikryl&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prikryl na atlas.cz</A>&gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Nejjednodušší je to převést nejdříve do Unicode a druhým krokem do 
+</I>&gt;<i> požadovaného
+</I>&gt;<i> kódování. Tohle jsem dělal pod Windows na konzoli, která používá cp852:
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> u = u&quot;ě š č ř&quot;
+</I>&gt;&gt;&gt;&gt;<i> u
+</I>&gt;<i> u'\u011b \u0161 \u010d \u0159'
+</I>&gt;&gt;&gt;&gt;<i> s = u.encode('utf-8')
+</I>&gt;&gt;&gt;&gt;<i> s
+</I>&gt;<i> '\xc4\x9b \xc5\xa1 \xc4\x8d \xc5\x99'
+</I>&gt;&gt;&gt;&gt;<i> u2 = s.decode('utf-8')
+</I>&gt;&gt;&gt;&gt;<i> u2
+</I>&gt;<i> u'\u011b \u0161 \u010d \u0159'
+</I>&gt;&gt;&gt;&gt;<i> u3 = unicode(s, 'utf-8')
+</I>&gt;&gt;&gt;&gt;<i> u3
+</I>&gt;<i> u'\u011b \u0161 \u010d \u0159'
+</I>&gt;&gt;&gt;&gt;<i> sLatin2 = u.encode('iso8859_2')
+</I>&gt;&gt;&gt;&gt;<i> sLatin2
+</I>&gt;<i> '\xec \xb9 \xe8 \xf8'
+</I>&gt;<i>
+</I>&gt;<i> .decode() nebo unicode() to převede na Unicode řetězec.
+</I>&gt;<i> .encode() to převede na požadované kódování.
+</I>&gt;<i>
+</I>&gt;<i> V názvu kódování má být oficiálně znak podtržení, ale
+</I>&gt;<i> implementace toleruje i uvedení velkých písmen a pomlček.
+</I>&gt;<i>
+</I>&gt;<i> Měj se,
+</I>&gt;<i>  Petr
+</I>&gt;<i>
+</I>&gt;<i> ______________________________________________________________
+</I>&gt;&gt;<i> Od: &quot;Jaroslav Lukesh&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lukesh na seznam.cz</A>&gt;
+</I>&gt;&gt;<i> Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;&gt;<i> Datum: 27.04.2012 10:35
+</I>&gt;&gt;<i> Předmět: [python] Unicode/ne-unicode problem
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dobrý den,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> potřeboval bych dostat z binárních dat utf8 na vstupu normální 
+</I>&gt;&gt;<i> neunicodový
+</I>&gt;&gt;<i> výstup, ale nějak mi to nejde.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Vstup: znaky &quot;ě š č ř&quot; v utf8 již v binární formě, systém je v iso8859-2
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Čekám že z toho nějak dostanu &quot;ě š č ř&quot; ale pořád nic. Jak mu říct, že 
+</I>&gt;&gt;<i> 'Ă˝
+</I>&gt;&gt;<i> Ăˇ Ă­ Ă.' je už v utf8?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Děkuji, JL.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> a='Ă˝ Ăˇ Ă­ Ă.'
+</I>&gt;&gt;&gt;&gt;&gt;<i> A=unicode(a,'iso8859-2')
+</I>&gt;&gt;&gt;&gt;&gt;<i> print a
+</I>&gt;&gt;<i> Ă˝ Ăˇ Ă­ Ă.
+</I>&gt;&gt;&gt;&gt;&gt;<i> A=unicode(a,'utf8')
+</I>&gt;&gt;<i> Traceback (most recent call last):
+</I>&gt;&gt;<i> File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+</I>&gt;&gt;<i> File &quot;/var/zope/python/lib/python2.4/encodings/utf_8.py&quot;, line 16, in
+</I>&gt;&gt;<i> decode
+</I>&gt;&gt;<i>   return codecs.utf_8_decode(input, errors, True)
+</I>&gt;&gt;<i> UnicodeDecodeError: 'utf8' codec can't decode bytes in position 9-10:
+</I>&gt;&gt;<i> invalid data
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> A.encode('iso8859-2')
+</I>&gt;&gt;<i> '\xc3\xbd \xc3\xb7 \xc3\xad \xc3.'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> a.encode('iso8859-2')
+</I>&gt;&gt;<i> Traceback (most recent call last):
+</I>&gt;&gt;<i> File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+</I>&gt;&gt;<i> File &quot;/var/zope/python/lib/python2.4/encodings/iso8859_2.py&quot;, line 18, in
+</I>&gt;&gt;<i> encode
+</I>&gt;&gt;<i>   return codecs.charmap_encode(input,errors,encoding_map)
+</I>&gt;&gt;<i> UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 0:
+</I>&gt;&gt;<i> ordinal not in range(128)
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> A.decode('iso8859-2')
+</I>&gt;&gt;<i> Traceback (most recent call last):
+</I>&gt;&gt;<i> File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+</I>&gt;&gt;<i> File &quot;/var/zope/python/lib/python2.4/encodings/iso8859_2.py&quot;, line 22, in
+</I>&gt;&gt;<i> decode
+</I>&gt;&gt;<i>   return codecs.charmap_decode(input,errors,decoding_map)
+</I>&gt;&gt;<i> UnicodeEncodeError: 'ascii' codec can't encode characters in position 
+</I>&gt;&gt;<i> 0-1:
+</I>&gt;&gt;<i> ordinal not in range(128)
+</I>&gt;&gt;&gt;&gt;&gt;<i> a.decode('iso8859-2')
+</I>&gt;&gt;<i> u'\u0102\u02dd \u0102\u02c7 \u0102\xad \u0102.'
+</I>&gt;&gt;&gt;&gt;&gt;<i> a.decode('utf8')
+</I>&gt;&gt;<i> Traceback (most recent call last):
+</I>&gt;&gt;<i> File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+</I>&gt;&gt;<i> File &quot;/var/zope/python/lib/python2.4/encodings/utf_8.py&quot;, line 16, in
+</I>&gt;&gt;<i> decode
+</I>&gt;&gt;<i>   return codecs.utf_8_decode(input, errors, True)
+</I>&gt;&gt;<i> UnicodeDecodeError: 'utf8' codec can't decode bytes in position 9-10:
+</I>&gt;&gt;<i> invalid data
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A> 
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010668.html">[python] Unicode/ne-unicode problem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010672.html">[python] Unicode/ne-unicode problem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10670">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10670">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10670">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10670">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010670.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:30 GMT -->
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011159.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:59 GMT -->
+<HEAD>
+   <TITLE> [python] Poskozena diakritika pri zpracovani mailu na starsim	Ubuntu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Poskozena%20diakritika%20pri%20zpracovani%20mailu%20na%20starsim%0A%09Ubuntu&In-Reply-To=%3CCAE1QKmRrS2udj4ZopRirPLku6u1QxXUh4m67Czuw6BNTwpaQjA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-October/011158.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-October/011160.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Poskozena diakritika pri zpracovani mailu na starsim	Ubuntu</H1>
+    <B>Petr Blahos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Poskozena%20diakritika%20pri%20zpracovani%20mailu%20na%20starsim%0A%09Ubuntu&In-Reply-To=%3CCAE1QKmRrS2udj4ZopRirPLku6u1QxXUh4m67Czuw6BNTwpaQjA%40mail.gmail.com%3E"
+       TITLE="[python] Poskozena diakritika pri zpracovani mailu na starsim	Ubuntu">petrblahos na gmail.com
+       </A><BR>
+    <I>Středa Říjen 23 12:46:58 CEST 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011158.html">[python] Poskozena diakritika pri zpracovani mailu na starsim Ubuntu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011160.html">[python] outdoor python teambuilding
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11159">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11159">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11159">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11159">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+nepřešlo ubuntu mezi těma verzema z kódování češtiny iso-8859-2 na utf-8?
+Myslím, že doma mám jeden 10.04, mohl bych se podívat. Zkusil bych
+každopádně na 10.04
+   LC_ALL=&quot;C&quot; mujskript.py
+jestli se to píše takhle. Nebo ma 12.04
+  LC_ALL=&quot;cs_CZ.iso-8859-2&quot; mujskript.py
+jestli se to píše takhle, ale pokud to dopadne dobře, tak bych z toho ještě
+nic
+neusuzoval.
+
+Každopádně:
+u&quot;odložení trestního oznámení&quot;.encode(&quot;utf-8&quot;) odpovídá tomuto:
+   odlo=C5=BEen=C3=AD trestn=C3=ADho ozn=C3=A1men=C3=AD
+takže tam je to správně.
+
+Ale &quot;odlo=17Een=ED trestn=EDho ozn=E1men=ED&quot;
+je takovej zvláštní paskvil, který dostanu, když udělám
+  &quot;odlo\xC5\xBEen\xC3\xAD trestn\xC3\xADho
+ozn\xC3\xA1men\xC3\xAD&quot;.decode(&quot;utf-8&quot;)
+Takže se tam objeví už dekódovanej string, ale někdo si
+myslí, že to má být unicode, a znovu ho dekóduje.
+
+Podezíral bych wxPython, ale to tam asi nemáš ;-)
+--
+Petr
+
+
+
+
+
+2013/10/23 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mol-python na seznam.cz</A>&gt;
+
+&gt;<i> Kecám z hladu, pardon.
+</I>&gt;<i>
+</I>&gt;<i> ---------- Původní zpráva ----------
+</I>&gt;<i> Od: <A HREF="http://www.py.cz/mailman/listinfo/python">mol-python na seznam.cz</A>
+</I>&gt;<i> Datum: 23. 10. 2013
+</I>&gt;<i> Předmět: Re: [python] Poskozena diakritika pri zpracovani mailu na starsim
+</I>&gt;<i> Ubuntu
+</I>&gt;<i>
+</I>&gt;<i> Dobrý den.
+</I>&gt;<i> Předpokládám, že ty ukázky dole jsou až z toho odesílaného textu? Takže by
+</I>&gt;<i> bylo asi potřeba vidět spíš tu část kódu, která to vytváří. Protože
+</I>&gt;<i> rozkódovaný je to dobře, akorát se zakódovalo jako latin2, což neodpovídá
+</I>&gt;<i> posílané hlavičce.
+</I>&gt;<i>
+</I>&gt;<i> Zdraví,
+</I>&gt;<i> MM
+</I>&gt;<i>
+</I>&gt;<i> ---------- Původní zpráva ----------
+</I>&gt;<i> Od: Vladimir Macek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">macek na sandbox.cz</A>&gt;
+</I>&gt;<i> Datum: 23. 10. 2013
+</I>&gt;<i> Předmět: [python] Poskozena diakritika pri zpracovani mailu na starsim
+</I>&gt;<i> Ubuntu
+</I>&gt;<i>
+</I>&gt;<i> Zdravim,
+</I>&gt;<i>
+</I>&gt;<i> dodavam klientovi skript pro stazeni mailu z POP3, preformatovani a
+</I>&gt;<i> odeslani pres SMTP. Touto metodou beru z puvodniho mailu textovou cast:
+</I>&gt;<i>
+</I>&gt;<i> def get_email_text(self, msg):
+</I>&gt;<i>     &quot;&quot;&quot;
+</I>&gt;<i>     get plaintext part of the message, or None if none
+</I>&gt;<i>     &quot;&quot;&quot;
+</I>&gt;<i>     get_charset = lambda msg: msg.get_content_charset() or
+</I>&gt;<i> msg.get_charset() or 'ascii'
+</I>&gt;<i>     get_payload = lambda msg: unicode(msg.get_payload(decode=True),
+</I>&gt;<i> get_charset(msg), 'replace')
+</I>&gt;<i>
+</I>&gt;<i>     maintype = msg.get_content_maintype()
+</I>&gt;<i>     if maintype == 'multipart':
+</I>&gt;<i>         return u'\n'.join(get_payload(part) for part in
+</I>&gt;<i> typed_subpart_iterator(msg, 'text', 'plain'))
+</I>&gt;<i>     elif maintype == 'text':
+</I>&gt;<i>         return get_payload(msg)
+</I>&gt;<i>     else:
+</I>&gt;<i>         return None
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> U me na Ubuntu 12.04.3 LTS s Python 2.7 i na Debian Squeeze s Python 2.6
+</I>&gt;<i> se maily zpracuji dobre. Zahlavi hlavni casti zdrojaku vysledneho mailu a
+</I>&gt;<i> dobre kodovany vyraz &quot;odlozeni trestniho oznameni&quot;:
+</I>&gt;<i>
+</I>&gt;<i> Content-Type: text/html; charset=&quot;utf-8&quot;
+</I>&gt;<i> MIME-Version: 1.0
+</I>&gt;<i> Content-Transfer-Encoding: quoted-printable
+</I>&gt;<i>
+</I>&gt;<i> odlo=C5=BEen=C3=AD trestn=C3=ADho ozn=C3=A1men=C3=AD
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Nicmene u klienta na Ubuntu 10.04 LTS s Python 2.6 maji vsechny maily
+</I>&gt;<i> diakritiku poskozenou, opet zahlavi s stejne slovo blbe kodovane:
+</I>&gt;<i>
+</I>&gt;<i> Content-Type: text/html; charset=&quot;utf-8&quot;
+</I>&gt;<i> MIME-Version: 1.0
+</I>&gt;<i> Content-Transfer-Encoding: quoted-printable
+</I>&gt;<i>
+</I>&gt;<i> odlo=17Een=ED trestn=EDho ozn=E1men=ED
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Vim, ze 10.04 je dost stara verze, ale takhle zlobit? Zaslal mi vypis
+</I>&gt;<i> promennych prostredi, nevidim tam nic podezreleho.
+</I>&gt;<i>
+</I>&gt;<i> Nesetkal se nekdo z vas s necim podobnym?
+</I>&gt;<i>
+</I>&gt;<i> Diky predem,
+</I>&gt;<i>
+</I>&gt;<i> Vlada
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+_________________________________
+<A HREF="http://sites.google.com/site/petrsstuff/">http://sites.google.com/site/petrsstuff/</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20131023/11bc88e3/attachment.html">http://www.py.cz/pipermail/python/attachments/20131023/11bc88e3/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011158.html">[python] Poskozena diakritika pri zpracovani mailu na starsim Ubuntu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-October/011160.html">[python] outdoor python teambuilding
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-October/date.html#11159">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/thread.html#11159">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/subject.html#11159">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-October/author.html#11159">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-October/011159.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:59 GMT -->
+</html>

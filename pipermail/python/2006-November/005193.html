@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005193.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:39 GMT -->
+<HEAD>
+   <TITLE> [python] zaporny systemovy cas
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zaporny%20systemovy%20cas&In-Reply-To=456C4023.40106%40radiante-corp.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005192.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005197.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] zaporny systemovy cas</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20zaporny%20systemovy%20cas&In-Reply-To=456C4023.40106%40radiante-corp.com"
+       TITLE="[python] zaporny systemovy cas">feed na centrum.cz
+       </A><BR>
+    <I>Úterý Listopad 28 15:09:01 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005192.html">[python] zaporny systemovy cas
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005197.html">[python] zaporny systemovy cas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5193">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5193">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5193">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5193">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Nevim, jak to presne v pythonu je, ale obecne abstraktni syntakticky 
+</I>&gt;<i> strom je vstupem pro generator vnitrniho kodu, ktery by mel byt uz 
+</I>&gt;<i> snadneji optimalizovatelny.
+</I>
+Znovu opakuji, že optimalizace není sranda! Takový interpretr Javy 
+napíšete odhadem na 20 tisíc řádků v C++ za měsíc práce. Ovšem skutečný 
+interpretr Javy od Sunu, který skutečně optimalizuje a provádí JIT 
+kompilaci má přes 3 milióny řádků!!! Navíc má usnadněnou práci s tím, že 
+značná část kompilace je provedena už kompilátorem javac a intepretr jen 
+interpretuje už částečně optimalizovanou binární formu.
+
+&gt;<i> Presto ale nechci uverit tomu, ze python ve vysledku udela neco jako:
+</I>&gt;<i> 
+</I>&gt;<i>         mov cx, cislo
+</I>&gt;<i> 
+</I>&gt;<i>     L1:  &lt;nacti dalsi 'i'&gt;
+</I>&gt;<i>          loop L1
+</I>
+Ve výsledku to nejen tak je, ale bude ještě hůř. Protože rozhodnutí je 
+změnit architekturu. Navíc co chcete, když se jedná o cyklus foreach? 
+For cyklus v Pythonu neexistuje.
+
+&gt;<i> Kazdopadne k jistym upravam by melo take dochazet na urovni procesoru.
+</I>
+K jakým? Procesor je prostě čím dál víc náchylnější na kód co se mu 
+předhodí. Zkoušel jste někdy optimalizovat stroják na rychlost, nebo 
+zkoumat co vyleze z Céčka? Stačí vzít a přehodit dvě instrukce a běží to 
+klidně o 50% rychleji. Nebo napíšete podprogram ve stojáku, který je 
+desetkrát větší, než Vaše první verze a on běží třeba třikrát rychleji! 
+A přitom je to ten samý algoritmus. Zoptimalizovat tohle je věc, která 
+jen v kompilátorech C/C++ dělá tým machrů řadu let!
+
+Procesor čím dál víc spoléhá na to, že se mu předhodí již OPTIMÁLNÍ kód 
+s tím, že jako z nouze ctnost provede i ten neoptimální, ale třeba 
+dvacetkrát pomaleji. Je to jen z důvodů zpětné kompatibility, což je věc 
+v pythonovské komunitě nevítaná :-) Na optimalizaci procesoru 
+nespoléhejte, šíleně byste se spletl.
+
+Miloslav Ponkrác
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005192.html">[python] zaporny systemovy cas
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005197.html">[python] zaporny systemovy cas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5193">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5193">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5193">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5193">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005193.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:39 GMT -->
+</html>

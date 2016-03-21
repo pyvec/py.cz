@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006728.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=473C74D8.10306%40radiante-corp.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006726.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006730.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Tomy novella</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=473C74D8.10306%40radiante-corp.com"
+       TITLE="[python] sockety - problem s HTTP spojenim">tomasnovella na gmail.com
+       </A><BR>
+    <I>Čtvrtek Listopad 15 17:45:16 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006726.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006730.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6728">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6728">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6728">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6728">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ahoj,
+1) diky vsetkym(hlavne leovi) *velmi* pekne za odpovede ;-)
+2) som chory a som presedel dneska 5 hodin pri pocitaci, preto som
+uplne prehliadol celu Tvoju odpoved, len som si pozrel, ze kde mam
+chybu(v malom cisle prijatych dat) a dalej som si uz nevsimal cely
+obsah programu. velmi sa ospravedlnujem.
+
+Dňa 15.11.2007, Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos na radiante-corp.com</A>&gt; napísal(a):
+&gt;<i> Mozna jste presne nepochopil muj priklad, tak ho trosku rozepisu.
+</I>&gt;<i> Nejdrive si pripravim buffer, ktery bude obsahovat nakonec vysledek,
+</I>&gt;<i> tzn. string obsahujici nactene hlavicky + celou html. Cyklim a pokud je
+</I>&gt;<i> porad co cist, tak prectu maximalne 4k a pridavam to do vysledneho buf.
+</I>&gt;<i> To znamena, ze vzdy prectu celou stranku. Jen se trosku opravim, protoze
+</I>&gt;<i> tam mam trapnou chybku:
+</I>&gt;<i>
+</I>&gt;<i>     buf = ''
+</I>&gt;<i>     read = 'go'
+</I>&gt;<i>     while read:
+</I>&gt;<i>         read = clisock.recv(4096)
+</I>&gt;<i>         buf += read
+</I>&gt;<i>     print buf
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Ohledne teorie vas odporucim treba na nasledujici linky:
+</I>&gt;<i>
+</I>&gt;<i>     <A HREF="http://cs.wikipedia.org/wiki/UDP">http://cs.wikipedia.org/wiki/UDP</A>
+</I>&gt;<i>     <A HREF="http://cs.wikipedia.org/wiki/TCP">http://cs.wikipedia.org/wiki/TCP</A>
+</I>&gt;<i>
+</I>&gt;<i> Predstavte si, ze pisete jednoducheho clienta na prenos souboru. Je pro
+</I>&gt;<i> vas samozrejme dulezite, aby vsechny odeslana data dosly a jeste k tomu
+</I>&gt;<i> ve spravnem poradi. Proto pouzijete steam, ktery tyto problemy resi.
+</I>&gt;<i> Datagram pak naopak pouzijete tam, kde toto nepotrebujete a ani vas to
+</I>&gt;<i> nezajima - VoIP, DNS, broadcast.
+</I>&gt;<i> Ale to je jen takovy nastrel, proto radeji vyhledejte nejake materialy
+</I>&gt;<i> na internetu - vytecne veci se daji docist v prednaskovych materialech
+</I>&gt;<i> univerzit :-)
+</I>&gt;<i>
+</I>&gt;<i> Leo
+</I>&gt;<i> BTW: kdysi davno jsem to taky zkousel a nepodarilo se mi apache donutit,
+</I>&gt;<i> aby mi odpovidal v HTTP/1.0
+</I>&gt;<i>
+</I>&gt;<i> Tomy novella wrote:
+</I>&gt;<i> &gt; ahoj,
+</I>&gt;<i> &gt; tak potom mam este jednu otazku. presnejsie dve :) totiz nedalo by sa
+</I>&gt;<i> &gt; to nejak tak spravit, aby mi zobrazo hocako velku stranku? nechcem
+</I>&gt;<i> &gt; robit obmedzenie na velkost stranky, pretoze co ak bude vacsia, ako je
+</I>&gt;<i> &gt; dane obmedzenie.. (naco je vlastne to obmedzenie dobre?;-(( ). este by
+</I>&gt;<i> &gt; ma zaujimalo, ze ci niekto nevie, ze ako to riesia webove browsre? oni
+</I>&gt;<i> &gt; maju nejake obmedzenie?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; aa ta &quot;druha otazka&quot; ;) sa tyka socketov, presnejsie
+</I>&gt;<i> &gt; kedy sa pouziva datagramove a kedy streamove spojenie? na nete som sa
+</I>&gt;<i> &gt; len dozvedel rozdiel medzi nimi, ale par prikladov pouzitia z praxi by
+</I>&gt;<i> &gt; nezaskodilo :)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; diky:)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; 2007/11/15, Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos na radiante-corp.com</A>&gt;:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt; Zdravim,
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; v podstate vsechno dobre, jen ze socketu pak nactete jen 100B, takze
+</I>&gt;<i> &gt;&gt; radek recv bych treba prepsal na tohle:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;     buf = ''
+</I>&gt;<i> &gt;&gt;     read = clisock.recv(4096)
+</I>&gt;<i> &gt;&gt;     while read:
+</I>&gt;<i> &gt;&gt;         buf += read
+</I>&gt;<i> &gt;&gt;         read = clisock.recv(4096)
+</I>&gt;<i> &gt;&gt;     print buf
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Leo
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Tomy novella wrote:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; ahoj,
+</I>&gt;<i> &gt;&gt;&gt; ucim sa zaklady prace so socketmi, tak som si napisal takyto skriptik:
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; import socket
+</I>&gt;<i> &gt;&gt;&gt; clisock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</I>&gt;<i> &gt;&gt;&gt; clisock.connect(('ww1.chatq.sk', 80))
+</I>&gt;<i> &gt;&gt;&gt; clisock.send('GET /index.php HTTP/1.0\nHost: ww1.chatq.sk\n\n')
+</I>&gt;<i> &gt;&gt;&gt; print clisock.recv(100)
+</I>&gt;<i> &gt;&gt;&gt; clisock.close()
+</I>&gt;<i> &gt;&gt;&gt; print &quot;koniec&quot;
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; problemom vsak je, ze ked ho spustim, tak mi vrati nieco taketo:
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; HTTP/1.1 200 OK
+</I>&gt;<i> &gt;&gt;&gt; Date: Thu, 15 Nov 2007 15:04:15 GMT
+</I>&gt;<i> &gt;&gt;&gt; Server: Apache
+</I>&gt;<i> &gt;&gt;&gt; X-Powered-By: PHP/4.4.8_pre200
+</I>&gt;<i> &gt;&gt;&gt; koniec
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; a ja pritom chcem, aby mi vratilo aj cely HTML kod, ktory by mal
+</I>&gt;<i> &gt;&gt;&gt; apache vraciat...
+</I>&gt;<i> &gt;&gt;&gt; preco ho nevracia a vracia mi spat len par hlaviciek?
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; aa ako ceresnicka by ma zaujimalo, ze preco ked to pytam cez HTTP
+</I>&gt;<i> &gt;&gt;&gt; verziu 1.0, tak mi to vracia cez HTTP 1.1 :)
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; diky :)
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt; --
+</I>&gt;<i> &gt;&gt; ----
+</I>&gt;<i> &gt;&gt; Leos Pol
+</I>&gt;<i> &gt;&gt; Team Leader
+</I>&gt;<i> &gt;&gt; Radiante Corp.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; If it can be imagined,
+</I>&gt;<i> &gt;&gt; we can implement it
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; _______________________________________________
+</I>&gt;<i> &gt;&gt; Python mailing list
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> ----
+</I>&gt;<i> Leos Pol
+</I>&gt;<i> Team Leader
+</I>&gt;<i> Radiante Corp.
+</I>&gt;<i>
+</I>&gt;<i> If it can be imagined,
+</I>&gt;<i> we can implement it
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+-- 
+PS: prosim v mailoch tykat! nie vykat ;)
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">Tom na sQo</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">tomasnovella na gmail.com</A>
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006726.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006730.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6728">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6728">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6728">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6728">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006728.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:05 GMT -->
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-December/010827.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:19 GMT -->
+<HEAD>
+   <TITLE> [python] Podivné: MySQLdb pod Windows 7 nezapisuje do ta  bulky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fq%3FPodivn%3DC3%3DA9%3D3A_MySQLdb_pod_Windows_7_nezapisu%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fje_do_ta__bulky%3F%3D&In-Reply-To=%3C50C605D2.9040000%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-December/010826.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-December/010828.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Podivné: MySQLdb pod Windows 7 nezapisuje do ta  bulky</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fq%3FPodivn%3DC3%3DA9%3D3A_MySQLdb_pod_Windows_7_nezapisu%3F%3D%0A%20%3D%3Futf-8%3Fq%3Fje_do_ta__bulky%3F%3D&In-Reply-To=%3C50C605D2.9040000%40firma.seznam.cz%3E"
+       TITLE="[python] Podivné: MySQLdb pod Windows 7 nezapisuje do ta  bulky">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Pondělí Prosinec 10 16:54:58 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010826.html">[python] Podivn&#196;&#65532;&#313;&#160;: MySQLdb pod Windows 7 nezapisuje do ta  bulky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010828.html">[python] ukladani,ssd
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-December/date.html#10827">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/thread.html#10827">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/subject.html#10827">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/author.html#10827">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Kdyz jsem kontroloval nastaveni: SELECT @@AUTOCOMMIT;
+</I>&gt;<i> tak daval sice 1, ale nefungovalo to.
+</I>&gt;<i> Teprve kdyz jsem po INSERT INTO a UPDATE pouzil COMMIT;
+</I>&gt;<i> zacalo to fungovat spravne. Nevim kde je chyba.
+</I>To neni chyba ale vlastnost. Viz PEP 249:
+
+&quot;Closing a connection without committing the changes first will cause an
+implicit rollback to be performed.&quot;
+
+Logika je takova, ze metody commit() i rollback() ihned  zacnou dalsi
+transakci, takze vzdy jde rollbackovat. Tim padem v dobre napsany
+aplikaci kdyz nekde vystreli vyjimka, destruktor spojeni po sobe uklidi
+a data zustanou konzistentni. Jako bonus nemusis psat &quot;begin&quot; :-)
+BTW resit to pres execute(&quot;COMMIT&quot;) taky neni nejlepsi napad.
+Na to je metoda commit(), ktera zaroven doplnuje nejakou dalsi logiku
+(zacne dalsi transakci). U MySQL je to mozna jedno, ale pythoni DB API
+je takhle vymysleny proto aby slo snadno portovat mezi ruzny databaze,
+ktery uz nemusi byt tak benevolentni (a tupy) jako MySQL.
+(A IMO ti budou padat porad warningy ze rollbackujes mimo transakci)
+
+Navic MySQLdb na to ma udelanej contexmanager, takze se da napsat neco jako:
+
+with conn as cur:
+    cur.execute(&quot;DELETE FROM world&quot;)
+    cur.execute(&quot;INSERT &#8230;&quot;)
+
+pokud v takovym bloku vystreli vyjimka, udela se rollback hned a ne az
+pri destrukci objektu spojeni. (Vyjimka se propaguje dal jako obvykle)
+Kdyz zadna vyjimka nenastane udela se automaticky commit na konci bloku.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010826.html">[python] Podivn&#196;&#65532;&#313;&#160;: MySQLdb pod Windows 7 nezapisuje do ta  bulky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-December/010828.html">[python] ukladani,ssd
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-December/date.html#10827">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/thread.html#10827">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/subject.html#10827">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-December/author.html#10827">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-December/010827.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:19 GMT -->
+</html>

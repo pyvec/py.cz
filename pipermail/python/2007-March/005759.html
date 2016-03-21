@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005759.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:26 GMT -->
+<HEAD>
+   <TITLE> [python] Scrolled WxCanvas
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Scrolled%20WxCanvas&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005758.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005775.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Scrolled WxCanvas</H1>
+    <B>Jakub Vojacek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Scrolled%20WxCanvas&In-Reply-To="
+       TITLE="[python] Scrolled WxCanvas">jakohv na seznam.cz
+       </A><BR>
+    <I>Sobota Březen 24 11:54:50 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005758.html">[python] (no subject)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005775.html">[python] Scrolled WxCanvas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5759">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5759">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5759">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5759">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+Snažim se udělat jednoduchou tvarbu grafů ve Wx. Ale mám potáže se scrollbary
+Zatím jsem udělal toto:
+import wx
+class Canvas:
+    def __init__(self,parent):
+        self.okno=parent
+        self.radic = wx.FlexGridSizer(3,2,0,0)
+        self.canvas = wx.Window(self.okno, -1)
+        
+        self.sb_vert = wx.ScrollBar(self.okno, -1, style=wx.SB_VERTICAL)
+        self.sb_vert.SetScrollbar(0,1000,1000,1000)
+        self.sb_hor = wx.ScrollBar(self.okno, -1, style=wx.SB_HORIZONTAL)
+        self.sb_hor.SetScrollbar(0,1000,1000,1000)
+
+        self.radic.Add(self.canvas, 1, wx.EXPAND)
+        self.radic.Add(self.sb_vert, 0, wx.EXPAND)
+        self.radic.Add(self.sb_hor, 0, wx.EXPAND)
+        self.radic.Add((0,0))
+        
+        self.radic.AddGrowableRow(0, 1)
+        self.radic.AddGrowableCol(0, 1)
+
+
+        self.canvas.SetCursor(wx.CROSS_CURSOR)
+        self.canvas.Bind(wx.EVT_PAINT, self.OnPaint)
+        self.okno.SetSizer(self.radic)
+    def vykresli_graf(self,dc):
+        dc.BeginDrawing()
+        lines=[(-50,-50,50,50)]
+        dc.DrawLineList(lines)
+        dc.EndDrawing()
+    def OnPaint(self, evt):
+        dc = wx.PaintDC(self.canvas)
+        self.vykresli_graf(dc)
+if __name__ == &quot;__main__&quot;:
+    okno = wx.App(0)
+    parent=wx.MDIParentFrame(None,size=wx.Size(500,500))
+    child=wx.MDIChildFrame(parent,title=&quot;Graf&quot;,id=-1)
+    Canvas(child)
+    child.Maximize()
+    parent.Show()
+    okno.MainLoop()
+
+ale i když je část tý čáry mimoviditelnou část canvasu, scrollbar se nezmění. chtělo by to jako je v Tk:
+canvas[&quot;yscrollcommand&quot;] = S.set
+Nelze to nějak nastavit??
+Dík
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20070324/5db11586/attachment.htm">http://www.py.cz/pipermail/python/attachments/20070324/5db11586/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005758.html">[python] (no subject)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005775.html">[python] Scrolled WxCanvas
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5759">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5759">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5759">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5759">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005759.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:26 GMT -->
+</html>

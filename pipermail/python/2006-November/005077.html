@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005077.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+<HEAD>
+   <TITLE> [python] class a subclass
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=1519662406.20061111134731%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005076.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005071.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] class a subclass</H1>
+    <B>Robert Cernansky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=1519662406.20061111134731%40atlas.cz"
+       TITLE="[python] class a subclass">hslists na zoznam.sk
+       </A><BR>
+    <I>Sobota Listopad 11 14:44:28 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005076.html">[python] class a subclass
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005071.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5077">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5077">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5077">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5077">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Sat, 11 Nov 2006 13:47:31 +0100 mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt; wrote:
+&gt;<i> 
+</I>&gt;<i> RC&gt; Ak chces pracovat priamo s pamatou, tak vytvor dalsiu odvodenu
+</I>&gt;<i> RC&gt; classu mem(table) a prekry prislusne metody sqlCreate
+</I>&gt;<i> RC&gt; a sqlRefresh.
+</I>
+&gt;<i> Ale ja preci s pameti pracuju uz takto:
+</I>&gt;<i> instTable=table()
+</I>&gt;<i> instTable.create(fields,tbl)
+</I>
+Ano, toto by neslo. Treba vyuzit tu classu mem. V tejto suvislosti ma
+napadlo, ze by to chcelo trochu vseobecnejsie navrhnut metodu create()
+v table. Pretoze tam vstupuje sqlText, co je v pripade prace s pamatou
+alebo suborom nezmysel. Myslim, ze by tam kludne mohlo byt nieco
+taketo:
+
+def create(self, inputData):
+   tbl, fields = self.sqlCreate(inputData)
+   ...
+
+V odvodenych triedach by sme uz vedeli co sa skryva v inputData. V sql
+by to bol SQL retazec, v mem by to mohol byt tuple (fields, tbl). Cize
+by sa dalo spravit:
+
+instMem.create((fields, tbl))
+
+co je nahrada za 
+
+instTable.create(fields,tbl)
+
+&gt;<i> ale uz tomu asi rozumim. Class table ma byt ve skutecnosti nahrazena
+</I>&gt;<i> class template a nad ni teprve bud class sql nebo class memo, a ty budou
+</I>&gt;<i> pouze prekryvat dve template metody, jinymi slovy, vyuzit toho, ze i
+</I>&gt;<i> rodic hleda vzdy nejprve v potomkovi.
+</I>
+Presne tak, akurat cast &quot;Class table ma byt ve skutecnosti nahrazena
+class template&quot; mozes vypustit. Ta template je vlastne table. Mozno ta
+pomylil anglicky vyraz ale ked som hovoril o template tak som nikdy
+nemal na mysli konkretny nazov triedy. Myslel som tym len to, ze
+trieda table je sablona - vzor (aj ked len ciastocne, lebo prekryvame
+len metody, ktore su specificke pre konkretny engine).
+
+Robo
+
+
+-- 
+Robert Cernansky
+E-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">hslists na zoznam.sk</A>
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">HS na jabber.sk</A>
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005076.html">[python] class a subclass
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005071.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5077">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5077">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5077">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5077">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005077.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+</html>

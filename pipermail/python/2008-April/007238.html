@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007238.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:27 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s unicode.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20unicode.&In-Reply-To=48032150.2010702%40natur.cuni.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007232.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007226.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s unicode.</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20unicode.&In-Reply-To=48032150.2010702%40natur.cuni.cz"
+       TITLE="[python] Problem s unicode.">feed na centrum.cz
+       </A><BR>
+    <I>Pondělí Duben 14 14:10:55 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007232.html">[python] Problem s unicode.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007226.html">[python]  Problem s unicode.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7238">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7238">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7238">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7238">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i> &gt;No to trochu prehanis, sjednoceny byly graficky odlisne znaky se shodnym
+</I>&gt;<i> &gt;vyznamem.
+</I>Aha, a proč jsou v Unicode zvlášť třeba indické číslice, zvlášť arabské, 
+proč jsou tam některé číslice superscriptem, atd...? Proč když by 
+stačilo tam tu jedničku mít jednou a ne v x možných podobách? Protože to 
+co píšete, není pravda. Pravda je to co říkám, že sice Unicode 
+consortium mlží tak, až se za ním práší - ve skutečnosti najdete v 
+Unicode mnoho příkladů, kde je znak v jednom významu ve více podobách.
+
+Problém je prostě v &quot;nemístném šetření bajtíků&quot; - Unicode consortium 
+začínalo na 16 bitech - a tak se jim tam všechny asijské znaky do tohoto 
+rozsahu 65535 znaků prostě nevešly. Dnes je sice na 21 bitech, ale se 
+znaky nad 16 bitovou hranicí má obrovská spousta systémů a 
+programovacích jazyků problém, takže je nutné vše základní mít v 16 
+bitech. Prostě špatná práce a odhad Unicode consortia.
+
+A protože samozřejmě nechtěli nakrknout asijce - a asi víte, že nemohou 
+říct naplno - &quot;Víte my Unicode consortium jsme to špatně vymysleli celý 
+ten systém Unicode, a někdo to holt odskákat musí. A rozhodli jsme se, 
+že to odnesete Vy - a že jsme nuceni Vám Vaší abecedu zprznit, protože 
+prostě na Vás dlabeme, nám se ta Vaše abeceda už do prostoru znaků 
+nevejde a jiné státy by řvaly víc - oni nás totiž sponzorují víte? A 
+chápete, že love, prachy, to je to co dneska hýbe světem, takže se 
+přizpůsobte a polibte nám zadek&quot;. Ačkoli předchozí věty by na 100% 
+odpovídaly pravdě, zajisté chápete, že na mezinárodní úrovni se takto 
+nejedná, a je nutné vymyslet kladný důvod, kterým se to zastře a 
+vysvětlí. A ten důvod je, že &quot;Unicode sjednocuje znaky se stejným 
+významem&quot; - ale že je to lež jako věž Vás přesvědčí i letmý průchod 
+Unicode tabulkami znaků.
+
+ &gt;Navic maji mnozi z CJK pocit, ze na ne byla unifikace v unicode 
+uvalena systemem &quot;o nas bez nas&quot;, ackoliv byli jejich zastupci v unicode 
+kosorciu aktivni od zacatku. Japonsky zastupce (zamestnanec tusim DECu, 
+tedy americke fimy a vyrazneho zastance unifikace) hlasoval pro 
+unifikaci, korejci a cinani proti. Cela politicka stranka tehle 
+zalezitosti je neprehledna a alespon trochu masla na hlave maji vsichni.
+
+No a čem píšu? Prostě Unicode to špatně vymyslelo, a někdo prostě to 
+musel odnést, protože na všechny abecedy není v 16bitovém Unicode 
+systému místo. A protože všichni, firmy i consortia se řídí prachama - 
+tak to odnesl ten, kdo byl mimo - tedy Asiaté. Viz výše.
+
+Obecná rada: Musíte když něco čtete, číst mezi řádky a nenechat si 
+nabulíkovat každou blbost.
+
+Miloslav Ponkrác
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007232.html">[python] Problem s unicode.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007226.html">[python]  Problem s unicode.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7238">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7238">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7238">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7238">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007238.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:27 GMT -->
+</html>

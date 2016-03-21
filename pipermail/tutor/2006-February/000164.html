@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000164.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Tkinter - promenny pocet widgetu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Tkinter%20-%20promenny%20pocet%20widgetu&In-Reply-To=C3787C94C144412A84A484A868F2EFA4.MAI%40email.forpsi.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000163.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000165.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Tkinter - promenny pocet widgetu</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Tkinter%20-%20promenny%20pocet%20widgetu&In-Reply-To=C3787C94C144412A84A484A868F2EFA4.MAI%40email.forpsi.com"
+       TITLE="[Tutor PyCZ] Tkinter - promenny pocet widgetu">geon na post.cz
+       </A><BR>
+    <I>Sobota Únor 11 08:07:58 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000163.html">[Tutor PyCZ] Tkinter - promenny pocet widgetu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000165.html">[Tutor PyCZ] Tkinter - promenny pocet widgetu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#164">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#164">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#164">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#164">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE><A HREF="http://www.py.cz/mailman/listinfo/tutor">michal na kandrac.net</A> napsal(a):
+&gt;<i>
+</I>&gt;<i> Zdravim,
+</I>&gt;<i> jsem v Py zacatecnik a snazim se na veci prichazet sam, ale s timto si 
+</I>&gt;<i> nevim rady:
+</I>&gt;<i> Potrebuji zobrazovat/nezobrazovat urcity pocet podobnych (Entry) 
+</I>&gt;<i> widgetu Tkinter v zavislosti na velikosti nejake promenne. Prisel jsem 
+</I>&gt;<i> na reseni zalozene na tom, ze widgety budou predem definovany a jejich 
+</I>&gt;<i> zobrazeni bude zavisle na konstrukci if... promenna... , ale nezda se 
+</I>&gt;<i> mi to moc vhodne reseni. Nejde to nejak jednoduseji, elegantneji?
+</I>Pokud nevíš, kolik čeho bude, je správná chvíle na to použít seznamy 
+(nebo slovníky). A to jak na vstup (kde můžeš mít třeba názvy), tak na 
+výstup, kde budeš schraňovat výstupní objekty nebo řídící proměnné 
+(IntVar, StringVar apod). Ve své kartotéce jsem našel něco podobného 
+(dynamické použití zaškrtávátka):
+
+# -*- coding: utf8 -*-
+&quot;&quot;&quot;Ukazkovy priklad vyroby aplikace v Tkinter.
+Musi byt ulozeno v kodovani utf8.&quot;&quot;&quot;
+
+from Tkinter import *
+
+def tisk():
+    print '\n','Hodnoty tlacitek'
+    for tlacitko in poleVar:
+        print tlacitko,&quot;=&quot;, tlacitko.get()
+
+hlavniOkno=Tk()
+hlavniOkno.title('Aplikace v Tk')
+jazykRamec=Frame(hlavniOkno)
+Label(jazykRamec, text='Tvůj oblíbený jazyk').pack(side=LEFT)
+
+seznam=['Python','C++', 'Java', 'Pascal', 'Basic']
+poleVar=[]
+
+for prvek in seznam:
+    var=IntVar()
+    tlacitko=Checkbutton(jazykRamec, text=prvek, variable=var)
+    tlacitko.pack(side=LEFT)
+    poleVar.append(var)
+
+jazykRamec.pack(side=TOP)
+tisk=Button(hlavniOkno, text='Tisk', command=tisk)
+tisk.pack(ipadx=40)
+
+mainloop()
+
+
+Tak na to jukni ;-)
+
+geon
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000163.html">[Tutor PyCZ] Tkinter - promenny pocet widgetu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000165.html">[Tutor PyCZ] Tkinter - promenny pocet widgetu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#164">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#164">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#164">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#164">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000164.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

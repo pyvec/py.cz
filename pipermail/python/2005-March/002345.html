@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002345.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:44 GMT -->
+<HEAD>
+   <TITLE> RE: [python] Dynamické vytvoření instance
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_Dynamick%3DE9_vytvo%3DF8en%3DED_instance%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-March/002343.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-March/002346.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] Dynamické vytvoření instance</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_Dynamick%3DE9_vytvo%3DF8en%3DED_instance%3F%3D&In-Reply-To="
+       TITLE="RE: [python] Dynamické vytvoření instance">Prikryl na skil.cz
+       </A><BR>
+    <I>Čtvrtek Březen  3 09:01:02 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002343.html">[python] Otázka - funkcia os.system
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002346.html">[python] Otázka - funkcia os.system
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2345">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2345">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2345">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2345">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Jsem začátečník, snažil jsem se 
+</I>&gt;<i> vytvořit funkci, která by 
+</I>&gt;<i> dynamicky vytvářela
+</I>&gt;<i> instance třídy :( 
+</I>
+V Pythonu se instance objektů vždy vytvářejí
+dynamicky. Při použití exec se jde o kousek
+dál -- dynamicky se kompiluje kód, který
+jsem zkonstruoval jako řetězec. Asi to nelze
+považovat za začátečnickou problematiku.
+Jinými slovy, exec potřebuji až v situacích,
+které nejsou typické a nedají se řešit
+jednodušeji (viz ukázkový kód na konci):
+
+&gt;<i> class trida:
+</I>&gt;<i>     pass;
+</I>
+... středník je tady zbytečný ;)
+
+&gt;<i> 
+</I>&gt;<i> def new_objekt(x):
+</I>&gt;<i>     exec &quot;obj&quot;+str(x)+&quot;= trida&quot;
+</I>
+Tady chybí za identifikátorem třídy závorky.
+V takovém případě se nevytváří instance,
+ale jen reference na definici třídy.
+(Použití identifikátoru objX se pak chová
+naprosto stejně jako identifikátor třída).
+
+Pro třídy se doporučuje volit identifikátor
+s velkým počátečním písmenem.
+
+&gt;<i>     exec &quot;global obj&quot;+str(x)
+</I>
+Tady je problém. Direktiva global se 
+musí uvést předem. Nepamatuji si, kdy
+jsem ji naposledy použil. Pokud ano,
+vždy to bylo v situaci, kdy globální
+proměnná tohoto jména už existovala.
+Pokud se domnívám správně, pak objX 
+už musí v globálním prostoru existovat.
+Pak se bude při přístupu k proměnné 
+uvedeného jména uvnitř funkce přistupovat
+ke globální proměnné a ne k lokální 
+proměnné stejného jména uvnitř funkce.
+
+V souvislosti s exec je tu ale ještě jiný
+zádrhel, který uvedené pokusy staví
+na úroveň &quot;vyfukování tabákového
+kouře do umyvadla s vodou&quot;. Dokumentace
+říká (6.13 The global statement):
+
+  Programmer's note: the global is a directive 
+  to the parser. It applies only to code parsed 
+  at the same time as the global statement.
+  In particular, a global statement contained 
+  in an exec statement does not affect 
+  the code block containing the exec statement, 
+  and code contained in an exec statement 
+  is unaffected by global statements in the code 
+  containing the exec statement. The same applies 
+  to the eval(), execfile() and compile() functions.
+
+&gt;<i> new_objekt(1)       
+</I>&gt;<i> print obj1
+</I>&gt;<i> 
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;C:/narozeniny/j.py&quot;, line 14, in ?
+</I>&gt;<i>     print obj1
+</I>&gt;<i> NameError: name 'obj1' is not defined
+</I>
+Výše uvedená poznámka z dokumentace znamená,
+že za použití global nejsem schopný procpat
+zkonstruované jméno zevnitř exec
+mezi globální proměnné. Můžu to ale udělat
+jinak. 
+
+Instanci objektu nemusím vytvářet současně
+s jejím jménem, protože jméno je nevýznamné
+(zpřístupňuje referenci na objekt). Instanci
+třídy můžu vytvořit klasicky a méně klasickým
+způsobem pouze svážu referenci na takto 
+vytvořený objekt s nově vytvořeným globálním 
+jménem (viz následující příklad). Osobně bych 
+ale dal přednost nějakému méně krkolomnému 
+řešení.
+
+j.py
+==========================================
+class Trida:
+    def __str__(self):
+        &quot;&quot;&quot;Retezcova reprezentace objektu -- vyuzije ji print&quot;&quot;&quot;
+        return 'jsem Trida'
+
+
+def new_object(x):
+    # Takhle to jde vytvorit a zde zpristupnit, ale
+    # v globalnim prostoru to neuvidim.
+    exec 'obj' + x + '= Trida()'
+    print 'funkce new_object() vytvorila obj' + x
+    exec 'print obj' + x
+
+    # Alternativa bez direktivy global, ale s vyuzitim
+    # zabudovane funkce globals(), ktera vraci slovnik
+    # globalni urovne.
+    identifikator = 'obj' + x + x      # zkonstruovane jmeno
+    globals()[identifikator] = Trida()
+    print 'funkce new_object() vytvorila obj' + x + x
+    exec 'print obj' + x + x
+
+
+print 'Nejjednodussi...'
+obj1 = Trida()
+print obj1
+
+
+print 'Pres funkci s vedlejsim efektem -- krkolomne...'
+new_object('A')
+print 'Objekt vytvoreny funkci:', objAA
+
+
+print '\nVice objektu do seznamu.'
+lst = []
+for i in xrange(10):
+    lst.append(Trida())
+
+for tt in lst:
+   print tt
+
+
+print '\nVice objektu do slovniku.'
+d = {}
+for i in xrange(10):
+    d['obj%d' % i] = Trida()
+
+for tt in d:
+   print d[tt]
+
+
+print '\nVice objektu pres exec (asi se pouziva velmi zrika)'
+for i in xrange(10):
+    prikaz = 'obj%d = Trida()' % i
+    exec prikaz
+
+print dir()
+print obj0
+print obj1
+print obj2
+print obj3
+print obj4
+print obj5
+print obj6
+print obj7
+print obj8
+print obj9
+
+print '-' * 70
+==========================================
+
+A ještě nakonec... Využití funkce pro vytváření
+instancí má smysl pouze tehdy, když funkce na
+základě dalších okolností rozhodne, jaká instance
+(jaké třídy nebo s jakým vnitřním stavem). Pak
+se tomu říká &quot;class factory&quot;. V tomto případě
+se funkce použije čistým způsobem (nevolá se s cílem
+využít vedlejší efekt, ale vracenou hodnotu).
+Použití by vypadalo nějak takto:
+
+
+==========================================
+class Trida1: 
+    def __str__(self):
+        return 'instance tridy Trida1'
+
+class Trida2: 
+    def __str__(self):
+        return 'instance tridy Trida2'
+
+
+def mojeClassFactory(okolnosti):
+   if okolnosti == 7:
+       return Trida1()
+   elif okolnosti == 8:
+       return Trida2()
+   else:
+       return None
+
+
+objA = mojeClassFactory(7)
+print 'objA:', objA
+
+objB = mojeClassFactory(8)
+print 'objB:', objB
+
+objC = mojeClassFactory(1)
+print 'objC:', objC
+==========================================
+
+(Okolnosti mohou samozřejmě nabývat různou podobu.)
+
+Petr
+
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002343.html">[python] Otázka - funkcia os.system
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-March/002346.html">[python] Otázka - funkcia os.system
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-March/date.html#2345">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/thread.html#2345">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/subject.html#2345">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-March/author.html#2345">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-March/002345.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:44 GMT -->
+</html>

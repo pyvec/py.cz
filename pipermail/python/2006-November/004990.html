@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004990.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:19 GMT -->
+<HEAD>
+   <TITLE> [python] Statické metody v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004989.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004991.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Statické metody v Pythonu</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To="
+       TITLE="[python] Statické metody v Pythonu">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Listopad  9 09:11:23 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004989.html">[python] dekorator property
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004991.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4990">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4990">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4990">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4990">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> &gt; zem_uhel + &quot;30N54&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; typicky dosahuje přetížením operátoru + a typicky se
+</I>&gt;<i> &gt; implementuje tak, že se na místě druhého argumentu očekává
+</I>&gt;<i> &gt; konstantní reference a třídu zemepisny_uhel. Jenže u třídy
+</I>&gt;<i> &gt; zemepisny_uhel by se v takovém případě typicky definoval
+</I>&gt;<i> &gt; konstruktor, který bere odkaz na konstantní string a může
+</I>&gt;<i> &gt; se tam tedy dosadit i literál. Překladač pak automaticky
+</I>&gt;<i> &gt; udělá tohle:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; zem_uhel + zemepisny_uhel(&quot;30N54&quot;)
+</I>&gt;<i>  
+</I>&gt;<i> No, C++ je velmi flexibilní jazyk, takže buď C++ zavolá
+</I>&gt;<i> konstruktor, a nebo operátor +, kde druhý parametr je
+</I>&gt;<i> string, pokud takový existuje. Ta první varianta s voláním
+</I>&gt;<i> konstruktoru je &quot;drahá&quot;, tedy z nouze ctnost, protože se
+</I>&gt;<i> zbytečně vytváří dočasná instance, a pak zase ruší. Operátor
+</I>&gt;<i> + to většinou dokáže efektivněji s mnohem menší režií.
+</I>
+Ano. Ale toto je otázka návrhu. Typicky se definuje operátor
+pro sčítání (operator+() nebo __add__()), který pracuje s
+argumentem stejné třídy, jako je sám objekt. V budoucnu si můžu
+vymyslet další konverze, ze kterých vypadne úhel. Z hlediska
+údržby je lepší, když se speciality dělají zvenku. Je tedy
+lepší venku převést string zeměpisné šířky na úhel a
+dosadit.
+
+&gt;<i> [...] ale vzniká tu
+</I>&gt;<i> instance třídy uhel, která vlastně vzniknout nemusí.
+</I>&gt;<i> Řekněme, že je to takový relikt v mém myšlení, který mě nutí
+</I>&gt;<i> se občas zabývat efektivitou programu a který mi říká, že
+</I>&gt;<i> vytvoření instance třídy uhel není potřeba. Proto jsem
+</I>&gt;<i> zavedl tu statickou metodu a upravil jsem __add__ tak, aby
+</I>&gt;<i> přijímal i čísla a stringy.
+</I>
+Jedna věc je strojová efektivita a druhá věc je jak je to
+mentálně uchopitelné, tj. kolik to dá práce mozku
+programátora (pokud tedy neprogramuje srdcem ;)
+
+The Zen of Python k tomu všemu může říci (výběr):
+
+Explicit is better than implicit.
+Simple is better than complex.
+Readability counts.
+Special cases aren't special enough to break the rules.
+In the face of ambiguity, refuse the temptation to guess.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+
+&gt;<i> [...]
+</I>&gt;<i> A tohle udělá to samé, ale vytvoří se (a pak posléze 
+</I>&gt;<i> zruší) navíc instance třidy uhel:
+</I>&gt;<i> 
+</I>&gt;<i> u4 = u1 + uhel(3.0)
+</I>&gt;<i> 
+</I>&gt;<i> Prostě nevím a netuším, jestli tuhle režii vytvoření
+</I>&gt;<i> instance navíc mám vzít v úvahu. Pokud jí připustím, mám
+</I>&gt;<i> asi čistější kód, pokud zase pomůžu metodě __add__, aby
+</I>&gt;<i> uměla sečíst číslo přímo, mám efektivnější kód. Naproti
+</I>&gt;<i> tomu zase hrozí, že sečtu něco, co se jako číslo bude
+</I>&gt;<i> tvářit a významově to nemá s úhlem nic společného a můžu
+</I>&gt;<i> hledat chyby. Nevím, který postup je správný, asi každý má
+</I>&gt;<i> něco.
+</I>
+Viz výše. Navíc &quot;In the face of ambiguity, refuse the
+temptation to guess.&quot; mívá pokračování &quot;změř to&quot;.
+
+Obvykle se taky projevuje dualita mezi daty a kódem:
+Složitější kód, jednodušší datové struktury a naopak.
+Složitější kód může vést k úspoře paměti, ale obvykle také
+ke zvýšení časové náročnosti. Složitější datové struktury...
+
+&gt;<i> [...] Jenže u mě ta statická metoda pro vytvoření
+</I>&gt;<i> úhlu vypadá takto a taky sežere až neuvěřitelně divoké
+</I>&gt;<i> definice úhlů od zadání úhlu v radiánech až po různé se
+</I>&gt;<i> stupni, minutami, atd. [...]
+</I> 
+Asi bych raději místo statické metody použil obyčejnou
+funkci ve stejném modulu. Pokud by potomek potřeboval něco
+jiného, předefinoval by si příslušnou metodu tak, aby volala
+jinou funkci. Zadarmo bych tím také získal přístup k oné
+funkci bez závislosti na používání tříd, které ji používají
+(tj. např převod z řetězce na radiány).
+ 
+&gt;<i> Uf, dekorátory mě zajímají. V manuálu jsem našel tak akorát
+</I>&gt;<i> velké nic, takže informace na toto téma vítám.
+</I>
+Ony dekorátory taky nic moc nedělají. Je to jen takový
+&quot;syntactic sugar&quot; -- to tvrdí &quot;opravdoví programátoři&quot;
+opovržlivě. Na druhou stranu, právě takové věci dělají
+použití jazyka elegantním. Přetěžování operátorů je taky
+syntaktický cukřík, ale jak pěkně se s tím pak pracuje!
+(Tedy pokud se to nachystá správně.)
+
+pepr
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004989.html">[python] dekorator property
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004991.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4990">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4990">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4990">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4990">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004990.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:19 GMT -->
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-October/009208.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:17 GMT -->
+<HEAD>
+   <TITLE> [python] PyQt a vybraný widget v QDialogu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPyQt_a_vybran%3DFD_widget_v_QDialogu%3F%3D&In-Reply-To=%3Cd2219e620910291911q6308f00ckeb16b47eff8617c7%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-October/009204.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-October/009209.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PyQt a vybraný widget v QDialogu</H1>
+    <B>Martin Stiborský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FPyQt_a_vybran%3DFD_widget_v_QDialogu%3F%3D&In-Reply-To=%3Cd2219e620910291911q6308f00ckeb16b47eff8617c7%40mail.gmail.com%3E"
+       TITLE="[python] PyQt a vybraný widget v QDialogu">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Pátek Říjen 30 03:11:07 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-October/009204.html">[python] Pracovní příležitost
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-October/009209.html">[python] PyQt a vybraný widget v QDialogu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-October/date.html#9208">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/thread.html#9208">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/subject.html#9208">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/author.html#9208">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den přeji.
+Potřeboval bych poradit prosím.
+V programu používám QDialog k vytvoření nabídky, kde si uživatel
+vybere jeden z několika spinboxů a program se podle toho dál chová.
+Zasekl jsem se na způsobu, jak z QDialogu předat informaci který
+spinbox byl vybrán. Momentálně jsem to vymyslel tak, že se v cyklu
+projdou všechny spinboxy a najde se ten, který je vybrán, připadá mi
+to trochu těžkopádné. PyKDE obsahuje widget QButtonGroup, který má
+signál changed(int) nebo clicked(int) a ten vrací číselný index
+widgetu, na který se kliklo, to je paráda, akorát neumím propojit
+jmenný prostor dialogu a aplikace, aby se ti dva dorozuměli.
+
+Sepsal jsem to do kódu ..
+
+# -*- coding: utf-8 -*-
+
+from PyQt4 import QtCore
+from PyQt4 import QtGui
+
+import sys
+
+from main import Ui_MainWindow
+from dialog import Ui_Dialog
+
+class Okynko(QtGui.QMainWindow):
+  def __init__(self):
+    QtGui.QMainWindow.__init__(self)
+    self.ui = Ui_MainWindow()
+    self.ui.setupUi(self)
+
+  @QtCore.pyqtSlot()
+  def otevriDialog(self):
+    dialog = QtGui.QDialog()
+    dialogUi = Ui_Dialog()
+    dialogUi.setupUi(dialog)
+
+    return dialog.exec_()
+
+def main():
+  app = QtGui.QApplication(sys.argv)
+  window = Okynko()
+  window.show()
+  sys.exit(app.exec_())
+
+if __name__ == &quot;__main__&quot;:
+  main()
+
+Definice grafiky, jak mi ji vyplivlo pyuic z ui souboru Qt Designeru je zde:
+okýnko aplikace s čudlikem: <A HREF="http://www.clipboard.cz/87g">http://www.clipboard.cz/87g</A>
+dialog s pár spinboxy: <A HREF="http://www.clipboard.cz/97g">http://www.clipboard.cz/97g</A>
+
+Bohatě by mi stačilo popostrčit teorií, moc dík za pomoc.
+
+-- 
+S pozdravem
+Martin Stiborský
+
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+ICQ: 224-065-849
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-October/009204.html">[python] Pracovní příležitost
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-October/009209.html">[python] PyQt a vybraný widget v QDialogu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-October/date.html#9208">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/thread.html#9208">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/subject.html#9208">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-October/author.html#9208">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-October/009208.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:17 GMT -->
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003794.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:13 GMT -->
+<HEAD>
+   <TITLE> [python] Zope: ako uploadovat subory cez Controller Page Template?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zope%3A%20ako%20uploadovat%20subory%20cez%20Controller%20Page%20Template%3F&In-Reply-To=1134981933.7227.15.camel%40app">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-December/003793.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-December/003795.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zope: ako uploadovat subory cez Controller Page Template?</H1>
+    <B>Martin Stofcik</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zope%3A%20ako%20uploadovat%20subory%20cez%20Controller%20Page%20Template%3F&In-Reply-To=1134981933.7227.15.camel%40app"
+       TITLE="[python] Zope: ako uploadovat subory cez Controller Page Template?">martin.stofcik na pwc.sk
+       </A><BR>
+    <I>Pondělí Prosinec 19 10:45:40 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003793.html">[python] Zope: ako uploadovat subory cez Controller Page Template?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003795.html">[python] RS232+Ethernet
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3794">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3794">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3794">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3794">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>no uz som prisiel na to, kde som spravil chybu. form v cpt musi
+obsahovat method=&quot;post&quot;, cize takto:
+
+&lt;form enctype=&quot;multipart/form-data&quot; method=&quot;post&quot;&gt;
+&lt;input type=&quot;file&quot; name=&quot;file&quot;/&gt;
+&lt;input class=&quot;button continue&quot;
+       type=&quot;submit&quot;
+       name=&quot;form.button.Save&quot;
+       value=&quot;Ulozit&quot;/&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;form.submitted&quot; value=&quot;1&quot; /&gt;
+&lt;/form&gt;
+
+
+On Po, 2005-12-19 at 09:45 +0100, Martin Stofcik wrote:
+&gt;<i> V zope v Controll Page Template form.cpt mam nieco ako:
+</I>&gt;<i> 
+</I>&gt;<i> &lt;form enctype=&quot;multipart/form-data&quot;&gt;
+</I>&gt;<i> &lt;input type=&quot;file&quot; name=&quot;file&quot;/&gt;
+</I>&gt;<i> &lt;input class=&quot;button continue&quot;
+</I>&gt;<i>        type=&quot;submit&quot;
+</I>&gt;<i>        name=&quot;form.button.Save&quot;
+</I>&gt;<i>        value=&quot;Ulozit&quot;/&gt;
+</I>&gt;<i> &lt;input type=&quot;hidden&quot; name=&quot;form.submitted&quot; value=&quot;1&quot; /&gt;
+</I>&gt;<i> &lt;/form&gt;
+</I>&gt;<i> 
+</I>&gt;<i> spracovanim tohto formulara sa dostanem cez premennu file iba k nazvu
+</I>&gt;<i> suboru. Ako by som vedel dostat cely subor z tohto formulara? Napriklad
+</I>&gt;<i> tak ako to je v Page Template.
+</I>&gt;<i> 
+</I>&gt;<i> Napr. ak formular bude vyzerat takto:
+</I>&gt;<i> 
+</I>&gt;<i> &lt;form enctype=&quot;multipart/form-data&quot; action=&quot;skript&quot;&gt;
+</I>&gt;<i> &lt;input type=&quot;file&quot; name=&quot;file&quot;/&gt;
+</I>&gt;<i> &lt;input class=&quot;button continue&quot;
+</I>&gt;<i>        type=&quot;submit&quot;
+</I>&gt;<i>        name=&quot;form.button.Save&quot;
+</I>&gt;<i>        value=&quot;Ulozit&quot;/&gt;
+</I>&gt;<i> &lt;input type=&quot;hidden&quot; name=&quot;form.submitted&quot; value=&quot;1&quot; /&gt;
+</I>&gt;<i> &lt;/form&gt;
+</I>&gt;<i> 
+</I>&gt;<i> a ak dam v sktripe zobrazit context.REQUEST tak ten mi zobrazi nieco
+</I>&gt;<i> ako:
+</I>&gt;<i> 
+</I>&gt;<i> form
+</I>&gt;<i> 
+</I>&gt;<i> file &lt;ZPublisher.HTTPRequest.FileUpload instance at 0x451e94cc&gt;
+</I>&gt;<i> ...
+</I>&gt;<i> 
+</I>&gt;<i> tak toto by som chcel docielit aj pri Controll Page Template, viete ako
+</I>&gt;<i> na to?
+</I>&gt;<i> 
+</I>&gt;<i> --
+</I>&gt;<i> Martin Stofcik
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ________ Information from NOD32 ________
+</I>&gt;<i> This message was checked by NOD32 Antivirus System for Linux Mail Server.
+</I>&gt;<i> <A HREF="http://www.nod32.com/">http://www.nod32.com</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> ________ Information from NOD32 ________
+</I>&gt;<i> This message was checked by NOD32 Antivirus System for Linux Mail Server.
+</I>&gt;<i> <A HREF="http://www.nod32.com/">http://www.nod32.com</A>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003793.html">[python] Zope: ako uploadovat subory cez Controller Page Template?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-December/003795.html">[python] RS232+Ethernet
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-December/date.html#3794">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/thread.html#3794">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/subject.html#3794">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-December/author.html#3794">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-December/003794.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:13 GMT -->
+</html>

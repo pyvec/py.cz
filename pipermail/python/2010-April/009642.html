@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009642.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:42 GMT -->
+<HEAD>
+   <TITLE> [python] multiprocess a subprocess
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20a%20subprocess&In-Reply-To=%3C0C880E90-4F65-4AAC-A66E-8F3F1EFD727A%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009639.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009643.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multiprocess a subprocess</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20a%20subprocess&In-Reply-To=%3C0C880E90-4F65-4AAC-A66E-8F3F1EFD727A%40gmail.com%3E"
+       TITLE="[python] multiprocess a subprocess">petr.messner na gmail.com
+       </A><BR>
+    <I>Sobota Duben 17 00:22:39 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009639.html">[python] multiprocess a subprocess
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009643.html">[python] multiprocess a subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9642">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9642">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9642">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9642">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Předpokládám, že místo foo() je myšleno spouštění webového serveru přes Popen z bar(). Mě tento kód funguje, příkaz se spustí. Asi bude chyba někde jinde. Často pomůže podívat se přes strace, co to vlastně dělá (myslím příkaz strace v Linuxu nebo něco podobného v jiných OS). Raději sem ale pošlete větší kus zdrojového kódu, nebo vysvětlete, o co se snažíte, webový server se v Pythonu dá spustit i jednoduššími způsoby.
+
+Jinak by bylo pěkné k ukázce kódu doplnit i příslušné importy, aby se kód dal co nejsnáze spustit a vyzkoušet.
+
+PM
+
+On 16.4.2010, at 23:56, Tomas Pelka wrote:
+
+&gt;<i> Zdravim,
+</I>&gt;<i> 
+</I>&gt;<i> mam maly problem, ktery jiz resim cely vecer. Pro znale bude reseni
+</I>&gt;<i> jiste otazkou chvilky. Pokousim se o nasledujici:
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> def foo(q):
+</I>&gt;<i>    print os.getuid()
+</I>&gt;<i>    while True:
+</I>&gt;<i>        pass
+</I>&gt;<i> 
+</I>&gt;<i> def bar():
+</I>&gt;<i>    os.setuid(NEJAKE_EXISTUJICI_UID)
+</I>&gt;<i>    if not CESTA_K_HOME in sys.path:
+</I>&gt;<i>        sys.path.append(CESTA_K_HOME)
+</I>&gt;<i>    os.chdir(CESTA_K_HOME)
+</I>&gt;<i>    cmd = &quot;prikaz spouztejici web server&quot;
+</I>&gt;<i>    p = Popen(cmd, shell=True, stdout=PIPE)
+</I>&gt;<i>    p.communicate()
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> if __name__ == &quot;__main__&quot;:
+</I>&gt;<i>    # fronta neni prozatim dulezita
+</I>&gt;<i>    workQueue = Queue()
+</I>&gt;<i> 
+</I>&gt;<i>    bar_proc = Process(target=bar, args=())
+</I>&gt;<i>    foo_proc = Process(target=foo, args=(workQueue,))
+</I>&gt;<i> 
+</I>&gt;<i>    foo_proc.start()
+</I>&gt;<i>    bar_proc.start()
+</I>&gt;<i> 
+</I>&gt;<i>    foo_proc.join()
+</I>&gt;<i>    bar_proc.join()
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Problem je ten ze webovy server z foo() nebezi i kdyz python rika
+</I>&gt;<i> (foo_proc.is_alive()), ze proces bezi.
+</I>&gt;<i> 
+</I>&gt;<i> Kde delam neustale chybu?
+</I>&gt;<i> 
+</I>&gt;<i> Diky za odpovedi.
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> Tom
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009639.html">[python] multiprocess a subprocess
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009643.html">[python] multiprocess a subprocess
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9642">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9642">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9642">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9642">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009642.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:42 GMT -->
+</html>

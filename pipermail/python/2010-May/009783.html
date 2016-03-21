@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009783.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:38 GMT -->
+<HEAD>
+   <TITLE> [python] modul turtle: rychlost graf.výstupu; chyba v setup?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3Fmodul_turtle%3D3A_rychlost_graf%3D2Ev%3DFDstupu%3F%3D%0A%09%3D%3Fiso-8859-1%3Fq%3F%3D3B_chyba_v_setup%3D3F%3F%3D&In-Reply-To=%3Cace798a1-4a73-4eac-b69e-aeb080cf7180%40q8g2000vbm.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-May/009782.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-May/009784.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] modul turtle: rychlost graf.výstupu; chyba v setup?</H1>
+    <B>petrofF</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3Fmodul_turtle%3D3A_rychlost_graf%3D2Ev%3DFDstupu%3F%3D%0A%09%3D%3Fiso-8859-1%3Fq%3F%3D3B_chyba_v_setup%3D3F%3F%3D&In-Reply-To=%3Cace798a1-4a73-4eac-b69e-aeb080cf7180%40q8g2000vbm.googlegroups.com%3E"
+       TITLE="[python] modul turtle: rychlost graf.výstupu; chyba v setup?">petr0ff na seznam.cz
+       </A><BR>
+    <I>Úterý Květen 18 21:20:18 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009782.html">[python] segfault error
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009784.html">[python] zakazani importu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9783">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9783">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9783">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9783">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Při jednoduchém testu, jak časově náročné je generování dlouhých
+sekvencí pohybových příkazů (typických pro generování fraktálů, což je
+oblast použití, která mě zajímá) jsem obdržel výsledky, které mě
+(nemile) překvapily:
+
+from turtle import *
+import time
+
+def stopky(label,funkce):
+    Tstart=time.clock(); rtn = funkce()
+    Tfinish=time.clock()
+    print label % (Tfinish-Tstart)
+    return rtn
+
+def LF_repeat(pocet):
+    for i in xrange(pocet):
+        left(90)
+        forward(8)
+        
+F = lambda x: lambda: LF_repeat(x)
+
+for level in range(6):
+    pocet = 256 &lt;&lt; level
+    reset(); speed(&quot;fastest&quot;); tracer(0);
+    stopky(&quot;Vykresleno:  %4s useku  za %%6.2f s&quot; % pocet,F(pocet))
+
+
+Vykresleno:   256 useku  za   0.27 s
+Vykresleno:   512 useku  za   1.03 s
+Vykresleno:  1024 useku  za   3.97 s
+Vykresleno:  2048 useku  za  15.75 s
+Vykresleno:  4096 useku  za  61.73 s
+Vykresleno:  8192 useku  za 242.27 s
+
+Jak vidno, při zdvojnásobení počtu příkazů se doba prodlouží
+čtyřnásobně
+Není mi jasné proč tomu tak je...
+
+Pokud víte o nějaké py knihovně s rychlými primitivy (drawPoint,
+drawLine) byl bych rád
+
+Dále:
+Připadá mi, že ve funkci setup je chyba:
+
+
+def setup(**geometry):
+    &quot;&quot;&quot; Sets the size and position of the main window.
+    Examples:
+    &gt;&gt;&gt; setup (width=200, height=200, startx=0, starty=0)
+
+    sets window to 200x200 pixels, in upper left of screen
+
+    &gt;&gt;&gt; setup(width=.75, height=0.5, startx=None, starty=None)
+
+    sets window to 75% of screen by 50% of screen and centers
+
+    &gt;&gt;&gt; setup(width=None)
+
+    forces use of default geometry as in older versions of turtle.py
+    &quot;&quot;&quot;
+
+    global _width, _height, _startx, _starty
+
+    width = geometry.get('width',_width)
+    if width &gt;= 0 or width == None:
+        _width = width
+    else:
+        raise ValueError, &quot;width can not be less than 0&quot;
+
+    height = geometry.get('height',_height)
+    if height &gt;= 0 or height == None:
+        _height = height
+    else:
+        raise ValueError, &quot;height can not be less than 0&quot;
+
+    startx = geometry.get('startx', _startx)
+    if startx &gt;= 0 or startx == None:
+        _startx = _startx                        &lt;&lt;&lt;=========== ??????
+    else:
+        raise ValueError, &quot;startx can not be less than 0&quot;
+
+    starty = geometry.get('starty', _starty)
+    if starty &gt;= 0 or starty == None:
+        _starty = starty
+    else:
+        raise ValueError, &quot;startx can not be less than 0&quot;
+
+    ....atd
+
+Je to z instalace Python 2.5
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009782.html">[python] segfault error
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009784.html">[python] zakazani importu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9783">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9783">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9783">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9783">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009783.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:38 GMT -->
+</html>

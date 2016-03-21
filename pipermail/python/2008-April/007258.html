@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007258.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+<HEAD>
+   <TITLE> [python] Parsování emailu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To=00c901c8a0a0%24f493af30%246e7ba8c0%40kubuvpocitac">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007254.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007259.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Parsování emailu</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_emailu%3F%3D&In-Reply-To=00c901c8a0a0%24f493af30%246e7ba8c0%40kubuvpocitac"
+       TITLE="[python] Parsování emailu">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Pátek Duben 18 00:10:25 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007254.html">[python] Parsování emailu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007259.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7258">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7258">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7258">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7258">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>
+</I>&gt;<i> Ano, už to částečně funguje. Manuál jsem četl a dokonce jsem zkoušel
+</I>&gt;<i> použít
+</I>&gt;<i> funkci get_payload(), ale fakt mě nenapadlo, že to musím zavolat
+</I>&gt;<i> dvakrát...
+</I>&gt;<i> Nicméně to funguje, nevím proč, pouze na některé emaily; zde je můj kód:
+</I>&gt;<i>
+</I>
+&gt;<i> K přijmu zpráv používám modul poplib
+</I>
+Ahoj,
+
+  myslim ze si zbytecne sam komplikujes zivot tim, ze beres puvodni zpravu
+jako slozity string. Dokumentace k poplib jasne rika:
+&gt;<i> Result is in form (response, ['line', ...], octets).
+</I>  Takze ten tvuj string je vlastne tuple, ve kterem te zajima prostredni
+(druhy) clen coz je list slozeny z jednotlivych radek puvodni zpravy. Pak uz
+jenom staci vedet (viz RFC 822 jestli se nepletu), ze oddelovacem mezi
+hlavickou mailu a telem mailu je prvni prazdna radka. Takze na zjisteni tela
+mailu nepotrebujes ani modul email, staci napsat pomerne jednoduchou funkci.
+Jejim parametrem jsou tvoje ukazkova data tak jak je vraci poplib, tj. jako
+tuple a ne jako string.
+
+Funkce ktera vytahne &quot;body&quot; mailu:
+
+def get_payload(msg):
+    data = msg[1]
+    res = []
+    skip = True
+    for line in data:
+        if line != '' and skip:
+            continue
+        if line == '' and skip:
+            skip = False
+            continue
+        res.append(line)
+    return '\n'.join(res)
+
+(cely testovaci program je v priloze)
+
+  Jirka
+
+P.S. ten druhy mail ti zrejme vubec neprosel diky tomu, ze v tele mailu jsou
+apostrofy a poplib ten radek zabalil do uvozovek - je to videt v te priloze,
+kterou jsem rucne &quot;zformatoval&quot;
+
+P.P.S. get_payload se da asi napsat lepe, ale nechtej to po mne, prave jsem
+se vratil z hospody ;-)
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080418/0d5fb3ed/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080418/0d5fb3ed/attachment.htm</A> 
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: parse_email.py
+Type: text/x-python
+Size: 4015 bytes
+Desc: not available
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20080418/0d5fb3ed/attachment.py">http://www.py.cz/pipermail/python/attachments/20080418/0d5fb3ed/attachment.py</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007254.html">[python] Parsování emailu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007259.html">[python] Parsování emailu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7258">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7258">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7258">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7258">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007258.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:29 GMT -->
+</html>

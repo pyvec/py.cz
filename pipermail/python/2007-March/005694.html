@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005694.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:22 GMT -->
+<HEAD>
+   <TITLE> [python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Q%3A%20Cteni%20unicode%20retezcu%20ze%20souboru%20UTF-8%20s%20BOM%3F&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005693.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005695.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Q%3A%20Cteni%20unicode%20retezcu%20ze%20souboru%20UTF-8%20s%20BOM%3F&In-Reply-To="
+       TITLE="[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Březen 15 11:10:05 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005693.html">[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005695.html">[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5694">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5694">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5694">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5694">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Díky. Tušil jsem nějakou zradu. Nakonec jsem to principiálně 
+napsal takto.
+
+===================================================
+import codecs
+bom = unicode(codecs.BOM_UTF8, 'utf8')
+f = codecs.open('soubor.txt', 'r', 'utf-8')
+for line in f:
+    line = line.rstrip() + u'\n'
+    if line.startswith(bom):
+        line = line.lstrip(bom)
+    print line,
+f.close()
+===================================================
+
+To znamená, že z trojbajtové sekvence codecs.BOM_UTF8,
+která má hodnotu '\xef\xbb\xbf' vyrobím neexistující
+unicode znak u'\ufeff', který zahazuju, protože 
+neexistuje :-)
+
+Není další chyba v tom, že při čtení v textovém režimu
+dostávám na konci řádku '\r\n'? (... pod Windows, neprovádí
+se unifikace konců řádků.) 
+
+
+RMiklos <A HREF="http://www.py.cz/mailman/listinfo/python">napsal... na pss.sk</A>
+&gt;<i> Je to zjavne bug - tu sa o tom docitas: <A HREF="http://evanjones.ca/python-utf8.html">http://evanjones.ca/python-utf8.html</A> 
+</I>&gt;<i> 
+</I>&gt;<i> Takze BOM treba odrezat rucne: 
+</I>&gt;<i> -------------------------------------------------- 
+</I>&gt;<i> # -*- coding: cp1250 -*- 
+</I>&gt;<i> import codecs 
+</I>&gt;<i> bom = unicode( codecs.BOM_UTF8, &quot;utf8&quot; ) 
+</I>&gt;<i> print &quot;BOM = %s&quot; %  repr(bom) 
+</I>&gt;<i> f = codecs.open('soubor.txt', 'r', 'utf-8') 
+</I>&gt;<i> for line in f: 
+</I>&gt;<i>    #print &quot;line[0]= %s&quot; % repr(line[0])
+</I>&gt;<i>    if line[0] == unicode( codecs.BOM_UTF8, &quot;utf8&quot; ): 
+</I>&gt;<i>       l=line.lstrip(unicode( codecs.BOM_UTF8, &quot;utf8&quot; )) 
+</I>&gt;<i>    else: 
+</I>&gt;<i>       l = line 
+</I>&gt;<i>    print repr(l) 
+</I>&gt;<i>    print l[1:] 
+</I>&gt;<i> f.close() 
+</I>&gt;<i> -------------------------------------------------- 
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005693.html">[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005695.html">[python] Q: Cteni unicode retezcu ze souboru UTF-8 s BOM?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5694">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5694">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5694">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5694">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005694.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:22 GMT -->
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010398.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+<HEAD>
+   <TITLE> [python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FTisk_unicode_%3DF8et%3DECzce_a_tisk_seznamu_u%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fnicode_%3DF8et%3DECzc%3DF9%3F%3D&In-Reply-To=%3CBANLkTinHAW8VkVStg1pbjOZQqKuj7X4%3D1g%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010397.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010399.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Tisk unicode řetězce a tisk seznamu unicode řetězců</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FTisk_unicode_%3DF8et%3DECzce_a_tisk_seznamu_u%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fnicode_%3DF8et%3DECzc%3DF9%3F%3D&In-Reply-To=%3CBANLkTinHAW8VkVStg1pbjOZQqKuj7X4%3D1g%40mail.gmail.com%3E"
+       TITLE="[python] Tisk unicode řetězce a tisk seznamu unicode řetězců">petr.messner na gmail.com
+       </A><BR>
+    <I>Úterý Červen  7 10:29:41 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010397.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010399.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10398">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10398">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10398">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10398">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+klíč je v tomhle:
+
+&gt;&gt;&gt;<i> print &quot;kůň&quot;
+</I>kůň
+&gt;&gt;&gt;<i> print repr(&quot;kůň&quot;)
+</I>'k\xc5\xaf\xc5\x88'
+
+Funkce repr vypíše řetězec (nebo cokoliv jiného) tak, aby bylo jasné,
+z čeho se skládá. Všechny znaky mimo ASCII písmen, čísel a pár dalších
+je tedy vypsáno v hexadecimální podobě. Při print &quot;kůň&quot; se toto ale
+neděje a řetězec je vypsán tak jak je.
+
+Když si třeba přes open(&quot;obrazek.jpg&quot;).read() načtu nějaký binární
+bordel, který by mi při vypsání printem rozhodil terminál, můžu použít
+repr() a uvidím i nezobrazitelné znaky.
+
+Pokud chceš vypsat list (print [...]), pak se pro jednotlivé položky
+listu použije repr, protože tak to list prostě dělá. str(list) se
+prostě chová tak, že to mezi dvě hranaté závorky dá repr() všech
+položek v tom listu.
+
+BTW. str() a repr() jen volají metody __str__ a __repr__ daného
+objektu, takže každý objekt si sám rozhoduje, jak se nechá vypsat.
+Tyto metody můžeš implementovat i ve svých objektech.
+
+Ještě bych chtěl upozornit, že pracuješ s &quot;obyčejnými&quot; řetězci, takže
+Python neví, že &quot;ň&quot; je n s háčkem - pro Python jsou to jen dva bajty
+0xC5 0x88, které shodou okolnosí tvoje konzole fungující v utf-8
+vypíše jako ň. Pro přeložení str do unicode slouží metoda decode,
+encode je pro opačný směr:
+
+&gt;&gt;&gt;<i> print repr(&quot;kůň&quot;)
+</I>'k\xc5\xaf\xc5\x88'
+&gt;&gt;&gt;<i> print repr(&quot;kůň&quot;.decode(&quot;utf-8&quot;))
+</I>u'k\u016f\u0148'
+&gt;&gt;&gt;<i> print &quot;kůň&quot;.decode(&quot;utf-8&quot;)
+</I>kůň
+
+A nakonec, pokud chceš vypsat položky listu jako řetězce, dá se použít str.join:
+
+&gt;&gt;&gt;<i> print &quot;, &quot;.join([&quot;žlutý&quot;, &quot;kůň&quot;])
+</I>žlutý, kůň
+
+Snad jsem ti aspoň v něčem pomohl. Pochopení kódování a unicode je
+docela klíčové, přidám ještě pár odkazů:
+
+<A HREF="http://www.joelonsoftware.com/articles/Unicode.html">http://www.joelonsoftware.com/articles/Unicode.html</A> - The Absolute
+Minimum Every Software Developer Absolutely, Positively Must Know
+About Unicode and Character Sets (No Excuses!) by Joel Spolsky
+
+<A HREF="http://docs.python.org/howto/unicode.html">http://docs.python.org/howto/unicode.html</A> - Unicode HOWTO
+
+<A HREF="http://farmdev.com/talks/unicode/">http://farmdev.com/talks/unicode/</A> - Unicode In Python, Completely
+Demystified (prezentace)
+
+<A HREF="http://stackoverflow.com/questions/1436703/difference-between-str-and-repr-in-python">http://stackoverflow.com/questions/1436703/difference-between-str-and-repr-in-python</A>
+- Difference between __str__ and __repr__ in Python
+
+Petr Messner
+
+
+2011/6/7 David Rohleder &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>&gt;:
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> neví někdo, proč se následující příklad chová následovně?
+</I>&gt;<i>
+</I>&gt;<i> #!/usr/bin/env python
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i>
+</I>&gt;<i> seznam = [ &quot;žluťoučký kůň&quot;, &quot;úpěl ďábelské ódy&quot; ]
+</I>&gt;<i>
+</I>&gt;<i> print seznam
+</I>&gt;<i>
+</I>&gt;<i> for i in seznam:
+</I>&gt;<i>    print i
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ['\xc5\xbelu\xc5\xa5ou\xc4\x8dk\xc3\xbd k\xc5\xaf\xc5\x88', '\xc3\xbap
+</I>&gt;<i> \xc4\x9bl \xc4\x8f\xc3\xa1belsk\xc3\xa9 \xc3\xb3dy']
+</I>&gt;<i> žluťoučký kůň
+</I>&gt;<i> úpěl ďábelské ódy
+</I>&gt;<i>
+</I>&gt;<i> Tj. jednou to vytiskne dost nečitelně a podruhé správně čitelně (oboje
+</I>&gt;<i> je asi správně)?
+</I>&gt;<i>
+</I>&gt;<i> zkoušel jsem třeba i
+</I>&gt;<i>
+</I>&gt;<i> print [i.encode(&quot;utf-8&quot;) for i in seznam]
+</I>&gt;<i>
+</I>&gt;<i> ale taky nic.
+</I>&gt;<i>
+</I>&gt;<i> Dík
+</I>&gt;<i>
+</I>&gt;<i> David
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i> David Rohleder                                         <A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>
+</I>&gt;<i> Institute of Computer Science, Masaryk University
+</I>&gt;<i> Brno, Czech Republic
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010397.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010399.html">[python] Tisk unicode řetězce a tisk seznamu unicode řetězců
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10398">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10398">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10398">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10398">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010398.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+</html>

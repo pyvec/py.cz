@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010910.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:16 GMT -->
+<HEAD>
+   <TITLE> [python] otázka ohladom mojho štýlu písania v OOP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fot%3DE1zka_ohladom_mojho_%3DB9t%3DFDlu_p%3DEDsani%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fa_v_OOP%3F%3D&In-Reply-To=%3CCABfjP1JPDHoPCb6aLu7pKj1MdjQ8sUdmTNQqe40GDYFeqL%2BEFw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010909.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010911.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] otázka ohladom mojho štýlu písania v OOP</H1>
+    <B>Roman Beno</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fot%3DE1zka_ohladom_mojho_%3DB9t%3DFDlu_p%3DEDsani%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fa_v_OOP%3F%3D&In-Reply-To=%3CCABfjP1JPDHoPCb6aLu7pKj1MdjQ8sUdmTNQqe40GDYFeqL%2BEFw%40mail.gmail.com%3E"
+       TITLE="[python] otázka ohladom mojho štýlu písania v OOP">romanbeno273 na gmail.com
+       </A><BR>
+    <I>Úterý Leden 15 19:30:43 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010909.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010911.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10910">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10910">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10910">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10910">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Fabian Hynek: Ten príkazový riadok bol myslený len vlastne ako ukážka,
+nebol to žiadny projekt :-)
+
+Petr Přikryl: To znamená, že pri písaní modulov sa na to OOP nehodí?
+
+
+
+2013/1/15 Petr Přikryl &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prikryl na atlas.cz</A>&gt;
+
+&gt;<i> &gt; Od: &quot;Roman Beno&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">romanbeno273 na gmail.com</A>&gt;
+</I>&gt;<i> ...
+</I>&gt;<i> &gt;Čo sa týka Raiczeho kritiky, podobný systém s &quot;odkazom na metódy jednej
+</I>&gt;<i> &gt;konkrétnej instancie&quot; je uplatnený v module random.
+</I>&gt;<i>
+</I>&gt;<i> V modulu random má ale vytvoření instance _inst jeden důležitý důvod.
+</I>&gt;<i> Instance použije při své inicializaci aktuální čas jako zárodek pro
+</I>&gt;<i> generování náhodných čísel -- ale jen když se neudá explicitně.
+</I>&gt;<i> Zárodek (seed) se používá v různých metodách instance.
+</I>&gt;<i>
+</I>&gt;<i> Je to tam zkrátka složitější a někdy je nutné pracovat se stejným
+</I>&gt;<i> zárodkem, aby byla posloupnost náhodných čísel opakovatelná :)
+</I>&gt;<i>
+</I>&gt;<i> Instance tam slouží k uložení toho zárodku. Při prostém používání
+</I>&gt;<i> nás detaily nezajímají a místo instance a jejích metod nás zajímají
+</I>&gt;<i> funkce (jako v matematice). Jejich implementace (jako metod interní
+</I>&gt;<i> instance) může být uživatelem chápána jako implementační detail.
+</I>&gt;<i>
+</I>&gt;<i> Obecně, práce s instancemi tříd je výhodná jen v situaci, kdy
+</I>&gt;<i> instance udržuje nějaký vnitřní stav, tj. kdy má smysl uvažovat
+</I>&gt;<i> o metodách jen v situaci, kdy by to bez toho vnitřního stavu
+</I>&gt;<i> komplikovalo rozhraní volané funkčnosti.
+</I>&gt;<i>
+</I>&gt;<i> &gt;if __name__=&quot;__main__&quot;:
+</I>&gt;<i> &gt;    # čo robit s instaciou(ami) po spustení z termu..
+</I>&gt;<i> &gt;    ....
+</I>&gt;<i>
+</I>&gt;<i> Z obecného pohledu v této části nelze mluvit o instancích
+</I>&gt;<i> tříd protože žádné nemusí existovat. Python není čistě objektově
+</I>&gt;<i> orientovaný a umožňuje (podobně jako C++) přirozenější
+</I>&gt;<i> přístup k výstavbě programu.
+</I>&gt;<i>
+</I>&gt;<i> Petr
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130115/711b219c/attachment.html">http://www.py.cz/pipermail/python/attachments/20130115/711b219c/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010909.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010911.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10910">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10910">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10910">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10910">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010910.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:16 GMT -->
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011523.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:20 GMT -->
+<HEAD>
+   <TITLE> [python] Lock
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3CCADoCwr1S0LaKnobMywOPSpW-AtvimTEaZxJJ9LRY6Y52b4XDCw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011528.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011544.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Lock</H1>
+    <B>Honza Král</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Lock&In-Reply-To=%3CCADoCwr1S0LaKnobMywOPSpW-AtvimTEaZxJJ9LRY6Y52b4XDCw%40mail.gmail.com%3E"
+       TITLE="[python] Lock">honza.kral na gmail.com
+       </A><BR>
+    <I>Pondělí Únor  9 15:03:31 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011528.html">[python] Lock
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011544.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11523">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11523">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11523">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11523">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A samozrejme, jako vzdy, je lepsi varianta bezzamkova:
+
+&quot;UPDATE Zaplaceno = 1 FROM platby WHERE id=%s AND Zaplaceno = 0&quot;
+Honza Král
+E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>
+Phone:  +420 606 678585
+
+
+2015-02-09 11:42 GMT+01:00 mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt;:
+&gt;<i> Ahoj,
+</I>&gt;<i> narazil jsem na problém se zámkem.
+</I>&gt;<i>
+</I>&gt;<i> Mám  aplikaci  na web serveru, která ukládá příznak booolean Zaplaceno
+</I>&gt;<i> do MySQL databáze.
+</I>&gt;<i> Občas  se ale stane, že potvrzení platby přijde najednou ve stejný čas
+</I>&gt;<i> ze dvou zdrojů. Chtěl jsem to vyřešit zámkem, což ale nepomůže.
+</I>&gt;<i>
+</I>&gt;<i> Princip kódu:
+</I>&gt;<i>
+</I>&gt;<i> from threading import Lock
+</I>&gt;<i> lock = Lock()
+</I>&gt;<i> lock.acquire()
+</I>&gt;<i> try:
+</I>&gt;<i>     mysql_cursor.execute(&quot;SELECT Zaplaceno FROM platby WHERE Id=%s&quot;, (1,))
+</I>&gt;<i>     if mysql_cursor.fetchall()[0]['Zaplaceno'] == 0:
+</I>&gt;<i>         mysql_cursor.execute(&quot;UPDATE Zaplaceno=1 FROM platby WHERE Id=%s&quot;, (1,))
+</I>&gt;<i>         mysql_connection.commit()
+</I>&gt;<i>         # dalsi zpracovani platby...
+</I>&gt;<i> finally:
+</I>&gt;<i>     lock.release()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Pokud je request spuštěn 2x ve stený čas provede se zpracování platby 2x.
+</I>&gt;<i> Přičemž ale SELECT je pod zámkem, takže by se neměl provést mezi SELECT a UPDATE druhého threadu.
+</I>&gt;<i> Netušíte, kde může být problém?
+</I>&gt;<i>
+</I>&gt;<i> Díky za odpovědi.
+</I>&gt;<i>
+</I>&gt;<i> Mirek
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I></PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011528.html">[python] Lock
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011544.html">[python] Lock
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11523">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11523">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11523">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11523">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011523.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:20 GMT -->
+</html>

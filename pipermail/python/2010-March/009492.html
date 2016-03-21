@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009492.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:50 GMT -->
+<HEAD>
+   <TITLE> [python] dokumentace k novejsim rysum jazyka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dokumentace%20k%20novejsim%20rysum%20jazyka&In-Reply-To=%3C201003081209.01721.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009491.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009472.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dokumentace k novejsim rysum jazyka</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dokumentace%20k%20novejsim%20rysum%20jazyka&In-Reply-To=%3C201003081209.01721.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] dokumentace k novejsim rysum jazyka">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Pondělí Březen  8 12:09:01 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009491.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009472.html">[python] xlrd a py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9492">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9492">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9492">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9492">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Takova implementace by vyzadovala predem znat a pripravit potencialne veliky 
+strom objektu.
+Jednodussi je vytvorit si proxy objekt ktery z pretizeneho __getattr__() vraci 
+vlastni instance do kterych postupne zaznamenava &quot;cestu&quot; a nakonec z 
+__call__() specifikovanou funkci skutecne zavola.
+Mezi nami, v pripade XMLRPC mi to prijde jako spousta zbytecne prace jen kvuli 
+tomu, ze tecka je v pythonu specialni znak.
+
+David Rohleder (pondělí 08 Březen 2010 11:51:08):
+&gt;<i> Fakt, že jo, měl jsem to skoro dobře, funguje to třeba i takto:
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> class Test:
+</I>&gt;<i>     pass
+</I>&gt;<i> 
+</I>&gt;<i> def fce():
+</I>&gt;<i>     print &quot;Test&quot;
+</I>&gt;<i> 
+</I>&gt;<i> a=Test()
+</I>&gt;<i> a.__dict__['test'] = fce
+</I>&gt;<i> a.test()
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009491.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009472.html">[python] xlrd a py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9492">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9492">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9492">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9492">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009492.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:50 GMT -->
+</html>

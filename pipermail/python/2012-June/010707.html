@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-June/010707.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:29 GMT -->
+<HEAD>
+   <TITLE> [python] Supervisord + python aplikace pracující s Gitem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-1%3Fq%3FSupervisord_%2B_python_aplikace_pracuj%3DEDc%3F%3D%0A%09%3D%3Fiso-8859-1%3Fq%3F%3DED_s_Gitem%3F%3D&In-Reply-To=%3CCAERHfrJave7P0dhajYKrM5ix-2y%3D8GP%3D-MPJJVT%2BW%2BQgoHOubw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-June/010706.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-June/010702.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Supervisord + python aplikace pracující s Gitem</H1>
+    <B>Martin Stiborský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-1%3Fq%3FSupervisord_%2B_python_aplikace_pracuj%3DEDc%3F%3D%0A%09%3D%3Fiso-8859-1%3Fq%3F%3DED_s_Gitem%3F%3D&In-Reply-To=%3CCAERHfrJave7P0dhajYKrM5ix-2y%3D8GP%3D-MPJJVT%2BW%2BQgoHOubw%40mail.gmail.com%3E"
+       TITLE="[python] Supervisord + python aplikace pracující s Gitem">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Středa Červen  6 10:39:23 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-June/010706.html">[python] Supervisord + python aplikace pracující s Gitem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-June/010702.html">[python] transport for EuroPython 2012
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-June/date.html#10707">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/thread.html#10707">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/subject.html#10707">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/author.html#10707">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hynek: To by vysvětlovalo, proč je tam tak vymeteno. Asi jsem blbě
+pochopil dokumentaci...
+
+&quot;&quot;&quot;
+Unlike cron, supervisord does not attempt to divine and override
+&quot;fundamental&quot; environment variables like USER, PATH, HOME, and LOGNAME
+when it performs a setuid to the user defined within the user= program
+config option.
+&quot;&quot;&quot;
+
+Myslel jsem si, že když mám v konfiguraci &quot;aplikace&quot; v
+supervisord.conf nastaveného uživatele pod kterým to má běžet, tak to
+zdědí prostředí toho uživatele (pokud supervisord běží pod rootem).
+Zkoušel jsem tam procpat HOME přes &quot;environment&quot; v konfiguraci
+supervisord aplikace (či jak to říkají &quot;program&quot; bloku), ale taky bez
+úspěchu...Není to náhodou fičůra supervisord 3? Protože mně tu běží
+postarší 2.x.
+
+2012/6/6 Hynek Fabian &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">hynek.fabian na firma.seznam.cz</A>&gt;:
+&gt;&gt;<i> přesně tak, chyběla HOME...Myslel jsem, že supervisord nešahá na tyhle
+</I>&gt;&gt;<i> env věci, že je nechá v subprocessu který vytvoří pro uživatele, pod
+</I>&gt;&gt;<i> kterým má aplikace běžet.
+</I>&gt;<i> Supervisor je spousteny z initu, zadny $HOME nikdy neuvidi. To nastavuje
+</I>&gt;<i> login shell. Potomci supervisoru stejne jako potomci cronu zdedi
+</I>&gt;<i> defaultni prostredi initu ve kterem neni skoro nic. Supervisor by s tim
+</I>&gt;<i> mohl neco udelat ale urcite nenastavi $HOME - spravny daemon ma svoje
+</I>&gt;<i> proprietky v /etc a /var.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+
+-- 
+S pozdravem
+Martin Stiborský
+
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-June/010706.html">[python] Supervisord + python aplikace pracující s Gitem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-June/010702.html">[python] transport for EuroPython 2012
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-June/date.html#10707">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/thread.html#10707">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/subject.html#10707">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-June/author.html#10707">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-June/010707.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:29 GMT -->
+</html>

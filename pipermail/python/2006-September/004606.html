@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004606.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:05 GMT -->
+<HEAD>
+   <TITLE> [python] kterak vhodne resit architekturu IMAP klienta
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kterak%20vhodne%20resit%20architekturu%20IMAP%20klienta&In-Reply-To=450DB744.7050001%40gentoo.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-September/004605.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-September/004535.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] kterak vhodne resit architekturu IMAP klienta</H1>
+    <B>Jan Matejka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kterak%20vhodne%20resit%20architekturu%20IMAP%20klienta&In-Reply-To=450DB744.7050001%40gentoo.org"
+       TITLE="[python] kterak vhodne resit architekturu IMAP klienta">matejka na cat.cz
+       </A><BR>
+    <I>Neděle Září 17 23:51:24 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004605.html">[python] kterak vhodne resit architekturu IMAP klienta
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004535.html">[python] py_OpenDX
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4606">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4606">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4606">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4606">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> 
+&gt;<i> Ok, ale co tahle situace:
+</I>&gt;<i> 
+</I>&gt;<i> Mam zobrazene maily v mailboxu (&quot;slozce&quot;, ted nemluvim o 
+</I>&gt;<i> komponente/modulu). Kliknu si na paty mail. UI rekne Mailboxu 
+</I>&gt;<i> (velke M, takze komponente) &quot;chci strukturu pateho mailu&quot;. 
+</I>&gt;<i> Jenomze chudak Mailbox to nema v cachi, a tak si musi povidat 
+</I>&gt;<i> s IMAP serverem. Posle proto UI zpravu &quot;hele, sorry, zatim to 
+</I>&gt;<i> nemam&quot;. Tohle mi moc synchronni neprijde.
+</I>
+Proc? UI zavola metodu Mailbox.DejMiStrukturuMejlu a Mailbox v navratove
+metode
+odpovi &quot;o tomto emailu nic nevim&quot;. UI tedy zobrazi presypaci hodiny a zavola
+Mailbox.ZjistiInformaceOmejluAinformujMeProstrednicvimObjektuN. Mailbox si
+to nekde poznamena a zapoveluje parser aby az bude vhodny okamzik informace
+ze serveru vytahl.
+Po case Parser ziska data, posle je Mailboxu, mailbox zavola prislusnou
+metodu podstrceneho UI objektu N,  UI zavola Mailbox.DejMiStrukturuMejlu,
+tentokrat vsak data dostane a zobrazi je.
+
+&gt;<i> 
+</I>&gt;<i> Cili shrnuti - synchronni komunikace nefunguje, protoze 
+</I>&gt;<i> Mailbox *nezarucuje*, ze ma porad k dispozici vsechna data. 
+</I>&gt;<i> Prefetch dat ze serveru musi byt volitelny a i pokud se 
+</I>&gt;<i> povoli, tak je potreba nejaka logika, protoze je kravina 
+</I>&gt;<i> bezmyslenkovite stahovat cely attachment, kdyz chce user 
+</I>&gt;<i> videt jenom plaintextovou cast mailu a pak ho smazat, napriklad.
+</I>&gt;<i> 
+</I>
+V tomto zcela suhlasim.
+
+&gt;<i> Co ma teda delat UI? Muze zobrazit &quot;cekej&quot; misto obsahu 
+</I>&gt;<i> mailu, ok. Jak ale pozna, ze uz ty data dorazily Mailboxu? Callback?
+</I>&gt;<i> 
+</I>&gt;<i> Mozna ale mas pravdu. Pokud te dobre chapu, tak ty navrhujes 
+</I>&gt;<i> neco jako &quot;pokud data nejsou hned, Mailbox postupem casu 
+</I>&gt;<i> zavola callback&quot;. Je to tak? Tim padem Mailbox rekne &quot;zatim 
+</I>&gt;<i> ten mail nemam&quot;, ale az dorazi, pusti callback, ktery rekne 
+</I>&gt;<i> UI &quot;struktura mailu s UID 12345 je XYZ&quot;.
+</I>&gt;<i> (UID 12345 je nutne kvuli tomu, ze si user zatim moh 
+</I>&gt;<i> odscrollovat na jinej mail. Mailbox ale stejne cte data. 
+</I>
+Ano myslel jsem to tak viz vyse.
+
+&gt;<i> Mozna komplikace - je tohle nejlepsi postup? Co delat, kdyz 
+</I>&gt;<i> user klika na jeden mail za druhym?
+</I>&gt;<i> Takhle by Mailbox dostal request na vsechny, coz je mozna trosku
+</I>&gt;<i> zbytecny...)
+</I>&gt;<i> 
+</I>
+V tom pripade by bylo treba nejak zajistit moznost ruseni pozadavku. 
+Tzn. pozadavky ihned neposilat z Mailboxu do fronty Parseru.  Frontovat tedy
+pozadavky jeste v mailboxu aby nad nimi mel kontrolu.
+
+&gt;<i> Ty fronty, co jsem navrhoval ja, by IMHO nemusely znamenat, 
+</I>&gt;<i> ze UI cachuje. Naopak, pokud UI dostane zpravu, na kterou 
+</I>&gt;<i> nemusi reagovat (protoze IMAP definuje treba situace, kdy je 
+</I>&gt;<i> nutne upozornit usera etc) a ktera se mu podle nej nehodi, 
+</I>&gt;<i> muze ji smele ignorovat, protoze si o ni muze zazadat i jinak.
+</I>&gt;<i> 
+</I>
+Jde o to na jake urovni cachovani uvazujeme, pokud by UI nemelo drzet pokud
+mozno zadna data, tak je treba aby byla z mista kde jsou ulozena dotupna
+rychle a to by v pripade front nebyla, takze by to UI muselo resit
+cachovanim.
+
+&gt;<i> Takze jak tak na to koukam, ono ty fronty asi ani neprinaseji 
+</I>&gt;<i> zadnou vyhodu, mozna tak takove opticke oddeleni dvou slupek. 
+</I>&gt;<i> Spis je ale horsi, ze muzou vnest nejakou tu latenci...
+</I>&gt;<i> 
+</I>&gt;<i> Diky za postrehy, nekdy se nad tim budu muset poradne zamyslet, -jkt
+</I>&gt;<i> 
+</I>
+&gt;<i> cd /local/pub &amp;&amp; more beer &gt; /dev/mouth
+</I>:<i>)
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004605.html">[python] kterak vhodne resit architekturu IMAP klienta
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004535.html">[python] py_OpenDX
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4606">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4606">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4606">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4606">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004606.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:05 GMT -->
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005448.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:02 GMT -->
+<HEAD>
+   <TITLE> [python] Rozpoznani kodovani editorem (bylo Problem s kodovanim	PyDev...)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Rozpoznani%20kodovani%20editorem%20%28bylo%20Problem%20s%20kodovanim%0A%09PyDev...%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005447.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005449.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Rozpoznani kodovani editorem (bylo Problem s kodovanim	PyDev...)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Rozpoznani%20kodovani%20editorem%20%28bylo%20Problem%20s%20kodovanim%0A%09PyDev...%29&In-Reply-To="
+       TITLE="[python] Rozpoznani kodovani editorem (bylo Problem s kodovanim	PyDev...)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Leden 31 08:36:06 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005447.html">[python] Lokalizace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005449.html">[python] Lokalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5448">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5448">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5448">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5448">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pavel Kosina
+&gt;<i> Dotaz: existuje editor který dokáže nastavit použité 
+</I>&gt;<i> kodovaní podle deklarovaného?
+</I>
+Asi jich bude víc. Poprvé jsem něco takového viděl v Emacsu.
+Teď ale používám jEdit. Ten na prvních řádcích hledá sekvence, 
+které interpretuje jako parametry editačního okna. 
+Kódování se dá předepsat takto:
+
+:<i>encoding=utf-8:
+</I>
+Může to být uzavřeno i do komentáře, takže například pro
+pythonovský program můžu na začátku uvést:
+
+# -*- coding: utf-8 -*-
+# :encoding=utf-8:
+
+Ten první řádek je pro Python, ten druhý pro editor.
+
+Pokud to jde, využívá se známých skutečností, které
+kódování definují. Takže například editory, které
+zvládají XML, berou kódování z XMLovského předpisu 
+pro kódování:
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;&gt;
+
+Docela spolehlivě se dá detekovat i kódování u UTF-16
+(různých variant) a u varianty UTF-8, která má na začátku
+speciální sekvenci (není to pravidlo). Některé editory
+se snaží kódování detekovat podle frekvence výskytu
+vybraných písmen, ale je to závislé na jazyku (lidském)
+a dalších okolnostech.
+
+Pokud má editor podporu konkrétního programovacího jazyka,
+pak může postupovat podobně. Tak třeba jEdit umí podle 
+přípony rozpoznat, že jde o pythonovský zdroják a přepne
+na příslušný režim (zvýrazňování syntaxe atd.), ale 
+používá se k tomu obecný mechanismus, který asi nepočítá
+s takovými věcmi, jako detekce příslušné pythonovské
+sekvence předepisující použité kódování ve zdrojovém 
+souboru. Mohl by to ale umět nějaký pythonovský plugin. 
+Jinými slovy, mělo by stačit, když se najde 
+
+# -*- coding: utf-8 -*-
+
+a měl by se obejít bez explicitně jEditovského
+
+# :encoding=utf-8:
+
+podobně, jako se to dělá v případě XML. Zkusím zjistit 
+a vyptat se.
+
+pepr
+
+P.S. jEdit je fajn editor, ale Miloslavovi nebude vyhovovat,
+     protože je psaný v Javě. Tímto jej vyzývám, aby 
+     na jEdit nereagoval a nadále používal vim ;-)
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005447.html">[python] Lokalizace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005449.html">[python] Lokalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5448">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5448">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5448">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5448">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005448.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:02 GMT -->
+</html>

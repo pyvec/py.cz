@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004022.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:49 GMT -->
+<HEAD>
+   <TITLE> [python] Referencia
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Referencia&In-Reply-To=43E34EB1.50401%40gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-February/004021.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-February/004023.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Referencia</H1>
+    <B>David Necas (Yeti)</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Referencia&In-Reply-To=43E34EB1.50401%40gmail.com"
+       TITLE="[python] Referencia">yeti na physics.muni.cz
+       </A><BR>
+    <I>Pátek Únor  3 14:27:01 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004021.html">[python] Referencia
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004023.html">[python] Referencia
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4022">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4022">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4022">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4022">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, Feb 03, 2006 at 01:38:09PM +0100, balky wrote:
+&gt;<i> no globals[A] nemozem pouzit pretoze....
+</I>&gt;<i> 
+</I>&gt;<i> Asi musim viac osvetlit na com robim.
+</I>&gt;<i> 
+</I>&gt;<i> Robim Celularny Automat. Je to vlastne pole buniek. Kazda bunka ma 
+</I>&gt;<i> nejaky stav, ktory sa meni v kazdej iteracii na zaklade prechodovej 
+</I>&gt;<i> funkcie. No a prechodova funkcia meni stav bunky na zaklade okolia bunky 
+</I>&gt;<i> podla danych pravidiel CA. Okolie je bud
+</I>&gt;<i> 
+</I>&gt;<i> Mooreove okolie
+</I>&gt;<i> xxx
+</I>&gt;<i> xbx
+</I>&gt;<i> xxx
+</I>&gt;<i> 
+</I>&gt;<i> alebo von Neumanove okolie
+</I>&gt;<i> x
+</I>&gt;<i> xbx
+</I>&gt;<i> x
+</I>
+Problém jako stvořený pro C, jak datovým modelem, tak
+potřebou rychlosti jednoduchých operací... No nic.
+
+&gt;<i> Toto vsak nie je podstatne. Podstatne je to, ze kvoli zrychleniu 
+</I>&gt;<i> vypoctov, kazda bunka je trieda, ktora vie svoj stav a obsahuje 
+</I>&gt;<i> referencie na svoje okolie. T.j. ma ako clensku premennu pole, v ktorom 
+</I>&gt;<i> su referencie na susedov bunky. Cize
+</I>&gt;<i> 
+</I>&gt;<i> vesmir = numpy.empty((x,y),dtype=object)
+</I>&gt;<i> for x in xrange(x):
+</I>&gt;<i>  for y in xrange(y):
+</I>&gt;<i>    bunka = vesmir[x][y]  
+</I>&gt;<i>    bunka.okolie = numpy.empty((3,3),dtype=object)
+</I>&gt;<i>    bunka.okolie[1][1] = vesmir[x-1][y-1]
+</I>&gt;<i>    bunka.okolie[1][2] = vesmir[x][y-1]
+</I>&gt;<i>    bunka.okolie[1][3] = vesmir[x+1][y-1]
+</I>&gt;<i>    bunka.okolie[2][1] = vesmir[x-1][y]
+</I>&gt;<i>   atd....
+</I>&gt;<i> 
+</I>&gt;<i> Samozrejme, ze u seba to mam napisane inak - toto je nazorne pre pochopenie.
+</I>&gt;<i> 
+</I>&gt;<i> Ako spravim to, ze ked zmenim napr. vesmir[5][5], aby sa mi zmeny 
+</I>&gt;<i> reflektovali aj do okoli vsetkych buniek, ktore maju bunku vesmir[5][5] 
+</I>&gt;<i> ako svoje okolie
+</I>&gt;<i> 
+</I>&gt;<i> Dufam, ze som to vysvetlil jasne. Ak nie pytajte sa upresnim.
+</I>
+Problém je, že s pythonovskými poli to samozřejmě funguje:
+
+    class Cell:
+        pass
+
+    x = 5
+    y = 5
+    universe = [[Cell() for j in range(x)] for i in range(y)]
+    for ii, row in enumerate(universe):
+        for jj, cell in enumerate(row):
+            cell.neighbourhood = (universe[ii][(jj + 1) % x],
+                                  universe[ii][(jj + x-1) % x],
+                                  universe[(ii + 1) % y][jj],
+                                  universe[(ii + y-1) % y][jj])
+
+    print hasattr(universe[2][3], 'foo')
+    cell = universe[2][2]
+    cell.neighbourhood[0].foo = 'bar'
+    print universe[2][3].foo
+
+Nemám žádnou verzi numpy, která by znala dtype=object,
+(používám numarray) a nebudu si kupovat(!) dokumentaci
+numpy, takže co vlastně dělá s objekty, bude nejlepší se
+zeptat autora...
+
+Klíčová otázka je, zda
+
+    id(bunka.okolie[1][1]) == id(vesmir[x-1][y-1])
+
+Pokud ano, tak se při zjišťování, zda se změnil, díváš na
+špatný objekt, protože jeden objekt se nemůže zároveň změnit
+i nezměnit. Pokud ne, tak je otázka, jak k tomu dochází.
+
+Yeti
+
+
+--
+That's enough.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004021.html">[python] Referencia
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-February/004023.html">[python] Referencia
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-February/date.html#4022">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/thread.html#4022">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/subject.html#4022">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-February/author.html#4022">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-February/004022.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:49 GMT -->
+</html>

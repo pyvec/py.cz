@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001706.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:31 GMT -->
+<HEAD>
+   <TITLE> [python] kopirovanie suborov
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kopirovanie%20suborov&In-Reply-To=386501734.20040506114820%40host.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-May/001710.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-May/001708.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] kopirovanie suborov</H1>
+    <B>Gen2n</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20kopirovanie%20suborov&In-Reply-To=386501734.20040506114820%40host.sk"
+       TITLE="[python] kopirovanie suborov">gen2n na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Květen  6 14:37:42 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001710.html">[python] kopirovanie suborov
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001708.html">[python] kopirovanie suborov
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1706">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1706">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1706">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1706">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>import os, shutil, sys
+from os.path import join
+VSTUP = r'g:\disketa'
+VYSTUP = r'c:\dokumenty\qtest'
+pocet=0
+if len(sys.argv)&gt;1: trida=sys.argv[1]
+else: trida=raw_input('Zadej tridu: ')
+VYSTUP=join(VYSTUP, trida)
+try: os.makedirs(VYSTUP)
+except: pass
+
+for slozka,podslozka,soubory in os.walk(VSTUP):
+    if soubory:
+      print '-'*20
+      print slozka
+    for s in soubory:
+        print s
+        us=join(VSTUP,slozka,s)
+        shutil.copy(us,VYSTUP)
+        pocet+=1
+
+print 'POCET CELKEM: ', pocet
+sys.exit()
+
+
+Miroslav Knap napsal(a):
+
+&gt;<i>Zdravim,
+</I>&gt;<i>
+</I>&gt;<i>nevedel by mi niekto poradit funkciu v pythone na kopirovanie suborov?
+</I>&gt;<i>Bolo by fajn, keby to bola multiplatformova. Momentalne pouzivam tuto:
+</I>&gt;<i>
+</I>&gt;<i>    def copy_file(self, from_dir, to_dir, filename):
+</I>&gt;<i>        if os.path.isfile(from_dir+filename):
+</I>&gt;<i>            input = open(from_dir+filename, &quot;rb&quot;)
+</I>&gt;<i>            output = open(to_dir+filename, &quot;wb&quot;)
+</I>&gt;<i>            output.write(input.read())
+</I>&gt;<i>
+</I>&gt;<i>ale pri nej neviem zistit, ci sa to prekopirovalo alebo nie, pripadne
+</I>&gt;<i>aka je pricina neuspechu kopirovania (malo miesta na disku, nedostupny
+</I>&gt;<i>disk a pod.).
+</I>&gt;<i>
+</I>&gt;<i>Vdaka.
+</I>&gt;<i>
+</I>&gt;<i>mkn
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;<i>------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- daląí část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20040506/6659dfb6/attachment.htm">http://www.py.cz/pipermail/python/attachments/20040506/6659dfb6/attachment.htm</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001710.html">[python] kopirovanie suborov
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-May/001708.html">[python] kopirovanie suborov
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-May/date.html#1706">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/thread.html#1706">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/subject.html#1706">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-May/author.html#1706">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-May/001706.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:31 GMT -->
+</html>

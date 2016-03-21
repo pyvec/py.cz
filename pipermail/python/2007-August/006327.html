@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006327.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:25 GMT -->
+<HEAD>
+   <TITLE> [python] Jak se typicky zjistuje, jestli soubor existuje?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20se%20typicky%20zjistuje%2C%20jestli%20soubor%20existuje%3F&In-Reply-To=a189f2110708010451h34e269cfu3041dd515663ebec%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-August/006323.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-August/006330.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak se typicky zjistuje, jestli soubor existuje?</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20se%20typicky%20zjistuje%2C%20jestli%20soubor%20existuje%3F&In-Reply-To=a189f2110708010451h34e269cfu3041dd515663ebec%40mail.gmail.com"
+       TITLE="[python] Jak se typicky zjistuje, jestli soubor existuje?">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Středa Srpen  1 16:48:53 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006323.html">[python] Jak se typicky zjistuje, jestli soubor existuje?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006330.html">[python] Jak se typicky zjistuje, jestli soubor existuje?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6327">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6327">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6327">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6327">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+jestliže soubor existuje, tak za zlomek sekundy už to nemusí být pravda. 
+Ve většině případů se proto existence souboru nezjišťuje, ale prostě se 
+zkusí nějaká operace a když vyhodí výjimku, něco se nepovedlo.
+
+Pro inspiraci se podívej, jak je implementovaná funkce os.path.exists()
+
+def exists(path):
+     &quot;&quot;&quot;Test whether a path exists.  Returns False for broken symbolic 
+links&quot;&quot;&quot;
+     try:
+         st = os.stat(path)
+     except os.error:
+         return False
+     return True
+
+Podobně například os.path.isfile():
+
+def isfile(path):
+     &quot;&quot;&quot;Test whether a path is a regular file&quot;&quot;&quot;
+     try:
+         st = os.stat(path)
+     except os.error:
+         return False
+     return stat.S_ISREG(st.st_mode)
+
+Je vidět, že obě funkce volají os.stat(). Zdroják k os.access teď nějak 
+nemůžu najít.
+
+--
+Jan Martinek
+
+Ondrej Beran wrote:
+&gt;<i> Ahoj vsichni,
+</I>&gt;<i> 
+</I>&gt;<i> nalezl jsem nekolik zpusobu, jak se da zjistit, zda soubor existuje:
+</I>&gt;<i> 
+</I>&gt;<i>     os.stat()
+</I>&gt;<i>     os.access()
+</I>&gt;<i>     os.path.exists()
+</I>&gt;<i>     os.path.isfile()
+</I>&gt;<i> 
+</I>&gt;<i> Co se nejcasteji pouziva? Nejjednodussi mi prijde isfile(), ale zrejme
+</I>&gt;<i> nejspravnejsi bude access().
+</I>&gt;<i> 
+</I>&gt;<i> Nebo se mylim?
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006323.html">[python] Jak se typicky zjistuje, jestli soubor existuje?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-August/006330.html">[python] Jak se typicky zjistuje, jestli soubor existuje?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-August/date.html#6327">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/thread.html#6327">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/subject.html#6327">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-August/author.html#6327">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-August/006327.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:25 GMT -->
+</html>

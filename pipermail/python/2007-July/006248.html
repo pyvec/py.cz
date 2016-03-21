@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006248.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:40 GMT -->
+<HEAD>
+   <TITLE> [python] Compile-time vs. run-time (bylo Nesrozumitelne prirazovaci	prikazy...)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Compile-time%20vs.%20run-time%20%28bylo%20Nesrozumitelne%20prirazovaci%0A%09prikazy...%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006247.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006250.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Compile-time vs. run-time (bylo Nesrozumitelne prirazovaci	prikazy...)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Compile-time%20vs.%20run-time%20%28bylo%20Nesrozumitelne%20prirazovaci%0A%09prikazy...%29&In-Reply-To="
+       TITLE="[python] Compile-time vs. run-time (bylo Nesrozumitelne prirazovaci	prikazy...)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pondělí Červenec  9 15:24:15 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006247.html">[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006250.html">[python] Compile-time vs. run-time (bylo Nesrozumitelne	prirazovaci prikazy...)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6248">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6248">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6248">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6248">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Petra Javornicka
+&gt;<i> Petr Prikryl
+</I>&gt;<i> &gt; V Pythonu se v čistém slova smyslu nic nedělá v compile-time.
+</I>&gt;<i> &gt; Všechno jede spíš v run-time. Jde jen o to jestli dříve (při
+</I>&gt;<i> 
+</I>&gt;<i> Ja bych v cistem slova smyslu rekla, ze se to preklada, protoze vznika
+</I>&gt;<i> nejaky p-kod, ne? A kdyz se neco preklada, tak je to v compile-time,
+</I>&gt;<i> ne?
+</I>
+Odpovím nejdříve příkladem:
+=====================================================
+# Tady uz se provede prvni prikaz a o existenci f1() se vubec nevi.
+print dir()    
+
+# Teprve tady vznika f1(), neprovadi se, jen se generuje jeji kod.
+def f1():
+    print 'f1'
+
+print dir()     # Tady se uz o f1() vi.    
+f1()            # f1() se spousti, ale o f2() se jeste nevi.
+f = f1          # f1() si zpristupnujeme pres jmeno f,
+print dir()     # ktere se objevuje v prostoru jmen
+f()             # a f() se hned spousti.
+
+# Teprve tady vnika funkce f2()
+def f2():
+    print 'f2'
+    
+print dir()    # Teprve tady se o f2() vi.
+f1()    
+f()
+f2()
+=====================================================
+
+Po spuštění to vypadá takto:
+
+=====================================================
+c:\tmp&gt;python e.py
+['__builtins__', '__doc__', '__file__', '__name__']
+['__builtins__', '__doc__', '__file__', '__name__', 'f1']
+f1
+['__builtins__', '__doc__', '__file__', '__name__', 'f', 'f1']
+f1
+['__builtins__', '__doc__', '__file__', '__name__', 'f', 'f1', 'f2']
+f1
+f1
+f2
+=====================================================
+
+Prakticky vzato, interpretační a kompilační překladače
+se liší jen ve způsobu implementace. Nakonec se vždycky
+provádějí strojové instrukce, které odpovídají zdrojovému
+textu. Ryzí interpretry, které vůbec neprovádějí překlad
+do nějakého mezikódu, jsou buď určeny na výpočetně 
+jednoduché věci (shell, cmd), nebo jsou historicky cenné 
+(někdy obojí ;)
+
+S rychlejšími počítači a s vývojem technik překladu
+se objevují hybridní přístupy (Java s Just In Time 
+překladačem, C#).
+
+Technicky a pragmaticky se za kompilované jazyky
+pokládají ty, které dokáží vyprodukovat spustitelný
+strojový kód v době překladu, se vším všudy, včetně
+typové kontroly. Kompilované jazyky tím pádem
+poskytují maximální možný výkon (pokud překladač
+zná detaily cílové architektury, procesoru...).
+
+Interpretované jazyky umožňují psaní programů, které
+generují nebo upravují svůj vlastní kód za běhu.
+
+pepr
+
+P.S. Při citaci jména umazávej e-mailovou adresu, prosím.
+     Jinak budu chodit domů s kapsama plnýma Viagry a 
+     šeky z výherních loterií ;)
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006247.html">[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006250.html">[python] Compile-time vs. run-time (bylo Nesrozumitelne	prirazovaci prikazy...)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6248">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6248">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6248">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6248">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006248.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:40 GMT -->
+</html>

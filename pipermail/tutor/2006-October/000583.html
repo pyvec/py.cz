@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000583.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Problemy s razenim - sort()
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Problemy%20s%20razenim%20-%20sort%28%29&In-Reply-To=4532B3A3.4010002%40rokyta.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000585.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000580.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Problemy s razenim - sort()</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Problemy%20s%20razenim%20-%20sort%28%29&In-Reply-To=4532B3A3.4010002%40rokyta.cz"
+       TITLE="[Tutor PyCZ] Problemy s razenim - sort()">RMiklos na pss.sk
+       </A><BR>
+    <I>Pondělí Říjen 16 11:57:24 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000585.html">[Tutor PyCZ] Problemy s razenim - sort()
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000580.html">[Tutor PyCZ] tkinter X wxpython - pohled zacatecnika
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#583">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#583">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#583">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#583">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Nazdar,
+
+Nepouzivas slovnik, ale zoznam (list), presnejsie zoznam zoznamov.
+Vytriedilo ti to dobre, problem je v tom, ze v kazdom podzozname su prvky 
+s indexom 2 retazce a teda sa triedi lexikograficky:
+'199'&lt; '21'&lt;'90'
+Ak chces triedit ciselne, t.j. 
+21&lt;90&lt;199
+tak musis pouzit cisla t.j. nie '21' ale bez apostrofov 21, takze takto:
+
+x = [['0', '3', 21, '&quot;aaaaa&quot;'], ['1', '2', 90, '&quot;ccccc&quot;'],['2','15', 199, 
+'&quot;Bbbbb&quot;']]
+x.sort(key=porovnej)
+
+potom je vysledok:
+
+[['0', '3', 21, '&quot;aaaaa&quot;'], ['1', '2', 90, '&quot;ccccc&quot;'], ['2', '15', 199, 
+'&quot;Bbbbb&quot;']]  
+
+
+
+
+
+smoke &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">konfera na rokyta.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A>
+16.10.2006 00:18
+Please respond to
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+
+
+To
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+cc
+
+Subject
+[Tutor PyCZ] Problemy s razenim - sort()
+
+
+
+
+
+
+Zdravim,
+
+chtel bych se zeptat jak vyresit tento problem.
+
+..pouziju funkci kterou jsem okoukla od geona ;)
+
+def porovnej(sz1):
+    return sz1[2]
+
+#mam slovnik typu...
+x = [['0', '3', '21', '&quot;aaaaa&quot;'], ['1', '2', '90', '&quot;ccccc&quot;'], ['2',
+'15', '199', '&quot;Bbbbb&quot;']]
+
+x.sort(key=porovnej)
+
+#A vyjde mi toto:
+[['2', '15', '199', '&quot;Bbbbb&quot;'], ['0', '3', '21', '&quot;aaaaa&quot;'], ['1', '2',
+'90', '&quot;ccccc&quot;']]
+
+#Coz je spatne - vysledek ktery potrebuji musi byt:
+[['0', '3', '21', '&quot;aaaaa&quot;']['1', '2', '90', '&quot;ccccc&quot;']['2', '15',
+'199', '&quot;Bbbbb&quot;']
+
+#Take spatne razeni je i u stringu (x[3]) - kde to musi byt razeno podle
+abecedy nehlede na male nebo velke pismena
+
+Resim to uz nekolik dni a vzhledem ktomu, ze uz v tom doslova plavu -
+zkousit najit radu zde - dekuji.
+
+-- 
+       _                _
+ ___ _| |_ ____ __  ___| |_____ ___
+|<i>___|_   _(_-&lt; '  \/ _ \ / / -_)___|
+</I>      |_| /__/_|_|_\___/_\_\___|
+       JID: <A HREF="http://www.py.cz/mailman/listinfo/tutor">smoke na njs.netlab.cz</A>
+_______________________________________________
+Tutor mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061016/9ad3b408/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20061016/9ad3b408/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000585.html">[Tutor PyCZ] Problemy s razenim - sort()
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000580.html">[Tutor PyCZ] tkinter X wxpython - pohled zacatecnika
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#583">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#583">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#583">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#583">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000583.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

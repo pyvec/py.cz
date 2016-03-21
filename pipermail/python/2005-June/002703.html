@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002703.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:11 GMT -->
+<HEAD>
+   <TITLE> [python] Posielanie Emailu cez python znova
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Posielanie%20Emailu%20cez%20python%20znova&In-Reply-To=mailman.250.1117564335.5712.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-June/002702.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-June/002704.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Posielanie Emailu cez python znova</H1>
+    <B>pavel.kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Posielanie%20Emailu%20cez%20python%20znova&In-Reply-To=mailman.250.1117564335.5712.python%40py.cz"
+       TITLE="[python] Posielanie Emailu cez python znova">geon na post.cz
+       </A><BR>
+    <I>Sobota Červen  4 09:12:28 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002702.html">[python] Posielanie Emailu cez python znova
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002704.html">[python] Posielanie emailu cez python znova
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2703">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2703">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2703">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2703">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ještě malé upřesnění: nejsou třebas závorky u msg, doplnění předmětu
+zprávy, explicitní zvětšení délky zprávy (jak ses ptal), ....
+
+Odesílá se v podstatě obsah řetězcové proměnné, , která musí obsahovat From: ,
+To: , ...(jsou i další volby - třebas ten Subject, nebo i další - viz Zdrojový
+kod nejakeho emailu v tvém oblíbeném emailovém klientu) a která
+může být získávána jakkoliv, třebas i čtením souboru nebo vstupem od
+uživatele.
+
+------------------------------------------------------
+import smtplib
+
+odesilatel = &quot;<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A>&quot;
+prijemce  = &quot;<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A>&quot;   # sam sobe :-)
+predmet=&quot;ahoj&quot;
+
+# Add the From: and To: headers at the start!
+msg = &quot;From: %s\r\nSubject: %s\r\nTo: %s\r\n\r\n&quot; % (odesilatel, predmet, prijemce)
+zprava=&quot;Ahoj jak se mas. &quot;*1000
+msg=msg+zprava
+print &quot;Zprava: \n\n&quot;, msg
+print &quot;\nZprava je dlouha&quot;, len(msg),&quot;bitu\n&quot;
+
+server = smtplib.SMTP('smtp.seznam.cz')  # protoze na post.cz mi nejak nefunguje smtp
+server.login('....','...') # tvoje uz.jmeno a heslo na poste na seznamu
+server.sendmail(odesilatel, prijemce, msg)
+server.quit()
+
+----------------------------------------------------------
+
+Neulož si to pod jménem email.py (jako já :-)), nebo se budeš divit,
+že to nefunguje ... email.py je totiž další standardní pymodul, který
+tento smtplib importuje a používá.
+
+Pokud budeš chtít posílat přílohu nebo mít zprávu česky, nezbyde ti než se
+prokousat tímto (email.py) modulem. smtplib má ještě i další zajímavé funkce -
+viz help. Takže bez angličtiny ani ránu.
+
+Na čtení emailů je tu kupodivu ;-) modul jmenem poplib, na pokročilé čtecí
+funkce opět email.py. Zatím to nikdo nepřeložil, možná by to i stálo
+za to, ale z nás, pracujících, na to nikdo nemá většinou čas. Takže to
+zbývá na aktivních studentech o prázdninách se nudících...... Je to
+mimochodem dobrá výuka angličtiny.
+
+-------------------
+geon
+Vyjímka je pravidlo.
+
+
+Tomáš Babej napsal(a):
+&gt;<i> Dobrý deň ,
+</I>&gt;<i> V svojom programe používam funkciu, ktorá spustí predvoleného
+</I>&gt;<i> emailového klienta, vypíše text správy, vyplní sa predmet a príjemca.
+</I>&gt;<i> 
+</I>&gt;<i> os.startfile('mailto:tomasiol.sk?subject=Sprava&amp;body=text spravy dlhsi
+</I>&gt;<i> ako 2000 znakov')
+</I>&gt;<i> 
+</I>&gt;<i> Ak je text správy dlhší ako 2000 znakov tak mi vypíše WindowsError
+</I>&gt;<i> pristup bol odporen.
+</I>&gt;<i> 
+</I>&gt;<i> Nevie niekto ako by som to mohol vyriešiť?
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ___________
+</I>&gt;<i> S pozdravom,
+</I>&gt;<i> Tomáš<A HREF="http://www.py.cz/mailman/listinfo/python">,tomas na iol.sk</A>
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002702.html">[python] Posielanie Emailu cez python znova
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002704.html">[python] Posielanie emailu cez python znova
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2703">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2703">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2703">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2703">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002703.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:11 GMT -->
+</html>

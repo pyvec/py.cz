@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000522.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fp%3DF8enos_hodnoty_prom%3DECnn%3DE9_z_eleme%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fntu_GUI_%3D28Tkinter%3D29_do_hlavn%3DEDho_programu%3F%3D&In-Reply-To=200610091559.48503.jsim%40med.muni.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000521.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000526.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fp%3DF8enos_hodnoty_prom%3DECnn%3DE9_z_eleme%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fntu_GUI_%3D28Tkinter%3D29_do_hlavn%3DEDho_programu%3F%3D&In-Reply-To=200610091559.48503.jsim%40med.muni.cz"
+       TITLE="[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu">RMiklos na pss.sk
+       </A><BR>
+    <I>Pondělí Říjen  9 16:44:59 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000521.html">[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000526.html">[Tutor PyCZ] statické proměnné ve funkcích
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#522">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#522">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#522">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#522">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>V Tkinteri sa hodnoty premennych ziskavaju vzdy cez get(). 
+
+Okrem toho by som ti ale doporucil pouzivat objektovo orientovany pristup:
+
+Je to prirodzeny pristup pri Tkinter, usetris si tym namahu a umozni ti 
+vyriesit rozne uskalia, ktore Tkinter ma. 
+Okrem toho maju jednotlive GUI-prvky metody, ktore si treba predefinovat, 
+Napr.v tkSimpleDialog.Dialog treba predefinovat metody body() a apply(). 
+Na to treba vytvorit vlastnu triedu, ktora dedi z tkSimpleDialog.Dialog a 
+v nej nadefinovat metody.
+
+Toto by bez OO neslo - alebo neviem jak :-)
+
+Tu je priklad, ktory som na ilustraciu vytrhol z jedneho programu
+
+--------------------------------------------------------------------------------------------
+# -*- coding: cp1250 -*- 
+from Tkinter import * 
+import tkSimpleDialog
+
+class MyConnectionDialog(tkSimpleDialog.Dialog):
+  ''' Connection settings entry dialog ''' 
+
+  def __init__(self, parent, machine = '', userid = '', passwd = ''):
+    # Show previous values in dialog: 
+    # 1. create object attributes from parameters
+    self.machine = machine
+    self.userid = userid
+    self.passwd = passwd
+    # 2. call parrent __init__(), which calls the function body()
+    tkSimpleDialog.Dialog.__init__(self, parent, title = None)
+
+
+  def body(self, master):
+    self.title(u'Pripojenie na AS/400') 
+    Label(master, text=u&quot;AS/400:&quot;).grid(row=0)
+    Label(master, text=u&quot;Užívateľ:&quot;).grid(row=1)
+    Label(master, text=u&quot;Heslo:&quot;).grid(row=2)
+    self.e1 = Entry(master)
+    self.e1.insert('0',self.machine)
+    self.e2 = Entry(master)
+    self.e2.insert('0',self.userid)
+    self.e3 = Entry(master, show=&quot;*&quot;)
+    self.e3.insert('0',self.passwd)
+    self.e1.grid(row=0, column=1)
+    self.e2.grid(row=1, column=1)
+    self.e3.grid(row=2, column=1)
+    # Set initial focus
+    if self.machine == '':
+      return self.e1 # initial focus
+    elif self.userid == '':
+      return self.e2 # initial focus
+    else:
+      return self.e3 # initial focus
+
+
+  def apply(self):
+    self.machine = self.e1.get()
+    self.userid = self.e2.get()
+    self.passwd = self.e3.get()
+ 
+    self.result = 1
+
+# --- Main Windows GUI Class
+class MyGUI:
+ 
+  def __init__(self):
+    self.root = Tk()
+    self.root.title(u'Nadpis hlavného okna')
+    # initial login values
+    self.csebk = 'IBPPROD'
+    self.userid= ''
+    self.pwd   = '' 
+    self.connected = False
+
+  def nastavenia(self):
+    if (not self.connected):
+      settings = MyConnectionDialog(self.root, self.csebk, self.userid, 
+self.pwd)
+      if settings.result &lt;&gt; None:
+        self.csebk = settings.machine
+        self.userid= settings.userid
+        self.pwd   = settings.passwd 
+
+  def run(self):
+    self.nastavenia()
+    print &quot;Bolo zadane: %s %s %s&quot; % (self.csebk,  self.userid, self.pwd)
+ 
+
+if __name__ == &quot;__main__&quot;:
+  # Run program
+  mg = MyGUI() 
+  mg.run() 
+--------------------------------------------------------------------------------------------
+
+
+
+
+
+
+&quot;Jan Šimůnek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">jsim na med.muni.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A>
+09.10.2006 15:59
+Please respond to
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>
+cc
+
+Subject
+[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního 
+programu
+
+
+
+
+
+
+Děkuji, pomohlo to
+
+Jan Šimůnek
+_______________________________________________
+Tutor mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061009/f5019243/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20061009/f5019243/attachment.htm</A> 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: pokus2.py
+Typ: application/octet-stream
+Velikost: 2130 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061009/f5019243/attachment.obj">http://www.py.cz/pipermail/tutor/attachments/20061009/f5019243/attachment.obj</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000521.html">[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000526.html">[Tutor PyCZ] statické proměnné ve funkcích
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#522">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#522">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#522">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#522">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000522.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

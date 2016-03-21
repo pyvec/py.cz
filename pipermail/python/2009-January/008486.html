@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008486.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:59 GMT -->
+<HEAD>
+   <TITLE> [python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FbW9kX3B5dGhvbiAtIHByb2Jsw6ltIHMgdsOtY2Vuw6Fz%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fb2Juw71tIHNwdcWhdMSbbsOtbSBqZWRub2hvIHNrcmlwdHU%3D%3F%3D&In-Reply-To=%3C49662AC4.3010009%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008477.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008487.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu</H1>
+    <B>Koumes21</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FbW9kX3B5dGhvbiAtIHByb2Jsw6ltIHMgdsOtY2Vuw6Fz%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fb2Juw71tIHNwdcWhdMSbbsOtbSBqZWRub2hvIHNrcmlwdHU%3D%3F%3D&In-Reply-To=%3C49662AC4.3010009%40gmail.com%3E"
+       TITLE="[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu">koumes21 na gmail.com
+       </A><BR>
+    <I>Čtvrtek Leden  8 17:33:08 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008477.html">[python] nekdo z Tabora na obcasne konzultace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008487.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8486">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8486">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8486">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8486">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Nazdar,
+
+používám Apache server 2.2.11, mod_python 3.3.1 a Python 2.5.4, což by
+měly být nejnovější verze. Všechno už mám nastavené, ke zveřejňování
+stránek používám mod_python.publisher. Nefunguje mi jen jedna věc - když
+mám nějakou stránku, které trvá delší dobu, než se načte (odešle), a
+chci ji zobrazit dvakrát, nejdříve se musí dokončit odesílání prvního
+dotazu a teprve potom se začne vyhodnocovat druhý. To je problém když
+chci udělat stránku, ze které si uživatelé budou moct stahovat soubory,
+a ty budou odesílány přes skript v Pythonu - pak by mohli stahovat v
+jednom okamžiku jen jeden soubor. Zarážející je, že to není tak docela
+problém nedostatku zdrojů - pokud otevřu druhou stránku v jiném
+prohlížeči, budou se obě stahovat současně. Navíc jsem to zkoušel jak na
+Windows (Vista) tak na Linuxovém serveru (Ubuntu 8.10). Velice úporně
+jsem se snažil něco o tomto problému najít na internetu, to co se
+nejvíce podobalo je tento dotaz:
+<A HREF="http://www.modpython.org/pipermail/mod_python/2008-September/025634.html">http://www.modpython.org/pipermail/mod_python/2008-September/025634.html</A>
+
+Rozdíl s mojí situací je v tom, že já používám mod_python.publisher a ne
+svůj vlastní handler (což ovšem stejně nic nezmění), potom že nepoužívám
+Sessions, že místo prefork používám threaded MPM, a nakonec že řešení
+které bylo nabídnuto tázajícímu se v mém případě nefunguje.
+
+Doufám, že se najde někdo, kdo něco takového již řešil. Ještě přidám
+kód, který je potřeba k simulaci problému:
+
+def index(req):
+    import time
+    req.content_type=&quot;text/plain&quot;
+    req.write(&quot;working...&quot;)
+    time.sleep(10)
+    req.write(&quot;\ndone&quot;)
+
+Předem děkuji za každou odpověď, která mi pomůže hnout se z místa.
+
+Koumes21
+
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 250 bytes
+Desc: OpenPGP digital signature
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090108/ba7e3cbc/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20090108/ba7e3cbc/attachment.pgp</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008477.html">[python] nekdo z Tabora na obcasne konzultace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008487.html">[python] mod_python - problém s vícenásobným spuštěním jednoho skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8486">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8486">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8486">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8486">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008486.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:59 GMT -->
+</html>

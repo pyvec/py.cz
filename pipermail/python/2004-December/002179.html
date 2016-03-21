@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-December/002179.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:06 GMT -->
+<HEAD>
+   <TITLE> RE: [python] globální proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_glob%3DE1ln%3DED_prom%3DECnn%3DE9%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-December/002178.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-December/002176.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] globální proměnné</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_glob%3DE1ln%3DED_prom%3DECnn%3DE9%3F%3D&In-Reply-To="
+       TITLE="RE: [python] globální proměnné">Prikryl na skil.cz
+       </A><BR>
+    <I>Úterý Prosinec 21 09:36:30 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002178.html">[python] TCP/IP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002176.html">[python] Re: volba editoru/IDE pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-December/date.html#2179">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/thread.html#2179">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/subject.html#2179">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/author.html#2179">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>p.kosina napsal...
+&gt;<i>
+</I>&gt;<i> &gt; V tomto případě nejde ani o globální proměnnou, ani o
+</I>&gt;<i> &gt; proměnnou platnou v kterékoliv metodě třídy. Vytváří se v
+</I>&gt;<i> &gt; rámci objektu a je platná pouze v rámci objektu (instanci
+</I>&gt;<i> 
+</I>&gt;<i> nicméně z hlediska třídy je to globální proměnná, i když se
+</I>&gt;<i> jí tak neříká.
+</I>
+Není to globální proměnná -- viz dále.
+
+x = 20
+x = x + 10
+print x          # 30
+
+Ve výše uvedeném příkladu je proměnná x vytvořena jako
+globální.
+
+class G:
+    pass
+    
+g = G()
+g.x = 30
+g.x = g.x + 20
+print g.x        # 50
+
+V tomto příkladu je proměnná g globální. Její složka x je
+lokální uvnitř objektu g. Není globální, i když je veřejně
+přístupná -- ale pouze přes g (tedy lokální uvnitř g).
+
+g2 = G()
+print g2.x
+
+Objekt g2 je stejné třídy, jako g. Jeho vnitřní složka x ale
+nebyla definována a proto se při použití výše uvedeného
+print zahlásí chyba.
+
+g2.x = 40
+g2.x = g2.x + 30
+print g2.x       # 70
+
+V g2 byla vyrobena rovněž složka x. Je veřejně přístupná,
+takže s ní mohu normálně pracovat.
+
+print g.x + g2.x    # 120
+print g.x           #  50
+print g2.x          #  70
+
+Oba objekty -- g i g2 -- mají svou složku x. I když se tyto
+složky jmenují stejně, obsahují různé hodnoty. Nemohou tedy
+být globálním odkazem na stejnou hodnotu.
+
+Alternativou předchozího kódu, tentokrát bez definice třídy
+G, je použití prostých proměnných na globální úrovni.
+
+g_x = 30
+g_x = g_x + 20
+print g_x          # 50
+
+print g2_x
+
+g2_x = 40
+g2_x = g2_x + 30
+print g2_x         # 70
+
+print g_x + g2_x   # 120
+
+&gt;<i> &gt; Definice a použití funkce r() a použití třídy do toho nic
+</I>&gt;<i> &gt; nového nevnáší. Je to jen krkolomě zapsané vytvoření
+</I>&gt;<i> &gt; inicializace proměnné uvnitř existujícího objektu.
+</I>&gt;<i> 
+</I>&gt;<i> napsal jsem spatny priklad, zde je lepsi, proste modikace
+</I>&gt;<i> promenné univtr kterekoliv funkce, jako jakysi superglobal
+</I>&gt;<i> (to by mohl byt nazev toho noveho klicoveho slova, který by
+</I>&gt;<i> toto delal :-)):
+</I>&gt;<i> 
+</I>&gt;<i> class G:
+</I>&gt;<i> 	pass
+</I>&gt;<i> def f():
+</I>&gt;<i> 	x.what=x.what+10
+</I>&gt;<i> 
+</I>&gt;<i> x=G()
+</I>&gt;<i> x.what=10
+</I>&gt;<i> f()
+</I>&gt;<i> print x.what #---&gt; 20
+</I>
+Pořád se jen modifikuje globálně přístupný objekt x. Jeho
+složka je nicméně lokální. Taky bych mohl napsat:
+
+class G:
+    pass
+    
+def f():
+    x.what = x.what + 10
+    
+def r():
+    x.what = 10
+    
+x = G()
+r()
+f()
+print x.what
+
+
+Další možnost na stejné téma se úplně obejde bez f() a r():
+
+class G:
+    pass
+
+x = G()
+x.what = 10
+x.what = x.what + 10
+print x.what
+    
+Je to pořád totéž. Pak už stačí vynechat G a vyrobit
+globální jméno, které připomíná původní globální x a jeho
+lokální složku what:
+
+x_what = 10
+x_what = x_what + 10
+print x_what
+
+Na příkladu s G není nic &quot;superglobálního&quot;. Spíš naopak.
+Složka what je lokální uvnitř globálního objektu x. Globální
+objekt x je uložen ve slovníku zpřístupňovaném funkcí
+globals(). Složka what je součástí lokálního slovníku objektu
+x. Zkuste:
+
+class G:
+    pass
+    
+print globals()  # Zatím žádná známka existence x.
+x = G()
+print globals()  # V globálním slovníku je x vázáno na
+                 # instanci třídy G.
+print dir(x)     # Výpis jmen v lokálním slovníku objektu x.   
+x.what = 10       
+print globals()  # V globálním prostoru se nic nezměnilo
+print dir(x)     # V lokálním prostoru objektu x přibyla
+                 # složka what.
+
+Ještě nedošlo na jednu variantu, kdy se proměnná nevytváří
+na úrovni objektu, ale na úrovni třídy.
+
+class GG:
+    xx = 10
+    
+print GG.xx   # 10    
+GG.xx = GG.xx + 10
+print GG.xx   # 20    
+
+x = GG()
+print x.xx   # chyba
+
+V tomto případě není složka xx součástí objektu (instance
+třídy), ale součástí třídy samotné (v Pythonu je i třída
+reprezentována objektem, takže xx je součástí tohoto
+systémového objektu, který zachycuje vlastnosti třídy).
+
+Vše na nejvyšší úrovni je globální, všechna jména, která
+nejsou vyjmenována ve slovníku globals() jsou buď někde
+lokální, nebo neexistují.
+
+Petr
+
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002178.html">[python] TCP/IP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-December/002176.html">[python] Re: volba editoru/IDE pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-December/date.html#2179">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/thread.html#2179">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/subject.html#2179">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-December/author.html#2179">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-December/002179.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:06 GMT -->
+</html>

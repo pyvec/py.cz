@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007913.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:04 GMT -->
+<HEAD>
+   <TITLE> [python] Guido o funkcich reduce(), filter() a map() v Python 3000
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=a9a7f5c80806260419s61f34290k17e805b29efdb410%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007910.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007923.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Guido o funkcich reduce(), filter() a map() v Python 3000</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%20filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=a9a7f5c80806260419s61f34290k17e805b29efdb410%40mail.gmail.com"
+       TITLE="[python] Guido o funkcich reduce(), filter() a map() v Python 3000">feed na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Červen 26 13:44:08 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007910.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007923.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7913">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7913">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7913">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7913">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i>
+</I>&gt;<i> Python je jazyk, který se používá v rychlostně kritických aplikacích. Né úplně doslova, nejnáročnější komponenty se píší v C případně C++ a Python slouží jako nástavba pro rychlý vývoj s těmito komponentami.
+</I>&gt;<i>   
+</I>
+
+Sám to popíráte - Python se nepoužívá v rychlostně kritických 
+aplikacích, protože komponenty se pak píší v C, C++ a dalších jazycích 
+orientovaných na rychlost. A toto vlákno se týká psaní kódu v Pythonu - 
+a rychlost se tu objevila pouze v té souvislosti, že psaní na max. 
+rychlost někdy (ale velmi velmi ukrutně zřídka, aby to tu někdo 
+nepoužíval jako argument) ospravedlňuje hnusné změny a zásahy. A protože 
+v Pythonu se nepíší rychlostně kritické věci (sám jsem napsal, že se 
+tyto části napíší třeba v C), nejsou tyto věci ospravedlněním pro špatné 
+zásahy pana Rosauma do Pythonu. Abych tak nějak polopaticky shrnul 
+několik příspěvků a o co v nich šlo.
+
+
+&gt;<i> Ale i tak jsou nároky na jeho rychlost obrovské a to že jeho rychlost
+</I>&gt;<i> převážně převyšuje ostatní interpretované jazyky je jeden z hlavních
+</I>&gt;<i> důvodů, proč je Python tak rozšířený. Za zmínku stojí třeba Google,
+</I>&gt;<i> které je postaveno převážně na kombinaci C/C++ a Python, stejně tak
+</I>&gt;<i> Seznam.cz, nebo třeba serverová farma MMORPG hry EVE Online. Rychlost
+</I>&gt;<i> je taky jeden z důvodů, proč se dělají některé změny v Python 3000 a
+</I>&gt;<i> proč nebude donekonečna zachovávána zpětná kompatibilita.
+</I>&gt;<i>   
+</I>
+Rychlost Pythonu převyšuje ostatní jazyky :-) Co já se tu nedozvím :-) 
+Pravda je opačná, Python je jedním z nejpomalejších. Ale ono to nevadí, 
+protože rychlost ve věcech, kde se nasazuje Python není kritická, 
+alespoň ne v těch částech, kde se vykonává Python kód. Protože jinak by 
+nasazení Pythonu byla špatná volba - skoro cokoli za jiný jazyk je lepší 
+pokud jde o rychlost.
+
+Síla Pythonu je jinde - je to jazyk s ukrutně rychlým vývojem programů. 
+Jazyk s udržovatelným kódem, kde bez problémů můžete oprašovat milióny 
+řádků a není problém.
+
+A k několika konkrétním příkladům bych dodal - &quot;jedna vlaštovka jaro 
+nedělá&quot;. Mě nezajímá pár firem, co jí používá, mě zajímá kolik procent 
+projektů jí používá. A upřímně velmi doporučuji také po čase udělat si 
+graf procent a zhodnotit propad Pythonu v důsledku hrátek pana Rossuma. 
+Ten propad už se totiž nevyrovná nikdy v budoucnosti. Nepolemizujte se 
+mnou, ale sami si dejte dohromady skutečná data.
+
+Mimochodem, úspěšně jsem složil test na vývojáře pro Google, takže něco 
+vím. Hlavní, co požadují je Java, ocení C++, nějak kolem Pythonu se moc 
+nemluvilo. Nakonec problém byl, že nejsem s to komunikovat plynule 
+perfektní angličtinou po telefonu.
+
+Ohledně her se záruky nepožadují. Jakpak dlouho se prodává hra? Rok? 
+Dva? Určitě se kód hry neudržuje nijak dlouhou dobu oproti jiným 
+odvětvím IT. Věřím, že tam Python a Rossum není problém. Znovu říkám, 
+jako hračka a pro hraní, stejně tak na jednorázové věci není důvod 
+Python nepoužít.
+
+&gt;<i> Stejně stále nechápu, z čeho máte strach. Python už dnes není jen
+</I>&gt;<i> Guido, ale stojí za ním poměrně velká nadace, sponzoři a vývojáři
+</I>&gt;<i> Pythonu a komunita vývojářů v Pythonu. Guido neupravuje a ani nemůže
+</I>&gt;<i> upravovat Python jen tak podle toho, co ho zrovna napadne. Ani změny
+</I>&gt;<i> ve verzi Python 3000 nejsou jen jeho výmysl. Má sice poměrně velké
+</I>&gt;<i> slovo, ale když by zblbnul, tak se bez něj obejdou. Proto bych se
+</I>&gt;<i> nebál, že se z Pythonu stane nějaký nepoužitelný balast.
+</I>&gt;<i>   
+</I>
+He he, tak teď koukám a hledím. Právě teď Rossum dlouhou dobu blbne. Ne 
+kdyby zblbnul, on teď dlouhodobě blbne! A nikdo nezasáhne. Kdyby kdokoli 
+takhle blbnul v případě komunity třeba Fortranu, C, C++, Javy, Ady, C#, 
+a vůbec většiny jazyků, byl by Rossum odstaven coby dup a ještě by všude 
+o něm psali jako o pomatencovi. To píšu zcela bez emocí, protože tak by 
+to bylo.
+
+Ve světle současných událostí věty jako &quot;proto bych se nebál&quot; považuji 
+za utopii.
+
+Miloslav Ponkrác
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007910.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007923.html">[python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7913">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7913">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7913">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7913">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007913.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:04 GMT -->
+</html>

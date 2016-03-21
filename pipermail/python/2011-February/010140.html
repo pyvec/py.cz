@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010140.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:08 GMT -->
+<HEAD>
+   <TITLE> [python] Dekorátor
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FDekor%3DE1tor%3F%3D&In-Reply-To=%3C0f66724d-5a70-4be2-8f65-588d92b304d3%40h40g2000pre.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-February/010139.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-February/010151.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dekorátor</H1>
+    <B>Radek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3FDekor%3DE1tor%3F%3D&In-Reply-To=%3C0f66724d-5a70-4be2-8f65-588d92b304d3%40h40g2000pre.googlegroups.com%3E"
+       TITLE="[python] Dekorátor">radek.hnilica na gmail.com
+       </A><BR>
+    <I>Středa Únor 16 15:23:07 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010139.html">[python] http basic auth
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010151.html">[python] Dekorátor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10140">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10140">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10140">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10140">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+
+nejdřív bych se uvedl, jsem takový opakovaný začátečník,  k Pythonu
+jsem naposled přičichl možná před osmi lety a nic moc.  Teď, asi tři
+měsíce zpátky jsem se k němu vrátil, protože si hraju s GAE/P.  Přes
+všechny problémy se zkouším prokousávat, ikdyž python bolí, ale teď
+jsem se tak nějak úplně ztratil.  Pokouším se udělat Basic HTTP
+auhorizaci, respektive se ji pokouším zabalit do inteligentního
+dekorátoru.
+
+Byl by tady někdo, kdo by mě mohl odkázat na rozumný studijní
+materiál, podtrhuji rozumný, ze kterého bych byl schopen pochopit, jak
+funguje dekorátor který definuju jako třídu.  S dekorátory jako
+funkcemi jsem se nějak popasoval, tedy aspoň si to myslim, ale u té
+třídy je to pro mě černá magie.
+
+Pokud nemá dekorátor parametry, tak se zdá že to nějak chápu.  Do
+__init__ je předána dekorovaná fuknce a do __call__ jsou pak předávány
+argumenty té funkce viz:
+
+class mydec:
+    def __init__(self, fce):
+        self.fce = fce   # Store, we will use it in __call__
+
+    def __call__(self, *args, **kwds):
+        ....pre
+        result = self.fce(*args, **kwds)
+        .....post
+        return result
+
+@mydec
+def myfunc(*args, **kwds):
+    pass
+
+Ale pokud má mít dekorátor parametry, tak jsem sice našel/zkonstruoval
+kód který se zdá fungovat, ale plně mu nerozumím.  Následující je
+vystřiženo z testovacího skriptu.
+
+class Authorize:
+    def __init__(self, allow = None, deny = None):
+        self.allow = allow; self.deny  = deny
+        print 'Authorize.__init__(allow=%s, deny=%s)' % (allow,deny)
+
+    def __call__(self, function):
+        def decoratedFunction(?context, *args, **kwds):  # context
+must be if we decorated class method, its a self.
+            print 'Authorize.__call__ in decorator, before function
+with: %s, %s' % (str(args), str(kwds))
+            self.helper() # Just to test if I can call
+            result = function(*args, **kwds)
+            print 'in decorator, after function, result: %s' %
+str(result)
+            return result
+
+        return decoratedFunction
+
+    def helper(self):
+        print 'Authorize.helper()'
+
+@Authorize()
+def get(key, action):
+    print 'get(%s, %s)' % (key, action)
+    return 'ola'
+
+Jen tím že chci aby měl dekorátor parametry, se tak radikálně změní
+kód dekorátoru.
+Potřeboval bych nějak po lopatě vědět, co se uvnitř děje, protože
+cítím že ty dekorátory budu určitě používat ještě mnohem divočeji.
+
+Jen tak mimochodem, v tuto chíli se snažím mít něco co v aplikaci
+použiju asi takto:
+
+class UserHandler(ApplicationHandler):   # ApplicationHandler is
+subclass of webapp.RequestHandler
+
+    @Authorize(model=User, allow=['karel', 'admin'], deny=['pavel'])
+    def get(self, key=None, action=None):
+        ..... process GET request knowing that
+        ..... self.loged_user is the current authorized user
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010139.html">[python] http basic auth
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-February/010151.html">[python] Dekorátor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-February/date.html#10140">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/thread.html#10140">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/subject.html#10140">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-February/author.html#10140">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-February/010140.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:08 GMT -->
+</html>

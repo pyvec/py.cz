@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005949.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:04 GMT -->
+<HEAD>
+   <TITLE> [python] cteni odpovedi programu ze stdin
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cteni%20odpovedi%20programu%20ze%20stdin&In-Reply-To=mailman.215.1179783549.4700.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005948.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005950.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cteni odpovedi programu ze stdin</H1>
+    <B>Karel Šrot</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cteni%20odpovedi%20programu%20ze%20stdin&In-Reply-To=mailman.215.1179783549.4700.python%40py.cz"
+       TITLE="[python] cteni odpovedi programu ze stdin">karel.do.pekla.zajel na seznam.cz
+       </A><BR>
+    <I>Pondělí Květen 21 23:55:03 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005948.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005950.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5949">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5949">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5949">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5949">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tak nakonec jsem objevil toto:
+   <A HREF="http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/440554">http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/440554</A>
+
+Je to sice dlouhy, ale funguje to asi tak, jak bych si predstavoval (a 
+nejspis i ve windows).
+Diky vsem za pomoc a rady.
+Karel
+
+PS: Jen pro uplnost, nasleduji kod dela to, co jsem chtel (pod linuxem):
+
+
+import os
+import subprocess
+import errno
+import time
+import sys
+
+PIPE = subprocess.PIPE
+
+if subprocess.mswindows:
+     from win32file import ReadFile, WriteFile
+     from win32pipe import PeekNamedPipe
+     import msvcrt
+else:
+     import select
+     import fcntl
+
+class Popen(subprocess.Popen):
+     def recv(self, maxsize=None):
+         return self._recv('stdout', maxsize)
+
+     def recv_err(self, maxsize=None):
+         return self._recv('stderr', maxsize)
+
+     def send_recv(self, input='', maxsize=None):
+         return self.send(input), self.recv(maxsize), self.recv_err(maxsize)
+
+     def get_conn_maxsize(self, which, maxsize):
+         if maxsize is None:
+             maxsize = 1024
+         elif maxsize &lt; 1:
+             maxsize = 1
+         return getattr(self, which), maxsize
+
+     def _close(self, which):
+         getattr(self, which).close()
+         setattr(self, which, None)
+
+     if subprocess.mswindows:
+         def send(self, input):
+             if not self.stdin:
+                 return None
+
+             try:
+                 x = msvcrt.get_osfhandle(self.stdin.fileno())
+                 (errCode, written) = WriteFile(x, input)
+             except ValueError:
+                 return self._close('stdin')
+             except (subprocess.pywintypes.error, Exception), why:
+                 if why[0] in (109, errno.ESHUTDOWN):
+                     return self._close('stdin')
+                 raise
+
+             return written
+
+         def _recv(self, which, maxsize):
+             conn, maxsize = self.get_conn_maxsize(which, maxsize)
+             if conn is None:
+                 return None
+
+             try:
+                 x = msvcrt.get_osfhandle(conn.fileno())
+                 (read, nAvail, nMessage) = PeekNamedPipe(x, 0)
+                 if maxsize &lt; nAvail:
+                     nAvail = maxsize
+                 if nAvail &gt; 0:
+                     (errCode, read) = ReadFile(x, nAvail, None)
+             except ValueError:
+                 return self._close(which)
+             except (subprocess.pywintypes.error, Exception), why:
+                 if why[0] in (109, errno.ESHUTDOWN):
+                     return self._close(which)
+                 raise
+
+             if self.universal_newlines:
+                 read = self._translate_newlines(read)
+             return read
+
+     else:
+         def send(self, input):
+             if not self.stdin:
+                 return None
+
+             if not select.select([], [self.stdin], [], 0)[1]:
+                 return 0
+
+             try:
+                 written = os.write(self.stdin.fileno(), input)
+             except OSError, why:
+                 if why[0] == errno.EPIPE: #broken pipe
+                     return self._close('stdin')
+                 raise
+
+             return written
+
+         def _recv(self, which, maxsize):
+             conn, maxsize = self.get_conn_maxsize(which, maxsize)
+             if conn is None:
+                 return None
+
+             flags = fcntl.fcntl(conn, fcntl.F_GETFL)
+             if not conn.closed:
+                 fcntl.fcntl(conn, fcntl.F_SETFL, flags| os.O_NONBLOCK)
+
+             try:
+                 if not select.select([conn], [], [], 0)[0]:
+                     return ''
+
+                 r = conn.read(maxsize)
+                 if not r:
+                     return self._close(which)
+
+                 if self.universal_newlines:
+                     r = self._translate_newlines(r)
+                 return r
+             finally:
+                 if not conn.closed:
+                     fcntl.fcntl(conn, fcntl.F_SETFL, flags)
+
+message = &quot;Other end disconnected!&quot;
+
+def recv_some(p, t=.1, e=1, tr=5, stderr=0):
+     if tr &lt; 1:
+         tr = 1
+     x = time.time()+t
+     y = []
+     r = ''
+     pr = p.recv
+     if stderr:
+         pr = p.recv_err
+     while time.time() &lt; x or r:
+         r = pr()
+         if r is None:
+             if e:
+                 raise Exception(message)
+             else:
+                 break
+         elif r:
+             y.append(r)
+         else:
+             time.sleep(max((x-time.time())/tr, 0))
+     return ''.join(y)
+
+def send_all(p, data):
+     while len(data):
+         sent = p.send(data)
+         if sent is None:
+             raise Exception(message)
+         data = buffer(data, sent)
+
+if __name__ == '__main__':
+     if sys.platform == 'win32':
+         sys.exit(0)
+
+     a = Popen('cat', stdin=PIPE, stdout=PIPE)
+     data=''
+
+     while data&lt;&gt;'quit':
+         data = raw_input(&quot;zadej radek: &quot;)
+         if data&lt;&gt;'quit':
+             data = data.replace(' ', '\n')
+             send_all(a, data)
+             data2 = recv_some(a)
+             print data2
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005948.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005950.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5949">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5949">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5949">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5949">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005949.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:04 GMT -->
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008406.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:10 GMT -->
+<HEAD>
+   <TITLE> [python] httplib a práce se sms bránou
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fhttplib_a_pr%3DE1ce_se_sms_br%3DE1nou%3F%3D&In-Reply-To=%3Cbd9056300812150616y14bca38bk667b7143b5cdd895%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008405.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008407.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] httplib a práce se sms bránou</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fhttplib_a_pr%3DE1ce_se_sms_br%3DE1nou%3F%3D&In-Reply-To=%3Cbd9056300812150616y14bca38bk667b7143b5cdd895%40mail.gmail.com%3E"
+       TITLE="[python] httplib a práce se sms bránou">slush na centrum.cz
+       </A><BR>
+    <I>Pondělí Prosinec 15 15:16:28 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008405.html">[python] httplib a práce se sms bránou
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008407.html">[python] httplib a práce se sms bránou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8406">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8406">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8406">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8406">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+co se tyka samotne logiky pro O2 branu, doporucuju postup skontrolovat s
+funkcni branou
+<A HREF="http://code.google.com/p/esmska/source/browse/trunk/esmska/operators/%5BCZ%5DO2.operator,">http://code.google.com/p/esmska/source/browse/trunk/esmska/operators/%5BCZ%5DO2.operator,</A>
+konkretne metoda send().
+
+Co se tyka navratove hodnoty 302 Found,na kterou adresu odpoved odkazuje?
+Neznamena to totiz nic jineho nez presmerovani prohlizece na jinou stranku a
+samo o sobe to neni nic skodliveho.
+
+Marek
+
+2008/12/15 Martin Stiborský &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">martin.stiborsky na gmail.com</A>&gt;
+
+&gt;<i> Zdravím.
+</I>&gt;<i> Pokouším se odeslat přes skript esemesku do sítě O2. Nedaří se, po
+</I>&gt;<i> odeslání mi kód vypíše 302 Found, neměl bych spíš vidět 200 OK ?
+</I>&gt;<i> Koukám do logu z wiresharku při odeslání sms pomocí skriptu a přímo z
+</I>&gt;<i> webu, ale asi mi něco uniká, možná zapomínám posílat nějakou hlavičku,
+</I>&gt;<i> která je důležitá, nebo nevím. Nebo mám nějakou faktickou chybu v kódu
+</I>&gt;<i> ?
+</I>&gt;<i> Chtěl jsem to celé udělat pomocí urllib(2), akorát se nedařilo, tak
+</I>&gt;<i> jsem zkusil httplib.
+</I>&gt;<i>
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i>
+</I>&gt;<i> from BeautifulSoup import BeautifulSoup
+</I>&gt;<i> import urllib
+</I>&gt;<i> import urllib2
+</I>&gt;<i> import httplib
+</I>&gt;<i>
+</I>&gt;<i> cislo = &quot;telefonni cislo&quot;
+</I>&gt;<i>
+</I>&gt;<i> def getHTML(conn):
+</I>&gt;<i>        conn.request(&quot;GET&quot;, &quot;/&quot;)
+</I>&gt;<i>        response = conn.getresponse()
+</I>&gt;<i>
+</I>&gt;<i>        return response.read()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> def findAndDownloadCaptcha(html):
+</I>&gt;<i>        soup = BeautifulSoup(html)
+</I>&gt;<i>        image = soup.findAll('img', alt=u&quot;kód&quot;)[0]
+</I>&gt;<i>        imageSrc = image.attrMap['src']
+</I>&gt;<i>
+</I>&gt;<i>        target = urllib.urlopen(&quot;%s%s&quot; % (&quot;<A HREF="http://sms.1188.cz",/">http://sms.1188.cz&quot;,</A> imageSrc))
+</I>&gt;<i>        data = target.read()
+</I>&gt;<i>        target.close()
+</I>&gt;<i>
+</I>&gt;<i>        out = file(&quot;captcha&quot;, &quot;w&quot;)
+</I>&gt;<i>        out.write(data)
+</I>&gt;<i>        out.close
+</I>&gt;<i>
+</I>&gt;<i> conn = httplib.HTTPConnection(&quot;sms.1188.cz:80&quot;)
+</I>&gt;<i> html = getHTML(conn)
+</I>&gt;<i>
+</I>&gt;<i> findAndDownloadCaptcha(html)
+</I>&gt;<i>
+</I>&gt;<i> captcha = raw_input(&quot;Kod:&quot;)
+</I>&gt;<i>
+</I>&gt;<i> headers = {'User-Agent' : 'Mozilla/5.0 (X11; U; Linux i686; en-US;
+</I>&gt;<i> rv:1.9.0.4) Gecko/2008111922 GranParadiso/3.0.4',
+</I>&gt;<i>           'Referer' : '<A HREF="http://sms.1188.cz/',">http://sms.1188.cz/',</A>
+</I>&gt;<i>           &quot;Content-type&quot;: &quot;application/x-www-form-urlencoded&quot;
+</I>&gt;<i>           }
+</I>&gt;<i>
+</I>&gt;<i> #values = {'adress' : '732653452',
+</I>&gt;<i>          #'code' : captcha,
+</I>&gt;<i>          #'replyEmail' : '',
+</I>&gt;<i>          #'text' : 'ahoj :)',
+</I>&gt;<i>          #'send' : 'ODESLAT' }
+</I>&gt;<i>
+</I>&gt;<i> #data = urllib.urlencode(values)
+</I>&gt;<i> data = &quot;adress=%s&amp;code=%s&amp;replyEmail=&amp;text=Ahoj&amp;send=ODESLAT&quot; % (cislo,
+</I>&gt;<i> captcha)
+</I>&gt;<i>
+</I>&gt;<i> conn.request(&quot;POST&quot;, &quot;/&quot;, data, headers)
+</I>&gt;<i>
+</I>&gt;<i> response = conn.getresponse()
+</I>&gt;<i>
+</I>&gt;<i> print response.status, response.reason
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> S pozdravem
+</I>&gt;<i> Martin Stiborský
+</I>&gt;<i>
+</I>&gt;<i> Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+</I>&gt;<i> ICQ: 224-065-849
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20081215/3f572974/attachment.htm">http://www.py.cz/pipermail/python/attachments/20081215/3f572974/attachment.htm</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008405.html">[python] httplib a práce se sms bránou
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008407.html">[python] httplib a práce se sms bránou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8406">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8406">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8406">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8406">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008406.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:10 GMT -->
+</html>

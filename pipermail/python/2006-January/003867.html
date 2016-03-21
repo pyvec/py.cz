@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003867.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:58 GMT -->
+<HEAD>
+   <TITLE> [python] vytovoreni komprimovaneho souboru z adresare
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vytovoreni%20komprimovaneho%20souboru%20z%20adresare&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-January/003868.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-January/003869.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vytovoreni komprimovaneho souboru z adresare</H1>
+    <B>azurIt</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20vytovoreni%20komprimovaneho%20souboru%20z%20adresare&In-Reply-To="
+       TITLE="[python] vytovoreni komprimovaneho souboru z adresare">azurit na pobox.sk
+       </A><BR>
+    <I>Úterý Leden  3 22:08:37 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003868.html">[python] vytovoreni komprimovaneho souboru z adresare
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003869.html">OT: Coz takhle dat si jEdit (bylo RE: [python] vim/gvim)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3867">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3867">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3867">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3867">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>prikaz z python dokumentacie (modul tarfile):
+
+import tarfile
+tar = tarfile.open(&quot;sample.tar&quot;, &quot;w&quot;)
+for name in [&quot;foo&quot;, &quot;bar&quot;, &quot;quux&quot;]:
+    tar.add(name)
+tar.close()
+
+potom ten tar zkomprimujes sposobom ako pisal napriklad geon
+
+azurIt
+
+&gt;<i>-----Pôvodná správa-----
+</I>&gt;<i>Od: geon [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A>]
+</I>&gt;<i>Odoslané: 3. januára 2006 20:57
+</I>&gt;<i>Komu: Konference PyCZ
+</I>&gt;<i>Predmet: Re: [python] vytovoreni komprimovaneho souboru z adresare
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>rajcze napsal(a):
+</I>&gt;&gt;<i> ahojte,
+</I>&gt;&gt;<i> ani po usilovnem googleni se mi nepodarilo prijit na zpusob, jak
+</I>&gt;&gt;<i> zkomprimovat adresar. nasel jsem nekolik tutorialu, ktere popisuji
+</I>&gt;&gt;<i> vytvoreni kompromovaneho souboru pomoci mofulu gzip, ale vsude jde jen
+</I>&gt;&gt;<i> o zapsani neceho do gzip.GzipFile
+</I>&gt;&gt;<i> jak se da zkoprimovat adresar?
+</I>&gt;&gt;<i>
+</I>&gt;<i>gzip není zip. Zip umí zkomprivat více souborů do jednoho, to gzip
+</I>&gt;<i>neumí. Ten umí jen jeden soubor do jednoho balíku. No a pak musíš ty
+</I>&gt;<i>balíky nějak zarchivovat - buď tar nebo zipfile.
+</I>&gt;<i>
+</I>&gt;<i>Malá ukázka čistého gzip (tar či zip doplň sám nebo někdo jiný přispěje
+</I>&gt;<i>...): zbalení (gzip) všech souborů v aktuálním adresáři
+</I>&gt;<i>
+</I>&gt;<i>import gzip, os
+</I>&gt;<i>
+</I>&gt;<i>seznam=[s for s in os.listdir('.') if os.path.isfile(s)]
+</I>&gt;<i>
+</I>&gt;<i>for s in seznam:
+</I>&gt;<i>g=gzip.GzipFile(s+'.gz','w')
+</I>&gt;<i>x=file(s,'rb').read()  # 'rb' je důležité nejen pro binárky, ale i
+</I>&gt;<i>pro .doc, .xls, apod...
+</I>&gt;<i>g.write(x)
+</I>&gt;<i>g.close()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>--
+</I>&gt;<i>geon
+</I>&gt;<i>Vyjímka je pravidlo. Rekurzivní.
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+
+Aktivujte si neobmedzenu mailovu schranku na www.pobox.sk!
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003868.html">[python] vytovoreni komprimovaneho souboru z adresare
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-January/003869.html">OT: Coz takhle dat si jEdit (bylo RE: [python] vim/gvim)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-January/date.html#3867">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/thread.html#3867">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/subject.html#3867">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-January/author.html#3867">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-January/003867.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:58 GMT -->
+</html>

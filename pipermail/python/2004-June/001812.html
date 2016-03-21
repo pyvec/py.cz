@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-June/001812.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:27 GMT -->
+<HEAD>
+   <TITLE> [python] diskuze
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20diskuze&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-June/001796.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-June/001822.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] diskuze</H1>
+    <B>Quick Milan</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20diskuze&In-Reply-To="
+       TITLE="[python] diskuze">milan na 3trees.cz
+       </A><BR>
+    <I>Pondělí Červen 21 11:30:06 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001796.html">[python] diskuze
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001822.html">[python] diskuze
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-June/date.html#1812">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/thread.html#1812">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/subject.html#1812">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/author.html#1812">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Pratele.
+</I>&gt;<i> Vcera jsem psal SAXParser v Pythonu, vesele si pobrukoval
+</I>&gt;<i> ale pak mi spadla celist. Narazil jsem na neco co mi vyrazilo
+</I>&gt;<i> dech.
+</I>&gt;<i> 
+</I>&gt;<i> Zjednoduseny priklad:
+</I>&gt;<i> --------------------------------------------------------------------------
+</I>&gt;<i> --------------------
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">jakub na gelion</A>:~$ python2.1
+</I>&gt;<i> Python 2.1.3 (#1, Apr 20 2002, 10:14:34)
+</I>&gt;<i> [GCC 2.95.4 20011002 (Debian prerelease)] on linux2
+</I>&gt;<i> Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+</I>&gt;<i> &gt;&gt;&gt; class maso:
+</I>&gt;<i> ....     nazev = &quot;&quot;
+</I>&gt;<i> ....     seznam = []
+</I>&gt;<i> ....
+</I>&gt;<i> &gt;&gt;&gt; a = maso()
+</I>&gt;<i> &gt;&gt;&gt; b = maso()
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; a.nazev = &quot;kotleta&quot;
+</I>&gt;<i> &gt;&gt;&gt; a.seznam.append(&quot;varena&quot;)
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; b.nazev = &quot;koleno&quot;
+</I>&gt;<i> &gt;&gt;&gt; b.seznam.append(&quot;uzene&quot;)
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; print a.nazev
+</I>&gt;<i> kotleta
+</I>&gt;<i> &gt;&gt;&gt; print a.seznam
+</I>&gt;<i> ['varena', 'uzene']
+</I>&gt;<i> &gt;&gt;&gt; print b.nazev
+</I>&gt;<i> koleno
+</I>&gt;<i> &gt;&gt;&gt; print b.seznam
+</I>&gt;<i> ['varena', 'uzene']
+</I>
+a co takhle:::
+
+class maso:
+    def __init__(self):
+        self.nazev = &quot;&quot;
+        self.seznam = []
+a = maso()
+b = maso()
+a.nazev = &quot;kotleta&quot;
+a.seznam.append(&quot;varena&quot;)
+
+b.nazev = &quot;koleno&quot;
+b.seznam.append(&quot;uzene&quot;)
+print a.nazev
+kotleta
+print a.seznam
+['varena']
+print b.nazev
+koleno
+print b.seznam
+['uzene']
+
+&gt;<i> --------------------------------------------------------------------------
+</I>&gt;<i> -------------------------
+</I>&gt;<i> U objektu a i b seznam zaujima stejnou adresu v pameti. Nazev ne.
+</I>&gt;<i> Koukam na to jako tele a nevim jak to obejit. Jsou moznosti:
+</I>&gt;<i> 
+</I>&gt;<i> a) Jsem opravdu tele a neumim pouzivat objekty v Pythonu
+</I>&gt;<i> b) Je to spravne chovani, ktere mi ale naprosto nevyhovuje
+</I>&gt;<i> c) Je to chyba Pythonu jako hrom
+</I>&gt;<i> 
+</I>&gt;<i> Doufam ze za a) je spravne, jinak bych asi python opustil
+</I>&gt;<i> jako spatne navrzeny objektovy jazyk.
+</I>&gt;<i> 
+</I>&gt;<i> verze 2.2 a 2.3 to delaji take.
+</I>&gt;<i> 
+</I>&gt;<i> S pozdravem Jakub Coufal
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001796.html">[python] diskuze
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001822.html">[python] diskuze
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-June/date.html#1812">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/thread.html#1812">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/subject.html#1812">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/author.html#1812">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-June/001812.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:27 GMT -->
+</html>

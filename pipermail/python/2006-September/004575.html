@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004575.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:09 GMT -->
+<HEAD>
+   <TITLE> [python] os.popen vs. os.system
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20os.popen%20vs.%20os.system&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-September/004580.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-September/004583.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] os.popen vs. os.system</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20os.popen%20vs.%20os.system&In-Reply-To="
+       TITLE="[python] os.popen vs. os.system">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Září 14 10:05:03 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004580.html">[python] cPickle
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004583.html">[python] Chyby při vytváření exe pomocí py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4575">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4575">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4575">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4575">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zkus os.popen2() nebo os.popen3() a analyzovat err výstup. Příklad:
+
+import os
+
+cin, cout = os.popen2('cvs --version')
+lines = cout.read()
+print lines
+cin.close()
+cout.close()
+
+print '-' * 70
+
+cin, cout, cerr = os.popen3('cvs --version')
+lines = cout.read()
+print &quot;cout: '&quot; + lines + &quot;'&quot;
+lines = cerr.read()
+print &quot;cerr: '&quot; + lines + &quot;'&quot;
+
+cin.close()
+cout.close()
+cerr.close()
+
+print '-' * 70
+
+cin, cout, cerr = os.popen3('neexistujiciprogram')
+lines = cout.read()
+print &quot;cout: '&quot; + lines + &quot;'&quot;
+lines = cerr.read()
+print &quot;cerr: '&quot; + lines + &quot;'&quot;
+
+cin.close()
+cout.close()
+cerr.close()
+ 
+-----Original Message-----
+Martin Jedlička napsal...
+
+Zdravim,  mam takovy problem. Poustim prikaz v prikazove radce (volam cvs.exe s parametrama) a rad bych, aby se nezobrazovalo to cerne okno cmd (os.system(cmd))* *K tomu jsem pouzil os.popen, problem je ale v tom, ze kdyz se vyskytne nejaky problem (chyba pri spusteni cvs.exe), tak to nevidim. Existuje nejaky zpusob, jak mi popen vyhodi nejaky vytup pri nepovedeni operace? Nebo existuje nejaky lepsi zpusob, jak spoustet externi programek s parametrama, aniz by se poustelo cerne cmd okno, ale pri chybe by to vyhodilo nejakou navratovou hodnotu (execl ?)?
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004580.html">[python] cPickle
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004583.html">[python] Chyby při vytváření exe pomocí py2exe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4575">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4575">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4575">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4575">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004575.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:09 GMT -->
+</html>

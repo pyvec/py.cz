@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009608.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:41 GMT -->
+<HEAD>
+   <TITLE> [python] Jak hostujete pythoní weby?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FJak_hostujete_python%3DED_weby%3D3F%3F%3D&In-Reply-To=%3Cp2t67c97cd91004070441oceb4698cg6dfdc5a9d424e04a%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009604.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009610.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak hostujete pythoní weby?</H1>
+    <B>Petr Messner</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FJak_hostujete_python%3DED_weby%3D3F%3F%3D&In-Reply-To=%3Cp2t67c97cd91004070441oceb4698cg6dfdc5a9d424e04a%40mail.gmail.com%3E"
+       TITLE="[python] Jak hostujete pythoní weby?">petr.messner na gmail.com
+       </A><BR>
+    <I>Středa Duben  7 13:41:42 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009604.html">[python] Jak hostujete pythoní weby?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009610.html">[python] Jak hostujete pythoní weby?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9608">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9608">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9608">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9608">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+aplikace v produkci spouštím přes CherryPy WSGI HTTP server, jako
+front-end web server (který požadavky proxuje na příslušné spuštěné
+aplikace) používám Lighttpd.
+
+&gt;<i> Jsou vaše aplikace schopné pracovat i s WSGI?
+</I>
+To je snad standard, ne? (Aspoň pro Python 2.x, protože pro Python 3
+AFAIK jaksi zatím ještě nebyly ustanoveny všechny detaily.) Zdá se mi,
+že WSGI je chápáno trochu špatně. WSGI není alternativa k
+FastCGI/CGI/... WSGI je jen slepovací vrstva, která webovou aplikaci
+slepí s FastCGI/CGI/... serverem/handlerem. Mod_wsgi má s WSGI
+společného akorát to, že poskytuje WSGI interface pro Apache, jinak je
+to (v daemon módu) technicky to samé jako FastCGI.
+
+&gt;<i> U frameworků Django a
+</I>&gt;<i> Cherrypy to není problém, ale jsou tu i další, se kterými nemám
+</I>&gt;<i> zkušenosti. Myslím si, že by to mohl být limitující faktor mého
+</I>&gt;<i> hostingu.
+</I>
+Kvůli snadnému vývoji a použití frameworků WSGI vzniklo - aby každý
+tvůrce frameworku nebo aplikace nemusel vymýšlet a implementovat
+způsob nasazení (CGI/FastCGI/HTTP server), ale jen použije WSGI
+interface, a uživatel ať si to nalepí kamkoliv jak chce. Klidně se
+takhle dá naštosovat několik webových aplikací na sebe. A ano, ony
+všechny ty i ne-mainstreamové frameworky (Werkzeug, web.py,
+Pylons/Paste, web2py, WebCore, Pesto, ...) WSGI opravdu používají
+(nebo alespoň podporují).
+
+
+Je možné se WSGI vyhnout použitím třeba mod_pythonu a jeho API. Tím
+ale vaše webové aplikace budou závislé na jednom konkrétním modulu
+jednoho konkrétního webserveru, což není moc štastné. A právě tyto
+situace - nasazení na hostingu - to může zkomplikovat. Nehledě na to,
+že třeba při vývoji může být vhodnější používat nějaký odlehčený
+webserver. Navíc mod_python má některé neduhy - od bezpečnosti přes
+důsledky plynoucí ze samotné architektury Apache až po některé interní
+detaily (třeba více pythonových interpretů v jednom procesu, což může
+ovlivnit třeba C moduly které s tím nepočítaly a používají funkce
+PyGILState_*()). Mod_python prostě není náhrada mod_php, chová se
+úplně jinak. Pokud chcete použít mod_python, nejlepší řešení je
+vlastně mít instanci Apache jen pro tu danou aplikaci, a to už pak
+vůbec nemusím použít Apache a mod_python, ale něco menšího,
+vhodnějšího, lépe konfigurovatelného...
+
+ad &quot;Hodně lidí provozuje Pythona přes mod_python, dokonce to je možná
+doporučované řešení&quot; - právě naopak, mod_python není zrovna příliš
+doporučované řešení, mimo jiné pro důvody, které jsem popsal výše. O
+mod_pythonu se jen hodně píše, prostě proto, že Apache a mod_&lt;název
+jazyka&gt; si lidé dlouho neumějí od webu odmyslet. Když už Apache, tak
+mod_wsgi v daemon módu. Nebo FastCGI. Nebo proxování na &quot;aplikační&quot;
+HTTP server :)
+
+Petr Messner
+
+
+2010/4/6 Adam Strauch &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">cx na initd.cz</A>&gt;:
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> začal jsem provozovat pythoní hosting a chtěl bych u vás udělat takový
+</I>&gt;<i> malý technologický průzkum. Momentálně mi všechny pythoní aplikace jedou
+</I>&gt;<i> přes WSGI, je to rychlý, všechny weby mají své systémové uživatele a
+</I>&gt;<i> šlape to opravdu dobře. Nicméně si nemyslím, že jiní vývojáři svoje
+</I>&gt;<i> aplikace propojují s Apachem přes WSGI, takže se chci zeptat. Jakou
+</I>&gt;<i> formu propojení s Apachem či jiným webovým serverem preferujete a jaké s
+</I>&gt;<i> tím máte zkušenosti? Spíše jiné *GI nebo mod_python?
+</I>&gt;<i>
+</I>&gt;<i> Jsou vaše aplikace schopné pracovat i s WSGI? U frameworků Django a
+</I>&gt;<i> Cherrypy to není problém, ale jsou tu i další, se kterými nemám
+</I>&gt;<i> zkušenosti. Myslím si, že by to mohl být limitující faktor mého
+</I>&gt;<i> hostingu.
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Adam
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009604.html">[python] Jak hostujete pythoní weby?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009610.html">[python] Jak hostujete pythoní weby?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9608">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9608">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9608">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9608">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009608.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:41 GMT -->
+</html>

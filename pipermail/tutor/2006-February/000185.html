@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000185.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Help me
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Help%20me&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000184.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-February/000186.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Help me</H1>
+    <B>jak.petr na atlas.cz</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Help%20me&In-Reply-To="
+       TITLE="[Tutor PyCZ] Help me">jak.petr na atlas.cz
+       </A><BR>
+    <I>Pátek Únor 24 19:23:31 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000184.html">[Tutor PyCZ] Help
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000186.html">[Tutor PyCZ] Help me
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#185">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#185">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#185">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#185">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+potreboval bych pomoci s jednim mym programem a to jak mohu udelat aby se roboti ve hre pohybovali vsichni? Zde je zdrojovy a tak vas prosim aby jste mi rekli jak ho upravit.
+Jo a je to ve verzi python 2.4.2
+                                                                     Děkuji
+Ten kod:
+import random
+from livewires import *
+begin_graphics()
+allow_moveables()
+class Player:
+    pass
+class Robots:
+    pass
+seznamRobotu=[]
+hrac= Player()
+robot= Robots()
+hrac.x=1
+hrac.y=1
+0&lt;hrac.x&lt;640
+0&lt;hrac.y&lt;480
+robot.x=100
+robot.y=100
+0&lt;robot.x&lt;630
+0&lt;robot.y&lt;470
+global robot
+def vyrobHrace():
+    global Player
+    hrac.x=random.randint(0, 630)
+    hrac.y=random.randint(0, 470)
+    hrac.telo = circle( hrac.x, hrac.y, 5)
+    sleep(0.1)
+def opakovaniRobotu():
+    robot.x=random.randint(0, 630)
+    robot.y=random.randint(0, 470)
+def vyrobRobota():
+    global Robots
+    robot.telo = circle( robot.x, robot.y, 5, filled=1)
+    sleep(0.1)
+    seznamRobotu.append(robot)
+def vyrobRoboty():
+    for robots in range(10):
+        opakovaniRobotu()
+        vyrobRobota()
+def posunHrace():
+    global klavesy
+    klavesy = keys_pressed()
+    global Player
+    if &quot;8&quot; in klavesy:
+        hrac.y=hrac.y+5
+        move_to(hrac.telo, hrac.x, hrac.y)
+        sleep(0.1)
+    if &quot;9&quot; in klavesy:
+        hrac.x=hrac.x+5
+        hrac.y=hrac.y+5
+        move_to(hrac.telo, hrac.x, hrac.y)
+        sleep(0.1)
+    if &quot;7&quot; in klavesy:
+        hrac.x=hrac.x-5
+        hrac.y=hrac.y+5
+        move_to(hrac.telo, hrac.x, hrac.y)
+        sleep(0.1)
+    if &quot;4&quot; in klavesy:
+        hrac.x=hrac.x-5
+        move_to(hrac.telo, hrac.x, hrac.y)
+        sleep(0.1)
+    if &quot;6&quot; in klavesy:
+        hrac.x=hrac.x+5
+        move_to(hrac.telo, hrac.x, hrac.y)
+        sleep(0.1)
+    if &quot;1&quot; in klavesy:
+        hrac.x=hrac.x-5
+        hrac.y=hrac.y-5
+        move_to(hrac.telo, hrac.x, hrac.y)
+        sleep(0.1)
+    if &quot;2&quot; in klavesy:
+        hrac.y=hrac.y-5
+        move_to(hrac.telo, hrac.x, hrac.y)
+        sleep(0.1)
+    if &quot;3&quot; in klavesy:
+        hrac.y=hrac.y-5
+        hrac.x=hrac.x+5
+        move_to(hrac.telo, hrac.x, hrac.y)
+        sleep(0.1)
+def posunRobota():
+    global Robots
+    global Robots
+    if hrac.x&lt;robot.x:
+        robot.x=robot.x-3
+        move_to(robot.telo, robot.x, robot.y)
+        sleep(0.1)
+    if hrac.x&gt;robot.x:
+        robot.x=robot.x+3
+        move_to(robot.telo, robot.x, robot.y)
+        sleep(0.1)
+    if hrac.y&gt;robot.y:
+        robot.y=robot.y+3
+        move_to(robot.telo, robot.x, robot.y)
+        sleep(0.1)
+    if hrac.y&lt;robot.y:
+        robot.y=robot.y-3
+        move_to(robot.telo, robot.x, robot.y)
+        sleep(0.1)
+def srazkaHrace():
+    global Player
+    for robot in seznamRobotu:
+        if round(hrac.x) == round(robot.x) and round(hrac.y) == round(robot.y):
+            return 1
+        return 0     
+vyrobHrace()
+vyrobRoboty()
+while not 0:
+    global klavesy
+    global Player
+    posunHrace()
+    srazkaHrace()
+    posunRobota()
+    srazkaHrace()  
+    if &quot;t&quot; in klavesy:
+        hrac.x=random.randint(0,630)
+        hrac.y=random.randint(0,470)
+        sleep(0.1)
+    srazkaHrace()
+    if srazkaHrace():
+        break
+        end_graphics()
+    if &quot;q&quot; in klavesy:
+        break
+end_graphics()
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000184.html">[Tutor PyCZ] Help
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-February/000186.html">[Tutor PyCZ] Help me
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/date.html#185">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/thread.html#185">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/subject.html#185">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-February/author.html#185">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-February/000185.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

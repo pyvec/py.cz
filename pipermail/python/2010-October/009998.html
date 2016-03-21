@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009998.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:22 GMT -->
+<HEAD>
+   <TITLE> [python] vzájemná definice
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3Fvz%3DE1jemn%3DE1_definice%3F%3D&In-Reply-To=%3CAANLkTi%3DCPJ%3Dgx6iAtzsVjwdiHPpBwtVVAuMahiKw9YB%3D%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-October/009997.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-October/009999.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vzájemná definice</H1>
+    <B>Tomáš Drenčák</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-1%3Fq%3Fvz%3DE1jemn%3DE1_definice%3F%3D&In-Reply-To=%3CAANLkTi%3DCPJ%3Dgx6iAtzsVjwdiHPpBwtVVAuMahiKw9YB%3D%40mail.gmail.com%3E"
+       TITLE="[python] vzájemná definice">tomas na drencak.com
+       </A><BR>
+    <I>Středa Říjen 27 01:59:27 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009997.html">[python] vzájemná definice
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009999.html">[python] vzájemná definice
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9998">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9998">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9998">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9998">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Konkretne v djangu sa to robi tak ze vramci modulu ked definujes
+triedy, tak ako argument do ForeignKey nedavas triedu ale jej nazov.
+Django to potom automaticky prevedia na triedu:
+
+    class teacher(aModels.User):
+        telefon = models.IntegerField()
+
+    class Trida(models.Model):
+        name = models.CharField(max_length = 15)
+        classTeacher = models.OneToOneField('teacher')
+
+        students = models.ManyToManyField('student')
+
+
+    class student(aModels.User):
+        Tridy  = models.ManyToManyField('Trida')
+
+
+2010/10/26 Visgean Skeloru &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">visgean na gmail.com</A>&gt;:
+&gt;<i> Dobrý den, mám tady takovýhle kód:
+</I>&gt;<i>
+</I>&gt;&gt;<i> from django.db import models
+</I>&gt;&gt;<i> from django.contrib.auth import models as aModels
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class teacher(aModels.User):
+</I>&gt;&gt;<i>     telefon = models.IntegerField()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class Trida(models.Model):
+</I>&gt;&gt;<i>     name = models.CharField(max_length = 15)
+</I>&gt;&gt;<i>     classTeacher = models.OneToOneField(teacher)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     students = models.ManyToManyField(student)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class student(aModels.User):
+</I>&gt;&gt;<i>     Tridy  = models.ManyToManyField(Trida)
+</I>&gt;<i>
+</I>&gt;<i>  problém je že jedno je definované druhým, nevíte co s tím?
+</I>&gt;<i>
+</I>&gt;<i> Zkoušel jsem i následovný kód:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> from django.db import models
+</I>&gt;&gt;<i> from django.contrib.auth import models as aModels
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class teacher(aModels.User):
+</I>&gt;&gt;<i>     telefon = models.IntegerField()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class Trida(models.Model):
+</I>&gt;&gt;<i>     name = models.CharField(max_length = 15)
+</I>&gt;&gt;<i>     classTeacher = models.OneToOneField(teacher)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class student(aModels.User):
+</I>&gt;&gt;<i>     Tridy = models.ManyToManyField(Trida)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Trida.students = models.ManyToManyField(student)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Ale django nevytvoří patřičný model, nevíte o nějaké metodě jak to řešit?
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009997.html">[python] vzájemná definice
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009999.html">[python] vzájemná definice
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9998">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9998">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9998">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9998">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009998.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:22 GMT -->
+</html>

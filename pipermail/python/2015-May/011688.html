@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011688.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:09 GMT -->
+<HEAD>
+   <TITLE> [python] Pulnocni rozjimani :-)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Pulnocni%20rozjimani%20%3A-%29&In-Reply-To=%3C1614356823.20150512084341%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-May/011687.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-May/011691.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Pulnocni rozjimani :-)</H1>
+    <B>mtip</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Pulnocni%20rozjimani%20%3A-%29&In-Reply-To=%3C1614356823.20150512084341%40atlas.cz%3E"
+       TITLE="[python] Pulnocni rozjimani :-)">mtip na atlas.cz
+       </A><BR>
+    <I>Úterý Květen 12 08:43:41 CEST 2015</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011687.html">[python] Pulnocni rozjimani :-)
+</A></li>
+        <LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011691.html">[python] pywaw summit
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11688">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11688">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11688">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11688">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Trochu odjinud:
+
+&gt;&gt;&gt;<i> bool(re.search(ur'[a-ž]', u'Ě', re.IGNORECASE|re.UNICODE))
+</I>True
+&gt;&gt;&gt;<i> bool(re.search(ur'[a-ž]', u'Ě', re.IGNORECASE))
+</I>True
+&gt;&gt;&gt;<i> bool(re.search(ur'[a-ž]', 'Ě', re.IGNORECASE))
+</I>True
+&gt;&gt;&gt;<i> bool(re.search(r'[a-ž]', 'Ě', re.IGNORECASE))
+</I>True
+&gt;&gt;&gt;<i> bool(re.search(r'[a-ž]', u'Ě', re.IGNORECASE))
+</I>False
+&gt;&gt;&gt;<i> bool(re.search(r'[a-ž]', u'Ě', re.IGNORECASE|re.UNICODE))
+</I>False
+
+Mirek
+
+&gt;&gt;<i> Dne 10.5.2015 v 01:05 Vladimir Macek napsal(a):
+</I>&gt;&gt;<i> Just having fun.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>      $ python
+</I>&gt;&gt;<i>      &gt;&gt;&gt; a = {}
+</I>&gt;&gt;<i>      &gt;&gt;&gt; b = {'a': a}
+</I>&gt;&gt;<i>      &gt;&gt;&gt; a['b'] = b
+</I>&gt;&gt;<i>      &gt;&gt;&gt; a
+</I>&gt;&gt;<i>      {'b': {'a': {...}}}
+</I>&gt;&gt;<i>      &gt;&gt;&gt; b
+</I>&gt;&gt;<i>      {'a': {'b': {...}}}
+</I>&gt;&gt;<i>      &gt;&gt;&gt; import cPickle
+</I>&gt;&gt;<i>      &gt;&gt;&gt; ap = cPickle.dumps(a)
+</I>&gt;&gt;<i>      &gt;&gt;&gt; del a, b
+</I>&gt;&gt;<i>      &gt;&gt;&gt; len(ap)
+</I>&gt;&gt;<i>      26
+</I>&gt;&gt;<i>      &gt;&gt;&gt; a = cPickle.loads(ap)
+</I>&gt;&gt;<i>      &gt;&gt;&gt; a
+</I>&gt;&gt;<i>      {'b': {'a': {...}}}
+</I>&gt;&gt;<i>      &gt;&gt;&gt; a['b']
+</I>&gt;&gt;<i>      {'a': {'b': {...}}}
+</I>&gt;&gt;<i>      &gt;&gt;&gt; a['b']['a']
+</I>&gt;&gt;<i>      {'b': {'a': {...}}}
+</I>&gt;&gt;<i>      &gt;&gt;&gt; a['b']['a']['b']
+</I>&gt;&gt;<i>      {'a': {'b': {...}}}
+</I>&gt;&gt;<i>      &gt;&gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Navaze nekdo? :-)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> V.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --- <A HREF="news://freenews.netfront.net/">news://freenews.netfront.net/</A> - complaints: <A HREF="http://www.py.cz/mailman/listinfo/python">news na netfront.net</A> ---
+</I>&gt;&gt;<i>
+</I>
+B&gt; _______________________________________________
+B&gt; Python mailing list
+B&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+B&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+B&gt; Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011687.html">[python] Pulnocni rozjimani :-)
+</A></li>
+	<LI>Next message (by thread): <A HREF="http://www.py.cz/pipermail/python/2015-May/011691.html">[python] pywaw summit
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-May/date.html#11688">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/thread.html#11688">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/subject.html#11688">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-May/author.html#11688">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-May/011688.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:09 GMT -->
+</html>

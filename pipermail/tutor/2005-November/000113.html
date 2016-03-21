@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-November/000113.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] print bez uvodni mezery
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20print%20bez%20uvodni%20mezery&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-November/000112.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-November/000114.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] print bez uvodni mezery</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20print%20bez%20uvodni%20mezery&In-Reply-To="
+       TITLE="[Tutor PyCZ] print bez uvodni mezery">PrikrylP na skil.cz
+       </A><BR>
+    <I>Úterý Listopad 22 10:57:31 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-November/000112.html">[Tutor PyCZ] print bez uvodni mezery
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-November/000114.html">[Tutor PyCZ] print bez uvodni mezery
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/date.html#113">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/thread.html#113">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/subject.html#113">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/author.html#113">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+Jaroslav Vysoky...
+[...]
+&gt;<i> Existuje způsob, jak přinutit PRINT, aby nevkládal před tištěný objekt
+</I>&gt;<i> (není-li na začátku řádku) úvodní mezeru? Pochopitelně to můžu obejít
+</I>&gt;<i> naskládáním výstupu do řetězce, ale je mi divný, že by to nešlo...
+</I>
+print je tak udělaný proto, protože většinou
+se takové chování hodí. Mezeru vkládá jakoby
+čárka pro oddělování parametrů příkazu print.
+Místo čárky můžu použít plus '+' a pak se 
+parametry zřetězí. Pokud to ovšem nejsou řetězce, 
+musím je přes str() na řetězce převést:
+
+&gt;&gt;&gt;<i> print 'a', 'b', 'c', 123
+</I>a b c 123
+&gt;&gt;&gt;<i> print 'a' + 'b' + 'c' + str(123)
+</I>abc123
+
+Pokud by bylo řetězených hodnot moc, 
+bývá lepší si je předem naskládat
+do seznamu a ten pak najednou zřetězit.
+V takovém případě se zase musím postarat
+o to, aby řetězené části byly řetězce:
+
+&gt;&gt;&gt;<i> L = ['a', 'b', 'c', 123]
+</I>&gt;&gt;&gt;<i> L
+</I>['a', 'b', 'c', 123]
+&gt;&gt;&gt;<i> print ' '.join(L)
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+TypeError: sequence item 3: expected string, int found
+
+
+Parametrem metody join() zabudovaného
+řetězcového typu je oddělovací řetězec.
+Příklad:
+
+&gt;&gt;&gt;<i> L = ['a', 'b', 'c', str(123)]
+</I>&gt;&gt;&gt;<i> L
+</I>['a', 'b', 'c', '123']
+&gt;&gt;&gt;<i> print '|'.join(L)
+</I>a|b|c|123
+&gt;&gt;&gt;<i> print ''.join(L)
+</I>abc123
+
+Pokud potřebuji vypisovat text postupně
+(například v cyklu]), pak nemůžu použít
+příkaz print, který mi tam vždycky
+přidá alespoň mezeru nebo konec řádku.
+V takovém případě musím použít klasický
+výpis do souboru, v tomto případě na
+sys.stdout:
+
+import sys
+sys.stdout.write('a')
+sys.stdout.write('b')
+sys.stdout.write('c')
+sys.stdout.write(str(123))
+
+Výsledkem bude 'abc123'.
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-November/000112.html">[Tutor PyCZ] print bez uvodni mezery
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-November/000114.html">[Tutor PyCZ] print bez uvodni mezery
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/date.html#113">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/thread.html#113">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/subject.html#113">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-November/author.html#113">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-November/000113.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+</html>

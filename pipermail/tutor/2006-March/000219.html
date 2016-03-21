@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000219.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> Re: [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%3D%3FISO-8859-2%3FQ%3FRe%3A_%5BTutor_PyCZ%5D_Milovan%3DE9_Livewi%3F%3D%0A%09%3D%3FISO-8859-2%3FQ%3Fres_-_A_najednou_tam_lezou_t%3DF8%3DEDdy%3F%3D&In-Reply-To=4407F6C9.4020309%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000214.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000220.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>Re: [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy</H1>
+    <B>Tomáš Bělonožník</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%3D%3FISO-8859-2%3FQ%3FRe%3A_%5BTutor_PyCZ%5D_Milovan%3DE9_Livewi%3F%3D%0A%09%3D%3FISO-8859-2%3FQ%3Fres_-_A_najednou_tam_lezou_t%3DF8%3DEDdy%3F%3D&In-Reply-To=4407F6C9.4020309%40post.cz"
+       TITLE="Re: [Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy">rebelme na gmail.com
+       </A><BR>
+    <I>Pátek Březen  3 12:28:48 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000214.html">[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000220.html">[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#219">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#219">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#219">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#219">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Díky vám oběma za pomoc. Ten kód co jsem posílal do mailu byl trošku
+pravda trošku zvláštní, mě to normálně fungovalo, ale asi jsem omylem
+do toho mailu vložil upravený kód který sem nezkoušel...spravil sem
+tam pár věcí a už to šlo.
+
+K geonovým radám:
+
+&gt;<i>  &gt;
+</I>&gt;<i>  &gt; def vyrobRobota():
+</I>&gt;<i>  &gt;     xr=random.randint(8, 631)
+</I>&gt;<i>  &gt;     yr=random.randint(8, 471)
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt;     xr_round = xr / 10
+</I>&gt;<i>  &gt;     xh_round = xh / 10
+</I>&gt;<i>  &gt;     yr_round = yr / 10
+</I>&gt;<i>  &gt;     yh_round = yh / 10
+</I>&gt;<i>  &gt;     while xr_round == xh_round:
+</I>&gt;<i>  &gt;         while yr_round == yh_round:
+</I>&gt;<i>  &gt;             xr=random.randint(8, 631)
+</I>&gt;<i>  &gt;             yr=random.randint(8, 471)
+</I>&gt;<i>  &gt;
+</I>&gt;<i>
+</I>&gt;<i> &quot;nezamrzá&quot; ti to někdy? - může to být tímto cyklem - protože z něho není
+</I>&gt;<i> cesty ven - musíš měnit i xh_round, ....
+</I>
+Ještě mi to nikdy nezamrzlo, ale to bude asi tím, že případ kdy se
+vygenerují téměř stejná čísla není moc častý. Přidal jsem tedy ještě
+hrac.x = random.randint......
+
+&gt;<i> a neni lepší (zkus přijít na rozdíl)??:
+</I>&gt;<i> while xr_round == xh_round and yr_round == yh_round:
+</I>
+Jj jasně, sice jesem o boolean operátorech veděl, ale bůhvíproč mě
+nenapadlo to tu použít, to je cenná informace.
+
+&gt;<i>  &gt;     Robot_telo = box(xr-5,yr-5,xr+5,yr+5, filled=1,
+</I>&gt;<i> colour=Colour.dark_blue)
+</I>&gt;<i>  &gt;     return xr, yr, Robot_telo
+</I>&gt;<i>  &gt;
+</I>&gt;<i>
+</I>&gt;<i> tady něco chybí, tady je chyba
+</I>
+Teď to vypadá
+&quot;robot.telo = box(robot.x-5,robot.y-5,robot.x+5,robot.y+5, filled=1,
+colour=Colour.dark_blue)
+return robot&quot;
+ale jestli je tam chyba tak ji nevidím a asi zůstala...
+
+&gt;<i>
+</I>&gt;<i>  &gt;         if &quot;2&quot; in klavesy:
+</I>&gt;<i>  &gt;             xh = xh + 0
+</I>&gt;<i>  &gt;             yh = yh - 10
+</I>&gt;<i>  &gt;             sleep(0.2)
+</I>&gt;<i>  &gt;             teleportace = teleportace + 0
+</I>&gt;<i>  &gt;             return xh, yh, teleportace
+</I>&gt;<i>  &gt;         ......
+</I>&gt;<i>  &gt;         elif teleportace &lt; 5:
+</I>&gt;<i>  &gt;             if &quot;t&quot; in klavesy:
+</I>&gt;<i>  &gt;                 xh = random.randint(8, 631)
+</I>&gt;<i>  &gt;                 yh = random.randint(8, 471)
+</I>&gt;<i>  &gt;                 teleportace = teleportace + 1
+</I>&gt;<i>  &gt;                 sleep(0.1)
+</I>&gt;<i>  &gt;                 return xh, yh, teleportace
+</I>&gt;<i>  &gt;             else:
+</I>&gt;<i>  &gt;                 xh = xh + 0
+</I>&gt;<i>  &gt;                 yh = yh + 0
+</I>&gt;<i>  &gt;                 teleportace = teleportace + 0
+</I>&gt;<i>  &gt;                 return xh, yh, teleportace
+</I>&gt;<i>  &gt;         else:
+</I>&gt;<i>  &gt;             xh = xh + 0
+</I>&gt;<i>  &gt;             yh = yh + 0
+</I>&gt;<i>  &gt;             teleportace = teleportace + 0
+</I>&gt;<i>  &gt;             return xh, yh, teleportace
+</I>&gt;<i>
+</I>&gt;<i> v této funkci se zbytečně stokrát opakuje return xh, .... Nešlo by to
+</I>&gt;<i> dát až na konec funkce? Je tam dvakrát stejný else... myslím že
+</I>&gt;<i> zbytečně... nemusí tam být ani jednou, nebo ano?
+</I>&gt;<i>
+</I>Jasně, dal jsem &quot;return hrac, teleportace&quot; až na konec funkce a
+najednou už else nepotřebuju.
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; def posunRobota(xr, xh, yr, yh, Robot_telo):
+</I>&gt;<i>  &gt;     if xr &lt; xh:
+</I>&gt;<i>  &gt;         if yr == yh:
+</I>&gt;<i>  &gt;             xr = xr+5
+</I>&gt;<i>  &gt;             yr = yr+0
+</I>&gt;<i>  &gt;             move_to(Robot_telo, xr, yr)
+</I>&gt;<i>  &gt;             sleep(0.2)
+</I>&gt;<i>  &gt;             return xr, yr
+</I>&gt;<i>  &gt;         elif yr &lt; yh:
+</I>&gt;<i>  &gt;             xr = xr+5
+</I>&gt;<i>  &gt;             yr = yr+5
+</I>&gt;<i>  &gt;             move_to(Robot_telo, xr, yr)
+</I>&gt;<i>  &gt;             sleep(0.2)
+</I>&gt;<i>  &gt;             return xr, yr
+</I>&gt;<i>  &gt;         elif yr &gt; yh:
+</I>&gt;<i>  &gt;             xr = xr+5
+</I>&gt;<i>  &gt;             yr = yr-5
+</I>&gt;<i>  &gt;             move_to(Robot_telo, xr, yr)
+</I>&gt;<i>  &gt;             sleep(0.2)
+</I>&gt;<i>  &gt;             return xr, yr
+</I>&gt;<i>  &gt;         else:
+</I>&gt;<i>  &gt;             return xr, yr
+</I>&gt;<i>  &gt;     elif xr &gt; xh:
+</I>&gt;<i>  &gt;         if yr == yh:
+</I>&gt;<i>  &gt;             xr = xr-5
+</I>&gt;<i>  &gt;             yr = yr+0
+</I>&gt;<i>  &gt;             move_to(Robot_telo, xr, yr)
+</I>&gt;<i>  &gt;             sleep(0.2)
+</I>&gt;<i>  &gt;             return xr, yr
+</I>&gt;<i>  &gt;         if yr &lt; yh:
+</I>&gt;<i>  &gt;             xr = xr-5
+</I>&gt;<i>  &gt;             yr = yr+5
+</I>&gt;<i>  &gt;             move_to(Robot_telo, xr, yr)
+</I>&gt;<i>  &gt;             sleep(0.2)
+</I>&gt;<i>  &gt;             return xr, yr
+</I>&gt;<i>  &gt;         if yr &gt; yh:
+</I>&gt;<i>  &gt;             xr = xr-5
+</I>&gt;<i>  &gt;             yr = yr-5
+</I>&gt;<i>  &gt;             move_to(Robot_telo, xr, yr)
+</I>&gt;<i>  &gt;             sleep(0.2)
+</I>&gt;<i>  &gt;             return xr, yr
+</I>&gt;<i>  &gt;         else:
+</I>&gt;<i>  &gt;             return xr, yr
+</I>&gt;<i>  &gt;     elif yr &lt; yh:
+</I>&gt;<i>  &gt;         yr = yr+5
+</I>&gt;<i>  &gt;         xr = xr+0
+</I>&gt;<i>  &gt;         move_to(Robot_telo, xr, yr)
+</I>&gt;<i>  &gt;         sleep(0.2)
+</I>&gt;<i>  &gt;         return xr, yr
+</I>&gt;<i>  &gt;     elif yr &gt; yh:
+</I>&gt;<i>  &gt;         yr = yr-5
+</I>&gt;<i>  &gt;         xr = xr+0
+</I>&gt;<i>  &gt;         move_to(Robot_telo, xr, yr)
+</I>&gt;<i>  &gt;         sleep(0.2)
+</I>&gt;<i>  &gt;         return xr, yr
+</I>&gt;<i>  &gt;     else:
+</I>&gt;<i>  &gt;         xr = xr+0
+</I>&gt;<i>  &gt;         yr = yr+0
+</I>&gt;<i>  &gt;         return xr, yr
+</I>&gt;<i>  &gt;
+</I>&gt;<i>
+</I>&gt;<i> nemám tady u sebe konečné řešení, ale tahle &quot;kalkulační matematika
+</I>&gt;<i> přibližování&quot;
+</I>&gt;<i> by také měla jít zjednodušit, asi takto:
+</I>&gt;<i> Když bude souřasdnice hráče menší než souřadnice robota, přičti k
+</I>&gt;<i> souřadnici robora nějaký krok. A to se musí udělat zvlášť pro x a y a
+</I>&gt;<i> zvlášť pro menší a větší. Takže tohle je vlastně 1/4 této části
+</I>&gt;<i>
+</I>&gt;<i>     if robot.x &lt; hrac.x:
+</I>&gt;<i>         robot.x=robot.x+krok/2
+</I>&gt;<i>
+</I>&gt;<i>
+</I>Na tohle se ještě podívám, to vypadá ze všech těch věcí nejsložitěji.
+&gt;<i>
+</I>&gt;<i>  &gt; def posunHrace():
+</I>&gt;<i>  &gt;     move_to(Hrac_telo, xh, yh)
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; # Funkce znemožňující hráčův pohyb za okraj hrací plochy
+</I>&gt;<i>  &gt; def kontrola_plochy(xh, yh, Hrac_telo):
+</I>&gt;<i>  &gt;     if xh &lt; 8:
+</I>&gt;<i>  &gt;        xh = 8
+</I>&gt;<i>  &gt;        yh = yh+0
+</I>&gt;<i>  &gt;        move_to(Hrac_telo, xh, yh)
+</I>&gt;<i>  &gt;        return xh, yh
+</I>&gt;<i>  &gt;     .............
+</I>&gt;<i>  &gt;     else:
+</I>&gt;<i>  &gt;        return xh, yh
+</I>&gt;<i>
+</I>&gt;<i> a tady podobně:
+</I>&gt;<i>   if hrac.x&lt;0:  hrac.x=0
+</I>&gt;<i>
+</I>&gt;<i> Stačí nastavit jen x-sovou souřadnici ne? Ostatní zůstávají nemění se...
+</I>
+Upravil jsem, zrušil else, dal return na konec funkce, hurá, zas je to
+o něco přehlednější..
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; # Kontrola srážky s robotem
+</I>&gt;<i>  &gt; def kontrola_srazky(xr, xh, yr, yh, konec_sub):
+</I>&gt;<i>  &gt;     xr_round = xr / 10
+</I>&gt;<i>  &gt;     xh_round = xh / 10
+</I>&gt;<i>  &gt;     yr_round = yr / 10
+</I>&gt;<i>  &gt;     yh_round = yh / 10
+</I>&gt;<i>  &gt;     if xr_round == xh_round:
+</I>&gt;<i>  &gt;         if yr_round == yh_round:
+</I>&gt;<i>  &gt;             print &quot;Prohrál jsi!&quot;
+</I>&gt;<i>  &gt;             konec_sub = 1
+</I>&gt;<i>  &gt;             return konec_sub
+</I>&gt;<i>  &gt;         else:
+</I>&gt;<i>  &gt;             pass
+</I>&gt;<i>  &gt;     else:
+</I>&gt;<i>  &gt;         pass
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> zase mi připadají ty dvě else: pass nějaké navíc ....
+</I>
+Else pryč, return o odstavec výš, while uděláno s &quot;and&quot;.
+&gt;<i>
+</I>&gt;<i>  &gt; xh, yh, Hrac_telo = vyrobHrace()
+</I>&gt;<i>  &gt; xr, yr, Robot_telo = vyrobRobota()
+</I>&gt;<i>  &gt;
+</I>&gt;<i>  &gt; while konec != 2:
+</I>&gt;<i>  &gt;     while 1:
+</I>&gt;<i>
+</I>&gt;<i> není to while 1: zbytečné??
+</I>&gt;<i>
+</I>&gt;<i>  &gt;         if konec_sub == 1:
+</I>&gt;<i>  &gt;             konec = 2
+</I>&gt;<i>  &gt;             break
+</I>&gt;<i>
+</I>&gt;<i> není to break zbytečné???
+</I>
+Všechno opraveno, to while 1 byla vskutku zbytecnost.
+
+Předěláno do tříd mám, ještě promyslet ten pohyb robotů a hurá na
+přidávání více nepřátel.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000214.html">[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000220.html">[Tutor PyCZ] Milované Livewires - A najednou tam lezou třídy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#219">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#219">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#219">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#219">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000219.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

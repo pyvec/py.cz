@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010580.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+<HEAD>
+   <TITLE> [python] socket + udp + vytváření paketů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C1329867038.3239.16.camel%40uruloki%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-February/010579.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-February/010582.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] socket + udp + vytváření paketů</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C1329867038.3239.16.camel%40uruloki%3E"
+       TITLE="[python] socket + udp + vytváření paketů">davro na ics.muni.cz
+       </A><BR>
+    <I>Středa Únor 22 00:30:38 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010579.html">[python] socket + udp + vytváření paketů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010582.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10580">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10580">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10580">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10580">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jakub Vojáček píše v Út 21. 02. 2012 v 23:56 +0100:
+&gt;<i> Dne 21.2.2012 23:34, David Rohleder napsal(a):
+</I>&gt;<i> &gt; azu je dle specifikace 01h, což do 1byte myslím nenarvu. 
+</I>&gt;<i> &gt; ^^^^ chybu máš tady. 01h do 1byte narveš. Když jsem to upravil na
+</I>&gt;<i> &gt; data = struct.pack(&quot;!IHHBB&quot;, 0, 0, 0, 1, 1)
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; tak mi ten baryk bez problémů odpověděl.
+</I>&gt;<i> Děkuji. Podle specifikace modulu struct B odpovídá unsigned char.
+</I>&gt;<i> Takže pokud budu chtít posílat serveru inicializační zprávu, tak pošlu
+</I>&gt;<i> B, pokud mu později budu chtít poslat nějaká data, tak to musím narvat
+</I>&gt;<i> do stringu (takže do s), chápu to správně?
+</I>
+Ne. Protože &quot;1&quot; je ASCII hodnota 49. Samozřejmě by to šlo, pokud bys
+dokázal do řetězce dát ta binární data. Tj. třeba jako data = data +
+chr(1)
+
+Problém je spíš v tom struct, protože nepřijímá parametr typu pole,
+takže nejde napsat data = struct.pack(&quot;B&quot;*10 , [ 1, 1, 1, 10...] )
+
+V tomto případě bych použil modul array následovně:
+
+import array
+
+data = array('B' , [ seznam s hodnotami ] )
+
+s.sendto(data.tostring(), (host,port))
+ 
+
+&gt;<i> 
+</I>&gt;<i> A nyní se asi objevil problém, o kterém mluvil pan Vejražka:
+</I>&gt;<i> &gt; Ale ja jsem u toho b) nepsal o tom, ze by bylo neco spatne s tvym formatem UDP paketu nebo jeho obsahem. Troufnul bych se tvrdit, ze mas obycejny sitovy problem - tvuj domaci router blokuje &quot;nezname&quot; prichozi UDP pakety.
+</I>&gt;<i> Protože pokud kód opravím, tak, jak mi bylo doporučeno, tak stále
+</I>&gt;<i> nedostávam od serveru žádnou odezvu. Dalo by se nějak nastavit v
+</I>&gt;<i> nastavení routeru, aby pouštel UDP pakety? nějaký forwarding nebo něco
+</I>&gt;<i> takového.
+</I>
+Ten problém může být:
+
+a) ve firewallu na routeru
+b) v neschopnosti routeru vytvořit connection tracking tabulku, aby
+věděl, kam poslat odpověď od serveru (méně pravděpodobné)
+&gt;<i> 
+</I>Nejjednodušší to bude patrně pustit na nějakém školním počítači, protože
+tam nebude NAT ani firewall.
+
+D.
+
+
+
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010579.html">[python] socket + udp + vytváření paketů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010582.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10580">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10580">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10580">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10580">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010580.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+</html>

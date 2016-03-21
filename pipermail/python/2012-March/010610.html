@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010610.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:37 GMT -->
+<HEAD>
+   <TITLE> [python] Parsování PNG
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_PNG%3F%3D&In-Reply-To=%3C4F68DF36.1070205%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-March/010609.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-March/010611.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Parsování PNG</H1>
+    <B>Michal Molhanec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FParsov%3DE1n%3DED_PNG%3F%3D&In-Reply-To=%3C4F68DF36.1070205%40seznam.cz%3E"
+       TITLE="[python] Parsování PNG">mol-python na seznam.cz
+       </A><BR>
+    <I>Úterý Březen 20 20:49:10 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010609.html">[python] Parsování PNG
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010611.html">[python] Parsování PNG
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10610">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10610">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10610">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10610">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne 20.3.2012 13:09, Jakub Vojáček napsal(a):
+&gt;<i> Dobrý den,
+</I>&gt;<i> 
+</I>&gt;<i> pracuji na parseru PNG obrázků a narazil jsem na pár problémů s filtry. 
+</I>&gt;<i> Postouji podle návodu <A HREF="http://www.root.cz/clanky/radkove-filtry-v-png/">http://www.root.cz/clanky/radkove-filtry-v-png/</A> 
+</I>&gt;<i> a zasekl jsem se hned u prvního (sub) filtru. Nevím, jak mám reagovat to,
+</I>&gt;<i> když mi výsledek po odečtení podteče (například 128-255).
+</I>
+To moc nechápu. Pokud PNG parsuješ, tj. čteš, tak neodečítáš, ale naopak zpátky přičítáš.
+Jinak je to ale klasická osmibitová bezznaménková aritmetika, tj. modulo 256, to máš IMHO správně.
+
+&gt;<i> RGB nemůže mít záporné hodnoty, mám tedy na výsledek zavolat funkci abs? Podobný problém nastává,
+</I>&gt;<i> pokud výsledek přeteče (je vyšší než 255). Mám vše vyšší než 255 zaokrouhlovat na 255? Nebo mám
+</I>&gt;<i> použít modulo 256? Ani jedno z vyše uvedených mi myslím nefunguje správně, protože složky RGB by
+</I>&gt;<i> měly nabývat pouze hodnot 0, 128, 255 (jedná se o interpet jazkyka brainloller) a mně tam vznikají
+</I>&gt;<i> složky jako 1, 254, 127, ...
+</I>
+možná spíš od sebe odečítáš špatná čísla :-)
+
+&gt;<i> Také bych měl dotaz na čtvrtý filtr (filtr s paeth prediktorem). Mají se tam porovnávat pixely, 
+</I>&gt;<i> ale jediný způsob, na který jsem přišel, jak porovnat pixely je sečíst všechny složky rgb (self.sum)
+</I>&gt;<i> a porovnávat je. Je to tak správně?
+</I>
+Nenech se zmást, všechny filtry pracují na úrovni odpovídajících si bajtů, nikoli celých pixelů (pokud
+to náhodou není 8bitový čb nebo 8bitový s paletou, kdy bajt = pixel). Odpovídajícími míním, že se
+např. odečítá bajt zelené složky od dalšího bajtu zelené složky ap.
+
+-- 
+Zdraví,
+Michal Molhanec
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010609.html">[python] Parsování PNG
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-March/010611.html">[python] Parsování PNG
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-March/date.html#10610">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/thread.html#10610">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/subject.html#10610">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-March/author.html#10610">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-March/010610.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:37 GMT -->
+</html>

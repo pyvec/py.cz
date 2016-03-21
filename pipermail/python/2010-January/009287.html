@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009287.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:11 GMT -->
+<HEAD>
+   <TITLE> [python] python subprocess vraci porad 1
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20python%20subprocess%20vraci%20porad%201&In-Reply-To=%3C20100121105249.GA26160%40lxultra2.macs.hw.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-January/009286.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-January/009288.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] python subprocess vraci porad 1</H1>
+    <B>Jan Jakubuv</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20python%20subprocess%20vraci%20porad%201&In-Reply-To=%3C20100121105249.GA26160%40lxultra2.macs.hw.ac.uk%3E"
+       TITLE="[python] python subprocess vraci porad 1">cbboy na matfyz.cz
+       </A><BR>
+    <I>Čtvrtek Leden 21 11:52:49 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009286.html">[python] python subprocess vraci porad 1
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009288.html">[python] python subprocess vraci porad 1
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9287">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9287">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9287">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9287">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>zdravim,
+
+On Thu, Jan 21, 2010 at 09:44:55AM +0100, Tomas Pelka wrote:
+&gt;<i> Dobry napad, predelal sem tedy na:
+</I>&gt;<i> 
+</I>&gt;<i> --------------------------------------------------
+</I>&gt;<i> cmd = &quot;/usr/bin/locate&quot;
+</I>&gt;<i> arg1 = &quot; -i&quot;
+</I>&gt;<i> arg2 = &quot; -d /var/www/books/mlocate.db&quot;
+</I>&gt;<i> arg3 = str(&quot; &quot; + pattern)
+</I>&gt;<i> 
+</I>
+Chyba je formatu argumentu arg1, atd.  Ta mezera na zacatku tam nesmi byt.
+Zkuste:
+
+arg1 = &quot;-i&quot;
+arg2a = &quot;-d&quot; 
+arg2a = &quot;/var/www/books/mlocate.db&quot;
+arg3 = str(pattern)
+
+p1 = subprocess.Popen([cmd, arg1, arg2a, arg2b, arg3], shell=False, ...)
+
+Zbytek uz je spravne, pokud argumenty predavate jako list pak je skutecne
+treba zadat je oddelene.
+
+Pokud chcete zadat prikaz jako jeden string pak pouzijte `shell=True` a
+namistu listu zadejte string:
+
+p1 = subprocess.Popen(&quot;/usr/bin/locate -i -d file pattern&quot;, shell=True, ...)
+
+&gt;<i> (stdoutdata, stderrdata) = p1.communicate()
+</I>&gt;<i> 
+</I>&gt;<i> print p1.returncode
+</I>&gt;<i> print &quot;%s -- %s&quot; % (stdoutdata, stderrdata)
+</I>&gt;<i> --------------------------------------------------
+</I>&gt;<i> 
+</I>&gt;<i> Ale stale vraci 1 a zadny vysledek.
+</I>&gt;<i> 
+</I>
+honza.
+
+
+
+-- 
+Heriot-Watt University is a Scottish charity
+registered under charity number SC000278.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009286.html">[python] python subprocess vraci porad 1
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009288.html">[python] python subprocess vraci porad 1
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9287">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9287">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9287">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9287">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009287.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:11 GMT -->
+</html>

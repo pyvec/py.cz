@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006731.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:06 GMT -->
+<HEAD>
+   <TITLE> [python] Vypocet variaci
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vypocet%20variaci&In-Reply-To=200711151715.47819.radek.machulka%40gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006733.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006749.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vypocet variaci</H1>
+    <B>Jan Jakubuv</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vypocet%20variaci&In-Reply-To=200711151715.47819.radek.machulka%40gmail.com"
+       TITLE="[python] Vypocet variaci">jakubuv na gmail.com
+       </A><BR>
+    <I>Čtvrtek Listopad 15 17:59:59 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006733.html">[python] Vypocet variaci
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006749.html">[python] Dokumentace k psycopg2
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6731">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6731">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6731">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6731">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>dobry den,
+
+osobne nevim o tom, ze by takova funkce byla vestavena jako zakladni
+funkce do pythonu. nicmene zkuste napriklad:
+
+def variace(s,n):
+    if n==0:
+        yield ()
+    else:
+        for (x,xs) in [(y,s[:i]+s[i+1:]) for (i,y) in enumerate(s)]:
+            for vxs in variace(xs,n-1):
+                yield tuple((x,)+vxs)
+
+funguje jako iterator, prvni parametr je cokoliv &quot;iterable&quot; (napr.
+mnozina, tuple, seznam,...) a pri kazdem pruchodu iteratorem vraci
+tuple, ktera ma n prvku reprezentujici jednu variaci. jeste pro
+jistotu maly priklad:
+
+&gt;&gt;&gt;<i> for x in variace([1,2,3],2):
+</I>...     print x
+...
+(1, 2)
+(1, 3)
+(2, 1)
+(2, 3)
+(3, 1)
+(3, 2)
+&gt;&gt;&gt;<i>
+</I>
+jinak pokud spustite google tak zcela jiste naleznete vhodnou
+knihovnu. napr <A HREF="http://mail.python.org/pipermail/python-list/2002-October/167307.html">http://mail.python.org/pipermail/python-list/2002-October/167307.html</A>
+
+honza.
+
+
+2007/11/15, Radek Machulka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">radek.machulka na gmail.com</A>&gt;:
+&gt;<i> Zdravim,
+</I>&gt;<i> nevi nekdo, zda existuje v pythonu nejaka hotova funkce pro vypocet vsech
+</I>&gt;<i> N-clennych variaci z dane mnoziny prvku? Nejak nemuzu nic najit a programovat
+</I>&gt;<i> se mi to dvakrat nechce :).
+</I>&gt;<i> Dik Radek
+</I>&gt;<i> --
+</I>&gt;<i> Linux khoi 2.6.22-14-generic #1 SMP Sun Oct 14 23:05:12 GMT 2007 i686
+</I>&gt;<i> GNU/Linux
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006733.html">[python] Vypocet variaci
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006749.html">[python] Dokumentace k psycopg2
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6731">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6731">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6731">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6731">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006731.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:06 GMT -->
+</html>

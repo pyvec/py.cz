@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003394.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:47 GMT -->
+<HEAD>
+   <TITLE> [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDetekce_kodovani_zadaneho_vstupu_%3D28bylo%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_RE%3D3A_soubor_v_jin%3DE9_zankov%3DE9_sad%3DEC%3D29%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-September/003391.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-September/003395.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDetekce_kodovani_zadaneho_vstupu_%3D28bylo%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_RE%3D3A_soubor_v_jin%3DE9_zankov%3DE9_sad%3DEC%3D29%3F%3D&In-Reply-To="
+       TITLE="[python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Září 30 09:14:19 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003391.html">[python] soubor v jiné zankové sadě
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003395.html">Re: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3394">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3394">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3394">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3394">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Navrhuji další úpravu &quot;mazacího&quot; skriptu...
+
+Ve funkci smazat se konverze na unicode provádí dvakrát: 
+
+geon...
+&gt;<i>
+</I>&gt;<i> def smazat(cesta):
+</I>&gt;<i>     print os.listdir(cesta)
+</I>&gt;<i>     print unicode(cesta,&quot;cp1250&quot;), &quot;---&gt; OPRAVDU SMAZAT? (a/n): &quot;,
+</I>&gt;<i>     ano=raw_input()
+</I>&gt;<i>     if ano.lower()!='a':
+</I>&gt;<i>         return False
+</I>&gt;<i>     for root, dirs, files in os.walk(unicode(cesta,&quot;cp1250&quot;), topdown=False):
+</I>&gt;<i>         for file in files:
+</I>&gt;<i>             soubor=os.path.join(root, file)
+</I>&gt;<i>             os.chmod(soubor,stat.S_IWRITE)
+</I>&gt;<i>             os.remove(soubor)
+</I>&gt;<i>         if root != cesta:  # mazani adresaru krome toho zadaneho...
+</I>&gt;<i>             os.chmod(root,stat.S_IWRITE)
+</I>&gt;<i>             print root
+</I>&gt;<i>             os.rmdir(root)
+</I>&gt;<i>     return True
+</I>
+Dalo by se to sice udělat jednou (trošku se to zpřehlední).
+Kromě toho bych upravil test na &quot;ano&quot; (první písmeno 
+zadaného řetězce se porovnává s více možnostmi):
+
+def smazat2(cesta):
+    cesta = unicode(cesta, 'cp1250')
+    print os.listdir(cesta)
+    print cesta, &quot;---&gt; OPRAVDU SMAZAT? (a/n): &quot;,
+    odpoved=raw_input()[0]
+    if odpoved not in 'aAyY':
+        return False
+    for root, dirs, files in os.walk(cesta, topdown=False):
+        for file in files:
+            soubor=os.path.join(root, file)
+            os.chmod(soubor,stat.S_IWRITE)
+            os.remove(soubor)
+        if root != cesta:  # mazaní adresaru krome toho zadaneho...
+            os.chmod(root,stat.S_IWRITE)
+            print root
+            os.rmdir(root)
+    return True
+
+Jenže tohle nebude fungovat z DOSového okna (kódování
+cp852 -- viz dále). Doporučuji upravit funkci smazat()
+tak, aby se cesta přímo z venku zadávala v unicode. 
+To znamená, že funkce pouze ověří, že tomu tak je:
+
+def smazat3(cesta):
+    assert(isinstance(cesta, unicode))
+    print os.listdir(cesta)
+    print cesta, &quot;---&gt; OPRAVDU SMAZAT? (a/n): &quot;,
+    odpoved=raw_input()[0]
+    if odpoved not in 'aAyY':
+        return False
+    for root, dirs, files in os.walk(cesta, topdown=False):
+        for file in files:
+            soubor=os.path.join(root, file)
+            os.chmod(soubor,stat.S_IWRITE)
+            os.remove(soubor)
+        if root != cesta:  # mazaní adresaru krome toho zadaneho...
+            os.chmod(root,stat.S_IWRITE)
+            print root
+            os.rmdir(root)
+    return True
+
+Převod na unicode se pak udělá před voláním smazat3(), 
+protože to logicky patří mimo tuto funkci.
+
+Kdysi mě velmi hnětlo, že jsem musel moduly používající
+raw_input() přizpůsobovat tomu, jestli je spouštím
+prostřednictvím nějakého windowsovského okna, nebo 
+prostřednictvím DOSového okna. Nelíbilo se mi, že
+někde musím při konverzi do unicode psát natvrdo 
+'cp1250' (z DOSového okna se používá jiné kódování,
+než ve windowsovém okně -- např. v konzole IDLE). 
+Jenže zrovna v tomto případě to jde udělat šikovněji.
+Tahle informace je ukryta pod sys.stdin.encoding.
+
+
+Příklad v DOS:
+
+&gt;&gt;&gt;<i> import sys
+</I>&gt;&gt;&gt;<i> sys.stdin.encoding
+</I>'cp852'
+
+Příklad v IDLE:
+
+&gt;&gt;&gt;<i> import sys
+</I>&gt;&gt;&gt;<i> sys.stdin.encoding
+</I>'cp1250'
+
+To znamená, že toho můžu využívat při načítání 
+cesty (před voláním smazat3()) a skript bude 
+fungovat jak z dosového okna, tak z windowsového.
+Nikde se v něm nevyskytuje 'cp1250' nebo něco 
+podobného (definice použitého kódování v hlavičce
+souboru s tím nesouvisí, tu nepočítám):
+
+def main():
+    print 'Zadej cestu:',
+    cesta = unicode(raw_input(), sys.stdin.encoding)
+    smazat3(cesta)
+    
+
+if __name__ == '__main__':
+    main()
+
+
+pepr
+
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003391.html">[python] soubor v jiné zankové sadě
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003395.html">Re: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3394">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3394">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3394">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3394">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003394.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:47 GMT -->
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-September/002014.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:22 GMT -->
+<HEAD>
+   <TITLE> [python] dynamicky vytvarene podtridy?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20dynamicky%20vytvarene%20podtridy%3F&In-Reply-To=002901c4a6f9%24a972d840%24010aa8c0%40devmatejka.local">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-September/002013.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dynamicky vytvarene podtridy?</H1>
+    <B>Jaroslav Pachola</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20dynamicky%20vytvarene%20podtridy%3F&In-Reply-To=002901c4a6f9%24a972d840%24010aa8c0%40devmatejka.local"
+       TITLE="[python] dynamicky vytvarene podtridy?">j_p_misc na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Září 30 16:49:38 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-September/002013.html">[python] dynamicky vytvarene podtridy?
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-September/date.html#2014">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/thread.html#2014">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/subject.html#2014">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/author.html#2014">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hezke reseni, sice ta dedicnost ma trosku komplikovany graf (degenerovany 
+binarni strom), ale to nemusi byt vubec na skodu. Vzhledem k tomu, ze jste 
+pouzil &quot;old style classes&quot;, slo by to provest i pomoci modifikace __bases__, 
+coz u trid noveho stylu nejde. 
+
+JP
+
+Dne Thursday 30 of September 2004 16:27 Jan Matejka napsal:
+&gt;<i> &gt; Ano slo -- jde v podstate o vlastni konstruktor, jestli jsem to dobre
+</I>&gt;<i> &gt; pochopil.
+</I>&gt;<i>
+</I>&gt;<i> Spis jsem myslel opakovane vytvareni tridy slozene ze dvou trid. Trochu
+</I>&gt;<i> jsem ten priklad upravil na rekurzivni volani combineClasses.
+</I>&gt;<i> Nebo Vy mluvite o voze a ja o koze?
+</I>&gt;<i>
+</I>&gt;<i> class a:
+</I>&gt;<i> 	def __init__(self):
+</I>&gt;<i> 		print &quot;init a&quot;
+</I>&gt;<i>
+</I>&gt;<i> 	def aa(self):
+</I>&gt;<i> 		print &quot;aa&quot;
+</I>&gt;<i>
+</I>&gt;<i> class b:
+</I>&gt;<i> 	def __init__(self):
+</I>&gt;<i> 		print &quot;init b&quot;
+</I>&gt;<i>
+</I>&gt;<i> 	def bb(self):
+</I>&gt;<i> 		print &quot;bb&quot;
+</I>&gt;<i>
+</I>&gt;<i> class c:
+</I>&gt;<i> 	def __init__(self):
+</I>&gt;<i> 		print &quot;init c&quot;
+</I>&gt;<i>
+</I>&gt;<i> 	def cc(self):
+</I>&gt;<i> 		print &quot;cc&quot;
+</I>&gt;<i>
+</I>&gt;<i> class d:
+</I>&gt;<i> 	def __init__(self):
+</I>&gt;<i> 		print &quot;init d&quot;
+</I>&gt;<i>
+</I>&gt;<i> 	def dd(self):
+</I>&gt;<i> 		print &quot;dd&quot;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> def combineClasses(clslist):
+</I>&gt;<i> 	if len(clslist)==1:
+</I>&gt;<i> 		return clslist[0]
+</I>&gt;<i> 	else:
+</I>&gt;<i> 		c1=clslist[0]
+</I>&gt;<i> 		c2=combineClasses(clslist[1:])
+</I>&gt;<i> 		class z(c1,c2):
+</I>&gt;<i> 			def __init__(self):
+</I>&gt;<i> 				c1.__init__(self)
+</I>&gt;<i> 				c2.__init__(self)
+</I>&gt;<i> 		return z
+</I>&gt;<i>
+</I>&gt;<i> print &quot;kombinace a,b&quot;
+</I>&gt;<i> cz=combineClasses([a,b])
+</I>&gt;<i> iz=cz()
+</I>&gt;<i>
+</I>&gt;<i> iz.aa()
+</I>&gt;<i> iz.bb()
+</I>&gt;<i> print &quot;a&quot;,issubclass(cz,a)
+</I>&gt;<i> print &quot;b&quot;,issubclass(cz,b)
+</I>&gt;<i> print &quot;c&quot;,issubclass(cz,c)
+</I>&gt;<i> print &quot;d&quot;,issubclass(cz,d)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> print &quot;kombinace a,c,d&quot;
+</I>&gt;<i> cz=combineClasses([a,c,d])
+</I>&gt;<i> iz=cz()
+</I>&gt;<i> iz.aa()
+</I>&gt;<i> iz.dd()
+</I>&gt;<i> iz.cc()
+</I>&gt;<i> print &quot;a&quot;,issubclass(cz,a)
+</I>&gt;<i> print &quot;b&quot;,issubclass(cz,b)
+</I>&gt;<i> print &quot;c&quot;,issubclass(cz,c)
+</I>&gt;<i> print &quot;d&quot;,issubclass(cz,d)
+</I>&gt;<i>
+</I>&gt;<i> Jan Matejka
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://hugo.zagamma.cz/mailman/listinfo/python">http://hugo.zagamma.cz/mailman/listinfo/python</A>
+</I>
+-- 
+&gt;<i>pyobfuscate is a source code obfuscator: It makes Python source code
+</I>&gt;<i>hard to read for humans, while still being executable for the Python
+</I>&gt;<i>interpreter. 
+</I>
+Of course, this facility comes as standard with Perl.
+(From Python mailing list)
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-September/002013.html">[python] dynamicky vytvarene podtridy?
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-September/date.html#2014">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/thread.html#2014">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/subject.html#2014">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-September/author.html#2014">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-September/002014.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:22 GMT -->
+</html>

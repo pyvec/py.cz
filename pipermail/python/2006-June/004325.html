@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004325.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:27 GMT -->
+<HEAD>
+   <TITLE> [python] ukončení interpretu, zničení objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4480ADD8.7030102%40dp.fce.vutbr.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004314.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004326.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ukončení interpretu, zničení objektu</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4480ADD8.7030102%40dp.fce.vutbr.cz"
+       TITLE="[python] ukončení interpretu, zničení objektu">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Úterý Červen  6 10:05:10 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004314.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004326.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4325">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4325">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4325">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4325">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jan Martinek wrote:
+&gt;<i> Zdravím,
+</I>&gt;<i> 
+</I>&gt;<i> narazil jsem na záhadné chování pythonu. Jestliže pustím tento program
+</I>&gt;<i> 
+</I>&gt;<i> class M:
+</I>&gt;<i>    b = 0
+</I>&gt;<i>    def __del__(self):
+</I>&gt;<i>      M.b
+</I>&gt;<i> 
+</I>&gt;<i> a = M()
+</I>&gt;<i> 
+</I>&gt;<i> Nestane vůbec nic zvláštního. Ale když změním poslední řádek na
+</I>&gt;<i> 
+</I>&gt;<i> a1 = M()
+</I>&gt;<i> 
+</I>&gt;<i> tak to vyhodí výjimku
+</I>&gt;<i> 
+</I>&gt;<i> Exception exceptions.AttributeError: &quot;'NoneType' object has no attribute 
+</I>&gt;<i> 'b'&quot; in &lt;bound method M.__del__ of &lt;__main__.M instance at 
+</I>&gt;<i> 0x2aaaaab50a28&gt;&gt; ignored
+</I>&gt;<i> 
+</I>&gt;<i> Není to podivné, že záleží na názvu proměnné?
+</I>&gt;<i> 
+</I>
+Ahoj,
+
+poslal jsem to jako bugreport a zde je vyjádření vývojářů:
+
+<A HREF="https://sourceforge.net/tracker/?func=detail&amp;atid=105470&amp;aid=1500167&amp;group_id=5470">https://sourceforge.net/tracker/?func=detail&amp;atid=105470&amp;aid=1500167&amp;group_id=5470</A>
+
+--------------
+On shutdown time, Python clears each module by replacing all
+module entries with None. So at some point, it does
+   a1 = None # or a1 = None
+and at some other point, it does
+   M = None
+Depending on the order in which these happen, M might be
+None (i.e. might not be class M anymore) when __del__ runs.
+
+The order in which these happen depends on the order which
+the names have in the module's dict. This, in turn,
+depends
+on the hash values of the strings, modulo the size of the
+dictionary. Apparently, &quot;a1&quot; gets hashed after
+&quot;M&quot;, but &quot;a&quot;
+gets hashed before &quot;M&quot;.
+
+This isn't really a bug, atleast not one that we plan to
+fix. The order in which modules get emptied is unspecified,
+and it can easily happen that things are gone when some
+destructor runs. Classes should be written to be resistent
+against this behaviour, e.g. by writing
+
+   def __del__(self):
+     self.__class__.b = 0 # name &quot;M&quot; might be gone
+already
+
+Closing this as &quot;won't fix&quot;.
+
+-------------
+
+Závěr je, že se nejedná o chybu, tedy alespoň ne takovou, kterou je v 
+plánu opravit. Doporučuje se používat self.__class__.
+
+Děkuji všem za reakce. Zůstává mi ale pořád jedna nejasnost - jaktože to 
+windowsářům tu výjimku nehází? Je tam jiné hashování+dict a je potřeba 
+zvolit jiné názvy proměnných?
+
+Jan Martinek
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004314.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004326.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4325">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4325">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4325">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4325">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004325.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:27 GMT -->
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010567.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:38 GMT -->
+<HEAD>
+   <TITLE> [python] socket + udp + vytváření paketů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C1329855120.3239.0.camel%40uruloki%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-February/010566.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-February/010569.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] socket + udp + vytváření paketů</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Futf-8%3Fb%3Fc29ja2V0ICsgdWRwICsgdnl0dsOhxZllbsOtIHBha2V0%3F%3D%0A%20%3D%3Futf-8%3Fb%3Fxa8%3D%3F%3D&In-Reply-To=%3C1329855120.3239.0.camel%40uruloki%3E"
+       TITLE="[python] socket + udp + vytváření paketů">davro na ics.muni.cz
+       </A><BR>
+    <I>Úterý Únor 21 21:12:00 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010566.html">[python] socket + udp + vytváření paketů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010569.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10567">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10567">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10567">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10567">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tak já nevím, ale opravdu to má být UDP? Protože všechno nasvědčuje spíš
+tomu, že je to TCP. V UDP žádné SYN, ACK a pod. nejsou.
+
+David
+
+Jakub Vojáček píše v Út 21. 02. 2012 v 20:55 +0100:
+&gt;<i> Dobrý den,
+</I>&gt;<i> 
+</I>&gt;<i> v zadání je uvedeno, že indikátor spojení a sekvenční číslo je v
+</I>&gt;<i> reprezentaci network byte order (big endian) - znamená to tedy, že ten
+</I>&gt;<i> zbytek mám reprezentovat v little endian?
+</I>&gt;<i> 
+</I>&gt;<i> data jsem zkoušel balit s paddingem i bez paddingu, ani jednou server
+</I>&gt;<i> neodpověděl, takže to asi nehraje roli (i když jako korektní řešení se
+</I>&gt;<i> mi zdá použít tu verz bez paddingu). Pomocí wiresharku jsem
+</I>&gt;<i> vysniffoval ten packet a má obsah
+</I>&gt;<i> 
+</I>&gt;<i> f8 d1 11 a2 4f 2c 48 5d  60 85 3e d8 08 00 45 00  
+</I>&gt;<i> 00 26 0c 13 00 00 80 11  f1 d4 c0 a8 00 69 93 20   
+</I>&gt;<i> e8 ad e7 a7 0f a0 00 12  ca 71 00 00 00 00 00 00   
+</I>&gt;<i> 00 00 01 31   
+</I>&gt;<i> 
+</I>&gt;<i> Ale ty data jsou nějak zakódována a popravdě se v nich moc nevyznám.
+</I>&gt;<i> Referenční řešení, které by fungovalo a jehož pakety bych mohl
+</I>&gt;<i> vysniffovat bohužel nemám. 
+</I>&gt;<i> 
+</I>&gt;<i> Přístup k serveru mám, ale pouze vzdálený (beží na
+</I>&gt;<i> 147.32.232.173:4000), ale protože tahle úloha je udělána tak, aby se
+</I>&gt;<i> programovala v C nebo v Jave, tak žádné testovací rozhraní, které by
+</I>&gt;<i> mi řeklo, co je špatně neexistuje (Python jsem si mohl zvolit, ovšem
+</I>&gt;<i> bylo mi řečeno, že musím počítat s &quot;nulovou&quot; podporou ze strany školy.
+</I>&gt;<i> Mám tedy pouze k dispozici refernční výstup programu, kde se klient
+</I>&gt;<i> připojuje k serveru:
+</I>&gt;<i> 
+</I>&gt;<i> 232 00000000 SEND 127.0.0.1:4000 seq=0 ack=0 flags=01 data(1): 01
+</I>&gt;<i> = zpráva zaslaná klientem
+</I>&gt;<i> 311 8CB60002 RECV 127.0.0.1:4000 seq=768 ack=0 flags=00 data(256): d0
+</I>&gt;<i> 93 9a 0e 35 da 0b 9e &#8230; 08 0a e0 08 4c 33 37 c9   =   odpov&#283;d zaslan&#225;
+</I>&gt;<i> serverem (tu právě nedostávám)
+</I>&gt;<i> 
+</I>&gt;<i> Bohužel celé to zadání je trochu zmatené. Je řečeno, že příznak má být
+</I>&gt;<i> první zprávy nastaven na SYN a je tam tabulka:
+</I>&gt;<i>  číslo
+</I>&gt;<i>  bitu
+</I>&gt;<i>    7
+</I>&gt;<i>    6
+</I>&gt;<i>    5
+</I>&gt;<i>    4
+</I>&gt;<i>    3
+</I>&gt;<i>    2
+</I>&gt;<i>    1
+</I>&gt;<i>    0
+</I>&gt;<i> příznak
+</I>&gt;<i>    -
+</I>&gt;<i>    -
+</I>&gt;<i>    -
+</I>&gt;<i>    -
+</I>&gt;<i>    -
+</I>&gt;<i>   RST
+</I>&gt;<i>   FIN
+</I>&gt;<i>   SYN
+</I>&gt;<i> A nyní mi tedy není  úplně jasné, jestli příznaku syn odpovída číslo
+</I>&gt;<i> 000000001 = 1
+</I>&gt;<i> 
+</I>&gt;<i> Vypadá to, že asi nakonec budu nucen použít některý z podporovaných
+</I>&gt;<i> jazyků.
+</I>&gt;<i> 
+</I>&gt;<i> Děkuji za Vaše názory
+</I>&gt;<i> 
+</I>&gt;<i> Jakub
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Dne 21.2.2012 19:52, Petr Messner napsal(a): 
+</I>&gt;<i> &gt; Ahoj,
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 21. 2. 2012 v 19:19, Jakub Vojáček:
+</I>&gt;<i> &gt; ...
+</I>&gt;<i> &gt; &gt; Pokud bych neměl definován tvar paketu, tak bych použil 
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM )
+</I>&gt;<i> &gt; &gt; s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+</I>&gt;<i> &gt; &gt; s.sendto(data, host, port))
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; , ale jelikož je přesně definována velikost a struktura paketu, tak tento způsob nemohu použít. 
+</I>&gt;<i> &gt; Nerozumím tomu, proč tento způsob nemůžeš použít. Jediné, co potřebuješ upravit, jsou data. Jak ten paket chceš potom odeslat, když ne takto?
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; Formát je definován následovně:
+</I>&gt;<i> &gt; &gt; - 4B jsou rezervovány na identifikátor spojení
+</I>&gt;<i> &gt; &gt; - 2B jsou rezervovány na sekvenční číslo
+</I>&gt;<i> &gt; &gt; - 2B jsou rezervovány na číslo potvrzení
+</I>&gt;<i> &gt; &gt; - 1B je rezervován na příznak
+</I>&gt;<i> &gt; &gt; - 0-256B je rezervováno na data
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; Abych řekl pravdu, vůbec jsem nevěděl, jak začít. Nakonec jsem se pokusil použít modul struct a přenáše data zabalena pomoci toho modulu.
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; Použil jsem tedy funkci struct.pack()
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; data = struct.pack(&quot;!IHHB256s&quot;, 0, 0, 0, 1, &quot;1&quot;)
+</I>&gt;<i> &gt; &gt; s.sendto(data, (host, port))
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; Možná je chyba zde. Jako data posíláš &quot;1&quot;, ale zabališ to jako &quot;1&quot; a za tím 255 znaků 0x00. To možná takto být nemá, záleží na zadání.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Také pozor na endianitu. Vykřičníkem nastavuješ network/big-endian byte order, což by mělo být správně, ale je možné, že server je naprogramovaný špatně :)
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; Jenomže tento způsob také nefunguje, protože pokud pošlu takto zabalenou zprávu referenčnímu serveru, tak nedostanu odpověď - tudíž server nepřečetl paket správně.
+</I>&gt;<i> &gt; Zkus se třeba tcpdumpem nebo wiresharkem (zmiňovaném v dalším mailu) podívat, co přesně lítá po síti. Není možné nějak z toho serveru zjistit, co je špatně? Máš ten server nějak k dispozici?
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; Prosím Vás tedy o nějaký nápad, jak dál postupovat a jestli je např. použití modulu struct vhodné.
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; Modul struct je vhodný přesně na toto.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; PM
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; Děkuji za každou radu
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; Jakub
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010566.html">[python] socket + udp + vytváření paketů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010569.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10567">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10567">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10567">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10567">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010567.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:38 GMT -->
+</html>

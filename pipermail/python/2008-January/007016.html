@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/007016.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:50 GMT -->
+<HEAD>
+   <TITLE> [python] GTK a thready
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20GTK%20a%20thready&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-January/007015.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-January/007018.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] GTK a thready</H1>
+    <B>spooky.ln na tbs-software.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20GTK%20a%20thready&In-Reply-To="
+       TITLE="[python] GTK a thready">spooky.ln na tbs-software.com
+       </A><BR>
+    <I>Úterý Leden 22 17:50:30 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007015.html">[python] preco konferencia ???
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007018.html">[python] GTK a thready
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#7016">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#7016">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#7016">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#7016">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+Tak tu mam takovy maly problemecek tykajici se threadu v
+GTK.
+O co se jedna:
+Da se nejak osetrit to aby jeden thread cekal dokud neskonci
+druhy ?
+Treba muj priklad.
+V jednom threadu spoustim kompilaci a vystup vypisuji do
+textbufferu.
+Potrebuju to v realu proto pouzivam thread a ne jen treba
+os.system
+
+V druhem threadu spoustim zkompilovany program a potrebuju
+taky realtime vystupy
+do bufferu .
+
+potrebuju aby muj druhy thread cekal az skonci ta
+kompilace.takhle mi jede jeste kompilace a dalsi thread pise
+ze nenasel exac .
+
+Zkraceny vypis toho threadu:
+def _compile(view, buffer, command):
+cin, cout = os.popen4(command + &quot; &quot;+self.actual_file)
+			while 1:
+				line = cout.readline()
+				if not line:
+					break
+				gtk.gdk.threads_enter()
+				iter = self.c_buffer.get_end_iter()
+				self.c_buffer.place_cursor(iter)
+				self.c_buffer.insert(iter, line.lstrip())
+				self.view2.scroll_to_mark(self.c_buffer.get_insert(),
+0.1)
+				gtk.gdk.threads_leave()
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007015.html">[python] preco konferencia ???
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/007018.html">[python] GTK a thready
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#7016">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#7016">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#7016">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#7016">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/007016.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:50 GMT -->
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005445.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:01 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s kodovanim PyDev - pokracovani
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20kodovanim%20PyDev%20-%20pokracovani&In-Reply-To=fcba3d560701302200lc89d8d7vd68ddba9cae0d669%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005444.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005446.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s kodovanim PyDev - pokracovani</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20kodovanim%20PyDev%20-%20pokracovani&In-Reply-To=fcba3d560701302200lc89d8d7vd68ddba9cae0d669%40mail.gmail.com"
+       TITLE="[python] Problem s kodovanim PyDev - pokracovani">geon na post.cz
+       </A><BR>
+    <I>Středa Leden 31 07:27:20 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005444.html">[python] Problem s kodovanim PyDev - pokracovani
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005446.html">[python] Problem s kodovanim PyDev - pokracovani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5445">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5445">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5445">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5445">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ondrej Beranek napsal(a):
+&gt;<i>
+</I>&gt;<i> No jenze asi s tim neco spolecneho mit bude protoze podle mne zapis
+</I>&gt;<i> jmeno = raw_input(u'Zadejte jméno (nic =&gt; konec):')
+</I>&gt;<i> znamena jen tolik ze se string 'Zadejte jméno (nic =&gt; konec):' prevede 
+</I>&gt;<i> ve vysledku na unicode.
+</I>&gt;<i> takze ta chyba je neco jineho.
+</I>&gt;<i> Neprosel ani zapis
+</I>&gt;<i>
+</I>&gt;<i> jmeno = raw_input(unicode('Zadejte jméno (nic =&gt; konec): ','cp1250'))
+</I>&gt;<i>
+</I>&gt;<i> ktery by asi projit mel. V idle skutecne projde, a vse bezi korektne. 
+</I>&gt;<i> v PyDev ne.
+</I>&gt;<i> tohle uz asi s pouzitym kodovanim eclipse nijak nesouvisi.
+</I>Takže ten předchozí dotaz je snad už jasný: Musí existovat shoda mezi 
+deklarovaným (# -*- coding: cp1250 -*- )a použitým (v jakém je soubor 
+skutečně uložen a načten v editoru) kodovaním.
+
+Tento dotaz je trochu o něčem jiném. Chyba je pradvěpodobně v 
+implementaci příkazu raw_input(), protože ani mne to takto v Příkazovém 
+řádku nefunguje. Finta je jednoduchá:
+print u'Zadejte jméno (nic =&gt; konec):',
+jmeno=raw_input()
+
+Myslím, že řetězce u'Zadejte jméno (nic =&gt; konec):' a unicode('Zadejte 
+jméno (nic =&gt; konec): ','cp1250') jsou ekvivalentní, pokud máš v 
+deklaraci # -*- coding: cp1250 -*- a v kodovaní cp1250 je soubor také 
+uložen.
+
+
+Dotaz: existuje editor který dokáže nastavit použité kodovaní podle 
+deklarovaného?
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005444.html">[python] Problem s kodovanim PyDev - pokracovani
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005446.html">[python] Problem s kodovanim PyDev - pokracovani
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5445">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5445">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5445">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5445">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005445.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:01 GMT -->
+</html>

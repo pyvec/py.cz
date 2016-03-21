@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010543.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:42 GMT -->
+<HEAD>
+   <TITLE> [python] PYTHONPATH
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3CCAPy44ZV%2B9opCQU0dWEYyN0GVtO2Xi6bia3CC-kxB%3DAYdO2Jvag%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-January/010542.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-January/010544.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PYTHONPATH</H1>
+    <B>Visgean Skeloru</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3CCAPy44ZV%2B9opCQU0dWEYyN0GVtO2Xi6bia3CC-kxB%3DAYdO2Jvag%40mail.gmail.com%3E"
+       TITLE="[python] PYTHONPATH">visgean na gmail.com
+       </A><BR>
+    <I>Neděle Leden 15 12:24:36 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010542.html">[python] PYTHONPATH
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010544.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10543">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10543">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10543">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10543">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ehm, to nechápu, ty místo toho jednoho souboru kde by stačilo jednou
+upravit sys.path a pak se o nic nestarat tak vytvoříš nový soubor který má
+identické vlastnosti ale budeš ho muset importovat v každém scriptu, k čemu
+je to dobré? Ten soubor site.py přežije reinstalaci čehokoliv stejně jako
+soubor mojemoduly.py, jestli narážíš na to že při reinstalaci se změní
+cesta tak to se ti ale změní i pro tvůj soubor mojemoduly.py, budeš to tam
+prostě muset nastavit  tak jako tak... A k tvé poznámce: ne, nestálo,
+jestli něco takového chceš tak si prostě vytvoř sym link v site-packages
+nebo kdekoliv jinde. A pokud to chceš opravdu nastavit tak můžeš třeba v
+souboru /usr/lib/python2.7/dist-packages/site.py....
+
+2012/1/15 &quot;Ing. Vladislav Ludík&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;
+
+&gt;<i> **
+</I>&gt;<i> Ano, přečetl jsem si to. Je to však zásah, který nepřežije reinstalaci
+</I>&gt;<i> čehokoliv.
+</I>&gt;<i>
+</I>&gt;<i> Nakonec jsem se rozhodl pro tu nejtriviálnější cestu, jak zpřístupnit moje
+</I>&gt;<i> moduly:
+</I>&gt;<i>
+</I>&gt;<i> 1) do pracovního adresáře jsem vložil modul *mojemoduly.py* s obsahem:
+</I>&gt;<i>
+</I>&gt;<i> *# Pridani vlastni cesty k mym modulum
+</I>&gt;<i> import sys
+</I>&gt;<i> _nova_cesta = &quot;/cesta_k_mym_modulum&quot;
+</I>&gt;<i> if not _nova_cesta in sys.path:
+</I>&gt;<i>     sys.path.insert( 1, _nova_cesta)
+</I>&gt;<i> *
+</I>&gt;<i> 2) na začátku KAŽDÉHO mého programu, který využívá mé moduly dám:
+</I>&gt;<i> *import mojemoduly*
+</I>&gt;<i>
+</I>&gt;<i> A je poznámka pro vývojáře pythonu:
+</I>&gt;<i>
+</I>&gt;<i> Nestálo by za úvahu přidat do systému jednoduchou funkci, například nějaký
+</I>&gt;<i> soubor python_path.pth,
+</I>&gt;<i> kde by se to dalo nastavit dodatečně a trvale kdykoliv po instalaci
+</I>&gt;<i> dodatečně ?
+</I>&gt;<i>
+</I>&gt;<i> Jinak díky za rady.
+</I>&gt;<i>
+</I>&gt;<i> V.L.
+</I>&gt;<i>
+</I>&gt;<i> Visgean Skeloru napsal(a):
+</I>&gt;<i>
+</I>&gt;<i> Zkoušel si to co jsem psal?
+</I>&gt;<i>
+</I>&gt;<i> A slightly less convenient way is to edit the site.py file in Python&#8217;s
+</I>&gt;&gt;<i> standard library, and modify sys.path. site.py is automatically imported
+</I>&gt;&gt;<i> when the Python interpreter is executed, unless the *-S* switch is
+</I>&gt;&gt;<i> supplied to suppress this behaviour. So you could simply edit site.pyand add two lines to it:
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Prostě stačí v kořenové složce projektu vytvořit site.py který upraví
+</I>&gt;<i> sys.path, je to oficiální postup.
+</I>&gt;<i> <A HREF="http://docs.python.org/install/index.html#modifying-python-s-search-path">http://docs.python.org/install/index.html#modifying-python-s-search-path</A>
+</I>&gt;<i>
+</I>&gt;<i> Jestli je to jeden projekt tak je to v pohodě a stačí upravit jenom ten
+</I>&gt;<i> jeden soubor...
+</I>&gt;<i>
+</I>&gt;<i> 2012/1/14 &quot;Ing. Vladislav Ludík&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>&gt;
+</I>&gt;<i>
+</I>&gt;&gt;<i> Tak jsem si myslel, že jsem to vyřešil:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> do adresáře    /etc/profile.d   jsem vložil nový soubor    local_python.sh
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> který obsahuje:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> # doplnim cestu k mym modulum
+</I>&gt;&gt;<i> PYTHONPATH=&quot;/python/mojemoduly/&quot;:&quot;${PYTHONPATH}&quot;
+</I>&gt;&gt;<i> export PYTHONPATH
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Po reboot kontrola     sys.path:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ['', '/python/mojemoduly', '/etc/profile.d', '/usr/lib/python2.7',
+</I>&gt;&gt;<i> '/usr/lib/python2.7/plat-linux2', '/usr/lib/python2.7/lib-tk',
+</I>&gt;&gt;<i> '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload',
+</I>&gt;&gt;<i> '/usr/local/lib/python2.7/dist-packages',
+</I>&gt;&gt;<i> '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/PIL',
+</I>&gt;&gt;<i> '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7']
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> zapíše správně moji cestu (sice i cestu '/etc/profile.d'), ale problém
+</I>&gt;&gt;<i> mám jinde.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Spuštěním programu v crontab ten pak havaruje na tom, že nemůže
+</I>&gt;&gt;<i> naimportovat moje moduly.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Pokusy s doplněním cesty přímo v crontab nebo nepřímo v cron.d nevedly k
+</I>&gt;&gt;<i> ničemu.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Co s tím opravdu nevím.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Díky za nové podněty.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> V.L.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> PGP pub key:
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://keyserver.pgp.com/vkd/SubmitSearch.event?SearchCriteria=visgean%40gmail.com">http://keyserver.pgp.com/vkd/SubmitSearch.event?SearchCriteria=visgean%40gmail.com</A>
+</I>&gt;<i>            <A HREF="http://www.abclinuxu.cz/lide/visgean/gpg">http://www.abclinuxu.cz/lide/visgean/gpg</A>
+</I>&gt;<i>            A453 B7F3 33D9 3BE6 2B8A | F014 5347 EBAC 0A5A 3E92
+</I>&gt;<i> Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">visgean na jabber.org</A> | <A HREF="http://www.py.cz/mailman/listinfo/python">visgean na jabber.cz</A>
+</I>&gt;<i> Github: <A HREF="http://github.com/Visgean">http://github.com/Visgean</A>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing <A HREF="http://www.py.cz/mailman/listinfo/python">listPython na py.czhttp</A>://www.py.cz/mailman/listinfo/python
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> __________ Informace od NOD32 6783 (20120110) __________
+</I>&gt;<i>
+</I>&gt;<i> Tato zprava byla proverena antivirovym systemem NOD32.<A HREF="http://www.nod32.cz/">http://www.nod32.cz</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+PGP pub key:
+
+<A HREF="http://keyserver.pgp.com/vkd/SubmitSearch.event?SearchCriteria=visgean%40gmail.com">http://keyserver.pgp.com/vkd/SubmitSearch.event?SearchCriteria=visgean%40gmail.com</A>
+           <A HREF="http://www.abclinuxu.cz/lide/visgean/gpg">http://www.abclinuxu.cz/lide/visgean/gpg</A>
+           A453 B7F3 33D9 3BE6 2B8A | F014 5347 EBAC 0A5A 3E92
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">visgean na jabber.org</A> | <A HREF="http://www.py.cz/mailman/listinfo/python">visgean na jabber.cz</A>
+Github: <A HREF="http://github.com/Visgean">http://github.com/Visgean</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20120115/f2468d8f/attachment.html">http://www.py.cz/pipermail/python/attachments/20120115/f2468d8f/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010542.html">[python] PYTHONPATH
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010544.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10543">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10543">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10543">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10543">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010543.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:42 GMT -->
+</html>

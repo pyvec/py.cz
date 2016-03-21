@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004596.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:11 GMT -->
+<HEAD>
+   <TITLE> [python] py2exe problém
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fpy2exe_probl%3DE9m%3F%3D&In-Reply-To=450CFC7A.2080206%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-September/004595.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-September/004598.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] py2exe problém</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fpy2exe_probl%3DE9m%3F%3D&In-Reply-To=450CFC7A.2080206%40post.cz"
+       TITLE="[python] py2exe problém">feed na centrum.cz
+       </A><BR>
+    <I>Neděle Září 17 10:58:29 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004595.html">[python] py2exe problém
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004598.html">[python] py2exe problém
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4596">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4596">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4596">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4596">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Už jsem to trochu zkoumal, a určitě se to nevyřeší parametrem includes. 
+Problém je totiž ten, že mxDateTime.__version__ je prostě proměnná, ale 
+je tak nešťastně zapsaná do modulu mxDateTime pomocí importu, že py2exe 
+to prostě prohlásí za modul. Nepodařilo se mi žádným způsobem py2exe s 
+mx rozchodit a jediná rada je asi mx s py2exe nepoužívat.
+
+Jinak mimochodem jsem zkoušel udělat malý databázový projekt v Pythonu 
+abych dokázal, že v Pythonu se vyvíjí rychle, a že má smysl ho nasadit, 
+ale dočkal jsem se jen ostudy. Projekt byl naprogramovaný velmi rychle, 
+ale rochození s py2exe je stále problematické a trvá už přes měsíc a 
+pořád je stejné. Exe chodí, pokud je na cílovém počítači instalován 
+Python, jinak ne. Příští projekt bude v C++, bude to rychleji 
+vyexpedované zákazníkovi.
+
+Našel jsem dokonce na zahraničních mailových konferencích několikrát 
+radu, používáte-li py2exe, nepoužívejte mx. Sami autoři mx od tohoto 
+problému dávají ruce pryč na svém webu a házejí to na autora py2exe.
+
+Jen bohužel nevím, co přesně budu dělat a jak to budu řešit, asi se 
+nějak obejít bez mx komponent a možná i upravit mysqldb modul aby se 
+nesnažil používat mx, i když se bez nich obejde.
+
+Každopádně děkuji všem moc za rady, moc mi pomohly a správně mě nasměrovaly.
+
+Pavel Kosina napsal(a):
+&gt;<i> superman napsal(a):
+</I>&gt;<i> 
+</I>&gt;&gt;<i>Takže jsem zkusil podle všech manuálů i rad stvořit exe pomocí py2exe z 
+</I>&gt;&gt;<i>jednoduchého Python programu. Problém je, že py2exe po spuštění sice exe 
+</I>&gt;&gt;<i>vytvoří, ale na konci hlásí toto:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>The following modules appear to be missing
+</I>&gt;&gt;<i>['DateTime', 'mxDateTime.__version__', 'mx.DateTime.DateTimeDeltaType', 
+</I>&gt;&gt;<i>'mx.DateTime.DateTimeType']
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  
+</I>&gt;<i> 
+</I>&gt;<i> Chtělo by to ukázku, jak to děláš, ale myslím, že hledáš parametr 
+</I>&gt;<i> 'includes'. Že py2exe jaksi implicitně výše uvedené moduly do distribuce 
+</I>&gt;<i> zapomene zahrnout.
+</I>&gt;<i> Více podle <A HREF="http://www.py.cz/Py2exeAndPyGTK">http://www.py.cz/Py2exeAndPyGTK</A> nebo 
+</I>&gt;<i> <A HREF="http://www.py.cz/VytvareniExeSouboru.">http://www.py.cz/VytvareniExeSouboru.</A>
+</I>&gt;<i> 
+</I>&gt;<i> Příště stačí poslat dotaz jen do jedné konference, spíše této ...
+</I>&gt;<i> 
+</I></PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004595.html">[python] py2exe problém
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-September/004598.html">[python] py2exe problém
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-September/date.html#4596">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/thread.html#4596">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/subject.html#4596">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-September/author.html#4596">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-September/004596.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:11 GMT -->
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006574.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:24 GMT -->
+<HEAD>
+   <TITLE> [python] Postgresql
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Postgresql&In-Reply-To=7b324af70709231336g1ddcb70em11095784c0abf173%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-September/006573.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-September/006575.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Postgresql</H1>
+    <B>Miloš Kozák</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Postgresql&In-Reply-To=7b324af70709231336g1ddcb70em11095784c0abf173%40mail.gmail.com"
+       TITLE="[python] Postgresql">milos.kozak na lejmr.com
+       </A><BR>
+    <I>Pondělí Září 24 22:30:58 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006573.html">[python] Postgresql
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006575.html">[python] Postgresql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6574">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6574">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6574">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6574">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Dík, to mi celkem bodlo..
+Když zadávám příkaz ručně, tak vše funguje, jak má.. ale jinak, když
+zkouším to ?ORM?, tak to hází chybu.. mám program:
+
+#!/usr/bin/python
+from sqlalchemy import *
+
+db = create_engine('<A HREF="postgres://milos:heslo@barak.lan:5433/test'">postgres://milos:heslo@barak.lan:5433/test'</A>)
+
+metadata = MetaData( db )
+tabulka = Table('names', metadata, autoload=True)
+
+
+tabulka = Table('names', metadata, autoload=True)
+  File &quot;/usr/lib/python2.5/site-packages/sqlalchemy/schema.py&quot;, line 43,
+in __call__
+    metadata.get_engine().reflecttable(table)
+  File &quot;/usr/lib/python2.5/site-packages/sqlalchemy/schema.py&quot;, line 51,
+in get_engine
+    raise exceptions.InvalidRequestError(&quot;This SchemaItem is not
+connected to any Engine&quot;)
+sqlalchemy.exceptions.InvalidRequestError: This SchemaItem is not
+connected to any Engine
+
+Nevíte náhodou co s tím? byl bych Vám moc vděčný..
+miloš
+
+Na tu postgres DB se normoš připojím.
+
+Věroš Kaplan napsal(a):
+&gt;<i> Naostro jsem použil zatím jenom SQLObject, SQLAlchemy jsem ještě
+</I>&gt;<i> naostro nikde nepoužil.
+</I>&gt;<i> 
+</I>&gt;<i> Mrkni se na slídy odkazované z
+</I>&gt;<i> <A HREF="http://www.cleverdevil.org/computing/61/sqlalchemy-and-elixir-at-pyatl-tonight">http://www.cleverdevil.org/computing/61/sqlalchemy-and-elixir-at-pyatl-tonight</A>
+</I>&gt;<i> 
+</I>&gt;<i> jsou tam i ukázky. (Elixir je je nástavba nad SQLAlchemy)
+</I>&gt;<i> 
+</I>&gt;<i> --VK
+</I>&gt;<i> 
+</I>&gt;<i> On 9/23/07, Miloš Kozák &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">milos.kozak na lejmr.com</A>&gt; wrote:
+</I>&gt;<i> Tak jsem zkouael to SQLalchemy.. zdá se robustní... a pkný :) ale pro
+</I>&gt;<i> m asi neproniknutelný..
+</I>&gt;<i> Myslía, ~e by jsi mi mohl napsat malý kousek prográmku, který by se
+</I>&gt;<i> pYipojil na njaký ten postgres server a tam vyselektoval a vypsal
+</I>&gt;<i> tabulka? :)
+</I>&gt;<i> Straan moc by mi to pomohlo...
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Díky moc miloa
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Vroa Kaplan napsal(a):
+</I>&gt;&gt;&gt;&gt;<i> Neznám sice pear DB, ale podle popisu na webu by mo~ná pomohl
+</I>&gt;&gt;&gt;&gt;<i> SQLObject nebo SQLAlchemy.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> --V
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> On 9/23/07, Miloa Kozák &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">milos.kozak na lejmr.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;&gt;&gt;<i> chtl bych zkusit naprogramovat jeden program, který by kooperoval s
+</I>&gt;&gt;&gt;&gt;<i> databází a chtl bych PostgreSQL. Naael jsem pár projekto, které to
+</I>&gt;&gt;&gt;&gt;<i> umo~nují.. pygresql, ale moc se mi nelíbila dokumentace a tak.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Chtl bych se tedy zeptat, zda existuje nco elegantního, jako je pear
+</I>&gt;&gt;&gt;&gt;<i> DB v php :)
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Dkuji moc
+</I>&gt;&gt;&gt;&gt;<i> Miloa
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+&gt;&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.6 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - <A HREF="http://enigmail.mozdev.org/">http://enigmail.mozdev.org</A>
+
+iD8DBQFG+B54kuCORGc0e5ARAq3eAJ0Z+NfjBVo1t4dV5ZCSGPGRayYqHgCg00pw
+XkGr3QiFCtFQFexE2OqhhHg=
+=39SQ
+-----END PGP SIGNATURE-----
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006573.html">[python] Postgresql
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006575.html">[python] Postgresql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6574">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6574">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6574">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6574">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006574.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:24 GMT -->
+</html>

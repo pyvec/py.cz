@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007777.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:58 GMT -->
+<HEAD>
+   <TITLE> [python] pspad kompilace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pspad%20kompilace&In-Reply-To=a9a7f5c80806191314t2666351n1b2020f0bb5109d3%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007776.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007778.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pspad kompilace</H1>
+    <B>Stepan</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pspad%20kompilace&In-Reply-To=a9a7f5c80806191314t2666351n1b2020f0bb5109d3%40mail.gmail.com"
+       TITLE="[python] pspad kompilace">stepan.wagner na gmail.com
+       </A><BR>
+    <I>Čtvrtek Červen 19 23:02:36 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007776.html">[python] pspad kompilace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007778.html">[python] pspad kompilace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7777">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7777">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7777">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7777">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hmm normalne s takovymi konstrukcemi pracuji; mam jednu metodu a vim ze:
+
+ 
+
+jmeno()...vypise jmeno
+
+jmeno(value)...nastavi jmeno
+
+ 
+
+nevidim v tom velky problem.
+
+ 
+
+Stepan
+
+ 
+
+ 
+
+  _____  
+
+From: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>] On Behalf Of Jan
+Bednařík
+Sent: Thursday, June 19, 2008 10:14 PM
+To: Konference PyCZ
+Subject: Re: [python] pspad kompilace
+
+ 
+
+Dne 19. červen 2008 10:56 BoneFlute &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">boneflute na taco-beru.name</A>&gt; napsal(a):
+
+Jakub napsal(a):
+
+
+&gt;<i>     def jmeno(self, nazev=None):
+</I>&gt;<i>         if nazev == None:
+</I>&gt;<i>             print self.nick
+</I>&gt;<i>         else:
+</I>&gt;<i>             self.nick=nazev
+</I>
+
+
+Mimochodem, má někdo zkušenosti proč se používá takováto konstrukce
+nastavování proměnné?
+Přiznávám, že jsem si tím také prošel, ale posléze opustil. Jednak to
+subjektivně není moc přehledné, druhak je to silný nezvyk proti
+zaběhnutým coding standards - zvláště když má python docela propracovaný
+ systém přetěžování přiřazování atributů a properties.
+
+Zajímalo by mě, zda to má nějaké praktické výhody.
+
+
+Je to prasečina a rozhodně bych se toho vyvaroval. Jednak pokud po vytvoření
+instance třídy zavoláš tu metodu bez parametru, nebo z jakéhokoliv důvodu
+(chyba na vstupu nebo bug jinde) jako název pošleš hodnotu None, tak se to
+bude snažit vypsat neexistující proměnou (self.nick) =&gt; AtributeError. A i
+kdyby self.nick už existoval, to zavolání s hodnotou None způsobí
+neočekávané chování (print, nebo jindy return), které může způsobit spoustu
+těžko dohledatelných bugů.
+
+Honza
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080619/e6cbdaba/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080619/e6cbdaba/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007776.html">[python] pspad kompilace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007778.html">[python] pspad kompilace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7777">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7777">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7777">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7777">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007777.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:58 GMT -->
+</html>

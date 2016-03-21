@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-July/000043.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:13 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] handlovani erroru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20handlovani%20erroru&In-Reply-To=63b313040507220558725c5b86%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-July/000041.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-July/000051.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] handlovani erroru</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20handlovani%20erroru&In-Reply-To=63b313040507220558725c5b86%40mail.gmail.com"
+       TITLE="[Tutor PyCZ] handlovani erroru">geon na post.cz
+       </A><BR>
+    <I>Pátek Červenec 22 18:41:19 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000041.html">[Tutor PyCZ] handlovani erroru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000051.html">[Tutor PyCZ] handlovani erroru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/date.html#43">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/thread.html#43">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/subject.html#43">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/author.html#43">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>rajcze wrote:
+
+&gt;<i>tak sem to nakonec vymyslel :)
+</I>&gt;<i>diky za nakopnuti smerem k modulu traceback - to bylo presne to co sem
+</I>&gt;<i>potreboval
+</I>&gt;<i>zkusim to teda dat na wiki, jak si rikal
+</I>&gt;<i>diky za pomoc
+</I>&gt;<i>     josef skladanka
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>import sys,traceback
+</I>&gt;<i>
+</I>&gt;<i>def get_exception():
+</I>&gt;<i>  exc=sys.exc_info()
+</I>&gt;<i>  sys.exc_clear()
+</I>&gt;<i>  ex_type=exc[0]
+</I>&gt;<i>  ex_fault=exc[1]
+</I>&gt;<i>  ex_trace_all=traceback.extract_tb(exc[2])
+</I>&gt;<i>  ex_str='Traceback (most recent call last):\n'
+</I>&gt;<i>  for ex_trace in ex_trace_all:
+</I>&gt;<i>    ex_str+='  File &quot;'+ex_trace[0]+'&quot;, line '+str(ex_trace[1])+', in
+</I>&gt;<i>'+ex_trace[2]+'\n'
+</I>&gt;<i>    ex_str+='    '+ex_trace[3]+'\n'
+</I>&gt;<i>  ex_str+=str(ex_type)+': '+str(ex_fault)
+</I>&gt;<i>  return ex_str
+</I>&gt;<i>
+</I>&gt;<i>try:
+</I>&gt;<i>   print &quot;6&quot;+4  # chyba
+</I>&gt;<i>except:
+</I>&gt;<i>    variable=get_exception()
+</I>&gt;<i>    print variable
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;<i>------------------------------------------------------------------------
+</I>&gt;<i>
+</I>
+Cestou do krámu jsem na to myslel a říkal jsem si, jestli by to nešlo 
+nějak jednodušeji......Pořád jsem myslel taky na ten příklad u traceback 
+v nápovědě. A pak mi to došlo! Python umí, místo file používat file-like 
+objekt. Prostě objekt, který se jen jako file tváří, ve stkutečnoti však 
+vše ukládá do RAM.
+
+Už jsem vlastně psal, že to může být jakákoliv třída, která má min. 
+metodu write, i jsem posílal příklad. Python má jednu takovou již 
+zabudovanou a ten modul se jmenuje StringIO. Použití je jako u souboru:
+
+import StringIO
+
+skoroSoubor=StringIO.StringIO()
+skoroSoubor.write('ahoj\n')
+skoroSoubor.write('jak se mas?')
+print skoroSoubor.tell()
+dopis=skoroSoubor.getvalue()
+print dopis
+
+Má všechny metody jako file a ještě navíc getvalue(). A to se nám přesně 
+hodí. Takže potom se  za použití vysokourovnove funkce 
+traceback.print_exc() zjednodušuje funkce na toto (v duchu ukázky z 
+nápovědy k traceback):
+
+import traceback, StringIO
+
+def get_exception():
+
+    vyjimka=StringIO.StringIO()         # vytvorime file-like objekt
+    vyjimka.write(&quot;Exception in user code:\n&quot;)
+    traceback.print_exc(file=vyjimka)    # kvuli teto funkci jsme to vse 
+delali
+    vyjimka.write('-'*60)
+    x=vyjimka.getvalue()   # zapis hodnoty do x, abychom ....
+    vyjimka.close()       # ...mohli uvolnit pamet
+
+    return x
+
+try:
+   print &quot;6&quot;+4  # chyba
+except:
+    variable=get_exception()
+    print variable
+
+Měj se!
+
+P.S. Stejně si myslím, že to jde ještě jednodušeji .....;-)
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20050722/b82daf06/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20050722/b82daf06/attachment.htm</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000041.html">[Tutor PyCZ] handlovani erroru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000051.html">[Tutor PyCZ] handlovani erroru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/date.html#43">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/thread.html#43">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/subject.html#43">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/author.html#43">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-July/000043.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:13 GMT -->
+</html>

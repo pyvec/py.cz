@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004414.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:33 GMT -->
+<HEAD>
+   <TITLE> [python] python a Mysql
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20python%20a%20Mysql&In-Reply-To=44A2709C.5000003%40radiante-corp.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004413.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004415.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] python a Mysql</H1>
+    <B>Ivan Ferdo</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20python%20a%20Mysql&In-Reply-To=44A2709C.5000003%40radiante-corp.com"
+       TITLE="[python] python a Mysql">markiza na gmail.com
+       </A><BR>
+    <I>Středa Červen 28 14:24:46 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004413.html">[python] python a Mysql
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004415.html">[python] python a Mysql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4414">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4414">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4414">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4414">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>SKusim este raz: nejde mi o to ako v MySQL zapisat datum, ale ako ho presne
+naformatovat z Pythona, jedna sa mi to ten zapis typu:
+
+import MySQLdb
+db = MySQLdb.connect (.....)
+cursor = db.cursor()
+cursor.execute(&quot;&quot;&quot;INSERT INTO test (test_datum) VALUES (&quot;&quot;val1&quot;)&quot;&quot;&quot;)
+
+# hlavne o ten posledny riadok sa mi jedna ako takto zapisat datum i cas ak
+je v Mysql definovana premenna ako datum alebo cas a nie ako string
+(potrebujem datum aby sa dalo lepsie sortovat, hladat atd.
+
+Vdaka
+
+
+On 6/28/06, Leos Pol &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">leos na radiante-corp.com</A>&gt; wrote:
+&gt;<i>
+</I>&gt;<i> Ve vetsine pripadu by to stacit melo. Ale pokud si chces byt jisty, ze
+</I>&gt;<i> ti to na jinym serveru s jinou konfiguraci pojede stejne, tak bych
+</I>&gt;<i> doporucoval pouzit MySQL fci:
+</I>&gt;<i>
+</I>&gt;<i> |STR_TO_DATE(/|str|/,/|format|/)|
+</I>&gt;<i> ||
+</I>&gt;<i> mysql&gt; *|SELECT STR_TO_DATE('00/00/0000', '%m/%d/%Y');|*
+</I>&gt;<i> -&gt; '0000-00-00'
+</I>&gt;<i> mysql&gt; *|SELECT STR_TO_DATE('04/31/2004', '%m/%d/%Y');|*
+</I>&gt;<i> -&gt; '2004-04-31'
+</I>&gt;<i>
+</I>&gt;<i> |Vic najdes na:|
+</I>&gt;<i> |<A HREF="http://dev.mysql.com/doc/refman/5.0/en/date-and-time-functions.html|">http://dev.mysql.com/doc/refman/5.0/en/date-and-time-functions.html|</A>
+</I>&gt;<i> ||
+</I>&gt;<i> |Leo|
+</I>&gt;<i> |||
+</I>&gt;<i>
+</I>&gt;<i> |||Ivan Ferdo wrote:
+</I>&gt;<i> &gt; No nebolo by lepsie to hadzat priamo ako datum? Nebol by tam ziaden
+</I>&gt;<i> &gt; problem co je den a co mesiac. MySQL ma datum formatu '1997-12-15'
+</I>&gt;<i> &gt; (rrrr-mm-dd), a sem potrebujem zapisat z pythona datum.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; On 6/28/06, *Zdenek Dolezal* &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zdenek.dolezal na gmail.com</A>
+</I>&gt;<i> &gt; &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">zdenek.dolezal na gmail.com</A>&gt;&gt; wrote:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     &gt; Poradi niekto ako vlozit cas a datum do MySQL z Pythona nechce
+</I>&gt;<i> &gt;     mi to za pana
+</I>&gt;<i> &gt;     &gt; ist.
+</I>&gt;<i> &gt;     &gt;
+</I>&gt;<i> &gt;     &gt; Ostatne mi zapisat ide ako string, int a pod ale datum a cas nie.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     Nevim, jak je tomu u pythonu. Kdyz jsem pracoval v mysql a php s
+</I>&gt;<i> &gt;     casem, pouzival jsem mysql funkce FROM_UNIXTIME a UNIX_TIMESTAMP na
+</I>&gt;<i> &gt;     prevod z/do unixovskeho pocitani casu, s kterym se me pracovalo
+</I>&gt;<i> &gt;     nejlip.
+</I>&gt;<i> &gt;     Pouziti statickych stringu typu 04-05-2005 nedoporucuji, jak jiz
+</I>&gt;<i> &gt;     nekdo
+</I>&gt;<i> &gt;     zminil, nasledna zmena konfigurace serveru muze prinest velke
+</I>&gt;<i> problemy
+</I>&gt;<i> &gt;     (a take ze casto prinasi).
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;     --
+</I>&gt;<i> &gt;     S pozdravem
+</I>&gt;<i> &gt;     Zdenek
+</I>&gt;<i> &gt;     _______________________________________________
+</I>&gt;<i> &gt;     Python mailing list
+</I>&gt;<i> &gt;     <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;
+</I>&gt;<i> &gt;     <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; ------------------------------------------------------------------------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> ----
+</I>&gt;<i> Leos Pol
+</I>&gt;<i> SW Engineer
+</I>&gt;<i> Radiante Corp.
+</I>&gt;<i>
+</I>&gt;<i> If it can be imagined,
+</I>&gt;<i> we can implement it
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20060628/ae4ef773/attachment.htm">http://www.py.cz/pipermail/python/attachments/20060628/ae4ef773/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004413.html">[python] python a Mysql
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004415.html">[python] python a Mysql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4414">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4414">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4414">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4414">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004414.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:33 GMT -->
+</html>

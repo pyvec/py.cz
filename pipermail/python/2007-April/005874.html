@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005874.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:16 GMT -->
+<HEAD>
+   <TITLE> [python] cherrypy + autorizace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cherrypy%20%2B%20autorizace&In-Reply-To=4628893F.4000306%40smidl.info">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005871.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005860.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cherrypy + autorizace</H1>
+    <B>Vladislav Ludík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cherrypy%20%2B%20autorizace&In-Reply-To=4628893F.4000306%40smidl.info"
+       TITLE="[python] cherrypy + autorizace">vlada na ludik.cz
+       </A><BR>
+    <I>Pátek Duben 20 14:28:16 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005871.html">[python] cherrypy + autorizace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005860.html">[python] cherrypy + autorizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5874">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5874">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5874">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5874">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Skvělé, už jsem to rozběhal. Díky za pomoc.
+
+VL
+------------- další část ---------------
+#!/usr/bin/python2.4
+
+import cherrypy
+
+class Login:
+    def check(cls, fn):
+        def _check(self, *args, **kwargs):
+            if cherrypy.session.has_key('userid'):
+                # User is logged in; allow access
+		return fn(self, *args, **kwargs)
+	    else:
+                # User isn't logged in yet.
+                # See if the user just tried to log in
+		try:
+                    submit = kwargs['login']
+                    email = kwargs['loginEmail']
+                    password = kwargs['loginPassword']
+                except KeyError:
+                    # No, this wasn't a login attempt.  Send the user to
+                    # the login &quot;page&quot;.
+                    return self.loginPage(cherrypy.url())
+
+		# Now look up the user id by the email and password
+		userid = self.getUserId(email, password)
+		if userid is None:
+                    # Bad login attempt
+                    return self.loginPage(cherrypy.url(), 'Invalid email address or password.')
+                # User is now logged in, so retain the userid and show the content
+                cherrypy.session['userid'] = userid
+                return fn(self, *args, **kwargs)
+	return _check
+    check = classmethod(check)
+
+    def getUserId(self, email, password):
+        '''Simple function to look up a user id from email and password.
+        Naturally, this would be stored in a database rather than
+        hardcoded, and the password would be stored in a hashed format
+        rather than in cleartext.
+
+        Returns the userid on success, or None on failure.
+        '''
+
+        accounts = {('<A HREF="http://www.py.cz/mailman/listinfo/python">vlada na ludik.cz</A>', 'foo'): 'vlada'}
+
+        return accounts.get((email,password), None)
+
+    def loginPage(self, targetPage, message=None):
+        '''Return a login &quot;pagelet&quot; that replaces the regular content if
+        the user is not logged in.'''
+        result = []
+        result.append('&lt;h1&gt;Sitename Login&lt;/h1&gt;')
+        if message is not None:
+            result.append('&lt;p&gt;%s&lt;/p&gt;' % message)
+        result.append('&lt;form action=%s method=post&gt;' % targetPage)
+        result.append('&lt;p&gt;Email Address: &lt;input type=text name=&quot;loginEmail&quot;&gt;&lt;/p&gt;')
+        result.append('&lt;p&gt;Password: &lt;input type=password name=&quot;loginPassword&quot;&gt;&lt;/p&gt;')
+        result.append('&lt;p&gt;&lt;input type=&quot;submit&quot; name=&quot;login&quot; value=&quot;Log In&quot;&gt;&lt;/p&gt;')
+        result.append('&lt;/form&gt;')
+        return '\n'.join(result)
+
+    def logOut(self):
+        '''Log Out.'''
+        del cherrypy.session['userid']
+        return 'You are no more logged in' + self.index()
+    logOut.exposed = True
+
+class Page(Login):
+
+	def index(self):
+		return '''&lt;h1&gt;SiteName&lt;/h1&gt;
+		&lt;h2&gt;Home Page&lt;/h2&gt;
+		&lt;p&gt;&lt;a href=&quot;public&quot;&gt;Public Page&lt;/a&gt;&lt;/p&gt;
+		&lt;p&gt;&lt;a href=&quot;private&quot;&gt;Private Page&lt;/a&gt; &lt;i&gt;(registered users only)&lt;/i&gt;&lt;/p&gt;
+		'''
+	index.exposed = True
+
+	def public(self):
+		return '''&lt;h1&gt;SiteName&lt;/h1&gt;
+		&lt;h2&gt;Public Page&lt;/h2&gt;
+		&lt;p&gt;&lt;a href=&quot;/&quot;&gt;Go back home&lt;/a&gt;&lt;/p&gt;'''
+	public.exposed = True
+	
+	def private(self, *args, **kwargs):
+		return '''&lt;h1&gt;SiteName&lt;/h1&gt;
+		&lt;h2&gt;Private Page&lt;/h2&gt;
+		&lt;p&gt;&lt;a href=&quot;logOut&quot;&gt;Log Out&lt;/a&gt;&lt;/p&gt;
+		&lt;p&gt;&lt;a href=&quot;/&quot;&gt;Go back home&lt;/a&gt;&lt;/p&gt;'''
+	private = Login.check(private)
+	private.exposed = True
+
+root = Page()
+cherrypy.tree.mount(root, '/')
+
+
+if __name__ == &quot;__main__&quot;:
+    
+        import os.path
+        cherrypy.config.update(os.path.join(os.path.dirname(__file__), 'check-1.conf'))
+	cherrypy.server.quickstart()
+        cherrypy.engine.start()
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: check-1.conf
+Typ: application/octet-stream
+Velikost: 229 bytes
+Popis: [žádný popis není k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20070420/8802ecd5/attachment.obj">http://www.py.cz/pipermail/python/attachments/20070420/8802ecd5/attachment.obj</A> 
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005871.html">[python] cherrypy + autorizace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005860.html">[python] cherrypy + autorizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5874">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5874">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5874">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5874">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005874.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:16 GMT -->
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-September/011462.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:30 GMT -->
+<HEAD>
+   <TITLE> [python] bash script do Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20bash%20script%20do%20Pythonu&In-Reply-To=%3C170f3553-6898-46c4-8b1c-00e27b8cc9f9%40googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-September/011461.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-September/011463.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] bash script do Pythonu</H1>
+    <B>jenda.zakransky na gmail.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20bash%20script%20do%20Pythonu&In-Reply-To=%3C170f3553-6898-46c4-8b1c-00e27b8cc9f9%40googlegroups.com%3E"
+       TITLE="[python] bash script do Pythonu">jenda.zakransky na gmail.com
+       </A><BR>
+    <I>Úterý Září 30 13:09:34 CEST 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-September/011461.html">[python] Soutěž o lístek na PyCon PL
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-September/011463.html">[python] bash script do Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-September/date.html#11462">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-September/thread.html#11462">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-September/subject.html#11462">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-September/author.html#11462">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj mam nize jednoduchy skript v bashi, ktery bych potreboval prevest do Pythonu, uz tomu venuji nejaky cas, ale proste to nejde a nejde, bylo by mozne nekoho poprosit o pomoc, moc dekuji
+
+Cilem tohoto skriptu je prevedeni a poslani message log filu z predesleho dne z jednoho serveru na druhy, tzn. ze dnes budu prevadet full daily log z predesleho dne.
+
+Originalni logy jsou v teto podobe ulozeny /opt/log/maillog-20140929. Tento log se diky skriptu nejdrive kopiruje prejmenovany z podoby maillog-20140929 na hostname.vcerejsidatum.gz do directory /tmp.
+
+Odtud dochazi ke kopirovani na remote server taktez do directory /opt/log/maillog a po zkopirovani je soubor z directory /tmp smazan.
+
+Nejvetsi problem mi dela zadani promenne, ktera ma v bashi nasledujici podobu fdate=$(date +%Y%m%d -d &quot;-1 day&quot;) # vcerejsi datum - promenna fdate se odkazuje na vcerejsi den.
+
+HOTOVO
+
+#!/bin/bash
+
+path=/opt/log #jsem tedy v directory /opt/log
+fdate=$(date +%Y%m%d -d &quot;-1 day&quot;) # vcerejsi datum
+file=maillog-$fdate                          # log file ze vcerejska ktery se bude prenaset
+cp $path/$file /tmp/$HOSTNAME-$file  #zkopci $file do tempu pod novym jmenem; systemova promenna $HOSTNAME obsahuje hostname, tak neni treba vytvaret novou promennou
+gzip /tmp/$HOSTNAME-$file      # zabali log,
+
+rserver=<A HREF="http://www.py.cz/mailman/listinfo/python">user na remoteserver.edu</A>    # remote server
+rpath=/opt/log/maillog # remote path
+
+scp /tmp/$HOSTNAME-$file.gz $rserver:$rpath # zkopiruje na remote server do remote path
+
+rm /tmp/$HOSTNAME-$file.gz # uklidi po sobe
+#hotovo
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-September/011461.html">[python] Soutěž o lístek na PyCon PL
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-September/011463.html">[python] bash script do Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-September/date.html#11462">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-September/thread.html#11462">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-September/subject.html#11462">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-September/author.html#11462">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-September/011462.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:30 GMT -->
+</html>

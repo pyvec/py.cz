@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008000.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:37 GMT -->
+<HEAD>
+   <TITLE> [python] Setuptools, ditutils a konfigurační soubory
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FSetuptools%3D2C_ditutils_a_konfigura%3DE8n%3DED%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_soubory%3F%3D&In-Reply-To=48805236.3040802%40vsb.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/007999.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/008002.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Setuptools, ditutils a konfigurační soubory</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FSetuptools%3D2C_ditutils_a_konfigura%3DE8n%3DED%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F_soubory%3F%3D&In-Reply-To=48805236.3040802%40vsb.cz"
+       TITLE="[python] Setuptools, ditutils a konfigurační soubory">rk na dat.cz
+       </A><BR>
+    <I>Pátek Červenec 18 16:44:53 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007999.html">[python] Setuptools, ditutils a konfigurační soubory
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008002.html">[python] pysql_premenna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8000">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8000">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8000">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8000">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, Jul 18, 2008 at 10:20:06AM +0200, Lumír Jasiok wrote:
+
+&gt;<i> Dobrý den,
+</I>&gt;<i> 
+</I>&gt;<i> snažím se přijít na to, jak nejlépe připravit z naprogramovaného kódu 
+</I>&gt;<i> zdrojový balík a binární balíky. Zkouším použití setuptools a distutils 
+</I>&gt;<i> a jsem schopen vygenerovat .tgz balik, python egg, debian balík apod. 
+</I>&gt;<i> Problém nastává v okamžiku, kdy se snažím do balíku přidat soubor, který 
+</I>&gt;<i> je tzv. &quot;non-package data&quot;, tedy soubor, který přímo není kód pythonu a 
+</I>&gt;<i> není umístěn ve standarním prefixu instalace (např. /usr/local). Typicky 
+</I>&gt;<i> například konfigurační soubor, který má být standardně umístěný v /etc.
+</I>&gt;<i> 
+</I>&gt;<i> Díval jsem se jak tyto situace řeší jiné projekty a většinou si na to 
+</I>&gt;<i> programovali různé obezličky (Makefile, který volal &quot;python setup.py&quot; 
+</I>&gt;<i> apod.). Poradíte mi nějaké &quot;best practices&quot;?
+</I>
+Asi nejlepsi by bylo udelat potomka nektereho commandu z distutils.command.
+Mozna command &quot;install_data&quot; nebo &quot;config&quot;, nebo vytvorit uplne novy
+(je tam na to sablona distutils.command.command_template). Sam jsem to
+nikdy nedelal, ale vsiml jsem si, ze spousta baliku to tak dela.
+Vyhoda je v tom, ze instalace nebude zbytecne zavisla na dalsim
+software kvuli kopirovani jednoho souboru.
+
+Tohle bude fungovat pro instalaci ze zdrojaku pres setup.py. Jestli
+to bude fungovat s egg balikem, to nevim. U tgz by asi taky nemel
+byt problem, pokud budou v tgz cele cesty od korene.
+
+Radek Kaňovský, Dat, s.r.o.
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007999.html">[python] Setuptools, ditutils a konfigurační soubory
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/008002.html">[python] pysql_premenna
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#8000">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#8000">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#8000">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#8000">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/008000.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:37 GMT -->
+</html>

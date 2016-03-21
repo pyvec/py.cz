@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-July/000038.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:13 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] handlovani erroru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20handlovani%20erroru&In-Reply-To=63b31304050720213568c33101%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-July/000037.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-July/000039.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] handlovani erroru</H1>
+    <B>geon</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20handlovani%20erroru&In-Reply-To=63b31304050720213568c33101%40mail.gmail.com"
+       TITLE="[Tutor PyCZ] handlovani erroru">geon na post.cz
+       </A><BR>
+    <I>Čtvrtek Červenec 21 07:37:41 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000037.html">[Tutor PyCZ] handlovani erroru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000039.html">[Tutor PyCZ] handlovani erroru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/date.html#38">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/thread.html#38">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/subject.html#38">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/author.html#38">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>rajcze wrote:
+
+&gt;<i>OK, to je super, ale ja bych to potreboval dostat do promenne - v
+</I>&gt;<i>dokumentaci je, ze se to da predavat do 'file objects' , je jedina
+</I>&gt;<i>cesta pres ulozeni do souboru, nacteni ze souboru? nebo existuje neco
+</I>&gt;<i>jako stream ze kteryho bych mohl cist jako ze souboru ? nebo to muzu
+</I>&gt;<i>primo z sys.stderr ?
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>Tak bud si vyvtoris nejakou tridu, ktera bude minimalne metodu write() a 
+budes si sam ridit ukládání do proměnné, nebo můžeš použít modul StringIO.
+
+&gt;<i>navic, kdyz to handluju pomoci try - except, tak to stejne nefunguje,
+</I>&gt;<i>protoze data na stderr se smazou, a kdyz nepouzivam try - except, tak
+</I>&gt;<i>mi zase spadne program.
+</I>
+možná by se dalo:
+
+import sys
+soubor=file('chyby.txt','w')
+
+sys.stderr=soubor  
+sys.stdout=soubor  
+
+try: 
+    print &quot;6&quot;+4  # chyba
+except Exception,x:
+    print Exception,'\n', x
+    soubor.close()
+    sys.stdout=sys.__stdout__
+    sys.stderr=sys.__stderr__
+
+
+ale není tam vidět číslo řádky, kde se stala chyba. Tady pak musíš 
+použít modul traceback, je tam i pěkný příklad.
+Případně  debugger pdb, kde můžeš ladit post mortem...
+
+Ahoj
+
+P.S. Možná jsem s tím už trapný, pořád upozornovat na wiki, ale nedá mi 
+to ;-) : pokud se ti to povede, pls předej zkušenost do wiki. Tady to 
+brzy čas odplaví, tam to může ještě dlouho sloužit těm, kdo jdou za 
+tebou a budou mít určitě stejné problémy.
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000037.html">[Tutor PyCZ] handlovani erroru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-July/000039.html">[Tutor PyCZ] handlovani erroru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/date.html#38">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/thread.html#38">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/subject.html#38">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-July/author.html#38">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-July/000038.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:13 GMT -->
+</html>

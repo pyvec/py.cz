@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003555.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:36 GMT -->
+<HEAD>
+   <TITLE> [python] unicode
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To=4360D4CA.6010201%40premiumsms.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003554.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003558.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] unicode</H1>
+    <B>Petr Hlávka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20unicode&In-Reply-To=4360D4CA.6010201%40premiumsms.cz"
+       TITLE="[python] unicode">petrhlavka na gmail.com
+       </A><BR>
+    <I>Čtvrtek Říjen 27 15:55:36 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003554.html">[python] unicode
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003558.html">[python] unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3555">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3555">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3555">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3555">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+castecne by mohlo fungovat u'\uFEFFAhoj'.encode('UTF-16'), nebo UTF-16BE pro
+opacne poradi bajtu. Problem je ten, ze to nemusi byt presne, to co chcete.
+Hodnoty v UTF-16 na mapovany na vetsi nez 16bitovy rozsah, toto se nedela v
+kodovani UCS-2, ktere ale muj Python nepodporuje.
+
+S pozdravem Petr Hlavka.
+
+2005/10/27, Martin Blazik &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">martin.blazik na premiumsms.cz</A>&gt;:
+&gt;<i>
+</I>&gt;<i> No neni, UTF-8 uklada kazdy znak do promenne delky (1 az 3 znaky
+</I>&gt;<i> myslim). Ja chci aby se kazdy znak prelozil presne na dva bajty
+</I>&gt;<i> (potrebuju aby z dat sla primo poznat delka retezce).
+</I>&gt;<i> Takze u'\uFEFFAhoj' =&gt; '\xff\xfe\x41\x00\x68\x00\x6f\x00\x6a\x00'
+</I>&gt;<i>
+</I>&gt;<i> lachtan
+</I>&gt;<i>
+</I>&gt;<i> geon napsal(a):
+</I>&gt;<i>
+</I>&gt;<i> &gt; Martin Blazik napsal(a):
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt; Cau,
+</I>&gt;<i> &gt;&gt; jakym zpusobem muzu prevest unicode string do bytove reprezentace
+</I>&gt;<i> &gt;&gt; (retezcove podoby) tak, abych data mohl ulozit do souboru (rekneme v
+</I>&gt;<i> &gt;&gt; notaci little endian)?
+</I>&gt;<i> &gt;&gt; Tu prevodni funkci si dokazu napsat sam na par radek, spis by me
+</I>&gt;<i> &gt;&gt; zajimalo, jestli uz neexistuje v pythonu nejaky standartni nastroj.
+</I>&gt;<i> &gt;&gt; Zkousel jsem najit nejaky default konvertor
+</I>&gt;<i> &gt;&gt; (
+</I>&gt;<i> <A HREF="http://python.org/doc/2.4.2/lib/standard-encodings.html#standard-encodings">http://python.org/doc/2.4.2/lib/standard-encodings.html#standard-encodings</A>
+</I>&gt;<i> ),
+</I>&gt;<i> &gt;&gt; ale taky nic nebo ho jen nevidim :)
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt; tutorial:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; To convert a Unicode string into an 8-bit string using a specific
+</I>&gt;<i> &gt; encoding, Unicode objects provide an encode() method that takes one
+</I>&gt;<i> &gt; argument, the name of the encoding. Lowercase names for encodings are
+</I>&gt;<i> &gt; preferred.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt;&gt;&gt; u&quot;äöü&quot;.encode('utf-8')
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt; '\xc3\xa4\xc3\xb6\xc3\xbc'
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; je to ono?
+</I>&gt;<i> &gt;
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20051027/e1a69774/attachment.htm">http://www.py.cz/pipermail/python/attachments/20051027/e1a69774/attachment.htm</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003554.html">[python] unicode
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003558.html">[python] unicode
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3555">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3555">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3555">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3555">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003555.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:36 GMT -->
+</html>

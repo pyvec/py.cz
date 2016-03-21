@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-September/010506.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:45 GMT -->
+<HEAD>
+   <TITLE> [python] dotaz na webovou aplikaci v pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dotaz%20na%20webovou%20aplikaci%20v%20pythonu&In-Reply-To=%3C3704492.t4fHL3CkM6%40krypton%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-September/010509.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-September/010510.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dotaz na webovou aplikaci v pythonu</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20dotaz%20na%20webovou%20aplikaci%20v%20pythonu&In-Reply-To=%3C3704492.t4fHL3CkM6%40krypton%3E"
+       TITLE="[python] dotaz na webovou aplikaci v pythonu">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Čtvrtek Září 29 13:10:34 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-September/010509.html">[python] dotaz na webovou aplikaci v pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-September/010510.html">[python] dotaz na webovou aplikaci v pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-September/date.html#10506">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/thread.html#10506">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/subject.html#10506">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/author.html#10506">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> A nyní jsem dost zmaten jestli mám Django začít studovat nebo ne protože
+</I>&gt;<i> názory se zde dosti liší.
+</I>
+S djangem se to má jako s každým frameworkem - udělá za tebe nějakou práci, když si dáš tu práci 
+a naučíš se ho :-) Troufám si říci že v užitečnosti djanga se tu názory neliší, užitečnost 
+(jakéhokoliv) složitého frameworku pro začátečníka je věc jiná.
+Jak si tak čtu tvoje zadání, řekl bych že tě to zatím nemusí vzrušovat - než se protlučeš 
+crawlováním, parsováním a indexováním stránek, budeš dost zkušený pythonista aby ses rozhodl 
+sám.
+Stručný přehled jak se to má s webem v pythonu:
+
+* udelej-si-sam:
+Ve standartní knihovně je připravený jednoduchý http server. Zahákuje socket, počká na dotaz, 
+zavolá metodu get() nebo post() kterou mu dodáš a dá jí trubku na vstup a výstup. Všechno 
+ostatní (parsování dotazu, dekódování formulářových proměnných, čtení a nastavování hlaviček) si 
+musíš udělat ručně. Na skutečný provoz je to slabota, ale na rychlé vyzkoušení si něčeho je to 
+krásně jednoduché. Pokud neumíš HTTP, je to dobrý způsob jak se ho naučit :-)
+
+* mod_python
+Modul do apače s víceméně stejnou funkčností, s tím rozdílem že většinu skutečné práce oddře 
+chudák indián. Dotaz dostaneš rozebraný, předžvýkaný a předtrávený, ale pořád to bude holý dotaz 
+takže třeba přebrání dat z formuláře si musíš řešit sám. Ditto hlavičky - apač poskytuje funkce 
+na pohodlnější čtení a nastavování, ale rozumět jim pořád musíš sám. Samo o sobě je to spíš 
+jednodušší než udělej-si-sám, jenže navíc musíš ještě nastavovat apače a mapování v něm.
+
+* wsgi
+Nejnovější móda ve světě pythonu, takto v postatě totéž jako bylo CGI pro perl před dvaceti lety 
+:<i>-) V podstatě jen rozhraní který může libovolný webserver implementovat aby mu libovolný 
+</I>framework rozuměl. Funkčně je to daleko primitivnější než mod_python, ale od toho jsou právě ty 
+frameworky. Těch je milion a každý umí něco zajímavého, stačí si vybrat co ti vyhovuje. Djagno 
+tě určitě nezklame, ale klidně ti může stačit nečo ještě jednoduššího. IMO ti z formulářů 
+postačí víceméně jen vyhledávací pole, takže nebudeš potřebovat žádný přesložitěný MVC 
+vylomeniny (Zope se vyhni širokým obloukem :-)
+
+* knihovny
+Pokud nepůjdeš cestou nějakého megahyperframeworku tak to ještě neznamená že musíš žít na 
+stromě. Není problém vzít holý http server, napsat si pro pohodlí pár funkcí na přežvýkání 
+vstupu (ve standartní knihovně je vše potřebné), přihodit nějakou hotovou knihovnu na 
+šablonování (je jich milion), databázi (SQL Alchemy, amen) a máš víceméně hotovo. Když nenajdeš 
+ve standartní knihovně, hoď dotaz sem do konfery, určitě se ti ozve i někdo jiný než djangisti 
+:<i>-)
+</I>
+To by na &#250;vod snad sta&#269;ilo&#8230;
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-September/010509.html">[python] dotaz na webovou aplikaci v pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-September/010510.html">[python] dotaz na webovou aplikaci v pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-September/date.html#10506">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/thread.html#10506">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/subject.html#10506">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-September/author.html#10506">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-September/010506.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:45 GMT -->
+</html>

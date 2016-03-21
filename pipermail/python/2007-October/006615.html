@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006615.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:16 GMT -->
+<HEAD>
+   <TITLE> [python] Jak setridit dictionary
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20setridit%20dictionary&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-October/006613.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-October/006616.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak setridit dictionary</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Jak%20setridit%20dictionary&In-Reply-To="
+       TITLE="[python] Jak setridit dictionary">PrikrylP na skil.cz
+       </A><BR>
+    <I>Středa Říjen 10 13:59:43 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006613.html">[python] Jak setridit dictionary
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006616.html">[python] subprocess, pipes
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6615">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6615">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6615">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6615">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>viz dole
+
+&gt;<i> Ondrej Beran
+</I>&gt;<i> 2007/10/10, rajcze &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rajcze na gmail.com</A>&gt;:
+</I>&gt;<i> &gt; Myslim ze Ondrej hleda spis neco takovehoto
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; slovnik = {1:'z', 2:'a', 3:'c'}
+</I>&gt;<i> &gt; index_slovniku = slovnik.items()
+</I>&gt;<i> &gt; index_slovniku.sort(lambda x,y: cmp(x[1],y[1]))
+</I>&gt;<i> &gt; index_slovniku = map(lambda x: x[0], index_slovniku)
+</I>&gt;<i> 
+</I>&gt;<i> JJ, to je presne to, co jsem nedokazal vymyslet.
+</I>&gt;<i> Porad jsem nevedel jak docilit, aby se mi se tridenou hodnotou
+</I>&gt;<i> movenul/swapnul i klic
+</I>&gt;<i> 
+</I>&gt;<i> &gt; urcite se to da napsat hezceji :)
+</I>&gt;<i> 
+</I>&gt;<i> Hlavne, kdyz to dela to, co potrebuju  -  analyzuju logy tj. seskupuji
+</I>&gt;<i> zavisle events a divam se na ne z ruznych pohledu.
+</I>
+Principiálně to moc jinak napsat nejde. Slovník se dle uživatelských 
+potřeb vnitřně jinak uspořádávat nedá. Musí se to udělat zvenku, 
+čili vytvořit pomocný seznam klíčů v pořadí, které odpovídá 
+seřazeným hodnotám.
+
+Abychom takový seznam hodnot získali, musíme nejdřív získat seznam
+položek, kde každá položka obsahuje jak klíč, tak hodnotu. Tenhle
+seznam se musí seřadit podle hodnotové části položek. Ze seznamu 
+položek se pak můžou vybrat jen klíče ve stejném pořadí.
+
+Pokud někdo nevyznává lambda, map a spol, může považovat následující
+zápis za přehlednější:
+=======================================
+slovnik = {1:'z', 2:'a', 3:'c'}
+
+def cmpPodleHodnot(a, b):
+    return cmp(a[1], b[1])
+
+polozky_slovniku = slovnik.items()
+polozky_slovniku.sort(cmpPodleHodnot)
+index_slovniku = [ klic for klic, hodnota in polozky_slovniku ]
+=======================================
+
+Pokud potřebujeme extrémně šetřit místem, pak bychom
+měli hned zrušit seznam polozky_slovniku, což se v původním
+řešení děje uvolněním reference při znovupoužití stejnojmenné
+proměnné.
+
+Pokud ale místem tak moc šetřit nepotřebujeme, pak klidně
+můžeme zůstat u seznamu polozky_slovniku a seznam klíčů
+vůbec nebudovat. Paměťově to bude jen velmi mírně náročnější.
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006613.html">[python] Jak setridit dictionary
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006616.html">[python] subprocess, pipes
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6615">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6615">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6615">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6615">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006615.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:16 GMT -->
+</html>

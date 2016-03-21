@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007558.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:25 GMT -->
+<HEAD>
+   <TITLE> [python] py2exe dll export
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20py2exe%20dll%20export&In-Reply-To=48403049.7030707%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-May/007552.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] py2exe dll export</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20py2exe%20dll%20export&In-Reply-To=48403049.7030707%40centrum.cz"
+       TITLE="[python] py2exe dll export">slush na centrum.cz
+       </A><BR>
+    <I>Sobota Květen 31 00:24:27 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007552.html">[python] py2exe dll export
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7558">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7558">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7558">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7558">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dekuji za reakci. O primem pouziti C API jsem samozrejme uvazoval nejdriv,
+ale odradila me relativni slozitost (v C jsem pred mnoha lety delal, ale
+pamatuji si opravdu jenom zaklady). S kodem vygenerovanym Elmerem se mi
+pracovalo mnohem jednoduseji. Kazdopadne vypada to, ze to zkusim jako treti,
+nejkrajnejsi variantu.
+
+
+&gt;<i> A nebylo by jednodušší rovnou použít Python C API? Podle mě by to nebylo
+</I>&gt;<i> tak těžké zapouzdřit těch pár funkcí.
+</I>&gt;<i>
+</I>
+Ona je to vseho vsudy JEDNA funkce, ale je ji predavana silena dynamicka
+nekolikaurovnova struktura, a to pro me bude v ccku opravdovy čelenž :-). To
+je ale pro python konferenci offtopis.
+
+
+&gt;<i> Což je naprosto v pořádku, protože COM nepotřebuje exportovat funkce
+</I>&gt;<i> jako DLL exporty, protože COM mechanismus má svůj vlastní mechanismus
+</I>&gt;<i> binárně přenostitelných objektů s metodami. Takže to co jste získal je
+</I>&gt;<i> zcela
+</I>&gt;<i> správné.
+</I>
+
+Aha, to je pro me novinka. O COM neco malo vim, ale predpokladal jsem, ze na
+urovni rozhrani DLL se jedna o &quot;klasicke&quot; DLL + nejake rezervovane funkce
+(viz RegisterServer, ...). To, ze COM DLL vubec nepropaguji exporty je tedy
+zasadni problem.
+
+Znamena to tedy, ze pomoci py2exe nelze vytvaret stare dobre DLL? Snazil
+jsem se radit s Googlem opravdu peclive, kdykoliv jsem ale narazil na zminky
+o DLL, jednalo se o COM.
+
+
+&gt;<i> Abych vysvětlil COM funguje tak, že vytváří přenositelné třídy (jejichž
+</I>&gt;<i> binární
+</I>&gt;<i> rozhraní je přesně určeno, takže tuto třídu můžete použít v jakémkoli
+</I>&gt;<i> programovacím jazyce). COM server tedy exportuje několik různch tříd,
+</I>&gt;<i> v řeči COMu zvaných interface a ani ty třídy nexportuje na úrovni DLL,
+</I>&gt;<i> ale má
+</I>&gt;<i> k tomu svůj vlastní mechanismus pomocí volání Windows API funkcí začínající
+</I>&gt;<i> na Co* - a kterými dostanete vše potřebné - tedy v C ukazatel na objekt
+</I>&gt;<i> dané
+</I>&gt;<i> třídy (interface), a tím tedy i na virtuální tabulku metod této třídy,
+</I>&gt;<i> přes kterou
+</I>&gt;<i> dané metody třídy voláte. Musíte předem znát, jaká je struktura třídy,
+</I>&gt;<i> pokud
+</I>&gt;<i> to nechcete složitěji zjišťovat pomocí typové knihovny.
+</I>
+
+Hm, program, ktery nacita ony DLL opravdu natvrdo hleda funkci daneho jmena.
+Takze ocekavam, ze model COM mi bohuzel nepomuze.
+
+&gt;<i>
+</I>&gt;<i> Osobně si myslím, že bez bližších znalostí kolem COM záležitostí v C (pokud
+</I>&gt;<i> tedy tím druhým bindovaným jazykem je C) cestu b)
+</I>&gt;<i> rovnou vzdejte. Pokud chcete Python nabindovat s jazykem s dobrou podporou
+</I>&gt;<i> COMu (Visual Basic, Microsoft Office, Delphi, C++ Builder, C#, atd..) pak
+</I>&gt;<i> je to primitivní.
+</I>
+
+Diky za vycerpavajici info. Do programovani plnohodnotneho COM objektu bych
+se rozhodne nepoustel a navic vim,ze v tomto pripade to je zbytecne. Spis me
+prekvapuje, ze by python opravdu neumel obyc. DLL :(.
+
+Diky,
+Marek
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080531/2b7df4c1/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080531/2b7df4c1/attachment.htm</A> 
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007552.html">[python] py2exe dll export
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7558">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7558">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7558">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7558">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007558.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:25 GMT -->
+</html>

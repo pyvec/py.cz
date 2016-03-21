@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009404.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:05 GMT -->
+<HEAD>
+   <TITLE> [python] Problém s os.read
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_os%3D2Eread%3F%3D&In-Reply-To=%3Calpine.DEB.2.00.1002130122220.14714%40fuky.localdomain%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-February/009403.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-February/009405.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problém s os.read</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FProbl%3DC3%3DA9m_s_os%3D2Eread%3F%3D&In-Reply-To=%3Calpine.DEB.2.00.1002130122220.14714%40fuky.localdomain%3E"
+       TITLE="[python] Problém s os.read">fuky na sunstel.asu.cas.cz
+       </A><BR>
+    <I>Sobota Únor 13 02:36:48 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009403.html">[python] Problém s os.read
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009405.html">[python] Problém s os.read
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9404">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9404">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9404">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9404">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+myslíš následující dokumentaci a program checkpassword?
+
+     <A HREF="http://cr.yp.to/checkpwd/interface.html">http://cr.yp.to/checkpwd/interface.html</A>
+
+Pokud ano, tak tohle je začátek programu checkpassword:
+
+     int main(int argc,char* argv[]) {
+       char buf[513];
+       char* last;
+       int len;
+       char *login,*passwd,*ptr;
+       struct passwd *pw;
+       struct spwd *spw;
+
+       if (!argv[1]) return 2;
+       for (len=0; len&lt;512; ) {
+         int tmp;
+         tmp=read(3,buf+len,512-len);
+         if (tmp==-1) return 111;
+         if (tmp==0) break;
+         len+=tmp;
+       }
+       close(3);
+
+Ve svém programu tedy nejprve musíš připravit fd 3 pro checkpassword.
+Takže rešení může být např.:
+
+     import os
+
+     r_fd, w_fd = os.pipe()
+     os.write(w_fd, &quot;username\0password\0&quot;)
+
+     retcode = os.fork()
+
+     if (retcode == 0):
+         os.close(w_fd)
+         os.execlp(&quot;checkpassword&quot;, &quot;checkpassword&quot;, &quot;/bin/date&quot;)
+     else:
+         os.close(r_fd)
+         os.close(w_fd)
+
+Jelikoz jsou na zacatku otevreny pouze deskriptory 0, 1, 2 tj. stdin,
+stdout, stderr, tak fce pipe() vrati pro cteci fd 3, takze neni treba
+resit prirazeni pomoci dup(), dup2(). Dulezite je uzavrit zapisovaci
+cast roury, jinak zustane checkpassword &quot;viset&quot; ve fci read().
+
+            S pozdravem Jan Fuchs
+
+&gt;<i> Snažím se napsat si autentikační plugin pro BINCimap. V dokumentaci je
+</I>&gt;<i> napsáno, že jméno a heslo je odesíláno na deskriptor 3.
+</I>
+--
+/**************************************************************
+*   _    Žádný program není bezchybný, dokonalý ani nejlepší, *
+*  °v°   to samé platí i o lidech a nejen o nich.             *
+* /(_)\                                      -- Jan Fuchs --  *
+*  ^ ^                                                        *
+*        <A HREF="http://www.fuky.org/">http://www.fuky.org</A>   Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">jan.fuchs.cz na gmail.com</A> *
+**************************************************************/
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009403.html">[python] Problém s os.read
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-February/009405.html">[python] Problém s os.read
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-February/date.html#9404">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/thread.html#9404">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/subject.html#9404">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-February/author.html#9404">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-February/009404.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:05 GMT -->
+</html>

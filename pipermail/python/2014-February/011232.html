@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011232.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:48 GMT -->
+<HEAD>
+   <TITLE> [python] Entry čtení vstupu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FEntry_%3DE8ten%3DED_vstupu%3F%3D&In-Reply-To=%3C1344a8ec-20d8-46e1-aa06-140c76ff947b%40googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-February/011227.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-February/011228.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Entry čtení vstupu</H1>
+    <B>Roman Zbořil</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FEntry_%3DE8ten%3DED_vstupu%3F%3D&In-Reply-To=%3C1344a8ec-20d8-46e1-aa06-140c76ff947b%40googlegroups.com%3E"
+       TITLE="[python] Entry čtení vstupu">sewerman.cz na gmail.com
+       </A><BR>
+    <I>Úterý Únor 11 21:27:34 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011227.html">[python] Entry čtení vstupu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011228.html">[python] lokalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11232">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11232">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11232">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11232">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Moje řešení, mého vlastního dotazu :-)
+
+# -*- coding: utf-8 -*- 
+from tkinter import *
+
+
+hlavni = Tk()
+hlavni.option_add('*Font', 'Arial 9')  # aby byl lepsi font
+
+vstupObsah=StringVar()
+vstupObsah.set(&quot;1&quot;)
+vstupObsah2=StringVar()
+
+def cteni(entry):
+
+    vstupObsah2.set(eval(vstup.get())+1)
+    hlavni.update_idletasks()
+
+vstup = Entry(hlavni, textvariable=vstupObsah, width=40, )
+vstup.pack(side=LEFT)
+vstup.focus_set()           # aby se dalo hned psát
+vstup.icursor(END)          # aby byl kurzor na konci
+vstup.bind(sequence='&lt;KeyRelease&gt;', func=cteni)
+
+vstup2 = Entry(hlavni, textvariable=vstupObsah2,)
+vstup2.pack(side=LEFT)
+
+tlacitko = Button(hlavni, text=u&quot;přečti&quot;, width=10, command=cteni)
+tlacitko.pack()
+
+mainloop()
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011227.html">[python] Entry čtení vstupu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011228.html">[python] lokalizace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11232">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11232">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11232">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11232">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011232.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:48 GMT -->
+</html>

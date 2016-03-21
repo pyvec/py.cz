@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005494.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:31 GMT -->
+<HEAD>
+   <TITLE> [python] Počítání v jiných soustavách
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FPo%3DE8%3DEDt%3DE1n%3DED_v_jin%3DFDch_soustav%3DE1ch%3F%3D&In-Reply-To=63b313040702030125n1191a40cid38a46cac7f8e547%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005493.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005495.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Počítání v jiných soustavách</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FPo%3DE8%3DEDt%3DE1n%3DED_v_jin%3DFDch_soustav%3DE1ch%3F%3D&In-Reply-To=63b313040702030125n1191a40cid38a46cac7f8e547%40mail.gmail.com"
+       TITLE="[python] Počítání v jiných soustavách">devel na atlas.sk
+       </A><BR>
+    <I>Sobota Únor  3 12:47:51 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005493.html">[python] Počítání v jiných soustavách
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005495.html">[python] Počítání v jiných soustavách
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5494">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5494">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5494">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5494">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>rajcze wrote:
+&gt;<i> Ahoj,
+</I>&gt;<i> tak sem si to ze zvedavosti zkusil vyrobit, a neni to tak slozite:
+</I>&gt;<i>
+</I>&gt;<i> import re
+</I>&gt;<i> from math import *
+</I>&gt;<i>
+</I>&gt;<i> soustava = int(raw_input(&quot;Zadejte soustavu: &quot;))
+</I>&gt;<i> priklad = raw_input(&quot;Zadejte priklad: &quot;)
+</I>&gt;<i>
+</I>&gt;<i> pom=[]
+</I>&gt;<i> pom.append(re.split(r&quot;[^0-9]+&quot;, priklad))
+</I>&gt;<i> pom.append(re.split(r&quot;[0-9]+&quot;, priklad))
+</I>&gt;<i> if pom[0][0] is not '':
+</I>&gt;<i>     pom[0].insert(0,'')
+</I>&gt;<i>
+</I>&gt;<i> out = &quot;&quot;
+</I>&gt;<i>
+</I>&gt;<i> for i in range(len(pom[1])):
+</I>&gt;<i>     try:
+</I>&gt;<i>         out += str(int(pom[0][i], soustava)) + pom[1][i]
+</I>&gt;<i>     except:
+</I>&gt;<i>         out += ' ' + pom[1][i]
+</I>&gt;<i>
+</I>&gt;<i> print out,'=',eval(out)
+</I>&gt;<i>
+</I>&gt;<i> zkousel sem to teda jen na par prikladech (jmenovite &quot;101 * (10 +
+</I>&gt;<i> 111)&quot; a &quot;sqrt((10*10+100)/10)&quot;
+</I>&gt;<i>
+</I>&gt;<i> s pozdravem
+</I>&gt;<i>   Josef Skladanka
+</I>&gt;<i>   
+</I>Taky jednoduchsi sposob je:
+
+import re
+reCislo = re.compile('\d+')
+
+eval2 = lambda xxx: eval(reCislo.sub(lambda x: str(int(x.group(0), 2)), 
+xxx))
+
+#priklady:
+ &gt;&gt;&gt; eval2('101 * (10 + 111)')
+45
+ &gt;&gt;&gt; eval2('sqrt((10*10+100)/10)')
+2.0
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005493.html">[python] Počítání v jiných soustavách
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005495.html">[python] Počítání v jiných soustavách
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5494">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5494">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5494">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5494">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005494.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:31 GMT -->
+</html>

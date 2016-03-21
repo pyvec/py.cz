@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005654.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:19 GMT -->
+<HEAD>
+   <TITLE> [python] Vlastní vlákno pro dlouhý výpočet.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FVlastn%3DED_vl%3DE1kno_pro_dlouh%3DFD_v%3DFDpo%3DE8%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fet%3D2E%3F%3D&In-Reply-To=000801c75c43%24dda327d0%246e7ba8c0%40python00sz8iw8">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005658.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005670.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vlastní vlákno pro dlouhý výpočet.</H1>
+    <B>RMiklos na pss.sk</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FVlastn%3DED_vl%3DE1kno_pro_dlouh%3DFD_v%3DFDpo%3DE8%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fet%3D2E%3F%3D&In-Reply-To=000801c75c43%24dda327d0%246e7ba8c0%40python00sz8iw8"
+       TITLE="[python] Vlastní vlákno pro dlouhý výpočet.">RMiklos na pss.sk
+       </A><BR>
+    <I>Pátek Březen  2 13:06:33 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005658.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005670.html">[python] Vlastní vlákno pro dlouhý výpočet - Tkinter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5654">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5654">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5654">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5654">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Skoda, ze si tu blizsie nespecifikoval charakter funkcie, ktora trva 
+prilis dlho. 
+Napadlo ma , ze ak sa jedna o nejaky iterativny numericky vypocet, mozes 
+rovno do funkcie zamontovat, ze sa prerusi po urcitom maximalnom pocte 
+iteracii. 
+Ako trivialny priklad tu pouzijem strojove epsilon tzv. macheps, t.j. take 
+cislo, ze: macheps + n = n 
+Funkcii odovzdam na zaciatku 2 argumenty: startovaciu hodnotu a maximalny 
+vypocet iteracii. 
+Ak sa presiahne maximalny pocet iteracii funkcia hodi vynimku, ktoru mozes 
+dalej spracovat bez threadu, alebo aj s pouzitim threadu:
+----------------------------------------------------------
+import exceptions
+from threading import Thread
+
+# Vynimka
+class TooMuchIter(exceptions.Exception):
+  def __init__(self, args=None):
+    self.args = args
+
+# Wrapper pre class Thread
+class MyThread(Thread):
+  def __init__(self,myfunc,*arg):
+    Thread.__init__(self)
+    self.func=myfunc
+    self.arg=arg
+  def run(self):
+    try:
+      vysledok_funkcie=self.func
+      print &quot;MachEps = %1.20e&quot; % self.func(*self.arg)
+    except TooMuchIter,e:
+      print &quot;Vypocet predcasne ukonceny: %s&quot; % e
+
+# spustenie funkcie
+def run_function(func, *arg):
+  try:
+    print &quot;Vysledok = %1.20e&quot; % func(*arg)
+  except TooMuchIter,e:
+    print &quot;Vypocet predcasne ukonceny: %s&quot; % e
+
+# funkcia, ktora sa bude pocitat
+def macheps(x, max_iter):
+  # vypocet strojovej nuly
+  eps=x
+  j = 0
+  while (eps+1)&gt;1:
+    eps=eps/2
+    j += 1
+    print &quot;krok %2d:  %1.20e&quot; % (j,eps)
+    if j &gt; max_iter:
+      raise TooMuchIter, &quot;Viac ako %d iteracii !!!&quot; % max_iter
+  # return
+  return(eps)
+
+if  __name__ == '__main__':
+  ### bez pouzitia threadov
+  # funkcia sa predcasne ukonci kvoli vela iteraciam
+  run_function(macheps,1.0,10)
+  # funkcia dobehne do konca
+  run_function(macheps,1.0,100)
+ 
+  ### s pouzitim threadov 
+  thr1=MyThread(macheps,1.0, 100)
+  thr1.start()
+  thr1.join()
+  thr2=MyThread(macheps,1.0, 20)
+  thr2.start()
+  thr2.join()
+:<i>
+</I>----------------------------------------------------------
+
+Ak chces pracovat s threadmi mozno si skus precitat clanok 'Understanding 
+Threading in Python' tu: 
+<A HREF="http://linuxgazette.net/107/pai.html">http://linuxgazette.net/107/pai.html</A>
+
+
+
+
+
+&quot;Jakub Vojacek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+01.03.2007 21:54
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+&quot;Konference PyCZ&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+[python] Vlastní vlákno pro dlouhý výpočet.
+
+
+
+
+
+
+Ahoj
+ 
+
+CHtěl radu ohledně vláken. Dělám na programu, kde chci dát uživateli 
+možnost přeuršit výpočet, protože občas by to trvá fakt dlouho. Ale jak to 
+naprogramovat. Hledal jsem inspiraci v 
+<A HREF="http://wiki.wxpython.org/index.cgi/LongRunningTasks">http://wiki.wxpython.org/index.cgi/LongRunningTasks</A> ale nepomohlo to. 
+Potřeboval bych aby to vlákno přijalo funkci, kterou musí počítat a když 
+by se to dopočítalo tak aby vrátila data
+Vlastně by to fungovalo tímto způsobem:
+ 
+vysledek=Vlakno(moje_funkce_s_parametry)
+if vysledek != None:#uživatel přeušil výpočet
+    zpracuj_vysledek()
+ 
+
+Děkuji za všechny nápady
+ 
+Blujacker_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005658.html">[python] Vlastní vlákno pro dlouhý výpočet.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005670.html">[python] Vlastní vlákno pro dlouhý výpočet - Tkinter
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5654">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5654">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5654">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5654">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005654.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:19 GMT -->
+</html>

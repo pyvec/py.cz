@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009604.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:41 GMT -->
+<HEAD>
+   <TITLE> [python] Jak hostujete pythoní weby?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FJak_hostujete_python%3DED_weby%3D3F%3F%3D&In-Reply-To=%3C4BBC2985.7010705%40sandbox.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009603.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009608.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Jak hostujete pythoní weby?</H1>
+    <B>Vladimir Macek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FJak_hostujete_python%3DED_weby%3D3F%3F%3D&In-Reply-To=%3C4BBC2985.7010705%40sandbox.cz%3E"
+       TITLE="[python] Jak hostujete pythoní weby?">macek na sandbox.cz
+       </A><BR>
+    <I>Středa Duben  7 08:43:17 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009603.html">[python] Jak hostujete pythoní weby?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009608.html">[python] Jak hostujete pythoní weby?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9604">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9604">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9604">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9604">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 6.4.2010 22:58, Adam Strauch wrote:
+&gt;<i> Jakou formu propojení s Apachem či jiným webovým serverem preferujete
+</I>&gt;<i> a jaké s tím máte zkušenosti? Spíše jiné *GI nebo mod_python?
+</I>
+Ted uz vlastne jedu jen Django. V tymu, ktery na jednom serveru
+poskytuje svou vlastni SaaS v nekolika oddelenych instancich, pouzivame
+zhusta doporucovanou konfiguraci: velmi rychly nginx jako frontendovy
+podavac statickych souboru; URL s dynamickym obsahem se preroutuji na
+backendovy Apache na jinem lokalnim portu. Ten ma pomoci mod_wsgi
+pripravene aplikace a zde se ridi veci jako pocet threadu, timeouty pro
+restrarty apod.
+
+Jeste mam jeden zcela odlisny setup, a to kdyz jsem do kioskovych
+pocitacu nechtel kvuli minimalizaci poustet dalsi server. Vzal jsem z
+CherryPy vicevlaknovy HTTP server wsgiserver.py, upravil pro nej
+MediaHandler (pro staticke soubory) a BlockIterator (velke soubory
+inkrementalne) a spoustim ho pres vlastni Django management command.
+Jsem s tim velmi spokojeny; kompaktni, vse v jednom.
+
+
+-- 
+\//\/\ : Vladimir Macek : <A HREF="http://macek.sandbox.cz/">http://macek.sandbox.cz</A> : +420 608 978 164
+
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: macek.vcf
+Type: text/x-vcard
+Size: 517 bytes
+Desc: [žádný popis není k dispozici]
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20100407/5211ff31/attachment.vcf">http://www.py.cz/pipermail/python/attachments/20100407/5211ff31/attachment.vcf</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009603.html">[python] Jak hostujete pythoní weby?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009608.html">[python] Jak hostujete pythoní weby?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9604">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9604">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9604">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9604">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009604.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:41 GMT -->
+</html>

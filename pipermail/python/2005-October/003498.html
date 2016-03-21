@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003498.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:32 GMT -->
+<HEAD>
+   <TITLE> [python] Trideni stromu.
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Trideni%20stromu.&In-Reply-To=434F9A87.4050103%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-October/003496.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-October/003499.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Trideni stromu.</H1>
+    <B>Radek Kaňovský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Trideni%20stromu.&In-Reply-To=434F9A87.4050103%40seznam.cz"
+       TITLE="[python] Trideni stromu.">rk na dat.cz
+       </A><BR>
+    <I>Pátek Říjen 14 14:20:39 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003496.html">[python] Trideni stromu.
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003499.html">[python] Trideni stromu.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3498">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3498">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3498">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3498">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, Oct 14, 2005 at 01:46:15PM +0200, David Michal wrote:
+
+&gt;<i> &gt;ale metoda sort() je rekurzivni. K tomu reseni - melo by stacit si 
+</I>&gt;<i> &gt;uvedomit, jake jsou vztahy mezi jednotlivymi polozkami toho listu a podle 
+</I>&gt;<i> &gt;toho je mezi sebou srovnat.
+</I>&gt;<i> &gt;
+</I>&gt;<i> Tady trosku plavu, vztah mezi polozkami je ten ze pokud a[n][-1] == 
+</I>&gt;<i> a[posledni_rodic][0] tak a[n] je potomkem posledniho rodice. Jak bych 
+</I>&gt;<i> mohl podstrcit metode sort() vlastni fci, ktera by umela toto porovnat?
+</I>
+sort() nepomuze, protoze napriklad o prvcich (323,5),(1024,49) nelze z
+hlediska porovnani nic rict bez dalsiho kontextu. Jestli spravne chapu
+zadani, tak se vlastne jedna o prochazeni stromu do sirky. Zkuste tohle:
+
+    root = 0
+    tree = [(1,0), (5,2), (7,3), (2,0), (3,1), (4,2)]
+
+    branches = {}
+    for item in tree:
+        branches.setdefault(item[1],[]).append(item)
+
+    bfs = [(root,None)]
+    i = 0
+    while branches:
+        node = bfs[i]
+        bfs.extend(branches.pop(node[0], []))
+        i += 1
+    print bfs
+
+Radek Kaňovský
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003496.html">[python] Trideni stromu.
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-October/003499.html">[python] Trideni stromu.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-October/date.html#3498">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/thread.html#3498">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/subject.html#3498">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-October/author.html#3498">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-October/003498.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:32 GMT -->
+</html>

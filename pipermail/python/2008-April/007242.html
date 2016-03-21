@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007242.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:28 GMT -->
+<HEAD>
+   <TITLE> [python] WxPython :: Problém s vláknem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FWxPython_%3D3A%3D3A_Probl%3DE9m_s_vl%3DE1knem%3F%3D&In-Reply-To=013901c89fcf%2485126100%246e7ba8c0%40kubuvpocitac">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007241.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007244.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] WxPython :: Problém s vláknem</H1>
+    <B>Petr Nesladek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FWxPython_%3D3A%3D3A_Probl%3DE9m_s_vl%3DE1knem%3F%3D&In-Reply-To=013901c89fcf%2485126100%246e7ba8c0%40kubuvpocitac"
+       TITLE="[python] WxPython :: Problém s vláknem">petr.nesladek na seznam.cz
+       </A><BR>
+    <I>Středa Duben 16 20:19:59 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007241.html">[python] WxPython :: Problém s vláknem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007244.html">[python] WxPython :: Problém s vláknem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7242">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7242">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7242">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7242">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+mám pocit, že to není  v wx - ale kříží se tam thread s vnitřními událostmi wx - zkus se podívat na tuto úpravu - 
+každou změnu jsem komentoval 
+
+pene
+
+
+import re, time
+import thread,threading, socket,wx
+DEFAULT_HOST='localhost'
+DEFAULT_PORT=1991
+class ReceiveEmail:
+    def __init__(self):
+        while 1:
+            self.send_warning(&quot;some warning&quot;)
+            time.sleep(15)  
+    def send_warning(self,what):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((DEFAULT_HOST, DEFAULT_PORT))
+        s.send(what)
+        s.close()
+class Server(threading.Thread):
+    def __init__(self,prijimaci_funkce):
+        self.prijimaci_funkce=prijimaci_funkce
+        self.S = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.S.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.S.bind((DEFAULT_HOST,DEFAULT_PORT))
+        self.S.listen(5)
+        threading.Thread.__init__(self)
+        self.start()
+        #Start thread:
+        thread.start_new_thread(ReceiveEmail, ())
+    def run(self):
+        while True:
+            try:
+                newS, address = self.S.accept()
+                receivedData = newS.recv(1024)
+                self.prijimaci_funkce(receivedData)
+                newS.close()
+            finally: pass
+        self.S.close()
+class EmailWarningWindow:
+    def __init__(self):
+        self.okno=wx.Frame(None,title=&quot;Second Window&quot;,id=1987,size=(490,340))#,style =wx.SIMPLE_BORDER|wx.STAY_ON_TOP)
+        wx.StaticText(self.okno, label=&quot;some text&quot;)
+        wx.Yield()
+        self.okno.SetAutoLayout(True)
+        self.okno.Show(True)
+
+#       pridany TextCtrl  -pro zapis adt posilanych na EmailWarningWindow
+        self.tx = wx.TextCtrl(self.okno, -1,&quot;&quot;, size=(200, 100), style=wx.TE_MULTILINE)
+        self.tx.SetInsertionPointEnd()
+#   pridana metoda write
+    def write( self, data):
+        self.tx.AppendText(data)
+        
+class App:
+    def __init__(self):
+        okno = wx.App(0)
+        self.okno=wx.Frame(None,title=&quot;First window&quot;,id=-1,size=(490,340))
+#
+        self.okno2 = EmailWarningWindow()
+
+        Server(self.accept)
+        self.okno.Show(True)
+        
+        okno.MainLoop()
+
+#   definovane jako metoda App        
+    def accept(self, data):
+        #Run the second window; 
+        
+        #EmailWarningWindow()
+#       volani pridane metody write objektu EmailWarningWindow
+        self.okno2.write(data)
+    
+if __name__ == &quot;__main__&quot;:
+    App()
+
+
+
+
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Jakub Vojáček &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jakohv na seznam.cz</A>&gt;
+</I>&gt;<i> Předmět: [python] WxPython :: Problém s vláknem
+</I>&gt;<i> Datum: 16.4.2008 16:42:56
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> Ahoj
+</I>&gt;<i> 
+</I>&gt;<i> Při práci s knihovnou Wx jsem narazil na takový problém. Ve své aplikaci mám
+</I>&gt;<i> jedno hlavní okno. Pak se ale ještě musí občas otevřít další okno. Toto okno
+</I>&gt;<i> otevírám pomocí vlákna (threadu), ale nějak to nefunguje (první okno je OK, ale
+</I>&gt;<i> druhé se &quot;zasekne&quot;). Zde je můj kód:
+</I>&gt;<i> 
+</I>&gt;<i> #-*- coding: utf-8 -*-
+</I>&gt;<i> import re, time
+</I>&gt;<i> import thread,threading, socket,wx
+</I>&gt;<i> DEFAULT_HOST='localhost'
+</I>&gt;<i> DEFAULT_PORT=1991
+</I>&gt;<i> class ReceiveEmail:
+</I>&gt;<i>     def __init__(self):
+</I>&gt;<i>         while 1:
+</I>&gt;<i>             self.send_warning(&quot;some warning&quot;)
+</I>&gt;<i>             time.sleep(15)  
+</I>&gt;<i>     def send_warning(self,what):
+</I>&gt;<i>         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</I>&gt;<i>         s.connect((DEFAULT_HOST, DEFAULT_PORT))
+</I>&gt;<i>         s.send(what)
+</I>&gt;<i>         s.close()
+</I>&gt;<i> class Server(threading.Thread):
+</I>&gt;<i>     def __init__(self,prijimaci_funkce):
+</I>&gt;<i>         self.prijimaci_funkce=prijimaci_funkce
+</I>&gt;<i>         self.S = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</I>&gt;<i>         self.S.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+</I>&gt;<i>         self.S.bind((DEFAULT_HOST,DEFAULT_PORT))
+</I>&gt;<i>         self.S.listen(5)
+</I>&gt;<i>         threading.Thread.__init__(self)
+</I>&gt;<i>         self.start()
+</I>&gt;<i>         #Start thread:
+</I>&gt;<i>         thread.start_new_thread(ReceiveEmail, ())
+</I>&gt;<i>     def run(self):
+</I>&gt;<i>         while True:
+</I>&gt;<i>             try:
+</I>&gt;<i>                 newS, address = self.S.accept()
+</I>&gt;<i>                 receivedData = newS.recv(1024)
+</I>&gt;<i>                 self.prijimaci_funkce(receivedData)
+</I>&gt;<i>                 newS.close()
+</I>&gt;<i>             finally: pass
+</I>&gt;<i>         self.S.close()
+</I>&gt;<i> class EmailWarningWindow:
+</I>&gt;<i>     def __init__(self):
+</I>&gt;<i>         self.okno=wx.Frame(None,title=&quot;Second
+</I>&gt;<i> Window&quot;,id=1987,size=(490,340),style =wx.SIMPLE_BORDER|wx.STAY_ON_TOP)
+</I>&gt;<i>         wx.StaticText(self.okno, label=&quot;some text&quot;)
+</I>&gt;<i>         wx.Yield()
+</I>&gt;<i>         self.okno.SetAutoLayout(True)
+</I>&gt;<i>         self.okno.Show(True)
+</I>&gt;<i> class App:
+</I>&gt;<i>     def __init__(self):
+</I>&gt;<i>         okno = wx.App(0)
+</I>&gt;<i>         self.okno=wx.Frame(None,title=&quot;First window&quot;,id=-1,size=(490,340))
+</I>&gt;<i>         Server(accept)
+</I>&gt;<i>         self.okno.Show(True)
+</I>&gt;<i>         okno.MainLoop()
+</I>&gt;<i> def accept(data):
+</I>&gt;<i>     #Run the second window; 
+</I>&gt;<i>     EmailWarningWindow()
+</I>&gt;<i> if __name__ == &quot;__main__&quot;:
+</I>&gt;<i>     App()
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> První okno se otevře, to je funguje, ale to druhé stále pouze zamrzá. Co s tím?
+</I>&gt;<i> 
+</I>&gt;<i> Děkuji
+</I>&gt;<i> 
+</I>&gt;<i> Jakub Vojáček
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007241.html">[python] WxPython :: Problém s vláknem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007244.html">[python] WxPython :: Problém s vláknem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7242">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7242">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7242">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7242">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007242.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:28 GMT -->
+</html>

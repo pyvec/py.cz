@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007229.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:28 GMT -->
+<HEAD>
+   <TITLE> [python] PyQt4 a zlobící (nezobrazující se) menuBar
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FPyQt4_a_zlob%3DEDc%3DED_%3D28nezobrazuj%3DEDc%3DED_%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fse%3D29_menuBar%3F%3D&In-Reply-To=d2219e620804101502k34794154k6adff0230d181fb9%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-April/007228.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-April/007230.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PyQt4 a zlobící (nezobrazující se) menuBar</H1>
+    <B>Marek Palatinus</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FPyQt4_a_zlob%3DEDc%3DED_%3D28nezobrazuj%3DEDc%3DED_%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fse%3D29_menuBar%3F%3D&In-Reply-To=d2219e620804101502k34794154k6adff0230d181fb9%40mail.gmail.com"
+       TITLE="[python] PyQt4 a zlobící (nezobrazující se) menuBar">marek na palatinus.cz
+       </A><BR>
+    <I>Pátek Duben 11 04:37:22 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007228.html">[python] PyQt4 a zlobící (nezobrazující se) menuBar
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007230.html">[python] PyQt4 a zlobící (nezobrazující se) menuBar
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7229">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7229">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7229">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7229">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+QMenuBar.addMenu() očekává řetězec jako popisku menu a vrací objekt typu
+QMenu. Viz.
+<A HREF="http://doc.trolltech.com/qtjambi-4.3.2_01/com/trolltech/qt/qmenubar.html">http://doc.trolltech.com/qtjambi-4.3.2_01/com/trolltech/qt/qmenubar.html</A>
+
+Já se s tím Qt snad jednou naučím ;-).
+
+def createMenu(self):
+               menuBar = QtGui.QMenuBar()
+               menuFile = menuBar.addMenu(&quot;&amp;Soubor&quot;)
+               closeApp = menuFile.addAction(&quot;Konec&quot;)
+
+               return menuBar
+
+MP
+
+2008/4/11 Martin Stiborský &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">martin.stiborsky na gmail.com</A>&gt;:
+
+&gt;<i> Zdravím.
+</I>&gt;<i> Mám maličko problém s QMenuBar widgetem z Qt4, nechce se mi ve
+</I>&gt;<i> vytvořeném okně zobrazit, nevím co jsem kde přehlédnul ... přikládám
+</I>&gt;<i> kód :
+</I>&gt;<i>
+</I>&gt;<i> # -*- coding: utf-8 -*-
+</I>&gt;<i>
+</I>&gt;<i> from PyQt4 import QtCore, QtGui
+</I>&gt;<i>
+</I>&gt;<i> class App_Gui(QtGui.QWidget):
+</I>&gt;<i>        def __init__(self, parent = None):
+</I>&gt;<i>                QtGui.QWidget.__init__(self, parent)
+</I>&gt;<i>                self.resize(620, 420)
+</I>&gt;<i>
+</I>&gt;<i>                menuBar = self.createMenu()
+</I>&gt;<i>                questionTabs = self.createQuestionTabs()
+</I>&gt;<i>
+</I>&gt;<i>                mainLayout = QtGui.QVBoxLayout(self)
+</I>&gt;<i>                mainLayout.setMenuBar(menuBar)
+</I>&gt;<i>                mainLayout.addWidget(self.createQuestionTabs())
+</I>&gt;<i>
+</I>&gt;<i>                self.setLayout(mainLayout)
+</I>&gt;<i>
+</I>&gt;<i>        def createMenu(self):
+</I>&gt;<i>                menuBar = QtGui.QMenuBar()
+</I>&gt;<i>                menuFile = QtGui.QMenu(&quot;Soubor&quot;)
+</I>&gt;<i>                closeApp = menuFile.addAction(&quot;Konec&quot;)
+</I>&gt;<i>                menuBar.addMenu(menuFile)
+</I>&gt;<i>
+</I>&gt;<i>                return menuBar
+</I>&gt;<i>
+</I>&gt;<i>        def createQuestionTabs(self):
+</I>&gt;<i>                questionTabs = QtGui.QTabWidget()
+</I>&gt;<i>
+</I>&gt;<i>                return questionTabs
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> TabWidget se ukáže, takže mám nejspíše chybu v tom, jak menu definuji,
+</I>&gt;<i> nebo jak ho přiřazuji layoutu ..
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> S pozdravem
+</I>&gt;<i> Martin Stiborský
+</I>&gt;<i>
+</I>&gt;<i> Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+</I>&gt;<i> ICQ: 224-065-849
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+gtalk/jabber:<A HREF="http://www.py.cz/mailman/listinfo/python">slush na jabber.cz</A> &lt;jabber%<A HREF="http://www.py.cz/mailman/listinfo/python">3Aslush na jabber.cz</A>&gt;
+email/msn:<A HREF="http://www.py.cz/mailman/listinfo/python">marek na palatinus.cz</A> &lt;msn%<A HREF="http://www.py.cz/mailman/listinfo/python">3Amarek na palatinus.cz</A>&gt;
+icq:360-737-802
+tel:+420 724 249 422
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080411/ae2014f6/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080411/ae2014f6/attachment.htm</A> 
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007228.html">[python] PyQt4 a zlobící (nezobrazující se) menuBar
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-April/007230.html">[python] PyQt4 a zlobící (nezobrazující se) menuBar
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-April/date.html#7229">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/thread.html#7229">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/subject.html#7229">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-April/author.html#7229">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-April/007229.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:28 GMT -->
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000648.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fdaj%3DED_se_n%3DECjak_vlo%3DBEit_v%3DFDb%3DECry%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_z_OptionMenu_jako_polo%3DBEky_do_seznamu%3D3F%3F%3D&In-Reply-To=200610311549.41686.jsim%40med.muni.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000647.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fdaj%3DED_se_n%3DECjak_vlo%3DBEit_v%3DFDb%3DECry%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_z_OptionMenu_jako_polo%3DBEky_do_seznamu%3D3F%3F%3D&In-Reply-To=200610311549.41686.jsim%40med.muni.cz"
+       TITLE="[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Říjen 31 17:53:19 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000647.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+        
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#648">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#648">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#648">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#648">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Funkcia pouzita v command  OptionMenu musi mat zrejme vzdy definovany 
+jeden argument  aj ked ho nepotrebujes.
+Za 1.argumnent dosadi polozku vybranu z OptionMenu, teda vlastne 
+promenna.get()
+
+----------------------------------- code 
+-----------------------------------------
+# -*- coding: cp1250 -*- 
+from Tkinter import *
+
+def foo(bar):
+    print &quot;bar=%s&quot; % bar
+    print u&quot;hodnota je:&quot;, promenna.get()
+    seznam[0]=promenna.get()
+    print seznam
+ 
+okno = Tk()
+
+seznam=['','','','']
+
+promenna = StringVar(okno)  # tkinterovská proměnná
+promenna.set(u&quot;jedna&quot;)      # počáteční hodnota
+option = OptionMenu(okno, promenna, u&quot;jedna&quot;, u&quot;dva&quot;, u&quot;tři&quot;, u&quot;čtyři&quot;, 
+command=foo)
+option.pack()
+
+mainloop()
+----------------------------------- code 
+-----------------------------------------
+
+
+Zistil som, ze ked jej odovzdam este 2.argument t.j. takto 
+  def foo(bar, j)
+robi to problemy. 
+
+Takze skus ju oklamat tak, ze index j jej odovzdas pomimo ako globalnu 
+premennu.
+Tu je demo:
+----------------------------------- code 
+-----------------------------------------
+# -*- coding: cp1250 -*- 
+from Tkinter import *
+
+class MyClass:
+  def __init__(self):
+    self.seznam=['','','','']
+ 
+  def foo(self, bar):
+    print self
+    print u&quot;hodnota je:&quot;, self.promenna.get()
+    self.seznam[self.j] = self.promenna.get()
+    print self.seznam
+
+  def run(self):
+    okno = Tk()
+    self.promenna = StringVar(okno)  # tkinterovská proměnná
+    self.promenna.set(u&quot;dva&quot;)      # počáteční hodnota
+    self.j=1
+    option = OptionMenu(okno, self.promenna, u&quot;jedna&quot;, u&quot;dva&quot;, u&quot;tři&quot;, 
+command=self.foo)
+    option.pack()
+    okno.mainloop()
+
+if __name__ == &quot;__main__&quot;:
+  mc = MyClass() 
+  mc.run() 
+  print mc.seznam
+----------------------------------- code 
+-----------------------------------------
+
+Zamerne som pouzil OO. Tkinter je OO a tym ze robis s objektami sa vyhnes 
+mnohym komplikaciam
+index j listu seznam tu je atribut objektu, teda akasi globalna premenna 
+instancie mc triedy MyClass 
+
+Teraz ked budes chciet ukladat do 0.polozky zoznamu urobis:
+ self.j=0
+ option = OptionMenu(okno, self.promenna, u&quot;jedna&quot;, u&quot;dva&quot;, u&quot;tři&quot;, 
+command=self.foo)
+ked do 1. polozky:
+ self.j=1
+ option = OptionMenu(okno, self.promenna, u&quot;jedna&quot;, u&quot;dva&quot;, u&quot;tři&quot;, 
+command=self.foo)
+...
+atd
+
+
+
+
+&quot;Jan Šimůnek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">jsim na med.muni.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A>
+31.10.2006 15:49
+Please respond to
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>
+cc
+
+Subject
+[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do 
+seznamu?
+
+
+
+
+
+
+Omlouvám se převelice, ale nepomohlo to
+funkce ok:
+def ok(hodnota):
+    u&quot;Volaná funkce při změně hodnoty udělátka 'option'&quot;
+    print u&quot;hodnota je:&quot;, promenna.get(), hodnota
+    seznam.append(promenna.get())
+    print seznam
+nějak záhadně (protože ji nejde volat s argumentem - nebo více argumenty) 
+převezme vybranou hodnotu z OptionMenu a přidá ji na konec seznamu
+Já bych potřeboval, aby byla změněna určitá konkrétní položka seznamu.
+Dá se napsat:
+    seznam[1]=promenna.get()
+ale nedokážu přijít na to,  jak funkci ok předat ještě další hodnotu, aby 
+ji 
+jedno udělátko volalo, že chce uložit hodnotu na seznam[0], další na 
+seznam[1] atd. Případně jak z udělátka změnit hodnotu nějaké globální 
+proměnné (coby umístění v seznamu), kterou by si funkce ok nabrala 
+příkazem 
+global.
+
+Děkuji
+Jan Šimůnek
+_______________________________________________
+Tutor mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000647.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+	
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#648">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#648">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#648">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#648">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000648.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

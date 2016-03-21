@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/002965.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:56 GMT -->
+<HEAD>
+   <TITLE> [python] import
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20import&In-Reply-To=200507011606.50301.j_p%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-July/002964.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-July/002966.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] import</H1>
+    <B>Martin Blazik</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20import&In-Reply-To=200507011606.50301.j_p%40centrum.cz"
+       TITLE="[python] import">martin.blazik na premiumsms.cz
+       </A><BR>
+    <I>Pátek Červenec  1 16:23:07 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002964.html">[python] import
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002966.html">[python] Lowercase
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#2965">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#2965">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#2965">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#2965">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Super, dik. Primo reseni z manualove stranky (cetl jsem to koukam dost 
+ledabyle)
+
+def _import(name):
+    mod = __import__(name)
+    components = name.split('.')
+    for comp in components[1:]:
+        mod = getattr(mod, comp)
+    return mod
+
+name = 'one.two.three'
+_import(name).foo(...)
+
+
+lachtan
+
+Jaroslav Pachola napsal(a):
+
+&gt;<i>Aha,
+</I>&gt;<i>
+</I>&gt;<i>Dne Friday 01 July 2005 15:49 Martin Blazik napsal(a):
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>Jeste maly dodatek, jsem asi jasne nerekl, ze ty moduly mam jako retezec
+</I>&gt;&gt;<i>(nacita se z textoveho konfiguracniho souboru). Metodu foo() uz znam
+</I>&gt;&gt;<i>korektne jmenem.
+</I>&gt;&gt;<i>(Re: se mi tam vetrelo jen diky me lenosti :)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>lachtan
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>ale to by nemelo vadit. Vzdycky se da udelat nejaka vlastni metoda pro 
+</I>&gt;<i>importovani modulu, ktera nahraje modul pomoci __import__(), pak si 
+</I>&gt;<i>zanalyzuje ten retezec (moduleName.split(.)) a pak vyextrahuje ten kyzeny 
+</I>&gt;<i>modul pomoci funkce getattr() - klidne i opakovane, pokud v tom nazvu modulu 
+</I>&gt;<i>je vic tecek - a ten modul vrati.
+</I>&gt;<i>
+</I>&gt;<i>JP
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002964.html">[python] import
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/002966.html">[python] Lowercase
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#2965">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#2965">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#2965">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#2965">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/002965.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:56 GMT -->
+</html>

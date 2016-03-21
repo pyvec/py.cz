@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002739.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:13 GMT -->
+<HEAD>
+   <TITLE> [python] embedded db na serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20embedded%20db%20na%20serveru&In-Reply-To=200506101119.37140.almad%40include.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-June/002737.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-June/002742.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] embedded db na serveru</H1>
+    <B>Ivo Štolpa</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20embedded%20db%20na%20serveru&In-Reply-To=200506101119.37140.almad%40include.cz"
+       TITLE="[python] embedded db na serveru">pussa na pussa.cz
+       </A><BR>
+    <I>Pátek Červen 10 11:53:08 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002737.html">[python] embedded db na serveru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002742.html">[python] zmatený python?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2739">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2739">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2739">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2739">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Lukas Linhart napsal(a):
+
+&gt;<i>E-mail MaReK Olšavský ze dne Fri 10. of June 2005 11:10:
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>Jednoznacne bych to videl jako nejlepsi
+</I>&gt;&gt;<i>volbu, pokud je treba obojzivelnost a rozumna multiplatformita.
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Neni, pobezi to na jednom mojem serveru jednou. Cili FreeBSD a soft jakej 
+</I>&gt;<i>chci. 
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>Jinak pokud se me tyka, preferuji nonLightWeight server PostgreSQL a
+</I>&gt;&gt;<i>myslim, ze na serveru LinuxSoft.cz je to videt...
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Ja pouzivam nonLightWeight Firebird superserver a tez to beha v pohode. 
+</I>&gt;<i>Myslim, ze postgres a firebird jsou porovnatelne db...kdyz uz jsme u toho 
+</I>&gt;<i>offtopicu, nema nekdo nejake kvalitnejsi porovnani techto dvou db? 
+</I>&gt;<i>
+</I>&gt;<i>Me laka SQLite kvuli rychlosti a prostredkove nenarocnosti. Ale jestli je 
+</I>&gt;<i>pravda to zamykani (kvuli ruznym threadum serveru), tak me to fakt stve :[
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>MaReK &quot;Penguin&quot; Olšavský
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;<i>------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>SQLite opravdu umožňuje pouze jedeno otevření pro zápis. Ve FAQ 
+doporučují rozsekat databázi na části po několika tabulkách. Mě to 
+připadá jako čiré zoufalství. SQLite je prostě jen embeded s tím, že se 
+příležitostně dá připojit i další. Pro síťovou práci ze třech nebo více 
+stanic to určitě není. SQLite jde ale rychle dopředu a určitě stojí za 
+to ji sledovat.
+
+Já používám Firebird. Pro nesíťové řešení embeded verzi, která spočívá v 
+jediném souboru fbclient.dll (nebo so) a přes wraper KInterbasDb se s 
+tím pracuje docela dobře.  A proto, aby aplikace byla klientem k plnému 
+Firebird Serveru opravdu stačí jen předělat connect a podstrčit nový 
+fbclient.dll. Navíc k Firebirdu existupe skvělá knížka od Pavla Císaře.
+
+-- 
+Ing. Ivo Štolpa
+
+***********************************************
+PUSSA software, Žižkova 13, 58601 Jihlava
+e-mail: <A HREF="http://www.py.cz/mailman/listinfo/python">pussa na pussa.cz</A>, <A HREF="http://www.py.cz/mailman/listinfo/python">ivo.stolpa na seznam.cz</A>
+stránky: <A HREF="http://www.pussa.cz/">http://www.pussa.cz</A>
+mobilní telefon: 602 735 124
+pevná linka: 567 320 386
+fax: 602 783 071
+***********************************************
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002737.html">[python] embedded db na serveru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-June/002742.html">[python] zmatený python?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-June/date.html#2739">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/thread.html#2739">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/subject.html#2739">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-June/author.html#2739">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-June/002739.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:13 GMT -->
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002079.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:14 GMT -->
+<HEAD>
+   <TITLE> [python] pygtk2.4 na windoze
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pygtk2.4%20na%20windoze&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-October/002077.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-October/002080.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pygtk2.4 na windoze</H1>
+    <B>spooky.ln</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pygtk2.4%20na%20windoze&In-Reply-To="
+       TITLE="[python] pygtk2.4 na windoze">spooky.ln na c-box.cz
+       </A><BR>
+    <I>Sobota Říjen 30 13:42:54 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002077.html">[python] Re: matematická olympiáda - P (programování)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002080.html">[python] pygtk2.4 na windoze
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2079">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2079">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2079">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2079">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>chtel bych se zeptat jak vam chodi nove pygtk2.4 ve win ? jelikoz jsem doma updatoval na linuxu knihovny a python,chtel jsem povysit i v praci na win. tak jsem nainstaloval &quot;Gtk+ Development Environment for Windows 2.4-rc22&quot; a pygtk2.4.0 vsechno behalo v poradku,az najednou nejake veci ktere sly predtim spustit prestaly chodit :( s hlasenim
+
+RuntimeError: can't create const
+RuntimeError: can't create const
+
+Traceback (most recent call last):
+  File &quot;C:\ROTAXMAME\simple.py&quot;, line 1, in -toplevel-
+    import gtk
+  File &quot;C:\Python23\Lib\site-packages\gtk-2.0\gtk\__init__.py&quot;, line 97, in -toplevel-
+    load_font = _Deprecated(gdk.Font, 'load_font', 'gdk')
+AttributeError: 'module' object has no attribute 'Font'
+
+a podobne. neznal treba ani   gtk.Window() :(
+
+tak jsem vsechno preinstaloval a hle ono to bezelo ! ale zase jenom chvili pak se to zaclo opakovat. hledal jsem na internetu a postupoval podle rad.  odinstalovat,vyhledat jestli nejsou nejake knihovny v system32 atd. tak jsem vsechno zase nainstaloval a opet nic :(
+kdyz jsem mel gtk runtime 2.2.4 a pygtk2.2.0 bylo vse v poradku .cesty jsou v poradku . akorat se mi porad debuger zastavuje u gtk v __init__. trida deprecated. nevite jak 100hoven ? ted nebezi ani tohle example,ktere napoprve slo.
+
+import gtk
+import string
+
+def area_expose_cb(area, event):
+    global gc
+
+    gc = area.get_style().fg_gc[gtk.STATE_NORMAL]
+    gc.foreground = blue
+    area.window.draw_rectangle(gc, gtk.TRUE, 50, 50, 100, 50)
+
+if __name__ == &quot;__main__&quot;:
+    window = gtk.Window()
+    window.set_title(&quot;drawing test example&quot;)
+    window.connect(&quot;destroy&quot;, gtk.mainquit)
+    area = gtk.DrawingArea()
+    width = 400; hight = 300
+    area.set_size_request(width, hight)
+    window.add(area)
+    colormap = area.get_colormap()
+    blue = colormap.alloc_color(0, 0, 65535)
+    area.connect(&quot;expose-event&quot;, area_expose_cb)
+    area.show()
+    window.show()
+
+    gtk.mainloop()
+
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20041030/9b601377/attachment.htm">http://www.py.cz/pipermail/python/attachments/20041030/9b601377/attachment.htm</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002077.html">[python] Re: matematická olympiáda - P (programování)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-October/002080.html">[python] pygtk2.4 na windoze
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-October/date.html#2079">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/thread.html#2079">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/subject.html#2079">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-October/author.html#2079">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-October/002079.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:14 GMT -->
+</html>

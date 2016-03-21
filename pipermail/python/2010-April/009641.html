@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009641.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:42 GMT -->
+<HEAD>
+   <TITLE> [python] multiprocess a subprocess
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20a%20subprocess&In-Reply-To=%3C4BC8E1FA.2040000%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-April/009640.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-April/009644.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multiprocess a subprocess</H1>
+    <B>Tomas Pelka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20a%20subprocess&In-Reply-To=%3C4BC8E1FA.2040000%40gmail.com%3E"
+       TITLE="[python] multiprocess a subprocess">tompelka na gmail.com
+       </A><BR>
+    <I>Sobota Duben 17 00:17:30 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009640.html">[python] multiprocess a subprocess
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009644.html">[python] Preklad &quot;list comprehension&quot;?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9641">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9641">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9641">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9641">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Moje chyba melo byt bar(), foo() je jak rikate zatizi proc na 100% (tedy
+funguje).
+
+Oprava:
+Problem je ten ze webovy server z bar() nebezi ...
+
+azurIt wrote:
+&gt;<i> Co presne by mala robit funkcia foo() ? :) podla mna ti na 100% vyhuli procesor a to je cele ;)
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;&gt;<i> -----Pôvodná správa-----
+</I>&gt;&gt;<i> Od: Tomas Pelka [mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">tompelka na gmail.com</A>]
+</I>&gt;&gt;<i> Komu: <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;&gt;<i> Predmet: [python] multiprocess a subprocess
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Zdravim,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> mam maly problem, ktery jiz resim cely vecer. Pro znale bude reseni
+</I>&gt;&gt;<i> jiste otazkou chvilky. Pokousim se o nasledujici:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def foo(q):
+</I>&gt;&gt;<i> print os.getuid()
+</I>&gt;&gt;<i> while True:
+</I>&gt;&gt;<i> pass
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> def bar():
+</I>&gt;&gt;<i> os.setuid(NEJAKE_EXISTUJICI_UID)
+</I>&gt;&gt;<i> if not CESTA_K_HOME in sys.path:
+</I>&gt;&gt;<i> sys.path.append(CESTA_K_HOME)
+</I>&gt;&gt;<i> os.chdir(CESTA_K_HOME)
+</I>&gt;&gt;<i> cmd = &quot;prikaz spouztejici web server&quot;
+</I>&gt;&gt;<i> p = Popen(cmd, shell=True, stdout=PIPE)
+</I>&gt;&gt;<i> p.communicate()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> if __name__ == &quot;__main__&quot;:
+</I>&gt;&gt;<i> # fronta neni prozatim dulezita
+</I>&gt;&gt;<i> workQueue = Queue()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> bar_proc = Process(target=bar, args=())
+</I>&gt;&gt;<i> foo_proc = Process(target=foo, args=(workQueue,))
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> foo_proc.start()
+</I>&gt;&gt;<i> bar_proc.start()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> foo_proc.join()
+</I>&gt;&gt;<i> bar_proc.join()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Problem je ten ze webovy server z foo() nebezi i kdyz python rika
+</I>&gt;&gt;<i> (foo_proc.is_alive()), ze proces bezi.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Kde delam neustale chybu?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Diky za odpovedi.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> Tom
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+-- 
+Tom
+
+Key fingerprint = 06C0 23C6 9EB7 0761 9807  65F4 7F6F 7EAB 496B 28AA
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009640.html">[python] multiprocess a subprocess
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-April/009644.html">[python] Preklad &quot;list comprehension&quot;?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-April/date.html#9641">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/thread.html#9641">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/subject.html#9641">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-April/author.html#9641">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-April/009641.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:42 GMT -->
+</html>

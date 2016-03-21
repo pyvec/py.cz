@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006234.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:39 GMT -->
+<HEAD>
+   <TITLE> [python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Nesrozumitelne%20prirazovaci%20prikazy%20zamichane%0A%09mezidefinice%20standalone%20funkci%20v%20modulu&In-Reply-To=238b0bad0707082343p7010250ci31996d8300388562%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-July/006244.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-July/006239.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu</H1>
+    <B>Jan Matejka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Nesrozumitelne%20prirazovaci%20prikazy%20zamichane%0A%09mezidefinice%20standalone%20funkci%20v%20modulu&In-Reply-To=238b0bad0707082343p7010250ci31996d8300388562%40mail.gmail.com"
+       TITLE="[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu">matejka na cat.cz
+       </A><BR>
+    <I>Pondělí Červenec  9 09:10:43 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006244.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006239.html">[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6234">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6234">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6234">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6234">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Mozna pomuze tento priklad:
+
+
+def dekoruj_funkci(f): #funkce, ktera vytvari FUNKCI 
+    def dekorovana(): #vytvorime novou funkci obalujici funkci f
+        print &quot;pred volanim&quot;
+        f()
+        print &quot;po volani&quot;
+    return dekorovana
+
+def index():
+    print &quot;index&quot;
+    
+index=dekoruj_funkci(index) #prekryjeme puvodni funkci index (do promenne
+index vlozime novy obsah (funkci) navraceny funkci dekoruj_funkci)
+index() #volani prekryte fynkce
+
+
+Jan Matejka
+
+</PRE>
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006244.html">[python] Nesrozumitelne prirazovaci prikazy zamichane mezi	definice standalone funkci v modulu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-July/006239.html">[python] Nesrozumitelne prirazovaci prikazy zamichane	mezidefinice standalone funkci v modulu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-July/date.html#6234">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/thread.html#6234">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/subject.html#6234">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-July/author.html#6234">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-July/006234.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:39 GMT -->
+</html>

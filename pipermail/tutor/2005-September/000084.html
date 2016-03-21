@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000084.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Regularni vyrazy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Regularni%20vyrazy&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2005-September/000083.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2005-September/000085.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Regularni vyrazy</H1>
+    <B>Sladecek Lukas</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Regularni%20vyrazy&In-Reply-To="
+       TITLE="[Tutor PyCZ] Regularni vyrazy">smoke_konfera na rokyta.cz
+       </A><BR>
+    <I>Středa Září 21 12:47:24 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000083.html">[Tutor PyCZ] time diff
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000085.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#84">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#84">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#84">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#84">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+v pythonu jsem novacek a momentalne resim problem jak dosadit za text 
+ktery najdu (pomoci regularniho vyrazu) jakykoliv svuj vlastni text. 
+Cili mam nejakej log ve kterm si najdu urcita klicova slova za ktera pak 
+pridam napr. text &quot;pokus&quot; a tak pokracuji az do konce logu...
+
+
+import sys
+import os
+import re
+
+
+bin = &quot;/sbin/ifconfig&quot;
+iface = str(raw_input(&quot;\nZadejte interface: &quot;))
+
+shell = bin+&quot; &quot;+iface
+opensh = os.popen(shell)
+for lineout in opensh.readlines():
+	mode = re.match('\w+\s+Link\s+encap:(?P&lt;MODE&gt;\w+)\s+HWaddr', lineout)
+	print mode.group('MODE')
+
+
+Tohle je jen priklad jak hledam klicove slovo (neni to navazane na zadne 
+logy). Potreboval bych jen nasmerovat jak spavne zapsat do logu presne 
+na to urcite misto a pokracovat dale (dokud je za co dopisovat)...
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000083.html">[Tutor PyCZ] time diff
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2005-September/000085.html">[Tutor PyCZ] Regularni vyrazy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/date.html#84">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/thread.html#84">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/subject.html#84">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2005-September/author.html#84">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2005-September/000084.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:12 GMT -->
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-May/000322.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] (no subject)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%28no%20subject%29&In-Reply-To=4479BF55.9020100%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-May/000321.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-May/000323.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] (no subject)</H1>
+    <B>xDlabacekM na seznam.cz</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%28no%20subject%29&In-Reply-To=4479BF55.9020100%40post.cz"
+       TITLE="[Tutor PyCZ] (no subject)">xDlabacekM na seznam.cz
+       </A><BR>
+    <I>Neděle Květen 28 17:56:58 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000321.html">[Tutor PyCZ] (no subject)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000323.html">[Tutor PyCZ] (no subject)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/date.html#322">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/thread.html#322">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/subject.html#322">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/author.html#322">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Kompletní verze je taková:
+ 
+ from livewires import *
+import time
+import math
+import random
+ 
+begin_graphics()
+set_colour(Colour.yellow)
+circle(320,240,30, filled=1)
+  
+x=1
+y=1
+for q in range(100):
+  pru=random.randint(2,10)
+  uhel=random.randint(1,359)
+  set_colour(Colour.red)
+  allow_moveables()
+  c=circle(x,y,pru, filled=1)
+  vz=random.randint(50,300)
+  obj=[]
+  
+  pla=[uhel, pru, vz]
+  x=320+pla[2]*math.cos(pla[0])
+  y=240+pla[2]*math.sin(pla[0])
+  obj.append(pla)
+  
+  
+for z in range(10000):
+  x=320+obj[0][2]*math.cos(obj[0][0])
+  y=240+obj[0][2]*math.sin(obj[0][0])
+  obj[0][0]=obj[0][0]+(math.radians(0.1))
+  if obj[0][0]==math.radians(360):
+    obj[0][0]=0
+  else:
+    obj[0][0]=obj[0][0]
+  move_to(c, x,y)
+  time.sleep(0.01)
+  
+time.sleep(10)
+ 
+v téhle verzi to funguje, teda pouze na ukázku jak bych to chtěl. Rotuje
+pouze jedna planetka, takže jsem potřeboval přesně to, co napsal Jirka,
+vytvoření seznamu. Samozřejmě pokud má někdo elegantnější řešení, rád se
+poučím
+Marek Dlabáček
+-----Original Message-----
+From: <A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A> [mailto:<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A>] On Behalf Of
+Pavel Kosina
+Sent: Sunday, May 28, 2006 5:19 PM
+To: Konference Tutor portalu PyCZ
+Subject: Re: [Tutor PyCZ] (no subject)
+ 
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">xDlabacekM na seznam.cz</A> napsal(a): 
+Ahoj,
+Mám zhruba tohle:
+ 
+for q in range(100):
+   obj=[]
+ 
+  pru=random.randint(2,10)
+  uhel=random.randint(1,359)
+  set_colour(Colour.red)
+  allow_moveables()
+  c=circle(x,y,pru, filled=1)
+  vz=random.randint(50,300)
+  obj=[]
+  
+  pla=[uhel, pru, vz]
+  x=320+pla[2]*math.cos(pla[0])
+  y=240+pla[2]*math.sin(pla[0])
+  obj.append(pla)
+ 
+chtěl bych ale, aby se mi vždycky změnil název přidávaného seznamu (pla,
+pla1, pla2.pla99) Snad pochopíte, co chci. Dá se to nějak řešit?
+Marek Dlabáček
+Ne, bohužel to nechápu. Taky proto, že ten kod co jsi sem dal je
+nefunkční - myslím že hází úplně jinou chybu než o které píšeš ty (asi).
+Pls dávej sem &quot;funkční&quot; zkrácené verze, které když si pustíme, tak to
+hodí tu chybu nebo se ukáže přesně ten problém, na který se ptáš. A je
+dobré dávat sem i výpis té chyby z té zkrácené verze, aby si odpovídaly
+čísla řádků.
+
+Nevím tedy na co se ptáš, ale řeknu ti, co vidím v kodu za pravděpodobné
+chyby:
+
+* při každém průchodu smyčkou for nuluješ proměnnou obj (a to dokonce
+dvakrát). To asi nechceš.
+* proměnnou x a y používáš před jejím výpočtem.
+* allow_moveables() stačí dát jednou - a to před smyčku
+* stejně jako set:_color()
+
+Ahoj
+
+
+
+-- 
+geon
+Pavel Kosina
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20060528/73f05ec3/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20060528/73f05ec3/attachment.htm</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000321.html">[Tutor PyCZ] (no subject)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-May/000323.html">[Tutor PyCZ] (no subject)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/date.html#322">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/thread.html#322">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/subject.html#322">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-May/author.html#322">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-May/000322.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007655.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:51 GMT -->
+<HEAD>
+   <TITLE> [python] Otázky kladené Pythonem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FOt%3DC3%3DA1zky_kladen%3DC3%3DA9_Pythonem%3F%3D&In-Reply-To=20080609103848.GA15963%40sirius">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007654.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007656.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Otázky kladené Pythonem</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Futf-8%3Fq%3FOt%3DC3%3DA1zky_kladen%3DC3%3DA9_Pythonem%3F%3D&In-Reply-To=20080609103848.GA15963%40sirius"
+       TITLE="[python] Otázky kladené Pythonem">geon na post.cz
+       </A><BR>
+    <I>Pondělí Červen  9 12:49:59 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007654.html">[python] Ot&#65533;zky kladen&#65533; Pythonem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007656.html">[python] Otázky kladené Pythonem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7655">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7655">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7655">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7655">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zmizení klasického inputu je jedna z věcí, co mi vadí na 3.0. Vaše 
+argumenty jsou pěkné, neplatí však pro 12-ti leté kluky. Tím nechci 
+říci, že Jarkovi je 12. Srovnejte čitelnost:
+
+cislo1=input(&quot;Zadej cislo&quot;)
+cislo1=int(raw_input(&quot;Zadej cislo&quot;))
+
+V druhém příkladě je až moc závorek a funkce int navíc proti první. 
+Přichází chyby ze špatně napsaných závorek a horšího kompletního 
+porozumění. Jde o to, že asi tady bude místo, kde se začně říkat žákům: 
+tohoto si zatím nevšímejte, prostě to napiště jak to je, vysvětlení bude 
+později. To je jedna z hlavních věcí, které se chci u absolutních 
+začátečníků vždy vyhnout.
+
+Naopak, to že se do inputu dají zadávat nejen 1+1, ale výraz s 
+proměnnými, je jedna z věcí, kterou mí žáci vždy vítali s nadšením, s 
+velkým nadšením, byl to jakýsi první hack, a povzbudilo je to k dalšímu 
+zápolení s jazykem.
+
+Pavel Kosina
+
+
+Filip Štědronský napsal(a):
+&gt;<i> Dobrý den
+</I>&gt;<i> No jde o to, že input jako funkce je dost nelogická,
+</I>&gt;<i> prot&#382;e prov&#225;d&#237; dva zcela odli&#353;n&#233; &#250;kony &#8212; na&#269;ten&#237; &#345;et&#283;zce
+</I>&gt;<i> a jeho vyhodnocení jako výrazu. Myslím, že cílem většiny
+</I>&gt;<i> vstupů nebývá vyhodnocení výrazu, takže nemá cenu
+</I>&gt;<i> začínajícím plést hlavu. Navíc, není to dvakrát
+</I>&gt;<i> nejrychlejší (což je tady jedno, ale stejně).
+</I>&gt;<i>
+</I>&gt;<i> Jediný důvod, proč se ve skutečnosti input tak často
+</I>&gt;<i> používá je, že v jednoduchých programech pracujeme
+</I>&gt;<i> častěji s čísly než řetězci a input nám při prostém
+</I>&gt;<i> zadání čísla jej vrátí. Ale &quot;opravdu&quot; si chceme z
+</I>&gt;<i> funkce input() udělat read_number ? Navíc pro v původní
+</I>&gt;<i> otázce zmíněný příklad zkoušení příkladů by šlo na prompt
+</I>&gt;<i> 1+1 napsat prostě 1+1 a vše by fungovalo.
+</I>&gt;<i>
+</I>&gt;<i> Takže vážení, pokud chcete načítat čísla, použijte
+</I>&gt;<i> int(raw_input()). Funkce input() stejně v Pythonu 3
+</I>&gt;<i> zmizí. I pokud byste doopravdy potřebovali vyhodnotit
+</I>&gt;<i> výraz ze vstupu a věděli, co děláte, použijte
+</I>&gt;<i> eval(raw_input()), protože je to daleko čitelnější.
+</I>&gt;<i> Funkce input() je archaický přežitek zachovávaný kvůli
+</I>&gt;<i> zpětné kompatibilitě, a v žádném případě by se neměla
+</I>&gt;<i> používat.
+</I>&gt;<i>
+</I>&gt;<i> PS: V Pythonu 3 se bude raw_input jmenovat input(), je
+</I>&gt;<i>     to hezčí. Původní input pak nahradí přehledné
+</I>&gt;<i>     eval(input()).
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+
+-- 
+geon
+Pavel Kosina
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007654.html">[python] Ot&#65533;zky kladen&#65533; Pythonem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007656.html">[python] Otázky kladené Pythonem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7655">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7655">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7655">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7655">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007655.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:51 GMT -->
+</html>

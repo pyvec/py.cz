@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005775.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:27 GMT -->
+<HEAD>
+   <TITLE> [python] Scrolled WxCanvas
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Scrolled%20WxCanvas&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-March/005759.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-March/005764.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Scrolled WxCanvas</H1>
+    <B>Jakub Vojacek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Scrolled%20WxCanvas&In-Reply-To="
+       TITLE="[python] Scrolled WxCanvas">jakohv na seznam.cz
+       </A><BR>
+    <I>Středa Březen 28 17:33:31 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005759.html">[python] Scrolled WxCanvas
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005764.html">[python] Distribuce programu - balíčku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5775">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5775">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5775">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5775">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ok, takže nakonec mi s tím poradili na DaniWebu, ale mám další problém. Toto je kod:
+
+##do vstupu se zadavaji 4 cisla jako souradnice cary...
+class Canvas:
+    def __init__(self,parent):
+        self.okno=parent
+        self.okno.SetBackgroundColour(&quot;#FCFCFE&quot;)
+        self.radic = wx.FlexGridSizer(2,2,0,0)
+        self.canvas = wx.ScrolledWindow(self.okno, -1)
+       
+        self.canvas.EnableScrolling(True, True)
+        
+        
+        self.P_WIDTH = 1000
+        self.P_HEIGHT = 1000
+        self.canvas.SetScrollbars(20, 20, self.P_WIDTH/20, self.P_HEIGHT/20)
+
+        self.radic.Add(self.canvas, 1, wx.EXPAND)
+        self.radic.Add((0,0))
+        sizer=wx.BoxSizer(wx.VERTICAL)
+        self.radic.Add(sizer, 1, wx.EXPAND)
+        self.radic.Add((0,0))
+        self.radic.AddGrowableRow(0, 1)
+        self.radic.AddGrowableCol(0, 1)
+        sizer2=wx.BoxSizer(wx.HORIZONTAL)
+        sizer2.Add(wx.StaticText(self.okno,label=&quot;  f(y)=   &quot;),0,wx.ALIGN_CENTER)
+        self.vstup=wx.TextCtrl(self.okno)
+        sizer2.Add(self.vstup,1,0,wx.ALL)
+        sizer.Add(sizer2,0,wx.EXPAND)
+        sizer3=wx.BoxSizer(wx.HORIZONTAL)
+        button1=wx.Button(self.okno,label=&quot;Vykresli&quot;)
+        sizer3.Add(button1,0,wx.ALIGN_RIGHT)
+        sizer.Add(sizer3,0,wx.EXPAND)
+        ##
+        self.canvas.SetCursor(wx.CROSS_CURSOR)
+        self.canvas.Bind(wx.EVT_PAINT, self.OnPaint)
+        self.okno.SetSizer(self.radic)
+        button1.Bind(wx.EVT_BUTTON,lambda e:self.vykresli())
+        self.body=[(0,0,0,0)]
+        self.pocet=0
+        self.dc=False
+    def vykresli(self):
+        l=[]
+        for prvek in self.vstup.GetValue().split(','):
+            l.append(int(prvek))
+        self.body=l
+        self.dc.BeginDrawing()
+        self.dc.DrawLineList([l])
+        self.dc.EndDrawing()
+    def OnPaint(self, evt):
+        self.dc=wx.PaintDC(self.canvas)
+        self.dc.BeginDrawing()
+        self.dc.DrawLineList(self.body)
+        self.dc.EndDrawing()
+if __name__ == &quot;__main__&quot;:
+    okno = wx.App(0)
+    parent=wx.MDIParentFrame(None,size=wx.Size(500,500))
+    child=wx.MDIChildFrame(parent,title=&quot;Graf&quot;,id=-1)
+    Canvas(child)
+    child.Maximize()
+    parent.Show()
+    okno.MainLoop()
+
+Do vstupuse zadavají čtyři čísla oddělené čárkou. Tato čísla reprezentují souřadnice čáry, která by se po stisknutí tlačítka vykreslit. Čára se vykreslí, ale pak mi to začne házet chyby kterým nerozumím atd. Jak to opravit tak, aby se čára vykreslila a zůstala tam i po skrolování. 
+
+Děkuji
+
+  ----- Original Message ----- 
+  From: Jakub Vojacek 
+  To: Konference PyCZ 
+  Sent: Saturday, March 24, 2007 12:54 PM
+  Subject: [python] Scrolled WxCanvas
+
+
+  Ahoj
+
+  Snažim se udělat jednoduchou tvarbu grafů ve Wx. Ale mám potáže se scrollbary
+  Zatím jsem udělal toto:
+  import wx
+  class Canvas:
+      def __init__(self,parent):
+          self.okno=parent
+          self.radic = wx.FlexGridSizer(3,2,0,0)
+          self.canvas = wx.Window(self.okno, -1)
+          
+          self.sb_vert = wx.ScrollBar(self.okno, -1, style=wx.SB_VERTICAL)
+          self.sb_vert.SetScrollbar(0,1000,1000,1000)
+          self.sb_hor = wx.ScrollBar(self.okno, -1, style=wx.SB_HORIZONTAL)
+          self.sb_hor.SetScrollbar(0,1000,1000,1000)
+
+          self.radic.Add(self.canvas, 1, wx.EXPAND)
+          self.radic.Add(self.sb_vert, 0, wx.EXPAND)
+          self.radic.Add(self.sb_hor, 0, wx.EXPAND)
+          self.radic.Add((0,0))
+          
+          self.radic.AddGrowableRow(0, 1)
+          self.radic.AddGrowableCol(0, 1)
+
+
+          self.canvas.SetCursor(wx.CROSS_CURSOR)
+          self.canvas.Bind(wx.EVT_PAINT, self.OnPaint)
+          self.okno.SetSizer(self.radic)
+      def vykresli_graf(self,dc):
+          dc.BeginDrawing()
+          lines=[(-50,-50,50,50)]
+          dc.DrawLineList(lines)
+          dc.EndDrawing()
+      def OnPaint(self, evt):
+          dc = wx.PaintDC(self.canvas)
+          self.vykresli_graf(dc)
+  if __name__ == &quot;__main__&quot;:
+      okno = wx.App(0)
+      parent=wx.MDIParentFrame(None,size=wx.Size(500,500))
+      child=wx.MDIChildFrame(parent,title=&quot;Graf&quot;,id=-1)
+      Canvas(child)
+      child.Maximize()
+      parent.Show()
+      okno.MainLoop()
+
+  ale i když je část tý čáry mimoviditelnou část canvasu, scrollbar se nezmění. chtělo by to jako je v Tk:
+  canvas[&quot;yscrollcommand&quot;] = S.set
+  Nelze to nějak nastavit??
+  Dík
+
+
+------------------------------------------------------------------------------
+
+
+  _______________________________________________
+  Python mailing list
+  <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+  <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20070328/7eedd0ae/attachment.htm">http://www.py.cz/pipermail/python/attachments/20070328/7eedd0ae/attachment.htm</A> 
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005759.html">[python] Scrolled WxCanvas
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-March/005764.html">[python] Distribuce programu - balíčku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-March/date.html#5775">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/thread.html#5775">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/subject.html#5775">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-March/author.html#5775">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-March/005775.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:27 GMT -->
+</html>

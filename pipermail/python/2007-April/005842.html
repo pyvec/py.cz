@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005842.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:13 GMT -->
+<HEAD>
+   <TITLE> [python] Trie
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Trie&In-Reply-To=77.426-16863-1527086139-1176480861%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005837.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005838.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Trie</H1>
+    <B>Jan Jakubuv</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Trie&In-Reply-To=77.426-16863-1527086139-1176480861%40seznam.cz"
+       TITLE="[python] Trie">jakubuv na gmail.com
+       </A><BR>
+    <I>Sobota Duben 14 20:40:39 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005837.html">[python] Trie
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005838.html">[python] Jak cist prava k souboru.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5842">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5842">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5842">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5842">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>dobry den,
+
+pokud jde ciste o redukovani prostoru muzete soubor jednoduse zkomprimovat.
+
+pokud si ovsem chcete zachovat moznost rychleho vyhledavani a pristupu
+k souboru zkuste nejprve analyzovat behem vypoctu strukturu trie,
+abyste jste zjistil co je pricinou velkych pametovych pozadavku.
+problem muze byt v implementaci nebo napr. v tom, ze vstupni data
+nemusi byt vhodna pro pouziti trie (prilis malo spolecnych predpon,
+prilis mnoho dlouhych rozdilnych pripon, ...). v tom pripade muzete
+zkusit jinou datovou strukturu napr. komprimovane trie (compressed
+trie) (nebo jestli pomuze napr. toto
+<A HREF="http://www.csse.monash.edu.au/~lloyd/tildeAlgDS/Tree/PATRICIA/">http://www.csse.monash.edu.au/~lloyd/tildeAlgDS/Tree/PATRICIA/</A>) .
+zkuste se take poohlednout po nejake vhodne implementaci v Pythonu.
+podtrzeno secteno bych Vam doporucil komprimovane trie.
+
+obecne pokud ma vstupni soubor 80MB tak se nedivte ze se pouzita pamet
+splha ke 100MB. pokud vsechny pristupy selzou poridte si vetsi
+vypocetni kapacitu ;-) muj odhad je ze na zpracovani 80MB souboru bude
+potrebovat mnohem vic pameti nez je 80MB..
+
+s pozdravem,
+  honza.
+
+
+2007/4/13, Pepa Hajek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">PepaHajek na seznam.cz</A>&gt;:
+&gt;<i> DD,
+</I>&gt;<i> snazim se ulozit slovnik ze souboru (cca 6milionu slov - soubor ma asi 80MB, kazde zvlast na kazdem radku), do struktury Trie (co pismeno, to uzel - spolecne prefixy slov). Cilem je redukovat pametovy prostor zabrany vlastnim slovnikem.
+</I>&gt;<i> At se vsak problem snazim vyresit jakkoli, stale narazim na nedostatek pameti. Zkousel jsem jiz vnorene seznamy, slovniky a naposledy strukturu, neco ve smyslu:
+</I>&gt;<i> &lt;pre&gt;
+</I>&gt;<i> class TNode:
+</I>&gt;<i>         term, subNodes, data = None, (), None
+</I>&gt;<i>
+</I>&gt;<i>         def __init__(self, data):
+</I>&gt;<i>                 self.data=data          #vlastni pismeno
+</I>&gt;<i>                 self.subNodes=()        #ntice poduzli
+</I>&gt;<i>                 self.term=None          #ukoncovaci terminal
+</I>&gt;<i>
+</I>&gt;<i> class tri:
+</I>&gt;<i>         #############################
+</I>&gt;<i>         def __init__(self):
+</I>&gt;<i>                 &quot;&quot;&quot;
+</I>&gt;<i>                 Inicializace
+</I>&gt;<i>                 &quot;&quot;&quot;
+</I>&gt;<i>                 self.root=self.addNode('#')
+</I>&gt;<i>
+</I>&gt;<i>         ############################
+</I>&gt;<i>         def add(self, word):
+</I>&gt;<i>                 &quot;&quot;&quot;
+</I>&gt;<i>                 Prida slovo do slovniku
+</I>&gt;<i>                 &quot;&quot;&quot;
+</I>&gt;<i>                 curNode=self.root
+</I>&gt;<i>                 for letter in word:
+</I>&gt;<i>                         notInTree=True
+</I>&gt;<i>                         for i in curNode.subNodes:
+</I>&gt;<i>                                 if i.data==letter:
+</I>&gt;<i>                                         notInTree=False
+</I>&gt;<i>                                         index=i
+</I>&gt;<i>                                         break
+</I>&gt;<i>                         if notInTree:
+</I>&gt;<i>                                 temp=list(curNode.subNodes)
+</I>&gt;<i>                                 temp.append(self.addNode(letter))
+</I>&gt;<i>                                 curNode.subNodes=tuple(temp)
+</I>&gt;<i>                                 index=curNode.subNodes[-1]
+</I>&gt;<i>                         curNode=index
+</I>&gt;<i> &lt;/pre&gt;
+</I>&gt;<i>
+</I>&gt;<i> Ovsem i pri pouziti teto struktury, nactu-li vice nez 350 000 slov tak se pamet zabrana programem vysplha na nejakych cca 100MB.
+</I>&gt;<i>
+</I>&gt;<i> Napadlo by nejake vhodne efektivni reseni?
+</I>&gt;<i>
+</I>&gt;<i> Dekuji za odpoved
+</I>&gt;<i>
+</I>&gt;<i> P. H.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005837.html">[python] Trie
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005838.html">[python] Jak cist prava k souboru.
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5842">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5842">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5842">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5842">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005842.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:13 GMT -->
+</html>

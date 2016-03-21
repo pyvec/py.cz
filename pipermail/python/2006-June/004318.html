@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004318.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+<HEAD>
+   <TITLE> [python] ukončení interpretu, zničení objektu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4481F6BE.7050407%40inmail.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-June/004320.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-June/004321.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ukončení interpretu, zničení objektu</H1>
+    <B>Martin Blazik</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fukon%3DE8en%3DED_interpretu%3D2C_zni%3DE8en%3DED_ob%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fjektu%3F%3D&In-Reply-To=4481F6BE.7050407%40inmail.cz"
+       TITLE="[python] ukončení interpretu, zničení objektu">martin.blazik na premiumsms.cz
+       </A><BR>
+    <I>Neděle Červen  4 09:18:34 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004320.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004321.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4318">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4318">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4318">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4318">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Cusik,
+ja bych chybu vazne nevidel v tom ze pristupuju v destruktoru ke 
+staticke promenne tridy. Problem je v tom, ze Python v nekterych 
+pripadech provedl jiz gc a to tak, ze znicil definici tridy M.
+
+class M:
+    b = 0
+   
+    def __del__(self):
+        print 'global()', globals()
+        print 'self', self
+        print 'M', M
+        print 'M.b', M.b
+
+
+a = M()
+x = M()
+
+
+global(): {'a': None, '__builtins__': &lt;module '__builtin__' (built-in)&gt;, 
+'__file__': 'fall.py', 'M': &lt;class __main__.M at 0x40297d4c&gt;, 'x': 
+&lt;__main__.M instance at 0x402a7b0c&gt;, '__name__': '__main__', '__doc__': 
+None}
+self: &lt;__main__.M instance at 0x402a7aec&gt;
+M: __main__.M
+M.b: 0
+global(): {'a': None, '__builtins__': &lt;module '__builtin__' (built-in)&gt;, 
+'__file__': None, 'M': None, 'x': None, '__name__': '__main__', 
+'__doc__': None}
+self: &lt;__main__.M instance at 0x402a7b0c&gt;
+M: None
+Exception exceptions.AttributeError: &quot;'NoneType' object has no attribute 
+'b'&quot; in &lt;bound method M.__del__ of &lt;__main__.M instance at 0x402a7b0c&gt;&gt; 
+ignored
+
+V pripade 'x' je videt, ze trida M uz je znicena :-) Tipnul bych si, ze 
+gc odstranuje polozky v nejakem zajimavem sledu a obcas se stane, ze 
+driv uklidi tridu nez vola destruktor jeji instance. Tim padem uz zadna 
+staticka promenna tridy neexistuje. Pokusim se na to jeste podivat v 
+dokumentaci.
+
+lachtan
+
+
+slacker napsal(a):
+&gt;<i> Jan Martinek wrote:
+</I>&gt;&gt;<i>  &gt;&gt; tento program
+</I>&gt;&gt;&gt;&gt;<i> class M:
+</I>&gt;&gt;&gt;&gt;<i>    b = 0
+</I>&gt;&gt;&gt;&gt;<i>    def __del__(self):
+</I>&gt;&gt;&gt;&gt;<i>      M.b
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> a1 = M()
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> vyhodí výjimku
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Exception exceptions.AttributeError: &quot;'NoneType' object has no attribute
+</I>&gt;&gt;&gt;&gt;<i> 'b'&quot; in &lt;bound method M.__del__ of &lt;__main__.M instance at
+</I>&gt;&gt;&gt;&gt;<i> 0x2aaaaab50a28&gt;&gt; ignored
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> rekl bych ze tam i tak mas chybu v M.__del__
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> Jakou chybu? Jestli máš na mysli to
+</I>&gt;&gt;<i>        M.b
+</I>&gt;&gt;<i> tak se domnívám, že to chyba není. Ale nechci se o tom přít, protože i 
+</I>&gt;&gt;<i> když ten řádek nahradím
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        M.b = 0
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> tak to při ukončení programu taky vyhazuje tu výjimku.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Zjistil jsem další věc - když kód vepíšu do intepretu, tak při ukončení 
+</I>&gt;&gt;<i> výjimku nevyhodí. Zatímco když vytvořím soubor s tímtéž kódem a ten 
+</I>&gt;&gt;<i> spustím, tak to výjimku vyhodí. Děje se tak na Linuxu ve verzích
+</I>&gt;&gt;<i> Pythonu 2.4.2 i 2.4.3.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> Jan Martinek
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;<i>
+</I>&gt;<i> Dle meho skromneho nazoru M.b chybou je, ale z jineho duvodu.
+</I>&gt;<i> Dovolim si civotat Python reference manual:
+</I>&gt;<i>
+</I>&gt;<i> Variables defined in the class definition are class variables; they are 
+</I>&gt;<i> shared by all instances. To define instance variables, they must be 
+</I>&gt;<i> given a value in the __init__() method or in another method. Both class 
+</I>&gt;<i> and instance variables are accessible through the notation 
+</I>&gt;<i> ``self.name'', and an instance variable hides a class variable with the 
+</I>&gt;<i> same name when accessed in this way.
+</I>&gt;<i>
+</I>&gt;<i> Dulezita je veta &quot;Jak tridni, tak i instancni promenne jsou pristupne 
+</I>&gt;<i> pomoci zapisu ''self.jmeno'' ...
+</I>&gt;<i>
+</I>&gt;<i> Takze, kdyz zmenite M.b na self.b, docilite pozadovaneho efektu.
+</I>&gt;<i>
+</I>&gt;<i> slacker
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004320.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-June/004321.html">[python] ukončení interpretu, zničení objektu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-June/date.html#4318">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/thread.html#4318">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/subject.html#4318">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-June/author.html#4318">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-June/004318.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:28 GMT -->
+</html>

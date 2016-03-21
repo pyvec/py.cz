@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005890.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:00 GMT -->
+<HEAD>
+   <TITLE> [python] chyba v kodu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20chyba%20v%20kodu&In-Reply-To=OFFBB49A5B.7315A6A3-ONC12572D0.005602FA-C12572D0.00578CE7%40pss.sk">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005888.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005893.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] chyba v kodu</H1>
+    <B>Radek Machulka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20chyba%20v%20kodu&In-Reply-To=OFFBB49A5B.7315A6A3-ONC12572D0.005602FA-C12572D0.00578CE7%40pss.sk"
+       TITLE="[python] chyba v kodu">radek.machulka na gmail.com
+       </A><BR>
+    <I>Čtvrtek Květen  3 18:00:15 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005888.html">[python] chyba v kodu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005893.html">[python] chyba v kodu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5890">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5890">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5890">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5890">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dne čtvrtek 03 května 2007 <A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na pss.sk</A> napsal(a):
+&gt;<i> Mozno ze vysledok je iny ako ocakavas preto, lebo Python deli cele cisla
+</I>&gt;<i> celociselne
+</I>&gt;<i>
+</I>&gt;<i> from math import *
+</I>&gt;<i> def f(inp):
+</I>&gt;<i>   print ((inp + 5) / 10)
+</I>&gt;<i>   print (((inp + 5) / 10) * 65535)
+</I>&gt;<i>   print int(ceil(((inp + 5) / 10) * 65535))
+</I>&gt;<i>   return hex(int(ceil(((inp + 5) / 10) * 65535)))
+</I>&gt;<i>
+</I>&gt;<i> potom
+</I>&gt;<i> print f(-3)
+</I>&gt;<i> dava toto
+</I>&gt;<i> 0
+</I>&gt;<i> 0
+</I>&gt;<i> 0x0
+</I>&gt;<i>
+</I>&gt;<i> ale
+</I>&gt;<i> print f(-3.0)
+</I>&gt;<i> dava toto:
+</I>&gt;<i> 0.2
+</I>&gt;<i> 13107.0
+</I>&gt;<i> 13107
+</I>&gt;<i> 0x3333
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Radek Machulka &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">radek.machulka na gmail.com</A>&gt;
+</I>&gt;<i> Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+</I>&gt;<i> 03.05.2007 17:22
+</I>&gt;<i> Please respond to
+</I>&gt;<i> Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> To
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> cc
+</I>&gt;<i>
+</I>&gt;<i> Subject
+</I>&gt;<i> [python] chyba v kodu
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Zdravim,
+</I>&gt;<i> mam D/A prevodnik pracujici v rozsahu +-5V. Rizeni probiha prostrednictvim
+</I>&gt;<i>
+</I>&gt;<i> serioveho portu. Vlastni nastaveni napeti se provadi odeslanim
+</I>&gt;<i> hexadecimalniho cisla na prevodnik tak, ze:
+</I>&gt;<i> 0x0000 --&gt; -5 V
+</I>&gt;<i> 0x8000 --&gt;  0 V
+</I>&gt;<i> 0xFFFF --&gt;   5 V,
+</I>&gt;<i> mezi tim je zavislost linearni.
+</I>&gt;<i> Vymyslel jsem kod:
+</I>&gt;<i> 'hex(int(ceil(((inp + 5) / 10) * 65535)))'.
+</I>&gt;<i> Pracuje jak ma, jen v intervalu cca (-5 ; -4.735) mi to vraci nesmysly.
+</I>&gt;<i> Nemam zdani cim by to mohlo byt, implementace stejnehoi kodu v jinych
+</I>&gt;<i> jazycich
+</I>&gt;<i> funguje spravne.
+</I>&gt;<i> Predem dik za odpovedi
+</I>&gt;<i> Radek
+</I>&gt;<i>
+</I>&gt;<i> P.S.: 'inp' je vstupni promena funkce provadejici prepocet (pozadovane
+</I>&gt;<i> napeti)
+</I>&gt;<i> a je typu float.
+</I>
+Tak tim to nebude, typy jsem samozrejme zkousel vselijak prohazet a vysledek 
+je stale stejny. Me proste jen prekvapuje, ze tato chyba se vyskytuje jen v 
+teto casti intervalu.
+Problem bude nekde v praci s datovymi typy, to ano, ale asi nekde jinde...
+
+-- 
+Linux khoi 2.6.20-15-386 #2 Sun Apr 15 07:34:00 UTC 2007 i686 GNU/Linux
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005888.html">[python] chyba v kodu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005893.html">[python] chyba v kodu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5890">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5890">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5890">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5890">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005890.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:00 GMT -->
+</html>

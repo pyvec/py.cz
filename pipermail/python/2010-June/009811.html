@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009811.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:32 GMT -->
+<HEAD>
+   <TITLE> [python] získání dat formuláře z HTML source ; odeslání dat (POST)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_dat_formul%3DE1%3DF8e_z_HTML_so%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Furce_%3D3B_odesl%3DE1n%3DED_dat_%3D28POST%3D29%3F%3D&In-Reply-To=%3C6b1bb472-0bcc-4eea-af5f-f7ed4dc8618d%40d8g2000yqf.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-June/009810.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-June/009812.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] získání dat formuláře z HTML source ; odeslání dat (POST)</H1>
+    <B>petrofF</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_dat_formul%3DE1%3DF8e_z_HTML_so%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Furce_%3D3B_odesl%3DE1n%3DED_dat_%3D28POST%3D29%3F%3D&In-Reply-To=%3C6b1bb472-0bcc-4eea-af5f-f7ed4dc8618d%40d8g2000yqf.googlegroups.com%3E"
+       TITLE="[python] získání dat formuláře z HTML source ; odeslání dat (POST)">petr0ff na seznam.cz
+       </A><BR>
+    <I>Pondělí Červen 14 16:22:57 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009810.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009812.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9811">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9811">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9811">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9811">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 13 čvn, 09:37, petrofF &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">petr... na seznam.cz</A>&gt; wrote:
+&gt;<i> ....
+</I>&gt;<i> PROBLÉM = odeslání zprávy:
+</I>&gt;<i> A. Načtení stránky s formulářem:
+</I>&gt;<i> &gt;&gt;&gt; import httplib2
+</I>&gt;<i> &gt;&gt;&gt; h = httplib2.Http('.cache'); response, content = h.request(&quot;<A HREF="http://www.vodafonesms.cz/">http://www.vodafonesms.cz/</A>&quot;,headers={'cache-control':'no-cache'})
+</I>&gt;<i> ....
+</I>&gt;<i> Jak ze zdrojového textu ( = content ) získat seznam parametrů + hodnot
+</I>&gt;<i> formuláře ? (ve standardní knihovně jsem vhodný modul nenašel)
+</I>&gt;<i>
+</I>&gt;<i> B. Odeslání POST requestu s daty
+</I>&gt;<i> Zde si nejsem jistý, který header Set-Cookie použít (jsou dva)
+</I>&gt;<i>
+</I>&gt;<i> Díky předem za jakékoli vodítko
+</I>&gt;<i> ----------------------------------------------
+</I>[ZAPOMNĚL JSEM UPŘESNIT VERZI PYTHONU = 2.5]
+(A)
+
+&gt;<i> Jinak na parsování HTML existuje např. BeautifulSoup
+</I>&gt;<i> <A HREF="http://www.py.cz/BeautifulSoup">http://www.py.cz/BeautifulSoup</A>
+</I>
+Je to vynikající a přesně to, co potřebuju:
+
+import BeautifulSoup, urllib, httplib2
+
+def getPOSTdata(content, inpDICT={}, formName='smsform'):
+    soup=BeautifulSoup.BeautifulSoup(content)
+    formTag = soup('form',{'name':formName})[0]
+    tags = formTag.findAll([&quot;textarea&quot;,&quot;input&quot;])
+    actualDICT = {}
+    getAttr=lambda tag,aName: str(dict(tag.attrs).get(aName,&quot;&gt;&gt;&gt; Value
+CHYBI &lt;&lt;&lt;&quot;))
+    for tag in tags:
+	pair={getAttr(tag,&quot;name&quot;):getAttr(tag,&quot;value&quot;)}
+	actualDICT.update(pair)
+	if not inpDICT:
+            print pair
+    assert inpDICT, &quot;&lt;Listing: FORM-Params&gt;&quot;
+    actualDICT.update(inpDICT)
+    params = urllib.urlencode(actualDICT)
+    return str(formTag[&quot;action&quot;]),params
+
+&gt;&gt;&gt;<i> .....
+</I>&gt;&gt;&gt;<i> h = httplib2.Http('.cache')
+</I>&gt;&gt;&gt;<i> response, content = h.request(url,headers={'cache-control':'no-cache'})
+</I>&gt;&gt;&gt;<i> getPOSTdata(content)
+</I>
+{'imgid': 'de0ce7a9acfa910f0641685dd2a51a73'}
+{'ppp': '127641611832110:9f8d25f503cd7281478229755d48217c'}
+{'locale': 'cz'}
+{'number': ''}
+{'mynumber': ''}
+{'sender': ''}
+{'message': '&gt;&gt;&gt; Value CHYBI &lt;&lt;&lt;'}
+{'char_in': ''}
+{'char_le': ''}
+{'parts': ''}
+{'pictogram': '&gt;&gt;&gt; Value CHYBI &lt;&lt;&lt;'}
+{'send': 'Odeslat!'}
+AssertionError: &lt;Listing: FORM-Params&gt;
+
+&gt;&gt;&gt;<i> inp = getInpDICT(&quot;12121212&quot;)
+</I>&gt;&gt;&gt;<i> inp
+</I>{'sender': 'Petr Fojtik', 'pictogram': '12121212', 'char_in': '14',
+'char_le': '734', 'number': '773695124', 'parts': '1', 'mynumber':
+'596874494', 'message': 'Poslana zprava'}
+&gt;&gt;&gt;<i> data = getPOSTdata(content,inp)
+</I>&gt;&gt;&gt;<i> data
+</I>('send.php', 'sender=Petr
++Fojtik&amp;pictogram=12121212&amp;locale=cz&amp;char_in=14&amp;char_le=734&amp;send=Odeslat
+%21&amp;number=773695124&amp;parts=1&amp;imgid=de0ce7a9acfa910f0641685dd2a51a73&amp;ppp=127641611832110%3A9f8d25f503cd7281478229755d48217c&amp;message=Poslana
++zprava&amp;mynumber=596874494')
+
+....mělo by následovat:
+&gt;&gt;&gt;<i> url += data[0]
+</I>&gt;&gt;&gt;<i> response, content = h.request(url, 'POST', headers=headers, data[1])
+</I>A zde si nejsem jist přesným obsahem headers (hlavně co se týče
+COOKIES),
+Zkusil jsem (ve FIREFOXU/Firebug) odchytit komunikaci z orig.webu
+Tam ty headers při POSTnutí formu vypadají takto:
+
+REQUEST HEADERS
+
+Host: www.vodafonesms.cz
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:
+1.9.0.15) Gecko/2009101601 Firefox/3.0.15 ( )
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/
+*;q=0.8
+Accept-Language: cs,en-us;q=0.7,en;q=0.3
+Accept-Encoding: gzip,deflate
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+Keep-Alive: 300
+Connection: keep-alive
+Referer: <A HREF="http://www.vodafonesms.cz/index.php?locale=cz&amp;number=773695124&amp;mynumber=596784494&amp;sender=petroff&amp;message=test">http://www.vodafonesms.cz/index.php?locale=cz&amp;number=773695124&amp;mynumber=596784494&amp;sender=petroff&amp;message=test</A>
+Cookie: SMS_Internet=2879475161.20480.0000;
+__gemius_fp=1276059281956_914318332; s_cc=true; s_nr=1276060670069-
+New; s_sq=vodaczprod%3D%2526pid%253Dhttp%25253A//www.vodafonesms.cz/
+index.php%25253Flocale%25253Dcz%252526number
+%25253D773695124%252526mynumber%25253D596784494%252526sender
+%25253Dpetroff%252526message%25253Dtest%2526oid%253DOdeslat
+%252521%2526oidt%253D3%2526ot%253DSUBMIT;
+public_sms_gw=544fe3e1cde33f7378432b5549da6804
+
+RESPONSE HEADERS
+
+Date: Wed, 09 Jun 2010 05:17:04 GMT
+Server: Apache
+Location: success.php?locale=cz&amp;omniture=
+Content-Length: 0
+Connection: close
+Content-Type: text/html; charset=utf-8
+Set-Cookie: SMS_Internet=2879475161.20480.0000; expires=Wed, 09-
+Jun-2010 05:47:04 GMT; path=/
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009810.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009812.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9811">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9811">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9811">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9811">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009811.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:32 GMT -->
+</html>

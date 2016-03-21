@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-September/009089.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:17 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s argumentami pri volani metody instancie
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20argumentami%20pri%20volani%20metody%20instancie&In-Reply-To=%3C71322e88-5e64-4ac2-a365-5ff63d38e911%40o6g2000yqj.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-September/009087.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-September/009088.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s argumentami pri volani metody instancie</H1>
+    <B>mykhal</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20argumentami%20pri%20volani%20metody%20instancie&In-Reply-To=%3C71322e88-5e64-4ac2-a365-5ff63d38e911%40o6g2000yqj.googlegroups.com%3E"
+       TITLE="[python] Problem s argumentami pri volani metody instancie">michal.bozon na gmail.com
+       </A><BR>
+    <I>Sobota Září  5 19:10:02 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009087.html">[python] Problem s argumentami pri volani metody instancie
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009088.html">[python] Problem s argumentami pri volani metody instancie
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-September/date.html#9089">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/thread.html#9089">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/subject.html#9089">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/author.html#9089">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>abych tak nejak vysvetlil sve myslenkove pochody, s ohledem na
+zacatecnika..
+
+kdyz si nadefinujeme funkci, ktera vraci svoje argumenty jako tuple:
+
+def f(*a):
+    return a
+
+tedy potom f() nam vraci prazdny tuple (), f('x') nam da ('x',)
+
+a vytvorime tridu s metodou, ktera bude nasi funkci f
+
+class C:
+    def f(*a):
+        return a
+
+nebo v podstate analogicky zapis:
+
+class C:
+    f = f
+
+a vytvorime instanci c:
+
+c = C()
+
+potom c.f() nam nedava prazdny tuple, ale vidime neco treba jako
+(&lt;__main__.C instance at 0x7f8379f164d0&gt;,)
+takto jsme se presvedcili, se se nam tam opravdu vklada jako prvni
+argument objekt ze ktereho volame, to zname &quot;self&quot; (take vidime, ze ho
+nemusime mit nikde napsane pod timto jmenem)
+
+pokud si vytvorime z nasi funkce f instanci objektu vyse zminovanaho
+Callable z MultipartPostHandler.py:
+
+class Callable:
+    def __init__(self, obj):
+        # klasicka inicializace, vyzaduje jeden argument..
+        # tento objekt se nam bude volat pri volani instance teto
+tridy
+        self.__call__ = obj
+f_c = Callable(f)
+
+pak se nam f_c bude chovat stejne jako f (akorat, ze to neni objekt
+typu function)
+
+pokud ho pouzijeme analogicky v definici tridy:
+
+class C:
+    f = f_c
+c = C()
+
+potom nam uz c.f() vraci prazdny tuple - uz se nam tam nevklada
+&quot;self&quot;, chova se to, jako bychom meli
+class C:
+    @staticmethod
+    def f(*a):
+        return a
+
+... tak z techto duvodu se domnivam ze jde o hack, jak udelat
+statickou metodu. zamozrejme nemuzu vyloucit ze jsem autora
+MultipartPostHandler.py podcenil a nepochopil, a ze se jedna o nejake
+genialni reseni.., ktere ma jeste jine zavazne dusledky.. :-)
+
+ m.
+
+
+On Jul 18, 2:53 am, Carry &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">carr... na seznam.cz</A>&gt; wrote:
+&gt;<i> Dakujem za odpoved. Myslim ze mate pravdu, aj ked tomu este nerozumiem.
+</I>&gt;<i> Je mozne ze som tam pridal ten self sam, ale zistil som ze mam starsiu
+</I>&gt;<i> verziu modulu ako je ta v odkaze (kde self v definicii nie je). Neviem
+</I>&gt;<i> co znamena Callable, este som sa s tym nestretol, budem musiet
+</I>&gt;<i> dostudovat tuto tematiku, vidim to poprve. Az teraz som si vsimol ze v
+</I>&gt;<i> tom module je za definiciou nejake Callable, ktore spominate. Ako
+</I>&gt;<i> vravim, zatial som skor uzivatel. V kazdom pripade pomohlo odstranit
+</I>&gt;<i> self parameter z definicie a teda asi rozbehnut ten hack, ktoremu zatial
+</I>&gt;<i> nerozumiem. Myslim ze ho zatial necham tak ako je, kedze funguje,
+</I>&gt;<i> minimalne nez to pochopim...
+</I>&gt;<i>
+</I>&gt;<i> mykhal wrote:
+</I>&gt;<i> &gt; .. kdyz si znova ctu vas prispevek, tak to spis vypada, ze jste
+</I>&gt;<i> &gt; zkopirovat ten hack nezapomnel, ale pridal jste metode
+</I>&gt;<i> &gt; multipart_encode navic prvni argument self, coz je mozna trochu lepsi
+</I>&gt;<i> &gt; reseni. v tom pripade je ale potreba smazat
+</I>&gt;<i> &gt; multipart_encode = Callable(multipart_encode)
+</I>&gt;<i> &gt; a vubec celou tridu Callable
+</I>&gt;<i>
+</I>&gt;<i> &gt;  m.
+</I>&gt;<i>
+</I>&gt;<i> &gt; On Jul 17, 6:05 pm, Carry &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">carr... na seznam.cz</A>&gt; wrote:
+</I>&gt;<i> &gt;&gt; Zdravim,
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt; snazim sa pouzit vo svojom skripte modul MultipartPostHandler.py (<A HREF="zhttp://odin.himinbi.org/MultipartPostHandler.py">zhttp://odin.himinbi.org/MultipartPostHandler.py</A>) pre posielanie http
+</I>&gt;<i> &gt;&gt; requestov serveru ale python hlasi tuto chybu:
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt;   File &quot;...\MultipartPostHandler.py&quot;, line 79, in http_request
+</I>&gt;<i> &gt;&gt;      boundary, data = self.multipart_encode(v_vars, v_files)
+</I>&gt;<i> &gt;&gt; TypeError: multipart_encode() takes at least 3 arguments (2 given)
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt; riadok 79 je toto volanie v metode objektu:
+</I>&gt;<i> &gt;&gt;          boundary, data = self.multipart_encode(v_vars, v_files)
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt; ...a signatura metody je:
+</I>&gt;<i> &gt;&gt;      def multipart_encode(self, vars, files, boundary = None, buf = None):
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt; Self sa predava implicitne a posledne dva parametre maju tiez implicitne
+</I>&gt;<i> &gt;&gt; hodnoty, takze nechapem co mu vadi :-/
+</I>&gt;<i>
+</I>&gt;<i> &gt;&gt; Prosim o zhovievavost, nakolko som v Pythone newbie.
+</I>&gt;<i> &gt;&gt; Dopredu vdaka za Vase odpovede.
+</I>&gt;<i> &gt;&gt; carry
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009087.html">[python] Problem s argumentami pri volani metody instancie
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-September/009088.html">[python] Problem s argumentami pri volani metody instancie
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-September/date.html#9089">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/thread.html#9089">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/subject.html#9089">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-September/author.html#9089">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-September/009089.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:17 GMT -->
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007962.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:34 GMT -->
+<HEAD>
+   <TITLE> [python] MySQL - nativní rozhraní pro Python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FMySQL_-_nativn%3DED_rozhran%3DED_pro_Python%3F%3D&In-Reply-To=1e5f8cdc0807010202w494af2d3h98ec5a60734bb92c%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/007959.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/007963.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] MySQL - nativní rozhraní pro Python</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FMySQL_-_nativn%3DED_rozhran%3DED_pro_Python%3F%3D&In-Reply-To=1e5f8cdc0807010202w494af2d3h98ec5a60734bb92c%40mail.gmail.com"
+       TITLE="[python] MySQL - nativní rozhraní pro Python">feed na centrum.cz
+       </A><BR>
+    <I>Úterý Červenec  1 13:17:12 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007959.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007963.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7962">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7962">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7962">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7962">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On je základní problém, že databáze jsou relační, zatímco neustále se 
+různé frameworky snaží z toho udělat objektový přístup. A rozdíl mezi 
+těmito dvěma pojetí je tak značný, že objektový přístup nemůže být 
+efektivní.
+
+Ale zase - každý luxus něco stojí a je třeba vědět, zda se vyplatí, nebo 
+ne. U objektového přístupu k relačním databázím je ten luxus (ztráta 
+rychlosti) velmi značný, a v zásadě se vyplatí jen tehdy, pokud a) máte 
+dostatečnou rezervu ve výkonu databáze, b) honíte tam přímo data z 
+jednotlivých tabulek, v krajním případě dvou přes cizí klíč.
+
+Když to tak sleduji (o SQLAlchemy ani Django jsem nevěděl, ale studoval 
+jsem), tak se téměř nikomu tento převod, kdy se na relační databázi 
+dávám nějakým objektovým pohledem přes univerzální framework moc 
+nepovedl. Přiznám se sám, že asi to chce ten OOP interface vymyslet 
+jinak - to je můj vnitřní silný pocit. Na druhé straně musím uznat, že 
+pro jednoduché sáhnutí do tabulky je to velmi luxusní a dostačující.
+
+On totiž SQL jazyk je dost schopný a různorodý a jdou tím až 
+neuvěřitelné zázraky. A nedokážu si dost dobře představit, že bych přes 
+framework hodil třeba to, co jsem teď stvořil (předem upozorňuji, že pro 
+databázi jde o velmi efektivní dotaz, který zpracuje v zanedbatelném čase):
+
+SELECT plant_id,name,(SELECT name FROM plant_name AS n WHERE 
+n.plant_id=boss.plant_id AND language='lt' ORDER BY priority,type LIMIT 
+1) AS lt_name,(SELECT GROUP_CONCAT(o.cs_name ORDER BY 
+o.astrological_object_id SEPARATOR ',') FROM plant_astrological_object 
+AS o WHERE o.astrological_object_id IN  (SELECT astrological_object_id 
+FROM plant_mn_object_plant AS rel WHERE rel.plant_id=boss.plant_id)) AS 
+objects FROM plant_name AS boss WHERE fulltext_name LIKE '%' AND 
+language IN ('cs') ORDER BY name COLLATE utf8_czech_ci
+
+Přitom jde o velmi jednoduchý SQL dotaz, a asi bych si nedokázal 
+představit jak bych to nacpal přes framework.
+
+Obrovská výhoda frameworků ale je - a to je jejich neskutečně silná 
+stránka, která se nedá pominout - že jsou nezávislé na konkrétním 
+databázovém stroji. Prostě znelíbí se vám databáze XY, tak jí prostě 
+vyměníte za jinou, a z hlediska aplikace se nic nemění. Všechny 
+závislosti na konkrétní databázi vyřídí framework sám - a kvůli tomu se 
+také velmi tyto abstrakční vrstvy používají. To je velmi častý důvod 
+jejich nasazení. Platí se za to ovšem ztrátou výkonu a někdy dost 
+značnou neefektivností ve složitějších datových případech.
+
+Miloslav Ponkrác
+
+
+Jirka Vejrazka napsal(a):
+&gt;&gt;<i> Kolega, nadšen &quot;jednoduchostí&quot; objektoveho pristupu k databazi a bez
+</I>&gt;&gt;<i> hlubsich znalosti SQL udelal dotaz, ktery nad realnymi daty trval cca 16-20
+</I>&gt;&gt;<i> sekund. Ja za pomoci SQL udelal dotaz, ktery generoval dataset cca 200-300
+</I>&gt;&gt;<i> milisekund.
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i>   Souhlea, myslim ze nikdo neceka ze jakykoli framework bude stejne
+</I>&gt;<i> rychly a efektivni jako dobre napsane SQL. Zvlast pokud je to SQL
+</I>&gt;<i> (ne)zdrave vylepsene desitkami az stovkami hintu :)
+</I>&gt;<i>
+</I>&gt;<i>   Pokud potrebuju pracovat s velkym mnozstvim dat (warehouse) a nebo
+</I>&gt;<i> potrebuju vyzdimat posledni kousek rychlosti z databaze (OTLP), pak se
+</I>&gt;<i> _dobre_ naucim SQL (a PL/SQL nebo T-SQL) a optimalizaci. Kdyz budu
+</I>&gt;<i> potrebovat udelat webovou aplikaci ktera pouziva databazi jako &quot;neco
+</I>&gt;<i> kam hodim data a pak je tam relativne rychle najdu&quot; a ma tam svych 25
+</I>&gt;<i> tabulek z nichz kazda ma max 8 sloupcu (a jsou celkem malo provazane),
+</I>&gt;<i> klidne sahnu po SQLAlchemy / Django / Pylons / TurboGears / .../ RoR
+</I>&gt;<i> (at nemluvime jenom o Pythonu ;-)
+</I>&gt;<i>
+</I>&gt;<i>     Jirka
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007959.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007963.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7962">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7962">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7962">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7962">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007962.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:34 GMT -->
+</html>

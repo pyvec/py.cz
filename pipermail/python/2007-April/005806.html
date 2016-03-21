@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005806.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:10 GMT -->
+<HEAD>
+   <TITLE> [python] Modul Struct
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Modul%20Struct&In-Reply-To=001a01c77aca%244bafe6b0%246e7ba8c0%40python00sz8iw8">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005803.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005809.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Modul Struct</H1>
+    <B>Leos Pol</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Modul%20Struct&In-Reply-To=001a01c77aca%244bafe6b0%246e7ba8c0%40python00sz8iw8"
+       TITLE="[python] Modul Struct">leos na radiante-corp.com
+       </A><BR>
+    <I>Úterý Duben 10 07:53:54 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005803.html">[python] Modul Struct
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005809.html">[python] Modul Struct
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5806">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5806">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5806">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5806">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+
+Jakub Vojacek wrote:
+&gt;<i> Ahoj
+</I>&gt;<i>  
+</I>&gt;<i> Dělám si takovou vlastní verzi icq. Už to umí posílat zprávy, ale 
+</I>&gt;<i> pořád mi nefunguje příjímání a fakt nevím jak to zprovoznit.
+</I>&gt;<i> Když mi někdo pošle zprávu, přijde mi to ve tvaru:
+</I>&gt;<i>  
+</I>&gt;<i> &#9788;&#196;&#167; &#9618;&#182;   &#9786;      268803181   &#9824; &#9786; &#9787; P &#9824; &#9830;&#9658; &#9786;  &#9827; &#9830;A&#269;&#280;_ &#8596; 
+</I>&gt;<i> &#9786;&#9658;&#238;&#344;d&#271;GV&#9516;U&#731;&#167;&#9619;&#247;&#194;&#8597;,C &#9788; &#9830;  &gt;&#346;
+</I>&gt;<i>  &#9829; &#9830;F&#8594;4&#9516; &#9787; &#8597;&#9827;&#9786; &#9786;&#9786;&#9786;&#9786;         funguj!  &#9794;   &#9644; &#9830;F&#8594;sY &#8252; &#9786;&#8252;
+</I>Hex zapis by byl asi hezci a citelnejsi :-)
+&gt;<i> a kod by měl být:
+</I>&gt;<i>  
+</I>&gt;<i> def prijmi(self):
+</I>&gt;<i>         uin_len = struct.unpack('B', data[0x0a])[0]
+</I>&gt;<i>         msg_len = struct.unpack('!H', data[0x48:0x4a])[0] - 0x04
+</I>&gt;<i>         fmt  = self.fmt % (uin_len, msg_len)
+</I>&gt;<i>         u = struct.unpack(fmt, data)
+</I>&gt;<i>         self.uin    = u[2]
+</I>&gt;<i>         self.msg    = u[4]
+</I>&gt;<i>  
+</I>&gt;<i> ale to mi vyhodí chybu:
+</I>&gt;<i>  
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;C:\Documents and 
+</I>&gt;<i> Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\main.py&quot;, l
+</I>&gt;<i> ine 379, in ?
+</I>&gt;<i>     sys.exit(start(sys.argv))
+</I>&gt;<i>   File &quot;C:\Documents and 
+</I>&gt;<i> Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\main.py&quot;, l
+</I>&gt;<i> ine 332, in start
+</I>&gt;<i>     conn.main_loop()
+</I>&gt;<i>   File &quot;C:\Documents and 
+</I>&gt;<i> Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\main.py&quot;, l
+</I>&gt;<i> ine 82, in main_loop
+</I>&gt;<i>     self.handle_server_cmd(snac)
+</I>&gt;<i>   File &quot;C:\Documents and 
+</I>&gt;<i> Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\main.py&quot;, l
+</I>&gt;<i> ine 131, in handle_server_cmd
+</I>&gt;<i>     m = proto.CMsgIn(snac.data)
+</I>&gt;<i>   File &quot;C:\Documents and 
+</I>&gt;<i> Settings\Blu\Plocha\py-icq-0.0.1\py-icq\src\proto.py&quot;,
+</I>&gt;<i> line 289, in __init__
+</I>&gt;<i>     u = struct.unpack(fmt, data)
+</I>&gt;<i> struct.error: unpack str size does not match format
+</I>Tadle chyba nastava, kdyz je formatovaci string mensi/vetsi nez vstupni 
+data. Chtelo by to sem poslat i ten self.fmt, pak bude mozne dohledat chybu.
+&gt;<i>  
+</I>&gt;<i> Vubec nevím jak to zprovoznit a jsem vděčný za každou radu.
+</I>Jestli py-icq bude pod GPL, dejte nam prosim vedet, az to bude hotove. 
+Minimalne ja bych to privital.
+
+Leo
+&gt;<i>  
+</I>&gt;<i>  
+</I>&gt;<i> Blujacker
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+
+-- 
+----
+Leos Pol
+SW Engineer
+Radiante Corp.
+
+If it can be imagined,
+we can implement it
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005803.html">[python] Modul Struct
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005809.html">[python] Modul Struct
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5806">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5806">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5806">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5806">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005806.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:10 GMT -->
+</html>

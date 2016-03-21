@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-April/011001.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:09 GMT -->
+<HEAD>
+   <TITLE> [python] Suma podle klice slovniku v seznamu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Suma%20podle%20klice%20slovniku%20v%20seznamu&In-Reply-To=%3CCAFhEBEA_TSSgjn1N8rSFDtPZpmFHq6NZ1qjPPU3WoXkEyGWMBQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-April/011000.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-April/011002.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Suma podle klice slovniku v seznamu</H1>
+    <B>Jirka Vejrazka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Suma%20podle%20klice%20slovniku%20v%20seznamu&In-Reply-To=%3CCAFhEBEA_TSSgjn1N8rSFDtPZpmFHq6NZ1qjPPU3WoXkEyGWMBQ%40mail.gmail.com%3E"
+       TITLE="[python] Suma podle klice slovniku v seznamu">jirka.vejrazka na gmail.com
+       </A><BR>
+    <I>Úterý Duben 16 09:56:59 CEST 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-April/011000.html">[python] Suma podle klice slovniku v seznamu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-April/011002.html">[python] Suma podle klice slovniku v seznamu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-April/date.html#11001">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/thread.html#11001">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/subject.html#11001">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/author.html#11001">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Trochu mi unika, proc se tady resi onelinery, kdyz uz starenka napsal
+skvele reseni pres collections.Counter, ktery je k tomu primo urceny :)
+
+   Jirka
+
+
+2013/4/16 Petr Přikryl &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">prikryl at atlas.cz</A>&gt;
+
+&gt;<i> Ahoj všeci,
+</I>&gt;<i>
+</I>&gt;<i> Já bych přece jen zůstal u těch cyklů a pořádně to okomentoval. Jedna věc
+</I>&gt;<i> je
+</I>&gt;<i> nějak to napsat a druhá věc je být schopný  po roce znovu pochopit, co jsem
+</I>&gt;<i> tím myslel (v lepším případě) nebo co tím myslel někdo druhý (v tom
+</I>&gt;<i> horším).
+</I>&gt;<i>
+</I>&gt;<i> lst1 = [{'a':4,'b':3},{'a':4,'b':5},{'a':1,'b':3},{'a':3,'b':2}]
+</I>&gt;<i> print('puvodni seznam slovniku:', lst1)
+</I>&gt;<i>
+</I>&gt;<i> lst2 = [(x['a'], x['b']) for x in lst1]
+</I>&gt;<i> print('seznam dvojic hodnot:', lst2)
+</I>&gt;<i>
+</I>&gt;<i> d = {}
+</I>&gt;<i> for a, b in lst2:
+</I>&gt;<i>     d[a] = d.get(a, 0) + b  # dosavadní součet nebo nula plus nová hodnota
+</I>&gt;<i> print('slovnik sum:', d)
+</I>&gt;<i>
+</I>&gt;<i> lst3 = [{'a': a, 'b': b} for a, b in d.items()]
+</I>&gt;<i> print('vysledny seznam:', lst3)
+</I>&gt;<i>
+</I>&gt;<i> Když vynecháte ty tři meziprinty, není to ani moc dlouhé.
+</I>&gt;<i>
+</I>&gt;<i> Kdo má chuť a čas, mohl by zkusit nějaký větší příklad a timeit.
+</I>&gt;<i>
+</I>&gt;<i> Ona je ale otázka, jak vůbec vznikl ten původní seznam. Připadá mi to
+</I>&gt;<i> jako databázová tabulka se sloupci A a B. Jestli by nebylo lepší použít
+</I>&gt;<i> opravdovou tabulku (sqlite) a opravdový SQL dotaz.
+</I>&gt;<i>
+</I>&gt;<i> Mějte se fajn,
+</I>&gt;<i>     Petr
+</I>&gt;<i>
+</I>&gt;<i> ______________________________________________________________
+</I>&gt;<i> &gt; Od: &quot;Jan Bednařík&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jan.bednarik at gmail.com</A>&gt;
+</I>&gt;<i> &gt; Komu: Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python at py.cz</A>&gt;
+</I>&gt;<i> &gt; Datum: 16.04.2013 00:32
+</I>&gt;<i> &gt; Předmět: Re: [python] Suma podle klice slovniku v seznamu
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Myslím že to využití groupby je parádní. Je to snadno čitelné, jednoduché
+</I>&gt;<i> a
+</I>&gt;<i> &gt;elegantní řešení. Těžko to půjde napsat čitelnějí pomocí cyklů. Ostatně
+</I>&gt;<i> &gt;právě kvůli tomuto příkladu existuje funkce groupby.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;Jen bych to lehce vylepšil použitím operator.itemgetter místo těch lambda
+</I>&gt;<i> &gt;funkcí, tzn.:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;from operator import itemgetter
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;get_a = itemgetter('a')
+</I>&gt;<i> &gt;get_b = itemgetter('b')
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;2013/4/15 Honza Javorek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jan.javorek at gmail.com</A>&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt; Jde to samozřejmě v podstatě one-linerem, ale bude to nečitelný.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; from itertools import groupby
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; def summarize(data):
+</I>&gt;<i> &gt;&gt;     get_b = lambda x: x['b']
+</I>&gt;<i> &gt;&gt;     get_a = lambda x: x['a']
+</I>&gt;<i> &gt;&gt;     return (
+</I>&gt;<i> &gt;&gt;         {'a': val, 'b': sum(map(get_b, group))}
+</I>&gt;<i> &gt;&gt;         for (val, group)
+</I>&gt;<i> &gt;&gt;         in groupby(data, key=get_a)
+</I>&gt;<i> &gt;&gt;     )
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; data = [{'a': 4, 'b': 3}, {'a': 4, 'b': 5}, {'a': 1, 'b': 3}, {'a': 3,
+</I>&gt;<i> &gt;&gt; 'b': 2}]
+</I>&gt;<i> &gt;&gt; print list(summarize(data))  # [{'a': 4, 'b': 8}, {'a': 1, 'b': 3},
+</I>&gt;<i> {'a':
+</I>&gt;<i> &gt;&gt; 3, 'b': 2}]
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Já bych to udělal normálně cyklama, ať se v tom jde vyznat.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; H
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; 2013/4/15 starenka . &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">starenka0 at gmail.com</A>&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Ahoj, dal sem si malyho panaka, abych to pochopil, ale porad nechapu,
+</I>&gt;<i> &gt;&gt;&gt; pokud by ti nahodou slo o sumu cisel u klicu, tak collections.Counter:
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; &gt;&gt;&gt; import collections
+</I>&gt;<i> &gt;&gt;&gt; &gt;&gt;&gt; c = collections.Counter()
+</I>&gt;<i> &gt;&gt;&gt; &gt;&gt;&gt; for one in
+</I>&gt;<i> [{'a':4,'b':3},{'a':4,'b':5},{'a':1,'b':3},{'a':3,'b':2}]:
+</I>&gt;<i> &gt;&gt;&gt; ...     c.update(one)
+</I>&gt;<i> &gt;&gt;&gt; ...
+</I>&gt;<i> &gt;&gt;&gt; &gt;&gt;&gt; c
+</I>&gt;<i> &gt;&gt;&gt; Counter({'b': 13, 'a': 12})
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; Ale asi chces neco jinyho, v tom pripade mi to asi lip vysvetli,
+</I>&gt;<i> &gt;&gt;&gt; protoze jsem z pomalejsich
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; s
+</I>&gt;<i> &gt;&gt;&gt; ---
+</I>&gt;<i> &gt;&gt;&gt; In Perl you shoot yourself in the foot, but nobody can understand how
+</I>&gt;<i> &gt;&gt;&gt; you did it. Six months later, neither can you. | print
+</I>&gt;<i> &gt;&gt;&gt; 'aknerats'[::-1]
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; 2013/4/15 Jaroslav Lukesh &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lukesh at seznam.cz</A>&gt;:
+</I>&gt;<i> &gt;&gt;&gt; &gt; Dobrý den,
+</I>&gt;<i> &gt;&gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt;&gt; &gt; existuje na toto nějaký jednoduchý fígl?
+</I>&gt;<i> &gt;&gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt;&gt; &gt; mám zdroj (první dva slovníky jsou za sebou abyste je nemuseli
+</I>&gt;<i> hledat,
+</I>&gt;<i> &gt;&gt;&gt; jinak
+</I>&gt;<i> &gt;&gt;&gt; &gt; jsou rozmístěná všeljak)
+</I>&gt;<i> &gt;&gt;&gt; &gt; [{'a':4,'b':3},{'a':4,'b':5},{'a':1,'b':3},{'a':3,'b':2}]
+</I>&gt;<i> &gt;&gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt;&gt; &gt; a chci ve výsledku sesumírovat všecky b podle stejného klíče a,
+</I>&gt;<i> takto:
+</I>&gt;<i> &gt;&gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt;&gt; &gt; [{'a':4,'b':8},{'a':1,'b':3},{'a':3,'b':2}]
+</I>&gt;<i> &gt;&gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt;&gt; &gt; hodnota klíče a je obecná, tedy je to text, ne číslo.
+</I>&gt;<i> &gt;&gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt;&gt; &gt; Děkuji, JL.
+</I>&gt;<i> &gt;&gt;&gt; &gt; _______________________________________________
+</I>&gt;<i> &gt;&gt;&gt; &gt; Python mailing list
+</I>&gt;<i> &gt;&gt;&gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A>
+</I>&gt;<i> &gt;&gt;&gt; &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;&gt;&gt; _______________________________________________
+</I>&gt;<i> &gt;&gt;&gt; Python mailing list
+</I>&gt;<i> &gt;&gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A>
+</I>&gt;<i> &gt;&gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; _______________________________________________
+</I>&gt;<i> &gt;&gt; Python mailing list
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A>
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;----------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;_______________________________________________
+</I>&gt;<i> &gt;Python mailing list
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A>
+</I>&gt;<i> &gt;<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python at py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20130416/e69a2959/attachment.html">http://www.py.cz/pipermail/python/attachments/20130416/e69a2959/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-April/011000.html">[python] Suma podle klice slovniku v seznamu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-April/011002.html">[python] Suma podle klice slovniku v seznamu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-April/date.html#11001">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/thread.html#11001">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/subject.html#11001">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-April/author.html#11001">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-April/011001.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:09 GMT -->
+</html>

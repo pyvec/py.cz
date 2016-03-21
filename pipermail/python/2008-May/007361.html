@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007361.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:12 GMT -->
+<HEAD>
+   <TITLE> [python] [Python] Lokalizace Qt aplikace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5BPython%5D%20Lokalizace%20Qt%20aplikace&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-May/007360.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-May/007362.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] [Python] Lokalizace Qt aplikace</H1>
+    <B>Petr Vanek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5BPython%5D%20Lokalizace%20Qt%20aplikace&In-Reply-To="
+       TITLE="[python] [Python] Lokalizace Qt aplikace">petr na scribus.info
+       </A><BR>
+    <I>Středa Květen  7 14:06:39 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007360.html">[python] Lokalizace Qt aplikací
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007362.html">[python] [Python] Lokalizace Qt aplikace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7361">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7361">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7361">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7361">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Example by fungoval, ale stejný postup v programu ne :( Ještě tam
+</I>&gt;<i> musím mít jiný problém ...
+</I>
+OK, vzdavam se. Donutils mne se na to podivat...
+
+je v tom finta. Tvuj translator se nahraje, jenze ty uz mas instanci
+dialogu, proto se na nej neaplikuje. Kdyz das window = MoodleEd() az *po*
+translator.load(), mas vyhrano.
+
+Na podobne speky (zmena jazyka za behu programu) jsou finty - nastavis
+vsechny stringy znovu ve specialnich prockach, ale osobne si myslim, ze je
+to ztrata casu.
+
+p.
+
+
+Index: moodleed.py
+===================================================================
+--- moodleed.py	(revision 27)
++++ moodleed.py	(working copy)
+@@ -64,7 +64,6 @@
+ 		
+ if __name__ == &quot;__main__&quot;:
+ 	app = QtGui.QApplication(sys.argv)
+-	window = MoodleEd()
+ 	
+ 	translator = QtCore.QTranslator()
+ 	current_dir = os.path.abspath(os.path.dirname(__file__))
+@@ -72,9 +71,10 @@
+ #		print &quot;loaded&quot;
+ #	else:
+ #		print &quot;chyba&quot;
+-	translator.load(&quot;moodleed_cs.qm&quot;, current_dir)
++	translator.load(&quot;moodleed.qm&quot;)
+ 	app.installTranslator(translator)
+ 	
++	window = MoodleEd()
+ 	window.ui.show()
+ 	sys.exit(app.exec_())
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007360.html">[python] Lokalizace Qt aplikací
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007362.html">[python] [Python] Lokalizace Qt aplikace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7361">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7361">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7361">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7361">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007361.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:12 GMT -->
+</html>

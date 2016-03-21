@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009859.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:27 GMT -->
+<HEAD>
+   <TITLE> [python] Buffer overflow na Win7?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Buffer%20overflow%20na%20Win7%3F&In-Reply-To=%3C201007151422.46028.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009853.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009861.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Buffer overflow na Win7?</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Buffer%20overflow%20na%20Win7%3F&In-Reply-To=%3C201007151422.46028.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] Buffer overflow na Win7?">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Čtvrtek Červenec 15 14:22:45 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009853.html">[python] Buffer overflow na Win7?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009861.html">[python] Buffer overflow na Win7?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9859">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9859">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9859">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9859">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>slush (čtvrtek 15 Červenec 2010 11:35:04):
+&gt;<i> Funguje. Musim rict &quot;bohuzel&quot;, protoze duvodu, proc by melo zapnute
+</I>&gt;<i> bufferovani preskakovat EOF nerozumim. 
+</I>Protoze nectes stranku primo od kernelu, ale jen nejaky buffer udrzovany libc?
+Urcite s tim bude mit souvislost w+/a+ rezim - AFAIK ma tohle svoje vlastni 
+problemy s konkurencnim pristupem ktery by s tim mohly souviset.
+
+&gt;<i> Taky nevidim souvislost, proc
+</I>&gt;<i> problem resi preseekovani na aktualni pozici.
+</I>Protoze to vysype buffer, takze pozice kterou ma kernel ve file deskriptoru 
+odpovida tomu co ma libc. Samozrejme by slo po kazdy operaci volat flush(), 
+ale tim by tak nejak zmizel duvod vubec bufferovani pouzivat :-)
+
+&gt;<i> Budu muset jeste
+</I>&gt;<i> popremyslet, ktery hack je mensi zlo.
+</I>1) Nepouzivat w+ ale presypavat data z jednoho fd do druheho, a pak udelat 
+rename(). Jako bonus mas bezpecny fallback, kdyz se neco pos..., smazes novy 
+soubor a mas nezpracovany, ale aspon konzistentni data.
+2) Pokud mermomoci potrebujes r/w pristup, tak je lepsi si cely soubor 
+mmapnout, coz cely ten bufferovaci cirkus v libc obchazi.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009853.html">[python] Buffer overflow na Win7?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009861.html">[python] Buffer overflow na Win7?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9859">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9859">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9859">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9859">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009859.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:27 GMT -->
+</html>

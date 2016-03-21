@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004471.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:17 GMT -->
+<HEAD>
+   <TITLE> [python] subprocess.Popen a GTK
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20subprocess.Popen%20a%20GTK&In-Reply-To=51753.193.81.246.92.1154591919.squirrel%40mail.e-region.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004470.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004472.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] subprocess.Popen a GTK</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20subprocess.Popen%20a%20GTK&In-Reply-To=51753.193.81.246.92.1154591919.squirrel%40mail.e-region.net"
+       TITLE="[python] subprocess.Popen a GTK">fuky na sunstel.asu.cas.cz
+       </A><BR>
+    <I>Čtvrtek Srpen  3 11:27:57 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004470.html">[python] subprocess.Popen a GTK
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004472.html">[python] subprocess.Popen a GTK
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4471">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4471">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4471">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4471">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+03. Aug (Thursday) v 09:58:39 CEST 2006, <A HREF="http://www.py.cz/mailman/listinfo/python">juraj.michalek na asinus.org</A> napsal(a):
+&gt;<i> Akym sposobom mam nacitavat zo standardneho vystupu procesov, tak aby
+</I>&gt;<i> metoda  nacitavania neblokovala aplikaciu? Pripadne, ako je mozne zistit
+</I>&gt;<i> zaplenie bufferu?
+</I>
+Spust si nove vlakno pro zpracovani casove narocneho procesu.
+
+Priklad:
+
+#!/usr/bin/python -d
+# -*- coding: utf-8 -*-
+
+  import pygtk
+  pygtk.require(&quot;2.0&quot;)
+  import gtk
+  import gtk.gdk as gdk
+  import gtk.glade as glade
+  import gobject
+  import threading
+  import time
+  
+  class Okno:
+    label_LB = None
+    set_label_enable = False
+    konec = False
+  
+    def __init__(self):
+      gdk.threads_init()
+  
+      vlakno_TH = threading.Thread(target = self.vlakno)
+      vlakno_TH.start()
+  
+      window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+      window.set_title(&quot;Example01&quot;)
+      window.connect(&quot;destroy&quot;, self.quit)
+  
+      box = gtk.VBox()
+      box.show()
+  
+      self.label_LB = gtk.Label(&quot;TEXT&quot;)
+      self.label_LB.show()
+      box.add(self.label_LB)
+  
+      button_BT = gtk.Button(&quot;Label refresh enable&quot;)
+      button_BT.connect(&quot;clicked&quot;, self.label_refresh)
+      button_BT.show()
+      box.add(button_BT)
+  
+      window.add(box)
+      window.show()
+  
+      gtk.main()
+  
+    def label_refresh(self, widget):
+      self.set_label_enable = True
+    
+    def set_label(self, text):
+      self.label_LB.set_text(text)
+    
+    def vlakno(self):
+      for i in range(0, 1000000): 
+        if (self.konec):
+          break
+        if (self.set_label_enable):
+          gobject.idle_add(self.set_label, &quot;i = %i&quot; % i)
+        print &quot;i = %i&quot; % i
+        time.sleep(0.01)
+    
+    def quit(self, window):
+      self.konec = True
+      gtk.main_quit()
+  
+  def main():
+    okno = Okno()
+    
+  if __name__ == '__main__':
+    main()
+
+      S pozdravem Jan Fuchs
+
+-- 
+
+/**************************************************************
+*   _    Žádný program není bezchybný, dokonalý ani nejlepší, *
+*  °v°   to samé platí i o lidech a nejen o nich.             *
+* /(_)\                                      -- Jan Fuchs --  *
+*  ^ ^                                                        *
+*        <A HREF="http://www.fuky.org/">http://www.fuky.org</A>                 ICQ: 200692177   *
+**************************************************************/
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004470.html">[python] subprocess.Popen a GTK
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004472.html">[python] subprocess.Popen a GTK
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4471">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4471">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4471">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4471">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004471.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:17 GMT -->
+</html>

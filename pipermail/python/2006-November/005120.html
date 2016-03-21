@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005120.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:33 GMT -->
+<HEAD>
+   <TITLE> [python] file.next() (bylo Buducnost Pythonu: lambda, map,	filter)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20file.next%28%29%20%28bylo%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%0A%09filter%29&In-Reply-To=78823f240611140748h1e1660bcr1fab5a098be265a7%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005119.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005121.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] file.next() (bylo Buducnost Pythonu: lambda, map,	filter)</H1>
+    <B>Jan Matejka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20file.next%28%29%20%28bylo%20Buducnost%20Pythonu%3A%20lambda%2C%20map%2C%0A%09filter%29&In-Reply-To=78823f240611140748h1e1660bcr1fab5a098be265a7%40mail.gmail.com"
+       TITLE="[python] file.next() (bylo Buducnost Pythonu: lambda, map,	filter)">matejka na cat.cz
+       </A><BR>
+    <I>Úterý Listopad 14 17:05:43 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005119.html">[python] file.next() (bylo Buducnost Pythonu: lambda, map,	filter)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005121.html">[python] file.next() (bylo Buducnost Pythonu: lambda, map,	filter)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5120">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5120">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5120">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5120">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ono obecnější řešení je udělat parsovací generátory, které by šly použít s
+čímkoliv file-like jako vstupním prametrem, a nestrkat parsování to objektu
+file. Tedy:
+
+místo
+&gt;<i> for line in file(&quot;data.txt&quot;).lines():
+</I>&gt;<i>  ...
+</I>
+by bylo:
+for line in lines(file(&quot;data.txt&quot;)):
+ ...
+
+místo
+&gt;<i> #cteni po UTF znacich
+</I>&gt;<i> for char in file(&quot;data.txt&quot;).chars():
+</I>
+by bylo:
+for char in chars(file(&quot;data.txt&quot;)):
+
+atd.
+
+Výpočetní náročnost by zústala stejná. Generátory mi přijdou jako skvělý
+nástroj, škoda že se GvR brání zobecnění do více úrovní zanoření jenž nabízí
+stackless python. 
+
+Jan Matějka
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005119.html">[python] file.next() (bylo Buducnost Pythonu: lambda, map,	filter)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005121.html">[python] file.next() (bylo Buducnost Pythonu: lambda, map,	filter)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5120">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5120">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5120">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5120">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005120.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:33 GMT -->
+</html>

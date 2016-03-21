@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-March/000637.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+<HEAD>
+   <TITLE> [python] Re: načtení HTML stránky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20%3D%3Fiso-8859-2%3Fq%3FRe%3D3A_na%3DE8ten%3DED_HTML_str%3DE1nky%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-March/000636.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-March/000638.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Re: načtení HTML stránky</H1>
+    <B>Jan Novák</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%20%3D%3Fiso-8859-2%3Fq%3FRe%3D3A_na%3DE8ten%3DED_HTML_str%3DE1nky%3F%3D&In-Reply-To="
+       TITLE="[python] Re: načtení HTML stránky">jan.novak na topinfo.cz
+       </A><BR>
+    <I>Pátek Březen 21 17:15:19 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000636.html">[python] zope a rekurze
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000638.html">[python] novinky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-March/date.html#637">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/thread.html#637">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/subject.html#637">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/author.html#637">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Třeba takto:
+
+A) použít modul httplib zhruba takto:
+
+  import httplib
+  url='www.seznam.cz'
+  h=httplib.HTTP(url)
+  h.putrequest('GET','/index.html')
+  h.putheader('Accept','text/html')
+  h.putheader('Accept','text/plain')
+  h.putheader('Host',url)
+  h.endheaders()
+  errcode,errmsg,headers=h.getreply()
+  f=h.getfile()
+  stranka=f.read()
+  f.close()
+  print stranka
+
+s načtenou stránkou jde dělat co je potřeba, třeba zjistit obrázky a také je
+načíst atd.
+
+B) nebo použít přímo modul urlib nebo urllib2
+který práci s HTTP hlavičkami atd. zařídí sám
+tyto moduly jsou nadstavbou nad httplib
+
+  import urllib
+  f=urllib.urlopen(&quot;<A HREF="http://www.py.cz"/">http://www.py.cz&quot;</A>)
+  print f.read()
+
+
+Honza Novák
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000636.html">[python] zope a rekurze
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-March/000638.html">[python] novinky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-March/date.html#637">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/thread.html#637">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/subject.html#637">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-March/author.html#637">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-March/000637.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:37 GMT -->
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-November/011189.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:55 GMT -->
+<HEAD>
+   <TITLE> [python] externí program proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FZXh0ZXJuw60gcHJvZ3JhbSBwcm9txJtubsOp%3F%3D&In-Reply-To=%3C20131121161728.460A669D%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-November/011188.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-November/011190.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] externí program proměnné</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fb%3FZXh0ZXJuw60gcHJvZ3JhbSBwcm9txJtubsOp%3F%3D&In-Reply-To=%3C20131121161728.460A669D%40atlas.cz%3E"
+       TITLE="[python] externí program proměnné">prikryl na atlas.cz
+       </A><BR>
+    <I>Čtvrtek Listopad 21 16:17:28 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011188.html">[python] externí program proměnné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011190.html">[python] How To again
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-November/date.html#11189">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/thread.html#11189">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/subject.html#11189">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/author.html#11189">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Přímo z shelu (cmd) se o něčem takovém nedá rozumně
+uvažovat. Musela by se nějak fikaně modifikovat datová oblast
+rodičovského procesu, což žádný OS nevidí rád. 
+Proměnné prostředí zde se vždycky kopírují do dětského procesu
+a dělá se to v okamžiku vytváření nového procesu. Opačná cesta není.
+ 
+Jenže Python se do té cesty umí vklínit jinak. Umí vytvořit nový
+proces a předhodit mu místo kopie svůj vlastní prostor s proměnnými
+prostředí. Ale ten je taky jen kopií z jeho otce. To znamená, že v Pythonovském
+procesu sice zjistím, co udělal potomek, ale rodičovi už to ven neřeknu.
+ 
+Dejme tomu, že mám dávku a.bat
+==============================
+@echo off
+set moje=moje promenna prostredi
+echo %0: %moje%
+==============================
+ 
+Pythonovský skript může vypadat takto (a.py)
+==============================
+#!python3
+
+import os
+import subprocess
+
+p = subprocess.Popen('a.bat', env=os.environ)
+retcode = p.wait()
+
+v = os.environ['moje']
+
+print('Python: retcode z davky je {}, vracena hodnota je {}'.format(retcode, repr(v)))
+==============================
+ 
+Vypíše to:
+==============================
+c:\__Python\geon&gt;a.py
+a.bat: moje promenna prostredi
+Python: retcode z davky je 0, vracena hodnota je 'moje promenna prostredi'
+==============================
+ 
+Tady to není nic proti ničemu -- žádné znásilňování. Jen se prostě neudělá kopie
+vlastního prostředí, ale předá se to stejné prostředí dětskému procesu.
+ 
+ 
+&gt;<i> 2013/11/20 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">geon na post.cz</A>&gt;&gt;
+</I>&gt;<i>
+</I>&gt;<i>     Jak z Pythonu zavolat externí program (*.bat), aby po navrácení do
+</I>&gt;<i>     pyscriptu zůstaly zachovány systémové proměnné v něm nastavené?
+</I>&gt;<i>
+</I>&gt;<i>     wxp, w7, py3.2, py2.7
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011188.html">[python] externí program proměnné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011190.html">[python] How To again
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-November/date.html#11189">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/thread.html#11189">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/subject.html#11189">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/author.html#11189">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-November/011189.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:55 GMT -->
+</html>

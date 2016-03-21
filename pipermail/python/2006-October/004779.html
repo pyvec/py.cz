@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004779.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:51 GMT -->
+<HEAD>
+   <TITLE> [python] Staistika python.org
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Staistika%20python.org&In-Reply-To=453267C6.6080500%40gentoo.org">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004777.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004781.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Staistika python.org</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Staistika%20python.org&In-Reply-To=453267C6.6080500%40gentoo.org"
+       TITLE="[python] Staistika python.org">feed na centrum.cz
+       </A><BR>
+    <I>Neděle Říjen 15 19:34:31 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004777.html">[python] Staistika python.org
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004781.html">[python] Mobilni python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4779">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4779">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4779">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4779">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Jaky je rozdil mezi absolutne a relativne uvedenou cestou?
+</I>
+Pokud je program závislý na relativní cestě, pak je možné ho přemístit, 
+aniž by bylo nutné cokoli upravovat. Běžná vlastnost mnoha programů. 
+Nechápu, proč když třeba udělám command line filtr na výmaz komentářů ze 
+souboru, proč musí být závislý na nějakém globálním nastavení registrů. 
+To ho pak raději napíšu v C++, který žádné takové blbosti fakt 
+nepředepisuje. A je to škoda, protože jak říkám, python bych rád použil.
+
+&gt;<i> V cem je problem? Ty prece produkt distribuujes, pokud ho nainstalujes
+</I>&gt;<i> jinam, tak relevantnim zpusobem upravis spousteci skript.
+</I>
+Problém je prostě ten, že nemůžu mít program třeba na flashce, nebo na 
+CD, nebo jinde, kde se cesty mění. Jasně, pokud jej někde napevno 
+nainstaluji tak se asi nic neděje.
+
+&gt;&gt;<i>Navíc je 
+</I>&gt;&gt;<i>otázkou, jestli se tam skutečně nastavuje vše.
+</I>&gt;<i> 
+</I>&gt;<i> Navic je otazka, co program provede za 666 sekund po startu, paklize
+</I>&gt;<i> uzivatel pije cerneho Kozla. Pardon, ja nemohl odolat.
+</I>
+Mě stačil pohled do registry monitoru co všechno za klíče v registru se 
+pokouší číst. Ty názvy byly poměrně instruktivní a dá se z toho udělat 
+představu co všechno čte za konfiguraci. Opravdu toho bylo docela hodně.
+
+&gt;<i> Jen tak na okraj, chovani, kdy program nacte jednu sadu konfigu, aby
+</I>&gt;<i> pote mohl nacist jinou a puvodni hodnoty predefinoval, pokdu se lisi, je
+</I>&gt;<i> pomerne bezne.
+</I>
+To je samozřejmě pravda. Nicméně spousta programů umožňuje zakázat, aby 
+se konfigy četly z určitého místa. Python to nedokáže. A závislost na 
+registrech je dost nešťastná, protože nikdy nevíte, co všechno se přečte 
+a co budoucí verze bude číst navíc. Prostě je to jen honička a když 
+náhodou zapomenete něco předefinovat, pak Vám na potvoru python čte 
+náhodně globální nastavení. To je prostě prasečina.
+
+&gt;&gt;<i>Stejně tak mě zajímá, jak uděláte program třeba s py2exe, aby byl 
+</I>&gt;&gt;<i>nezávislý na nastavení systému. Protože to jako grafický program bude 
+</I>&gt;&gt;<i>mít před sebou baťák, který nastaví cesty a pak ho spustí? To je dost 
+</I>&gt;&gt;<i>nešťastné a neefektivní řešení.
+</I>&gt;<i> 
+</I>&gt;<i> Proc by to melo byt &quot;neefektivni&quot;?
+</I>
+Proč? Protože pak je možnost zkompilování do samostatné jedné binárky 
+tak trochu nedokonalé. Já jsem schopen v pythonu vyrobit jedinou exe 
+binárku, ke které nepotřebuji nic navíc, akorát tato binárka potřebuje 
+baťák, abych obešel pitomost v tom, že to čte globální nastavení.
+
+Vždyť řada programů je schopná brát defaultní cesty relativně vůči 
+binárce, jen python prostě ne.
+
+&gt;&gt;<i>Jinak milión dolarů tomu, kdo mě poradí jak vytvořit pomocí py2exe 
+</I>&gt;&gt;<i>binárku z pythonu, kterou je možné přejmenovat aby chodila. Když 
+</I>&gt;&gt;<i>vytvořím binárku s názvem třeba program.exe tak chodí. Ale pokud jí 
+</I>&gt;&gt;<i>přejmenuji třeba na programx.exe, tak skovčí s výjimkou a ani se 
+</I>&gt;&gt;<i>nerozběhne. Je to takové dost nedokonalé. 
+</I>&gt;<i> 
+</I>&gt;<i> Jak zni ta vyjimka, jaky hazi backtrace?
+</I>
+Traceback (most recent call last):
+   File &quot;&lt;install zipextimporter&gt;&quot;, line 1, in ?
+ImportError: No module named zipextimporter
+Traceback (most recent call last):
+   File &quot;wdatadmin.py&quot;, line 1, in ?
+ImportError: No module named auto_build_packages
+Traceback (most recent call last):
+   File &quot;&lt;install zipextimporter&gt;&quot;, line 1, in ?
+
+Jinak ono je taky nešťastné, že při použití některých modulů vyrábí 
+py2exe programy, které na některých počítačích fungují a někde ne. Už 
+jsem zjistil, že moduly mx se nesmí použít (dokonce je přímo v py2exe na 
+moduly mx varování) a modul logger jsem taky s py2exe nerozchodil.
+
+Přiznám se, že už jsem chtěl jednak upravit zdrojáky python interpreteru 
+a přidat přepínač na příkazovou řádku, který by zakazoval číst globální 
+nastavení a začal brát cesty relativně vůči umístění interpreteru a 
+zkompilovat si tak vlastní binárku python interpreteru. Stejně tak jsem 
+přemýšlel, že se pustím do úpravy py2exe, on je to relativně malý modul, 
+aby četl moduly z aktuálního jména binárky. Jenže nemám čas a hlavně si 
+říkám, jestliže takto často narážím na chyby, co budu upravovat příště.
+
+Miloslav Ponkrác
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004777.html">[python] Staistika python.org
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004781.html">[python] Mobilni python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4779">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4779">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4779">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4779">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004779.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:51 GMT -->
+</html>

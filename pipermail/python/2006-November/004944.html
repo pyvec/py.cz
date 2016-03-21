@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004944.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:14 GMT -->
+<HEAD>
+   <TITLE> [python] Dynamicke volani trid
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Dynamicke%20volani%20trid&In-Reply-To=10530039296.20061107162019%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004943.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004949.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dynamicke volani trid</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Dynamicke%20volani%20trid&In-Reply-To=10530039296.20061107162019%40atlas.cz"
+       TITLE="[python] Dynamicke volani trid">RMiklos na pss.sk
+       </A><BR>
+    <I>Úterý Listopad  7 19:09:54 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004943.html">[python] Dynamicke volani trid
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004949.html">[python] Dynamicke volani trid
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4944">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4944">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4944">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4944">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Neviem ci autor mal presne na mysli metody triedy, alebo myslel na metody 
+instancie, ale rad by som k tomu dodal toto:
+
+Pretoze
+&gt;&gt;&gt;<i> x=a
+</I>&gt;&gt;&gt;<i> print x
+</I>__main__.a
+&gt;&gt;&gt;<i> print x()
+</I>&lt;__main__.a instance at 0x00B7FBE8&gt;
+&gt;&gt;&gt;<i> x=a()
+</I>&gt;&gt;&gt;<i> print x
+</I>&lt;__main__.a instance at 0x00B7FBE8&gt;
+&gt;&gt;&gt;<i> 
+</I>
+tak nevidim na prvy pohlad rozdiel medzi tym, ci sa pouzije
+&gt;&gt;&gt;<i> x=a
+</I>&gt;&gt;&gt;<i> x().fa()
+</I>alebo sa vytvori hned instancia x a pouzije sa jej metoda fa() 
+&gt;&gt;&gt;<i> x=a()
+</I>&gt;&gt;&gt;<i> x.fa()
+</I>Az na to, ze v tom prvom pripade sa jedna o vynutene instancovanie, pri 
+ktorom nevznikne trvanliva instancia (t.j. objekt), ale nejaky nullobjekt. 
+
+Ked chcem napriklad zmenit jeho atribut nefunguje to -  pozri priklad 
+dole. 
+
+Ale v oboch horeuvedenych pripadoch sa jedna o volanie metody instancie a 
+nie triedy.
+Nie je mi zname, ze by v Pythone boli mozne metody triedy (podobne ako 
+static v Jave)
+Da sa vytvorit neviazana (unbound) metoda
+&gt;&gt;&gt;<i> um=a.fa
+</I>&gt;&gt;&gt;<i> print um
+</I>&lt;unbound method a.fa&gt;
+
+ale pokus o jej zavolanie zlyha
+&gt;&gt;&gt;<i> um()
+</I>Traceback (most recent call last):
+  File &quot;&lt;pyshell#17&gt;&quot;, line 1, in -toplevel-
+    um()
+TypeError: unbound method fa() must be called with a instance as first 
+argument (got nothing instead)
+
+Musim vzdy najprv vytvorit instanciu triedy a a potom zavolat um, kde jej 
+ako prvy parameter odovzdam instanciu
+&gt;&gt;&gt;<i> ia=a()
+</I>&gt;&gt;&gt;<i> um(ia)
+</I>1
+
+
+
+
+Priklad: Problem s vynutenym instancovanim
+
+# definujem triedu 
+&gt;&gt;&gt;<i> class person:
+</I>        def __init__(self):
+                self.name = 'old'
+        def setname(self, new):
+                self.name = new
+
+# menim atribut self.name cez vynutene instancovanie 
+&gt;&gt;&gt;<i> print person().name
+</I>old
+&gt;&gt;&gt;<i> person().setname('Roman')
+</I>&gt;&gt;&gt;<i> print person().name
+</I>old
+
+takze nefunguje to- atribut self.name nezmenil hodnotu
+
+
+# menim atribut self.name normalne t.j. vytvorenim instancie triedy
+&gt;&gt;&gt;<i> myperson=person()
+</I>&gt;&gt;&gt;<i> print myperson.name
+</I>old
+&gt;&gt;&gt;<i> myperson.setname('Roman')
+</I>&gt;&gt;&gt;<i> print myperson.name
+</I>Roman
+
+Takze pozor na vynutene intancovanie - nemusi to fungovat tak jak by sme 
+si predstavovali :-)
+
+
+Kto by za kazdu cenu chcel pouzit vynutene instancovanie, ten musi zmenit 
+class person takto
+&gt;&gt;&gt;<i> class person:
+</I>        name = 'old'
+        def setname(self, new):
+                person.name = new
+
+&gt;&gt;&gt;<i> print person().name
+</I>old
+&gt;&gt;&gt;<i> person().setname('Roman')
+</I>&gt;&gt;&gt;<i> print person().name
+</I>Roman
+
+
+
+
+
+mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+07.11.2006 16:20
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+Re: [python] Dynamicke volani trid
+
+
+
+
+
+
+T&gt; Zdravim, nevite nahodou nekdo jestli Python umi zavolat metodu tridy s
+T&gt; tim, ze jmeno te tridy je kdesi v promenne? neco jako:
+
+T&gt; class Trida1():
+T&gt;   def self.akce:
+T&gt;     nejaka akce...
+T&gt;     ...
+T&gt; class Trida2():
+T&gt;   def self.akce:
+T&gt;     jina akce...
+T&gt;     ....
+
+T&gt; a = &quot;Trida1&quot;
+
+T&gt; a.akce /* by se pak interpretovalo jako Trida1.akce.*/
+
+T&gt; a = &quot;Trida2&quot;
+
+T&gt; a.akce  /* by se pak interpretovalo jako Trida1.akce. */
+
+T&gt; Diky moc.
+
+T&gt; Tom
+
+Odkazem na tridu, by to mohlo byt nejak takhle.
+class a:
+    def fa(self):
+        print 1
+
+class b:
+    def fa(self):
+        print 2
+
+x=a
+x().fa() #print 1
+x=b
+x().fa() #print 2
+
+Mirek.
+
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+, P. O. Box 48 
+ 
+Tel.: 
+Fax: 
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004943.html">[python] Dynamicke volani trid
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004949.html">[python] Dynamicke volani trid
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4944">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4944">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4944">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4944">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004944.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:14 GMT -->
+</html>

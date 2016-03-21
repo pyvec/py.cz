@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005955.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:05 GMT -->
+<HEAD>
+   <TITLE> [python] Vykreslování grafů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vykreslov%E1n%ED%20graf%F9&In-Reply-To=001b01c79e12%242714c120%246e7ba8c0%40python00sz8iw8">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005957.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005958.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vykreslování grafů</H1>
+    <B>Jan Janech</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Vykreslov%E1n%ED%20graf%F9&In-Reply-To=001b01c79e12%242714c120%246e7ba8c0%40python00sz8iw8"
+       TITLE="[python] Vykreslování grafů">devel na atlas.sk
+       </A><BR>
+    <I>Čtvrtek Květen 24 17:49:01 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005957.html">[python] Vykreslování grafů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005958.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5955">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5955">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5955">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5955">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+
+na kreslenie grafov pouzivam kniznicu matplotlib... ma front-endy pre
+kopec toolkitov.. ja ju pouzivam nad pyGTK... dokaze z GUI menit
+zobrazovany interval a zvacsovat/zmensovat graf
+
+co sa tyka toho kreslenia, ja by som to na 100% robil takto:
+
+fnc=eval('lambda x: '+funkce)
+cislo=spodni_hranice
+while cislo &lt; horni_hranice:
+       x=cislo
+       y=fnc(cislo)
+       body.append([x,y])
+       cislo=cislo+preciznost
+
+teda funkcia sa vykompiluje dopredu a nespomaluje sa zbytocne replacom a
+evalom
+
+Jakub Vojacek wrote:
+&gt;<i> Zdravím
+</I>&gt;<i>  
+</I>&gt;<i> Začal jsem pracovat na lepším prostředí pro správu grafů v programu Math
+</I>&gt;<i> Atelier a potřeboval bych trochu poradit s určitými problémy (gui je
+</I>&gt;<i> dělané pomocí wx).
+</I>&gt;<i> 1) Momentálně je pracovní plocha na výkres grafů velká 1000 x 1000
+</I>&gt;<i> jednotek (pixelů). Akorát výpočet trvá celkem dlouhou dobu a uživatel by
+</I>&gt;<i> mohl potřebovat menší či větší plochu, takže se ptám jestli je dobré
+</I>&gt;<i> nabízet možnost jak velkou pracovní plochu mít.
+</I>&gt;<i> 2) Nevím jak vy byste vypočítávali body pro vykreslení grafu, ale já na
+</I>&gt;<i> to mám takovoutu metodu:
+</I>&gt;<i>  
+</I>&gt;<i> cislo=spodni_hranice
+</I>&gt;<i> while cislo &lt; horni_hranice:
+</I>&gt;<i>        x=cislo
+</I>&gt;<i>        y=eval(funkce.replace('x',cislo))
+</I>&gt;<i>        body.append([x,y])
+</I>&gt;<i>        cislo=cislo+preciznost
+</I>&gt;<i>  
+</I>&gt;<i> Ale výpočet se mi zdá poměrně dlouhý a tak se ptám jesetli vás nenapadá
+</I>&gt;<i> něco efektivnějšího. Dále jakou hodnotu by měla mít proměnná preciznost
+</I>&gt;<i> (nebo jestli by měl mít uživatel možnost ji nastavit).
+</I>&gt;<i> 3) Nyní program dostává body jako souřadnice x,y a vykresluje jednotlivé
+</I>&gt;<i> pixely. Pochopitelně je to způsob relativně nepřehledný, protože pak
+</I>&gt;<i> může být na plátně jenom několik nic neříkajicích teček a proto by je
+</I>&gt;<i> chtělo nějak spojit. Napadlo mě spojit každé dva vedlejší body čárou ale
+</I>&gt;<i> pak mi došlo že to je nemožné, například kvůli grafu 1/cos(x).  Nevíte
+</I>&gt;<i> jaký způsob používají jiné programy?
+</I>&gt;<i>  
+</I>&gt;<i>  
+</I>&gt;<i> Děkuji za případné odpovědi.
+</I>&gt;<i>  
+</I>&gt;<i> Jakub Vojáček.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005957.html">[python] Vykreslování grafů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005958.html">[python] Vykreslování grafů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5955">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5955">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5955">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5955">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005955.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:05 GMT -->
+</html>

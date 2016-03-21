@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009557.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:54 GMT -->
+<HEAD>
+   <TITLE> [python] generatorovy vyraz
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20generatorovy%20vyraz&In-Reply-To=%3Cba2405907dee49869cd1f5ce57b26dea%40c5c42f4cadcd400483e71978c804eb3c%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009554.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009558.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] generatorovy vyraz</H1>
+    <B>Přikryl Petr</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20generatorovy%20vyraz&In-Reply-To=%3Cba2405907dee49869cd1f5ce57b26dea%40c5c42f4cadcd400483e71978c804eb3c%3E"
+       TITLE="[python] generatorovy vyraz">prikryl na atlas.cz
+       </A><BR>
+    <I>Středa Březen 24 16:33:49 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009554.html">[python] generatorovy vyraz (bylo Re: nevznik objektu)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009558.html">[python] &quot;Dive
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9557">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9557">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9557">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9557">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+&gt;<i>---------------------------------------------------------
+</I>&gt;<i>Od: David Rohleder
+</I>&gt;&gt;<i>   g = (i*i for i in range(4))
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> Jde jen o specialitu, aby překladač poznal,
+</I>&gt;&gt;<i> že to je generátorový výraz. Je to jako numerický
+</I>&gt;&gt;<i> výraz -- taky se může zapsat do závorek.
+</I>&gt;<i>
+</I>&gt;<i>Mně vadí nekonzistence:
+</I>&gt;<i>
+</I>&gt;<i>jde napsat 
+</I>&gt;<i>
+</I>&gt;<i>a = fce(generátor)
+</I>&gt;<i>
+</I>&gt;<i>nebo
+</I>&gt;<i>
+</I>&gt;<i>a = fce((generátor))
+</I>
+To i*i for i in range(4) není generátor, ale generátorový výraz.
+Generátor se z toho stane až po tom přiřazení.
+
+&gt;<i>je možné napsat
+</I>&gt;<i>
+</I>&gt;<i>a = (generátor)
+</I>&gt;<i>
+</I>&gt;<i>ale ne 
+</I>&gt;<i>
+</I>&gt;<i>a = generátor
+</I>
+Tedy přesněji, nelze napsat:
+
+a = generátorový výraz
+
+... jde o to, že se bez těch závorek jednoznačně 
+nepozná, že jde o generátorový výraz -- podobně jako 
+když se u složitějších aritmetických výrazů musí
+uzávorkovat podvýrazy, protože ty podvýrazy se 
+nepoznají samy od sebe.
+
+&gt;<i>výmluvy na to, že by překladač nepoznal, že se jedná o generátor a ne o
+</I>&gt;<i>přiřazení i*i jsou liché, protože on to musí poznat např. u té funkce.
+</I>&gt;<i>pokud by byl tak hloupý, jak říkáš, tak by 
+</I>&gt;<i>
+</I>&gt;<i>a = fce(i*i for i in range(4))
+</I>&gt;<i>
+</I>&gt;<i>nahlásila taky syntax error jako v příkladu níže.
+</I>
+Jde o to, že při volání funkce překladač očekává výraz(y).
+Tam není jiná možnost, že by se to dalo chápat jako příkazy.
+
+Překladač tu situaci bez závorek samozřejmě pozná, 
+ale bez těch závorek se nedá jednoznačně rozhodnout, 
+jestli je to generátorový výraz nebo chybně zapsaný příkaz.
+
+&gt;<i>podle mne tady tyto problémy způsobuje třeba i použití kulatých závorek,
+</I>&gt;<i>protože se pak jednoduše splete s nějakým tuple, případně dalšími
+</I>&gt;<i>operátory. Překladač musí zjišťovat jestli se ve výrazu někde vepředu
+</I>&gt;<i>nevyskytuje for, aby celý výraz mohl prohlásit za generátor.
+</I>
+Překladač se neplete. Tuple takto definovat nelze. A asi právě proto
+neexistuje něco, čemu by se říkalo &quot;tuple comprehension&quot;.
+Proč by taky mělo, když to nepotřebuji a jednoduše dosadím
+generátorový výraz do tuple() -- je tam o &quot;tuple&quot; víc a mám totéž.
+
+&gt;<i>Kdybych chtěl nějakou jednoznačnou syntaxi, tak bych mnohem radši použil
+</I>&gt;<i>složené závorky:
+</I>&gt;<i>
+</I>&gt;<i>a = { i*i | for i in range(4)}
+</I>
+Jenže tohle je v Pythonu už použito (až na tu sviskou čáru, 
+která je tam jaksi nepythonovsky navíc). Následující příklad
+ukazuje generátor množiny (ve smyslu vytvoření vygenerované
+množiny; něco jako konstruktor množiny definované 
+generátorovým výrazem -- anglicky set comprehension):
+
+&gt;&gt;&gt;<i> a = { i*i for i in range(4) }
+</I>&gt;&gt;&gt;<i> a
+</I>{0, 1, 4, 9}
+&gt;&gt;&gt;<i> type(a)
+</I>&lt;class 'set'&gt;
+
+A další příklad je něco podobného -- dictionary comprehension
+aneb konstruktor generovaného slovníku:
+
+&gt;&gt;&gt;<i> a = { i:i*i for i in range(4) }
+</I>&gt;&gt;&gt;<i> a
+</I>{0: 0, 1: 1, 2: 4, 3: 9}
+&gt;&gt;&gt;<i> type(a)
+</I>&lt;class 'dict'&gt;
+
+&gt;&gt;<i> Jde taky o to, že generátorový výraz lze napsat
+</I>&gt;&gt;<i> na víc řádků. Tady je jiný výraz a je to pitomost,
+</I>&gt;&gt;<i> ale pro ilustraci:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> &gt;&gt;&gt; g = (i*i
+</I>&gt;&gt;<i> ...        for i in range(4)
+</I>&gt;&gt;<i> ...        if i &gt; 2)
+</I>&gt;<i>
+</I>&gt;<i>to už je hodně přitažené za vlasy, normálně se jeden příkaz píše na
+</I>&gt;<i>jeden řádek, lambda funkci taky nemůžeš napsat takovým způsobem na dva
+</I>&gt;<i>řádky. Tady prostě normálně funguje \ a dostaneš stejnou věc.
+</I>
+Jako přitažené za vlasy se to může zdát do doby, než zjistíš,
+že generátorové výrazy lze do sebe zanořovat.
+
+A taky je lepší nevydávat vlastní přání za skutečnost.
+Python je rozumnější jazyk, než například makrojazyk v C.
+Zpětné lomítko pro indikaci pokračovacího řádku není nutné
+psát. Jinými slovy, jeden příkaz nemusí být zapsaný na
+jednom řádku -- i když se nepoužije zpětné lomítko. 
+Například volání funkce:
+
+&gt;&gt;&gt;<i> def f(a, b, c, d):
+</I>...     print(a, b, c, d)
+...
+&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> f('první',
+</I>...   'druhý',
+...   3,
+...   4)
+první druhý 3 4
+&gt;&gt;&gt;<i>
+</I>
+Lambda funkce v Pythonu přestává být přirozeným
+prvkem. Ve specializovaných jazycích by to bylo taky
+na mašlu, kdyby se lambda výraz nemohl zalomit na víc
+řádků.
+
+Když to shrnu, tak všechny ty komplikace, které
+by vznikly při jiném přístupu ke generátorovému
+výrazu, nestojí za to. Navíc v situaci, která se 
+prakticky vůbec nevyskytuje a ve které navíc stačí
+prostě uzavřít generátorový výraz do kulatých závorek.
+
+pepr
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009554.html">[python] generatorovy vyraz (bylo Re: nevznik objektu)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009558.html">[python] &quot;Dive
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9557">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9557">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9557">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9557">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009557.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:54 GMT -->
+</html>

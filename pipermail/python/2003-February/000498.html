@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000498.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+<HEAD>
+   <TITLE> [python] globalni promenne
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20promenne&In-Reply-To=3E497BC6.7070705%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2003-February/000526.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2003-February/000500.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] globalni promenne</H1>
+    <B>Michal Molhanec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20globalni%20promenne&In-Reply-To=3E497BC6.7070705%40seznam.cz"
+       TITLE="[python] globalni promenne">molhanec na seznam.cz
+       </A><BR>
+    <I>Středa Únor 12 00:35:11 CET 2003</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000526.html">[python] globalni promenne
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000500.html">[python] globalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#498">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#498">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#498">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#498">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, 11 Feb 2003 23:40:06 +0100 Petr Mach &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">gsl na seznam.cz</A>&gt; wrote:
+ 
+&gt;<i> def fun1():
+</I>&gt;<i>    from global import *
+</I>&gt;<i>    globVar=&quot;set from fun1()&quot;
+</I>&gt;<i> 
+</I>&gt;<i> tedy obdobu toho co se v PHP dela takto:
+</I>&gt;<i> function fun1(){
+</I>&gt;<i>    include &quot;global.php&quot;;
+</I>&gt;<i>    globVar=&quot;set from fun1()&quot;;
+</I>&gt;<i> }
+</I>&gt;<i> Coz mi zpristupni ve funkci vsechny globalni promm.
+</I>&gt;<i> at uz jsou kdekoliv, ale to Python zrejme nezvlada.
+</I>&gt;<i> Tak doufam ze aspon zvlada sdileni globalnich promennych
+</I>&gt;<i> mezi funkcemi z ruznych souboru, protoze psat vsechny
+</I>&gt;<i> funkce do jednoho megoveho souboru je tezce neprehledny
+</I>&gt;<i> a predavat je vsechny jako argument funkcce taky neni
+</I>&gt;<i> zrovna to nejlepsi. Kazdopadne, jestlize v jednom
+</I>&gt;<i> souboru nadefinuji nejaka staticka data, treba rozsahle
+</I>&gt;<i> pole nejakych hodnot, tak k nemu potrebuju mit pristup
+</I>&gt;<i> z ruznych funkci definovanych v ruznych souborech.
+</I>&gt;<i> 
+</I>&gt;<i> Petr Mach
+</I>
+ja bych zkusil tohle:
+(ale jsem jenom zacatecnik, tak mozna kecam nesmysly)
+
+*** glob.py ***
+globVar=&quot;set from glob&quot;
+
+*** fun1.py ***
+def fun1():
+   import glob
+   glob.globVar=&quot;set from fun1()&quot;
+
+*** main.py ***
+import glob
+from fun1 import *
+
+def main():
+   glob.globVar='set from main()'
+
+print glob.globVar
+main()
+print glob.globVar
+fun1()
+print glob.globVar
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000526.html">[python] globalni promenne
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2003-February/000500.html">[python] globalni promenne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2003-February/date.html#498">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/thread.html#498">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/subject.html#498">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2003-February/author.html#498">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2003-February/000498.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:38 GMT -->
+</html>

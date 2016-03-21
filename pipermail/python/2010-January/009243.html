@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009243.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:07 GMT -->
+<HEAD>
+   <TITLE> [python] [Fwd:  odeslání e-mailu přes Lotus Notes]
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3F%3D5BFwd%3D3A__odesl%3DE1n%3DED_e-mailu_p%3DF8es_Lo%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Ftus_Notes%3D5D%3F%3D&In-Reply-To=%3C4B423DDF.10607%40svobodnik.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-January/009244.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] [Fwd:  odeslání e-mailu přes Lotus Notes]</H1>
+    <B>Mix</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3F%3D5BFwd%3D3A__odesl%3DE1n%3DED_e-mailu_p%3DF8es_Lo%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Ftus_Notes%3D5D%3F%3D&In-Reply-To=%3C4B423DDF.10607%40svobodnik.cz%3E"
+       TITLE="[python] [Fwd:  odeslání e-mailu přes Lotus Notes]">mix na svobodnik.cz
+       </A><BR>
+    <I>Pondělí Leden  4 20:13:35 CET 2010</I>
+    <P><UL>
+        
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009244.html">[python] [Fwd: odeslání e-mailu přes Lotus Notes]
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9243">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9243">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9243">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9243">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+jelikož se mě zatím problém popsaný níže nepodařilo vyřešit a nikdo 
+nereagoval, tak se chci zeptat jestli je potřeba informace napsané v 
+dotazu nějak doplnit. (jestli jsem to napsal srozumitelně)
+děkuji za odpověď
+Pavel Svobodník
+
+-------- Původní zpráva --------
+Předmět: 	[python] odeslání e-mailu přes Lotus Notes
+Datum: 	Fri, 06 Nov 2009 11:46:30 +0100
+Od: 	Mix &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mix na svobodnik.cz</A>&gt;
+Přeposláno - Komu: 	Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+Komu: 	Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+
+dobrý den,
+prosím o radu potřebuji odesílat automaticky e-mail přes lotus a chtěl 
+jsem k tomu použít modul simplemapi.py
+který zavolám souborem odeslat.py
+e-mail se sice vytvoří, vloží se tam přílohy, předmět a tělo, ale 
+nezobrazí se tam e-mailové adresy a neodešle se.
+prosím poradíte jak to udělat. nebo nějaké jiné řešení.
+aby to fungovalo alespoň takto tak musí být lotus spuštěn, takže jestli 
+by bylo možné to odesílat i bez spuštěného lotusu tak by to bylo úplně super
+
+děkuji
+Pavel svobodník
+
+
+_*odeslat.py
+------------------------------------------------------------------------------------
+*_
+import simplemapi
+simplemapi.SendMail(&quot;<A HREF="http://www.py.cz/mailman/listinfo/python">xx na xx.cz</A>&quot;,&quot;predmet&quot;,&quot;telo XXX&quot;,&quot;c:\\aa.txt&quot;)
+
+
+_*simplemapi.py
+*__*------------------------------------------------------------------------------------*_
+
+import os
+from ctypes import *
+
+FLAGS = c_ulong
+LHANDLE = c_ulong
+LPLHANDLE = POINTER(LHANDLE)
+
+
+# Return codes
+SUCCESS_SUCCESS = 0
+# Recipient class
+MAPI_ORIG = 0
+MAPI_TO = 1
+
+
+class STRUCT(Structure):
+  _fields_ = [('voidptr', c_void_p)]
+NULL = c_void_p(None)
+#NULL=STRUCT( None ) # Create an instance with voidptr field NULL
+
+class MapiRecipDesc(Structure):
+   _fields_ = [('ulReserved', c_ulong),
+              ('ulRecipClass', c_ulong),
+              ('lpszName', c_char_p),
+              ('lpszAddress', c_char_p),
+              ('ulEIDSize', c_ulong),
+              ('lpEntryID', c_void_p),
+             ]
+lpMapiRecipDesc = POINTER(MapiRecipDesc)
+
+class MapiFileDesc(Structure):
+   _fields_ = [('ulReserved', c_ulong),
+              ('flFlags', c_ulong),
+              ('nPosition', c_ulong),
+              ('lpszPathName', c_char_p),
+              ('lpszFileName', c_char_p),
+              ('lpFileType', c_void_p),
+             ]
+lpMapiFileDesc = POINTER(MapiFileDesc)
+
+class MapiMessage(Structure):
+   _fields_ = [('ulReserved', c_ulong),
+              ('lpszSubject', c_char_p),
+              ('lpszNoteText', c_char_p),
+              ('lpszMessageType', c_char_p),
+              ('lpszDateReceived', c_char_p),
+              ('lpszConversationID', c_char_p),
+              ('flFlags', FLAGS),
+              ('lpOriginator', lpMapiRecipDesc), # ignored?
+              ('nRecipCount', c_ulong),
+              ('lpRecips', lpMapiRecipDesc),
+              ('nFileCount', c_ulong),
+              ('lpFiles', lpMapiFileDesc),
+             ]
+lpMapiMessage = POINTER(MapiMessage)
+
+
+MAPI = windll.mapi32
+
+
+MAPISendMail=MAPI.MAPISendMail
+MAPISendMail.restype = c_ulong          # Error code
+MAPISendMail.argtypes = (LHANDLE,       # lhSession
+                       c_ulong,       # ulUIParam
+                       lpMapiMessage, # lpMessage
+                       FLAGS,         # lpFlags
+                       c_ulong,       # ulReserved
+                       )
+
+
+def SendMail(recipient, subject, body, attachfiles):
+   &quot;&quot;&quot;Post an e-mail message using Simple MAPI
+   Special thanks to Lenard Lindstrom!
+   recipient - string: address to send to (multiple address sperated 
+with a semicolin)
+   subject - string: subject header
+   body - string: message text
+   attach - string: files to attach (multiple attachments sperated with 
+a semicolin)
+   Example usage
+   import simplemapi
+   
+simplemapi.SendMail(&quot;<A HREF="http://www.py.cz/mailman/listinfo/python">to1address na server.com</A>;<A HREF="http://www.py.cz/mailman/listinfo/python">to2address na server.com</A>&quot;,&quot;My 
+Subject&quot;,&quot;My message body&quot;,&quot;c:\attachment1.txt;c:\attchment2&quot;)
+   &quot;&quot;&quot;
+  
+   # get list of file attachments
+   attach = []
+   AttachWork = attachfiles.split(';')
+  
+   #verify the attachment file exists
+   for file in AttachWork:
+       if os.path.exists(file):
+           attach.append(file)
+
+  
+   attach = map( os.path.abspath, attach )
+   nFileCount = len(attach)
+  
+   if attach:
+       MapiFileDesc_A = MapiFileDesc * len(attach)
+       fda = MapiFileDesc_A()
+       for fd, fa in zip(fda, attach):
+           fd.ulReserved = 0
+           fd.flFlags = 0
+           fd.nPosition = -1
+           fd.lpszPathName = fa
+           fd.lpszFileName = None
+           fd.lpFileType = None
+       lpFiles = fda
+   else:
+      # No attachments
+       lpFiles = cast(NULL, lpMapiFileDesc) # Make NULL
+
+   # Get the number of recipients
+   RecipWork = recipient.split(';')
+   RecipCnt = len(RecipWork)
+   print RecipWork
+   print RecipCnt
+
+   # Formulate the recipients
+   MapiRecipDesc_A = MapiRecipDesc * len(RecipWork)
+   rda = MapiRecipDesc_A()
+   print rda
+   print lpMapiRecipDesc
+   print cast(NULL, lpMapiRecipDesc)
+   for rd, ra in zip(rda, RecipWork):
+       rd.ulReserved = 0
+       rd.ulRecipClass = MAPI_TO
+       rd.lpszName = None
+       rd.lpszAddress = ra
+       rd.ulEIDSize = 0
+       rd.lpEntryID = None
+   recip = rda
+  
+
+   # send the message  
+   msg = MapiMessage(0, subject, body, None, None, None, 0,
+                    cast(NULL, lpMapiRecipDesc), RecipCnt, recip,
+                    nFileCount, lpFiles)   
+   print msg
+
+   rc = MAPISendMail(0, 0, byref(msg), 0, 0)
+   if rc != SUCCESS_SUCCESS:
+       raise WindowsError, &quot;MAPI error %i&quot; % rc
+      
+
+
+
+
+
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-January/009244.html">[python] [Fwd: odeslání e-mailu přes Lotus Notes]
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-January/date.html#9243">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/thread.html#9243">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/subject.html#9243">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-January/author.html#9243">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-January/009243.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:08 GMT -->
+</html>

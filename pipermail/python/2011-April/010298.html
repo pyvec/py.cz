@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010298.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:59 GMT -->
+<HEAD>
+   <TITLE> [python] Vytvoreni obrazovky
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Vytvoreni%20obrazovky&In-Reply-To=%3C1303129780.29722.39.camel%40amandil%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-April/010297.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-April/010303.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Vytvoreni obrazovky</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Vytvoreni%20obrazovky&In-Reply-To=%3C1303129780.29722.39.camel%40amandil%3E"
+       TITLE="[python] Vytvoreni obrazovky">davro na ics.muni.cz
+       </A><BR>
+    <I>Pondělí Duben 18 14:29:40 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010297.html">[python] Vytvoreni obrazovky
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010303.html">[python] Vytvoreni obrazovky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10298">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10298">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10298">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10298">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Osobně si myslím, že použití knihovny curses bude asi nejlepší, skryje
+rozdíly mezi jednotlivými typy terminálů a dá se kreslit třeba na určité
+místo, takže celkem použitelné, akorát asi zdlouhavé.
+
+
+Petr Messner píše v Po 18. 04. 2011 v 14:01 +0200:
+&gt;<i> Ahoj,
+</I>&gt;<i> 
+</I>&gt;<i> příkaz clear jen pošle na výstup speciální sekvenci, které tvůj
+</I>&gt;<i> terminál porozumí a smaže se:
+</I>&gt;<i> 
+</I>&gt;<i> $ clear | hd
+</I>&gt;<i> 00000000  1b 5b 48 1b 5b 32 4a                              |.[H.[2J|
+</I>&gt;<i> 00000007
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Takže v Pythonu můžeš udělat to samé:
+</I>&gt;<i> 
+</I>&gt;<i> print &quot;\x1b[H\x1b[2J&quot;
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Akorát ta speciální sekvence se může lišit podle typu terminálu - tomu
+</I>&gt;<i> už ale moc nerozumím, jde spíš o historické souvislosti.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Nebo si ten příkaz clear můžeš spustit přímo z Pythonu:
+</I>&gt;<i> 
+</I>&gt;<i> os.system('clear')
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> PM
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 2011/4/18 Petr Hráček &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">phracek na gmail.com</A>&gt;:
+</I>&gt;<i> &gt; Ahoj vsichni,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; chci se Vas zeptat na jednu drobnost tykajici se Linux obrazovky (ne
+</I>&gt;<i> &gt; GUI).
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Chtel bych vytvorit obrazovky tak, aby prvni 4 radky od vrchu meli
+</I>&gt;<i> &gt; strukturu jako:
+</I>&gt;<i> &gt; 1) aaaa
+</I>&gt;<i> &gt; 2) bbbb
+</I>&gt;<i> &gt; 3) cccc
+</I>&gt;<i> &gt; 4) dddd
+</I>&gt;<i> &gt; Vas vstup: --&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; a az do konce obrazovky prazdno. Lze to nejak udelat?
+</I>&gt;<i> &gt; V Perl existuje prikaz `clear`, ale v Pythonu jsem nic podobneho
+</I>&gt;<i> &gt; nenasel.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Diky moc za rady
+</I>&gt;<i> &gt; Petr
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+-- 
+------------------------------------------------------------------------
+David Rohleder                                         <A HREF="http://www.py.cz/mailman/listinfo/python">davro na ics.muni.cz</A>
+Institute of Computer Science, Masaryk University
+Brno, Czech Republic
+------------------------------------------------------------------------
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010297.html">[python] Vytvoreni obrazovky
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-April/010303.html">[python] Vytvoreni obrazovky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-April/date.html#10298">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/thread.html#10298">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/subject.html#10298">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-April/author.html#10298">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-April/010298.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:59 GMT -->
+</html>

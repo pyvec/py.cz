@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-June/001791.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:27 GMT -->
+<HEAD>
+   <TITLE> [python] VYŘEŠENO: GTK, TextView, TextBuffer
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVY%3DD8E%3DA9ENO%3D3A%3F%3D%20GTK%2C%20TextView%2C%20TextBuffer&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-June/001790.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-June/001796.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] VYŘEŠENO: GTK, TextView, TextBuffer</H1>
+    <B>Jan Fuchs</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FVY%3DD8E%3DA9ENO%3D3A%3F%3D%20GTK%2C%20TextView%2C%20TextBuffer&In-Reply-To="
+       TITLE="[python] VYŘEŠENO: GTK, TextView, TextBuffer">fuky na seif.cz
+       </A><BR>
+    <I>Čtvrtek Červen  3 03:49:29 CEST 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001790.html">[python] GTK, TextView, TextBuffer
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001796.html">[python] diskuze
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-June/date.html#1791">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/thread.html#1791">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/subject.html#1791">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/author.html#1791">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+po dalších několika hodinách hledání jsem konečně našel co jsem hledal,
+byl to gtk.TextTag() a gtk.TextBuffer.apply_tag_by_name()
+
+self.komentar_buffer = self.komentar_TV.get_buffer()
+self.komentar_buffer.connect('modified-changed', self.komentar_buffer_action)
+
+self.noedit_TT = gtk.TextTag(&quot;noedit&quot;)
+self.noedit_TT.set_property(&quot;editable&quot;, gtk.FALSE)
+self.komentar_buffer.get_tag_table().add(self.noedit_TT)
+
+def komentar_buffer_action(self, widget):
+  max_znaku = 50
+  znaku = self.komentar_buffer.get_char_count() 
+
+  if (znaku &gt; max_znaku):
+    start = self.komentar_buffer.get_iter_at_offset(max_znaku)
+    stop = self.komentar_buffer.get_end_iter()
+    self.komentar_buffer.apply_tag_by_name(&quot;noedit&quot;, start, stop)
+    self.komentar_buffer.delete(start, stop)
+   
+  self.komentar_buffer.set_modified(gtk.FALSE)
+
+Třeba to někomu pomůže...
+
+     S pozdravem Fuky
+
+-- 
+
+####################################################################
+# Žádný program není bezchybný, dokonalý ani nejlepší, # Gnu.cz    #
+# to samé platí i o lidech a nejen o nich.             # Linux.cz  #
+#                                   -- Jan Fuchs --    # Debian.cz #
+####################################################################
+# <A HREF="http://www.asu.cas.cz/">http://www.asu.cas.cz</A>                           ICQ: 200 692 177 #
+####################################################################
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001790.html">[python] GTK, TextView, TextBuffer
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-June/001796.html">[python] diskuze
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-June/date.html#1791">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/thread.html#1791">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/subject.html#1791">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-June/author.html#1791">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-June/001791.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:27 GMT -->
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005333.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:49 GMT -->
+<HEAD>
+   <TITLE> [python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FModifikace_seznamu_bez_kopirovnani_%3D28byl%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fo_SQLite_-_forma_selectovan%3DFDch_dat%3D29%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005332.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005336.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FModifikace_seznamu_bez_kopirovnani_%3D28byl%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fo_SQLite_-_forma_selectovan%3DFDch_dat%3D29%3F%3D&In-Reply-To="
+       TITLE="[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pondělí Leden  8 08:32:50 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005332.html">[python] *^*^*^*^8=====&gt; Sexy Bikini Video Downloads	&lt;=====8*^*^*^*^*^*
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005336.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5333">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5333">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5333">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5333">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman
+&gt;<i> &gt; JInak, proc pouzivate for i in range(len(a)): ? Uz jsem si toho
+</I>&gt;<i> &gt; vsimnul driv, u jinych prispevku. Preci, kdyz chci iterovat pres
+</I>&gt;<i> &gt; prvky, tak musi staci for item in a:
+</I>&gt;<i> [...]
+</I>&gt;<i> 2) Protože taková iterace je read only. Já můžu dát for item 
+</I>&gt;<i>    in a, ale už nezměním ten konkrétní prvek přímo v poli.
+</I>&gt;<i>    [...] Existuje možnost jak to udělat bez indexování a bez 
+</I>&gt;<i>    toho, aby v paměti byly dočasně dvě pole?
+</I>
+Iterace není &quot;read only&quot;. Read only jsou zpřístupňované objekty.
+
+Od Python 2.3 existuje standardní funkce enumerate(), která
+vrací iterátor. Jeho metoda next() vrací dvojici (index, element).
+Takže původní kód
+
+  a = [(1,2),(3,4)]
+  for i in range(len(a)):
+      a[i] = list(a[i])
+
+Můžu přepsat na 
+
+  a = [ (1, 2), (3, 4) ]
+  for i, elem in enumerate(a):
+      a[i] = list(elem)
+
+V původním kódu je navíc použito range(), které by mělo
+být alespoň nahrazeno xrange(). Další problém je v tom,
+že do původního řešení nemohu zasadit &quot;nekonečnou&quot; 
+iterovatelnou strukturu.
+
+Podobný nedostatek má i řešení Lukáše Linharta
+
+  data2 = [list(t) for t in data]
+
+které navíc provádí kopii celého seznamu. Na druhou stranu
+je velmi jednoduché a přehledné a záleží na tom, jaký
+problém chci ve skutečnosti řešit (jak velké jsou konvertované
+struktury a jak často chci konverzi provádět).
+
+Pokud bych chtěl být extrémista, pak lze při zpracování
+seznamu na místě samém (používá se pojem &quot;in situ&quot;)
+kombinovat enumerate() s testováním typu elementu 
+a konverzi provádět jen pro elementy typu tuple:
+
+from types import *
+a = [ (1, 2), (3, 4) ]
+for i, elem in enumerate(a):
+    if type(elem) is TupleType:
+        a[i] = list(elem)
+
+&gt;<i> V PHP existuje stejná iterace, dokonce si tam můžete udělat 
+</I>&gt;<i> i vlastní iterátor, čehož jsem hojně využíval ve svých 
+</I>&gt;<i> třídách a objektech. Ale v PHP je iterátor dvojí, jeden 
+</I>&gt;<i> read only jako v Pythonu a druhý s možností změnit prvek 
+</I>&gt;<i> pole, a ten mi v Pythonu chybí (a nebo o něm nevím).
+</I>
+V Pythonu můžu rovněž definovat vlastní iterátor, 
+který nejspíše nabude podobu generátoru. Pokud bych
+měl definován vlastní kontejner, pak od Python 2.2
+mohu definovat i jeho vlastní iterátor dodefinováním
+metod __iter__() a next().
+
+Tohle je problém v rozdílném pojetí homogenního pole
+(všechny prvky mají stejný typ) a pythonovského
+seznamu, který je svým způsobem sice taky homogenní,
+ale obsahuje jen reference, které se automaticky 
+dereferencují (když už musím použít tak pěkně české slovo).
+
+Iterátor přes pythonovský seznam mě odkazuje na stejný
+objekt, na jaký odkazuje a[i], ale nemohu se přes něj
+dostat na samotný seznam a. Nemohu tedy změnit obsah 
+seznamu. Nemohu tedy nahradit odkaz na n-tici odkazem
+na jiný objekt -- seznam.
+
+&gt;<i> Následující kód v PHP docela elegantně iterací přičte ke 
+</I>&gt;<i> každému prvku pole trojku, aniž by se musela vytvářet
+</I>&gt;<i> kopie pole:
+</I>&gt;<i> 
+</I>&gt;<i> $a = array(1,2,3,4,5);
+</I>&gt;<i> foreach ($a as &amp;$value)
+</I>&gt;<i>    $value += 3;
+</I>
+V Pythonu nemohu měnit hodnotu prvku typu int, protože
+jde o objekt s konstantní hodnotou (immutable). Mohu jej
+pouze nahradit jiným objektem typu int, který je vypočtený
+z hodnoty původního a z další konstanty. V seznamu tedy
+musím opět použít obrat, kdy modifikuji samotný prvek 
+seznamu. V tomto případě ale dojde k modifikaci každého
+prvku seznamu, takže nejefektivnější a nejstručnější 
+způsob spočívá v konstrukci nového, upraveného seznamu:
+
+  a = [ 1, 2, 3, 4, 5 ]
+  a = [ e+3 for e in a ]
+  print a
+
+Pokud bych definoval svou vlastní třídu objektů 
+s celočíselnou hodnotou, které by mohly být modifikovány
+(mutable), bylo by možné modifikovat seznam bez
+vytváření nového.
+
+&gt;<i> V C++ také existuje iterace, dokonce s možností projet 
+</I>&gt;<i> jen část prvků daných iterátorem:
+</I>
+Pro seznam lze v Pythonu pro tento účel využít slice,
+který vystupuje v roli části původního seznamu.
+
+pepr
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005332.html">[python] *^*^*^*^8=====&gt; Sexy Bikini Video Downloads	&lt;=====8*^*^*^*^*^*
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005336.html">[python] Modifikace seznamu bez kopirovnani (bylo SQLite - forma selectovaných dat)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5333">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5333">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5333">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5333">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005333.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:49 GMT -->
+</html>

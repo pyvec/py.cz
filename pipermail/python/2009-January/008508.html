@@ -1,0 +1,412 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008508.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:00 GMT -->
+<HEAD>
+   <TITLE> [python] Mysql
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Mysql&In-Reply-To=%3Cfcba3d560901120607m5d4ccf8bxd299d33ecaf544ba%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008507.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008509.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Mysql</H1>
+    <B>Ondrej Beranek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Mysql&In-Reply-To=%3Cfcba3d560901120607m5d4ccf8bxd299d33ecaf544ba%40mail.gmail.com%3E"
+       TITLE="[python] Mysql">rainbof na gmail.com
+       </A><BR>
+    <I>Pondělí Leden 12 15:07:11 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008507.html">[python] Mysql
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008509.html">[python] Mysql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8508">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8508">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8508">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8508">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>No tak to sice odstranit ty chyby, nicmene to neprovedlo co melo nebot pokud
+zadam
+
+import MySQLdb
+
+tak dostanu hlaseni ze modul nezna. Cista instalace po uprave setup.py
+vypadala takto:
+
+Microsoft Windows XP [Verze 5.1.2600]
+(C) Copyright 1985-2001 Microsoft Corp.
+
+c:\Utils\python26\i&gt;.\..\python.exe .\setup.py build
+
+---------------------------------------------------------------------------
+This script requires setuptools version 0.6c9 to run (even to display
+help).  I will attempt to download it for you (from
+<A HREF="http://cheeseshop.python.org/packages/2.6/s/setuptools/">http://cheeseshop.python.org/packages/2.6/s/setuptools/</A>), but
+you may need to enable firewall access for this script first.
+I will start the download in 15 seconds.
+
+(Note: if this machine does not have network access, please obtain the file
+
+
+<A HREF="http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6">http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6</A>
+.egg
+
+and place it in this directory before rerunning this script.)
+---------------------------------------------------------------------------
+Downloading
+<A HREF="http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.">http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.</A>
+6c9-py2.6.egg
+c:\Utils\python26\i\ez_setup.py:49: DeprecationWarning: the md5 module is
+deprec
+ated; use hashlib instead
+  from md5 import md5
+running build
+running build_py
+creating build
+creating build\lib.win32-2.6
+copying _mysql_exceptions.py -&gt; build\lib.win32-2.6
+creating build\lib.win32-2.6\MySQLdb
+copying MySQLdb\__init__.py -&gt; build\lib.win32-2.6\MySQLdb
+copying MySQLdb\converters.py -&gt; build\lib.win32-2.6\MySQLdb
+copying MySQLdb\connections.py -&gt; build\lib.win32-2.6\MySQLdb
+copying MySQLdb\cursors.py -&gt; build\lib.win32-2.6\MySQLdb
+copying MySQLdb\release.py -&gt; build\lib.win32-2.6\MySQLdb
+copying MySQLdb\times.py -&gt; build\lib.win32-2.6\MySQLdb
+creating build\lib.win32-2.6\MySQLdb\constants
+copying MySQLdb\constants\__init__.py -&gt;
+build\lib.win32-2.6\MySQLdb\constants
+copying MySQLdb\constants\CR.py -&gt; build\lib.win32-2.6\MySQLdb\constants
+copying MySQLdb\constants\FIELD_TYPE.py -&gt;
+build\lib.win32-2.6\MySQLdb\constants
+
+copying MySQLdb\constants\ER.py -&gt; build\lib.win32-2.6\MySQLdb\constants
+copying MySQLdb\constants\FLAG.py -&gt; build\lib.win32-2.6\MySQLdb\constants
+copying MySQLdb\constants\REFRESH.py -&gt;
+build\lib.win32-2.6\MySQLdb\constants
+copying MySQLdb\constants\CLIENT.py -&gt; build\lib.win32-2.6\MySQLdb\constants
+running build_ext
+building '_mysql' extension
+error: None
+
+c:\Utils\python26\i&gt;.\..\python.exe .\setup.py install
+running install
+running bdist_egg
+running egg_info
+writing MySQL_python.egg-info\PKG-INFO
+writing top-level names to MySQL_python.egg-info\top_level.txt
+writing dependency_links to MySQL_python.egg-info\dependency_links.txt
+deleting MySQL_python.egg-info\native_libs.txt
+reading manifest file 'MySQL_python.egg-info\SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+writing manifest file 'MySQL_python.egg-info\SOURCES.txt'
+installing library code to build\bdist.win32\egg
+running install_lib
+running build_py
+copying MySQLdb\release.py -&gt; build\lib.win32-2.6\MySQLdb
+running build_ext
+building '_mysql' extension
+error: None
+
+c:\Utils\python26\i&gt;
+
+
+
+
+
+2009/1/12 Tomas Brabenec &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A>&gt;
+
+&gt;<i> Aha,
+</I>&gt;<i>
+</I>&gt;<i> tak v tom pripade jeste v souboru ez_setup.py pridej do slovniku md5_data
+</I>&gt;<i> spravny MD5 otisk pro 0.6c9-py2.6
+</I>&gt;<i>
+</I>&gt;<i> melo by to byt nejspis toto:
+</I>&gt;<i>
+</I>&gt;<i> 'setuptools-0.6c9-py2.6.egg': 'ca37b1ff16fa2ede6e19383e7b59245a',
+</I>&gt;<i>
+</I>&gt;<i> Ale radsi si to zkotroluj.
+</I>&gt;<i>
+</I>&gt;<i> Zdroj je tady: <A HREF="http://pypi.python.org/pypi/setuptools/0.6c9">http://pypi.python.org/pypi/setuptools/0.6c9</A>
+</I>&gt;<i>
+</I>&gt;<i> Tomas
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Dne 12.1.2009 12:13, Ondrej Beranek napsal(a):
+</I>&gt;<i>
+</I>&gt;&gt;<i> jednoduse.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ukazi vam jak to instaluji je mozne ze to delam uplne spatne.
+</I>&gt;&gt;<i> Do slozky i jsem rozbalil presne to, na co jste mi poslal odkaz.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Microsoft Windows XP [Verze 5.1.2600]
+</I>&gt;&gt;<i> (C) Copyright 1985-2001 Microsoft Corp.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> c:\Utils\python26\i&gt;.\..\python.exe .\setup.py install
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ---------------------------------------------------------------------------
+</I>&gt;&gt;<i> This script requires setuptools version 0.6c5 to run (even to display
+</I>&gt;&gt;<i> help).  I will attempt to download it for you (from
+</I>&gt;&gt;<i> <A HREF="http://cheeseshop.python.org/packages/2.6/s/setuptools/">http://cheeseshop.python.org/packages/2.6/s/setuptools/</A>), but
+</I>&gt;&gt;<i> you may need to enable firewall access for this script first.
+</I>&gt;&gt;<i> I will start the download in 15 seconds.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> (Note: if this machine does not have network access, please obtain the
+</I>&gt;&gt;<i> file
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.6c5-py2.6">http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.6c5-py2.6</A>
+</I>&gt;&gt;<i> .egg
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> and place it in this directory before rerunning this script.)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ---------------------------------------------------------------------------
+</I>&gt;&gt;<i> Downloading
+</I>&gt;&gt;<i> <A HREF="http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.">http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.</A>
+</I>&gt;&gt;<i> 6c5-py2.6.egg
+</I>&gt;&gt;<i> Traceback (most recent call last):
+</I>&gt;&gt;<i>  File &quot;.\setup.py&quot;, line 5, in &lt;module&gt;
+</I>&gt;&gt;<i>    import ez_setup; ez_setup.use_setuptools()
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\i\ez_setup.py&quot;, line 83, in use_setuptools
+</I>&gt;&gt;<i>    egg = download_setuptools(version, download_base, to_dir,
+</I>&gt;&gt;<i> download_delay)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\i\ez_setup.py&quot;, line 137, in download_setuptools
+</I>&gt;&gt;<i>    src = urllib2.urlopen(url)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 124, in urlopen
+</I>&gt;&gt;<i>    return _opener.open(url, data, timeout)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 389, in open
+</I>&gt;&gt;<i>    response = meth(req, response)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 502, in http_response
+</I>&gt;&gt;<i>    'http', request, response, code, msg, hdrs)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 421, in error
+</I>&gt;&gt;<i>    result = self._call_chain(*args)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 361, in _call_chain
+</I>&gt;&gt;<i>    result = func(*args)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 597, in http_error_302
+</I>&gt;&gt;<i>    return self.parent.open(new)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 389, in open
+</I>&gt;&gt;<i>    response = meth(req, response)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 502, in http_response
+</I>&gt;&gt;<i>    'http', request, response, code, msg, hdrs)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 427, in error
+</I>&gt;&gt;<i>    return self._call_chain(*args)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 361, in _call_chain
+</I>&gt;&gt;<i>    result = func(*args)
+</I>&gt;&gt;<i>  File &quot;c:\Utils\python26\lib\urllib2.py&quot;, line 510, in http_error_default
+</I>&gt;&gt;<i>    raise HTTPError(req.get_full_url(), code, msg, hdrs, fp)
+</I>&gt;&gt;<i> urllib2.HTTPError: HTTP Error 404: Not Found
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> c:\Utils\python26\i&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Problemem je totiz to ze &quot;
+</I>&gt;&gt;<i> <A HREF="http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.6c5-py2.6.egg"">http://cheeseshop.python.org/packages/2.6/s/setuptools/setuptools-0.6c5-py2.6.egg&quot;</A>
+</I>&gt;&gt;<i> neexistuje v odkazovanem miste
+</I>&gt;&gt;<i> <A HREF="http://cheeseshop.python.org/packages/2.6/s/setuptools">http://cheeseshop.python.org/packages/2.6/s/setuptools</A> se totiz nachazi
+</I>&gt;&gt;<i> pouze setuptools-0.6c9-py2.6.egg &lt;
+</I>&gt;&gt;<i> <A HREF="http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6.egg">http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6.egg</A>&gt;
+</I>&gt;&gt;<i> tj. zkusil jsem tedy upravit v ez_setup.py  promennou
+</I>&gt;&gt;<i> DEFAULT_VERSION z &quot;0.6c5&quot; na &quot;0.6c9&quot; coz ovsem prinasi jiz zminene
+</I>&gt;&gt;<i> stiznosti na zastaralost knihovny md5 a memu zaveru ze cesta vetsiho
+</I>&gt;&gt;<i> upravovani zdrojaku
+</I>&gt;&gt;<i> neni spravna.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ja netvrdim (a vlastne si to ani nemyslim) ze to delam dobre ale jina
+</I>&gt;&gt;<i> cesta mne nenapada...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dne 12. leden 2009 11:33 Tomas Brabenec &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A> &lt;mailto:
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A>&gt;&gt; napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Ja nejak nerozumim, jak setuptools souvisi s pouzitim MySQLdb.
+</I>&gt;&gt;<i>    Pokud bys instalovat MySQLdb pomoci easy_inastall z egg tak tomu
+</I>&gt;&gt;<i>    rozumim, ale pokud si stahnes rucne zdrojaky tak easy_install
+</I>&gt;&gt;<i>    nepotrebujes.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Co to dela, kdyz stahnes a pouzijes toto:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://internap.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-1.2.2.tar.gz">http://internap.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-1.2.2.tar.gz</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Tomas
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Dne 12.1.2009 10:30, Ondrej Beranek napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        Ano, trable ktere jsem popisoval byly primo s temito zdrojaky.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        Dne 12. leden 2009 7:19 Tomas Brabenec
+</I>&gt;&gt;<i>        &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A>&gt;
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">konference na brabenec.net</A>&gt;&gt;&gt; napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>           A zkousel jsi stahnout primo zdrojaky?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://sourceforge.net/project/showfiles.php?group_id=22307&amp;package_id=15775&amp;release_id=491012">http://sourceforge.net/project/showfiles.php?group_id=22307&amp;package_id=15775&amp;release_id=491012</A>
+</I>&gt;&gt;<i>        &lt;
+</I>&gt;&gt;<i> <A HREF="http://sourceforge.net/project/showfiles.php?group_id=22307&amp;package_id=15775&amp;release_id=491012">http://sourceforge.net/project/showfiles.php?group_id=22307&amp;package_id=15775&amp;release_id=491012</A>
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i>        &lt;
+</I>&gt;&gt;<i> <A HREF="http://sourceforge.net/project/showfiles.php?group_id=22307&amp;package_id=15775&amp;release_id=491012">http://sourceforge.net/project/showfiles.php?group_id=22307&amp;package_id=15775&amp;release_id=491012</A>
+</I>&gt;&gt;<i>        &lt;
+</I>&gt;&gt;<i> <A HREF="http://sourceforge.net/project/showfiles.php?group_id=22307&amp;package_id=15775&amp;release_id=491012">http://sourceforge.net/project/showfiles.php?group_id=22307&amp;package_id=15775&amp;release_id=491012</A>
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>           Ty taky nefunguji ?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>           Tomas
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>           Dne 11.1.2009 16:02, Ondrej Beranek napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>               no to je mozne. ale na strankach projektu je maximalne pro
+</I>&gt;&gt;<i>               py2.5 a soucast pythonu 2.6 neni... zkousel jsem to i pres
+</I>&gt;&gt;<i>               source ale tam to skoncilo na tom ze se to pokouselo
+</I>&gt;&gt;<i>        stahnout
+</I>&gt;&gt;<i>               jakysi egg soubor setuptools  ve verzi &quot;0.6c5&quot; ktera
+</I>&gt;&gt;<i>        ale v v
+</I>&gt;&gt;<i>               repozitari neni takze jsem zkusil stahnout
+</I>&gt;&gt;<i>               setuptools-0.6c9-py2.6.egg ktery jediny v tom repozitari
+</I>&gt;&gt;<i>        <A HREF="http://cheeseshop.python.org/packages/2.6/s/setuptools/">http://cheeseshop.python.org/packages/2.6/s/setuptools/</A> byl,
+</I>&gt;&gt;<i>               upravil ez_setup, ovsem pak se to slozilo na tom ze to
+</I>&gt;&gt;<i>        pouziva
+</I>&gt;&gt;<i>               zastaranou knihovnu md5... takze jsem usoudil ze tudy cesta
+</I>&gt;&gt;<i>               nepovede.
+</I>&gt;&gt;<i>               Jsem silne zmaten.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>               Dne 11. leden 2009 14:49 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A>&gt;
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A>&gt;&gt;
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Calis.martin na seznam.cz</A>&gt;&gt;&gt;&gt; napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>                  No nevím, já myslel že MySQLdb jede i na Py3000...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        &gt; ------------ Původní zpráva ------------
+</I>&gt;&gt;<i>        &gt; Od: Ondrej Beranek &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;&gt;
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">rainbof na gmail.com</A>&gt;&gt;&gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        &gt; Předmět: [python] Mysql
+</I>&gt;&gt;<i>        &gt; Datum: 11.1.2009 12:10:31
+</I>&gt;&gt;<i>        &gt; ----------------------------------------
+</I>&gt;&gt;<i>        &gt; Ahoj,
+</I>&gt;&gt;<i>        &gt;
+</I>&gt;&gt;<i>        &gt; presel jsem na python 2.6 nyni se snazim udelat aplikaci ktera
+</I>&gt;&gt;<i>                  neco vybere z
+</I>&gt;&gt;<i>        &gt; databaze a pak s tim pracuje. No problem je v tom ze nemohu
+</I>&gt;&gt;<i>                  nejak najit nic
+</I>&gt;&gt;<i>        &gt; co by pod pythonem 2.6 pro databazovy pristup fungovalo. Libilo
+</I>&gt;&gt;<i>                  by se mi
+</I>&gt;&gt;<i>        &gt; MySQLdb ale to podle vseho jde jen na pythonu 2.5... (normalne
+</I>&gt;&gt;<i>                  bych se
+</I>&gt;&gt;<i>        &gt; zeptal na programujte com ale ten od ctvrtka nejde)
+</I>&gt;&gt;<i>        &gt;
+</I>&gt;&gt;<i>        &gt;
+</I>&gt;&gt;<i>        &gt;
+</I>&gt;&gt;<i>                  _______________________________________________
+</I>&gt;&gt;<i>                  Python mailing list
+</I>&gt;&gt;<i>        <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt; &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;&gt; &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;&gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ------------------------------------------------------------------------
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>               _______________________________________________
+</I>&gt;&gt;<i>               Python mailing list
+</I>&gt;&gt;<i>        <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt; &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;&gt;
+</I>&gt;&gt;<i>        <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>           _______________________________________________
+</I>&gt;&gt;<i>           Python mailing list
+</I>&gt;&gt;<i>        <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt; &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;&gt;
+</I>&gt;&gt;<i>        <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  ------------------------------------------------------------------------
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        _______________________________________________
+</I>&gt;&gt;<i>        Python mailing list
+</I>&gt;&gt;<i>        <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;
+</I>&gt;&gt;<i>        <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    _______________________________________________
+</I>&gt;&gt;<i>    Python mailing list
+</I>&gt;&gt;<i>    <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A> &lt;mailto:<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>&gt;
+</I>&gt;&gt;<i>    <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ------------------------------------------------------------------------
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20090112/4666bf12/attachment.htm">http://www.py.cz/pipermail/python/attachments/20090112/4666bf12/attachment.htm</A>&gt;
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008507.html">[python] Mysql
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008509.html">[python] Mysql
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8508">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8508">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8508">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8508">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008508.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:00 GMT -->
+</html>

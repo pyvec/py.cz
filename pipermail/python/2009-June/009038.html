@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009038.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:32 GMT -->
+<HEAD>
+   <TITLE> [python] Amiga Python, Rekurze a non ASCII poznamka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Amiga%20Python%2C%20Rekurze%20a%20non%20ASCII%20poznamka&In-Reply-To=%3C406.1036-30770-969709371-1245971306%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-June/009037.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-June/009039.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Amiga Python, Rekurze a non ASCII poznamka</H1>
+    <B>Martin</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Amiga%20Python%2C%20Rekurze%20a%20non%20ASCII%20poznamka&In-Reply-To=%3C406.1036-30770-969709371-1245971306%40seznam.cz%3E"
+       TITLE="[python] Amiga Python, Rekurze a non ASCII poznamka">Lisiak4 na seznam.cz
+       </A><BR>
+    <I>Pátek Červen 26 01:08:26 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009037.html">[python] cp 852 / cp1250
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009039.html">[python] Amiga Python, Rekurze a non ASCII poznamka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9038">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9038">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9038">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9038">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim, mam 2 problemy.
+
+Prvy problem je s rekurziou v programe pod pocitacom Amiga.
+Pokial dam v Amiga Pythonu prikaz: print sys.getrecursionlimit(), vyhodi mi to vysledok 1000 tak ako u PC. Zistil som ale, ze skutocny limit zanorenia u Amigy neni 1000 ale nejako okolo 139, preto mi to asi v polovine mojej hry vyhodi chybu:
+MemoryError: Stack Overflow. Prikazom: sys.setrecursionlimit() mozem teda dosiahnut mensi limit zanorenia ako 139, kedy mi program skonci hlaskou: RuntimeError: maximum recursion depth exceeded.
+
+Som zaciatocnik a urobil som textovu hru. Pod platformou PC mi hra funguje bez problemu. Prizposobil som moj program Amiga Pythonu. Pre zakladny pocitac Amiga je Python vo verzii 2.3.3. Hru mam urobenu pomocou definicii funkcii. Za znakom # su popisi urobene len k tomuto dotazu. Prikaz return v originalnom skripte nemam, vyskusal som to ale tak, ako je to napisane tu a nepomohlo mi to vyriesit dany problem. Zjednodusene jedna miestnost v hre vizera takto:
+
+def pesinka(t1): # ked pojdes na juh prides do miestnosti s nazvom pesinka, premenna t1 nesie cas, kolko ho mas na dohranie hry.
+    blok3(t1), masUSebe(), prikazy()  # vypise sa text k tejto miestnosti a cas,  veci ktore u seba mas, prikazy pouzite v hre
+    while a != '': # vizera to ako jedna dvojita uvodzovka ale su 2 jednoduche.
+        if a == 'z' or a == 'v' or a == 'n' or a == 'd': # nemozes ist na tieto smery, spyta sa co urobis?
+            tamNejdeJit(), coUdelas()
+            a = raw_input('')
+        elif a == 's': return vychoziPozice(t1)  # ked pojdes na sever prides do miestnosti: vychodzia pozicia
+        elif a == 'seb': # program pre zobranie nejakej veci v hre
+            ..........
+        elif a == # s prikazom elif riesim dalsie programi pre polozenie veci, ukoncenie hry, spustenie hry od zaciatku a ine.
+        else:
+            kNicemu(), coUdelas()  # ked vypises neznami prikaz napise, ze ti to k nicomu nebolo a spyta sa co urobis?
+            a = raw_input('')
+    else: return pesinka(t1) # pokial nic nenapises a stisknes Enter vypise sa miestnost v ktorej si este raz.
+
+def vychoziPozice(t1):  # tu je druha miestnost s rovnakou strukturou ako predosla miestnost.
+          ..........
+
+Nasiel som v archive konferencie tu na py.cz dve riesenia mojeho problemu, obe som skusil pouzit aj v mojom programe
+tak ako som to napisal tu, su to:
+
+tvoje reseni:
+def Hledej(start):
+    #neco delej
+    if podminka:return vysledek
+    else:return Hledej(start+1)
+
+nerekurzivni reseni:
+def Hledej(start):
+    while not podminka:
+        #neco delej
+        start+=1
+    return vysledek
+
+Druhy problem mam s vypisovanim nasledovnej hlasky:
+ __main__:1: DeprecationWarning: NON-ASCII charakter '\xf8' in file mojProgram.py on line 74, but no encoding declared; see <A HREF="http://www.python.org/peps/pep-0263.html">http://www.python.org/peps/pep-0263.html</A> for details.
+
+PC verzia mojeho programu nehlasi danu chybu, pretoze mi Python pre PC vo verzii 2.5.2 umoznuje pouzit
+prikaz encode. Vizera to takto:
+
+# -*- coding: cp852 -*-
+c = 'cp852'
+print u'nejaky text'.encode(c)
+
+U Amiga Pythonu pouzivam kodovanie Latin2 takze po dosadeni Latin2 za cp852 sa po pouziti prikazu encode vypise nasledujuca chyba:
+
+Traceback (most recent call last):
+    File&quot;&lt;stdin&gt;&quot;, line 1, in ?
+    File &quot;mojSubor.py&quot;, line 4, in ?
+        print u'nejaky text'.encode(c)
+    File &quot;python:lib/python2.1/encodings/__init__.py&quot;, line 30, in ?
+        import codecs, exceptions, types
+    file &quot;python:lib/python2.1/codecs.py/&quot;, line 693, in ?
+        ignore_errors = lookup_error(&quot;ignore&quot;)
+LookupError: unknown error handler name 'ignore'
+
+Tak som encode z programu pre Amigu odstranil. Ani ostatne prikazy, ktore teraz neuvediem nemali ziadny vliv na zobrazovanie spravnej cestiny, aj ked uz chybu nehlasili, konecny tvar teda vizera nasledovne.
+
+# -*- coding: latin2 -*-
+print 'Amiga 1200 je počítač z roku 1992'
+
+Pri vlozeni uz hotovej diskety s formatom ADF (.ADF - je Amiga format u diskety) na ktorej je spravne nakonfigurovany subor,
+ktory ma rovnaku funkciu ako stary dobry autoexec.bat a v ktorom je definovane pouzitie kodovania Latin2 pre Amiga system, ktore je pouzite aj v progame sa po restartnuti pocitaca Amiga program spusti so spravnou diakritikou ale nasledovnou hlaskou, ktoru som uviedol na zaciatku popisu mojeho 2. problemu. Potreboval by som len tuto hlasku odstranit. Pokial napriklad vydem s programu spat do Amiga Pythonu a spustim program este raz, hlaska sa uz nezobrazuje. Latin2 je jedine kodovanie, pri ktorom sa mi čeština zobrazuje pod Amigou spravne bez jedinej upravy  textu z progrmu na PC. Amiga ma aj ine kodovania, ale uz take na PC niesu pouzivane.
+
+Vopred sa ospravedlnujem, za dlhy vyklad, ale pre ozrejmenie situacie sa mi to zdalo byt vhodne.
+
+Dakujem za pomoc, Lisiak4
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009037.html">[python] cp 852 / cp1250
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-June/009039.html">[python] Amiga Python, Rekurze a non ASCII poznamka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-June/date.html#9038">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/thread.html#9038">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/subject.html#9038">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-June/author.html#9038">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-June/009038.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:32 GMT -->
+</html>

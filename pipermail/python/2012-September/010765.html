@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010765.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+<HEAD>
+   <TITLE> [python] multiprocess problem se sirotkem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20problem%20se%20sirotkem&In-Reply-To=%3Cdf118c335bee19345d43ea57d452990d%40rg.hostik.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-September/010763.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-September/010767.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multiprocess problem se sirotkem</H1>
+    <B>Filip Štědronský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20problem%20se%20sirotkem&In-Reply-To=%3Cdf118c335bee19345d43ea57d452990d%40rg.hostik.cz%3E"
+       TITLE="[python] multiprocess problem se sirotkem">regnarg na seznam.cz
+       </A><BR>
+    <I>Středa Září  5 10:26:58 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010763.html">[python] multiprocess problem se sirotkem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010767.html">[python] multiprocess problem se sirotkem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10765">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10765">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10765">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10765">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> On Wed, 05 Sep 2012 09:56:08 +0200, azurIt wrote:
+&gt;<i> Ahoj,
+</I>&gt;<i>
+</I>&gt;<i> proces je ukonceny pretoze jeho parent skoncil (proces web serveru -&gt;
+</I>&gt;<i> CGI skript). Ak si na linuxe, tak toto nie je mozne takymto sposobom
+</I>&gt;<i> urobit (resp. nie je mi znamy sposob). Ine OS neviem.
+</I>
+ Ukončení parenta rozhodně (ani na unixu, ani na win32) _rozhodně_ 
+ obecně
+ nezpůsobí ukončení childů. Někdo je musí zabít úmyslně. Podezříval 
+ bych:
+ 1) multiprocessing
+   - slouží k dost specifickým účelům a je možné, že všechny procesy
+     považuje za provázený celek a &quot;by design&quot; je při ukončení hlavního
+     procesu postřílí (podobně, jako by skončily thready). Určitě bude
+     zmíněno v dokumentaci.
+ 2) webserver
+   - je-li přísný a chce, aby po cgi skriptech nic nezbylo
+
+ S pozdravem
+ Filip Štědronský
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010763.html">[python] multiprocess problem se sirotkem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-September/010767.html">[python] multiprocess problem se sirotkem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-September/date.html#10765">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/thread.html#10765">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/subject.html#10765">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-September/author.html#10765">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-September/010765.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:25 GMT -->
+</html>

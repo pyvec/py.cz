@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000741.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] polozka listbox
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20polozka%20listbox&In-Reply-To=op.tpks0kob5zon3w%40milasek.muj">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000740.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2007-March/000742.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] polozka listbox</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20polozka%20listbox&In-Reply-To=op.tpks0kob5zon3w%40milasek.muj"
+       TITLE="[Tutor PyCZ] polozka listbox">Jakohv na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Březen 22 10:48:17 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000740.html">[Tutor PyCZ] polozka listbox
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000742.html">[Tutor PyCZ] polozka listbox
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#741">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#741">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#741">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#741">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i> ------------ Původní zpráva ------------
+</I>&gt;<i> Od: Ondryska Jaromír &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">ondryskajaromir na seznam.cz</A>&gt;
+</I>&gt;<i> Předmět: Re: [Tutor PyCZ] polozka listbox
+</I>&gt;<i> Datum: 22.3.2007 05:50:10
+</I>&gt;<i> ----------------------------------------
+</I>&gt;<i> On Wed, 21 Mar 2007 17:47:01 +0100, Pavel Kosina &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">geon na post.cz</A>&gt; wrote:
+</I>&gt;<i> 
+</I>&gt;<i> &gt; Ondryska Jaromír napsal(a):
+</I>&gt;<i> &gt;&gt; Jak docílit toho, aby mi
+</I>&gt;<i> &gt;&gt; get( ANCHOR ) dávalo
+</I>&gt;<i> &gt;&gt; aktuálně označenou položku?
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Ukaž kod (demo) nebo se  koukni na <A HREF="http://tkintercz.wz.cz/listbox.htm.">http://tkintercz.wz.cz/listbox.htm.</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> 
+</I>&gt;<i> Zdravím,
+</I>&gt;<i> z <A HREF="http://tkintercz.wz.cz/listbox.htm">http://tkintercz.wz.cz/listbox.htm</A> vycházím, je to moje referenční  
+</I>&gt;<i> příručka.
+</I>&gt;<i> Kód:
+</I>&gt;<i> class window:
+</I>&gt;<i> 	def __init__( self, frame ):
+</I>&gt;<i> 		self.listbox_1 = Listbox( frame, selectmode=SINGLE )
+</I>&gt;<i> 		self.listbox_1.grid( row=2, column=0, sticky=W+E+N+S, columnspan=3 )
+</I>&gt;<i> 		self.listbox_1.bind( &quot;&lt;1&gt;&quot;, self.mouse_at_listbox_1 )
+</I>&gt;<i> 
+</I>&gt;<i> 	def fill_listbox( self, array_of_video_items ):
+</I>&gt;<i>                  print &quot;function fill_listbox, parameter is:&quot;,  
+</I>&gt;<i> array_of_video_items
+</I>&gt;<i>                  self.listbox_1.delete( 0, END )
+</I>&gt;<i>                  for item in array_of_video_items:
+</I>&gt;<i>                          self.listbox_1.insert( END, item.path_to_video )
+</I>&gt;<i> 
+</I>&gt;<i>          def mouse_at_listbox_1( self, param ):
+</I>&gt;<i>                  print &quot;mouse pressed at listbox&quot;
+</I>&gt;<i>                  #selected_item = self.listbox_1.get( ANCHOR )
+</I>&gt;<i>                  selected_item = self.listbox_1.curselection()
+</I>&gt;<i>                  print selected_item
+</I>&gt;<i> 
+</I>
+Nejlehčí je použíd double klik:
+
+from Tkinter import*
+class window:
+    def __init__( self, frame ):
+        self.listbox_1 = Listbox( frame, selectmode=SINGLE )
+        self.listbox_1.grid( row=2, column=0, sticky=W+E+N+S, columnspan=3 )
+        self.listbox_1.bind( &quot;&lt;Double-1&gt;&quot;, self.mouse_at_listbox_1 )
+        for prvek in [&quot;skladba 1&quot;,&quot;skladba 2&quot;,&quot;skladba 3&quot;]:
+            self.listbox_1.insert(END,prvek)
+    def fill_listbox( self, array_of_video_items ):
+        print &quot;function fill_listbox, parameter is:&quot;,  array_of_video_items
+        self.listbox_1.delete( 0, END )
+        for item in array_of_video_items:
+            self.listbox_1.insert( END, item.path_to_video )
+
+    def mouse_at_listbox_1( self, param ):
+        print &quot;mouse pressed at listbox&quot;
+        #selected_item = self.listbox_1.get( ANCHOR )
+        selected_item = self.listbox_1.get(self.listbox_1.curselection()[0])
+        print selected_item
+if __name__ == &quot;__main__&quot;:
+    okno=Tk()
+    window(okno)
+    mainloop()
+
+
+Blujacker
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000740.html">[Tutor PyCZ] polozka listbox
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2007-March/000742.html">[Tutor PyCZ] polozka listbox
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/date.html#741">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/thread.html#741">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/subject.html#741">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2007-March/author.html#741">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2007-March/000741.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:06 GMT -->
+</html>

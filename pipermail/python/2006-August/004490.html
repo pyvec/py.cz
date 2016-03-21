@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004490.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:19 GMT -->
+<HEAD>
+   <TITLE> [python] vytvoření serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-August/004493.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-August/004494.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vytvoření serveru</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To="
+       TITLE="[python] vytvoření serveru">Jakohv na seznam.cz
+       </A><BR>
+    <I>Úterý Srpen 15 10:03:08 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004493.html">[python] wx.Notebook a disabled pages
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004494.html">[python] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4490">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4490">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4490">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4490">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj
+mám takový problém se serverem. Dělám na on-line multiplayer hře. Každý si stáhne klienta a když bude puštěný server připojí se. Například když se někdo připojí tak to všem ostatním hráčům odešle přikaz:self.platno.create_image(x,y,image=obr)
+jak ale udělat funkci, která byčekala až na server přijde nějaká zpráva a pak by jí stáhla? 
+server:
+import socket
+def zapni_server():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host =  'localhost'
+    port = 1001
+    s.bind((host, port))
+    s.listen(1)
+    print &quot;on-line&quot;
+    while 1:
+    
+        conn, addr = s.accept()
+
+    
+        data = conn.recv(100000)
+           
+        print data
+        conn.send(data)
+        conn.close()
+
+    s.close()
+zapni_server()
+
+###################
+klient ma dve funkce:
+def posli_rozkaz(self,co):       
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        host = &quot;localhost&quot;
+        port = 1001
+        s.connect((host, port))
+        s.send(co)
+        s.close()
+def prijem_rozkazu(self):
+
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        host = &quot;localhost&quot;
+        port = 1001
+            
+        s.connect((host, port))
+        s.setblocking(0)
+        try:
+                data= s.recv(1000000)
+                exec(data)
+                
+        except:
+                pass
+        s.close()
+
+
+Prostě jakmile by jakýkoliv klient odeslal příkaz, hned by se u všech ostatních klientů zavolal funkce prijem_rozkazu()
+Blujacker
+</PRE>
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004493.html">[python] wx.Notebook a disabled pages
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-August/004494.html">[python] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-August/date.html#4490">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/thread.html#4490">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/subject.html#4490">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-August/author.html#4490">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-August/004490.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:19 GMT -->
+</html>

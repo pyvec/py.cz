@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006603.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:15 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s odesláním ofrmuláře metodou POST
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FProblem_s_odesl%3DE1n%3DEDm_ofrmul%3DE1%3DF8e_met%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fodou_POST%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-October/006599.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-October/006604.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s odesláním ofrmuláře metodou POST</H1>
+    <B>Roman Morong</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FProblem_s_odesl%3DE1n%3DEDm_ofrmul%3DE1%3DF8e_met%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Fodou_POST%3F%3D&In-Reply-To="
+       TITLE="[python] Problem s odesláním ofrmuláře metodou POST">mororo na seznam.cz
+       </A><BR>
+    <I>Neděle Říjen  7 20:29:01 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006599.html">[python] modul image
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006604.html">[python] Problem s odesláním ofrmuláře metodou POST
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6603">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6603">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6603">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6603">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Takže sem udělal takovou prasarnu a nevim co a jak :( jak dal 
+bohužel nepřihlá sí se 
+
+import urllib
+import urllib2
+import cookielib
+import os.path
+
+def installCookies(f):
+    global cj, COOKIE_FILE
+    cj = cookielib.LWPCookieJar()
+    if os.path.exists(f):
+        cj.load(f)
+    COOKIE_FILE = f
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+    urllib2.install_opener(opener)
+
+def saveCookies():
+    cj.save(COOKIE_FILE)
+
+
+installCookies('cookies.dat')
+
+myPost = urllib.urlencode({&quot;eba5c8b&quot;: &quot;mororo&quot;, &quot;e316d4e&quot;: &quot;topgun&quot;,
+&quot;autologin&quot;: &quot;ja&quot;, &quot;s1&quot;: &quot;login&quot;})
+data = urllib2.urlopen(&quot;<A HREF="http://s5.travian.cz/dorf1.php",">http://s5.travian.cz/dorf1.php&quot;,</A> myPost)
+
+datas = data.read()
+data.close()
+print datas.count('11800') # kolik je tam slov '11800'
+
+raw_input()
+
+
+
+S Pozdarev Roman Morong
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20071007/ca27b247/attachment.htm">http://www.py.cz/pipermail/python/attachments/20071007/ca27b247/attachment.htm</A> 
+</PRE>
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006599.html">[python] modul image
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-October/006604.html">[python] Problem s odesláním ofrmuláře metodou POST
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-October/date.html#6603">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/thread.html#6603">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/subject.html#6603">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-October/author.html#6603">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-October/006603.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:15 GMT -->
+</html>

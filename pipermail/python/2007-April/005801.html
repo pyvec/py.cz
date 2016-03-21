@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005801.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:09 GMT -->
+<HEAD>
+   <TITLE> [python] XML PARSER
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML%20PARSER&In-Reply-To=1175879580.799369.322560%40b75g2000hsg.googlegroups.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-April/005800.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-April/005802.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] XML PARSER</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20XML%20PARSER&In-Reply-To=1175879580.799369.322560%40b75g2000hsg.googlegroups.com"
+       TITLE="[python] XML PARSER">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Sobota Duben  7 00:13:17 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005800.html">[python] XML PARSER
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005802.html">[python] Jakého typu je iterátor?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5801">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5801">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5801">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5801">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE><A HREF="http://www.py.cz/mailman/listinfo/python">hexima na seznam.cz</A> wrote:
+&gt;<i> Dobry den,
+</I>&gt;<i> 
+</I>&gt;<i> jsem Pythoňátko které již tyden hledá nejake relevantni informace o
+</I>&gt;<i> zpracovani XML souboru v Pythonu. Jedna se mi o rozparsovani XML
+</I>&gt;<i> dokumentu do promenne , nejlepe slovniku , napr x = {} aby bylo mozne
+</I>&gt;<i> cist hodnoty nasledovne:
+</I>&gt;<i> 
+</I>&gt;<i>  hodnotaA = x['tagA']
+</I>&gt;<i>  hodnotaB = x['user']
+</I>&gt;<i> 
+</I>&gt;<i> Vzorovy XML:
+</I>&gt;<i> 
+</I>&gt;<i> &lt;?xml version='1.0' encoding='UTF-8'?&gt;
+</I>&gt;<i> &lt;myxml&gt;
+</I>&gt;<i>   &lt;neco&gt;
+</I>&gt;<i>                  &lt;tagA&gt;Ahoj Světe&lt;/tagA&gt;
+</I>&gt;<i>   &lt;/neco&gt;
+</I>&gt;<i>   &lt;mysql&gt;
+</I>&gt;<i>   	&lt;host&gt;localhost&lt;/host&gt;
+</I>&gt;<i> 	&lt;user&gt;root&lt;/user&gt;
+</I>&gt;<i> 	&lt;password&gt;heslo&lt;/password&gt;
+</I>&gt;<i> 	&lt;db&gt;databaze&lt;/db&gt;
+</I>&gt;<i>   &lt;/mysql&gt;
+</I>&gt;<i> &lt;/myxml&gt;
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Poradi mi nekdo, nejlepe malym vzorovym prikladem.
+</I>&gt;<i> 
+</I>&gt;<i> Predem dekuji za ochotu.
+</I>&gt;<i> 
+</I>&gt;<i> Hexim
+</I>&gt;<i> 
+</I>
+Mě to funguje, jestliže se vynechá ten &quot;deklarační&quot; řádek. Asi to není 
+úplně košér, ale nevím, jak to udělat líp než takhle:
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from elementtree.ElementTree import *
+xml = '''
+&lt;myxml&gt;
+   &lt;neco&gt;
+                  &lt;tagA nějaký='atribut'&gt;Ahoj Světe&lt;/tagA&gt;
+   &lt;/neco&gt;
+   &lt;mysql ble='ble'&gt;
+       &lt;host&gt;localhost&lt;/host&gt;
+     &lt;user&gt;root&lt;/user&gt;
+     &lt;password&gt;heslo&lt;/password&gt;
+     &lt;db&gt;databaze&lt;/db&gt;
+   &lt;/mysql&gt;
+&lt;/myxml&gt;
+'''
+rootelem = fromstring(xml)
+queue = [rootelem]
+while queue:
+     elem = queue.pop()
+     queue.extend(elem.getchildren())
+     print elem.tag, elem.text
+     for k, v in elem.attrib.iteritems():
+         print k,v
+
+Tohle projde celý XML strom, najde všechny tagy, jejich atributy (ve 
+formě slovníku) a texty. Obvykle se na to asi používá rekurze, ale přes 
+zásobník mi to přišlo lepší.
+Užitečná metoda je taky getiterator() a spousta dalších.
+
+Jan Martinek
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005800.html">[python] XML PARSER
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-April/005802.html">[python] Jakého typu je iterátor?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-April/date.html#5801">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/thread.html#5801">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/subject.html#5801">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-April/author.html#5801">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-April/005801.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:09 GMT -->
+</html>

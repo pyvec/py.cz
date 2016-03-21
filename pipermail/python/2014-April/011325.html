@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-April/011325.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:41 GMT -->
+<HEAD>
+   <TITLE> [python] Akcia iba pri prekročení hodnoty v cykle
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FAkcia_iba_pri_prekro%3DC4%3D8Den%3DC3%3DAD_hodnoty_v_c%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fykle%3F%3D&In-Reply-To=%3CCA%2B%3D%2BwqAKWiOcb0%3DZVccLXJLPeQBNr%3DzD49ZyyAF7u_y6%3DQrTjA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-April/011324.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-April/011326.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Akcia iba pri prekročení hodnoty v cykle</H1>
+    <B>Petr Viktorin</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3FAkcia_iba_pri_prekro%3DC4%3D8Den%3DC3%3DAD_hodnoty_v_c%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fykle%3F%3D&In-Reply-To=%3CCA%2B%3D%2BwqAKWiOcb0%3DZVccLXJLPeQBNr%3DzD49ZyyAF7u_y6%3DQrTjA%40mail.gmail.com%3E"
+       TITLE="[python] Akcia iba pri prekročení hodnoty v cykle">encukou na gmail.com
+       </A><BR>
+    <I>Pondělí Duben 21 21:20:25 CEST 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011324.html">[python]  Akcia iba pri prekročení hodnoty v cykle
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011326.html">[python] Akcia iba pri prekročení hodnoty v cykle
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-April/date.html#11325">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/thread.html#11325">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/subject.html#11325">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/author.html#11325">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Podobné věci se většinou řeší stavovým automatem (state machine;
+google ti určitě ukáže spoustu teorie).
+
+Jinak ohřívače mají většinou hysterezi: teplota při které se ohřívač
+spustí je vyšší než při které se vypne. Přikládám jednoduchou ukázku.
+
+2014-04-21 21:02 GMT+02:00 Lukáš Sliacky &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lukas na sliacky.eu</A>&gt;:
+&gt;<i> Ahojte,
+</I>&gt;<i>
+</I>&gt;<i> už druhý deň si lámem hlavu nad tým, ako urobiť, aby v cykle nastala akcia iba pri prekročení definovanej hodnoty.
+</I>&gt;<i>
+</I>&gt;<i> Príklad:
+</I>&gt;<i> Mám teplomer, ktorý dáva na vstup teplotu v stupňoch. Chcem, aby cyklus sledoval, či je teplota vyššia alebo nižšia ako 20 stupňov a podľa toho vykonal napr. print.
+</I>&gt;<i> Problém je v tom, že potrebujem aby print vykonal iba keď teplota stúpne nad 20 stupňov, resp. keď klesne pod 20 stupňov. Keď stúpne napr. z 15 na 16 alebo z 21 na 22, nevykoná sa nič. Jednoducho akcia iba keď sa prvý krát prekoná definovaná hodnota.
+</I>&gt;<i>
+</I>&gt;<i> Je to vlastne ekvivalent funkcie nejakého ohrievača. Keď teplota klesne pod 20 stupňov, vypíše, že za zapína kúrenie a zapne ho až pokým teplota nestúpne nad 20, tam znovu vypíše, že teplota je nad 20 a znovu nebude vykonávať nič, až pokým neklesne pod 20.
+</I>&gt;<i> (ak som to náhodou nezadefinoval dostatočne, na požiadanie to všetko upresním)
+</I>&gt;<i>
+</I>&gt;<i> Verím, že existuje nejaký hotový algoritmus, ale ani po hodinách googlenia sa mi nepodarilo nájsť nič použiteľné.
+</I>&gt;<i>
+</I>&gt;<i> Ďakujem za odpovede.
+</I>&gt;<i>
+</I>&gt;<i> Lukáš
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: stavovy_automat.py
+Type: text/x-python
+Size: 547 bytes
+Desc: [žádný popis není k dispozici]
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20140421/816912af/attachment.py">http://www.py.cz/pipermail/python/attachments/20140421/816912af/attachment.py</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011324.html">[python]  Akcia iba pri prekročení hodnoty v cykle
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-April/011326.html">[python] Akcia iba pri prekročení hodnoty v cykle
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-April/date.html#11325">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/thread.html#11325">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/subject.html#11325">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-April/author.html#11325">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-April/011325.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:41 GMT -->
+</html>

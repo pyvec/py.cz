@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-March/004197.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:47 GMT -->
+<HEAD>
+   <TITLE> [python] pickle
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pickle&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-March/004200.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-March/004202.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pickle</H1>
+    <B>Martin Blazik</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pickle&In-Reply-To="
+       TITLE="[python] pickle">martin.blazik na premiumsms.cz
+       </A><BR>
+    <I>Středa Březen 29 10:24:47 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004200.html">[python] Mod_python a uchovani dat v operacni pameti
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004202.html">[python] pickle
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-March/date.html#4197">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/thread.html#4197">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/subject.html#4197">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/author.html#4197">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Cusik,
+nesetkal se nahodou jiz nekdo se serializaci instance ve ktere mam 
+atributy, ktere ukazuji na staticke metody tridy? Nedari se mi to 
+serializovat. Tady konkretne to muzu obejit, ze metodu noconv udelam 
+nestatickou, ale mam i jina mista, kde to nelze.
+Ukazka kde to nechodi:
+
+class TypeDict(dict):
+    &quot;&quot;&quot; Slovnik, ktery je schopny kontrolovat typ vkladanych dat &quot;&quot;&quot;
+   
+    def __init__(self, strict = False):
+        &quot;&quot;&quot; strict - urcuje chovani pri pouziti neregistrovaneho klice
+        True - lze pouzivat jen registrovane klice
+        False - konverzni funkce se zalozi automaticky jako TypeDict.noconv
+        &quot;&quot;&quot;
+        super(TypeDict, self).__init__()
+        self.__convert = {}
+        self.__strict = bool(strict)
+   
+    def setkey(self, key, convert):
+        self.__convert[key] = convert
+        if key in self:
+            TypeDict.__setitem__(self, key, self[key])
+   
+    @staticmethod
+    def noconv(value):
+        return value
+      
+    def __setitem__(self, key, value):
+        if key not in self.__convert:
+            if self.__strict:
+                raise KeyError(key)
+            else:
+                self.setkey(key, TypeDict.noconv)
+        super(TypeDict, self).__setitem__(key, self.__convert[key](value))
+
+
+import pickle
+dct = TypeDict()
+dct['key'] = 'netusim'
+# ted je pro 'key' nastavena konverzni funkce TypeDict.noconv
+pickle.dumps(dct)
+....
+pickle.PicklingError: Can't pickle &lt;function noconv at 0x402f42cc&gt;: it's 
+not found as typedict.noconv
+# navic ji ocividne hleda na jinem miste nebot aboslutni umisteni je 
+typedict.TypeDict.noconv
+
+lachtan
+
+</PRE>
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004200.html">[python] Mod_python a uchovani dat v operacni pameti
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-March/004202.html">[python] pickle
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-March/date.html#4197">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/thread.html#4197">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/subject.html#4197">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-March/author.html#4197">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-March/004197.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:47 GMT -->
+</html>

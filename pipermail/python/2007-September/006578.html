@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006578.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:23 GMT -->
+<HEAD>
+   <TITLE> [python] Nakonec všechno jinak
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FNakonec_v%3DB9echno_jinak%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-September/006548.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-September/006549.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Nakonec všechno jinak</H1>
+    <B>Michal Bozon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FNakonec_v%3DB9echno_jinak%3F%3D&In-Reply-To="
+       TITLE="[python] Nakonec všechno jinak">bozonm na vscht.cz
+       </A><BR>
+    <I>Středa Září 26 23:07:11 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006548.html">[python] Nakonec všechno jinak
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006549.html">[python] Jak udělat odpočítávání?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6578">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6578">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6578">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6578">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, 14 Sep 2007 05:51:01 -0700, Mazlík wrote:
+
+&gt;<i> Ahoj :)
+</I>&gt;<i> Mockráte díky za ochotu (to se jen tak nevidí) :-)
+</I>&gt;<i> 
+</I>&gt;<i> Mám program, který je určen hlavně pro widle a jeho úkolem je stahovat
+</I>&gt;<i> soubory z FTP serveru. Ten program dám do plánovače úloh (taková
+</I>&gt;<i> napodobenina cronu :)) ) a každý den se automaticky stáhnou určité
+</I>&gt;<i> soubory do složky. Ale zároveň jsem chtěl, aby když se spustí program
+</I>&gt;<i> normálně, tak aby tam nabídka (defaultni volba, stáhnutí starších
+</I>&gt;<i> souborů apod). Proto jsem chtěl to odpočítávání, aby když ten ten
+</I>&gt;<i> program spustí plánovač, aby se po 10 vteřinách spustila defaultní
+</I>&gt;<i> volba.
+</I>&gt;<i> 
+</I>&gt;<i> Zároveň mě zajímalo, jestli něco takového vůbec funguje :)
+</I>&gt;<i> 
+</I>&gt;<i> Nakonec jsem to udělal tak, že v plánovači úloh spustím soubor s
+</I>&gt;<i> parametrem a odpočítávání neřeším.
+</I>&gt;<i> 
+</I>&gt;<i> Takže se omlouvám, že jsem Vaše rady nakonec nevyužil :(
+</I>
+Zdravím,
+nevím, jestli ti to pomůže, ale plánovač si můžeš udělat přímo v
+pythonu, podívej se na modul sched.
+
+Takže dejme tomu když chci za 10 vteřin spustit f(a), udělám toto:
+
+import sched
+import time
+
+def f(x):
+    ...
+
+a = ...
+
+scheduler = sched.scheduler(time.time, time.sleep)
+scheduler.enter(10, 0, f, a)
+# nula je priorita, bere se v uvahu je-li ve stejny cas vic uloh
+scheduler.run()
+
+ -m.
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006548.html">[python] Nakonec všechno jinak
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-September/006549.html">[python] Jak udělat odpočítávání?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-September/date.html#6578">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/thread.html#6578">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/subject.html#6578">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-September/author.html#6578">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-September/006578.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:23 GMT -->
+</html>

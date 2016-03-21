@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010533.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:41 GMT -->
+<HEAD>
+   <TITLE> [python] PYTHONPATH
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3C1326315019.3599.4.camel%40uruloki%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-January/010529.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-January/010540.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] PYTHONPATH</H1>
+    <B>David Rohleder</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20PYTHONPATH&In-Reply-To=%3C1326315019.3599.4.camel%40uruloki%3E"
+       TITLE="[python] PYTHONPATH">davro na ics.muni.cz
+       </A><BR>
+    <I>Středa Leden 11 21:50:19 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010529.html">[python] PYTHONPATH
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010540.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10533">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10533">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10533">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10533">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hynek Fabian píše v Wed 11. 01. 2012 v 18:42 +0100:
+&gt;<i> &gt; Proč?
+</I>&gt;<i> &gt; když to strčím do .bash, tak se při dalším spuštění bashe jako
+</I>&gt;<i> &gt; subprocesu (což může být celkem často) ta proměnná zdvojí.
+</I>&gt;<i> Vida, to jsem si nikdy nev&#353;iml&#8230; v&#283;t&#353;inu v&#283;c&#237; cpu preventivn&#283; do .bashrc,
+</I>&gt;<i> abych je našel i ve skriptech spouštěných z cronu apod.
+</I>&gt;<i> Ale teď už to nevypadá jako tak dobrý nápad :-(
+</I>
+
+Tak ono to jde vyřešit celkem jednoduše. Třeba tak, že se v .bashrc
+nastaví nějaká proměnná a pak se testuje na její nastavení (nebo spíš
+naopak).
+
+if [ -n $BASHRC_RUN ] ; do
+	nastav co chceš
+done
+
+export BASHRC_RUN=true
+
+ono má toto nastavení výhodu, protože .profile se nemusí spustit (když
+se člověk přihlašuje přes gdm).
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010529.html">[python] PYTHONPATH
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-January/010540.html">[python] PYTHONPATH
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-January/date.html#10533">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/thread.html#10533">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/subject.html#10533">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-January/author.html#10533">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-January/010533.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:41 GMT -->
+</html>

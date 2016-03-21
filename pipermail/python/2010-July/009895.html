@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009895.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+<HEAD>
+   <TITLE> [python] multiprocess manager
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20manager&In-Reply-To=%3C4C4DE78D.10401%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-July/009892.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-July/009898.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] multiprocess manager</H1>
+    <B>Tomas Pelka</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20multiprocess%20manager&In-Reply-To=%3C4C4DE78D.10401%40gmail.com%3E"
+       TITLE="[python] multiprocess manager">tompelka na gmail.com
+       </A><BR>
+    <I>Pondělí Červenec 26 21:52:45 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009892.html">[python] pomoc v pythone
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009898.html">[python] multiprocess manager
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9895">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9895">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9895">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9895">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim vsechny,
+
+mam potize s exportovanim objektu pres manager z modulu multiprocess, 
+priklad:
+
+Worker.py:
+###################################
+from multiprocessing import Process
+from multiprocessing.managers import BaseManager
+import pcapy
+from impacket.ImpactDecoder import EthDecoder
+
+__all__ = ['Worker']
+
+class Worker(Process):
+         '''
+         Class for sniffing packets, runnig as root
+         '''
+
+         public = ['go', 'terminate']
+
+         def __init__(self):
+                 super(Worker, self).__init__()
+                 self.iface = ''
+                 self.expr = ''
+                 self.pcap = ''
+                 # define packet decoder
+                 self.decoder = EthDecoder()
+                 # key for queue daemon, remotely on localhost:5000
+                 self._keyQ = '10b222970537b97919db36ec757370d2'
+                 class QueueManager(BaseManager): pass
+                 QueueManager.register('get_dataQueue')
+                 self._m = QueueManager(address=('127.0.0.1', 5000), 
+authkey=self._keyQ)
+                 self._m.connect()
+                 self.dataQueue = self._m.get_dataQueue()
+         def go(self, iface, expr):
+                 '''
+                 start sniffer
+                 '''
+                 print &quot;Starting sniffer&quot;
+                 self.iface = iface
+                 self.expr = expr
+                 super(Worker, self).start()
+         def terminate(self):
+                 '''
+                 terminate sniffer
+                 '''
+                 super(Worker, self).terminate()
+         def run(self):
+                 print &quot;sniffing ...&quot;
+                 print self.iface
+                 print self.expr
+                 self.pcap = pcapy.open_live(self.iface, 1500, 1, 0)
+                 self.pcap.setfilter(self.expr)
+                 self.pcap.loop(0, self.__packetHandler)
+                 print &quot;... done&quot;
+         def __packetHandler(self, hdr, data):
+                 '''
+                 handles packets and put them in to the queue
+                 '''
+                 print &quot;Handling packets&quot;
+                 #print data
+                 print &quot;Queue size: %i&quot; % self.dataQueue.qsize()
+                 print self.decoder.decode(data)
+                 self.dataQueue.put(data)
+
+Export objektu (Worker):
+###################################
+from Worker import Worker
+
+class SniffManager(BaseManager): pass
+SniffManager.register('Worker', callable=Worker)
+Sm = SniffManager(address=('127.0.0.1', 5001), 
+authkey='f1f16683f3e0208131b46d37a79c8921')
+Ss = Sm.get_server()
+Ss.serve_forever()
+
+
+Volani metod objektu, vzdalene:
+###################################
+# get remote object
+class WorkerManager(BaseManager): pass
+WorkerManager.register('Worker')
+w = WorkerManager(address=('127.0.0.1', 5001), 
+authkey='f1f16683f3e0208131b46d37a79c8921')
+w.connect()
+worker = w.Worker() #TOHLE FUNGUJE JAK MA
+
+ale
+
+worker.terminate()
+
+File &quot;/home/tom/web2py/applications/init/controllers/sniffer.py&quot;, line 
+143, in index
+     worker.terminate()
+File &quot;&lt;string&gt;&quot;, line 2, in terminate
+File &quot;/usr/lib/python2.6/multiprocessing/managers.py&quot;, line 740, in 
+_callmethod
+     raise convert_to_error(kind, result)
+AttributeError: 'NoneType' object has no attribute 'terminate'
+
+Zarazi me ze go() funguje a terminate() nikoliv. Lokalne funfuje vse tak 
+jak ma.
+
+Diky za rady.
+
+-- 
+Tomas Pelka
+
+------------- dal?í ?ást ---------------
+HTML p?íloha byla odstran?na...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20100726/2e39bfb3/attachment.html">http://www.py.cz/pipermail/python/attachments/20100726/2e39bfb3/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009892.html">[python] pomoc v pythone
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-July/009898.html">[python] multiprocess manager
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-July/date.html#9895">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/thread.html#9895">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/subject.html#9895">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-July/author.html#9895">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-July/009895.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:30 GMT -->
+</html>

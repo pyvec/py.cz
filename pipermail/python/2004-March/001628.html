@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2004-March/001628.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:45 GMT -->
+<HEAD>
+   <TITLE> [python] ping v pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20ping%20v%20pythonu&In-Reply-To=405ED923.5030302%40phreaker.net">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2004-March/001626.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2004-March/001629.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] ping v pythonu</H1>
+    <B>Gen2n</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20ping%20v%20pythonu&In-Reply-To=405ED923.5030302%40phreaker.net"
+       TITLE="[python] ping v pythonu">gen2n na seznam.cz
+       </A><BR>
+    <I>Úterý Březen 23 09:23:17 CET 2004</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001626.html">[python] ping v pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001629.html">[python] ping v pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-March/date.html#1628">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/thread.html#1628">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/subject.html#1628">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/author.html#1628">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Budu zase asi za ignoranta, ale stejne:
+
+v souvislosti se zkouĹĄenĂ­m 
+client.MapNetworkDrive('x:','//server/sdileny_disk')  mi to hĂĄzĂ­ chybu:
+Traceback (most recent call last):
+  File &quot;C:\Dokumenty\Python\map.py&quot;, line 4, in -toplevel-
+    client.MapNetworkDrive('x:','\\PC01\disk_c')
+  File &quot;&lt;COMObject Wscript.Network&gt;&quot;, line 2, in MapNetworkDrive
+com_error: (-2147352567, 'Do\x9alo k v\xfdjimce.', (0, 
+'WSHNetwork.MapNetworkDrive', 'S\xed\x9dov\xfd n\xe1zev nelze 
+nal\xe9zt.\r\n', None, 0, -2147024829), None)
+ &gt;&gt;&gt;
+
+Jde mi jen o to, jak pĹemluvit IDLE/PythonWin, aby UTF-8 dekodoval 
+sprĂĄvnÄ. ZkouĹĄel jsem v Option -Configure IDLE a taky v site.py, kde 
+jsem zkouĹĄel mÄnit encoding = &quot;ascii&quot; na &quot;utf-8&quot;. Pravda, moc tomu do 
+hloubky nerozumĂ­m, ale vĹĄechno do hloubky znĂĄt nemohu.
+
+
+Diky za nakopnutĂ­
+P.
+
+
+
+tdc napsal(a):
+
+&gt;<i> Gen2n wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> taky bych neco takoveho potreboval, nyni zrovna mapovat disky ve win. 
+</I>&gt;&gt;<i> neco jako &quot;net use q: //PC00//blablabla&quot;. Hledal jsem, ale nenasel.
+</I>&gt;&gt;<i> Leda to udelat jako volĂĄnĂ­ externĂ­ho programu, coz se mi moc nechce....
+</I>&gt;&gt;<i> Zdravim
+</I>&gt;&gt;<i> Pavel
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Ahoj,
+</I>&gt;<i> nejak nevim, co ma windows-specificky zpusob mapovani disku (smb) 
+</I>&gt;<i> spolecneho s obecnymi sitovymi sluzbami (TCP/UDP/ICMP sockety). Jiste, 
+</I>&gt;<i> urcite by slo udelat nativni Python port SMB protokolu, kdyby se nekdo 
+</I>&gt;<i> hodne snazil, ale porad to nebude mit nic do cineni se zpusobem, jak 
+</I>&gt;<i> windows mapuji disky. Na minuly dotaz jsem uz uz chtel odpovedet, at 
+</I>&gt;<i> si onen tazatel nejdriv rozmysli, na co se bude ptat - ping je 
+</I>&gt;<i> implementace ICMP echo a s touhle informaci by si mel vystacit 
+</I>&gt;<i> (precist si neco o socketech by ho urcite nezabilo :)). To same plati 
+</I>&gt;<i> pro tento pripad. Mapovani disku je zalezitost win32 API. Takze zkuste 
+</I>&gt;<i> (windows-specificky) balik win32all a postourat se trosku ve windowsim 
+</I>&gt;<i> COM. Treba takhle:
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> import os
+</I>&gt;<i> import win32com.client
+</I>&gt;<i> client = wnt=win32com.client.Dispatch('Wscript.Network')
+</I>&gt;<i> client.MapNetworkDrive('x:','//server/sdileny_disk')
+</I>&gt;<i>
+</I>&gt;<i> pro test:
+</I>&gt;<i> os.listdir('x:')
+</I>&gt;<i>
+</I>&gt;<i> _tdc_
+</I>&gt;<i>
+</I>&gt;<i> PS: STFW :)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML pĹĂ­loha byla odstranÄna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20040323/f2600385/attachment.htm">http://www.py.cz/pipermail/python/attachments/20040323/f2600385/attachment.htm</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001626.html">[python] ping v pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2004-March/001629.html">[python] ping v pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2004-March/date.html#1628">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/thread.html#1628">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/subject.html#1628">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2004-March/author.html#1628">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2004-March/001628.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:28:45 GMT -->
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-January/002210.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:56 GMT -->
+<HEAD>
+   <TITLE> RE: [python] globální proměnné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_glob%3DE1ln%3DED_prom%3DECnn%3DE9%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-January/002209.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-January/002212.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] globální proměnné</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_glob%3DE1ln%3DED_prom%3DECnn%3DE9%3F%3D&In-Reply-To="
+       TITLE="RE: [python] globální proměnné">Prikryl na skil.cz
+       </A><BR>
+    <I>Středa Leden  5 11:16:36 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002209.html">[python] globální proměnné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002212.html">[python] globální proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-January/date.html#2210">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/thread.html#2210">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/subject.html#2210">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/author.html#2210">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Myslím, že už jsem pochopil o co ti jde. Má to i svůj
+termín. Cituji z oficiálního tutorialu Pythonu (2.4):
+
+   9.7 Odds and Ends 
+ 
+   Sometimes it is useful to have a data type similar to the
+   Pascal ``record'' or C ``struct'', bundling together a
+   couple of named data items. An empty class definition
+   will do nicely:
+
+    class Employee:
+        pass
+    
+    john = Employee() # Create an empty employee record
+    
+    # Fill the fields of the record
+    john.name = 'John Doe'
+    john.dept = 'computer lab'
+    john.salary = 1000
+
+Česky se tomu říká záznam (v pascalovské terminologii)
+nebo struktura (v jazyce C a C++). 
+
+Python se od zmíněného Pascalu, C a jiných kompilovaných
+jazyků liší tím, že do takového záznamu můžeme za běhu
+přidávat položky nebo je naopak rušit. V kompilovaných
+jazycích mají záznamy pevnou velikost (v paměti).
+
+&gt;<i> 4/ Tenhle důvod jsem vykoukal v LiveWires: tato
+</I>&gt;<i> superglobalita (proménně instance třídy) slouží jako jakýsi
+</I>&gt;<i> Kontejner vlastností, které mají společný základ. Třebas:
+</I>&gt;<i> 
+</I>&gt;<i> hrac=G()
+</I>&gt;<i> hrax.souradniceX=0
+</I>&gt;<i> hrac.souradniceY=0
+</I>&gt;<i> hrac.tvar=...
+</I>&gt;<i> 
+</I>&gt;<i> ... Všechno pěkně seskupené pod přiléhavým názvem a k tomi
+</I>&gt;<i> bonus zdarma, že uvnitř všech funkcí, které nějak ovlivňují
+</I>&gt;<i> hrače nemusím psát &quot;global&quot;
+</I>
+Takže jinak, nepoužíváš nic &quot;superglobálního&quot;, ale jednoduše
+globální proměnnou typu záznam. Tady bych doporučil, abys ji
+nepoužíval jako globální, ale abys ji předával (jako celek)
+funkcím, které ji potřebují. Příklad:
+
+    class Zaznam():
+        pass
+
+    def NovyHrac():
+        return Zaznam()
+       
+    def Inicializace(hrac):
+        hrac.x = 0
+        hrac.y = 0
+        hrac.tvar = '...'
+       
+   def PresunAbsolutne(hrac, x, y):
+        hrac.souradniceX = x
+        hrac.souradniceY = y
+   
+   ...
+   
+   # Použití... 
+   
+   if __name__ == '__main__':
+       
+       hracA = NovyHrac()
+       Inicializace(hracA)
+       PresunAbsolutne(hracA, 10, 20)
+       
+Výhodou je to, že ty stejné funkce můžu znovu použít pro
+dalšího hráče (to platí samozřejmě obecně, i když používám 
+záznamy určené pro jiný účel):       
+
+       hracB = NovyHrac()
+       Inicializace(hracB)
+       PresunAbsolutne(hracB, 30, 50)
+
+Úplná ukázka (doporučuji nahlédnout) 
+<A HREF="http://www.skil.cz/python/ukazka/hra1.py">http://www.skil.cz/python/ukazka/hra1.py</A>       
+
+Z ukázky je vidět, že při takovém přístupu se pořád na místě
+prvního parametru vyskytuje odkaz na záznam hráče. Pokud
+takto používám funkce, které jsou velmi těsně významově
+vázány k datové části záznamu hráče, pak z nich mohu udělat
+&quot;algoritmické složky záznamu&quot; hráče -- funkce přidružené k
+záznamu. Narozdíl od datových složek není nutné jejich kód
+udržovat opakovaně v každém záznamu, protože je pro všechny
+záznamy se stejným významem (pro všechny hráče) stejný.
+
+Odtud je již jen krůček k OOP. Všichni hráči se chovají
+stejně. Liší se pouze vnitřním stavem (hodnotami v datové
+části). Popis hráče se obecně zachytí do konstrukce, které
+se říká třída. Instanci třídy se pak neříká záznam, ale
+objekt. Tak jak se u záznamu přistupovalo k datovým složkám,
+tak se přistupuje i ke složkám záznamu typu funkce -- říká
+se jim metody. Tyto funkce automaticky dostávají první
+skrytý parametr, který je odkazem na datovou část objektu.
+Technicky je to totéž, jako jsme realizovali v předchozí
+ukázce -- jen se to přehledněji zapisuje. A hlavně, o
+objektech uvažujeme trochu personifikovaně -- každý se stará
+o svůj vnitřek (data), ve svých metodách se na svou datovou
+část dívá jako na &quot;sebe samotného&quot; (anglicky self) a
+komunikuje s ostatními při řešení nějakého problému tím, že
+volá zase jejich metody.
+
+Výše uvedený příklad s hráči pak bude vypadat takto.
+Inicializace je natolik typickou vlastností, že pro ni je
+vyhražena speciální metoda, která se volá automaticky po
+vzniku objektu:
+
+    class Hrac:
+        def __init__(self):
+            self.x = 0
+            self.y = 0
+            self.tvar = '...'
+           
+        def PresunAbsolutne(self, x, y):
+            self.x = x
+            self.y = y
+           
+        ...
+        
+    # Použití...
+    
+    if __name__ == '__main__':
+    
+        hracA = Hrac()
+        hracA.PresunAbsolutne(10, 20)
+        
+        hracB = Hrac()
+        hracB.PresunAbsolutne(30, 50)
+
+Výše odkazované řešení 
+<A HREF="http://www.skil.cz/python/ukazka/hra1.py">http://www.skil.cz/python/ukazka/hra1.py</A>       
+je vlastně objektové, ale k zápisu využívá
+pouze prostředky procedurálního programování.
+Python jednoduše nepodporuje definice datových
+bloků typu záznam, proto se zde zneužívá 
+konstrukce class.
+
+Druhé řešení -- viz
+<A HREF="http://www.skil.cz/python/ukazka/hra2.py">http://www.skil.cz/python/ukazka/hra2.py</A> --
+využívá pro stejné řešení téhož problému
+jazykové prostředky pro práci s třídami a objekty.
+        
+
+Myšlenka tříd a jejich instancí (objektů) tedy jen
+formálněji zachycuje přístup, kdy chceme vyjádřit
+sounáležitost datových složek formou vyššího celku --
+záznamu. Navíc chceme vyjádřit, že k tomuto typu záznamu
+jsou vázány i vybrané funkce (metody třídy).
+
+Objektově orientovaný přístup k programování problému spočívá v
+důsledném balení souvisejících dat do záznamů a ve vytváření
+souvisejících funkcí, kterým systematicky předáváme
+související záznam jako první parametr. Další údaje, které
+nesouvisejí s vnitřním stavem záznamu, se dodávají jako
+další parametry.
+
+Objektově orientované jazyky tento přístup usnadňují tím, že
+pro popis souvisejících datových a funčních částí poskytují
+konstrukci pro popis třídy a příslušná syntaktická
+pravidla (formy zápisu v programovacím jazyce). První
+parametr funkce/metody (odkaz na záznam) se nezapisuje jako
+první parametr funkce, ale před jméno funkce (odděleno
+tečkou). Usnadní se tím &quot;personifikované&quot; vnímání objektů.
+Kromě toho OO jazyky podporují další vylepšení, které
+zlepšují udržovatelnost programu.
+
+V Pythonu se při zápisu metod třídy se první parametr uvádí
+a má význam reference na sebe sama. Doporučuje se, aby
+jsme jej pojmenovali self, ale v souvislostí s prvním
+příkladem by se klidně mohl jmenovat hrac:
+
+        def PresunAbsolutne(self, x, y):
+   
+Při volání metody objektu se již se self nikde nepotkáme.
+Zastupuje jej odkaz na objekt zapisovaný před jméno metody:
+
+        hrac.PresunAbsolutne(xx, yy)
+
+Můžu se na to dívat tak, že okolí zná objekt pod jménem
+hrac, ale objekt (zevnitř) své unikátní jméno znát 
+nepotřebuje. Ví, že je to &quot;on sám&quot; (self). Objekt má
+jakoby jiné jméno zvenku a jiné zevnitř, ale je to pořád
+ten stejný objekt. Můžeme zkusit vypsat:
+
+        print id(hrac)  # v místě používání objektu
+  nebo 
+        print id(self)  # přidat do těla PresunAbsolutne()
+
+Mělo by se objevit stejné číslo.
+
+Například v jazyce C++ se tento odkaz při definici 
+metod jako první parametr neuvádí, ale má vyhrazené 
+jméno this (ukazatel na sebe sama, česky &quot;tento&quot;).
+
+Procedurální (strukturované) programování lze
+charakterizovat tak, že mám na jedné straně data a na druhé
+straně algoritmy, které s daty manipulují. Neexistuje
+formální vazba mezi algoritmy a daty. Když si nedáme pozor,
+můžeme funkci při volání předat parametr správného typu
+(například číslo), ale s jiným významem (například
+číslo domu místo roku narození).
+
+Objektově orientované programování se na řešení problémů
+dívá jako na spolupráci podsystémů, které řeší podproblémy.
+Každý podproblém je reprezentován třídou, právě zpracovávaný
+podproblém je reprezentován objektem této třídy. Každý
+objekt se strará o svůj stav. Když potřebuje vědět něco o
+svém okolí, zeptá se okolních objektů (musí si ve své datové
+části udržovat odkaz na tyto objekty nebo musí využít nějaké
+dohodnuté formy, kterou k nim získá přístup). Pokud se
+objektu někdo z okolí zeptá (voláním jeho metody), odpoví mu
+(návratová hodnota metody).
+
+Používání globálních proměnných do schématu spolupracujících
+částí nezapadá, protože na globální proměnnou se můžu dívat
+jako kdyby patřila k datové části všech objektů. Změnou
+globální proměnné tedy jakoby najednou měním stav všech
+objektů a to i těch, o kterých nevím. To znamená, že u
+některých objektů mohu nečekaně ovlivnit jejich další
+chování. V tom spočívá ten problém. Proto bychom se
+globálním proměnným měli vyhýbat.
+
+Občas zmiňovaná menší efektivnost programů zapsaných 
+objektově orientovaným přístupem je diskutabilní. 
+Neefektivnosti vyplývají spíše z nepochopení toho, jak
+by se to mělo dělat -- ze špatného návrhu aplikace.
+
+
+To pro dnešek stačí ;)
+
+Petr
+
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002209.html">[python] globální proměnné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-January/002212.html">[python] globální proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-January/date.html#2210">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/thread.html#2210">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/subject.html#2210">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-January/author.html#2210">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-January/002210.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:56 GMT -->
+</html>

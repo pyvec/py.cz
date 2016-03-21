@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003068.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:03 GMT -->
+<HEAD>
+   <TITLE> [python] problém s Tk
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3FISO-8859-2%3FQ%3Fprobl%3DE9m_s_Tk%3F%3D&In-Reply-To=150.580-12434-1440987113-1121332339%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-July/003065.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-July/003069.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] problém s Tk</H1>
+    <B>geon</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3FISO-8859-2%3FQ%3Fprobl%3DE9m_s_Tk%3F%3D&In-Reply-To=150.580-12434-1440987113-1121332339%40seznam.cz"
+       TITLE="[python] problém s Tk">geon na post.cz
+       </A><BR>
+    <I>Čtvrtek Červenec 14 12:04:24 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003065.html">[python] problém s Tk
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003069.html">[python] problém s Tk
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3068">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3068">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3068">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3068">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Vita Titl napsal(a):
+
+&gt;<i>Vytvářím zaškrtávací políčka a nevím kolik jich bude, počet načítám ze seznamu, tedy zdroj vypadá nějak takto:
+</I>&gt;<i>a=0
+</I>&gt;<i>policka = [&quot;policko1&quot;, &quot;policko2&quot;, &quot;policko3&quot;, &quot;atd&quot;]
+</I>&gt;<i>while 1:
+</I>&gt;<i>    try:       
+</I>&gt;<i>        ch = Checkbutton(okno, text=policka[a])
+</I>&gt;<i>        ch.pack()
+</I>&gt;<i>        a=a+1
+</I>&gt;<i>    except:
+</I>&gt;<i>        break
+</I>&gt;<i>
+</I>&gt;<i>Můj problém: nevím jak potom přistupovat k hodnotám, které nabývá Checkbutton?
+</I>&gt;<i>Můžete mi poradit?
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>Asi jde i řešení ch.cget(...) - viz manuál, ale Tkinter to spíše řeší 
+tak, že si pro kařdý Button zavede proměnnou, která pak nabývá stavů 
+podle zaškrtnutí a funguje i zpětně, že když změníš proměnou, tak se 
+změní políčko.
+
+To use a Checkbutton, you must create a Tkinter variable:
+
+    var = IntVar()
+    c = Checkbutton(master, text=&quot;Expand&quot;, variable=var)
+
+Takže v tom cyklu bych udělal něco jako:
+butt=[]
+for a in range(len(policka)):
+   
+    var=IntVar()
+    butt.append(var)
+    ch = Checkbutton(okno, text=policka[a], variable=var)
+    ch.pack()
+
+
+No a k hodnotám pak přistupuješ:
+hodnota=butt[x].get()
+butt[x].set(1)
+
+Pokud budeš chtít ale měnit i button (text, nebo ho nechat zmizet), 
+musíš si podobně schovávat i ch, třebas takto:
+
+If you need to keep track of both the variable and the widget, you can 
+simplify your code somewhat by attaching the variable to the widget 
+reference object.
+
+    v = IntVar()
+    c = Checkbutton(master, text=&quot;Don't show this again&quot;, variable=v)
+    c.var = v
+
+
+
+-- 
+geon
+Vyjímka je pravidlo. Rekurzivní.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003065.html">[python] problém s Tk
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-July/003069.html">[python] problém s Tk
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-July/date.html#3068">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/thread.html#3068">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/subject.html#3068">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-July/author.html#3068">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-July/003068.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:03 GMT -->
+</html>

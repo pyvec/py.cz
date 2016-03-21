@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004889.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:03 GMT -->
+<HEAD>
+   <TITLE> [python] unicode a regulární výrazy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Funicode_a_regul%3DE1rn%3DED_v%3DFDrazy%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004883.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004890.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] unicode a regulární výrazy</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Funicode_a_regul%3DE1rn%3DED_v%3DFDrazy%3F%3D&In-Reply-To="
+       TITLE="[python] unicode a regulární výrazy">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Říjen 27 07:21:27 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004883.html">[python] Otazka mimo..
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004890.html">[python] PyPE - jak zmenit font?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4889">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4889">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4889">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4889">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman
+&gt;<i> &gt;     #!/usr/bin/env python
+</I>&gt;<i> &gt;     # -*- coding: utf-8 -*-
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; nepomuze?
+</I>&gt;<i> 
+</I>&gt;<i> Tak bohužel to dělá to samé, akorát ještě hlásí:
+</I>&gt;<i> 
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>    File &quot;C:\home\astrol\astrology_angle.py&quot;, line 28, in ?
+</I>&gt;<i>      print __AstrologyAngleRegExp
+</I>&gt;<i>    File &quot;C:\Python24\lib\encodings\cp852.py&quot;, line 18, in encode
+</I>&gt;<i>      return codecs.charmap_encode(input,errors,encoding_map)
+</I>&gt;<i> UnicodeEncodeError: 'charmap' codec can't encode character 
+</I>&gt;<i> u'\u2648' in 
+</I>&gt;<i> position
+</I>&gt;<i>   4: character maps to &lt;undefined&gt;
+</I>&gt;<i> 
+</I>&gt;<i> To znamená, že se stejně všechno pokouší překládat pomocí 
+</I>&gt;<i> cp852. A můžu do condign dávat co chci. Není to nějaká 
+</I>&gt;<i> chyba interpreteru na windows?
+</I>
+Odhaduji, že tentokrát to nemá nic společného s regulárním
+výrazem ale prostě s tiskem unicodového řetězce. Nedíval
+jsem se do tabulky, ale cp852 asi nedefinuje znak pro stupeň.
+
+Předpokládám, že skript spouštíš v &quot;dosovém&quot; okně
+(windowsovská console), kde se právě používá kódování
+cp852. Příkaz print je implementován tak, že se snaží
+při tisku na konzoli unicodový řetězec převést na
+řetězec v konzolovém kódování. Zkus tento ilustrační
+příklad (v dosovém okně):
+
+&gt;&gt;&gt;<i> s = u'\u2648'
+</I>&gt;&gt;&gt;<i> print s
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;c:\Python25\lib\encodings\cp852.py&quot;, line 12, in encode
+    return codecs.charmap_encode(input,errors,encoding_map)
+UnicodeEncodeError: 'charmap' codec can't encode character u'\u2648' 
+    in position 0: character maps to &lt;undefined&gt;
+&gt;&gt;&gt;<i> print repr(s)
+</I>u'\u2648'
+
+Je to ono, že? (Zkoušel jsem to v Python 2.5.)
+
+pepr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004883.html">[python] Otazka mimo..
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004890.html">[python] PyPE - jak zmenit font?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4889">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4889">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4889">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4889">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004889.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:03 GMT -->
+</html>

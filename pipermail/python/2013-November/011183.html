@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-November/011183.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:55 GMT -->
+<HEAD>
+   <TITLE> [python] Python problém - elegantnější zápis
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FPython_probl%3DE9m_-_elegantn%3DECj%3DB9%3DED_z%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DE1pis%3F%3D&In-Reply-To=%3CCAE1QKmR0xntZGhH%2BeXxX1yJH5JxFkP_fW%3Dw1QY939PVZreoP%2Bw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-November/011182.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-November/011184.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Python problém - elegantnější zápis</H1>
+    <B>Petr Blahos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3FPython_probl%3DE9m_-_elegantn%3DECj%3DB9%3DED_z%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3F%3DE1pis%3F%3D&In-Reply-To=%3CCAE1QKmR0xntZGhH%2BeXxX1yJH5JxFkP_fW%3Dw1QY939PVZreoP%2Bw%40mail.gmail.com%3E"
+       TITLE="[python] Python problém - elegantnější zápis">petrblahos na gmail.com
+       </A><BR>
+    <I>Středa Listopad 20 20:01:29 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011182.html">[python] Python problém - elegantnější zápis
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011184.html">[python] externí program proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-November/date.html#11183">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/thread.html#11183">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/subject.html#11183">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/author.html#11183">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>
+</I>&gt;<i> 2013/11/20  &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">bertikster na gmail.com</A>&gt;:
+</I>&gt;<i> &gt; mám list objektu, a potřebuji zkontrolovat jestli se jeden určitý
+</I>&gt;<i> parametr objektu rovná proměnné, a chtěl bych se zeptat, jestli to jde
+</I>&gt;<i> udělat elegantněji než takhle? Jde nějak spojit první dva řádky? Jsem pořád
+</I>&gt;<i> docela začátečník v Pythonu, takže se předem omlouvám, pokud je to velmi
+</I>&gt;<i> jednoduché, nebo to nejde zjednodušit.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; for objekt in list_objektu:
+</I>&gt;<i> &gt;     if &quot;nazev&quot;==objekt.name:
+</I>&gt;<i> &gt;         # něco to dále dělá
+</I>&gt;<i>
+</I>
+(bez znalosti kontextu) si myslím, že to lépe nejde. To Tvoje je
+určitě čitelnější, než dělat list comprehension nebo generator
+expression. Jiná věc by byla, kdybys to takhle procházel mnohokrát
+nebo hledal různé hodnoty. Pak by třeba mělo smysl udělat si dict:
+
+name_objekt_map = collections.defaultdict(lambda:[])
+for i in objekt:
+  name_objekt_map[i.name].append(i)
+
+for objekt in name_objekt_map[&quot;nazev&quot;]:
+    # něco to dále dělá
+
+--
+Petr
+____________________
+<A HREF="http://pysk.blog.root.cz/">http://pysk.blog.root.cz/</A>
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20131120/96ba7c22/attachment.html">http://www.py.cz/pipermail/python/attachments/20131120/96ba7c22/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011182.html">[python] Python problém - elegantnější zápis
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-November/011184.html">[python] externí program proměnné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-November/date.html#11183">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/thread.html#11183">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/subject.html#11183">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-November/author.html#11183">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-November/011183.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:55 GMT -->
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010031.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:16 GMT -->
+<HEAD>
+   <TITLE> [python] metoda str
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20metoda%20str&In-Reply-To=%3CAANLkTinJzAETUWv_cgFOqZ%3D4%3DD76ahrVks2uYXWzCBPV%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-November/010029.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-November/010012.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] metoda str</H1>
+    <B>Visgean Skeloru</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20metoda%20str&In-Reply-To=%3CAANLkTinJzAETUWv_cgFOqZ%3D4%3DD76ahrVks2uYXWzCBPV%40mail.gmail.com%3E"
+       TITLE="[python] metoda str">visgean na gmail.com
+       </A><BR>
+    <I>Středa Listopad  3 18:48:35 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010029.html">[python] metoda str
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010012.html">[python] JAILBAIT PICS
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10031">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10031">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10031">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10031">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ah díky za vyčerpávající odpověď, zmíněnou metodu už jsem zkoušel:
+
+class pff():
+    asx = &quot;mlam mlam&quot;
+
+__builtins__.__str__ = pff
+__builtins__.str = pff
+str = pff
+
+&quot;a&quot;.asx
+
+nicméně bez efektu. A ta druhá metoda nefunguje:
+
+&quot; &quot;.__class__.asx = &quot;f&quot;
+TypeError: can't set attributes of built-in/extension type 'str
+
+
+No ale to je jedno, jdu se kouknout do tarballu...
+
+
+2010/11/3 Hynek Fabian &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">hynek.fabian na firma.seznam.cz</A>&gt;
+
+&gt;<i> &gt; Ehm, ne, o to my nešlo, šlo mi o přepsání __builtin__ třídy str tak abych
+</I>&gt;<i> &gt; přepsal chování instancí Stringu.
+</I>&gt;<i>
+</I>&gt;<i> Tak jak to píšes ale na builtin nesáhneš!
+</I>&gt;<i> &quot;class str(str)&quot; ti udělá objekt jménem str v LOKÁLNÍM jmenném prostoru,
+</I>&gt;<i> nikoliv v builtins. V tomto kontextu tvůj lokální jmenný prostor je
+</I>&gt;<i> globální
+</I>&gt;<i> prostor modulu, ergo v jiných modulech zůstane str nezměněn.
+</I>&gt;<i> Sáhnout do builtins je možné a prosté:
+</I>&gt;<i>
+</I>&gt;<i> class MyStr(str): pass
+</I>&gt;<i> __builtins__.str = MyStr
+</I>&gt;<i>
+</I>&gt;<i> a je to. Všimni si že nemusíš mást budoucí generace tím, že to pojmenuješ
+</I>&gt;<i> stejně - konstruktor je sice viditelný pod jménem 'str', ale
+</I>&gt;<i> __class__.__name__ hotového objektu bude MyStr. Metody, potomci, etc. se
+</I>&gt;<i> bude
+</I>&gt;<i> odvolávat na objekt MyStr, pouze &quot;uživatelé&quot; jména 'str' potřebují znát
+</I>&gt;<i> nový
+</I>&gt;<i> objekt pod starým jménem.
+</I>&gt;<i>
+</I>&gt;<i> Leč, rychlý experiment ukáže, že interpret nekonstruuje řetězcové literály
+</I>&gt;<i> pomocí __builtins__.str, ale drží někde vlastní referenci na StringType.
+</I>&gt;<i> Řekl
+</I>&gt;<i> bych, že je to dobře, hrabání se v builtins je nejvetší prasárna nad jakou
+</I>&gt;<i> by
+</I>&gt;<i> se ještě dalo přivřít oko :-)
+</I>&gt;<i> Teoreticky bys mohl změnit chování zabudovaných řetězců hrabáním se přímo v
+</I>&gt;<i> jejich třídě:
+</I>&gt;<i> &quot;a&quot;.__class__.asx = &quot;asx&quot;
+</I>&gt;<i> Změna přes referenci na třídu se okamžitě projeví u všech existujících
+</I>&gt;<i> instancí, potomků etc. Předefinováním metody __new__() bys mohl dokonce
+</I>&gt;<i> dosáhnout aby konstrukce objektu vracela instanci objektu úplně jiného
+</I>&gt;<i> typu,
+</I>&gt;<i> napříkald MyStr...
+</I>&gt;<i> Na(ne)štěstí taková konstrukce nefunguje přímo na zabudované objekty,
+</I>&gt;<i> protože ty nemají vlastní jmenný prostor ale jen neměnitelné sloty.
+</I>&gt;<i> Běžně to ničemu nevadí, protože jmenný prostor si můžeš opatřit prostě tím,
+</I>&gt;<i> že podědíš, čímž jsme zpátky u nevrtání se ve střevech interpretru :)
+</I>&gt;<i>
+</I>&gt;<i> Jiné řešení které mě napadá - projít rekurzivně zadaný jmenný prostor a
+</I>&gt;<i> instance StringType nenápadně proměnit. Není to sice tolik &quot;automagické&quot;,
+</I>&gt;<i> ale
+</I>&gt;<i> taky mnohem bezpečnější.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20101103/650d4e67/attachment.html">http://www.py.cz/pipermail/python/attachments/20101103/650d4e67/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010029.html">[python] metoda str
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-November/010012.html">[python] JAILBAIT PICS
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-November/date.html#10031">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/thread.html#10031">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/subject.html#10031">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-November/author.html#10031">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-November/010031.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:16 GMT -->
+</html>

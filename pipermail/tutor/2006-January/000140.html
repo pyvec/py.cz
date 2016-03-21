@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-January/000140.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Problem s exec uvnitr funkce
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Problem%20s%20exec%20uvnitr%20funkce&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-January/000139.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-January/000141.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Problem s exec uvnitr funkce</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20Problem%20s%20exec%20uvnitr%20funkce&In-Reply-To="
+       TITLE="[Tutor PyCZ] Problem s exec uvnitr funkce">PrikrylP na skil.cz
+       </A><BR>
+    <I>Čtvrtek Leden  5 13:51:23 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-January/000139.html">[Tutor PyCZ] Problem s exec uvnitr funkce
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-January/000141.html">[Tutor PyCZ] mod_python Tutorial
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/date.html#140">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/thread.html#140">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/subject.html#140">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/author.html#140">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tomas Brabenec...
+&gt;<i> Mam funkci s nazvem &quot;parsetag&quot;, ktera se vola 
+</I>&gt;<i> rekurzivne a uvnitr te funkce mam kdesi 
+</I>&gt;<i> exec(&quot;_nejakyprikaz_&quot;)
+</I>&gt;<i> 
+</I>&gt;<i> Skript mi ale vyhodi nasledujici chybu:
+</I>&gt;<i> 
+</I>&gt;<i> SyntaxError: unqualified exec is not allowed 
+</I>&gt;<i> in function 'parsetag' it  contains
+</I>&gt;<i> a nested function with free variables
+</I>&gt;<i> 
+</I>&gt;<i> Nevite nekdo, co delam spatne ?
+</I>
+Python Reference Manual, podkapitola
+
+4.1.1 Interaction with dynamic features 
+
+  If exec is used in a function and the function
+  contains or is a nested block with free
+  variables, the compiler will raise a SyntaxError
+  unless the exec explicitly specifies the local
+  namespace for the exec. (In other words, &quot;exec
+  obj&quot; would be illegal, but &quot;exec obj in ns&quot;
+  would be legal.)
+  
+  [...] Names may be resolved in the local and
+  global namespaces of the caller. Free variables
+  are not resolved in the nearest enclosing
+  namespace, but in the global namespace.
+  
+Zkus vše, co se v okolí exec potřebuje předávat
+přes parametr té rekurzivní funkce funkce, aby to nebyly
+free variables. Chtělo by to znát víc podrobností.
+
+pepr
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-January/000139.html">[Tutor PyCZ] Problem s exec uvnitr funkce
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-January/000141.html">[Tutor PyCZ] mod_python Tutorial
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/date.html#140">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/thread.html#140">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/subject.html#140">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-January/author.html#140">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-January/000140.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:11 GMT -->
+</html>

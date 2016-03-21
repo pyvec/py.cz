@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002328.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:54 GMT -->
+<HEAD>
+   <TITLE> [python] dotaz-mřížka
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3FISO-8859-2%3FQ%3Fdotaz-m%3DF8%3DED%3DBEka%3F%3D&In-Reply-To=mailman.6.1108536855.9446.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-February/002327.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-February/002329.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] dotaz-mřížka</H1>
+    <B>pkosina</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3FISO-8859-2%3FQ%3Fdotaz-m%3DF8%3DED%3DBEka%3F%3D&In-Reply-To=mailman.6.1108536855.9446.python%40py.cz"
+       TITLE="[python] dotaz-mřížka">gen2n na seznam.cz
+       </A><BR>
+    <I>Čtvrtek Únor 17 07:35:30 CET 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002327.html">[python] dotaz-mřížka
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002329.html">RE: [python] dotaz-mřížka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2328">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2328">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2328">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2328">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Souhlas, pár poznámek:
+
+* range x xrange - pro malá čísla snad je v pohodě range a je to i 
+intuitivnější
+
+&gt;<i> z toho nějaký dokument (HTML) a zařadit to do nějakých 
+</I>&gt;<i> školiček včetně zpracované podoby nastávající diskuse.
+</I>školiček? co tím myslíš?
+ano, snad bude ....
+
+&gt;<i> A taky navrhuji, předělat to do ryze české podoby, včetně
+</I>&gt;<i> českých komentářů a textů. 
+</I>české dokumentační řetězce se mi nikdy nepodařilo zobrazit v češtině 
+(při použití u funkcí jako &quot;bublinová nápověda&quot;). Vždy tam byly paznaky....
+
+* já sám si uvědomuji (jako téma k diskuzi) použití stejných proměnný 
+x,y v různých funkcích a nejsem si jistý, jestli to nechat, aby se 
+zdůraznila lokálnost proměnných, nebo předělat, aby to nemátlo.....
+
+* jinak nic nevidím, ale bude to hlavně spíše leností a slepotou tvůrce.
+
+Pavel
+
+
+
+
+&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> from Tkinter import *
+</I>&gt;<i> import random
+</I>&gt;<i> 
+</I>&gt;<i> KROK=30                                     # velikost jednoho ctverecku
+</I>&gt;<i> OKRAJ=20                                    # velikost okraje
+</I>&gt;<i> DELKA=10                                    # pocet poli
+</I>&gt;<i> BARVA=['white', 'red', 'lightgreen', 'yellow']   # barvicky (free bonus)
+</I>&gt;<i> 
+</I>&gt;<i> def ctverec(x,y,vypln):
+</I>&gt;<i>     &quot;Vytiskne ctverecek v souradnicich x,y a s vyplni&quot;
+</I>&gt;<i>     x=x*KROK+OKRAJ
+</I>&gt;<i>     y=y*KROK+OKRAJ
+</I>&gt;<i>     canvas.create_rectangle(x,y,x+KROK,y+KROK,fill=BARVA[vypln])
+</I>&gt;<i> 
+</I>&gt;<i> def sachovnice():
+</I>&gt;<i>     &quot;Vymalovani sachovnice bunek&quot;
+</I>&gt;<i>     for y in xrange(DELKA):
+</I>&gt;<i>         for x in xrange(DELKA):
+</I>&gt;<i>             bakterie=(random.randint(0,len(BARVA)-1))
+</I>&gt;<i>             ctverec(x,y, bakterie)
+</I>&gt;<i> 
+</I>&gt;<i> # inicializace Tkinter
+</I>&gt;<i> root=Tk()
+</I>&gt;<i> root.title(&quot;Sachovnice&quot;)
+</I>&gt;<i> frame=Frame(root)
+</I>&gt;<i> frame.pack()
+</I>&gt;<i> canvas=Canvas(frame, bg='white', 
+</I>&gt;<i>               height=DELKA*KROK+2*OKRAJ, width=DELKA*KROK+2*OKRAJ)
+</I>&gt;<i> canvas.pack()
+</I>&gt;<i> 
+</I>&gt;<i> # vykresleni sachovnice
+</I>&gt;<i> sachovnice()
+</I>&gt;<i> root.mainloop()
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002327.html">[python] dotaz-mřížka
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-February/002329.html">RE: [python] dotaz-mřížka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-February/date.html#2328">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/thread.html#2328">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/subject.html#2328">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-February/author.html#2328">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-February/002328.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:27:54 GMT -->
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003396.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:47 GMT -->
+<HEAD>
+   <TITLE> RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_Detekce_kodovani_zadaneho_vstupu_%3D28byl%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3Fo_RE%3D3A_soubor_v_jin%3DE9_zankov%3DE9_sad%3DEC%3D29%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2005-September/003395.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2005-September/003397.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3FQ%3FRE%3D3A_%3D5Bpython%3D5D_Detekce_kodovani_zadaneho_vstupu_%3D28byl%3F%3D%0A%09%3D%3Fiso-8859-2%3FQ%3Fo_RE%3D3A_soubor_v_jin%3DE9_zankov%3DE9_sad%3DEC%3D29%3F%3D&In-Reply-To="
+       TITLE="RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Září 30 10:58:29 CEST 2005</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003395.html">Re: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003397.html">RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3396">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3396">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3396">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3396">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>geon
+&gt;<i> pepr
+</I>&gt;<i> &gt;    cesta = unicode(raw_input(), sys.stdin.encoding)
+</I>&gt;<i> &gt;
+</I>&gt;<i> když to udělám takto, tak mi to nefunguje (v DOSU). Píše to :
+</I>&gt;<i> 
+</I>&gt;<i> C:\Admin\update&gt;deltree_xp.py c:\ěščřžýáí
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>   File &quot;C:\Admin\update\deltree_xp.py&quot;, line 36, in ?
+</I>&gt;<i>     if cesta and smazat(cesta):
+</I>&gt;<i>   File &quot;C:\Admin\update\deltree_xp.py&quot;, line 6, in smazat
+</I>&gt;<i>     print os.listdir(cesta)
+</I>&gt;<i> WindowsError: [Errno 3] SystÚm nem¨×e nalÚzt uvedenou cestu: 
+</I>&gt;<i> u'c:\\\xfd\xdc\u0154\xb0\xd7\u0159\xdf\xdd/*.*'
+</I>&gt;<i> 
+</I>&gt;<i> Když tam ale natvrdo dám místo sys.stdin.encoding --- 
+</I>&gt;<i> &quot;cp1250&quot;, tak to jede bez problémů...nevím proč....
+</I>
+Odhaduji to na špatně vytvořený adresář.
+Když zkusím...
+
+&gt;&gt;&gt;<i> str = u'c:\\\xfd\xdc\u0154\xb0\xd7\u0159\xdf\xdd/*.*'
+</I>&gt;&gt;&gt;<i> print str
+</I>
+Tak mi to v IDLE i v DOSovém okně ukáže něco úplně jiného.
+Ten úplně jiný adresář tam opravdu není (viz přiložené obrázky).
+
+pepr
+
+P.S. Nepokoušíš se náhodou o vytvoření shutil.rmtree(...)?
+
+-- 
+Petr Prikryl (prikrylp at skil dot cz) 
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: idle.png
+Typ: image/png
+Velikost: 1626 bytes
+Popis: idle.png
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20050930/cf8abebf/idle.png">http://www.py.cz/pipermail/python/attachments/20050930/cf8abebf/idle.png</A>
+------------- další část ---------------
+Netextová příloha byla odstraněna...
+Jméno: dos.png
+Typ: image/png
+Velikost: 1269 bytes
+Popis: dos.png
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20050930/cf8abebf/dos.png">http://www.py.cz/pipermail/python/attachments/20050930/cf8abebf/dos.png</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003395.html">Re: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2005-September/003397.html">RE: [python] Detekce kodovani zadaneho vstupu (bylo RE: soubor v jiné zankové sadě)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2005-September/date.html#3396">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/thread.html#3396">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/subject.html#3396">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2005-September/author.html#3396">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2005-September/003396.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:26:47 GMT -->
+</html>

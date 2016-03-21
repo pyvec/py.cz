@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-June/011358.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:37 GMT -->
+<HEAD>
+   <TITLE> [python] tkinter, treeview, focus a scroll
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20tkinter%2C%20treeview%2C%20focus%20a%20scroll&In-Reply-To=%3CCAE1QKmT-Vf3OLf%2BCiA9LiVt1jney0nkrGXzL1oEiLjv8hKWyYw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-June/011356.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-June/011359.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] tkinter, treeview, focus a scroll</H1>
+    <B>Petr Blahos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20tkinter%2C%20treeview%2C%20focus%20a%20scroll&In-Reply-To=%3CCAE1QKmT-Vf3OLf%2BCiA9LiVt1jney0nkrGXzL1oEiLjv8hKWyYw%40mail.gmail.com%3E"
+       TITLE="[python] tkinter, treeview, focus a scroll">petrblahos na gmail.com
+       </A><BR>
+    <I>Úterý Červen  3 14:17:32 CEST 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-June/011356.html">[python] tkinter, treeview, focus a scroll
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-June/011359.html">[python] tkinter, treeview, focus a scroll
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-June/date.html#11358">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/thread.html#11358">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/subject.html#11358">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/author.html#11358">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj, vypadá to, že na to je funkce see, jenže v tom __init__u to
+nefunguje. Patrně je
+potřeba, aby se to všechno vytvořilo a zobrazilo, a pak teprve to může
+fungovat. Ono
+to vlastně dá rozum, jak může see zobrazit něco v rámci něčeho, co vůbec
+není vidět?
+
+Když si do __init__u přidáš:
+*        self.btn = Button(self)*
+*        self.btn['text'] = 'select'*
+*        self.btn['command'] = self.do_select*
+*        self.btn.grid(row=2, column=0, sticky='ns')*
+
+a pak přidáš funkci
+*    def do_select(self):*
+*        self.tree.selection_set('I024')*
+*        self.tree.see('I024')*
+
+tak po stisku toho tlačítka už to tam nascrolluje.
+--
+Petr
+
+____________________
+<A HREF="http://pysk.blog.root.cz/">http://pysk.blog.root.cz/</A>
+
+2014-06-03 11:58 GMT+02:00 zu1234 &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">zu1234 na seznam.cz</A>&gt;:
+
+&gt;<i> Zdravím vespolek.
+</I>&gt;<i>
+</I>&gt;<i> Tvořím GUI aplikaci v tkinteru a je to pro mne docela zápas.
+</I>&gt;<i>
+</I>&gt;<i> Narazil jsem na jednu nejasnost a nevím ani jak to na internetu hledat.
+</I>&gt;<i>
+</I>&gt;<i> Mám treeview, v něm označím jeden prvek ('134'), on ale je za rohem - není
+</I>&gt;<i> vidět.
+</I>&gt;<i>
+</I>&gt;<i> Potřeboval bych aby se treeview samo odrolovalo tak, aby označený prvek
+</I>&gt;<i> byl viditelný.
+</I>&gt;<i>
+</I>&gt;<i> Jak na to? Příklad přikládám.
+</I>&gt;<i>
+</I>&gt;<i> Alespoň nějakou nápovědu, prosím :-)
+</I>&gt;<i>
+</I>&gt;<i> ZU
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20140603/c5ab4951/attachment.html">http://www.py.cz/pipermail/python/attachments/20140603/c5ab4951/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-June/011356.html">[python] tkinter, treeview, focus a scroll
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-June/011359.html">[python] tkinter, treeview, focus a scroll
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-June/date.html#11358">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/thread.html#11358">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/subject.html#11358">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-June/author.html#11358">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-June/011358.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:37 GMT -->
+</html>

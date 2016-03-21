@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005293.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:46 GMT -->
+<HEAD>
+   <TITLE> [python] Wx udělátko
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FWx_ud%3DECl%3DE1tko%3F%3D&In-Reply-To=mailman.95.1167409324.8222.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005292.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005294.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Wx udělátko</H1>
+    <B>vronskij na gmail.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FWx_ud%3DECl%3DE1tko%3F%3D&In-Reply-To=mailman.95.1167409324.8222.python%40py.cz"
+       TITLE="[python] Wx udělátko">vronskij na gmail.com
+       </A><BR>
+    <I>Pondělí Leden  1 21:14:56 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005292.html">[python] zobrazení uživatele
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005294.html">[python] mod_python Templating System
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5293">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5293">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5293">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5293">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+Toto je príklad použitia widgetu wx.StaticBox.
+
+
+#!/usr/bin/python
+
+# staticbox.py
+
+import wx
+
+class MyDialog(wx.Dialog):
+    def __init__(self, parent, id, title):
+        wx.Dialog.__init__(self, parent, id, title, size=(250, 230))
+
+        wx.StaticBox(self, -1, 'Personal Info', (5, 5),
+                            size=(240, 170))
+        wx.CheckBox(self, -1 ,'Male', (15, 30))
+        wx.CheckBox(self, -1 ,'Married', (15, 55))
+        wx.StaticText(self, -1, 'Age', (15, 95))
+        wx.SpinCtrl(self, -1, '1', (55, 90), (60, -1), min=1, max=120)
+        wx.Button(self, 1, 'Ok', (90, 185), (60, -1))
+
+        self.Bind(wx.EVT_BUTTON, self.OnClose, id=1)
+
+        self.Centre()
+        self.ShowModal()
+        self.Destroy()
+
+    def OnClose(self, event):
+        self.Close()
+
+
+app = wx.App(0)
+MyDialog(None, -1, 'staticbox.py')
+app.MainLoop()
+
+
+Na TkInter by som rýchlo zabudol, je to zastaralé. wxPython obsahuje
+viacero prepracovaných layout managerov, s ktorými sa dá dosiahnuť
+prakticky všetko.
+
+ten nákres by sa dal spraviť wx.GridBagSizer-om. Išlo by to aj
+kombináciou viacerých jednoduchších managerov, napríklad
+vertikálny wx.BoxSizer a do neho horizontálne wx.BoxSizer-i.
+
+Každý programátor musí bezpodmienečne zvládnuť layout managery.
+Princíp je vo všetkých jazykoch a frameworkoch rovnaký, takže ak
+sa to raz dôkladne naštuduje, potom sa tie vedomosti zúročia aj pri
+iných frameworkoch.
+Na tvojom mieste by som začal od piky a dôkladne naštudoval všetky
+managery a vyskúšal si všetky možné scenáre na layout, ktoré by
+ma napadli.
+
+
+Jakub Vojacek wrote:
+&gt;<i> Ahoj
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Potřeboval bych vědět jak se jmenuje toto udělátko:
+</I>&gt;<i> <A HREF="http://www.partida.wz.cz/frame.jpg">http://www.partida.wz.cz/frame.jpg</A>
+</I>&gt;<i> a ještě jestli Wx neobsahuje geometry manager něco jako je w Tk pack(). je otrava to pořád vyměřovat aby udělátka byli vedle sebe. A poslední dotaz, jak lze změnit velikost okna??
+</I>&gt;<i> Děkuji
+</I>&gt;<i> ------=_NextPart_000_0005_01C72B6D.C2AFF6D0
+</I>&gt;<i> Content-Type: text/html; charset=iso-8859-2
+</I>&gt;<i> Content-Transfer-Encoding: quoted-printable
+</I>&gt;<i> X-Google-AttachSize: 997
+</I>&gt;<i>
+</I>&gt;<i> &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+</I>&gt;<i> &lt;HTML&gt;&lt;HEAD&gt;
+</I>&gt;<i> &lt;META http-equiv=Content-Type content=&quot;text/html; charset=iso-8859-2&quot;&gt;
+</I>&gt;<i> &lt;META content=&quot;MSHTML 6.00.2900.3020&quot; name=GENERATOR&gt;
+</I>&gt;<i> &lt;STYLE&gt;&lt;/STYLE&gt;
+</I>&gt;<i> &lt;/HEAD&gt;
+</I>&gt;<i> &lt;BODY bgColor=#ffffff&gt;
+</I>&gt;<i> &lt;DIV&gt;&lt;FONT face=Arial size=2&gt;Ahoj&lt;/FONT&gt;&lt;/DIV&gt;
+</I>&gt;<i> &lt;DIV&gt;&lt;FONT face=Arial size=2&gt;&lt;/FONT&gt;&amp;nbsp;&lt;/DIV&gt;
+</I>&gt;<i> &lt;DIV&gt;&lt;FONT face=Arial size=2&gt;&lt;/FONT&gt;&amp;nbsp;&lt;/DIV&gt;
+</I>&gt;<i> &lt;DIV&gt;&lt;FONT face=Arial size=2&gt;Potřeboval bych vědět jak se jmenuje toto
+</I>&gt;<i> udělátko:&lt;/FONT&gt;&lt;/DIV&gt;
+</I>&gt;<i> &lt;DIV&gt;&lt;FONT face=Arial size=2&gt;&lt;A
+</I>&gt;<i> href=&quot;<A HREF="http://www.partida.wz.cz/frame.jpg"">http://www.partida.wz.cz/frame.jpg&quot;</A>&gt;<A HREF="http://www.partida.wz.cz/frame.jpg</A">http://www.partida.wz.cz/frame.jpg&lt;/A</A>&gt;&lt;/FONT&gt;&lt;/DIV&gt;
+</I>&gt;<i> &lt;DIV&gt;&lt;FONT face=Arial size=2&gt;a ještě jestli Wx neobsahuje geometry manager něco
+</I>&gt;<i> jako je w Tk pack(). je otrava to pořád vyměřovat aby udělátka byli vedle sebe.
+</I>&gt;<i> A poslední dotaz, jak lze změnit velikost okna??&lt;/FONT&gt;&lt;/DIV&gt;
+</I>&gt;<i> &lt;DIV&gt;&lt;FONT face=Arial size=2&gt;Děkuji&lt;/FONT&gt;&lt;/DIV&gt;&lt;/BODY&gt;&lt;/HTML&gt;
+</I>&gt;<i> 
+</I>&gt;<i> ------=_NextPart_000_0005_01C72B6D.C2AFF6D0--
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005292.html">[python] zobrazení uživatele
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005294.html">[python] mod_python Templating System
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5293">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5293">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5293">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5293">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005293.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:46 GMT -->
+</html>

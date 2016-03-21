@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004936.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:13 GMT -->
+<HEAD>
+   <TITLE> [python] jak 'odekorovat' property?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20jak%20%27odekorovat%27%20property%3F&In-Reply-To=3234.1868-10366-1836253223-1162757632%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004934.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004935.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] jak 'odekorovat' property?</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20jak%20%27odekorovat%27%20property%3F&In-Reply-To=3234.1868-10366-1836253223-1162757632%40seznam.cz"
+       TITLE="[python] jak 'odekorovat' property?">rk na dat.cz
+       </A><BR>
+    <I>Pondělí Listopad  6 10:37:49 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004934.html">[python] jak 'odekorovat' property?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004935.html">[python] PyS60 a ovladani infraportu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4936">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4936">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4936">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4936">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Sun, Nov 05, 2006 at 09:13:52PM +0100, david wrote:
+
+&gt;<i> Chtel jsem pouzit dekorator na funkci, ktera je pouzita pri definici
+</I>&gt;<i> property. A to samo o sobe probehne tak jak ma(aspon myslim ;-) )
+</I>&gt;<i> Problem je potom to, ze property potom nepouziva tu novou funkci.
+</I>&gt;<i> Takze se omlouvam za nepresnou formulaci: asi vazne nezalezi na
+</I>&gt;<i> tom, jestli je property readonly nebo ne, problem je v tom, jak
+</I>&gt;<i> predefinovat/updatovat/opravit existujici property tak, aby vyuzivala
+</I>&gt;<i> zmenenou funkci. Nevim jestli jsem to napsal vystizne: nejlepsi bude
+</I>&gt;<i> asi priklad:
+</I>&gt;<i>
+</I>&gt;<i> def Decorator(old):
+</I>&gt;<i>     def novafunkce(*a,**kw):
+</I>&gt;<i>         print 'treba logovani:',
+</I>&gt;<i>         old_result=old(*a,**kw)
+</I>&gt;<i>         return old_result
+</I>&gt;<i>     return novafunkce
+</I>&gt;<i> class Example(object):
+</I>&gt;<i>     def __init__(self,desc):
+</I>&gt;<i>         self._description=desc
+</I>&gt;<i>     def hello(self):
+</I>&gt;<i>         print &quot;hello world&quot;
+</I>&gt;<i>     def getdescription(self):
+</I>&gt;<i>         print &quot;property funkce&quot;,
+</I>&gt;<i>         return self._description
+</I>&gt;<i>     description=property(getdescription)
+</I>&gt;<i> 
+</I>&gt;<i> e=Example(&quot;POPIS&quot;)
+</I>&gt;<i> 
+</I>&gt;<i> e.hello()
+</I>&gt;<i> print e.getdescription()
+</I>&gt;<i> print e.description
+</I>&gt;<i> 
+</I>&gt;<i> e.hello=Decorator(e.hello)
+</I>&gt;<i> e.getdescription=Decorator(e.getdescription)
+</I>&gt;<i> 
+</I>&gt;<i> e.hello()
+</I>&gt;<i> print e.getdescription()
+</I>&gt;<i> print e.description #nevola novou funkci!
+</I>
+Z meho pohledu je tu nekolik chyb. 
+
+1. Nejzasadnejsi chybu vidim v zameru predefinovat chovani property
+v existujici tride. Bezne se to dela v potomku dane tridy, v kterem
+chovani zmenim. Pokud budete menit property u tridy za behu, stane
+se asi program nesrozumitelnym a vubec pokud mate tu potrebu, asi je
+neco spatne v navrhu algoritmu. Porad neni jasne, jestli chcete zmenit
+property pro celou tridu nebo jenom pro konkretni instanci teto tridy.
+Zkuste spis napsat, proc to vlastne potrebujete. Mozna podobny problem
+nekdo resil a vi, jak na to elegantneji.
+
+2. Property je instance, ktera ma odkaz na get metodu getdescription
+ulozenu v sobe v read-only atributu fget (staticky). Pokud provedete
+pozdeji jakoukoliv zmenu ve tride nebo instanci, property se o tom
+nijak nedozvi, jeji atribut fget zustane nedotcen. Pokud dekoruju
+pozdeji funkci getdescription, vytvorim tim pouze novou instanci nejake
+funkce, ale v property zustane porad ulozena reference na puvodni funkci
+getdescription. Pokud by mela property brat ohled na zmeny ve tride,
+musi se pouzit neprima get metoda napr.:
+
+    class Example(object):
+        def getdescription(self):
+            .....
+        description = property(lambda self: self.getdescription())
+
+Tim se zajisti, ze pri kazdem pristupu k description se bude metoda
+getdescription hledat ve tride a jejich potomcich dynamicky.
+
+Radek Kaňovský
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004934.html">[python] jak 'odekorovat' property?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004935.html">[python] PyS60 a ovladani infraportu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4936">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4936">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4936">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4936">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004936.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:13 GMT -->
+</html>

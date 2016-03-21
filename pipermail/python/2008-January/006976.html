@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/006976.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:47 GMT -->
+<HEAD>
+   <TITLE> [python] pygtk text buffer
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pygtk%20text%20buffer&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-January/006975.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-January/006977.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pygtk text buffer</H1>
+    <B>spooky.ln na tbs-software.com</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pygtk%20text%20buffer&In-Reply-To="
+       TITLE="[python] pygtk text buffer">spooky.ln na tbs-software.com
+       </A><BR>
+    <I>Pondělí Leden 14 15:35:17 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006975.html">[python] New Year discount on w4tches vfEx
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006977.html">[python] nacitava skript hodnoty z klavesnice?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#6976">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#6976">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#6976">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#6976">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim,
+Nenajde se nekdo ,kdo by mi pomohl s jednoduchou syntaxi v
+gtk.TextBufferu?
+Docela to ted funguje ale narazil jsem na par problemu
+a to je napr:
+slovo Program obarvi spravne. Program( uz ne.
+Pri delete na Progra odbarvi spravne,ale pokud mazu a zbyde
+mi jen jeden znak v bufferu program se kousne.
+Potrebuju jen jednoduchy &quot;obarvovac&quot; predem definovanych
+tagu kde vstup bude slovnik ve tvaru{&quot;keyword&quot;: &quot;styl&quot;}
+
+nechci zavadet moc modulu. Ciste jen GTK. Pygtksourceview je
+dobrej nicmene ho nechci. Chci multiplatformni reseni.
+Pygtkcodeview ujde[ s autorem jsem v kontaktu]
+nicmene pouziva xml modul a to se mi zase nelibi. Nehlede na
+to ze otevreni a &quot;obarveni&quot; delsiho zdrojaku je k uzoufani.
+
+tady je ten muj malej zdrojak:
+
+#-------------------------------------------------------------------
+# Tag Buffer
+# Pokus o napsani vlastniho jednoducheho syntax parseru
+# vstup: data v podobe slovniku
+#        key je Keyword a value je typ tagu pouzity
+#        pro syntaxi
+# com dot tbs-software at spooky.ln [ reverse it !!! ]
+#-------------------------------------------------------------------
+import gtk
+
+class TagBuffer(gtk.TextBuffer):
+    def __init__(self, keywords):
+        gtk.TextBuffer.__init__(self)
+        self.keywords = keywords
+        
+        self.redTag = gtk.TextTag(name=&quot;Red&quot;)
+        self.redTag.set_property(&quot;foreground&quot;, &quot;dark red&quot;)
+        self.redTag.props.family=&quot;Courier&quot;
+        
+        self.greenTag = gtk.TextTag(name=&quot;Green&quot;)
+        self.greenTag.set_property(&quot;foreground&quot;, &quot;dark
+green&quot;)
+        self.greenTag.props.family=&quot;Courier&quot;
+        
+        self.blueTag = gtk.TextTag(name=&quot;Blue&quot;)
+        self.blueTag.set_property(&quot;foreground&quot;, &quot;dark blue&quot;)
+        self.blueTag.props.family=&quot;Courier&quot;
+        
+        self.get_tag_table().add(self.redTag)
+        self.get_tag_table().add(self.greenTag)
+        self.get_tag_table().add(self.blueTag)
+        
+        self.connect_after(&quot;insert-text&quot;,
+self.__text_insert)
+        self.connect_after(&quot;delete-range&quot;,
+self.__text_delete)
+        
+    def __getWordStart(self, cursor):
+        character = cursor.get_char()
+        if character == &quot; &quot;:
+            return True
+            
+        if character.isalnum() is False:
+            if character in (&quot;-&quot;, &quot;_&quot;, &quot;^&quot;):
+                pass
+            else:
+                return False
+        if cursor.starts_line():
+            return True
+        cursor.backward_char()
+        character = cursor.get_char()
+        cursor.forward_char()
+        if character.isalnum() or character in (&quot;_&quot;, &quot;-&quot;,
+&quot;^&quot;):
+            return False
+        return True
+        
+    def __text_insert(self,buffer, cursor, text, length):
+        start = cursor.copy()
+        while self.__getWordStart(start) is False:
+            start.backward_char()
+        if start.get_text(cursor) in self.keywords:
+           
+self.apply_tag_by_name(self.keywords[start.get_text(cursor)]
+, start, cursor)
+        else:
+            self.remove_all_tags(start, cursor)
+            
+    def __text_delete(self, buffer, start, end):
+        cursor =
+buffer.get_iter_at_mark(buffer.get_insert())
+        start = cursor.copy()
+        while self.__getWordStart(start) is False:
+            start.backward_char()
+        if start.get_text(cursor) in self.keywords:
+           
+self.apply_tag_by_name(self.keywords[start.get_text(cursor)]
+, start, cursor)
+        else:
+            self.remove_all_tags(start, cursor)
+    
+buffer = TagBuffer({&quot;Program&quot;: &quot;Red&quot;, &quot;Key&quot;: &quot;Red&quot;,
+&quot;Load_AVI&quot;: &quot;Green&quot;, &quot;^header&quot;: &quot;Blue&quot;})
+view = gtk.TextView(buffer)
+window = gtk.Window()
+window.set_default_size(500, 400)
+window.connect(&quot;destroy&quot;, gtk.main_quit)
+window.add(view)
+window.show_all()
+
+gtk.main()
+
+
+Za vsechny napady budu rad.
+BTW: standartni fce textiter.starts_word() se mi taky
+nehodi, protoze nepocita se znakem &quot;_&quot;,&quot;-&quot;,&quot;^&quot; ktere
+potrebuju.
+-- 
+MB &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">spooky.ln na tbs-software.com</A>&gt;
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006975.html">[python] New Year discount on w4tches vfEx
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-January/006977.html">[python] nacitava skript hodnoty z klavesnice?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-January/date.html#6976">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/thread.html#6976">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/subject.html#6976">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-January/author.html#6976">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-January/006976.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:47 GMT -->
+</html>

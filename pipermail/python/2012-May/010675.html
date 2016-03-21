@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010675.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:30 GMT -->
+<HEAD>
+   <TITLE> [python] Unicode/ne-unicode problem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode/ne-unicode%20problem&In-Reply-To=%3C4FA108B0.5080809%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-May/010674.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-May/010676.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Unicode/ne-unicode problem</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode/ne-unicode%20problem&In-Reply-To=%3C4FA108B0.5080809%40firma.seznam.cz%3E"
+       TITLE="[python] Unicode/ne-unicode problem">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Středa Květen  2 12:13:04 CEST 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010674.html">[python] Unicode/ne-unicode problem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010676.html">[python] Unicode/ne-unicode problem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10675">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10675">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10675">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10675">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 05/02/12 11:50, Jaroslav Lukesh wrote:
+&gt;<i> &quot;'\\xc3\\xbd \\xc3\\xb7 \\xc3\\xad \\xc3.'&quot;
+</I>
+In [41]: print eval(&quot;'\\xc3\\xbd \\xc3\\xb7 \\xc3\\xad
+\\xc3.'&quot;).decode(&quot;cp1250&quot;)
+&#258;&#733; &#258;&#183; &#258;&#173; &#258;
+
+Čili přesně jak říkal Messa, není to utf8 ale znaky z utf8 přeuložené
+jako win1250.
+
+NOTE: některé rádobychytré nástroje se snaží takové věci uhádnout a
+překódovávají ve vlastní režii. V případě pochybností vždy koukni na
+repr(). A když už budeš chtít dumpnout syrový řetězec na výstup, použij
+sys.stdout.write().  print provádí překódování podle terminálu, kteréžto
+zrovna na wydlích imo nemůže dopadnout dobře. Terminál je cp852, gui
+aplikace win1250, čili tam někde probíhá právě takové automagické
+překódování jak jsem psal na začátku.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010674.html">[python] Unicode/ne-unicode problem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-May/010676.html">[python] Unicode/ne-unicode problem
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-May/date.html#10675">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/thread.html#10675">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/subject.html#10675">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-May/author.html#10675">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-May/010675.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:30 GMT -->
+</html>

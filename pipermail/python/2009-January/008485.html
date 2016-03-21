@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008485.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:59 GMT -->
+<HEAD>
+   <TITLE> [python] xml parove a neparove tagy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xml%20parove%20a%20neparove%20tagy&In-Reply-To=%3C49662037.2020207%40taco-beru.name%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008484.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008476.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] xml parove a neparove tagy</H1>
+    <B>BoneFlute</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20xml%20parove%20a%20neparove%20tagy&In-Reply-To=%3C49662037.2020207%40taco-beru.name%3E"
+       TITLE="[python] xml parove a neparove tagy">boneflute na taco-beru.name
+       </A><BR>
+    <I>Čtvrtek Leden  8 16:48:07 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008484.html">[python] xml parove a neparove tagy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008476.html">[python] nekdo z Tabora na obcasne konzultace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8485">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8485">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8485">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8485">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ondrej Beranek napsal(a):
+&gt;<i> ano zkousel. Node Value lze pouzit pokud je to &lt;tag&gt;&lt;/tag&gt; pokud se to 
+</I>&gt;<i> nepovede tak se musi vytvorit.
+</I>
+Opravdu?
+Pokud ano, tak by to bylo dosti podivné chování. Ale jak si tu tady s 
+tím hraji, tak se chová podle očekávání. Tedy vždycky vyhodí výjimku:
+
+TypeError: 'NoneType' object is not callable
+
+Aby bylo rozuměno, on mezi &lt;tag&gt;&lt;/tag&gt; a &lt;tag/&gt; opravdu není žádný rozdíl.
+
+Jestli chování té třídy chápu dobře, tak nodeValue vrací hodnotu 
+textového uzlu. Vzhledem k tomu, že &lt;tag&gt;&lt;/tag&gt; ani &lt;tag&gt;Lorem 
+ipsum.&lt;/tag&gt; ani &lt;tag/&gt; textový uzel není, tak musí vrátit None.
+
+Pokud z &lt;tag&gt;Lorem ipsum.&lt;/tag&gt; chceš získat ten text tak nejdřív musíš 
+získat textový uzel třeba tímto způsobem:
+
+print doc.getElementsByTagName(&quot;description&quot;)[0].childNodes[0].nodeValue
+
+V případě &lt;tag&gt;&lt;/tag&gt; i &lt;tag/&gt; by to mělo vyhodit výjimku, protože žádný 
+uzel, natož textový neobsahuje.
+
+
+Obávám se, že jsi se napálil tím ošetřením výjimky.
+
+
+
+--
+BF
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008484.html">[python] xml parove a neparove tagy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008476.html">[python] nekdo z Tabora na obcasne konzultace
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8485">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8485">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8485">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8485">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008485.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:59 GMT -->
+</html>

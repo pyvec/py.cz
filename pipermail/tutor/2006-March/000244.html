@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000244.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] Roboti Přicházejí - Final(?)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FRoboti_P%3DF8ich%3DE1zej%3DED_-_Final%3D28%3D3F%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F%3D29%3F%3D&In-Reply-To=44242DF1.6040409%40post.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000243.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-March/000245.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] Roboti Přicházejí - Final(?)</H1>
+    <B>slacker</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FRoboti_P%3DF8ich%3DE1zej%3DED_-_Final%3D28%3D3F%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F%3D29%3F%3D&In-Reply-To=44242DF1.6040409%40post.cz"
+       TITLE="[Tutor PyCZ] Roboti Přicházejí - Final(?)">slacker na inmail.cz
+       </A><BR>
+    <I>Pátek Březen 24 19:11:06 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000243.html">[Tutor PyCZ] Roboti Přicházejí - Final(?)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000245.html">[Tutor PyCZ] Modul pro tvorbu webovych aplikaci
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#244">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#244">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#244">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#244">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>  &gt; def zmena_XY_hr(hrac, teleportace):
+</I>&gt;<i>         &gt; if &quot;2&quot; in klavesy:                     
+</I>&gt;<i>             &gt; hrac.y = hrac.y - 1   
+</I>&gt;<i>         &gt; elif &quot;8&quot; in klavesy:
+</I>&gt;<i>             &gt; hrac.y = hrac.y + 1
+</I>&gt;<i>         &gt; elif &quot;4&quot; in klavesy:
+</I>&gt;<i>             &gt; hrac.x = hrac.x - 1
+</I>&gt;<i>         &gt; elif &quot;6&quot; in klavesy:
+</I>&gt;<i>             &gt; hrac.x = hrac.x + 1
+</I>&gt;<i>         &gt; elif &quot;1&quot; in klavesy:
+</I>&gt;<i>             &gt; hrac.x = hrac.x - 1
+</I>&gt;<i>             &gt; hrac.y = hrac.y - 1
+</I>&gt;<i>         &gt; elif &quot;3&quot; in klavesy:
+</I>&gt;<i>             &gt; hrac.x = hrac.x + 1
+</I>&gt;<i>             &gt; hrac.y = hrac.y - 1
+</I>&gt;<i>         &gt; elif &quot;7&quot; in klavesy:
+</I>&gt;<i>             &gt; hrac.x = hrac.x - 1
+</I>&gt;<i>             &gt; hrac.y = hrac.y + 1
+</I>&gt;<i>         &gt; elif &quot;9&quot; in klavesy:
+</I>&gt;<i>             &gt; hrac.x = hrac.x + 1
+</I>&gt;<i>             &gt; hrac.y = hrac.y + 1
+</I>&gt;<i>         &gt; elif teleportace &lt; 5:
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> moooc velký krok --- já jsem experimentálně určil krok=0.02 a pro roboty 
+</I>&gt;<i> třetinový (aby se vždy vyhrálo ;-) )
+</I>&gt;<i> Znám jednu poučku, která říká, že mnoho if/elif se dá řešit elegantněji 
+</I>&gt;<i> nějakou datovou strukturou. Ale v tomto případě mě nic nenapadá. Věděl 
+</I>&gt;<i> by někdo?
+</I>
+Co třeba něco takového:
+
+def zmena_XY_hr(hrac, teleportace):
+     kb_moves = {&quot;2&quot;: (0,-1), &quot;8&quot;: (0,1),
+                 &quot;4&quot;: (-1,0), &quot;6&quot;: (1,0),
+                 &quot;1&quot;: (-1, -1), &quot;3&quot;: (1,-1),
+                 &quot;7&quot;: (-1,1), &quot;9&quot;: (1,1)}
+     if klavesa in kb_moves.keys():
+         dx,dy = kb_moves[klavesa]
+         hrac.x = hrac.x + dx
+         hrac.y = hrac.y + dy
+
+
+					slacker
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000243.html">[Tutor PyCZ] Roboti Přicházejí - Final(?)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-March/000245.html">[Tutor PyCZ] Modul pro tvorbu webovych aplikaci
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/date.html#244">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/thread.html#244">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/subject.html#244">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-March/author.html#244">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-March/000244.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:10 GMT -->
+</html>

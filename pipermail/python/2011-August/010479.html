@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-August/010479.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:46 GMT -->
+<HEAD>
+   <TITLE> [python] cgi
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20cgi&In-Reply-To=%3C4E3A684A.7080203%40brabenec.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-August/010478.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-August/010480.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cgi</H1>
+    <B>Tomas Brabenec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20cgi&In-Reply-To=%3C4E3A684A.7080203%40brabenec.net%3E"
+       TITLE="[python] cgi">konference na brabenec.net
+       </A><BR>
+    <I>Čtvrtek Srpen  4 11:37:14 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-August/010478.html">[python] cgi
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-August/010480.html">[python] problém s GTK jazykom pod win
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-August/date.html#10479">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/thread.html#10479">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/subject.html#10479">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/author.html#10479">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+
+taky doporučuju vlastní server/virtuální.
+Já používám CherryPy a to je u hostingů problém. Dříve nebylo vůbec nic, 
+dneska něco málo přes WSGI, ale nevím, jak moc jsou důvěryhodné, kdysi 
+to bylo otřesné.
+Osobně jsem to vyřešil přes virtuální server. Dříve klasický VS, dneska 
+využívám www.virtualmaster.cz (tohle není reklama, jen zkušenost). 
+Člověk si tam může udělat X serverů s různými parametry. Já tam mám 
+aktuálně vytvořené 4 servery s různými konfiguracemi, jak potřebuju. 
+Navíc, když je potřeba, vytvořím si testovací server, ať už kopií 
+jednoho ostrého nebo čistý, třeba jen na týden, otestuji co chci, 
+vyřeším případné problémy a pak můžu provést změny na ostrém serveru.
+
+T.
+
+
+Dne 4.8.2011 11:25, Petr Messner napsal(a):
+&gt;<i> 2011/8/4 Martin Beran&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">info na berycz.net</A>&gt;:
+</I>&gt;&gt;<i> Díky, všiml jsem si, že frameworky si to řešej vždycky po svém a každej
+</I>&gt;&gt;<i> jinak :) asi hold je budu muset všechny projet pořádně a zjistit, co uměj...
+</I>&gt;&gt;<i> že cgi je pomalé vím, ale hádám že běžné hostingy to tak budou většinou mít
+</I>&gt;&gt;<i> :-/ každopádně chtěl bych to udělat univerzálně, aby to běželo pod vším, což
+</I>&gt;&gt;<i> nebude asi legrace...
+</I>&gt;<i> Běžné hostingy (tedy ty v ČR) Python nepodporují a když ano, tak
+</I>&gt;<i> nějakým prapodivným způsobem (na vyžádání, s bezpečnostními problémy
+</I>&gt;<i> apod.). Zkus hostingy zaměřené na Python (klenot.cz?, rosti.cz), nebo
+</I>&gt;<i> ideálně virtální server, kde si pak můžeš dělat cokoli.
+</I>&gt;<i>
+</I>&gt;<i> Od toho, aby to legrace byla, existuje WSGI. Stačí udělat webovou
+</I>&gt;<i> aplikaci nad WSGI a pak bude úplně jedno, jestli pojede přes CGI,
+</I>&gt;<i> mod_wsgi, FastCGI, Python http server nebo něco jiného. Všechny ty
+</I>&gt;<i> frameworky fungují právě před WSGI.
+</I>&gt;<i>
+</I>&gt;&gt;<i> fieldstorage bych opravdu nedoporučoval, nelíbí se mi tam třeba při uploadu
+</I>&gt;&gt;<i> souboru, že člověk nemá šanci zjistit, kde se ten soubor nachází, on je
+</I>&gt;&gt;<i> někde v tempu a snad už je na něj &quot;navázanej&quot; unlink a při zavření souboru
+</I>&gt;&gt;<i> se smaže, takže můžu jen kopírovat obsah, místo toho abych jednodušeji a
+</I>&gt;&gt;<i> rychleji použil os.rename... dál jsem ještě nezkoušel, co to třeba dělá při
+</I>&gt;&gt;<i> multiuploadu (input file multiple), kdo ví, zda to funguje... :) nemluvě o
+</I>&gt;&gt;<i> nějaké možnosti navázaní přerušeného uploadu...
+</I>&gt;<i> Multiupload by to mělo umět. Přesné chování cgi.FieldStorage při
+</I>&gt;<i> uploadu souboru by se možná dalo upravit změnou některých metod,
+</I>&gt;<i> nevím.
+</I>&gt;<i>
+</I>&gt;&gt;<i> budu se do toho muset pořádně začíst, popravdě toho moc o cgi nevím
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> každopádně ještě jednou díky, já se asi budu muset prohrabat v těch
+</I>&gt;&gt;<i> frameworkách :(
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dne 4.8.2011 10:30, Petr Messner napsal(a):
+</I>&gt;&gt;&gt;<i> Ahoj,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> tento problém řeší snad každý webový framework, takže možnosti existují.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Třeba Werkzeug se dá pod CGI rozjet takto:
+</I>&gt;&gt;&gt;<i> <A HREF="http://werkzeug.pocoo.org/docs/deployment/cgi/">http://werkzeug.pocoo.org/docs/deployment/cgi/</A>
+</I>&gt;&gt;&gt;<i> POSTnutá data jsou k dispozici v MultiDictu Request.form, soubory jsou
+</I>&gt;&gt;&gt;<i> zvlášť v Request.files:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> <A HREF="http://werkzeug.pocoo.org/docs/wrappers/#werkzeug.wrappers.BaseRequest.files">http://werkzeug.pocoo.org/docs/wrappers/#werkzeug.wrappers.BaseRequest.files</A>
+</I>&gt;&gt;&gt;<i> Werkzeug má na to vlastní FileStorage:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> <A HREF="http://werkzeug.pocoo.org/docs/datastructures/#werkzeug.datastructures.FileStorage">http://werkzeug.pocoo.org/docs/datastructures/#werkzeug.datastructures.FileStorage</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Podobně ve WebOb jsou POSTnutá data v req.POST, opět v nějakém
+</I>&gt;&gt;&gt;<i> multidictu jako FieldStorage. Ale nevím, jaký přesně FieldStorage to
+</I>&gt;&gt;&gt;<i> je.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Django zase ukládá POST data do Request.POST (což je QueryDict) nebo
+</I>&gt;&gt;&gt;<i> Request.FILES jako UploadedFile:
+</I>&gt;&gt;&gt;<i> <A HREF="https://docs.djangoproject.com/en/dev/ref/request-response/">https://docs.djangoproject.com/en/dev/ref/request-response/</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> A takhle by se dalo pokračovat. Jak je vidět, nějakou vlastní
+</I>&gt;&gt;&gt;<i> abstrakci nad daty z HTTP POST si dělá snad každý :) Udělat si jen
+</I>&gt;&gt;&gt;<i> vlastní objekt (fasádu) nad cgi.FieldStorage s hezčím API by také bylo
+</I>&gt;&gt;&gt;<i> možná řešení.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Snad jsem odpověděl správně. Mimochodem, CGI bych dnes už
+</I>&gt;&gt;&gt;<i> nedoporučoval, snad jen kromě studijních účelů. Aplikace pod CGI jsou
+</I>&gt;&gt;&gt;<i> pomalé, protože při každém HTTP požadavku se musí celá aplikace
+</I>&gt;&gt;&gt;<i> spustit znovu.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> PM
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 2011/8/4 Martin Beran&lt;<A HREF="http://www.py.cz/mailman/listinfo/python">info na berycz.net</A>&gt;:
+</I>&gt;&gt;&gt;&gt;<i> zdravím, jsem tu novej...
+</I>&gt;&gt;&gt;&gt;<i> a zajímalo by mě, jestli existuje pohodlnější možnost načítání dat z cgi,
+</I>&gt;&gt;&gt;&gt;<i> než je cgi.FieldStorage, protože ten mi přijde naprosto nepohodlnej.
+</I>&gt;&gt;&gt;&gt;<i> (když
+</I>&gt;&gt;&gt;&gt;<i> python běží pod cgi)
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Díky
+</I>&gt;&gt;&gt;&gt;<i> MB
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-August/010478.html">[python] cgi
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-August/010480.html">[python] problém s GTK jazykom pod win
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-August/date.html#10479">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/thread.html#10479">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/subject.html#10479">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-August/author.html#10479">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-August/010479.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:46 GMT -->
+</html>

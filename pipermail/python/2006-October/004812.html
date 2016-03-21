@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004812.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:54 GMT -->
+<HEAD>
+   <TITLE> [python] rozsirovani pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20rozsirovani%20pythonu&In-Reply-To=20061016172750.GT1999%40q.uh.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004811.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004813.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] rozsirovani pythonu</H1>
+    <B>Radek Kanovsky</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20rozsirovani%20pythonu&In-Reply-To=20061016172750.GT1999%40q.uh.cz"
+       TITLE="[python] rozsirovani pythonu">rk na dat.cz
+       </A><BR>
+    <I>Pondělí Říjen 16 19:56:19 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004811.html">[python] rozsirovani pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004813.html">[python] subprocess v samostatnem okne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4812">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4812">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4812">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4812">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, Oct 16, 2006 at 07:27:51PM +0200, Radek Kanovsky wrote:
+
+&gt;<i> &gt; Ja osobne pouzivam zminovany Pyrex, ale slysel jsem, ze se da pouzit i 
+</I>&gt;<i> &gt; SWIG. Melo by jit o to, ze se kod napise primo v C/C++ a SWIG vygeneruje 
+</I>&gt;<i> &gt; wrapper (mimo jine i pro Python), ktery se da potom pouzit.
+</I>&gt;<i> &gt; Bohuzel nemam osobni zkusenosti, ale vice se da docist na 
+</I>&gt;<i> &gt; <A HREF="http://www.swig.org/">http://www.swig.org/</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Toto je myslim docela zajimave tema, tak nam potom prosim napis, co jsi 
+</I>&gt;<i> &gt; vybral a proc.
+</I>&gt;<i> 
+</I>&gt;<i> Z pomoci modulu ctypes je mozne za behu ladovat dynamicke knihovy (*.DLL, *.so)
+</I>&gt;<i> a volat z nich exportovane funkce. Nekdy to muze byt jednodussi nez
+</I>&gt;<i> programovat mezivrstvu pres pyrex, swig a spol. Pro vyuziti taky neni
+</I>&gt;<i> potreba kompilator, coz muze byt nekdy vyhoda.
+</I>&gt;<i> <A HREF="http://docs.python.org/lib/module-ctypes.html">http://docs.python.org/lib/module-ctypes.html</A>
+</I>&gt;<i> V Pythonu je az od verze 2.5, do nizsich verzi jde doinstalovat.
+</I>
+Jeste me napadla poznamka k Pyrexu. Nekdy nemusi prinest temer zadne
+zrychleni, protoze pouze &quot;zinlinuje&quot; volani Python-API ze smycky
+bytecode interpertu. Navic pridava kolem volani a alokaci spoustu
+omacky. Na druhou stranu, pomalejsi nez interpretovany kod asi nebude,
+ale nekdy to proste nestoji za tu namahu.
+
+Asi by bylo nejlepsi prvni zjistit, co nejvic progam brzdi (alokace
+mnoha objektu, pomaly algoritmus, cekani na IO, ...) a podle toho se
+rozhodnout. Dobrou pomuckou muze byt pythoni profiler.
+
+Ve zdrojacich Pythonu jsou vzorove moduly Modules/xxmodule.c a
+Modules/xxsubtype.c, pokud byste se rozhodl pro starou dobrou 
+rucni praci.
+
+Jeste jsem slysel, ze novy Playstation ma 8 procesoru a pojede
+na nem pekelne rychle Python. Tim by se vse zoptimalizovalo
+jaksi samo a clovek by se u tech optimalizaci i vytecne pobavil.
+
+Radek Kaňovský
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004811.html">[python] rozsirovani pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004813.html">[python] subprocess v samostatnem okne
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4812">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4812">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4812">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4812">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004812.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:54 GMT -->
+</html>

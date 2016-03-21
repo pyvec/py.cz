@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008579.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:05 GMT -->
+<HEAD>
+   <TITLE> [python] Unicode v databazi utf8
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode%20v%20databazi%20utf8&In-Reply-To=%3C276b28790901182317h4f8953c9qe244306d86c42c4d%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-January/008578.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-January/008580.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Unicode v databazi utf8</H1>
+    <B>Petr Blahos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Unicode%20v%20databazi%20utf8&In-Reply-To=%3C276b28790901182317h4f8953c9qe244306d86c42c4d%40mail.gmail.com%3E"
+       TITLE="[python] Unicode v databazi utf8">petrblahos na gmail.com
+       </A><BR>
+    <I>Pondělí Leden 19 08:17:21 CET 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008578.html">[python] Unicode v databazi utf8
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008580.html">[python] Unicode v databazi utf8
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8579">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8579">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8579">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8579">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> - pokud bych smel poprosit o priklad , jak by melo vypadat schema kdy prectu
+</I>&gt;<i> pomoci dotazu hodnotu a zase ji spravne ulozim ?
+</I>&gt;<i>
+</I>
+Já používám trošku jiný přístup - používám přímo unicode:
+
+# vim: encoding=utf8
+import MySQLdb
+
+db = MySQLdb.connect(user=&quot;XXX&quot;, passwd=&quot;YYY&quot;, db=&quot;AAA&quot;, host=&quot;HHHH&quot;,
+use_unicode=1, charset=&quot;utf8&quot;)
+c = db.cursor()
+
+c.execute(&quot;&quot;&quot;select AAAA from BBBB&quot;&quot;&quot;)
+for i in c:
+    print i[0], type(i[0]) # bude to unicode
+
+s = &quot;Jak se máš?&quot;
+print type(s)   # tohle bude string
+c.execute(&quot;&quot;&quot;update BBBB set AAAA=%s&quot;&quot;&quot;, s)
+
+c.close()
+db.close()
+
+No a v databázi mám to pole AAAA jako:
+    AAAA nchar varchar(40),
+
+Stejně to dělám v projektech, kde používám sqlalchemy:
+sqlalchemy.dburi = <A HREF="mysql://user:password@host/DB?use_unicode=1;charset=utf8">mysql://user:password@host/DB?use_unicode=1;charset=utf8</A>
+
+--
+Petr
+_________________________________
+<A HREF="http://sites.google.com/site/petrsstuff/">http://sites.google.com/site/petrsstuff/</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008578.html">[python] Unicode v databazi utf8
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-January/008580.html">[python] Unicode v databazi utf8
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-January/date.html#8579">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/thread.html#8579">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/subject.html#8579">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-January/author.html#8579">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-January/008579.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:05 GMT -->
+</html>

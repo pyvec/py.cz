@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010591.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+<HEAD>
+   <TITLE> [python] socket + udp + vytváření paketů
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fsocket_%2B_udp_%2B_vytv%3DE1%3DF8en%3DED_paket%3DF9%3F%3D&In-Reply-To=%3C4F4CC8B7.4050700%40seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2012-February/010582.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2012-February/010592.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] socket + udp + vytváření paketů</H1>
+    <B>Jakub Vojáček</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Fiso-8859-2%3Fq%3Fsocket_%2B_udp_%2B_vytv%3DE1%3DF8en%3DED_paket%3DF9%3F%3D&In-Reply-To=%3C4F4CC8B7.4050700%40seznam.cz%3E"
+       TITLE="[python] socket + udp + vytváření paketů">jakohv na seznam.cz
+       </A><BR>
+    <I>Úterý Únor 28 13:29:43 CET 2012</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010582.html">[python] socket + udp + vytváření paketů
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010592.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10591">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10591">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10591">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10591">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+opět jsem narazil na problém při práci na tomto úkolu. Download dat ze 
+serveru včetně ošetřených ztracených paket i již funguje, ale zatím jsem 
+přijímání i odesílání paketů řešil v jenom threadu. Jenomže dle zadání 
+je na začátku spojení poslat serveru SYN paket a server musí odpovědět 
+také SYN paketem se číslem spojení. Ale server může simulovat ztrátu 
+mého paketu a proto musí můj klient posílat SYN paket celkem 20x, než 
+spojení definitivně uzavře. Udělal jsem tedy aplikaci dvouvláknovou - 
+jedno vlákno přijímá zprávy ze serveru a druhé je posílá.
+
+#-*- coding: utf-8 -*-
+import socket
+import re
+import time
+import struct
+import threading
+import time
+
+class Server:
+     def __init__(self, host = &quot;&quot;, port = 4000):
+         self.conn_id = False
+
+         self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM )
+         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+         self.s.bind((&quot;&quot;,0))
+
+         self.receiver = Receiver(self.s, self.read)
+         self.receiver.start()
+
+         for x in range(20):
+             if self.conn_id != False:
+                 break
+             data = struct.pack(&quot;!IHHBB&quot;, 0, 0, 0, 1, 1)
+             self.s.sendto(data, (&quot;localhost&quot;, 4000))
+             time.sleep(0.1)
+
+         if self.conn_id == False:
+             print &quot;SERVER NEODPOVEDEL NA SYN&quot;
+             print &quot;nyní je třeba nějak donutit Receiver, aby se ukončil&quot;
+             #self.s.close()
+             return
+     def read(self, data):
+         #parsuje data a přečte z nich conn_id a nastaví self.conn_id na 
+nějaké číslo
+         pass
+
+class Receiver(threading.Thread):
+     def __init__(self, s, callback):
+         threading.Thread.__init__(self)
+         self.s = s
+         self.callback = callback
+     def run(self):
+         while 1:
+             data, from_ip = self.s.recvfrom(265)
+             if not data:
+                 break
+
+             self.callback(data)
+
+
+Problém je tedy v tom, že Reveiver čeká na nějaká data 
+(self.s.recvfrom(265)), jenomže tyhle data teoreticky nemusejí přijít a 
+po 20x odeslání SYN je třeba nějak z této naslouchací smyčky vyskočit a 
+program ukončit.
+
+Napadlo mě volat self.s.close(), což vyvolá vyjímku, jenomže se mi to 
+nezdá jako úplně čisté řešení. Snad jsem se vyjádřil srozumitelně.
+
+Děkuji za Vaše nápady,
+
+Jakub
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20120228/0c408d0a/attachment.html">http://www.py.cz/pipermail/python/attachments/20120228/0c408d0a/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010582.html">[python] socket + udp + vytváření paketů
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2012-February/010592.html">[python] socket + udp + vytváření paketů
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2012-February/date.html#10591">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/thread.html#10591">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/subject.html#10591">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2012-February/author.html#10591">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2012-February/010591.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:39 GMT -->
+</html>

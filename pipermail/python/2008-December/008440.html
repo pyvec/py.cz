@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008440.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:12 GMT -->
+<HEAD>
+   <TITLE> [python] Alokace pameti
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Alokace%20pameti&In-Reply-To=%3C4953CC0E.80403%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008439.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008441.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Alokace pameti</H1>
+    <B>Koumes21</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Alokace%20pameti&In-Reply-To=%3C4953CC0E.80403%40gmail.com%3E"
+       TITLE="[python] Alokace pameti">koumes21 na gmail.com
+       </A><BR>
+    <I>Čtvrtek Prosinec 25 19:08:14 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008439.html">[python] Alokace pameti
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008441.html">[python] odpověď Alokace pameti
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8440">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8440">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8440">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8440">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobrý den,
+
+je to celkem zajímavé, mně osobně to připadá jako nedodělávka Pythonu,
+hlavně třídy list. Zajímavost: v Pythonu 3k to funguje správně, ale
+protože třídu list nějak vylepšili, tak to naalokuje 200MB, pak to
+spadne na 10MB a pak zase 200MB. Docela mě zajímá, co s tím je, tak se
+na to ještě kouknu. Zatím jsem zkoušel použít &quot;del&quot; na list i na jeho
+jednotlivé členy, zkoušel jsem list.pop(), ale nic nefunguje tak jak má.
+
+Koumes21
+
+slush napsal(a):
+&gt;<i> Zdravim,
+</I>&gt;<i> 
+</I>&gt;<i> narazil jsem na problem, ktery nedokazu vysvetlit. Mozna je nekde chyba,
+</I>&gt;<i> ale mnohem pravdepodobneji jen neco delam spatne ja. Jedna se o
+</I>&gt;<i> abnormalni &quot;nenazranost&quot; pythonu a o nasledne neuvolnovani pameti pote,
+</I>&gt;<i> co naalokovanou pamet jiz nepotrebuji.
+</I>&gt;<i> 
+</I>&gt;<i> V priloze zasilam jednoduchy skript,ktery nejdrive naalokuje seznam o
+</I>&gt;<i> delce 10 mil. zaznamu, nasledne seznam smaze (nastavenim seznamu na
+</I>&gt;<i> nulovou delku) a opet ho naalokuje. Cekal bych, ze pametova narocnost
+</I>&gt;<i> bude nekde v rozmezi desitek MB (tedy v prumeru do 10 bytes na jednu
+</I>&gt;<i> polozku ciselneho seznamu) a ze po uvolneni seznamu dojde ke zmenseni
+</I>&gt;<i> obsazene pameti na predchozi uroven.
+</I>&gt;<i> 
+</I>&gt;<i> Problem 1) Python si pro 10 mil. číselných záznamů naalokoval cca 160 MB.
+</I>&gt;<i> Problem 2) Po odalokovani klesla spotreba pameti na 120MB
+</I>&gt;<i> 
+</I>&gt;<i> Podle hrubych internich vypoctu mi vychazi, ze ten 40MB rozdil je
+</I>&gt;<i> uvolneni datovych struktur primo spojenych s ulozenym seznamem a po
+</I>&gt;<i> uvolneni seznamu opravdu dochazi k odalokovani. Neni mi ale jasne, co
+</I>&gt;<i> obsahuje zbyvajicich 120MB.
+</I>&gt;<i> 
+</I>&gt;<i> Zkousel jsem do tohoto skriptu zapracovat i spravu garbage collectoru
+</I>&gt;<i> (model gc). Bohuzel, po odalokovani pameti gc neobsahoval zadne
+</I>&gt;<i> informace o zabrane pameti,ackoliv skript stale konzumoval 120 MB.
+</I>&gt;<i> 
+</I>&gt;<i> Prilozeny skript a vyse obsazenych prostredku jsem overoval pod Linuxem
+</I>&gt;<i> a Windows Vista, v obou pripadech se stejnym vysledkem (v Linuxu byla
+</I>&gt;<i> celkova spotreba o cca 4 MB mensi).
+</I>&gt;<i> 
+</I>&gt;<i> Hlavni otazkou tedy je, jestli je toto chovani normalni, respektive
+</I>&gt;<i> jestli lze nejak ridit spotrebu pameti pythonem.
+</I>&gt;<i> 
+</I>&gt;<i> Diky za kazdy tip,
+</I>&gt;<i> Marek
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ------------------------------------------------------------------------
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>
+------------- další část ---------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 250 bytes
+Desc: OpenPGP digital signature
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20081225/9c776ca4/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20081225/9c776ca4/attachment.pgp</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008439.html">[python] Alokace pameti
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008441.html">[python] odpověď Alokace pameti
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8440">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8440">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8440">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8440">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008440.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:12 GMT -->
+</html>

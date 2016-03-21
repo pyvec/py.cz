@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009731.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:34 GMT -->
+<HEAD>
+   <TITLE> [python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3Fprinty_v_%3DC4%3D8De%3DC5%3DA1tin%3DC4%3D9B_na_WINDOWS/cmd%3F%3D%0A%09%3D%3Futf-8%3Fq%3F_konzoli_ne%3DC4%3D8Diteln%3DC3%3DA9%3F%3D&In-Reply-To=%3C1272970527.193628.29844.nullmailer%40mail1001.cent%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-May/009730.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-May/009771.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] printy v češtině na WINDOWS/cmd konzoli nečitelné</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fq%3Fprinty_v_%3DC4%3D8De%3DC5%3DA1tin%3DC4%3D9B_na_WINDOWS/cmd%3F%3D%0A%09%3D%3Futf-8%3Fq%3F_konzoli_ne%3DC4%3D8Diteln%3DC3%3DA9%3F%3D&In-Reply-To=%3C1272970527.193628.29844.nullmailer%40mail1001.cent%3E"
+       TITLE="[python] printy v češtině na WINDOWS/cmd konzoli nečitelné">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Květen  4 12:55:27 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009730.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009771.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9731">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9731">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9731">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9731">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Do toho sitecustomize.py bych to necpal. Je to soubor v podstatě 
+vázaný na počítač. Pokud by aplikace na něco takového spoléhala,
+nedala by se rozumně instalovat jinde.
+
+Přimlouvám se o naprostý přechod k Unicode -- jinak s tím bude
+problém vždycky. Nebo se musí přinejmenším neunicodový řetězec
+převést na Unicode řetězec (v kódování podle zdrojového textu)
+a při výstupu určit kódování přes sys.stdout.encoding nebo 
+sys.stderr.encoding.
+
+Je to furt ten samý problém, že v Python 2.x  &quot;takovýhle&quot; řetězec
+vlastně není řetězec, ale posloupnost bajtů. Vypořádává se s tím
+až Python 3, ale to nebrání tomu v Pythonu 2.x důsledně používat
+u&quot;unicode řetězce&quot;.  Jedině ty jsou řetězci, se kterými se dá
+něco dělat z hlediska přenositelnosti.
+
+Petr
+
+petrofF
+&gt;<i>Petr Přikryl
+</I>&gt;&gt;<i> petrofF
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> &gt;Bohužel, toto se týká jen příkazů print.
+</I>&gt;&gt;<i> &gt;Pokud použiju raw_input(u&quot;Zadej jméno...&quot;) hodí to chybu
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Zdá se, že jde o starou chybu, kterou jsem hlásil vývojářům skoro před
+</I>&gt;&gt;<i> 5 lety. Mrkni <A HREF="semhttp://www.py.cz/pipermail/python/2005-July/003022.html">semhttp://www.py.cz/pipermail/python/2005-July/003022.html</A>
+</I>&gt;&gt;<i> Jsou tam popsané projevy a možnost částečného řešení.
+</I>&gt;<i>
+</I>&gt;<i>Zkusil jsem místo explicitního volání:   
+</I>&gt;<i>      raw_input(s.encode(sys.stdout.encoding))
+</I>&gt;<i>vytvořit soubor sitecustomize.py s předefinovanými vstupními funkcemi
+</I>&gt;<i>
+</I>&gt;<i>------------[ sitecustomize.py ]--------------------------------
+</I>&gt;<i>
+</I>&gt;<i>&quot;&quot;&quot;
+</I>&gt;<i>  - change raw_input() and input() commands if console present
+</I>&gt;<i>    (i.e. if sys.stdout.encoding is 'cp852')
+</I>&gt;<i>  - modification of prompt argument proceed only if it is a unicode
+</I>&gt;<i>object
+</I>&gt;<i>   (non-unicode object is treated unchanged)
+</I>&gt;<i>&quot;&quot;&quot;
+</I>&gt;<i>import sys
+</I>&gt;<i>if sys.stdout.encoding == &quot;cp852&quot;:
+</I>&gt;<i>  try:
+</I>&gt;<i>    import __builtin__
+</I>&gt;<i>    original_raw_input = __builtin__.raw_input
+</I>&gt;<i>    original_input   = __builtin__.input    
+</I>&gt;<i>
+</I>&gt;<i>    def raw_input(prompt=''):
+</I>&gt;<i>      if type(prompt)==unicode:
+</I>&gt;<i>        prompt = prompt.encode(sys.stdout.encoding)
+</I>&gt;<i>      return original_raw_input(prompt)
+</I>&gt;<i>
+</I>&gt;<i>    def input(prompt=''):
+</I>&gt;<i>      return eval(raw_input(prompt))
+</I>&gt;<i>    
+</I>&gt;<i>    raw_input.__doc__ = original_raw_input.__doc__
+</I>&gt;<i>    input.__doc__   = original_input.__doc__
+</I>&gt;<i>
+</I>&gt;<i>    __builtin__.raw_input = raw_input
+</I>&gt;<i>    __builtin__.input   = input
+</I>&gt;<i>
+</I>&gt;<i>  except:
+</I>&gt;<i>    import traceback; traceback.print_exc()
+</I>&gt;<i>
+</I>&gt;<i>-------------------------------------------------------------
+</I>&gt;<i>Skripty (s unicode literály) se v WinDOS okně zobrazují bezchybně.
+</I>&gt;<i>Jen si nejsem jistý jestli je úprava kompatibilní s různými běhovými
+</I>&gt;<i>prostředími
+</I>&gt;<i>(IDLE, PyWin, PyDev, konzole.py apod)
+</I>&gt;<i>  -petroff-
+</I>&gt;<i>_______________________________________________
+</I>&gt;<i>Python mailing list
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i><A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009730.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-May/009771.html">[python] printy v češtině na WINDOWS/cmd konzoli nečitelné
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-May/date.html#9731">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/thread.html#9731">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/subject.html#9731">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-May/author.html#9731">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-May/009731.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:34 GMT -->
+</html>

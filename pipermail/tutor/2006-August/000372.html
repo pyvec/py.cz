@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000372.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] vytvoření serveru
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=374.777-3758-199549314-1155628049%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000371.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-August/000373.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] vytvoření serveru</H1>
+    <B>Pavel Kosina</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fvytvo%3DF8en%3DED_serveru%3F%3D&In-Reply-To=374.777-3758-199549314-1155628049%40seznam.cz"
+       TITLE="[Tutor PyCZ] vytvoření serveru">geon na post.cz
+       </A><BR>
+    <I>Úterý Srpen 15 17:44:05 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000371.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000373.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#372">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#372">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#372">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#372">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jakub Vojáček napsal(a):
+&gt;<i> Zatím jsem přišl na tohle:
+</I>&gt;<i> from Tkinter import*
+</I>&gt;<i> import socket
+</I>&gt;<i> okno=Tk()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> text=Text()
+</I>&gt;<i> text.pack()
+</I>&gt;<i> def prijmi():
+</I>&gt;<i>     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</I>&gt;<i>     host = &quot;localhost&quot;
+</I>&gt;<i>     port = 1000
+</I>&gt;<i>     s.connect((host, port))
+</I>&gt;<i>     s.setblocking(0)
+</I>&gt;<i>     try:
+</I>&gt;<i>         print s.recv(102)
+</I>&gt;<i>         text.insert(END,data)
+</I>&gt;<i>     except:
+</I>&gt;<i>         pass
+</I>&gt;<i>
+</I>&gt;<i>     
+</I>&gt;<i>     s.close()
+</I>&gt;<i> prijmi()
+</I>&gt;<i> mainloop()
+</I>&gt;<i>
+</I>&gt;<i> metoda s.setblocking(0) dela non-blocking server jak jsi říkal a proto když pak zavolám recv() tak mi to vrátí chybu a už se to nesekne jako předtím. Teď jeětě dodělat tamtu drobnost s tím automatickým přijímáním...        
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>automatickým přijímáním určitě myslíš to, aby prostě čas od času se sama 
+spustila funkce prijmi() a ostatní části programu fungovali normálně 
+dále. Tak to se dá dělat jednak před oblíbené thready (modul thread a 
+threading), tutoriály jistě vygoogluješ sám, možná i něco v češtině, 
+Anebo v Tkinter metodou xxx.after(), kterou jistě znáš: 
+<A HREF="http://tkintercz.wz.cz/widget.htm#Tkinter.Widget.after-method.">http://tkintercz.wz.cz/widget.htm#Tkinter.Widget.after-method.</A> Ale bude 
+lepší nevolat opakovaně celou funkci prijmi , ale udělat funkci ze 
+samotného činného kodu v té funkci (try:) . Samozřeujmě socket nezavírat....
+
+
+-- 
+geon
+Pavel Kosina
+
+
+
+P.S. Pls až budeš odpovídat, smaž nepodstatné části tohoto mailu, at se 
+v tom dá lépe vyznat.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000371.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-August/000373.html">[Tutor PyCZ] vytvoření serveru
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/date.html#372">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/thread.html#372">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/subject.html#372">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-August/author.html#372">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-August/000372.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:09 GMT -->
+</html>

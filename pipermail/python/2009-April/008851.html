@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008851.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:41 GMT -->
+<HEAD>
+   <TITLE> [python] Filozofická otázka ohledně syntaxe
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FFilozofick%3DE1_ot%3DE1zka_ohledn%3DEC_syntaxe%3F%3D&In-Reply-To=%3C49EEC1D6.6010605%40brabenec.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2009-April/008849.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2009-April/008852.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Filozofická otázka ohledně syntaxe</H1>
+    <B>Tomas Brabenec</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FFilozofick%3DE1_ot%3DE1zka_ohledn%3DEC_syntaxe%3F%3D&In-Reply-To=%3C49EEC1D6.6010605%40brabenec.net%3E"
+       TITLE="[python] Filozofická otázka ohledně syntaxe">konference na brabenec.net
+       </A><BR>
+    <I>Středa Duben 22 09:05:58 CEST 2009</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008849.html">[python] Filozofická otázka ohledně  syntaxe
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008852.html">[python] Filozofická otázka ohledně syntaxe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8851">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8851">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8851">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8851">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ja to obcas pouzivam, kdyz potrebuju &quot;usporit&quot; misto.
+Napr v sablonach.
+Pouzivam Mako a Myghty a tam se musi Pycode davat do vlastniho bloku 
+(obdobne je to i v jinych template enginech nebo treba i v PHP).
+Pro Myghty je to &lt;%python&gt;pycode&lt;/%python&gt; pro Mako je to jednodussi &lt;% 
+pycode %&gt;.
+Vypsani promene se potom dela takto:
+Myghty &lt;% promena %&gt;
+Mako ${promena}
+
+No a to co ty popisujes pouzivam prave ve vypisech promenych, abych 
+menusel pouzivat blok pro samostatny Pycode.
+Takze v Mako napr takto:
+
+${(foo or bar).fce()}
+
+Kdezto kdybych pouzil delsi zapis vypadalo by to takto:
+
+&lt;%
+if foo:
+      x = foo.fce()
+else:
+      x = bar.fce()
+%&gt;
+
+${x}
+
+Zbytecne bych tak hnojil sablonu Pycodem. Pritom to jde elegantne napsat 
+na jeden radek ;-)
+
+Tomas
+
+
+
+Dne 21.4.2009 12:34, Jan Bednařík napsal(a):
+&gt;<i> Přeji pěkný den,
+</I>&gt;<i>
+</I>&gt;<i> narazil jsem na takový filozofický problémek ohledně syntaxe zdrojového kódu.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Mám třeba takový kód (foo může být None):
+</I>&gt;<i>
+</I>&gt;<i> if foo:
+</I>&gt;<i>      x = foo.fce()
+</I>&gt;<i> else:
+</I>&gt;<i>      x = bar.fce()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Šlo by to napsat elegantněji takto:
+</I>&gt;<i>
+</I>&gt;<i> x = foo or bar
+</I>&gt;<i> x = x.fce()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Dnes mě ale napadlo napsat tohle:
+</I>&gt;<i>
+</I>&gt;<i> x = (foo or bar).fce()
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Nějak se mi to nelíbí, nesedí mi to volání metody na závorce, ale
+</I>&gt;<i> hlavně asi proto že jsem to nikdy nikde neviděl. Co myslíte, je vhodné
+</I>&gt;<i> to tak psát?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Honza
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>    
+</I></PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008849.html">[python] Filozofická otázka ohledně  syntaxe
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2009-April/008852.html">[python] Filozofická otázka ohledně syntaxe
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2009-April/date.html#8851">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/thread.html#8851">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/subject.html#8851">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2009-April/author.html#8851">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2009-April/008851.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:19:41 GMT -->
+</html>

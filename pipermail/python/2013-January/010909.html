@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010909.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:16 GMT -->
+<HEAD>
+   <TITLE> [python] otázka ohladom mojho štýlu písania v OOP
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3Fb3TDoXprYSBvaGxhZG9tIG1vamhvIMWhdMO9bHUgcMOt%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fsania_v_OOP%3F%3D&In-Reply-To=%3C20130115161106.01886CC7%40atlas.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010908.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010910.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] otázka ohladom mojho štýlu písania v OOP</H1>
+    <B>Petr Přikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%0A%09%3D%3Futf-8%3Fb%3Fb3TDoXprYSBvaGxhZG9tIG1vamhvIMWhdMO9bHUgcMOt%3F%3D%0A%09%3D%3Futf-8%3Fq%3Fsania_v_OOP%3F%3D&In-Reply-To=%3C20130115161106.01886CC7%40atlas.cz%3E"
+       TITLE="[python] otázka ohladom mojho štýlu písania v OOP">prikryl na atlas.cz
+       </A><BR>
+    <I>Úterý Leden 15 16:11:06 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010908.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010910.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10909">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10909">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10909">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10909">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Od: &quot;Roman Beno&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">romanbeno273 na gmail.com</A>&gt;
+</I>...
+&gt;<i>Čo sa týka Raiczeho kritiky, podobný systém s &quot;odkazom na metódy jednej
+</I>&gt;<i>konkrétnej instancie&quot; je uplatnený v module random.
+</I>
+V modulu random má ale vytvoření instance _inst jeden důležitý důvod.
+Instance použije při své inicializaci aktuální čas jako zárodek pro 
+generování náhodných čísel -- ale jen když se neudá explicitně. 
+Zárodek (seed) se používá v různých metodách instance.
+
+Je to tam zkrátka složitější a někdy je nutné pracovat se stejným
+zárodkem, aby byla posloupnost náhodných čísel opakovatelná :)
+
+Instance tam slouží k uložení toho zárodku. Při prostém používání
+nás detaily nezajímají a místo instance a jejích metod nás zajímají
+funkce (jako v matematice). Jejich implementace (jako metod interní
+instance) může být uživatelem chápána jako implementační detail.
+
+Obecně, práce s instancemi tříd je výhodná jen v situaci, kdy 
+instance udržuje nějaký vnitřní stav, tj. kdy má smysl uvažovat
+o metodách jen v situaci, kdy by to bez toho vnitřního stavu 
+komplikovalo rozhraní volané funkčnosti.
+
+&gt;<i>if __name__=&quot;__main__&quot;:
+</I>&gt;<i>    # čo robit s instaciou(ami) po spustení z termu..
+</I>&gt;<i>    ....
+</I>
+Z obecného pohledu v této části nelze mluvit o instancích
+tříd protože žádné nemusí existovat. Python není čistě objektově
+orientovaný a umožňuje (podobně jako C++) přirozenější
+přístup k výstavbě programu.
+
+Petr
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010908.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010910.html">[python] otázka ohladom mojho štýlu písania v OOP
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10909">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10909">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10909">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10909">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010909.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:16 GMT -->
+</html>

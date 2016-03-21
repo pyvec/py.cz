@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000643.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fdaj%3DED_se_n%3DECjak_vlo%3DBEit_v%3DFDb%3DECry%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_z_OptionMenu_jako_polo%3DBEky_do_seznamu%3D3F%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000641.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000644.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?</H1>
+    <B>Jan Šimůnek</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%20%3D%3Fiso-8859-2%3Fq%3Fdaj%3DED_se_n%3DECjak_vlo%3DBEit_v%3DFDb%3DECry%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F_z_OptionMenu_jako_polo%3DBEky_do_seznamu%3D3F%3F%3D&In-Reply-To="
+       TITLE="[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?">jsim na med.muni.cz
+       </A><BR>
+    <I>Úterý Říjen 31 11:30:24 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000641.html">[Tutor PyCZ] OT: radeji slovensky, please ( Otaceni obrazkem)
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000644.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#643">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#643">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#643">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#643">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Lze nějak vyřešit, aby OptionMenu ukládalo výběr do seznamu?
+
+Mám následující kód:
+--- Začátek kódu
+
+from Tkinter import *
+import string
+
+okno=Tk()
+
+Cislo=[&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;]
+v=[&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;.&quot;,&quot;0&quot;]
+
+ram1=Frame(okno,bd=2,width=50,height=20,relief=&quot;sunken&quot;)
+ram1.grid(row=0,column=0)
+
+#(vykreslení okna je bez problémů)
+
+ram2=Frame(okno,bd=2,width=50,height=20,relief=&quot;sunken&quot;)
+ram2.grid(row=1,column=0)
+
+L1=Label(ram2, text=&quot;Základní údaje:&quot;)
+L1.grid(row=0,column=0)
+
+ram2a=Frame(okno,bd=2,width=50,height=20,relief=&quot;sunken&quot;)
+ram2a.grid(row=1,column=0)
+
+L2=Label(ram2a, text=&quot;Tělesná výška:&quot;)
+L2.grid(row=0,column=0)
+
+#tohle je ta problémová část:
+V0=OptionMenu(ram2a, v[0], Cislo[0], Cislo[1], Cislo[3], Cislo[4], Cislo[5], 
+Cislo[6], Cislo[7], Cislo[8], Cislo[9])
+V0.grid(row=0,column=1)
+
+# Následují další OptionMenu pro další pozice tělesné výšky (celkem 4)
+# v[3] je použito jako text pro Label
+
+okno.mainloop()
+
+--- Konec kódu
+
+jestliže v[0] napíšu jako samostatnou proměnnou v0 a nadefinuji:
+v0=StringVar()
+v0.set(&quot;0&quot;)
+tak to jede bez problémů.
+Jestliže ale použiji položku ze seznamu, tak (jako ve výše uvedeném kódu), tak 
+to hlásí AttributeError: 'str' object has no attribute 'set'
+zkoušel jsem i nadefinovat jednotlivé položky seznamu jako &quot;StringVar&quot;, ale 
+hlásilo to různé syntaktické chyby
+Dostat výsledek výběru do seznamu považuji za výhodnější z hlediska dalšího 
+zpracování získaných dat (možnost využít cyklu).
+
+Děkuji
+Jan Šimůnek
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000641.html">[Tutor PyCZ] OT: radeji slovensky, please ( Otaceni obrazkem)
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000644.html">[Tutor PyCZ] dají se nějak vložit výběry z OptionMenu jako položky do seznamu?
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#643">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#643">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#643">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#643">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000643.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

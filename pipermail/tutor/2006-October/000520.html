@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000520.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+<HEAD>
+   <TITLE> [Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fp%3DF8enos_hodnoty_prom%3DECnn%3DE9_z_eleme%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fntu_GUI_%3D28Tkinter%3D29_do_hlavn%3DEDho_programu%3F%3D&In-Reply-To=200610091518.53479.jsim%40med.muni.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000519.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/tutor/2006-October/000521.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:tutor%40py.cz?Subject=%5BTutor%20PyCZ%5D%0A%20%3D%3Fiso-8859-2%3Fq%3Fp%3DF8enos_hodnoty_prom%3DECnn%3DE9_z_eleme%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Fntu_GUI_%3D28Tkinter%3D29_do_hlavn%3DEDho_programu%3F%3D&In-Reply-To=200610091518.53479.jsim%40med.muni.cz"
+       TITLE="[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu">RMiklos na pss.sk
+       </A><BR>
+    <I>Pondělí Říjen  9 15:34:15 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000519.html">[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000521.html">[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#520">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#520">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#520">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#520">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pri premennej v pouzi metodu get(), takze takto:
+
+# zacatek programu
+from Tkinter import *
+
+okno = Tk() 
+v = IntVar() 
+
+Radiobutton(okno, text=&quot;Jedna&quot;, variable=v, value=1).pack(anchor=W) 
+Radiobutton(okno, text=&quot;Dva&quot;, variable=v, value=2).pack(anchor=W) 
+
+def callback():
+  print v.get()
+
+b = Button(okno, text=&quot;OK&quot;, command=callback)
+b.pack()
+
+mainloop() 
+# konec programu
+
+
+
+&quot;Jan Šimůnek&quot; &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">jsim na med.muni.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor-bounces na py.cz</A>
+09.10.2006 15:18
+Please respond to
+Konference Tutor portalu PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>&gt;
+
+
+To
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">tutor na py.cz</A>
+cc
+
+Subject
+[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního 
+programu
+
+
+
+
+
+
+Potřeboval bych vytvořit nějaké udělátko, kde by se myší naťukaly hodnoty 
+(vybrané z předem daných, takže níže uvedený radiobutton je přímo ideální 
+volba), a pak se v hlavním programu přenesly do textového řetězce, který 
+by 
+se uložil. 
+
+Když například použiju Radiobutton a Button, který by měl vypsat hodnotu 
+proměnné nastavené tím Radiobuttonem:
+
+# začátek programu
+from Tkinter import * 
+ 
+okno = Tk() 
+v = IntVar() 
+    
+Radiobutton(okno, text=&quot;Jedna&quot;, variable=v, value=1).pack(anchor=W) 
+Radiobutton(okno, text=&quot;Dva&quot;, variable=v, value=2).pack(anchor=W) 
+
+def callback():
+    print v
+
+b = Button(okno, text=&quot;OK&quot;, command=callback)
+b.pack()
+ 
+mainloop() 
+# konec programu
+
+tak mi funkce callback pořád vypisuje (bez ohledu na to, jaký je stav 
+Radiobuttonu) jen nedefinovanou proměnnou. Pokud za definicí nastavím v=0,
+tak zase tato hodnota zůstává 0, bez ohledu na to, co se před zmáčknutím 
+Buttonu dělo s Radiobuttonem. 
+Očekával jsem, že po zmáčknutí Buttonu se budou vypisovat hodnoty 1 nebo 2 
+
+podle toho, který Radiobutton je zmáčknutý (a že nedefinovaná nebo na 
+původní 
+hodnotu nastavená bude v jen před prvním zmáčknutím Radiobuttonu.
+
+Zkoušel jsem i nadefinovat funkce &quot;jedna&quot;  a &quot;dve&quot;, které by přidělily 
+proměnné v příslušnou hodnotu a volat je z Radiobuttonu command=jedna, 
+resp. 
+command=dve - u příslušného knoflíku, ale ani to hodnotu v neovlivní.
+
+Děkuji za případnou radu
+
+Jan Šimůnek
+_______________________________________________
+Tutor mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">Tutor na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/tutor">http://www.py.cz/mailman/listinfo/tutor</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+Bajkalská 30, P. O. Box 48 
+829 48  Bratislava 25 
+Tel.: +421/ 2 / 582 31 174 
+Fax: +421/ 2 / 582 31 109 
+------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/tutor/attachments/20061009/cd60e73c/attachment.htm">http://www.py.cz/pipermail/tutor/attachments/20061009/cd60e73c/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000519.html">[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/tutor/2006-October/000521.html">[Tutor PyCZ] přenos hodnoty proměnné z elementu GUI (Tkinter) do hlavního programu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/date.html#520">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/thread.html#520">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/subject.html#520">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/tutor/2006-October/author.html#520">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/tutor">Další informace o konferenci Tutor</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/tutor/2006-October/000520.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:36:08 GMT -->
+</html>

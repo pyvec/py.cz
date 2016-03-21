@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006794.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:06 GMT -->
+<HEAD>
+   <TITLE> [python] sockety - problem s HTTP spojenim
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=20071121183217.GA21338%40sirius">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006777.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006797.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] sockety - problem s HTTP spojenim</H1>
+    <B>Tomy novella</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20sockety%20-%20problem%20s%20HTTP%20spojenim&In-Reply-To=20071121183217.GA21338%40sirius"
+       TITLE="[python] sockety - problem s HTTP spojenim">tomasnovella na gmail.com
+       </A><BR>
+    <I>Čtvrtek Listopad 22 20:05:04 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006777.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006797.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6794">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6794">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6794">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6794">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>noo diky :) ako tak tomu chapem :) v podstate asynchat.loop() kazdych
+x sekund kontroluje, ci dosli nejake data a ci moze nejake data
+poslat. spravne? este by ma zaujimalo, ze kolko je defaultne tych x
+sekund ;)
+
+noo a s nadobudnutymi dalsimi vedomostami sa pytam dalsie veci ;)
+1) neda mi nedokoncit toho asynchronneho telnet klienta(= bezny
+telnet) a spravil som nieco take:
+
+---------------
+
+# atlantis client = v podstate telnet klient
+import asyncore, socket
+
+class atlantis_client(asyncore.dispatcher):
+
+    def __init__(self, host=&quot;atlantis.talker.sk&quot;, port = 23):
+        asyncore.dispatcher.__init__(self)
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect( (host, port) )
+        self.host = host
+        #self.fill_buffer() #z nejakych pricin nefunguje :(
+        self.buffer = &quot;nejaky napisany text\r\n&quot;
+
+
+    def fill_buffer(self):
+        #stale, len co budem zadavt prikaz,ono mi ho odosle na server
+*** aspon by malo
+        self.buffer = raw_input(&quot;zadaj prikaz: &quot;)
+        self.bufer += &quot;\r\n&quot;
+
+    def handle_connect(self):
+        print &quot;Uspesne som sa pripojil k &quot;,self.host ,&quot;!&quot;
+
+    def handle_close(self):
+        self.close()
+
+    def handle_read(self): #cita prijate data
+        print self.recv(8192)
+
+    def writable(self):
+        return (len(self.buffer) &gt; 0) # buffer nieje prazdny - mozem odoslat
+
+    def handle_write(self): # odosle data z bufferu
+        sent = self.send(self.buffer)
+        self.buffer = self.buffer[sent:]
+
+
+c = atlantis_client()
+
+
+asyncore.loop()
+
+---------------
+problem je vsak v podstate rovnaky, ako predtym... resp. neviem, KDE
+mam vlozit do tohoto riadok na neustale nacitavanie user vstupu :(
+(momentalne som to strcil do konstruktoru[self.buffer = &quot;nejaky
+napisany text\r\n&quot;] cize sa vykona len raz:-(  ) poradi niekto?
+
+a podledna tretia otazka je, ze ci by som tu mohol pouzivat funkciu
+found_terminator(samozrejme keby som to cele prerobil na asynchat) na
+hladanie &quot;\n&quot;, cize kde user ukonci zadavanie vstupu a odosle to cele,
+alebo sa to da pouzivat, len na strane servra, ked prijimam vstup a
+tam hladam ohranicenie?
+
+dikyy :)
+
+
+2007/11/21, Filip Štědrosnký &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">regnarg na seznam.cz</A>&gt;:
+&gt;<i> Zdravím
+</I>&gt;<i> No vlastně asyncore.loop je hlavní smyčkou komunikace, tedy
+</I>&gt;<i> obsluhuje události a příslušně na ně reaguje. Má určitý seznam
+</I>&gt;<i> objektů, se kterými pracuje (ten jí je buď předán, nebo využívá
+</I>&gt;<i> výchozí seznam VŠECH existujících instancí asyncore.dispatcher
+</I>&gt;<i> a podobných tříd, což vysvětluje to &quot;magické předání&quot; objektu).
+</I>&gt;<i> Konkrétně pak v této hlavní smyčce probíhá volání select(), které
+</I>&gt;<i> zjišťuje, zda jsou na některém ze síťových kanálů data k načtení
+</I>&gt;<i> a pokud ano, volá příšlušný objekt. Zrovnatak pokud jsou v
+</I>&gt;<i> cache pro odeslání některého z objektů data, jsou vyslána do sítě.
+</I>&gt;<i> Vzal jsem to stručně, ale snad jsem vystihl základní princip...
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On St, lis 21, 2007 at 07:00:23 +0100, Tomy novella wrote:
+</I>&gt;<i> &gt; ahoj,
+</I>&gt;<i> &gt; este by ma zaujimalo, ze co robi asyncore.loop(),
+</I>&gt;<i> &gt; pretoze je to zjavne funkcia modulu a nie metoda vztahujuca sa k
+</I>&gt;<i> &gt; instancii triedy(myslim triedu asyncore.dispatcher)? cital som manual,
+</I>&gt;<i> &gt; ale som nepochopil... kazdych 30 sekund (default) sa snazi *co*
+</I>&gt;<i> &gt; urobit? a co robi, ked sa k nicomu nevztahuje? diky :)
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+-- 
+PS: prosim v mailoch tykat! nie vykat ;)
+
+<A HREF="http://www.py.cz/mailman/listinfo/python">Tom na sQo</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">tomasnovella na gmail.com</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006777.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006797.html">[python] sockety - problem s HTTP spojenim
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6794">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6794">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6794">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6794">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006794.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:06 GMT -->
+</html>

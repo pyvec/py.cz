@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005248.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:06 GMT -->
+<HEAD>
+   <TITLE> [python] Zope a  TAL
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zope%20a%20%20TAL&In-Reply-To=1741568734.20061208194314%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-December/005243.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-December/005249.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Zope a  TAL</H1>
+    <B>&quot;V.Segeďa&quot;</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Zope%20a%20%20TAL&In-Reply-To=1741568734.20061208194314%40atlas.cz"
+       TITLE="[python] Zope a  TAL">v.segeda na madalbal.cz
+       </A><BR>
+    <I>Pondělí Prosinec 11 10:50:12 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005243.html">[python] Zope a  TAL
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005249.html">[python] Zope a  TAL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5248">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5248">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5248">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5248">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Urobil by som to takto:
+
+script:
+## Script (Python) &quot;pozdrav&quot;
+...
+##parameters=a='c1',b='c2'
+
+return &quot;%s %s&quot; % (a,b)
+
+
+template:
+
+&lt;b tal:content=&quot;here/pozdrav?a=ahoj&quot;&gt;temp&lt;/b&gt;
+&lt;b tal:content=&quot;here/pozdrav?a=svete&quot;&gt;temp&lt;/b&gt;
+&lt;b tal:content=&quot;here/pozdrav?a=ahoj&amp;b=svete&quot;&gt;temp&lt;/b&gt;
+
+alebo tiež:
+
+&lt;b tal:content=&quot;python:here.pozdrav('ahoj')&quot;&gt;temp&lt;/b&gt;
+&lt;b tal:content=&quot;python:here.pozdrav('svete')&quot;&gt;temp&lt;/b&gt;
+&lt;b tal:content=&quot;python:here.pozdrav('ahoj','svete')&quot;&gt;temp&lt;/b&gt;
+
+Dúfam, že to pomôže,
+V. Segeďa
+
+P.S:  dokumentácia k Zope2 je na adrese: 
+<A HREF="http://www.plope.com/Books/2_7Edition">http://www.plope.com/Books/2_7Edition</A>
+
+mtip wrote:
+&gt;<i> JL&gt; asi bych tu funkci nepojmenoval jako out, ale nějak jinak.
+</I>&gt;<i>
+</I>&gt;<i> JL&gt; Máte definované aa a bb tak aby byly dostupné z here/?
+</I>&gt;<i>
+</I>&gt;<i> JL&gt; A funguje tohle?
+</I>&gt;<i>
+</I>&gt;<i> JL&gt;&gt; &lt;b tal:content=&quot;here/pozdrav/out('ahoj')&quot;&gt;temp&lt;/b&gt;
+</I>&gt;<i> JL&gt;&gt; &lt;b tal:content=&quot;here/pozdrav/out('svete')&quot;&gt;temp&lt;/b&gt;
+</I>&gt;<i> JL&gt;&gt; &lt;b tal:content=&quot;here/pozdrav/out('ahoj','svete')&quot;&gt;temp&lt;/b&gt;
+</I>&gt;<i>
+</I>&gt;<i> ---------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Tak jsem to upravil takto:
+</I>&gt;<i> sablona:
+</I>&gt;<i> class pozdrav:
+</I>&gt;<i>     def odpoved(a='c1', b='c2'):
+</I>&gt;<i>         return &quot;%s %s&quot; % (a,b)
+</I>&gt;<i>
+</I>&gt;<i> script:
+</I>&gt;<i> &lt;b tal:content=&quot;here/pozdrav/pozdrav/odpoved('ahoj')&quot;&gt;temp&lt;/b&gt;
+</I>&gt;<i> &lt;b tal:content=&quot;here/pozdrav/odpoved('svete')&quot;&gt;temp&lt;/b&gt;
+</I>&gt;<i> &lt;b tal:content=&quot;here/pozdrav/odpoved('ahoj','svete')&quot;&gt;temp&lt;/b&gt;
+</I>&gt;<i>
+</I>&gt;<i> a nefunguje ani jeden radek. Zdalo by sem logictejsi, kdyby fungoval
+</I>&gt;<i> prvni radek, ale instancovat tridu se mi proste nedari. Nefunguje to,
+</I>&gt;<i> ani kdyz tridu vypustim a zbyde tam jen metoda, kterou volam.
+</I>&gt;<i> Jedine, kdy dosahnu odpovedi je pokud primo do scriptu uvedu return
+</I>&gt;<i> neco. Ale to je pak velmi komplikovane vytvaret pro kazdou vypocitanou
+</I>&gt;<i> promennou novy script, nehlede na to, ze nektere promenne spolu
+</I>&gt;<i> souvisi a nacte je jeden script.
+</I>&gt;<i>
+</I>&gt;<i> JL&gt; Máte definované aa a bb tak aby byly dostupné z here/?
+</I>&gt;<i> Nejsem si presne jist co mate na mysli, ale pokud jde o to, ze to jsou
+</I>&gt;<i> verejne atributy (bez uvodniho podtrzitka), tak ano.
+</I>&gt;<i>
+</I>&gt;<i> Jeste chybu co to vraci:
+</I>&gt;<i> Site Error
+</I>&gt;<i>
+</I>&gt;<i> An error was encountered while publishing this resource.
+</I>&gt;<i>
+</I>&gt;<i> Error Type: NotFound
+</I>&gt;<i> Error Value: odpoved('ahoj')
+</I>&gt;<i>
+</I>&gt;<i> Troubleshooting Suggestions
+</I>&gt;<i>
+</I>&gt;<i>     * The URL may be incorrect.
+</I>&gt;<i>     * The parameters passed to this resource may be incorrect.
+</I>&gt;<i>     * A resource that this resource relies on may be encountering an error.
+</I>&gt;<i>
+</I>&gt;<i> For more detailed information about the error, please refer to the error log.
+</I>&gt;<i>
+</I>&gt;<i> If the error persists please contact the site maintainer. Thank you for your patience. 
+</I>&gt;<i>
+</I>&gt;<i> Diky za odpoved.
+</I>&gt;<i>   
+</I>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005243.html">[python] Zope a  TAL
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-December/005249.html">[python] Zope a  TAL
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-December/date.html#5248">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/thread.html#5248">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/subject.html#5248">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-December/author.html#5248">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-December/005248.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:06 GMT -->
+</html>

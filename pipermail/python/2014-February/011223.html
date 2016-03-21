@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011223.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:47 GMT -->
+<HEAD>
+   <TITLE> [python] Entry čtení vstupu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FEntry_%3DC4%3D8Dten%3DC3%3DAD_vstupu%3F%3D&In-Reply-To=%3C52F80F09.3010104%40sandbox.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2014-February/011222.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2014-February/011224.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Entry čtení vstupu</H1>
+    <B>Vladimir Macek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FEntry_%3DC4%3D8Dten%3DC3%3DAD_vstupu%3F%3D&In-Reply-To=%3C52F80F09.3010104%40sandbox.cz%3E"
+       TITLE="[python] Entry čtení vstupu">macek na sandbox.cz
+       </A><BR>
+    <I>Pondělí Únor 10 00:28:09 CET 2014</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011222.html">[python] Entry čtení vstupu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011224.html">[python] Entry čtení vstupu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11223">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11223">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11223">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11223">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 9.2.2014 23:59, Roman Zbořil wrote:
+&gt;<i> Výše uvedené jsem již vyřešil. Ale chtěl bych se zeptat mám libovolné číslo ve dvojkové soustavě (např. 10000). Jak mám toto číslo naformátovat abych měl výstup ve formátu 0001 0000.
+</I>&gt;<i> Jde mi o čitelnost výstupu (oddělování po čtyřech číslicích)
+</I>
+Treba takto, funkce ocekava retezec:
+
+import re
+
+def binstr2nibbles(value):
+    new = re.sub(r&quot;^([01]+)([01]{4})&quot;, r&quot;\g&lt;1&gt; \g&lt;2&gt;&quot;, value)
+    return new if value == new else binstr2nibbles(new)
+
+
+V.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011222.html">[python] Entry čtení vstupu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2014-February/011224.html">[python] Entry čtení vstupu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2014-February/date.html#11223">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/thread.html#11223">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/subject.html#11223">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2014-February/author.html#11223">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2014-February/011223.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:47 GMT -->
+</html>

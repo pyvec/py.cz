@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005946.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:03 GMT -->
+<HEAD>
+   <TITLE> [python] cteni odpovedi programu ze stdin
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cteni%20odpovedi%20programu%20ze%20stdin&In-Reply-To=mailman.213.1179763788.4700.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-May/005945.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-May/005947.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] cteni odpovedi programu ze stdin</H1>
+    <B>Karel Šrot</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20cteni%20odpovedi%20programu%20ze%20stdin&In-Reply-To=mailman.213.1179763788.4700.python%40py.cz"
+       TITLE="[python] cteni odpovedi programu ze stdin">karel.do.pekla.zajel na seznam.cz
+       </A><BR>
+    <I>Pondělí Květen 21 18:29:12 CEST 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005945.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005947.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5946">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5946">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5946">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5946">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>To Jan Martinek:
+Nemyslel. :-) Tebou uvadeny priklad totiz posle data pouze jednou, pote 
+zavre vstup a precte cely vystup. Toto neni interaktivni komunikace.
+
+To Jan Kundrat:
+Opravdu je Vami uvadeny kod pouzitelny pro interaktivni komunikaci s 
+procesem?
+
+Chtel bych, aby se program choval jako ten kod, co jsem predtim uvedl. 
+Pouze aby nebylo nutne ve funkci read() specifikovat delku dat, chci aby 
+precetl vse, co je dostupne.
+
+
+Jan Martinek napsal(a):
+&gt;<i> Myslel jsi to takhle?
+</I>&gt;<i> 
+</I>&gt;<i> #!/usr/bin/python
+</I>&gt;<i> # -*- coding:utf-8 -*-
+</I>&gt;<i> import subprocess, sys
+</I>&gt;<i> 
+</I>&gt;<i> while True:
+</I>&gt;<i>     line = sys.stdin.readline()
+</I>&gt;<i>     if not line: break
+</I>&gt;<i>     lines = line.replace(' ', '\n')
+</I>&gt;<i>     process = subprocess.Popen('cat', stdin = subprocess.PIPE,
+</I>&gt;<i>                                       stdout = subprocess.PIPE)
+</I>&gt;<i>     process.stdin.write(lines)
+</I>&gt;<i>     process.stdin.close()
+</I>&gt;<i>     for line in process.stdout:
+</I>&gt;<i>         sys.stdout.write(line) #Vypiš na terminál
+</I>&gt;<i> 
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005945.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-May/005947.html">[python] cteni odpovedi programu ze stdin
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-May/date.html#5946">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/thread.html#5946">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/subject.html#5946">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-May/author.html#5946">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-May/005946.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:03 GMT -->
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007952.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:34 GMT -->
+<HEAD>
+   <TITLE> [python] Guido o funkcich reduce(),	filter() a map() v Python 3000
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%09filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=4864F4B0.5010804%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-July/007961.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-July/007953.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Guido o funkcich reduce(),	filter() a map() v Python 3000</H1>
+    <B>Jan Bednařík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Guido%20o%20funkcich%20reduce%28%29%2C%0A%09filter%28%29%20a%20map%28%29%20v%20Python%203000&In-Reply-To=4864F4B0.5010804%40centrum.cz"
+       TITLE="[python] Guido o funkcich reduce(),	filter() a map() v Python 3000">jan.bednarik na gmail.com
+       </A><BR>
+    <I>Úterý Červenec  1 01:33:02 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007961.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007953.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7952">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7952">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7952">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7952">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Musím Vás zklamat, Python je jeden z nejpomalejších interpretovaných
+</I>&gt;<i> jazyků. Je to daň za špatný runtime Pythonu (který neobsahuje téměř
+</I>&gt;<i> naprosto žádné optimalizace, a třeba JIT je zcela utopickým snem) a dále
+</I>&gt;<i> daň za velkou obecnost jazyka, která je velmi příjemná pro vývojáře, ale
+</I>&gt;<i> nese si svou daň ve zpomalení. Python je oborovský pomalík.
+</I>
+Stále mě nabádáte, abych si našel nějaká fakta. Taky byste to měl
+někdy zkusit. Ale souhlasím s tím, že by Python mohl běžet ještě
+rychleji, což dokazuje třeba Psyco.
+
+&gt;<i> Problém je kdekoli, kde předěláváte produkční kód, není-li pro to vážný
+</I>&gt;<i> důvod. A problém je to proto, že to nikdy není zadarmo - vždy to hodně
+</I>&gt;<i> stojí - času, peněz, stability, a leččehos dalšího.
+</I>
+U hotové aplikace není důvod ani potřeba nic přepisovat. Nevím, jakou
+máte představu o tom, jak přejít na Python 3000, ale nikdo netvrdí, že
+musíte ze dne na den přejít z Pythonu 2.5 na Python 3000 (klidně
+můžete zůstat na Pythonu 2.5 až do smrti, přítomnost Pythonu 3000 ho
+nezruší). U většiny aplikací, u kterých probíhá vývoj, při plynulém
+přechodu na Python 2.6 a pak na Python 3000 s využitím připravených
+nástrojů, žádné extra náklady navíc nevzniknou.
+
+&gt;&gt;<i> Kolik procent projektů používá nějaký jazyk vůbec nic nevypovídá o
+</I>&gt;&gt;<i> kvalitě toho jazyka, viz. např. PHP. Důležité je na jaké projekty ten
+</I>&gt;&gt;<i> jazyk lidé používají.
+</I>&gt;&gt;<i>
+</I>&gt;<i> Vypovídá to ne o kvalitě jazyka, ale o komplexním součtu působení
+</I>&gt;<i> různých vlivů - kvalita jazyka, podpora vývojářů, dostupnost prostředků,
+</I>&gt;<i> serióznost tvůrce jazyka a jeho úcta k práci vývojářů a nebo neúcta
+</I>&gt;<i> pokud jim jazyk rozorává pod rukou, marketink, záruky, pověst, o tom,
+</I>&gt;<i> zda je to třeba nejlepší jazyk pro určitou oblast, atd. atd. atd..
+</I>
+Takže je těch vlivů tolik, že stejně nelze určit, proč je Python někdy
+populární více a jindy méně.
+
+&gt;&gt;<i> Tohle je jen otázka úhlu pohledu. Co jsem tak různě pochytil tak
+</I>&gt;&gt;<i> reakce na změny v Pythonu 3000 jsou většinou pozitivní.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Ano jsou. Stejně tak jako reakce na Hitlera u miliónu Němců byly také
+</I>&gt;<i> povětšinou pozitivní například. Tímto chci říct, že pravda není závislá
+</I>&gt;<i> na počtu jejích zastánců. A pravda se nedá odhlasovat.
+</I>
+I v případě Hitlera byla drtivá většina lidí, kterých se jeho činy
+dotýkaly, proti. V demokratické společnosti platí názor většiny, a
+pokud je většina pro změny, nic s tím nezmůžete. Je to blbej systém,
+ale ty ostatní jsou jenom horší.
+
+Honza
+</PRE>
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007961.html">[python] MySQL - nativní rozhraní pro Python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-July/007953.html">[python] Guido o funkcich reduce(), filter() a map() v Python 3000
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-July/date.html#7952">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/thread.html#7952">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/subject.html#7952">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-July/author.html#7952">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-July/007952.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:34 GMT -->
+</html>

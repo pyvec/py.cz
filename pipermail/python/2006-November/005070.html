@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005070.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+<HEAD>
+   <TITLE> [python] class a subclass
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=1698437390.20061111082153%40atlas.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005068.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005069.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] class a subclass</H1>
+    <B>Roman Miklos</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20class%20a%20subclass&In-Reply-To=1698437390.20061111082153%40atlas.cz"
+       TITLE="[python] class a subclass">RMiklos na pss.sk
+       </A><BR>
+    <I>Sobota Listopad 11 10:19:15 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005068.html">[python] class a subclass
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005069.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5070">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5070">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5070">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5070">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i>ostatni metody rodice se musi znova duplicitne zavadet a volat a je jich
+</I>&gt;<i>opravdu dost.
+</I>Tak tomu fakt nerozumim. Ak ma metoda potomka robit presne to co metoda 
+rodice, tak ju nemusis znova explicitne prekryvat, pretoze potomok zdedi 
+metody od rodice.
+ 
+Priklad:
+-----------
+class SCORINGstatistics:
+  '''
+    Class for monitoring current state of SCORING
+  ''' 
+....
+
+  def get_results(self):
+    ''' get the results '''
+    self.get_current_date()
+    self.select_data()
+ 
+    result_form = \
+    u&quot;----------------------------------------------\n&quot; +\
+    u&quot;Momentálny stav k %s\n&quot; +\
+    u&quot;----------------------------------------------\n&quot; +\
+    u&quot;Štatistika za obdobie %s - %s\n&quot; +\
+    u&quot;----------------------------------------------\n&quot; +\
+    u&quot;  Celkový počet dopytov do SCORINGu     = %s\n&quot; +\
+    u&quot;  z toho :\n&quot; +\
+    u&quot;    počet dobre spracovaných dopytov    = %s\n&quot; +\
+    u&quot;    počet chybne spracovaných dopytov   = %s\n&quot; +\
+    u&quot;    počet nespracovaných dopytov        = %s\n&quot;
+    result = result_form \
+      % (self.datetime,
+         self.from_date_std,
+         self.to_date_std,
+         self.zaslane,
+         self.sprac_ok,
+         self.sprac_err,
+         self.nesprac)
+    return(result)
+
+...
+
+class SCORINGstatisticsW(SCORINGstatistics):
+  '''
+    Windows GUI for SCORINGstatistics
+  ''' 
+...
+
+  def ergebnisse(self):
+    ''' get the result from AS/400 database''' 
+    if self.connected:
+      results = self.get_results()
+      if self.statistics == 1:
+        # full statistics
+        if self.sprac_ok &gt; 0:
+          results += u&quot;\n  ďalej zo správne spracovaných dopytov :\n\n&quot;+\
+                     self.get_detailed_results()+\
+                     '\n'
+      self.textfenster.insert(END, '\n'+results)
+      self.textfenster.see(END)
+    else:
+       tkMessageBox.showinfo(&quot;!!!CHYBA!!!&quot;,u&quot;Neexistuje spojenie so 
+serverom!&quot;)
+
+ 
+Class SCORINGstatistics realizuje vsetky metody na SQL-vybery a 
+vyhodnotenie, mimo ineho definuje metodu get_result(), kde sa vyjkonaju 
+nejake selekty vytvori sa vysledny vypis vo forme textoveho pola a to sa 
+vrati ako navratova hodnota.
+
+Trieda potomka SCORINGstatisticsW je len GUI nadstavba . Vobec nema 
+definovanu metodu get_result() to znamena ani ju neprekryva. Len si ju 
+zavola vo svojej vlastnej metode ergebnisse() a vysledok vypise do 
+textoveho okna.
+
+Objekt potomok dedi metody od rodica, ak nenajde danu metodu vo svojom 
+mennom priestore ide pozried o hladinu nizsie do rodica, ak ju ani tam 
+nenajde ide zase nizsie do rodica svojho rodica atd....
+
+Takze ja vobec nechapem, naco chces vsetky metody z rodica v potomkovi 
+prekryvat.
+ 
+
+
+
+mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt; 
+Sent by: <A HREF="http://www.py.cz/mailman/listinfo/python">python-bounces na py.cz</A>
+11.11.2006 08:21
+Please respond to
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+
+
+To
+Konference PyCZ &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>&gt;
+cc
+
+Subject
+Re: [python] class a subclass
+
+
+
+
+
+
+To sice ano, ale pak je to mnohem komlikovanejsi, protoze ostatni
+metody rodice se musi znova duplicitne zavadet a volat a je jich
+opravdu dost.
+
+
+-- 
+Mirek Nemecek
+
+---------------------------------------------------------------------------
+PK&gt; mtip napsal(a):
+&gt;&gt;<i> Diky za odpovedi, opravdu jsem si to OOP spatne vylozil. Dosud jsem
+</I>&gt;&gt;<i> psal v jazyku, kde prekryvani metod nebylo mozne.
+</I>&gt;&gt;<i> Mohli by jste mi tedy na konkretnim prikladu napsat, jak postupovat ?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> class table:
+</I>&gt;&gt;<i> ...
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> class sql(table):
+</I>&gt;&gt;<i>    ...
+</I>&gt;&gt;<i> 
+</I>
+PK&gt; Možná jsem mimo, ale mohl bys to řešit dvěmi samostatnými 
+PK&gt; třídami/instancemi, kdy jedna bude druhou pouze volat, vyžívat, a ne 
+dědit?
+
+
+_______________________________________________
+Python mailing list
+<A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+<A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+
+
+Mgr. Ing. Roman MIKLÓŠ 
+Prvá stavebná sporiteľňa a.s. 
+, P. O. Box 48 
+ 
+Tel.: 
+Fax: 
+
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005068.html">[python] class a subclass
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005069.html">[python] class a subclass
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5070">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5070">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5070">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5070">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005070.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:30 GMT -->
+</html>

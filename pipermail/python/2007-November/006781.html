@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006781.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:09 GMT -->
+<HEAD>
+   <TITLE> [python] Formárt data pro uložení do databáze
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FForm%3DE1rt_data_pro_ulo%3DBEen%3DED_do_datab%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F%3DE1ze%3F%3D&In-Reply-To=d4a7b1730711220210w20359ffeof740bfc9d94308c3%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-November/006780.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-November/006782.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Formárt data pro uložení do databáze</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FForm%3DE1rt_data_pro_ulo%3DBEen%3DED_do_datab%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3F%3DE1ze%3F%3D&In-Reply-To=d4a7b1730711220210w20359ffeof740bfc9d94308c3%40mail.gmail.com"
+       TITLE="[python] Formárt data pro uložení do databáze">feed na centrum.cz
+       </A><BR>
+    <I>Čtvrtek Listopad 22 12:06:07 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006780.html">[python] Formárt data pro uložení do databáze
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006782.html">[python] Formárt data pro uložení do databáze
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6781">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6781">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6781">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6781">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Já si naopak myslím, že unixový timestamp není ani zdaleka ideální 
+formát pro datum a čas pro databázi. Proč ne:
+
+1) Velmi malý rozsah datumu a času - ani pro relativně nedávné 
+historické události, a nebo pro relativně blízkou budoucnost (rok 2039) 
+už jej nelze použít.
+
+2) Omezená přesnost - mnohé databáze jsou schopny uložit datum a čas s 
+přesností plus mínus tisíciny sekundy - to unixovým timestamplem 
+nedosáhnete (pokud to nebude reálné číslo).
+
+3) Pokud budu hnidopich - nejsou tam řešeny problémy typu přestupná 
+sekunda, a další, každý systém rozebírá počet sekund trochu jinak.
+
+
+Miloslav Ponkrác
+
+
+Jan Jakubuv napsal(a):
+&gt;<i> dobry den,
+</I>&gt;<i> 
+</I>&gt;<i> 21.11.07, <A HREF="http://www.py.cz/mailman/listinfo/python">martin.stiborsky na gmail.com</A> &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">martin.stiborsky na gmail.com</A>&gt;:
+</I>&gt;<i> 
+</I>&gt;&gt;<i>Zdravím lidičky.
+</I>&gt;&gt;<i>Mám trochu OT otázku .. zajímá mě, v jakém formátu ukládáte datum do
+</I>&gt;&gt;<i>databáze. nejvýhodnější asi bude normální unixový timestamp že ?
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> ano to je zrejme nejlepsi. ten format neni vazany pouze na unixove
+</I>&gt;<i> prostredi. jedna se ve skutecnosti o pocet vterin od 1.1.1970. cili
+</I>&gt;<i> pokud nepotrebujete rozlisovat cas vice nez na vteriny, je mozne
+</I>&gt;<i> oriznout float co vraci time.time() a ukladat pouze celou cast te
+</I>&gt;<i> hodnoty, napriklad: long(time.time()).
+</I>&gt;<i> 
+</I>&gt;<i> honza.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006780.html">[python] Formárt data pro uložení do databáze
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-November/006782.html">[python] Formárt data pro uložení do databáze
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-November/date.html#6781">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/thread.html#6781">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/subject.html#6781">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-November/author.html#6781">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-November/006781.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:22:09 GMT -->
+</html>

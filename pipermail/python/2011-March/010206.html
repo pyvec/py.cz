@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-March/010206.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:02 GMT -->
+<HEAD>
+   <TITLE> [python] omezeni globalniho slovniku
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20omezeni%20globalniho%20slovniku&In-Reply-To=%3C201103041942.34089.hynek.fabian%40firma.seznam.cz%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-March/010202.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-March/010207.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] omezeni globalniho slovniku</H1>
+    <B>Hynek Fabian</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20omezeni%20globalniho%20slovniku&In-Reply-To=%3C201103041942.34089.hynek.fabian%40firma.seznam.cz%3E"
+       TITLE="[python] omezeni globalniho slovniku">hynek.fabian na firma.seznam.cz
+       </A><BR>
+    <I>Pátek Březen  4 19:42:34 CET 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010202.html">[python] omezeni globalniho slovniku
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010207.html">[python] omezeni globalniho slovniku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-March/date.html#10206">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/thread.html#10206">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/subject.html#10206">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/author.html#10206">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pokud si chces nechat poradit, pak je to samozrejme jina.
+
+1) exec nepotrebujes na zmenu lokalnich promenych. To cemu rikas &quot;promenne&quot; 
+jsou ve skutecnosti jen jmena ve jmennych prostorech, v podstate obycejne 
+slovniky. A na zmenu slovniku existuji lepsi zpusoby, vime?
+V nejjednodussi verzi by tedy stacilo obalit pozadovanou funkcnost do funkce 
+nebo metody ktera vrati slovnik. Potom staci neco ve stylu: 
+
+locals().update(othervariables)
+
+Vraceny slovnik muzes predem zkontrolovat na pricetnost (jenom kafe), doplnit 
+jmenum nejaky unikatni prefix... fantazii se meze nekladou. Uplne stejne muzes 
+presypat promene do instance, tridy nebo modulu do atributu __dict__. Dokonce 
+bys mel, protoze narozdil od znasilnovani locals() je to z hlediska 
+interpretru legalni.
+
+2) exec nepotrebujes na pristup k promenlivym strukturam. Pokud mas nejakou 
+'freeform' strukturu, (dejmetomu strom uzlu v xml dokumentu) a chces predat 
+'cestu; k nejakemu uzlu ktery urcis az za behu, nemusis se matlat s 
+generovanim syntakticky spravneho textu programu pro exec 
+(&quot;rootnode.node[n].childnode[attr]&quot;), ale proste si onu cestu vyjadris jako 
+funkci:
+
+worknode = lambda x: x.node[n].childnode[attr]
+
+Muzes se samozrejme odkazovat na lokalni promenne cimz vznikne klasicka 
+uzavera (closure). Takovou funkci (nemusi byt v lamda forme, ale vetsinou je 
+tak citelnejsi) muzes predat dal jako jakykoliv jiny objekt.
+
+
+3) exec nepotrebujes k dynamickemu nacteni modularniho kodu, na to je mnohem 
+lepsi builtin __import__, ktery importovany kod zaroven opatri vlastnim 
+jmennym prostorem a vubec klasickym komfortem. Konkretni pouziti zavisi na tom 
+ceho chces vlatne dosahnout.
+
+Zapomel jsem na neco?
+
+
+Martin B. (Friday 04 of March 2011 12:48:56):
+&gt;<i> V Fri, 4 Mar 2011 12:00:58 +0100
+</I>&gt;<i> 
+</I>&gt;<i> Hynek Fabian &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">hynek.fabian na firma.seznam.cz</A>&gt; napsáno:
+</I>&gt;<i> &gt; &gt; Nechci rozebirat jestli je to dobre nebo ne ale proste to tak
+</I>&gt;<i> &gt; &gt; potrebuju.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Jsi pitomec. Nechci rozebirat jestli je to fer nebo ne ale proste to
+</I>&gt;<i> &gt; tak je.
+</I>&gt;<i> 
+</I>&gt;<i> Oops, Tvuj nazor vyvracet nehodlam natoz komentovat.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; Bezne se k invektivam uchyluji nerad, ale tehle se nedalo odolat :-p
+</I>&gt;<i> &gt; Nechapu kde vubec beres drzost ptat se na radu a zaroven predem
+</I>&gt;<i> &gt; odmitat nejlepsi odpoved jakou ti mnohem zkusenejsi borci mohou dat.
+</I>&gt;<i> 
+</I>&gt;<i> Drzost? Nerekl bych.
+</I>&gt;<i> Potrebuju != odmitat lepsi radu. Nikde nepisu ze se nenecham premluvit
+</I>&gt;<i> k lepsimu reseni a nechci si nechat poradit.
+</I>&gt;<i> 
+</I>&gt;<i> Prinos tve odpovedi k reseni anebo nedejboze nejake jine reseni ... 0%.
+</I>&gt;<i> Mel by ses proste nektere veci naucit prejit s klidem.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010202.html">[python] omezeni globalniho slovniku
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-March/010207.html">[python] omezeni globalniho slovniku
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-March/date.html#10206">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/thread.html#10206">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/subject.html#10206">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-March/author.html#10206">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-March/010206.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:02 GMT -->
+</html>

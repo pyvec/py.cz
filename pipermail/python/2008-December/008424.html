@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008424.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s forkujicim serverem a SIGTERM signalem
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20forkujicim%20serverem%20a%20SIGTERM%20signalem&In-Reply-To=%3Cbd9056300812170931k64ede049uc6798e3c8ceef1af%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008423.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008425.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s forkujicim serverem a SIGTERM signalem</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Problem%20s%20forkujicim%20serverem%20a%20SIGTERM%20signalem&In-Reply-To=%3Cbd9056300812170931k64ede049uc6798e3c8ceef1af%40mail.gmail.com%3E"
+       TITLE="[python] Problem s forkujicim serverem a SIGTERM signalem">slush na slush.cz
+       </A><BR>
+    <I>Středa Prosinec 17 18:31:14 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008423.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008425.html">[python] jak na xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8424">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8424">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8424">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8424">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dobry den,
+
+vzhledem k tomu, ze zde uz padlo reseni (ktere sam pouzivam, protoze jsem se
+jiz parkrat dostal do podobnych problemu), tak jen spekulace, proc se to
+chova tak, jak se chova.
+
+Predpokladam, ze funkce volana po zachyceni systemoveho signalu zajistuje
+separatni vlakno, nikoliv hlavni vlakno programu (fce cleanup se zavola
+nezavisle na tom,ve kterem stavu se hlavni vlakno nachazi). Podle
+dokumentace k sys.exit() tato funkce pouze vyvola vyjimku SystemExit.
+Zpracovani vyjimek se ale provadi pouze v ramci aktualniho vlakna, takze
+tato vyjimka &quot;neprobubla&quot; do jinych vlaken (hlavniho) a aplikace se logicky
+neukonci (pouze se ukonci aktualni vlakno). Predani jakehosi vnitrniho
+signalu (interni promenna) hlavnimu vlaknu je tedy spravny a korektni
+postup.
+
+Marek
+
+2008/12/17 Lumír Jasiok &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">lumir.jasiok na vsb.cz</A>&gt;
+
+&gt;<i> Dobry den,
+</I>&gt;<i>
+</I>&gt;<i> potreboval bych poradit s nasledujicim problemem. Mam napsany jednoduchy
+</I>&gt;<i> forkujici TCP/IP server. Server jako takovy funguje, child procesy se
+</I>&gt;<i> vytvareji i ukoncuji korektne, jediny probleme mam s ukoncenim parent
+</I>&gt;<i> procesu v okamziku, kdy z (napriklad shellu) zavolam signal SIGTERM. Mam
+</I>&gt;<i> osetreno zachyceni signalu a funkci, ktera zajisti, ze se pocka na ukonceni
+</I>&gt;<i> vsech child procesu a pak by se mel ukoncit i parent proces pomoci
+</I>&gt;<i> sys.exit(0). To se ale nestane, parent proces (server) se neukonci, ale
+</I>&gt;<i> skoci do nadrazene while smycky a dale ceka na spojeni a je schopen
+</I>&gt;<i> obsluhovat prichozi spojeni. Relevantni kod:
+</I>&gt;<i>
+</I>------------- dal?í ?ást ---------------
+HTML p?íloha byla odstran?na...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20081217/5267a029/attachment.htm">http://www.py.cz/pipermail/python/attachments/20081217/5267a029/attachment.htm</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008423.html">[python] Problem s forkujicim serverem a SIGTERM signalem
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008425.html">[python] jak na xml
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8424">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8424">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8424">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8424">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008424.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:11 GMT -->
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2002-June/000137.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:41 GMT -->
+<HEAD>
+   <TITLE> [python] vnořené dtml-in nejede?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3Fq%3F%3D5Bpython%3D5D_%3F%3D%0A%20%3D%3FISO-8859-2%3FQ%3Fvno%3DF8en%3DE9_dtml-in_nejede%3D3F%3F%3D&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2002-June/000136.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2002-June/000138.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] vnořené dtml-in nejede?</H1>
+    <B>Jaroslav Lukesh</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%3D%3Fiso-8859-2%3Fq%3F%3D5Bpython%3D5D_%3F%3D%0A%20%3D%3FISO-8859-2%3FQ%3Fvno%3DF8en%3DE9_dtml-in_nejede%3D3F%3F%3D&In-Reply-To="
+       TITLE="[python] vnořené dtml-in nejede?">lukesh na k-net.cz
+       </A><BR>
+    <I>Čtvrtek Červen 13 18:01:36 CEST 2002</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-June/000136.html">[python]  newsgroup
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-June/000138.html">[python]  [news] PyCZ jde do sveta
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-June/date.html#137">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-June/thread.html#137">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-June/subject.html#137">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-June/author.html#137">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+
+Taxe zase na něco zeptám, co mě trápí. Vypotil jsem takovou konstrukci v
+index_html metodě, aby když v adresáři bude &quot;index.htm&quot; tento adresář ho
+nerenderoval jako strukturovaný text s hlavičkou a patičkou, ale místo toho
+aby vložil kompletní html kód z index.htm.
+
+Jenže ono to přestane renderovat strukturovaný text. Netušíte někdo co s
+tím? Ptal jsem se už v konferencu zope.org, ale asi špatnou angličtinou,
+nikdo se k tomu nehlásí.
+
+&lt;dtml-in expr=&quot;objectValues()&quot;&gt;
+	&lt;dtml-if expr=&quot;_.string.find(_['id'],'index.htm')==0&quot;&gt;
+		&lt;dtml-if sequence-start&gt;&lt;dtml-var index.htm&gt;
+		&lt;/dtml-if&gt;
+	&lt;dtml-else&gt;
+		&lt;dtml-if sequence-start&gt;
+			&lt;dtml-var standard_html_header&gt;
+
+.......Tohle dtml-in ale už nejede:
+
+			&lt;dtml-in expr=&quot;objectValues('File')&quot;&gt;
+		        &lt;h3&gt;&lt;dtml-var navi_BANNER&gt;&lt;/h3&gt;
+			  &lt;p&gt;&lt;dtml-var sequence-item fmt=structured-text&gt;
+			&lt;/dtml-in&gt; 
+
+			&lt;dtml-var standard_html_footer&gt;
+		&lt;/dtml-if&gt;
+	&lt;/dtml-if&gt;
+&lt;/dtml-in&gt;
+
+Díky moc, JL.
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-June/000136.html">[python]  newsgroup
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2002-June/000138.html">[python]  [news] PyCZ jde do sveta
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2002-June/date.html#137">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-June/thread.html#137">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-June/subject.html#137">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2002-June/author.html#137">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2002-June/000137.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:29:41 GMT -->
+</html>

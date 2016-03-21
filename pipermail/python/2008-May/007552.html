@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007552.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:25 GMT -->
+<HEAD>
+   <TITLE> [python] py2exe dll export
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20py2exe%20dll%20export&In-Reply-To=bd9056300805300928w4e910320s7d470cf662d2b6f5%40mail.gmail.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-May/007551.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-May/007558.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] py2exe dll export</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20py2exe%20dll%20export&In-Reply-To=bd9056300805300928w4e910320s7d470cf662d2b6f5%40mail.gmail.com"
+       TITLE="[python] py2exe dll export">feed na centrum.cz
+       </A><BR>
+    <I>Pátek Květen 30 18:50:17 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007551.html">[python] py2exe dll export
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007558.html">[python] py2exe dll export
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7552">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7552">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7552">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7552">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> &gt;Vymyslel jsem dva postupy, ale ani u jednoho jsem nebyl dostatecne 
+uspesny:
+ &gt;a) Puvodni zamer byl udelat v Ccku skeleton DLL knihovny a v ni pomoci
+ &gt;elmeru (<A HREF="http://elmer.sourceforge.net/">http://elmer.sourceforge.net/</A>) zapouzdrit python kod. To temer 
+fungovalo.
+
+A nebylo by jednodušší rovnou použít Python C API? Podle mě by to nebylo
+tak těžké zapouzdřit těch pár funkcí.
+
+ &gt;b) Druhy postup predpoklada, ze jsem schopny pomoci py2exe vytvorit
+ &gt;DLL knihovnu primo z cisteho python kodu. I zde jsem byl uspesny a povedlo
+ &gt;se mi zkompilovat DLL knihovnu. Kdyz se ale podivam na exporty, ktere ta
+ &gt;knihovna ma, vidim tam pouze zakladni DllRegisterServer, DllGetClassObject
+ &gt;a dalsi, ktere ma kazdy COM DLL. Hloubam tady nad tim uz kolik hodin,
+ &gt;Google moc nepomohl (asi to moc lidi nepotrebuje) a nevim, jak tam dostat
+ &gt;sve vlasni exporty. Zajimave je, ze uvnitr kodu te DLL knihovny existuje
+ &gt;retezec &quot;Vysledek&quot;, takze to ten skript my_com_server.py (viz. priloha)
+ &gt;s funkcemi obsahuje.
+
+Což je naprosto v pořádku, protože COM nepotřebuje exportovat funkce
+jako DLL exporty, protože COM mechanismus má svůj vlastní mechanismus
+binárně přenostitelných objektů s metodami. Takže to co jste získal je zcela
+správné.
+
+COM server musíte ve Windows zaregistrovat pomocí utilitky comsrv32.exe.
+
+Abych vysvětlil COM funguje tak, že vytváří přenositelné třídy (jejichž 
+binární
+rozhraní je přesně určeno, takže tuto třídu můžete použít v jakémkoli
+programovacím jazyce). COM server tedy exportuje několik různch tříd,
+v řeči COMu zvaných interface a ani ty třídy nexportuje na úrovni DLL, 
+ale má
+k tomu svůj vlastní mechanismus pomocí volání Windows API funkcí začínající
+na Co* - a kterými dostanete vše potřebné - tedy v C ukazatel na objekt dané
+třídy (interface), a tím tedy i na virtuální tabulku metod této třídy, 
+přes kterou
+dané metody třídy voláte. Musíte předem znát, jaká je struktura třídy, pokud
+to nechcete složitěji zjišťovat pomocí typové knihovny.
+
+Osobně si myslím, že bez bližších znalostí kolem COM záležitostí v C (pokud
+tedy tím druhým bindovaným jazykem je C) cestu b)
+rovnou vzdejte. Pokud chcete Python nabindovat s jazykem s dobrou podporou
+COMu (Visual Basic, Microsoft Office, Delphi, C++ Builder, C#, atd..) pak
+je to primitivní.
+
+Miloslav Ponkrác
+</PRE>
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007551.html">[python] py2exe dll export
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-May/007558.html">[python] py2exe dll export
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-May/date.html#7552">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/thread.html#7552">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/subject.html#7552">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-May/author.html#7552">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-May/007552.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:25 GMT -->
+</html>

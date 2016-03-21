@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008117.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:27 GMT -->
+<HEAD>
+   <TITLE> [python] Prosím, poraďte mi, jak vytvořit exe soubor
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FPros%3DEDm%3D2C_pora%3DEFte_mi%3D2C_jak_vytvo%3DF8i%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Ft_exe_soubor%3F%3D&In-Reply-To=489C1FAA.7070100%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-August/008102.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-August/008118.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Prosím, poraďte mi, jak vytvořit exe soubor</H1>
+    <B>MaReK Olšavský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%0A%20%3D%3Fiso-8859-2%3Fq%3FPros%3DEDm%3D2C_pora%3DEFte_mi%3D2C_jak_vytvo%3DF8i%3F%3D%0A%20%3D%3Fiso-8859-2%3Fq%3Ft_exe_soubor%3F%3D&In-Reply-To=489C1FAA.7070100%40centrum.cz"
+       TITLE="[python] Prosím, poraďte mi, jak vytvořit exe soubor">orsm na centrum.cz
+       </A><BR>
+    <I>Pondělí Srpen 11 14:36:01 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008102.html">[python] Prosím, poraďte mi, jak vytvořit exe soubor
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008118.html">[python] Prosím, poraďte mi, jak vytvořit exe soubor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8117">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8117">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8117">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8117">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+neco prisadim, protoze dneska jsem se chystal na stejnou otazku.
+Jak to nalozi s knihovnami, bude vysledny exe umet tkinter, SQLite anebo 
+PIL, aniz bude muset zakaznik neco doinstalovavat?
+
+-- MaReK
+- --
+
+MaReK &quot;Penguin&quot; Olšavský
+PHP Voodoo
+private mail: <A HREF="http://www.py.cz/mailman/listinfo/python">orsm na centrum.cz</A>
+private web: <A HREF="http://blog.devlabs.biz/">http://blog.devlabs.biz</A>
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">Penguin_007 na Jabber.cz</A>; MSN: <A HREF="http://www.py.cz/mailman/listinfo/python">orsm na centrum.cz</A>; Skype: Penguin_007
+tel.: +420-603-519-650; +420-775-154-689 (775-1-LINUX)
+
+Na stránce bylo napsáno: &quot;Optimalizováno pro Explorer 5, nebo lepší&quot;.
+   Tak jsem přešel na Mozilla Firefox  --&gt; <A HREF="http://firefox.czilla.cz/">http://firefox.czilla.cz/</A>
+
+
+superman napsal(a):
+&gt;<i> Dobrý den,
+</I>&gt;<i> 
+</I>&gt;<i> pomocí py2exe.
+</I>&gt;<i> 
+</I>&gt;<i> Nejjednodušeji to lze takto:
+</I>&gt;<i> 
+</I>&gt;<i> 1) Vytvoříte soubor setup.py, který může vypadat asi takto (verze pro 
+</I>&gt;<i> konzolový program):
+</I>&gt;<i> 
+</I>&gt;<i> --- obsah souboru setup.py --(zde odstřihněte :-) )-------------
+</I>&gt;<i> 
+</I>&gt;<i> from distutils.core import setup
+</I>&gt;<i> import py2exe
+</I>&gt;<i> 
+</I>&gt;<i> setup(
+</I>&gt;<i>   options = {&quot;py2exe&quot;:{&quot;compressed&quot;:1, &quot;optimize&quot;:1, &quot;bundle_files&quot;:1}},
+</I>&gt;<i> 
+</I>&gt;<i>   version = &quot;1.01&quot;,
+</I>&gt;<i>   name = &quot;MujGenialniANejlepsiProgramOdMiloslavaPonkrace&quot;,
+</I>&gt;<i>   description = &quot;MujGenialniANejlepsiProgramOdMiloslavaPonkrace&quot;,
+</I>&gt;<i> 
+</I>&gt;<i>   zipfile=None,
+</I>&gt;<i>   console=[&quot;JmenoHlavnihoModulu.py&quot;],
+</I>&gt;<i>   )
+</I>&gt;<i> 
+</I>&gt;<i> --- konec obsahu souboru setup.py --(zde odstřihněte :-) )-------------
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 2) Vytvoříte exe pomocí příkazu
+</I>&gt;<i> 
+</I>&gt;<i> C:\Python24\python.exe setup.py py2exe -O1 -c -b1 py2exe
+</I>&gt;<i> 
+</I>&gt;<i> Python zachroustá, a protože potřebuje dělat, že strašně pracuje, tak 
+</I>&gt;<i> Vám vytvoří pár podadresářů a v jednom snadno najdete 
+</I>&gt;<i> MujGenialniANejlepsiProgramOdMiloslavaPonkrace.exe a msvcrt71.dll, který 
+</I>&gt;<i> tento program bude potřebovat. A exe je vytvořeno a můžete svým 
+</I>&gt;<i> programem pokořit IT svět, stát se slavným, atd.. :-)
+</I>&gt;<i> 
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Jarek Krcmar napsal(a):
+</I>&gt;&gt;<i> Dobrý den, pythonýři,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> mám vytvořený program, který jsem nazval D_S.py.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jedná se o anglicko-český slovník.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Vše, co napíši, si mohu přečíst kurzorovými šipkami. Mám to udělané tak, že 
+</I>&gt;&gt;<i> v programu jsou dva panely, mezi nimiž se přepínám tabulátorem.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Horní panel je pro čtení needitovatelného textu a dolní je pro vstup z 
+</I>&gt;&gt;<i> klávesnice.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ale chtěl bych vytvořit soubor, který by umožnil třídění slovíček podle 
+</I>&gt;&gt;<i> abecedního pořádku.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jak se dá napsat exe soubor?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> V programu Autohotkey bylo možné v kontextovém menu spustit soubor s názvem 
+</I>&gt;&gt;<i> Compiler.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Je něco podobného také u Pythonu?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Díky za odpověď.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jarek
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008102.html">[python] Prosím, poraďte mi, jak vytvořit exe soubor
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-August/008118.html">[python] Prosím, poraďte mi, jak vytvořit exe soubor
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-August/date.html#8117">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/thread.html#8117">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/subject.html#8117">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-August/author.html#8117">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-August/008117.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:27 GMT -->
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004977.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:17 GMT -->
+<HEAD>
+   <TITLE> [python] Statické metody v Pythonu
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=4551D831.7050502%40radiante-corp.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/004970.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/004978.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Statické metody v Pythonu</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FStatick%3DE9_metody_v_Pythonu%3F%3D&In-Reply-To=4551D831.7050502%40radiante-corp.com"
+       TITLE="[python] Statické metody v Pythonu">feed na centrum.cz
+       </A><BR>
+    <I>Středa Listopad  8 16:18:00 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004970.html">[python] Statické metody v Pythonu
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004978.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4977">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4977">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4977">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4977">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Mam jednu pripominku. Jak muzete definovat methodu tridy, kde neni prvni 
+</I>&gt;<i> parametr self (zemepisny_udel.static)? Muzete mi prosim ve zkratce 
+</I>&gt;<i> vysvetlit, co presne hledate? Uz se v tomhle threadu trosku ztracim a 
+</I>&gt;<i> docela rad bych problematice porozumel.
+</I>
+Původně jsem se ptal, jak takovou statickou metodu vůbec v Pythonu 
+zapsat. Asi se to používá tak zřídka, že menuál mlčel a google též, a 
+nebo což je pravděpodobnější jsem špatně hledal.
+
+&gt;<i> Prosim jeste jednou o poslani mensiho popisu, co ocekavate za chovani.
+</I>
+Já čekám jen to, že bude ve třídě uhel existovat statická metoda, která 
+převede string na radiány. Akorát formát toho stringu bude jiný pro 
+matematický úhel, pro zeměpisnou délku, jiný pro zeměpisnou šířku a 
+naprosto jiný formát pro astronomický úhel. Všechno to budou jiné třídy, 
+ale všechny budou potomky třídy Angle (= matematický úhel). Už to mám na 
+99% stejně všechno hotové a napsané.
+
+Ve třídě Angle je definováno mnoho operací, z nichž asi dvacet závisí na 
+převodu stringu na radiány. Proto jsem použil statickou metodu &quot;konverze 
+stringu na radiány&quot;, která je prostě v potomcích předefinována podle 
+potřebného formátu stringu. Je to IMHO lepší, než těch dvacet metod 
+znovu a znovu přepisovat do všech potomků, protože ty metody nepřinášejí 
+principiálně nic nového.
+
+Metoda konverze stringu na radiány nepotřebuje žádné proměnné zvenku a 
+nezávisí na instanci, proto je zbytečné aby měla self. Ale chci po ní, 
+aby se dala předefinovat v potomcích. To byl můj cíl a záměr. Děkuji 
+všem za trpělivost.
+
+Miloslav Ponkrác
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004970.html">[python] Statické metody v Pythonu
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/004978.html">[python] Statické metody v Pythonu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#4977">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#4977">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#4977">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#4977">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/004977.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:17 GMT -->
+</html>

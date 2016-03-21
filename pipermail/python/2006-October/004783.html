@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004783.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:51 GMT -->
+<HEAD>
+   <TITLE> [python] Mobilni python
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Mobilni%20python&In-Reply-To=2143.3599-20532-161057199-1160935082%40seznam.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-October/004781.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-October/004787.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Mobilni python</H1>
+    <B>superman</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Mobilni%20python&In-Reply-To=2143.3599-20532-161057199-1160935082%40seznam.cz"
+       TITLE="[python] Mobilni python">feed na centrum.cz
+       </A><BR>
+    <I>Neděle Říjen 15 20:59:55 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004781.html">[python] Mobilni python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004787.html">[python] Mobilni python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4783">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4783">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4783">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4783">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Obavam se, ze ti unikaji zakladni fakta, ktera ti predkladam. Jak Interpret 
+</I>&gt;<i> tak program muze byt na flashce, menici se cesta neni problem, cesty
+</I>&gt;<i> lze odvodit od polohy spousteciho skriptu. Presne takto distribuuji sve
+</I>&gt;<i> programy zabalene v zipu, kere funguji kdekoli se rozbali. Nic neni pootreba
+</I>&gt;<i> nastavovat. Navic v pripade flash isku nebo cd media se meni jen jednotka.
+</I>&gt;<i> 
+</I>&gt;<i> Prosim o uvedeni konkretniho overitelneho prikladu, ktery pusobi pusobi
+</I>&gt;<i> problem. Bez toho tve tvrzeni lze povazovat jen za nepodlozenou domenku,
+</I>&gt;<i> jako o nemoznosti mit program na flashce, ktera neni pravdiva. Prosim take
+</I>&gt;<i> o rozlisovani pythonu a knihovny pro python nejake treti strany, ktera muze
+</I>&gt;<i> byt nepovedena a problematicka. Neco takoveho nejde vyloucit ani treba u
+</I>&gt;<i> zminovaneho C++, coz neni duvod k odsuzovani C++.
+</I>
+Já se obávám jedné věci, že jsi ten problém tak úplně nevyřešil. Zkusil 
+jsem to podle Tebe. Nastavil jsem PYTHONPATH a sledoval co registry. 
+Zjistil jsem, že přes nastavení PYTHONPATH čte python pro některé moduly 
+registry a je schopen převzít globální nastavení z registrů.
+
+Jak jsem na to přišel? Sledováním zdrojových kódů python interpretru, 
+odkazuji na funkci PyWin_FindRegisteredModule() v modulu import_nt.c, 
+kde je to jasně vidět, že na PYTHONPATH občas kašle.
+
+Například při použití import readline se vždy python pokusí převzít 
+globální nastavení z registrů a můžeš se postavit třeba na hlavu. A 
+převezme si cestu ke globálně nainstalovanému pythonu a přejde importem 
+na nej!!! A je to v prkně a máš tu problém jako hrom, který nevyřešíš 
+jinak, než úpravou zdrojových kódu python interpretru.
+
+Proto taky jsem pozoroval náhodné chování pythonu na různých počítačích 
+na což já mám čich. Jsem schopen najít chybu, nebo problém v programu 
+během pěti minut tam, kde prostě je.
+
+Stačí Ti jako naprosto konkrétní příklad konkrétního opakovatelného 
+problému, nebo se bude ještě dále tvrdit, že problém neexistuje, a že je 
+řešitelný bez úpravy zdrojáků python interpreteru?
+
+Tyhle problémy jsou právě důvodem, proč python pro mě rovná se &quot;časté 
+průměty s chybami&quot; a &quot;nepredikovatelné chování&quot;.
+
+Miloslav Ponkrác
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004781.html">[python] Mobilni python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-October/004787.html">[python] Mobilni python
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-October/date.html#4783">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/thread.html#4783">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/subject.html#4783">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-October/author.html#4783">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-October/004783.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:51 GMT -->
+</html>

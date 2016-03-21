@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009808.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:32 GMT -->
+<HEAD>
+   <TITLE> [python] získání dat formuláře z HTML source ; odeslání dat (POST)
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_dat_formul%3DE1%3DF8e_z_HTML_so%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Furce_%3D3B_odesl%3DE1n%3DED_dat_%3D28POST%3D29%3F%3D&In-Reply-To=%3C02452fed-a00b-483e-b7f3-546e393774c7%40e5g2000yqn.googlegroups.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-June/009807.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-June/009809.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] získání dat formuláře z HTML source ; odeslání dat (POST)</H1>
+    <B>petrofF</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fz%3DEDsk%3DE1n%3DED_dat_formul%3DE1%3DF8e_z_HTML_so%3F%3D%0A%09%3D%3Fiso-8859-2%3Fq%3Furce_%3D3B_odesl%3DE1n%3DED_dat_%3D28POST%3D29%3F%3D&In-Reply-To=%3C02452fed-a00b-483e-b7f3-546e393774c7%40e5g2000yqn.googlegroups.com%3E"
+       TITLE="[python] získání dat formuláře z HTML source ; odeslání dat (POST)">petr0ff na seznam.cz
+       </A><BR>
+    <I>Neděle Červen 13 09:37:49 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009807.html">[python] py2exe vice souboru ve vice slozkach
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009809.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9808">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9808">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9808">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9808">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pokouším se o jednoúčelovou utilitu pro zautomatizování odesílání
+SMSek (bez použití browseru).
+[bezproblémová je část realizující: výběr uživatele -&gt; tel.číslo -&gt;
+určení jedné ze tří URL (mobil.operátor) + INPUT textu zprávy -&gt;
+rozdělení do bloků o max.délce dílčí zprávy]
+PROBLÉM = odeslání zprávy:
+A. Načtení stránky s formulářem:
+&gt;&gt;&gt;<i> import httplib2
+</I>&gt;&gt;&gt;<i> h = httplib2.Http('.cache'); response, content = h.request(&quot;<A HREF="http://www.vodafonesms.cz/">http://www.vodafonesms.cz/</A>&quot;,headers={'cache-control':'no-cache'})
+</I>&gt;&gt;&gt;<i> print response
+</I>{'status': '200', 'content-location': '<A HREF="http://www.vodafonesms.cz/">http://www.vodafonesms.cz/</A>',
+'transfer-encoding': 'chunked', 'set-cookie':
+'public_sms_gw=c4d0dc3f61c7a3b8dbae8d2c2c009f35; expires=Sun, 13-
+Jun-2010 05:55:27 GMT, SMS_Internet=2325827033.20480.0000;
+expires=Sun, 13-Jun-2010 06:15:27 GMT; path=/', 'server': 'Apache',
+'connection': 'close', 'x-pad': 'avoid browser bug', 'date': 'Sun, 13
+Jun 2010 05:45:27 GMT', 'content-type': 'text/html; charset=utf-8'}
+***[debugging=1]*************************
+connect: (www.vodafonesms.cz, 80)
+send: 'GET / HTTP/1.1\r\nHost: www.vodafonesms.cz\r\naccept-encoding:
+deflate, gzip\r\nuser-agent: Python-httplib2/$Rev$\r\n\r\n'
+reply: 'HTTP/1.1 200 OK\r\n'
+header: Date: Sat, 12 Jun 2010 07:30:51 GMT
+header: Server: Apache
+header: Set-Cookie: public_sms_gw=c4d0dc3f61c7a3b8dbae8d2c2c009f35;
+expires=Sun, 13-Jun-2010 05:55:27 GMT
+header: Connection: close
+header: Transfer-Encoding: chunked
+header: Content-Type: text/html; charset=utf-8
+header: X-Pad: avoid browser bug
+header: Set-Cookie: SMS_Internet=2325827033.20480.0000; expires=Sun,
+13-Jun-2010 06:15:27 GMT; path=/
+******************************************
+Jak ze zdrojového textu ( = content ) získat seznam parametrů + hodnot
+formuláře ? (ve standardní knihovně jsem vhodný modul nenašel)
+
+B. Odeslání POST requestu s daty
+Zde si nejsem jistý, který header Set-Cookie použít (jsou dva)
+
+Díky předem za jakékoli vodítko
+----------------------------------------------
+PS.
+Adresa obrázku s pictogramem se dá načíst z cookies:
+url_img = '<A HREF="http://www.vodafonesms.cz/imgcode.php?id=">http://www.vodafonesms.cz/imgcode.php?id=</A>' + response['set-
+cookie'].split(';')[0].split('=')[1]
+&gt;&gt;&gt;<i> print url_img
+</I><A HREF="http://www.vodafonesms.cz/imgcode.php?id=c4d0dc3f61c7a3b8dbae8d2c2c009f35">http://www.vodafonesms.cz/imgcode.php?id=c4d0dc3f61c7a3b8dbae8d2c2c009f35</A>
+
+Formulář (ve zjednodušeném tvaru) vypadá takto:
+
+&lt;form action=&quot;send.php&quot; id=&quot;smsform&quot; name=&quot;smsform&quot; method=&quot;post&quot;
+onsubmit=&quot;return check_form(this);&quot;&gt;
+      &lt;input type=&quot;hidden&quot; name=&quot;imgid&quot;
+value=&quot;c4d0dc3f61c7a3b8dbae8d2c2c009f35&quot; /&gt;
+      &lt;input type=&quot;hidden&quot; name=&quot;ppp&quot;
+value=&quot;127606918313631:eccb8602ee4631b864eab79b422d6814&quot; /&gt;
+      &lt;input type=&quot;hidden&quot; name=&quot;locale&quot; value=&quot;cz&quot; /&gt;
+            &lt;p&gt;
+              &lt;label for=&quot;number&quot;&gt;Telefonní číslo příjemce&amp;nbsp;*&lt;/
+label&gt;&lt;br /&gt;
+              &lt;span class=&quot;prenum&quot;&gt;+420&lt;/span&gt;
+              &lt;input type=&quot;text&quot; name=&quot;number&quot; id=&quot;number&quot;
+tabindex=&quot;1&quot; maxlength=&quot;9&quot; value=&quot;&quot; /&gt;
+            &lt;/p&gt;
+            &lt;p&gt;
+              &lt;label for=&quot;mynumber&quot;&gt;Vaše telefonní číslo&lt;/label&gt;&lt;br /&gt;
+              &lt;span class=&quot;prenum&quot;&gt;+420&lt;/span&gt;
+              &lt;input type=&quot;text&quot; name=&quot;mynumber&quot; id=&quot;mynumber&quot;
+tabindex=&quot;2&quot; maxlength=&quot;9&quot; value=&quot;&quot;
+onkeyup=&quot;counterchar(document.smsform);&quot; /&gt;
+            &lt;/p&gt;
+            &lt;p&gt;
+              &lt;label for=&quot;sender&quot;&gt;Vaše jméno&lt;/label&gt;&lt;br /&gt;
+              &lt;input type=&quot;text&quot; name=&quot;sender&quot; id=&quot;sender&quot;
+tabindex=&quot;3&quot; class=&quot;big&quot; maxlength=&quot;30&quot; value=&quot;&quot;
+onkeyup=&quot;counterchar(document.smsform);&quot; /&gt;
+            &lt;/p&gt;
+            &amp;nbsp; * Povinné položky.
+            &lt;p class=&quot;marginbottom0&quot;&gt;
+              &lt;label for=&quot;message&quot;&gt;ZPRÁVA (bez diakritiky)&amp;nbsp;*&lt;/
+label&gt;
+            &lt;/p&gt;
+              &lt;div id=&quot;messageArea&quot; name=&quot;messageArea&quot;
+class=&quot;messageArea&quot; &gt;
+                &lt;div id=&quot;tt&quot; class=&quot;adWrapper2&quot; style=&quot;word-wrap:break-
+word;&quot;&gt;
+                  &lt;textarea class=&quot;textarea&quot; name=&quot;message&quot;
+id=&quot;message&quot; tabindex=&quot;4&quot; rows=&quot;3&quot; cols=&quot;87&quot; wrap=&quot;hard&quot;
+onkeyup=&quot;counterchar(document.smsform);&quot;&gt;&lt;/textarea&gt;&lt;br /&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+
+            &lt;div id=&quot;js&quot; class=&quot;js&quot;&gt;
+              &lt;p&gt;
+                Napsáno je &lt;input name=&quot;char_in&quot; value=&quot;&quot;
+readonly=&quot;readonly&quot; /&gt; a zbývá &lt;input name=&quot;char_le&quot; value=&quot;&quot;
+readonly=&quot;readonly&quot; /&gt; znaků.
+                &lt;br /&gt;
+                Zpráva bude rozdělena do&lt;input name=&quot;parts&quot; value=&quot;&quot;
+readonly=&quot;readonly&quot; /&gt;SMS.
+              &lt;/p&gt;
+            &lt;/div&gt;
+
+            &lt;img src=&quot;imgcode.php?id=c4d0dc3f61c7a3b8dbae8d2c2c009f35&quot;
+alt=&quot;Číselný kód&quot; /&gt;
+
+            &lt;div class=&quot;sb&quot;&gt;
+              &lt;label for=&quot;pictogram&quot;&gt;Opište řadu čísel, potom klikněte
+na Odeslat!&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;input type=&quot;text&quot; name=&quot;pictogram&quot; id=&quot;pictogram&quot;
+class=&quot;marginbottom10&quot; tabindex=&quot;5&quot; autocomplete=&quot;off&quot; maxlength=&quot;5&quot; /
+&gt;<i>
+</I>            &lt;a class=&quot;sub_red&quot; onmouseover=&quot;this.className =
+'sub_red_on';&quot; onmouseout=&quot;this.className = 'sub_red';&quot;&gt;&lt;span&gt;&amp;nbsp;&lt;/
+span&gt;&lt;input name=&quot;send&quot; tabindex=&quot;6&quot; value=&quot;Odeslat!&quot;
+class=&quot;button_red&quot; type=&quot;submit&quot; onmouseover=&quot;this.className =
+'button_red_on';&quot; onmouseout=&quot;this.className = 'button_red';&quot; /&gt;&lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;modFooter&quot;&gt;&lt;hr /&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- END of Step 3 --&gt;
+
+    &lt;div class=&quot;cleaner&quot;&gt;&lt;/div&gt;
+
+   &lt;!--   &amp;nbsp; * Povinné položky.&lt;br /&gt;&lt;br /&gt; --&gt;
+    &lt;/form&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009807.html">[python] py2exe vice souboru ve vice slozkach
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-June/009809.html">[python] získání dat formuláře z HTML source ; odeslání dat (POST)
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-June/date.html#9808">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/thread.html#9808">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/subject.html#9808">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-June/author.html#9808">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-June/009808.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:32 GMT -->
+</html>

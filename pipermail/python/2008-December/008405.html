@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008405.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:10 GMT -->
+<HEAD>
+   <TITLE> [python] httplib a práce se sms bránou
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fhttplib_a_pr%3DE1ce_se_sms_br%3DE1nou%3F%3D&In-Reply-To=%3Cd2219e620812150533g5fe77639y7e60a41cafe4d6bf%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-December/008402.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-December/008406.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] httplib a práce se sms bránou</H1>
+    <B>Martin Stiborský</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3Fhttplib_a_pr%3DE1ce_se_sms_br%3DE1nou%3F%3D&In-Reply-To=%3Cd2219e620812150533g5fe77639y7e60a41cafe4d6bf%40mail.gmail.com%3E"
+       TITLE="[python] httplib a práce se sms bránou">martin.stiborsky na gmail.com
+       </A><BR>
+    <I>Pondělí Prosinec 15 14:33:19 CET 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008402.html">[python] Faktorizace
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008406.html">[python] httplib a práce se sms bránou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8405">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8405">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8405">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8405">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím.
+Pokouším se odeslat přes skript esemesku do sítě O2. Nedaří se, po
+odeslání mi kód vypíše 302 Found, neměl bych spíš vidět 200 OK ?
+Koukám do logu z wiresharku při odeslání sms pomocí skriptu a přímo z
+webu, ale asi mi něco uniká, možná zapomínám posílat nějakou hlavičku,
+která je důležitá, nebo nevím. Nebo mám nějakou faktickou chybu v kódu
+?
+Chtěl jsem to celé udělat pomocí urllib(2), akorát se nedařilo, tak
+jsem zkusil httplib.
+
+# -*- coding: utf-8 -*-
+
+from BeautifulSoup import BeautifulSoup
+import urllib
+import urllib2
+import httplib
+
+cislo = &quot;telefonni cislo&quot;
+
+def getHTML(conn):
+	conn.request(&quot;GET&quot;, &quot;/&quot;)
+	response = conn.getresponse()
+	
+	return response.read()
+
+
+def findAndDownloadCaptcha(html):
+	soup = BeautifulSoup(html)
+	image = soup.findAll('img', alt=u&quot;kód&quot;)[0]
+	imageSrc = image.attrMap['src']
+	
+	target = urllib.urlopen(&quot;%s%s&quot; % (&quot;<A HREF="http://sms.1188.cz",/">http://sms.1188.cz&quot;,</A> imageSrc))
+	data = target.read()
+	target.close()
+		
+	out = file(&quot;captcha&quot;, &quot;w&quot;)
+	out.write(data)
+	out.close
+
+conn = httplib.HTTPConnection(&quot;sms.1188.cz:80&quot;)
+html = getHTML(conn)
+
+findAndDownloadCaptcha(html)
+
+captcha = raw_input(&quot;Kod:&quot;)
+
+headers = {'User-Agent' : 'Mozilla/5.0 (X11; U; Linux i686; en-US;
+rv:1.9.0.4) Gecko/2008111922 GranParadiso/3.0.4',
+	   'Referer' : '<A HREF="http://sms.1188.cz/',">http://sms.1188.cz/',</A>
+	   &quot;Content-type&quot;: &quot;application/x-www-form-urlencoded&quot;
+	   }
+
+#values = {'adress' : '732653452',
+          #'code' : captcha,
+	  #'replyEmail' : '',
+          #'text' : 'ahoj :)',
+	  #'send' : 'ODESLAT' }
+
+#data = urllib.urlencode(values)
+data = &quot;adress=%s&amp;code=%s&amp;replyEmail=&amp;text=Ahoj&amp;send=ODESLAT&quot; % (cislo, captcha)
+
+conn.request(&quot;POST&quot;, &quot;/&quot;, data, headers)
+
+response = conn.getresponse()
+
+print response.status, response.reason
+
+-- 
+S pozdravem
+Martin Stiborský
+
+Jabber: <A HREF="http://www.py.cz/mailman/listinfo/python">stibi na njs.netlab.cz</A>
+ICQ: 224-065-849
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008402.html">[python] Faktorizace
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-December/008406.html">[python] httplib a práce se sms bránou
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-December/date.html#8405">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/thread.html#8405">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/subject.html#8405">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-December/author.html#8405">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-December/008405.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:10 GMT -->
+</html>

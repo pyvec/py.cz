@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010422.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+<HEAD>
+   <TITLE> [python] České znaky v curses
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3F%3DC4%3D8Cesk%3DC3%3DA9_znaky_v_curses%3F%3D&In-Reply-To=%3C20110610155502.07a10fdd%40tbs-software.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2011-June/010405.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2011-June/010424.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] České znaky v curses</H1>
+    <B>Martin B.</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3F%3DC4%3D8Cesk%3DC3%3DA9_znaky_v_curses%3F%3D&In-Reply-To=%3C20110610155502.07a10fdd%40tbs-software.com%3E"
+       TITLE="[python] České znaky v curses">spooky.ln na tbs-software.com
+       </A><BR>
+    <I>Pátek Červen 10 15:55:02 CEST 2011</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010405.html">[python] Led Flashlights
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010424.html">[python] České znaky v curses
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10422">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10422">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10422">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10422">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím,
+Potřeboval bych poradit s vkládáním českých znaků do terminálu.
+Dočetl jsem se že a vyzkoušel že pythonské curses nepodporuje nic víc
+než ascii. teda hlavně nejvíce používaná fce getch().Existuje i patch
+rozširující curses o fci get_wch() která podporuje unicode ale to by
+pak nebylo jaksi funkční tam kde bude nepatchovaná verze.
+
+Jak už je u mě zvykem mám už kus kodu hotov a tohle mě docela
+překvapilo,protože výstup pomocí addstr() fungoval se znaky bez
+problému.
+
+Protože jsem potřeboval nějaký jednoduchý editovací widget zkusil jsem
+texpad.Textbox() ale jak říkam české znaky nic a ještě při zapnutí
+insert_mode padá na šílené rekurzi.
+
+zkusil jsem napsat 'děsnou' okliku použitím slovníku se scankody klaves
+a při návratu z getch() je odchytit a poslat rovnou do terminálu.
+Chvíli to fungovalo než jsem zjistil že pár kláves má stejný kod :(
+
+Zkoušel už tohle někdo řešit ?
+Nebo jinak, řeší to nějak CDK nebo Urwid ?
+
+šílenej paskvil upravený z original textpad.Textbox zde.
+
+#encoding: utf-8
+import curses, locale
+import curses.ascii
+
+HackTable = {154: 'Ě', 155: 'ě', 160: 'Š', 161: 'š', 140: 'Č', 141: 'č', 152: 'Ř', 153: 'ř',
+             189: 'Ž', 190: 'ž', 169: 'é', 173: 'í', 175: 'ů', 186: 'ú'}
+# 154: 'Ú'
+# 174: 'Ů'
+
+
+
+class TextEdit:
+    
+    def __init__(self, win):
+        self.maxy = win.getmaxyx()[0] - 1
+        self.maxx = win.getmaxyx()[1] - 1
+
+        self.win    = curses.newwin(self.maxy,self.maxx, 1, 0)
+        self.status = curses.newwin(1, self.maxx+1, self.maxy, 0)
+        self.top    = curses.newwin(1, self.maxx+1, 0, 0)
+        
+        self.insert_mode = True
+        self.lines = {}
+        self.win.keypad(1)
+        self.win.idlok(1)
+            
+    def _insert_printable_char(self, ch):
+        y, x = self.win.getyx()
+        if y &lt; self.maxy or x &lt; self.maxx:
+            '''
+            if self.insert_mode:
+                oldch = self.win.inch()
+            '''
+            try:
+                if self.insert_mode:
+                    if ch in HackTable:
+                        self.win.insstr(str(HackTable[ch]))
+                    else:
+                        self.win.insstr(chr(ch))
+                    self.win.move(y, x + 1)
+                else:
+                    if ch in HackTable:
+                        self.win.addstr(HackTable[ch])
+                    else:
+                        self.win.addch(chr(ch))
+                    
+            except curses.error:
+                pass
+
+    def _end_of_line(self, y):
+        last = self.maxx - 2
+        while True:
+            if curses.ascii.ascii(self.win.inch(y, last)) != curses.ascii.SP:
+                last = min(self.maxx, last + 1)
+                break
+            elif last == 0:
+                break
+            last -= 1
+        return last
+    
+    def _getline(self, y, x):
+        result = ''
+        for xpos in range(x, self._end_of_line(y)):
+            result = result + chr(curses.ascii.ascii(self.win.inch(y, xpos)))
+        return result
+    
+    def _gather(self):
+        result = ''
+        for y in range(self.maxy + 1):
+            self.win.move(y, 0)
+            stop = self._end_of_line(y)
+            if stop == 0: continue
+            for x in range(self.maxx + 1):
+                if x &gt; stop: break
+                result = result + chr(curses.ascii.ascii(self.win.inch(y, x)))
+            if self.maxy &gt; 0: result = result + '\n'
+        return result
+    
+    def _run(self, ch):
+        y,x = self.win.getyx()
+        #self.win.keypad(1)
+        # key handling
+        if curses.ascii.isprint(ch) or ch in HackTable:
+            if y &lt; self.maxy or x &lt; self.maxx:
+                self._insert_printable_char(ch)
+                
+        elif ch in (curses.KEY_LEFT, curses.ascii.BS, curses.KEY_BACKSPACE):
+            if x &gt; 0:
+                self.win.move(y, x - 1)
+            elif y == 0:
+                pass
+            else:
+                self.win.move(y - 1, self._end_of_line(y-1))
+            
+            if ch in (curses.ascii.BS, curses.KEY_BACKSPACE):
+                self.win.delch()
+                
+        elif ch == curses.KEY_RIGHT:
+            if x &lt; self.maxx:
+                self.win.move(y, x + 1)
+            elif y == self.maxy: pass
+            else: self.win.move(y + 1, 0)
+            
+        elif ch == curses.KEY_DOWN:
+            if y &lt; self.maxy-1:
+                self.win.move(y + 1, x)
+                if x &gt; self._end_of_line(y + 1):
+                    self.win.move(y + 1, self._end_of_line(y + 1))
+                    
+        elif ch == curses.KEY_UP:
+            if y &gt; 0:
+                self.win.move(y - 1, x)
+                if x &gt; self._end_of_line(y - 1):
+                    self.win.move(y - 1, self._end_of_line(y - 1))
+                    
+        elif ch == curses.ascii.SI:
+            self.insert_mode = not self.insert_mode
+            #self.win.insertln()
+                    
+        elif ch == curses.ascii.NL:                         # novy radek
+            if self.maxy == 0:
+                return 0
+            elif y &lt; self.maxy - 2:
+                self.win.move(y + 1, 0)
+            #self.lines[y] = self._getline(y, 0)
+            
+        return 1
+    
+    def edit(self):
+        ch = ''
+        while True:
+            y, x = self.win.getyx()
+            self.top.erase()
+            self.status.erase()
+            self.status.addstr(0, 0, ' ' * (self.maxx), curses.color_pair(1))
+            self.status.addstr(0, 1, '{0}/{1}'.format(y, x), curses.color_pair(1))
+            self.top.addstr(0, 0, ' ' * (self.maxx), curses.color_pair(1))
+            self.top.addstr(0, 1, &quot;ScanCode: {0}&quot;.format(ch), curses.color_pair(1))
+            self.status.refresh()
+            self.top.refresh()
+            self.win.move(y, x)
+            ch = self.win.getch()
+            if not ch: continue
+            if not self._run(ch): break
+            self.win.refresh()
+        return self._gather()
+    
+def main(stdscr, code):
+    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
+    
+    a = TextEdit(stdscr)
+    a.edit()
+    
+if __name__ == '__main__':
+    locale.setlocale(locale.LC_ALL, '')
+    enc = locale.getpreferredencoding()
+    curses.wrapper(main, enc)
+
+zkoušeno v Py2.7 Linux 
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010405.html">[python] Led Flashlights
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2011-June/010424.html">[python] České znaky v curses
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2011-June/date.html#10422">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/thread.html#10422">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/subject.html#10422">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2011-June/author.html#10422">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2011-June/010422.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:50 GMT -->
+</html>

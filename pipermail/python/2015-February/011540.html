@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011540.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:17 GMT -->
+<HEAD>
+   <TITLE> [python] Seznamy
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Seznamy&In-Reply-To=%3CCAMmgUkNMOkL9oCW7j-pjjxFfW_keqGtBbHZupHhtgmu_LTZo1Q%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2015-February/011532.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2015-February/011543.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Seznamy</H1>
+    <B>Jan Bednařík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20Seznamy&In-Reply-To=%3CCAMmgUkNMOkL9oCW7j-pjjxFfW_keqGtBbHZupHhtgmu_LTZo1Q%40mail.gmail.com%3E"
+       TITLE="[python] Seznamy">jan.bednarik na gmail.com
+       </A><BR>
+    <I>Pondělí Únor  9 21:50:10 CET 2015</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011532.html">[python] Seznamy
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011543.html">[python] Seznamy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11540">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11540">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11540">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11540">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>2015-02-09 16:35 GMT+01:00 Honza Král &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>&gt;:
+
+&gt;<i> ne, o tom jsem nemluvil, predpokladam python 3 :)
+</I>&gt;<i>
+</I>&gt;<i> Materializuje se kvuli predani do intersection - viz operator '*'
+</I>&gt;<i>
+</I>
+To se dá vyřešit třeba nahrazením:
+
+... set.intersection(*map( ...
+
+za:
+
+... reduce(set.intersection, map( ...
+
+a je to čistě funkcionální (bez ohledu na to jestli je to &quot;Pythonic&quot;).
+
+
+
+&gt;<i> Mě se líbí explicitní použití funkcí map() a filter(), protože je to pro
+</I>&gt;<i> začátečníka čitelnější a pochopitelnější, než List Comprehension
+</I>&gt;<i>
+</I>&gt;<i> Tohle me zajima - ja mam presne opacnou zkusenost. Bavime se o
+</I>&gt;<i> zacatecnicich v programovani (s temi mam zkusenost ja), ci jen
+</I>&gt;<i> zacatecniky s pythonem, ale programatory?
+</I>
+
+
+Myslím si, že pro člověka, který vidí poprvé map a filter a List
+Comprehension, je snažší najít si v dokumentaci co dělají funkce map a
+filter a pochopit je samostatně. Protože to jsou dvě oddělené věci. Zatímco
+když se použije List Comprehension kombinující map i filter v jednom
+zápise, tak je tam toho na rozluštění a pochopení více. A taky ten List
+Comprehension nejde snadno dohledat v dokumentaci, protože z kódu není
+poznat, jak se to jmenuje (neobsahuje klíčová slova jako &quot;map&quot; či &quot;filter&quot;).
+
+Nějakou zásadnější osobní zkušenost s výukou nemám. Ale minimálně na škole
+jsem se setkal s tím, že se úplní začátečníci učí nejdříve funkcionální
+paradigma, tak by ten map a filter mělo být snadné pochopit pro kohokoliv.
+Nicméně naučit se místo toho v Pythonu rovnou List Comprehension určitě
+není na škodu.
+
+Honza
+
+
+
+&gt;<i> Honza Král
+</I>&gt;<i> E-Mail: <A HREF="http://www.py.cz/mailman/listinfo/python">honza.kral na gmail.com</A>
+</I>&gt;<i> Phone:  +420 606 678585
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2015-02-09 16:34 GMT+01:00 Pavel S &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">pavel na schon.cz</A>&gt;:
+</I>&gt;<i> &gt; Jeste pokud bychom se chteli zbavit 'materializace seznamu uprostred',
+</I>&gt;<i> lze in-place pouzit itertools.ifilter a itertools.imap.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Dne pondělí 9. února 2015 16:17:52 UTC+1 Pavel S napsal(a):
+</I>&gt;<i> &gt;&gt; Na pythonu je krasne, ze jedna a tataz vec lze udelat mnoha zpusoby a
+</I>&gt;<i> ja nabidnul jeden z nich:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * nemeni vnitrni stav oproti reseni s pop()
+</I>&gt;<i> &gt;&gt; * nepouziva operator &amp; na setu, cimz me nenuti zjistovat, co tento
+</I>&gt;<i> operator vlastne dela. (intersection je jasne...)
+</I>&gt;<i> &gt;&gt; * nepouziva list comprehension
+</I>&gt;<i> &gt;&gt; * je rozepsane do vice radku, primocare a jasne citelne
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i> Visit: <A HREF="http://www.py.cz/">http://www.py.cz</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20150209/646e6119/attachment.html">http://www.py.cz/pipermail/python/attachments/20150209/646e6119/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011532.html">[python] Seznamy
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2015-February/011543.html">[python] Seznamy
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2015-February/date.html#11540">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/thread.html#11540">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/subject.html#11540">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2015-February/author.html#11540">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2015-February/011540.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:16:17 GMT -->
+</html>

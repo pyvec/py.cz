@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009482.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:49 GMT -->
+<HEAD>
+   <TITLE> [python] py2exe
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20py2exe&In-Reply-To=%3Ca9a7f5c81003050913q64aec66ey76f9850d82f900ec%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-March/009465.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-March/009466.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] py2exe</H1>
+    <B>Jan Bednařík</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20py2exe&In-Reply-To=%3Ca9a7f5c81003050913q64aec66ey76f9850d82f900ec%40mail.gmail.com%3E"
+       TITLE="[python] py2exe">jan.bednarik na gmail.com
+       </A><BR>
+    <I>Pátek Březen  5 18:13:01 CET 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009465.html">[python] py2exe
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009466.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9482">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9482">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9482">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9482">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Pythonní knihovny připoj ke svému projektu. Stačí aby byly v nějakém
+adresáři, který přidáš na začátek sys.path Například pokud máš knihovny v
+podadresáři (oproti spouštěcímu skriptu) pojmenovaném 'lib', udělej na
+začátku:
+
+import os.path
+os.path.insert(0, os.path.abspath('lib'))
+
+a poté je můžeš bez problémů importovat.
+
+Ale stejně jako u interpretru Pythonu platí, že pokud se jedná o nějakou
+běžnou knihovnu (PyGTK apod.), je lepší ji nainstalovat do systému (do
+site-packages) a stejně tak potřebný podpůrný software (např. GTK+ pro chod
+PyGTK). Na první pohled se to možná nezdá, ale ve Windows není běžné, aby
+každý program obsahoval všechno co potřebuje k chodu (např. .NET).
+
+Honza
+
+
+2010/3/4 Petr Zlamal &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt;
+
+&gt;<i>  Problem je, ze ja vyuzivam dalsi knihovny tretich stran a konkretne
+</I>&gt;<i> knihpvnu vtk jsem musel pro sve potreby zkompilovat.
+</I>&gt;<i> Vepro
+</I>&gt;<i>
+</I>&gt;<i> Jan Bednařík napsal(a):
+</I>&gt;<i>
+</I>&gt;<i> Programy pro Windows napsané v Pythonu (nebo využívající Python) to obvykle
+</I>&gt;<i> řeší v instalátoru. Při instalaci se podívají, jestli je Python přítomen,
+</I>&gt;<i> pokud ne, nainstalují ho sami.
+</I>&gt;<i>
+</I>&gt;<i> Honza
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2010/3/3 Petr Zlamal &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt;
+</I>&gt;<i>
+</I>&gt;&gt;<i> Nemusi to byt jeden soubor. Balikem myslim obrazne mit slozku se skripty,
+</I>&gt;&gt;<i> ktera bude fungovat nezavisle na naninstalovanych soucastich na konkretnim
+</I>&gt;&gt;<i> pocitaci. Samozrejme na konretni platforme.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Petr Mach napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jednim balikem myslis jeden soubor? To je dost neobvykle, obvykle se
+</I>&gt;&gt;<i> program sklada z rady souboru.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2010/3/3 Petr Zlamal &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt;:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  Jeste me napada. Existuje nejaky &quot;lepsi&quot; zpusob jak distribuovat pythoni
+</I>&gt;&gt;<i> skripty i s potrebnumi knihovnami v jednom baliku?
+</I>&gt;&gt;<i> Vepro
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Petr Zlamal napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> To jsem jiz zkousel a v podstate si myslim ze je to supl parametru z
+</I>&gt;&gt;<i> prikazove radky.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Petr Messner napsal(a):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Zkus to nějak přidat do includes:<A HREF="http://www.py2exe.org/index.cgi/ScipyImportProblems">http://www.py2exe.org/index.cgi/ScipyImportProblems</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> PM
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2010/3/3 vepro &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt; &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">p.zlamal na gmail.com</A>&gt;:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Pratele,
+</I>&gt;&gt;<i> Zkousim udelat exe soubor pomoci py2exe pod win7 64bit. Uz jsem dosel do
+</I>&gt;&gt;<i> kroku kdy kompilace probehne a vytvori se exe soubor. V prubehu kompilace
+</I>&gt;&gt;<i> dojde k vypsani klasicke hlasky: The following modules appear to be missing
+</I>&gt;&gt;<i> + celkem obsahly seznam (musim rici, ze v aplikaci vyuzivam celkem dost
+</I>&gt;&gt;<i> externich knihoven: vtk,qt4,scipy). Nicmene po spusteni exe souboru program
+</I>&gt;&gt;<i> havaruje a v logu je zminka o nemoznosti natazeni modulu z balicku scipy.
+</I>&gt;&gt;<i> ImportError: No module named streams
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Myslim si, ze chyba musi byt v &quot;kompilaci&quot; pomoci py2exe jelikoz aplikace
+</I>&gt;&gt;<i> pri pusteni z interpretu funguje.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Prikaz kterym &quot;kompiluji&quot;:
+</I>&gt;&gt;<i> python setup.py py2exe --includes sip,vtk,scipy,numpy
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Nejak nevim, proc nektere moduly &quot;pribali do kompilace&quot; a nektere ne. Umi
+</I>&gt;&gt;<i> nekdo poradit?
+</I>&gt;&gt;<i> Diky
+</I>&gt;&gt;<i> Vepro
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing <A HREF="http://www.py.cz/mailman/listinfo/python">listPython na py.czhttp</A>://www.py.cz/mailman/listinfo/python
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing <A HREF="http://www.py.cz/mailman/listinfo/python">listPython na py.czhttp</A>://www.py.cz/mailman/listinfo/python
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>      _______________________________________________
+</I>&gt;&gt;<i> Python mailing <A HREF="http://www.py.cz/mailman/listinfo/python">listPython na py.czhttp</A>://www.py.cz/mailman/listinfo/python
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing <A HREF="http://www.py.cz/mailman/listinfo/python">listPython na py.czhttp</A>://www.py.cz/mailman/listinfo/python
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- další část ---------------
+HTML příloha byla odstraněna...
+URL: &lt;<A HREF="http://www.py.cz/pipermail/python/attachments/20100305/4627c6e9/attachment.html">http://www.py.cz/pipermail/python/attachments/20100305/4627c6e9/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009465.html">[python] py2exe
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-March/009466.html">[python] dokumentace k novejsim rysum jazyka
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-March/date.html#9482">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/thread.html#9482">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/subject.html#9482">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-March/author.html#9482">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-March/009482.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:49 GMT -->
+</html>

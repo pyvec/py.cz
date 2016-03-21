@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005488.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:30 GMT -->
+<HEAD>
+   <TITLE> [python] Problem s regularnym vyrazom
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20regularnym%20vyrazom&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-February/005487.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-February/005489.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Problem s regularnym vyrazom</H1>
+    <B>Petr Prikryl</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Problem%20s%20regularnym%20vyrazom&In-Reply-To="
+       TITLE="[python] Problem s regularnym vyrazom">PrikrylP na skil.cz
+       </A><BR>
+    <I>Pátek Únor  2 14:42:21 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005487.html">[python] Problem s regularnym vyrazom
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005489.html">[python] Počítání v jiných soustavách
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5488">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5488">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5488">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5488">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Petr Prikryl wrote:
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">RMiklos na ...sk</A>
+</I>&gt;<i> &gt;&gt; [...]'''CREATE TABLE IBPDDB071/R004660V
+</I>&gt;<i> &gt;&gt; (PERSONNR    DECIMAL     (10, 0)    NOT NULL WITH DEFAULT, 
+</I>&gt;<i> &gt;&gt; LFDNR1 DECIMAL (3, 0) [...] );'''
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; No jasně. Když jsou vevnitř závorky, tak to nemůže
+</I>&gt;<i> &gt; fungovat. Problém je principiální. Regulární výrazy
+</I>&gt;<i> &gt; obecně nemohou popisovat řetězce jazyků, které obsahují
+</I>&gt;<i> &gt; párové struktury. Možná se dají zpracovat nějaké speciální
+</I>&gt;<i> &gt; případy na základě dalších znalostí.
+</I>&gt;<i> &gt;   
+</I>&gt;<i> Presne tak. V tomhle pripade jsem si pohraval s myslenkou, 
+</I>&gt;<i> ktera by se dala zapsat matematicky asi takhle (pouze 
+</I>&gt;<i> pro retezec v zavorkach):
+</I>&gt;<i> 
+</I>&gt;<i>     A = {a-zA-Z0-9_, }
+</I>&gt;<i>     B = {0-9, }
+</I>&gt;<i>     C = (B*)
+</I>&gt;<i>     L = (A*+C*)
+</I>&gt;<i> 
+</I>&gt;<i> Bohuzel, kdyz na to ted koukam, tak jazyk L neni regularni. 
+</I>&gt;<i> Presto si ale myslim, ze tento jazyk lze popsat gramatikou 
+</I>&gt;<i> popr. automatem. Jestli se pletu, opravte me prosim.
+</I>
+No, mělo by to jít, protože tady jde o speciální případ.
+Jednak se používá nástroj pro &quot;regulární výrazy s rozšířením&quot;.
+Při jeho překladu se buduje konečný automat (odhad), který
+má navíc jakoby globální proměnné (hodnoty skupin). 
+Můžu předepsat non-greedy vyhodnocování. Zkoumaný
+řetězec navíc neobsahuje libovolně zanořené párové struktury,
+ale pouze dvě úrovně. Automat se tedy nemusí rozšiřovat až
+na obecnější, zásobníkový. Stačí ho trochu rozepsat a 
+úroveň zanoření vyjádřit přechodem do jiné části automatu.
+Měl by tedy jít napsat i regulární výraz.
+
+pepr
+
+P.S. Nechce se mi do toho ;-)
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005487.html">[python] Problem s regularnym vyrazom
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-February/005489.html">[python] Počítání v jiných soustavách
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-February/date.html#5488">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/thread.html#5488">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/subject.html#5488">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-February/author.html#5488">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-February/005488.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:30 GMT -->
+</html>

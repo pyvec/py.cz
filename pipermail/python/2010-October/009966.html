@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009966.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:20 GMT -->
+<HEAD>
+   <TITLE> [python] nechtene propojeni mnozin
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nechtene%20propojeni%20mnozin&In-Reply-To=%3CAANLkTikZgTSKD4juN82sYsAaFTqUv69o0E_%3Dd3Loymy2%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2010-October/009962.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2010-October/009963.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] nechtene propojeni mnozin</H1>
+    <B>rajcze</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20nechtene%20propojeni%20mnozin&In-Reply-To=%3CAANLkTikZgTSKD4juN82sYsAaFTqUv69o0E_%3Dd3Loymy2%40mail.gmail.com%3E"
+       TITLE="[python] nechtene propojeni mnozin">rajcze na gmail.com
+       </A><BR>
+    <I>Čtvrtek Říjen 14 12:51:41 CEST 2010</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009962.html">[python] nechtene propojeni mnozin
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009963.html">[python] nechtene propojeni mnozin
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9966">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9966">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9966">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9966">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tohle je samozrejme taky moznost, ale pokud bys mel v R0 mutable
+objekty, tak by sis porad nepomohl - list(R0) totiz jen zkopiruje
+reference, nevytvari nove objekty. Mutable/immutable je (pro mne) asi
+ta nejhur vysvetlitelna cast pythonu pro &quot;novacky&quot; (protoze se to
+chova na prvni pohled dost nekonzistentne).
+
+
+from copy import deepcopy
+
+class MyClass(object):
+    def __init__(self, val = 0):
+        self.val = val
+    def __repr__(self):
+        return (str(self.val))
+
+a = []
+for i in range(8):
+    a.append(MyClass(i))
+
+print a
+
+b = list(a)
+c = deepcopy(a)
+
+a.append(MyClass(&quot;novy&quot;))
+b[0].val = &quot;foo&quot;
+c[1].val = &quot;bar&quot;
+
+print id(a), id(b), id(c)
+print a, b, c
+
+
+naprosto logicke, pokud vis jak funguje mutable/imutable, ale na prvni
+pohled absolutne nepochopitelne :)
+
+2010/10/14 Juda Kaleta &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">juda.kaleta na gmail.com</A>&gt;:
+&gt;<i> V Pythonu se nepracuje s proměnnými jako takovými, ale pouze referencemi na
+</I>&gt;<i> objekt. Proto se přiřazením
+</I>&gt;<i>
+</I>&gt;<i> R0work = R0
+</I>&gt;<i>
+</I>&gt;<i> pouze změní reference na jeden a tentýž objekt. Pro naklonování, vytvoření
+</I>&gt;<i> nového objektu, je potřeba zavolat něco takovéhoto:
+</I>&gt;<i>
+</I>&gt;<i> R0work = list(R0)
+</I>&gt;<i>
+</I>&gt;<i> S pozdravem,
+</I>&gt;<i> Juda Kaleta
+</I>&gt;<i>
+</I>&gt;<i> 2010/10/14 Charlotte van Leeweneck &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">vanleeweneck.charlotte na gmail.com</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dobry den,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> potrebovala bych pomoci s nasledujicim problemem.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> R0=[]
+</I>&gt;&gt;<i> for x in range (8):
+</I>&gt;&gt;<i>    R0.append(x)
+</I>&gt;&gt;<i> R0work=R0
+</I>&gt;&gt;<i> R0work[-1]=0
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> print(R0)
+</I>&gt;&gt;<i> print (R0work)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Cílem bylo, aby mi to nahradilo posledni prvek v mnozine R0work prvkem 0,
+</I>&gt;&gt;<i> ale mozinu R0 nechalo nedotcenou
+</I>&gt;&gt;<i> tj. pozadovaný vysledek R0=[0, 1, 2, 3, 4, 5, 6, 7], R0work=[0, 1, 2, 3,
+</I>&gt;&gt;<i> 4, 5, 6, 0]
+</I>&gt;&gt;<i> Bohuzel to tak nefunguje a nahrazuje posledni prvek v obou mnozinach. Kde
+</I>&gt;&gt;<i> delam chybu?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dekuji za odpoved.
+</I>&gt;&gt;<i> Sarka
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Python mailing list
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+Rules of Optimization:
+Rule 1: Don't do it.
+Rule 2 (for experts only): Don't do it yet.
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009962.html">[python] nechtene propojeni mnozin
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2010-October/009963.html">[python] nechtene propojeni mnozin
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2010-October/date.html#9966">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/thread.html#9966">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/subject.html#9966">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2010-October/author.html#9966">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2010-October/009966.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:18:20 GMT -->
+</html>

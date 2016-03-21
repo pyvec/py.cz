@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005141.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:34 GMT -->
+<HEAD>
+   <TITLE> [python] Na vsetko cyklus for  ?
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Na%20vsetko%20cyklus%20for%20%20%3F&In-Reply-To=455AC83D.9060809%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-November/005140.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-November/005143.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Na vsetko cyklus for  ?</H1>
+    <B>Jan Martinek</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Na%20vsetko%20cyklus%20for%20%20%3F&In-Reply-To=455AC83D.9060809%40centrum.cz"
+       TITLE="[python] Na vsetko cyklus for  ?">honza na dp.fce.vutbr.cz
+       </A><BR>
+    <I>Středa Listopad 15 09:52:29 CET 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005140.html">[python] Na vsetko cyklus for  ?
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005143.html">[python] (G)Vim - spuštění aktuálně editovaného skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5141">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5141">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5141">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5141">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>superman wrote:
+&gt;&gt;<i> line = f.readline()
+</I>&gt;&gt;<i> while line != '':   # nebo taky while line:
+</I>&gt;&gt;<i>      zpracuj(line)
+</I>&gt;&gt;<i>      line = f.readline()
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Takhle je to opravdu správnější.
+</I>&gt;<i> 
+</I>&gt;<i> A nemáte pocit, že tohle je drbání se levou rukou za pravým uchem? Že 
+</I>&gt;<i> prostě dvakrát opisovat co chci (tedy v tomto případě line = 
+</I>&gt;<i> f.readline()) je prostě trochu neelegantní? Až ten výraz bude trochu 
+</I>&gt;<i> složitější, pak teprve vynikne neelegantnost tohoto řešení.
+</I>&gt;<i> 
+</I>&gt;<i> Miloslav Ponkrác
+</I>
+Aby se neduplikoval kód, tak v těchto situacích obvykle píšu
+
+while True:
+     line = f.readline()
+     if not line: break
+     zpracuj(line)
+
+nebo třeba
+
+while True:
+     try:
+         zpracuj(f.readline())
+     except KonecSouboru:
+         break
+
+
+Zezačátku se mi to &quot;while True&quot; moc nelíbilo, ale zvykl jsem si. Je to 
+způsob, jak napsat cyklus s podmínkou kdekoli.
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005140.html">[python] Na vsetko cyklus for  ?
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-November/005143.html">[python] (G)Vim - spuštění aktuálně editovaného skriptu
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-November/date.html#5141">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/thread.html#5141">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/subject.html#5141">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-November/author.html#5141">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-November/005141.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:24:34 GMT -->
+</html>

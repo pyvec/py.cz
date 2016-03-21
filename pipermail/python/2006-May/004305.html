@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2006-May/004305.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:39 GMT -->
+<HEAD>
+   <TITLE> [python] Streamy, STARTTLS a select()/poll()
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Streamy%2C%20STARTTLS%20a%20select%28%29/poll%28%29&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2006-May/004304.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2006-May/004306.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Streamy, STARTTLS a select()/poll()</H1>
+    <B>Jan Kundrát</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20Streamy%2C%20STARTTLS%20a%20select%28%29/poll%28%29&In-Reply-To="
+       TITLE="[python] Streamy, STARTTLS a select()/poll()">jkt na gentoo.org
+       </A><BR>
+    <I>Středa Květen 31 12:07:05 CEST 2006</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-May/004304.html">[python] [Plone] Zatazove testy na Plone
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-May/004306.html">[python] Use the internet pack
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-May/date.html#4305">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/thread.html#4305">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/subject.html#4305">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/author.html#4305">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ahoj,
+&quot;stream&quot; rikam instanci nejake tridy, ktera zpristupnuje metody read(),
+write(), readline(), flush() (stejne funkce jako u souboru) a ponekud
+divokou metodu has_data(timeout), ktera vrati, zda jsou k dispozici
+nejaka data pro cteni (a volitelne na ne bude cekat nejakou dobu).
+
+Bez problemu mi funguje implementace pro sockety (TCPStream) a na Linuxu
+i pro procesy (ProcessStream) - poll() na win32 funguje jenom na sockety
+a ne na pipes.
+
+Problem je, ze pro svuj IMAP parser potrebuju funkci starttls(), ktera
+nejak realizuje SSL/TLS handshake po jiz otevrenem spojeni (tady se muzu
+omezit jenom na TCP sockety, STARTTLS pres pipe nutne nepotrebuju) a
+dale jiz data bezi sifrovane. To samotne neni problem, smtplib dela to
+same, jenomze podle manualu jsem v zadne SSL/TLS knihovne nenasel zadny
+ekvivalent funkce, ktera by mi rekla, jestli muzu ze siforvaneho streamu
+cist bez blokovani. select()/poll() na socket, po kterem tecou sifrovana
+data, nema smysl, protoze ta data mohou byt rezie SSL.
+
+Vim, ze Twisted by neco takoveho mel umet, jenomze mi to prijde jako
+takovy kanon na vrabce. Pletu se?
+
+Napada me jedno pomerne hnusne reseni, cist do vlastniho bufferu a
+operace read(), readline(), write(), flush(), has_data() realizovat nad
+nim. Takhle to pry (#<A HREF="http://www.py.cz/mailman/listinfo/python">python na freenode</A>) resi prave Twisted pro pipes.
+
+Koukal jsem i na Polymer (IMAP klient, ktery by neco takoveho mel
+resit), nicmene ten se one funkci has_data() pomerne zdarile vyhyba.
+
+Pripominky jsou vitany, v priloze je relevantni kus meho kodu.
+
+-jkt
+
+-- 
+cd /local/pub &amp;&amp; more beer &gt; /dev/mouth
+------------- další část ---------------
+NetextovĂĄ pĹĂ­loha byla odstranÄna...
+JmĂŠno: streams.py
+Typ: text/x-python
+Velikost: 2340 bytes
+Popis: [ĹžĂĄdnĂ˝ popis nenĂ­ k dispozici]
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20060531/a2d2d3bb/attachment.py">http://www.py.cz/pipermail/python/attachments/20060531/a2d2d3bb/attachment.py</A> 
+------------- další část ---------------
+NetextovĂĄ pĹĂ­loha byla odstranÄna...
+JmĂŠno: signature.asc
+Typ: application/pgp-signature
+Velikost: 258 bytes
+Popis: OpenPGP digital signature
+Url : <A HREF="http://www.py.cz/pipermail/python/attachments/20060531/a2d2d3bb/attachment.pgp">http://www.py.cz/pipermail/python/attachments/20060531/a2d2d3bb/attachment.pgp</A> 
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-May/004304.html">[python] [Plone] Zatazove testy na Plone
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2006-May/004306.html">[python] Use the internet pack
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2006-May/date.html#4305">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/thread.html#4305">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/subject.html#4305">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2006-May/author.html#4305">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2006-May/004305.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:25:39 GMT -->
+</html>

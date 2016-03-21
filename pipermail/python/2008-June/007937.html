@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007937.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:09 GMT -->
+<HEAD>
+   <TITLE> [python] [VYRESENO] gobject + threading
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5BVYRESENO%5D%20gobject%20%2B%20threading&In-Reply-To=">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007945.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007939.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] [VYRESENO] gobject + threading</H1>
+    <B>slush</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%5BVYRESENO%5D%20gobject%20%2B%20threading&In-Reply-To="
+       TITLE="[python] [VYRESENO] gobject + threading">slush na centrum.cz
+       </A><BR>
+    <I>Sobota Červen 28 22:51:51 CEST 2008</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007945.html">[python] MySQL - nativn&#65533; rozhran&#65533; pro Python
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007939.html">[python] [VYRESENO] gobject + threading
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7937">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7937">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7937">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7937">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravim konferenci a obracim se s prosbou.
+
+-----
+Pozn: Prave ve chvili, kdy jsem napsal tenhle prispevek me napadla jedna
+vec, ktera se ukazala byt spravnou. Bylo mi lito to cele mazat, tak pisu
+dotaz a zaroven i reseni, treba se to nekomu bude hodit. Resenim problemu je
+zavolani &quot;gobject.threads_init()&quot; pred spustenim hlavni smycky. Pokud ale
+znate elegantnejsi reseni, jak sestrelit Dbus sluzbu, klidne napiste :).
+
+loop = gobject.MainLoop()
+gobject.threads_init()
+loop.run()
+----
+Vytvarim v pythonu DBus service, ktera se bude spoustet pomoci DBus
+autostart. Jedna se o mechanismus, kdy se python skript zavola ve chvili,
+kdy jiny proces vola sluzbu, kterou dany skript obhospodaruje. Bohuzel (lec
+zcela pochopitelne) zustane po vyrizeni sluzby skript viset v pameti.
+Nenasel jsem standardni DBusovy mechanismus, kterym by slo sluzbu ukoncit,
+pokud neni nejaky cas volana, proto jsem zkusil poresit toto vlastnimi
+silami.
+
+Pri startu sluzby chci vytvorit vlakno, ktere bude periodicky (cca ob pet az
+deset sekund) kontrolovat, jestli behem teto doby byla zavolana nejaka
+metoda sluzby. V pripade, ze nikoliv, dojde k ukonceni skriptu.
+
+Figl je v tom, ze ve chvili, kdy zavolam gobject.MainLoop() (aplikacni
+smycka obhospodarujici mimojine DBus), prestane mi fungovat vlakno
+watchdogu.
+
+Nevi nekdo, jak toto resit?
+
+Moc diky,
+Marek
+------------- dal&#185;&#237; &#232;&#225;st ---------------
+HTML p?íloha byla odstran?na...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080628/c39cbdc2/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080628/c39cbdc2/attachment.htm</A> 
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007945.html">[python] MySQL - nativn&#65533; rozhran&#65533; pro Python
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007939.html">[python] [VYRESENO] gobject + threading
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7937">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7937">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7937">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7937">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007937.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:21:09 GMT -->
+</html>

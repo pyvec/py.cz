@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005307.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:48 GMT -->
+<HEAD>
+   <TITLE> [python] Dynamický import
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDynamick%3DFD_import%3F%3D&In-Reply-To=mailman.109.1167906447.8222.python%40py.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2007-January/005305.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2007-January/005309.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Dynamický import</H1>
+    <B>Vaclav Vais</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20%3D%3Fiso-8859-2%3Fq%3FDynamick%3DFD_import%3F%3D&In-Reply-To=mailman.109.1167906447.8222.python%40py.cz"
+       TITLE="[python] Dynamický import">xeleos na gmail.com
+       </A><BR>
+    <I>Čtvrtek Leden  4 12:00:10 CET 2007</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005305.html">[python] MI5 Persecution: Eye Say, and Lord Gnome Answers
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005309.html">[python] srandicky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5307">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5307">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5307">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5307">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Je to podobné jako interface v Java. K řešení konkrétního
+&quot;problému&quot; je v IS jeden objekt, časem problémy přibývají a tím
+i objekty. Vím co je to za problém tak potřebuji konkrétní objekt
+na ošetření.
+
+Snad jsem se vyjádřil srozumitelně.
+
+
+radek napsal:
+&gt;<i> Muzete sem napsat v jakem konkretnim pripade to potrebujete? To je
+</I>&gt;<i> tech importu tolik, ze nejdou udelat vsechny na zacatku a pak vybrat
+</I>&gt;<i> jenom konkretni class pro instanci?
+</I>&gt;<i>
+</I>&gt;<i> Sice dynamicky import jde, ale pak to dost znesnadnuje analyzu chyb.
+</I>&gt;<i>
+</I>&gt;<i> Radek
+</I>&gt;<i>
+</I>&gt;<i> On 1/4/07, mtip &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">mtip na atlas.cz</A>&gt; wrote:
+</I>&gt;<i> &gt; VV&gt; Ahoj,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; VV&gt; potřeboval bych poradit jak provést import a následně instanci
+</I>&gt;<i> &gt; VV&gt; třídy, když načtu názey třídy z DB. V balíčku je několik
+</I>&gt;<i> &gt; VV&gt; objektů, které mají stejné metody, potřebuji na základě dotazu
+</I>&gt;<i> &gt; VV&gt; do DB naimportovat konkrétní třídu z konkrétního modulu (názvy
+</I>&gt;<i> &gt; VV&gt; jsou stejné) a pak vytvořit instanci, název třídy je v proměnné.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; VV&gt; nějak takto:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; VV&gt; className=&quot;třída&quot;
+</I>&gt;<i> &gt; VV&gt; importuj(className)
+</I>&gt;<i> &gt; VV&gt; instance=vytvořInstanci(className)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; VV&gt; Díky moc za radu
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; VV&gt; V.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; VV&gt; _______________________________________________
+</I>&gt;<i> &gt; VV&gt; Python mailing list
+</I>&gt;<i> &gt; VV&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; VV&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; ---------------------------------------------------------------------------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Ahoj, ted sem zrovna resil neco podobneho, ja pouzivam tohle:
+</I>&gt;<i> &gt; mod=&quot;util.modul&quot;
+</I>&gt;<i> &gt; cls=&quot;className&quot;
+</I>&gt;<i> &gt; eval(compile(&quot;import %s&quot; % mod, &quot;&lt;string&gt;&quot;, &quot;exec&quot;))
+</I>&gt;<i> &gt; instance=eval(&quot;%s.%s()&quot; % (mod,cls))
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt; Mirek N.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Python mailing list
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;
+</I>
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005305.html">[python] MI5 Persecution: Eye Say, and Lord Gnome Answers
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2007-January/005309.html">[python] srandicky
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2007-January/date.html#5307">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/thread.html#5307">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/subject.html#5307">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2007-January/author.html#5307">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2007-January/005307.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:23:48 GMT -->
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010869.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:17 GMT -->
+<HEAD>
+   <TITLE> [python] Pomoc s pythonním RE
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FPomoc_s_pythonn%3DC3%3DADm_RE%3F%3D&In-Reply-To=%3Ckcsjtc%2436c%241%40speranza.aioe.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2013-January/010880.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2013-January/010871.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] Pomoc s pythonním RE</H1>
+    <B>Bystroushaak</B> 
+    <A HREF="mailto:python%40py.cz?Subject=Re%3A%20%5Bpython%5D%20%3D%3Futf-8%3Fq%3FPomoc_s_pythonn%3DC3%3DADm_RE%3F%3D&In-Reply-To=%3Ckcsjtc%2436c%241%40speranza.aioe.org%3E"
+       TITLE="[python] Pomoc s pythonním RE">bystrousak na kitakitsune.org
+       </A><BR>
+    <I>Sobota Leden 12 22:17:35 CET 2013</I>
+    <P><UL>
+        <LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010880.html">[python] otázka ohladom mojho ?týlu písania v OOP
+</A></li>
+        <LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010871.html">[python] Pomoc s pythonním RE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10869">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10869">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10869">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10869">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Zdravím.
+
+Potřebuji pomoc s pythonním re modulem. Hraji si s tím už několik hodin
+a už jsem z toho v koncích.
+
+Mám script:
+
+-------------------------------------------------------------------------------
+import re
+
+data = &quot;&quot;&quot;&lt;tr&gt;&lt;td class=&quot;newscap&quot;&gt;&lt;b style=&quot;font-size:13px&quot;&gt;Downtime for
+Christmas&lt;/b&gt;
+		&lt;br&gt;&lt;small&gt;by &lt;script language=&quot;javascript&quot;&gt;document.write('&lt;a
+class=\&quot;cap\&quot;
+href=\&quot;mailto:'+rot(5,'<A HREF="http://www.py.cz/mailman/listinfo/python">mvoogz na vrvmzizorjmf.jmb</A>')+'\&quot;&gt;'+rot(5,'<A HREF="http://www.py.cz/mailman/listinfo/python">mvoogz na vrvmzizorjmf.jmb</A>')+'&lt;/a&gt;')&lt;/script&gt;&lt;noscript&gt;rattle&lt;/noscript&gt;
+on 12/30/12 10:48&lt;/small&gt;&lt;/td&gt;&lt;/tr&gt;
+		&lt;tr&gt;&lt;td class=&quot;aware&quot; colspan=&quot;2&quot;&gt;
+		So, it appears the site was down for christmas. I could try to find
+out why, but I don't care enough. Went to &lt;a
+href=&quot;<A HREF="https://events.ccc.de/congress/2012/wiki/Main_Page">https://events.ccc.de/congress/2012/wiki/Main_Page</A>&quot;&gt;29c3&lt;/a&gt;,
+didn't get much done, ate a lot of fast food. I'm old, fat, and boring
+now. However, I found out about &lt;a
+href=&quot;<A HREF="http://www.hyperelliptic.org/tanja/newelliptic/newelliptic.html">http://www.hyperelliptic.org/tanja/newelliptic/newelliptic.html</A>&quot;&gt;Edwards
+curves&lt;/a&gt;, that shit is rad.
+		&lt;/td&gt;&lt;/tr&gt;&quot;&quot;&quot;
+
+print re.sub(r'.*(&lt;script.*&gt;)(.*)(&lt;/script&gt;).*',
+r&quot;\n\n---\1\n---\2\n---\3&quot;, data)
+-------------------------------------------------------------------------------
+
+Který po spuštění vypíše:
+
+-------------------------------------------------------------------------------
+&lt;tr&gt;&lt;td class=&quot;newscap&quot;&gt;&lt;b style=&quot;font-size:13px&quot;&gt;Downtime for Christmas&lt;/b&gt;
+
+
+---&lt;script language=&quot;javascript&quot;&gt;document.write('&lt;a class=&quot;cap&quot;
+href=&quot;mailto:'+rot(5,'<A HREF="http://www.py.cz/mailman/listinfo/python">mvoogz na vrvmzizorjmf.jmb</A>')+'&quot;&gt;'+rot(5,'<A HREF="http://www.py.cz/mailman/listinfo/python">mvoogz na vrvmzizorjmf.jmb</A>')+'&lt;/a&gt;
+---')
+---&lt;/script&gt;
+		&lt;tr&gt;&lt;td class=&quot;aware&quot; colspan=&quot;2&quot;&gt;
+		So, it appears the site was down for christmas. I could try to find
+out why, but I don't care enough. Went to &lt;a
+href=&quot;<A HREF="https://events.ccc.de/congress/2012/wiki/Main_Page">https://events.ccc.de/congress/2012/wiki/Main_Page</A>&quot;&gt;29c3&lt;/a&gt;,
+didn't get much done, ate a lot of fast food. I'm old, fat, and boring
+now. However, I found out about &lt;a
+href=&quot;<A HREF="http://www.hyperelliptic.org/tanja/newelliptic/newelliptic.html">http://www.hyperelliptic.org/tanja/newelliptic/newelliptic.html</A>&quot;&gt;Edwards
+curves&lt;/a&gt;, that shit is rad.
+		&lt;/td&gt;&lt;/tr&gt;
+-------------------------------------------------------------------------------
+
+Mým cílem je mít ve skupině \1 tag &lt;script&gt;, tedy &lt;script
+language=&quot;javascript&quot;&gt;, v \2 pak tělo tagu. V současné podobě se mi
+oboje spojuje do \1.
+
+&quot;Živá&quot; ukázka: <A HREF="http://ideone.com/TfbmB1">http://ideone.com/TfbmB1</A>
+
+Prosím o nakopnutí správným směrem.
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Předchozí příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010880.html">[python] otázka ohladom mojho ?týlu písania v OOP
+</A></li>
+	<LI>Následující příspěvek: <A HREF="http://www.py.cz/pipermail/python/2013-January/010871.html">[python] Pomoc s pythonním RE
+</A></li>
+         <LI> <B>Zprávy tříděné podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2013-January/date.html#10869">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/thread.html#10869">[ vlákna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/subject.html#10869">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2013-January/author.html#10869">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Další informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2013-January/010869.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:17:17 GMT -->
+</html>

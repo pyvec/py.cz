@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ 
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007808.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:58 GMT -->
+<HEAD>
+   <TITLE> [python] pspad kompilace
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pspad%20kompilace&In-Reply-To=485CB402.2070909%40centrum.cz">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+   <LINK REL="Previous"  HREF="http://www.py.cz/pipermail/python/2008-June/007789.html">
+   <LINK REL="Next"  HREF="http://www.py.cz/pipermail/python/2008-June/007770.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[python] pspad kompilace</H1>
+    <B>Jan Bedna��k</B> 
+    <A HREF="mailto:python%40py.cz?Subject=%5Bpython%5D%20pspad%20kompilace&In-Reply-To=485CB402.2070909%40centrum.cz"
+       TITLE="[python] pspad kompilace">jan.bednarik na gmail.com
+       </A><BR>
+    <I>Ned�le �erven 22 20:19:35 CEST 2008</I>
+    <P><UL>
+        <LI>P�edchoz� p��sp�vek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007789.html">[python] pspad kompilace
+</A></li>
+        <LI>N�sleduj�c� p��sp�vek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007770.html">[python] pomoc s gtk2 aplikaci
+</A></li>
+         <LI> <B>Zpr�vy t��d�n� podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7808">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7808">[ vl�kna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7808">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7808">[ autora ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Tak o existenci property jsem neměl tušení. Nyní souhlasím, že set/get
+metody nemají v Pythonu co dělat. Díky za rozšíření znalostí.
+
+Honza
+
+
+Dne 21. červen 2008 9:55 superman &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">feed na centrum.cz</A>&gt; napsal(a):
+
+&gt;<i> Děkuji náčelníku, že jsi se mě zastal :-) Já osobně si myslím, že
+</I>&gt;<i> get/set metody v Pythonu je absolutní pitomost, a že to tak krásný a
+</I>&gt;<i> schopný jazyk, jakým Python je opravdu nemá zapotřebí. Nevidím jedinou
+</I>&gt;<i> výhodu používání get/set metod v Pythonu - ani jedinou, kromě toho že
+</I>&gt;<i> &quot;správný Javista bude psát v každém jazyce jako v Javě&quot; (parodie na
+</I>&gt;<i> &quot;Fortranista bude psát v každém jazyce jako ve Fortranu&quot;). Osobně si
+</I>&gt;<i> myslím, že get/set metody je &quot;javovina&quot;, kde v Javě je bohužel nutné
+</I>&gt;<i> díky strašné neschopnosti syntaxe Javy používat lecjakou obezličku, ale
+</I>&gt;<i> je to z nouze ctnost.
+</I>&gt;<i>
+</I>&gt;<i> Miloslav Ponkrác
+</I>&gt;<i>
+</I>&gt;<i> rajcze napsal(a):
+</I>&gt;<i> &gt; Pokud mluvime o Pythonu, tak v něm je pozdější přepisování zdrojáků na
+</I>&gt;<i> &gt; gettery/settery přece ůplně jednoduché.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Pokud se třeba v příkladu s opičkou z nějakého děsivého důvodu
+</I>&gt;<i> &gt; rozhodnu, že chci atribut nick změnit na slovník, který obsahuje dva
+</I>&gt;<i> &gt; prvky - jméno a příjmení.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Stačí změnit atribut na property například takto:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Výchozí stav:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; class Opicka:
+</I>&gt;<i> &gt;      def __init__(self):
+</I>&gt;<i> &gt;          self._nick = &quot;&quot;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;      def magic_function(self):
+</I>&gt;<i> &gt;          self.nick = self.nick.upper()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Konečný stav:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; class Opicka:
+</I>&gt;<i> &gt;      def __init__(self):
+</I>&gt;<i> &gt;          self._nick = {&quot;jmeno&quot;:&quot;&quot;, &quot;prijmeni&quot;:&quot;&quot;}
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;      def magic_function(self):
+</I>&gt;<i> &gt;          self.nick = self.nick.upper()
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;      def set_nick(self, value):
+</I>&gt;<i> &gt;          value = value.split()
+</I>&gt;<i> &gt;          self._nick[&quot;jmeno&quot;] = self._nick[&quot;prijmeni&quot;] = &quot;&quot;
+</I>&gt;<i> &gt;          if len(value) == 1:
+</I>&gt;<i> &gt;             self._nick[&quot;jmeno&quot;] = value[0]
+</I>&gt;<i> &gt;          else:
+</I>&gt;<i> &gt;             self._nick[&quot;jmeno&quot;] = value[0]
+</I>&gt;<i> &gt;             self._nick[&quot;prijmeni&quot;] = ' '.join(value[1:])
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;      def get_nick(self):
+</I>&gt;<i> &gt;          return(&quot;%s %s&quot; % (self._nick['jmeno'], self._nick[&quot;prijmeni&quot;]))
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;      nick = property(get_nick, set_nick)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; a = Opicka()
+</I>&gt;<i> &gt; a.nick = &quot;Pepa z Depa&quot;
+</I>&gt;<i> &gt; a.nick = a.nick + &quot; prvni&quot;
+</I>&gt;<i> &gt; print a.nick
+</I>&gt;<i> &gt; a.magic_function()
+</I>&gt;<i> &gt; print a.nick
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Je mi jasné, že tento příklad je docela nerealistický, ale pro
+</I>&gt;<i> &gt; demonstraci funkcionality IMHO vyhovuje.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Joza
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; 2008/6/21 Jan Bednařík &lt;<A HREF="http://www.py.cz/mailman/listinfo/python">jan.bednarik na gmail.com</A>&gt;:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;&gt; Souhlasím, v tomto případě jsou ty metody zbytečné. Ale v praxi často
+</I>&gt;<i> mají
+</I>&gt;<i> &gt;&gt; nějakou funkčnost navíc, jako třeba ověření/ošetření vstupních hodnot,
+</I>&gt;<i> &gt;&gt; přeformátování výstupních hodnot, vliv na další atributy třídy,
+</I>&gt;<i> logování,
+</I>&gt;<i> &gt;&gt; apod. To se bez set/get metod neobejde a když se nepoužívají už z
+</I>&gt;<i> principu i
+</I>&gt;<i> &gt;&gt; pro to jednoduché přiřazení nebo navrácení hodnoty atributu, pozdější
+</I>&gt;<i> &gt;&gt; přepisování zdrojáků není zrovna nejzábavnější.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Honza
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; _______________________________________________
+</I>&gt;<i> &gt;&gt; Python mailing list
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> &gt;&gt; <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Python mailing list
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">Python na py.cz</A>
+</I>&gt;<i> <A HREF="http://www.py.cz/mailman/listinfo/python">http://www.py.cz/mailman/listinfo/python</A>
+</I>&gt;<i>
+</I>------------- dal�� ��st ---------------
+HTML příloha byla odstraněna...
+URL: <A HREF="http://www.py.cz/pipermail/python/attachments/20080622/faf7cde8/attachment.htm">http://www.py.cz/pipermail/python/attachments/20080622/faf7cde8/attachment.htm</A> 
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>P�edchoz� p��sp�vek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007789.html">[python] pspad kompilace
+</A></li>
+	<LI>N�sleduj�c� p��sp�vek: <A HREF="http://www.py.cz/pipermail/python/2008-June/007770.html">[python] pomoc s gtk2 aplikaci
+</A></li>
+         <LI> <B>Zpr�vy t��d�n� podle:</B> 
+              <a href="http://www.py.cz/pipermail/python/2008-June/date.html#7808">[ data ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/thread.html#7808">[ vl�kna ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/subject.html#7808">[ subjektu ]</a>
+              <a href="http://www.py.cz/pipermail/python/2008-June/author.html#7808">[ autora ]</a>
+         </LI>
+       </UL>
+<hr>
+<a href="http://www.py.cz/mailman/listinfo/python">Dal�� informace o konferenci Python</a><br>
+</body>
+<!-- Mirrored from www.py.cz/pipermail/python/2008-June/007808.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Mar 2016 21:20:58 GMT -->
+</html>
